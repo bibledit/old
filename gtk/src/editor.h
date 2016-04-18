@@ -76,7 +76,6 @@ private:
   static gboolean on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   gboolean textview_key_press_event(GtkWidget *widget, GdkEventKey *event);
   static gboolean on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
-  bool wait_for_key_release; // unused at the moment MAP
   void textview_key_release_event(GtkWidget *widget, GdkEventKey *event);
   bool textbuffer_delete_range_was_fired;
   static void on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data);
@@ -247,7 +246,8 @@ private:
   void paragraph_crossing_act(GtkMovementStep step, gint count);
   GtkWidget * paragraph_crossing_textview_at_key_press;
   GtkTextIter paragraph_crossing_insertion_point_iterator_at_key_press;
- 
+  void combine_paragraphs(EditorActionCreateParagraph * first_paragraph, EditorActionCreateParagraph * second_paragraph);
+  
   // Clipboard.
 public:
   void cut ();

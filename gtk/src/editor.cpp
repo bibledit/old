@@ -163,8 +163,7 @@ current_reference(0, 1000, "")
   textview_button_press_event_id = 0;
 
   go_to_new_reference_highlight = false; // 3/22/2016 MAP
-  wait_for_key_release = false;
-
+  
   // Tag for highlighting search words and current verse.
   // For convenience the GtkTextBuffer function is called. 
   // This adds the tag to the GtkTextTagTable, making it available
@@ -2188,19 +2187,19 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
 void Editor2::paragraph_create_actions (EditorActionCreateParagraph * paragraph_action)
 {
   // Connect text buffer signals.
-  g_signal_connect_after(G_OBJECT(paragraph_action->textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
-  g_signal_connect(G_OBJECT(paragraph_action->textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
-  g_signal_connect_after(G_OBJECT(paragraph_action->textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
-  g_signal_connect(G_OBJECT(paragraph_action->textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
+  g_signal_connect_after(G_OBJECT(paragraph_action->textbuffer), "insert-text",  G_CALLBACK(on_buffer_insert_text_after),   gpointer(this));
+  g_signal_connect      (G_OBJECT(paragraph_action->textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
+  g_signal_connect_after(G_OBJECT(paragraph_action->textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after),  gpointer(this));
+  g_signal_connect      (G_OBJECT(paragraph_action->textbuffer), "changed",      G_CALLBACK(on_textbuffer_changed),         gpointer(this));
   // Connect spelling checker.
   spellingchecker->attach(paragraph_action->textview);
   // Connect text view signals.
-  g_signal_connect_after((gpointer) paragraph_action->textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
-  g_signal_connect((gpointer) paragraph_action->textview, "motion-notify-event", G_CALLBACK(on_motion_notify_event), gpointer(this));
-  g_signal_connect_after((gpointer) paragraph_action->textview, "grab-focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
-  g_signal_connect((gpointer) paragraph_action->textview, "key-press-event", G_CALLBACK(on_textview_key_press_event), gpointer(this));
-  g_signal_connect((gpointer) paragraph_action->textview, "key-release-event", G_CALLBACK(on_textview_key_release_event), gpointer(this));
-  g_signal_connect((gpointer) paragraph_action->textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
+  g_signal_connect_after((gpointer) paragraph_action->textview, "move_cursor",         G_CALLBACK(on_textview_move_cursor),     gpointer(this));
+  g_signal_connect      ((gpointer) paragraph_action->textview, "motion-notify-event", G_CALLBACK(on_motion_notify_event),      gpointer(this));
+  g_signal_connect_after((gpointer) paragraph_action->textview, "grab-focus",          G_CALLBACK(on_textview_grab_focus),      gpointer(this));
+  g_signal_connect      ((gpointer) paragraph_action->textview, "key-press-event",     G_CALLBACK(on_textview_key_press_event), gpointer(this));
+  //EXPERIMENTALg_signal_connect((gpointer) paragraph_action->textview, "key-release-event", G_CALLBACK(on_textview_key_release_event), gpointer(this));
+  g_signal_connect      ((gpointer) paragraph_action->textview, "button_press_event",  G_CALLBACK(on_textview_button_press_event), gpointer(this));
   // Set font
   set_font_textview (paragraph_action->textview);
   // Signal the parent window to connect to the signals of the text view.
@@ -2786,26 +2785,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
   // textbuffer_delete_range_was_fired = false;
 
   DEBUG(ustring(gdk_keyval_name (event->keyval)))
-/* 
-  bool specialkey = (event->keyval == GDK_BackSpace || event->keyval == GDK_Delete);
-  
-  if (!wait_for_key_release && specialkey) {
-	// MAP 4/7/2016: We have to handle backspace/delete carefully. While it is being held
-	// down, we cannot accept other keystrokes, other there will be confusion in
-	// what code runs after the key is released.
-	wait_for_key_release = true; // turn on the "wait for key release mode"
-  }
-  else if (wait_for_key_release && specialkey) {
-	// Let it pass through as normal  
-  }
-  else if (wait_for_key_release && !specialkey) {
-	return true; // eat the key
-  }
-  else if (!wait_for_key_release && !specialkey) {
-	// Let it pass through as normal
-  }
-   */
-	
+
   // Store data for paragraph crossing control.
   paragraph_crossing_textview_at_key_press = widget;
   GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
@@ -2840,10 +2820,122 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
     }
   }
 
+	// Handle pressing the Backspace key.
+	if (keyboard_backspace_pressed (event) && editable) {
+		DEBUG("Backspace pressed")
+		// Determine if we are at the beginning of a paragraph because without this code,
+		// backspace will get "stuck" and not be able to go back to the prior paragraph.
+		GtkTextIter iter;
+		gtk_text_buffer_get_iter_at_offset(textbuffer, &iter, 0);
+		// Is above equivalent to a call to gtk_text_buffer_get_start_iter  ???
+		if (gtk_text_iter_equal(&iter, &paragraph_crossing_insertion_point_iterator_at_key_press)) {
+			DEBUG("It looks like backspace pressed at beginning of paragraph")
+			DEBUG("Combining paragraphs after backspace")
+			EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
+			EditorActionCreateParagraph * preceding_paragraph = widget2paragraph_action (editor_get_previous_textview (vbox_paragraphs, widget));
+			combine_paragraphs(preceding_paragraph, current_paragraph);
+			return TRUE; // processing is finished
+		}
+	}
+  
+	// Handle pressing the Delete key.
+	if (keyboard_delete_pressed (event) && editable) {
+		DEBUG("Delete pressed")
+		// Determine if we are at the end of a paragraph because without this code,
+		// delete will get "stuck" and not be able to join text from the next paragraph.
+		GtkTextIter iter;
+		gtk_text_buffer_get_iter_at_offset(textbuffer, &iter, -1);
+		// I think above is equivalent to a call to gtk_text_buffer_get_end_iter  ???
+		if (gtk_text_iter_equal(&iter, &paragraph_crossing_insertion_point_iterator_at_key_press)) {
+			DEBUG("It looks like delete pressed at end of paragraph")
+			DEBUG("Combining paragraphs after delete")
+			EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
+			EditorActionCreateParagraph * following_paragraph = widget2paragraph_action (editor_get_next_textview (vbox_paragraphs, widget));
+			// Next line makes sure cursor insertion point is set to beginning of second paragraph; else 
+			// some or all of the paragraph will be deleted instead of copied to the first one (up to insertion point)
+			editor_paragraph_insertion_point_set_offset (following_paragraph, 0);
+			combine_paragraphs(current_paragraph, following_paragraph);
+			return TRUE; // processing is finished
+			//if (current_paragraph && following_paragraph) {
+				// Get the text and styles of the whole following paragraph.
+				// editor_paragraph_insertion_point_set_offset (following_paragraph, 0);
+				//vector <ustring> text;
+				//vector <ustring> styles;
+				//EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(following_paragraph, text, styles);
+				// Delete the text from the following paragraph.
+				//if (delete_action) {
+				//	apply_editor_action (delete_action);
+				//}
+				// Insert the text into the current paragraph.
+				//GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (current_paragraph->textview));
+				//GtkTextIter enditer;
+				//gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+				//gint initial_offset = gtk_text_iter_get_offset (&enditer);
+				//for (unsigned int i = 0; i < text.size(); i++) {
+					//gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+					//gint offset = gtk_text_iter_get_offset (&enditer);
+					//EditorActionInsertText * insert_action = new EditorActionInsertText (current_paragraph, offset, text[i]);
+					//apply_editor_action (insert_action);
+					//if (!styles[i].empty()) {
+					//	EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(current_paragraph, styles[i], offset, text[i].length());
+					//	apply_editor_action (style_action);
+					//}
+				//}
+				// Move the insertion point to the position just before the joined text.
+				//editor_paragraph_insertion_point_set_offset (current_paragraph, initial_offset);
+				// Remove the following paragraph.
+				//apply_editor_action (new EditorActionDeleteParagraph(following_paragraph));
+				// Insert the One Action boundary.
+				//apply_editor_action (new EditorAction (eatOneActionBoundary));
+			//}
+		}
+	}
+
   // Propagate event further.
   return FALSE;
 }
 
+// Helper function to implement backspace and delete at paragraph boundaries.
+void Editor2::combine_paragraphs(EditorActionCreateParagraph * first_paragraph, EditorActionCreateParagraph * second_paragraph)
+{
+	if (first_paragraph && second_paragraph) {
+		// Get the text and styles of the second paragraph.
+		vector <ustring> text;
+		vector <ustring> styles;
+		// Note the text and styles are grabbed AFTER the insertion point. Thus we have to set the insertion point
+		// to the start to capture everything we need.
+		EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(second_paragraph, text, styles);
+		// Delete the text from the second paragraph.
+		if (delete_action) {
+			apply_editor_action (delete_action);
+		}
+		// Insert the second paragraph text at the end of the first paragraph.
+		GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (first_paragraph->textview));
+		GtkTextIter enditer;
+		gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+		gint initial_offset = gtk_text_iter_get_offset (&enditer);
+		for (unsigned int i = 0; i < text.size(); i++) {
+			gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+			gint offset = gtk_text_iter_get_offset (&enditer);
+			EditorActionInsertText * insert_action = new EditorActionInsertText (first_paragraph, offset, text[i]);
+			apply_editor_action (insert_action);
+			if (!styles[i].empty()) {
+				EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(first_paragraph, styles[i], offset, text[i].length());
+				apply_editor_action (style_action);
+			}
+		}
+		// Move the insertion point to the position just before the joined text.
+		editor_paragraph_insertion_point_set_offset (first_paragraph, initial_offset);
+		// Focus the first paragraph. This must be done  before deleting the 
+		// current_paragraph (which has focus), otherwise the blinking cursor is lost.
+		give_focus (first_paragraph->textview);
+		// Remove the second paragraph.
+		apply_editor_action (new EditorActionDeleteParagraph(second_paragraph));
+		// WAS HERE BUT LOST cursor: give_focus (first_paragraph->textview);
+		// Insert the One Action boundary.
+		apply_editor_action (new EditorAction (eatOneActionBoundary));
+	}
+}
 
 gboolean Editor2::on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {

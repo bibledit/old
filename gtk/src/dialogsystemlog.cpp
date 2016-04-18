@@ -255,7 +255,7 @@ void SystemlogDialog::writeSettings()
     }
 	
 	// Add the settings info to the temp directory.
-	ustring settingsfile = gw_build_filename(Directories->get_temp(), _("settings.log"));
+	ustring settingsfile = gw_build_filename(Directories->get_temp(), _("settings.log")); // should pull settings.log out and use log_file_name, and then fix that so that it is not a stand-alone function
 	write_lines(settingsfile, lines); // This closes the file when done.
 	return;
 }

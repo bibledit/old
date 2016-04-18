@@ -43,6 +43,10 @@ pacman -S --noconfirm base-devel
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-gtk2
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-gtkmm
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-gtkmm3
+# We do use glibmm as well, but that appears to be installed as a 
+# side-effect of some of these other packages.
+#pacman -S --noconfirm mingw32/mingw-w64-i686-glibmm 2.46.1-1
+#pacman -S --noconfirm mingw64/mingw-w64-x86_64-glibmm 2.46.1-1
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-python2-pygtk
 pacman -S --noconfirm msys/gtk-doc
 pacman -S --noconfirm msys/git
