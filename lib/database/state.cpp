@@ -46,7 +46,6 @@ void Database_State::create ()
   sql = "DELETE FROM notes;";
   database_sqlite_exec (db, sql);
   
-  // Todo error message in journal: Fix that.
   sql = "VACUUM;";
   database_sqlite_exec (db, sql);
 
