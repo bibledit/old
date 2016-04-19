@@ -1,0 +1,18 @@
+This is a description of how to do source code development
+on Bibledit. I'm assuming you are working in Windows and 
+already have a bibledit/gtk directory ready to go (see BUILDING.txt
+and INSTALLING.txt for details).
+Written by Matt Postiff, postiffm@umich.edu, 4/19/2016
+
+1. checkout -b ...
+2. Modify the code to fix your bug or add your feature.
+3. make
+4. ./windows/installWin.sh --quick
+	This copies the new binaries to your C:\Program Files...\Bibledit-x.y.z\editor\ folder.
+	If you changed xml or other stuff, drop the --quick and it will copy everything for 
+	the entire run environment for bibledit.
+
+5. Test the changes
+6. Go back to step 2 until you are happy with the result.
+7. git ...
+INCOMPLETE...stand by.
