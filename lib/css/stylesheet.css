@@ -302,6 +302,6 @@ textarea {
   background-size: contain;
   background-repeat: no-repeat;
 }
-#workspacewrapper > table {
+#workspacewrapper > table.editor {
   width: 100%;
 }
