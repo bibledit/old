@@ -622,7 +622,6 @@ void Editor2::textview_move_cursor(GtkTextView * textview, GtkMovementStep step,
   scroll_to_insertion_point_on_screen();
 }
 
-
 bool Editor2::on_textview_move_cursor_delayed(gpointer user_data)
 {
   ((Editor2 *) user_data)->textview_move_cursor_delayed();
@@ -638,21 +637,20 @@ void Editor2::textview_move_cursor_delayed()
   signal_if_verse_changed();
 }
 
-
 ustring Editor2::verse_number_get()
 // Returns the verse number of the insertion point.
 {
-  // Default verse number.
-  ustring number = "0";
-  // Proceed if there's a focused paragraph.
-  if (focused_paragraph) {
-    // Get an iterator at the cursor location of the focused textview.
-    GtkTextIter iter;
-    gtk_text_buffer_get_iter_at_mark(focused_paragraph->textbuffer, &iter, gtk_text_buffer_get_insert(focused_paragraph->textbuffer));
-    // Get verse number.
-    number = get_verse_number_at_iterator(iter, style_get_verse_marker(project), project, vbox_paragraphs);
-  }
-  return number;
+	// Default verse number.
+	ustring number = "0";
+	// Proceed if there's a focused paragraph.
+	if (focused_paragraph) {
+		// Get an iterator at the cursor location of the focused textview.
+		GtkTextIter iter;
+		gtk_text_buffer_get_iter_at_mark(focused_paragraph->textbuffer, &iter, gtk_text_buffer_get_insert(focused_paragraph->textbuffer));
+		// Get verse number.
+		number = get_verse_number_at_iterator(iter, style_get_verse_marker(project), project, vbox_paragraphs);
+	}
+	return number;
 }
 
 
@@ -672,7 +670,6 @@ void Editor2::textview_grab_focus(GtkWidget * widget)
   gw_destroy_source(textview_grab_focus_event_id);
   textview_grab_focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 10, GSourceFunc(on_textview_grab_focus_delayed), gpointer(this), NULL);
 }
-
 
 bool Editor2::on_textview_grab_focus_delayed(gpointer data)
 {
@@ -1959,9 +1956,9 @@ void Editor2::scroll_to_insertion_point_on_screen() // Todo crashes here...seems
 		insertion_point_offset += rectangle.y;
 	}
 
-	DEBUG("Insertion point offset is " + std::to_string(int(insertion_point_offset)))
-	DEBUG("Visible window height is "  + std::to_string(double(visible_window_height)))
-	DEBUG("Total window height is "    + std::to_string(double(total_window_height)))
+	//DEBUG("Insertion point offset is " + std::to_string(int(insertion_point_offset)))
+	//DEBUG("Visible window height is "  + std::to_string(double(visible_window_height)))
+	//DEBUG("Total window height is "    + std::to_string(double(total_window_height)))
 	
 	// Set the adjustment to move the insertion point into 1/3th of
 	// the visible part of the window. TODO: This should be an option
@@ -1989,21 +1986,21 @@ void Editor2::scroll_to_insertion_point_on_screen() // Todo crashes here...seems
 	//gdouble adjustment_value = insertion_point_offset - (visible_window_height * 0.33);
 	// While working within a viewport, we will not scroll
 	gdouble adjustment_value = gtk_adjustment_get_value(adjustment);
-	DEBUG("adjustment_value " + std::to_string(double(adjustment_value)))
+	//DEBUG("adjustment_value " + std::to_string(double(adjustment_value)))
 	if (insertion_point_offset < adjustment_value+20) {
 		adjustment_value = insertion_point_offset - 60;
 	}
 	else if (insertion_point_offset > adjustment_value + visible_window_height - 20) {
 		adjustment_value = insertion_point_offset - visible_window_height + 60;
 	}
-	DEBUG("adjustment_value " + std::to_string(double(adjustment_value)))
+	//DEBUG("adjustment_value " + std::to_string(double(adjustment_value)))
 	if (adjustment_value < 0) {
 		adjustment_value = 0;
 	}
 	else if (adjustment_value > (total_window_height - visible_window_height)) {
 		adjustment_value = total_window_height - visible_window_height;
 	}
-	DEBUG("gtk_adjustment_set_value called with " + std::to_string(double(adjustment_value)))
+	//DEBUG("gtk_adjustment_set_value called with " + std::to_string(double(adjustment_value)))
 	//DEBUG("adjustment->lower = " + std::to_string(double(adjustment->lower)))
 	//DEBUG("adjustment->upper = " + std::to_string(double(adjustment->upper)))
 	gtk_adjustment_set_value (adjustment, adjustment_value);
@@ -2780,9 +2777,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
   // This seems very inefficient. But it handles the case where the insertion point is off the screen
   // and the user begins typing, as in after he slides the scroll bar so his work moves out of the viewport.
   scroll_to_insertion_point_on_screen();
-  
-  // Make sure wherever we are typing is actually shown in in the viewport
-  // Neither of these seem to work at all.
+  // Neither of these seemed to work.
   //screen_scroll_to_iterator(GTK_TEXT_VIEW(widget), &paragraph_crossing_insertion_point_iterator_at_key_press);
   //textview_scroll_to_mark(GTK_TEXT_VIEW(widget), gtk_text_buffer_get_insert(textbuffer), false);
   
@@ -2816,7 +2811,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
 	}
 	
 	// Handle pressing the Backspace key.
-	if (keyboard_backspace_pressed (event) && editable) {
+	if (keyboard_backspace_pressed (event) && editable && !textbuffer_delete_range_was_fired) {
 		DEBUG("Backspace pressed")
 		// Determine if we are at the beginning of a paragraph because without this code,
 		// backspace will get "stuck" and not be able to go back to the prior paragraph.
@@ -2834,7 +2829,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
 	}
   
 	// Handle pressing the Delete key.
-	if (keyboard_delete_pressed (event) && editable) {
+	if (keyboard_delete_pressed (event) && editable && !textbuffer_delete_range_was_fired) {
 		DEBUG("Delete pressed")
 		// Determine if we are at the end of a paragraph because without this code,
 		// delete will get "stuck" and not be able to join text from the next paragraph.
@@ -2861,6 +2856,8 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
 // Helper function to implement backspace and delete at paragraph boundaries.
 void Editor2::combine_paragraphs(EditorActionCreateParagraph * first_paragraph, EditorActionCreateParagraph * second_paragraph)
 {
+	//DEBUG("textbuffer_delete_range_was_fired=" + std::to_string(int(textbuffer_delete_range_was_fired)))
+	
 	if (first_paragraph && second_paragraph) {
 		// Get the text and styles of the second paragraph.
 		vector <ustring> text;
@@ -3050,7 +3047,8 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
 
   // Only move the insertion point if it goes to another verse.
   if (number != verse_number_get()) {
-
+    DEBUG("vs number="+number)
+	DEBUG("verse_number_get=" + verse_number_get())
     // Get the iterator and textview that contain the verse number.
     GtkTextIter iter;
     GtkWidget * textview;
@@ -3064,7 +3062,7 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
   
   }
 
-  // Scroll the insertion point onto the screen, do it now.
+  // Scroll the insertion point onto the screen
   scroll_to_insertion_point_on_screen();
 
   // Highlight search words.
@@ -3077,7 +3075,6 @@ void Editor2::signal_if_verse_changed ()
   gw_destroy_source(signal_if_verse_changed_event_id);
   signal_if_verse_changed_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_signal_if_verse_changed_timeout), gpointer(this), NULL);
 }
-
 
 bool Editor2::on_signal_if_verse_changed_timeout(gpointer data)
 {
