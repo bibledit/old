@@ -4,15 +4,37 @@ already have a bibledit/gtk directory ready to go (see BUILDING.txt
 and INSTALLING.txt for details).
 Written by Matt Postiff, postiffm@umich.edu, 4/19/2016
 
-1. checkout -b ...
+1. git checkout -b issue-name
+	For example: git checkout -b fixBrokenDeleteKey
+	This creates the branch and "checks it out" meaning "puts you on that branch"
 2. Modify the code to fix your bug or add your feature.
 3. make
 4. ./windows/installWin.sh --quick
 	This copies the new binaries to your C:\Program Files...\Bibledit-x.y.z\editor\ folder.
 	If you changed xml or other stuff, drop the --quick and it will copy everything for 
 	the entire run environment for bibledit.
-
-5. Test the changes
+	The Linux equivalent is sudo make install, which installs to /usr/bin.
+5. Test your bug fix or feature
 6. Go back to step 2 until you are happy with the result.
-7. git ...
-INCOMPLETE...stand by.
+7. git commit -a -m "A descriptive but short message about issue-name"
+	This commits the changes to the local git repository.
+8. git checkout master
+	This switches you back to the master branch of your local repository.
+9. git pull
+	This gets any changes from github to the master branch, changes you've
+	missed while you were away working in issue-name branch.
+10. git merge issue-name
+	For example: git merge fixBrokenDeleteKey
+	This merges your issue-name branch into your master branch
+	Fix any merge issues.
+11. Build and test the program again. When everything is right...
+12. git push
+	This pushes your changes up to the remote repository
+13. If you have not configured git, when you push you will have to
+    git --config global user.email "youraddress@email.net"
+	git --config global user.name "Your Name"
+	(Something like the above...git will tell you if you forget to do it.)
+14. After everything is merged well and working fine then you can delete the branch 
+	git branch -d issue-name
+15. Go back to #1 and start on another bug or feature!
+
