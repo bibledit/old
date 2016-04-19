@@ -224,7 +224,9 @@ void setup_initialize_data ()
   Database_Volatile database_volatile = Database_Volatile ();
   database_volatile.create ();
   config_globals_setup_message = "state";
+  Database_Logs::log ("create database state start"); // Todo
   Database_State::create ();
+  Database_Logs::log ("create database state end"); // Todo
   config_globals_setup_message = "login";
   Database_Login::create ();
   Database_Login::optimize ();

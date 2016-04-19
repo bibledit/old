@@ -43,6 +43,7 @@ void Database_State::create ()
     ");";
   database_sqlite_exec (db, sql);
   
+  // Todo error message in journal: Fix that.
   sql = "DELETE FROM notes;";
   database_sqlite_exec (db, sql);
   
