@@ -9081,13 +9081,13 @@ msgstr ""
 msgid "Top row"
 msgstr ""
 
-msgid "height"
+msgid "height factor"
 msgstr ""
 
 msgid "URLs"
 msgstr ""
 
-msgid "Widths"
+msgid "Width factors"
 msgstr ""
 
 msgid "Center row"

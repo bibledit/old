@@ -130,8 +130,8 @@ string workbench_index (void * webserver_request)
   
   string workbenchwidth = workbench_get_entire_width (request);
   if (!workbenchwidth.empty ()) {
-    workbenchwidth.insert (0, "; width: ");
-    workbenchwidth.append ("; margin: 0 auto; overflow: hidden;");
+    workbenchwidth.insert (0, "width: ");
+    workbenchwidth.append (";");
   }
   view.set_variable ("workbenchwidth", workbenchwidth);
   

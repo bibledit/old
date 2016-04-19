@@ -31,6 +31,7 @@
 #include <notes/index.h>
 #include <client/logic.h>
 #include <changes/changes.h>
+#include <config/logic.h>
 
 
 void statistics_statistics ()
@@ -44,7 +45,7 @@ void statistics_statistics ()
   Database_Logs::log (translate("Sending statistics"), Filter_Roles::manager ());
 
   
-  string siteUrl = Database_Config_General::getSiteURL (); // Todo
+  string siteUrl = config_logic_site_url ();
   
   
   vector <string> bibles = request.database_bibles()->getBibles ();

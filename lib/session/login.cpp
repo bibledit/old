@@ -92,7 +92,6 @@ string session_login (void * webserver_request)
         // Store web site's base URL.
         string siteUrl = get_base_url (request);
         Database_Config_General::setSiteURL (siteUrl);
-
       } else {
         view.set_variable ("error_message", translate ("Username or email address or password are not correct"));
         request->session_logic()->logout();

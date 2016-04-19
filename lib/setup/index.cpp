@@ -125,8 +125,13 @@ string setup_index (void * webserver_request)
       if (admin_password.length() < 7) errors.push_back ("Choose a longer password.");
       if (admin_email.length() < 5) errors.push_back ("Enter a valid email address.");
       if (errors.empty()) {
+        // Store admin details.
         setup_set_admin_details (admin_username, admin_password, admin_email);
         setup_complete_gui ();
+        // Store web site's base URL.
+        string siteUrl = get_base_url (request);
+        Database_Config_General::setSiteURL (siteUrl);
+        // Redirect.
         redirect_browser (request, index_index_url ());
       } else {
         view.enable_zone ("errors");

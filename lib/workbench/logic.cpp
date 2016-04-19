@@ -331,11 +331,6 @@ map <int, string> workbench_get_values (void * webserver_request, int selector, 
       element.second = workbench_process_units (element.second);
     }
 
-    if (selector == ENTIREWIDTH) {
-      // Fix the units.
-      element.second = workbench_process_units (element.second);
-    }
-    
   }
 
   return values;
