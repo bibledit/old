@@ -34,6 +34,7 @@
 #include "directories.h"
 #include "onlinebible.h"
 #include <glib/gi18n.h>
+#include "debug.h"
 
 #define STAGE_ZERO 0
 #define STAGE_START 1
@@ -523,6 +524,7 @@ void windowsoutpost_open_url(const ustring & url)
 #endif
       } else {
         ustring command = "open " + url + "\n";
+		DEBUG(command)
 #ifdef WIN32
         u_long socketmode = 1; // Set non-blocking
         ioctlsocket(sock, FIONBIO, &socketmode);
