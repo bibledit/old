@@ -78,6 +78,7 @@ class directories {
   ustring touch;
   ustring osis2mod;
   ustring mkdir;
+  ustring mkdir_args;
   ustring cmdshell;
   // what about helpcommand?
   ustring tasklist; // aka ps in unix
@@ -123,6 +124,7 @@ class directories {
   ustring get_rmdir ();
   ustring get_rmdir_args ();
   ustring get_mkdir ();
+  ustring get_mkdir_args ();
   ustring get_tar ();
   ustring get_zip ();
   ustring get_unzip ();

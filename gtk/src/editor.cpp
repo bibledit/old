@@ -623,6 +623,7 @@ void Editor2::textview_move_cursor(GtkTextView * textview, GtkMovementStep step,
   textview_move_cursor_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_move_cursor_delayed), gpointer(this), NULL);
   // Act on paragraph crossing.
   paragraph_crossing_act (step, count);
+  scroll_insertion_point_on_screen_timeout ();
 }
 
 
@@ -1938,111 +1939,117 @@ bool Editor2::on_scroll_insertion_point_on_screen_timeout(gpointer data)
 
 void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
 {
-  if (!focused_paragraph->textbuffer) return;
-  
-  if (focused_paragraph) {
+	if (!focused_paragraph) { return; }
+	if (!focused_paragraph->textbuffer) { return; }
 
-    // Ensure that the screen has been fully displayed.
-    while (gtk_events_pending()) { gtk_main_iteration(); }
+	// Ensure that the screen has been fully displayed.
+	while (gtk_events_pending()) { gtk_main_iteration(); }
 
-    // Adjustment.
-    GtkAdjustment * adjustment = gtk_viewport_get_vadjustment (GTK_VIEWPORT (viewport));
+	// Adjustment.
+	GtkAdjustment * adjustment = gtk_viewport_get_vadjustment (GTK_VIEWPORT (viewport));
 
-    // Visible window height.
-    gdouble visible_window_height = gtk_adjustment_get_page_size (adjustment);
+	// Visible window height.
+	gdouble visible_window_height = gtk_adjustment_get_page_size (adjustment);
 
-    // Total window height.
-    gdouble total_window_height = gtk_adjustment_get_upper (adjustment);
+	// Total window height.
+	gdouble total_window_height = gtk_adjustment_get_upper (adjustment);
 
-    // Get all the textviews.
-    vector <GtkWidget *> textviews = editor_get_widgets (vbox_paragraphs);
+	// Get all the textviews.
+	vector <GtkWidget *> textviews = editor_get_widgets (vbox_paragraphs);
 
-   
-    // Offset of insertion point starting from top.
-    gint insertion_point_offset = 0;
-    {
-      for (unsigned int i = 0; i < textviews.size(); i++) {
-        if (focused_paragraph->textview == textviews[i]) {
-          break;
-        }
-        GtkAllocation allocation;
-        gtk_widget_get_allocation (textviews[i], &allocation);
-        insertion_point_offset += allocation.height;
-      }
-      //GtkTextMark * gtktextmark = gtk_text_buffer_get_insert (focused_paragraph->textbuffer);
-      GtkTextMark * gtktextmark = gtk_text_buffer_get_mark (focused_paragraph->textbuffer, "insert");
-      GtkTextIter iter;
-      gtk_text_buffer_get_iter_at_mark (focused_paragraph->textbuffer, &iter, gtktextmark);
-      GdkRectangle rectangle;
-      gtk_text_view_get_iter_location (GTK_TEXT_VIEW (focused_paragraph->textview), &iter, &rectangle);
-      gint window_x, window_y;
-      gtk_text_view_buffer_to_window_coords (GTK_TEXT_VIEW (focused_paragraph->textview), GTK_TEXT_WINDOW_WIDGET, rectangle.x, rectangle.y, &window_x, &window_y);
-      insertion_point_offset += rectangle.y;
-    }
+	// Offset of insertion point starting from top.
+	gint insertion_point_offset = 0;
+	{
+		for (unsigned int i = 0; i < textviews.size(); i++) {
+			if (focused_paragraph->textview == textviews[i]) {
+				break;
+			}
+			GtkAllocation allocation;
+			gtk_widget_get_allocation (textviews[i], &allocation);
+			insertion_point_offset += allocation.height;
+		}
+		//GtkTextMark * gtktextmark = gtk_text_buffer_get_insert (focused_paragraph->textbuffer);
+		GtkTextMark * gtktextmark = gtk_text_buffer_get_mark (focused_paragraph->textbuffer, "insert");
+		GtkTextIter iter;
+		gtk_text_buffer_get_iter_at_mark (focused_paragraph->textbuffer, &iter, gtktextmark);
+		GdkRectangle rectangle;
+		gtk_text_view_get_iter_location (GTK_TEXT_VIEW (focused_paragraph->textview), &iter, &rectangle);
+		gint window_x, window_y;
+		gtk_text_view_buffer_to_window_coords (GTK_TEXT_VIEW (focused_paragraph->textview), GTK_TEXT_WINDOW_WIDGET, rectangle.x, rectangle.y, &window_x, &window_y);
+		insertion_point_offset += rectangle.y;
+	}
 
-    // Set the adjustment to move the insertion point into 1/3th of
-    // the visible part of the window. TODO: This should be an option
-    // that the user can set. Sometimes it is distracting to have the
-    // text move automatically. In Emacs, for instance, the user can
-    // hit Ctrl-L to do that manually. We could have a preference that
-    // says "auto-scroll text window to center 1/3 of window" or
-    // something like that. This code slows the perceived user
-    // experience because they have to reorient their eyes to where
-    // the text moves to. Certainly when the cursor moves out of the
-    // window then we need to auto-scroll by some amount, but it is
-    // debatable whether we should auto-center the text or just move
-    // the window by a line or two. I've attempted to do the latter, but
-    // it is not perfect at the moment, so there is still some more TODO.
+	DEBUG("Insertion point offset is " + std::to_string(int(insertion_point_offset)))
+	DEBUG("Visible window height is "  + std::to_string(double(visible_window_height)))
+	DEBUG("Total window height is "    + std::to_string(double(total_window_height)))
+	
+	// Set the adjustment to move the insertion point into 1/3th of
+	// the visible part of the window. TODO: This should be an option
+	// that the user can set. Sometimes it is distracting to have the
+	// text move automatically. In Emacs, for instance, the user can
+	// hit Ctrl-L to do that manually. We could have a preference that
+	// says "auto-scroll text window to center 1/3 of window" or
+	// something like that. This code slows the perceived user
+	// experience because they have to reorient their eyes to where
+	// the text moves to. Certainly when the cursor moves out of the
+	// window then we need to auto-scroll by some amount, but it is
+	// debatable whether we should auto-center the text or just move
+	// the window by a line or two. I've attempted to do the latter, but
+	// it is not perfect at the moment, so there is still some more TODO.
 
-    /*
-    If the insertion point is at 800, and the height of the visible window is 500,
-    and the total window height is 1000, then the calculation of the offset is as follows:
-    Half the height of the visible window is 250.
-    Insertion point is at 800, so the start of the visible window should be at 800 - 250 = 550.
-    Therefore the adjustment should move to 550.
-    The adjustment value should stay within its limits. If it exceeds these, the viewport draws double lines.
-    */
-    
-    //gdouble adjustment_value = insertion_point_offset - (visible_window_height * 0.33);
-    // While working within a viewport, we will not scroll
-    gdouble adjustment_value = gtk_adjustment_get_value(adjustment);
-    if (insertion_point_offset < (gtk_adjustment_get_value(adjustment)+20)) {
-      adjustment_value = insertion_point_offset - 60;
-    }
-    else if (insertion_point_offset > (gtk_adjustment_get_value(adjustment) + visible_window_height - 20)) {
-      adjustment_value = insertion_point_offset - visible_window_height + 60;
-    }
-    if (adjustment_value < 0) {
-      adjustment_value = 0;
-    }
-    else if (adjustment_value > (total_window_height - visible_window_height)) {
-      adjustment_value = total_window_height - visible_window_height;
-    }
-    gtk_adjustment_set_value (adjustment, adjustment_value);
+	/*
+	If the insertion point is at 800, and the height of the visible window is 500,
+	and the total window height is 1000, then the calculation of the offset is as follows:
+	Half the height of the visible window is 250.
+	Insertion point is at 800, so the start of the visible window should be at 800 - 250 = 550.
+	Therefore the adjustment should move to 550.
+	The adjustment value should stay within its limits. If it exceeds these, the viewport draws double lines.
+	*/
+	
+	//gdouble adjustment_value = insertion_point_offset - (visible_window_height * 0.33);
+	// While working within a viewport, we will not scroll
+	gdouble adjustment_value = gtk_adjustment_get_value(adjustment);
+	DEBUG("adjustment_value " + std::to_string(double(adjustment_value)))
+	if (insertion_point_offset < adjustment_value+20) {
+		adjustment_value = insertion_point_offset - 60;
+	}
+	else if (insertion_point_offset > adjustment_value + visible_window_height - 20) {
+		adjustment_value = insertion_point_offset - visible_window_height + 60;
+	}
+	DEBUG("adjustment_value " + std::to_string(double(adjustment_value)))
+	if (adjustment_value < 0) {
+		adjustment_value = 0;
+	}
+	else if (adjustment_value > (total_window_height - visible_window_height)) {
+		adjustment_value = total_window_height - visible_window_height;
+	}
+	DEBUG("gtk_adjustment_set_value called with " + std::to_string(double(adjustment_value)))
+	//DEBUG("adjustment->lower = " + std::to_string(double(adjustment->lower)))
+	//DEBUG("adjustment->upper = " + std::to_string(double(adjustment->upper)))
+	gtk_adjustment_set_value (adjustment, adjustment_value);
 
-    // Remove any previous verse number highlight.
-    {
-      GtkTextIter startiter, enditer;
-      for (unsigned int i = 0; i < textviews.size(); i++) {
-        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
-        gtk_text_buffer_get_start_iter (textbuffer, &startiter);
-        gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-        gtk_text_buffer_remove_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
-      }
-    }
-    
-    // Highlight the verse if it is non-zero.
-    if (current_verse_number != "0") {
-      GtkWidget * textview;
-      GtkTextIter startiter, enditer;
-      if (get_iterator_at_verse_number (current_verse_number, style_get_verse_marker(project), vbox_paragraphs, startiter, textview)) {
-        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-        enditer = startiter;
-        gtk_text_iter_forward_chars (&enditer, current_verse_number.length());
-        gtk_text_buffer_apply_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
-      }
-    }
-  }
+	// Remove any previous verse number highlight.
+	{
+		GtkTextIter startiter, enditer;
+		for (unsigned int i = 0; i < textviews.size(); i++) {
+			GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
+			gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+			gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+			gtk_text_buffer_remove_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
+		}
+	}
+	
+	// Highlight the verse if it is non-zero.
+	if (current_verse_number != "0") {
+		GtkWidget * textview;
+		GtkTextIter startiter, enditer;
+		if (get_iterator_at_verse_number (current_verse_number, style_get_verse_marker(project), vbox_paragraphs, startiter, textview)) {
+			GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+			enditer = startiter;
+			gtk_text_iter_forward_chars (&enditer, current_verse_number.length());
+			gtk_text_buffer_apply_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
+		}
+	}
 }
 
 
@@ -2790,7 +2797,15 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
   paragraph_crossing_textview_at_key_press = widget;
   GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
   gtk_text_buffer_get_iter_at_mark(textbuffer, &paragraph_crossing_insertion_point_iterator_at_key_press, gtk_text_buffer_get_insert(textbuffer));
-
+  // This seems very inefficient. But it handles the case where the insertion point is off the screen
+  // and the user begins typing, as in after he slides the scroll bar so his work moves out of the viewport.
+  scroll_insertion_point_on_screen_timeout ();
+  
+  // Make sure wherever we are typing is actually shown in in the viewport
+  // Neither of these seem to work at all.
+  //screen_scroll_to_iterator(GTK_TEXT_VIEW(widget), &paragraph_crossing_insertion_point_iterator_at_key_press);
+  //textview_scroll_to_mark(GTK_TEXT_VIEW(widget), gtk_text_buffer_get_insert(textbuffer), false);
+  
   // A GtkTextView has standard keybindings for clipboard operations.
   // It has been found that if the user presses, e.g. Ctrl-c, that
   // text is copied to the clipboard twice, or e.g. Ctrl-v, that it is
@@ -2810,16 +2825,16 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
     if (keyboard_insert_pressed(event)) return true;
   }
   
-  // Pressing Page Up while the cursor is in the note brings the user
-  // to the note caller in the text.
-  if (keyboard_page_up_pressed(event)) {
-    if (focused_paragraph) {
-      if (focused_paragraph->type == eatCreateNoteParagraph) {
-        on_caller_button_press (focused_paragraph->textview);
-      }
-    }
-  }
-
+	// Pressing Page Up while the cursor is in the note brings the user
+	// to the note caller in the text.
+	if (keyboard_page_up_pressed(event)) {
+		if (focused_paragraph) {
+			if (focused_paragraph->type == eatCreateNoteParagraph) {
+				on_caller_button_press (focused_paragraph->textview);
+			}
+		}
+	}
+	
 	// Handle pressing the Backspace key.
 	if (keyboard_backspace_pressed (event) && editable) {
 		DEBUG("Backspace pressed")
@@ -2856,38 +2871,6 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
 			editor_paragraph_insertion_point_set_offset (following_paragraph, 0);
 			combine_paragraphs(current_paragraph, following_paragraph);
 			return TRUE; // processing is finished
-			//if (current_paragraph && following_paragraph) {
-				// Get the text and styles of the whole following paragraph.
-				// editor_paragraph_insertion_point_set_offset (following_paragraph, 0);
-				//vector <ustring> text;
-				//vector <ustring> styles;
-				//EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(following_paragraph, text, styles);
-				// Delete the text from the following paragraph.
-				//if (delete_action) {
-				//	apply_editor_action (delete_action);
-				//}
-				// Insert the text into the current paragraph.
-				//GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (current_paragraph->textview));
-				//GtkTextIter enditer;
-				//gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-				//gint initial_offset = gtk_text_iter_get_offset (&enditer);
-				//for (unsigned int i = 0; i < text.size(); i++) {
-					//gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-					//gint offset = gtk_text_iter_get_offset (&enditer);
-					//EditorActionInsertText * insert_action = new EditorActionInsertText (current_paragraph, offset, text[i]);
-					//apply_editor_action (insert_action);
-					//if (!styles[i].empty()) {
-					//	EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(current_paragraph, styles[i], offset, text[i].length());
-					//	apply_editor_action (style_action);
-					//}
-				//}
-				// Move the insertion point to the position just before the joined text.
-				//editor_paragraph_insertion_point_set_offset (current_paragraph, initial_offset);
-				// Remove the following paragraph.
-				//apply_editor_action (new EditorActionDeleteParagraph(following_paragraph));
-				// Insert the One Action boundary.
-				//apply_editor_action (new EditorAction (eatOneActionBoundary));
-			//}
 		}
 	}
 
@@ -2903,7 +2886,7 @@ void Editor2::combine_paragraphs(EditorActionCreateParagraph * first_paragraph, 
 		vector <ustring> text;
 		vector <ustring> styles;
 		// Note the text and styles are grabbed AFTER the insertion point. Thus we have to set the insertion point
-		// to the start to capture everything we need.
+		// to the start of the second paragraph to capture everything we need. The caller is responsible to do this.
 		EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(second_paragraph, text, styles);
 		// Delete the text from the second paragraph.
 		if (delete_action) {
@@ -2937,13 +2920,14 @@ void Editor2::combine_paragraphs(EditorActionCreateParagraph * first_paragraph, 
 	}
 }
 
+// OBSOLETE...UNUSED
 gboolean Editor2::on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
   ((Editor2 *) user_data)->textview_key_release_event(widget, event);
   return FALSE;
 }
 
-
+// OBSOLETE...UNUSED
 void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
 {
   // Handle pressing the Backspace key.

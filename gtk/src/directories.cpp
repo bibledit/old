@@ -311,6 +311,27 @@ void directories::find_utilities(void)
   }
   
   //---------------------------------------------
+  // mkdir
+  //---------------------------------------------
+  {
+  // Check for tar (Unix)
+  GwSpawn spawn("mkdir");
+  spawn.arg("--version");
+  spawn.run();
+  if (spawn.exitstatus == 0) { 
+	// We have a mkdir command. Use it.
+	mkdir = "mkdir"; mkdir_args = "-p";
+  }
+  else {
+	// Check for mkdir.exe in the rundir (Windows directly through msys2/mingw binary)
+	GwSpawn spawn(rundir + "\\mkdir.exe");
+    spawn.arg("--version");
+	if (spawn.exitstatus == 0) { mkdir = rundir + "\\mkdir.exe"; mkdir_args = "-p"; }
+	else { gw_message(_("Cannot find a suitable mkdir utility")); }
+  }
+  }
+  
+  //---------------------------------------------
   // Zip
   //---------------------------------------------
   {
@@ -394,15 +415,15 @@ void directories::print()
   gw_message("User templates: \t" + templates_user);
   gw_message("Restore: \t" + restore);
   gw_message("Copy util: \t" + copy);
-  gw_message("Any of these that are blank indicate that we have not worked on them yet!!!!!");
   gw_message("Copy recursive: \t" + copy_recursive + " " + copy_recursive_args);
   gw_message("Move util:   \t" + move + " " + move_args);
   gw_message("Remove util: \t" + rm);
   gw_message("Rmdir util:  \t" + rmdir + " " + rmdir_args);
-  gw_message("Mkdir:       \t" + mkdir);
+  gw_message("Mkdir:       \t" + mkdir + " " + mkdir_args);
   gw_message("Tar util:    \t" + tar);
   gw_message("Zip util:    \t" + zip);
   gw_message("Unzip util:  \t" + unzip);
+  gw_message("Any of these that are blank indicate that we have not worked on them yet!!!!!");
   gw_message("Git:         \t" + git);
   gw_message("bibledit_git \t" + bibledit_git);
   gw_message("Curl util:   \t" + curl);
@@ -462,6 +483,7 @@ ustring directories::get_rm ()                { return rm; }
 ustring directories::get_rmdir ()             { return rmdir; }
 ustring directories::get_rmdir_args ()        { return rmdir_args; }
 ustring directories::get_mkdir ()             { return mkdir; }
+ustring directories::get_mkdir_args ()        { return mkdir_args; }
 ustring directories::get_tar ()               { return tar; }
 ustring directories::get_zip ()               { return zip; }
 ustring directories::get_unzip ()             { return unzip; }
