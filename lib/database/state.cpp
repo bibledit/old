@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
+#include <database/logs.h> // Todo
 
 
 // Database resilience: It only contains state information.
@@ -33,6 +34,7 @@ void Database_State::create ()
     filter_url_unlink (database_sqlite_file (name ()));
   }
 
+  Database_Logs::log (convert_to_string (file_exists (database_sqlite_file (name ())))); // Todo
   sqlite3 * db = connect ();
   
   string sql =
@@ -43,12 +45,16 @@ void Database_State::create ()
     ");";
   database_sqlite_exec (db, sql);
   
-  // Todo error message in journal: Fix that.
   sql = "DELETE FROM notes;";
   database_sqlite_exec (db, sql);
   
+  // Todo error message in journal: Fix that.
+  Database_Logs::log (convert_to_string (file_exists (database_sqlite_file (name ())))); // Todo
+  Database_Logs::log ("before VACUUM"); // Todo
   sql = "VACUUM;";
   database_sqlite_exec (db, sql);
+  Database_Logs::log ("after VACUUM"); // Todo
+  Database_Logs::log (convert_to_string (file_exists (database_sqlite_file (name ())))); // Todo
 
   sql =
     "CREATE TABLE IF NOT EXISTS export ("
