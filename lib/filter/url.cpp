@@ -60,7 +60,7 @@ void redirect_browser (Webserver_Request * request, string path)
   // where Bibledit may not be able to obtain the user-facing URL of the website.
   string location = config_logic_site_url () + path;
   
-  // location = get_base_url (request) + path; // Does not take the user-facing URL in account.
+  location = get_base_url (request) + path; // Does not take the user-facing URL in account.
 
   request->header = "Location: " + location;
   request->response_code = 302;
