@@ -50,12 +50,18 @@ string get_base_url (Webserver_Request * request)
 
 // This function redirects the browser to "path".
 // "path" is an absolute value.
-void redirect_browser (Webserver_Request * request, string path) // Todo
+void redirect_browser (Webserver_Request * request, string path)
 {
   // A location header should contain an absolute url, like http://localhost/some.
   // See 14.30 in the specification https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
-  string location = config_logic_site_url () + path; // Todo new, but not yet working.
-  location = get_base_url (request) + path; // Todo old
+  
+  // The absolute location contains the user-facing URL, when the administrator entered it.
+  // This is needed in case of a proxy server,
+  // where Bibledit may not be able to obtain the user-facing URL of the website.
+  string location = config_logic_site_url () + path;
+  
+  // location = get_base_url (request) + path; // Does not take the user-facing URL in account.
+
   request->header = "Location: " + location;
   request->response_code = 302;
 }
