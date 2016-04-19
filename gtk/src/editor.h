@@ -234,12 +234,9 @@ private:
   // Scrolling control.
 public:
 private:
-  void scroll_insertion_point_on_screen ();
-  static bool on_scroll_insertion_point_on_screen_timeout(gpointer data);
-  void scroll_insertion_point_on_screen_timeout();
+  void scroll_to_insertion_point_on_screen();
   GtkTextTag * verse_highlight_tag;
-  guint scroll_insertion_point_on_screen_id;
-
+  
   // Moving from one textview to the other.
 public:
 private:

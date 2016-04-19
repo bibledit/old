@@ -101,8 +101,7 @@ current_reference(0, 1000, "")
   editor_actions_size_at_no_save = false;
   font_size_multiplier = 1;
   highlight_timeout_event_id = 0;
-  scroll_insertion_point_on_screen_id = 0;
-    
+  
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
 
@@ -197,7 +196,6 @@ Editor2::~Editor2()
   gw_destroy_source(event_id_show_quick_references);
   gw_destroy_source(signal_if_verse_changed_event_id);
   gw_destroy_source(textview_button_press_event_id);
-  gw_destroy_source(scroll_insertion_point_on_screen_id);
 
   // Delete speller.
   delete spellingchecker;
@@ -316,9 +314,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
     GtkTextIter iter;
     gtk_text_buffer_get_start_iter(focused_paragraph->textbuffer, &iter);
     gtk_text_buffer_place_cursor(focused_paragraph->textbuffer, &iter);
-    //scroll_insertion_point_on_screen ();
-    // Remove all the complicated timeout stuff and go right to work
-    scroll_insertion_point_on_screen_timeout ();
+    scroll_to_insertion_point_on_screen();
   }
   
   // Store size of actions buffer so we know whether the chapter changed.
@@ -623,7 +619,7 @@ void Editor2::textview_move_cursor(GtkTextView * textview, GtkMovementStep step,
   textview_move_cursor_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_move_cursor_delayed), gpointer(this), NULL);
   // Act on paragraph crossing.
   paragraph_crossing_act (step, count);
-  scroll_insertion_point_on_screen_timeout ();
+  scroll_to_insertion_point_on_screen();
 }
 
 
@@ -1916,28 +1912,12 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
     } while (!moved && textbuffer);
   }
   if (moved) {
-    //scroll_insertion_point_on_screen ();
-    // Remove all the complicated timeout stuff and go right to work
-    scroll_insertion_point_on_screen_timeout ();
+    scroll_to_insertion_point_on_screen();
   }
   return moved;
 }
 
-
-void Editor2::scroll_insertion_point_on_screen ()
-{
-  scroll_insertion_point_on_screen_id = g_timeout_add(100, GSourceFunc(on_scroll_insertion_point_on_screen_timeout), gpointer(this));
-}
-
-
-bool Editor2::on_scroll_insertion_point_on_screen_timeout(gpointer data)
-{
-  ((Editor2 *) data)->scroll_insertion_point_on_screen_timeout();
-  return false;
-}
-
-
-void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
+void Editor2::scroll_to_insertion_point_on_screen() // Todo crashes here...seems better MAP 4/18/2016...no more "timeout" way of using this. Just call it directly and get it done
 {
 	if (!focused_paragraph) { return; }
 	if (!focused_paragraph->textbuffer) { return; }
@@ -2799,7 +2779,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
   gtk_text_buffer_get_iter_at_mark(textbuffer, &paragraph_crossing_insertion_point_iterator_at_key_press, gtk_text_buffer_get_insert(textbuffer));
   // This seems very inefficient. But it handles the case where the insertion point is off the screen
   // and the user begins typing, as in after he slides the scroll bar so his work moves out of the viewport.
-  scroll_insertion_point_on_screen_timeout ();
+  scroll_to_insertion_point_on_screen();
   
   // Make sure wherever we are typing is actually shown in in the viewport
   // Neither of these seem to work at all.
@@ -3049,16 +3029,12 @@ void Editor2::textview_button_press_delayed ()
 
 void Editor2::switch_verse_tracking_off ()
 {
-  if (!verse_tracking_on)
-    return;
   verse_tracking_on = false;
 }
 
 
 void Editor2::switch_verse_tracking_on ()
 {
-  if (verse_tracking_on)
-    return;
   verse_tracking_on = true;
 }
 
@@ -3088,10 +3064,8 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
   
   }
 
-  // Scroll the insertion point onto the screen.
-  //scroll_insertion_point_on_screen ();
-  // Remove all the complicated timeout stuff and go right to work
-  scroll_insertion_point_on_screen_timeout ();
+  // Scroll the insertion point onto the screen, do it now.
+  scroll_to_insertion_point_on_screen();
 
   // Highlight search words.
   highlight_searchwords();
