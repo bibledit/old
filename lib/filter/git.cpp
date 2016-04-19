@@ -37,13 +37,6 @@ string filter_git_directory (string object)
 }
 
 
-string filter_git_check_error (int result) // Todo out.
-{
-  if (result) {};
-  return "";
-}
-
-
 void filter_git_check_error (string data)
 {
   vector <string> lines = filter_string_explode (data, '\n');
@@ -259,12 +252,6 @@ bool filter_git_remote_read (string url, string & error)
   filter_git_check_error (error);
   return (result == 0);
 }
-
-
-typedef struct git_progress_data { // Todo out?
-  int job_identifier;
-  int seconds;
-} git_progress_data;
 
 
 bool filter_git_remote_clone (string url, string path, int jobid, string & error)
