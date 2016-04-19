@@ -31,6 +31,7 @@
 #include <access/bible.h>
 #include <search/logic.h>
 #include <menu/logic.h>
+#include <config/logic.h>
 
 
 string search_replace_url ()
@@ -52,7 +53,7 @@ string search_replace (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  string siteUrl = Database_Config_General::getSiteURL (); // Todo
+  string siteUrl = config_logic_site_url ();
   
   string bible = request->database_config_user()->getBible ();
   if (request->query.count ("b")) {

@@ -32,6 +32,7 @@
 #include <ipc/focus.h>
 #include <search/logic.h>
 #include <menu/logic.h>
+#include <config/logic.h>
 
 
 string search_search2_url ()
@@ -57,7 +58,7 @@ string search_search2 (void * webserver_request)
   Database_Volatile database_volatile = Database_Volatile ();
   
 
-  string siteUrl = Database_Config_General::getSiteURL (); // Todo
+  string siteUrl = config_logic_site_url ();
   
   
   string bible = request->database_config_user()->getBible ();

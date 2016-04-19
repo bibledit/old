@@ -32,6 +32,7 @@
 #include <bible/logic.h>
 #include <search/logic.h>
 #include <access/bible.h>
+#include <config/logic.h>
 
 
 string search_replacego2_url ()
@@ -54,7 +55,7 @@ string search_replacego2 (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   
-  string siteUrl = Database_Config_General::getSiteURL (); // Todo
+  string siteUrl = config_logic_site_url ();
   
   
   // Get the action variables from the query.
