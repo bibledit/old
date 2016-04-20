@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.423],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.424],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
