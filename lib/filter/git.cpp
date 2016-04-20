@@ -281,11 +281,19 @@ bool filter_git_add_remove_all (string repository, string & error)
 
 
 // This function runs "git commit" through the shell.
-bool filter_git_commit (string repository, string user, string email, string message,
-                        vector <string> & messages, string & error) // Todo
+bool filter_git_commit (string repository, string user, string message,
+                        vector <string> & messages, string & error)
 {
+  user = filter_git_user (user);
+  string email = filter_git_email (user);
   string out, err;
-  int result = filter_shell_run (repository, "git", {"commit", "-a", "-m", message}, &out, &err);
+  int result = filter_shell_run (repository, "git",
+                                {"commit",
+                                 "--author=\"" + user + " <" + email + ">\"",
+                                 "-a",
+                                 "-m",
+                                 message
+                                }, &out, &err);
   out = filter_string_trim (out);
   err = filter_string_trim (err);
   error = err;
@@ -293,6 +301,11 @@ bool filter_git_commit (string repository, string user, string email, string mes
   messages = filter_string_explode (out, '\n');
   vector <string> lines = filter_string_explode (err, '\n');
   messages.insert (messages.end(), lines.begin(), lines.end());
+  
+  // In case of Your branch is up-to-date with 'origin/master'. nothing to commit, working directory clean,
+  // git returns exit code 256. Yet this is not an error.
+  if (out.find ("nothing to commit") != string::npos) result = 0;
+  
   return (result == 0);
 }
 
@@ -460,7 +473,7 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
   if (!unmerged_paths.empty ()) {
     vector <string> messages;
     string error;
-    filter_git_commit (repository, "", "", "Bibledit fixed merge conflicts", messages, error); // Todo test and pass name and email.
+    filter_git_commit (repository, "", "Bibledit fixed merge conflicts", messages, error);
   }
   
   // Done.
@@ -495,4 +508,34 @@ void filter_git_config (string repository)
 
   // Current versions of git ask the user to set the default push method.
   filter_git_config_set_string (repository, "push.default", "matching");
+}
+
+
+// This checks $user, and optionally set it, to be sure it always returns a username.
+string filter_git_user (string user)
+{
+  if (user.empty ()) {
+    user = Database_Config_General::getSiteMailName ();
+  }
+  if (user.empty ()) {
+    user = "Bibledit Cloud";
+  }
+  return user;
+}
+
+
+// This takes the email address that belongs to $user,
+// and optionally sets the email address to a valid value,
+// and returns that email address.
+string filter_git_email (string user)
+{
+  Database_Users database_users;
+  string email = database_users.getUserToEmail (user);
+  if (email.empty ()) {
+    email = Database_Config_General::getSiteMailAddress ();
+  }
+  if (email.empty ()) {
+    email = "bibledit@bibledit.org";
+  }
+  return email;
 }
