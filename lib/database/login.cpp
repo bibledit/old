@@ -66,15 +66,19 @@ void Database_Login::trim ()
 }
 
 
-void Database_Login::optimize ()
+void Database_Login::optimize () // Todo
 {
-  // Recreate damaged database.
   if (!healthy ()) {
+    // (Re)create damaged or non-existing database.
     filter_url_unlink (database_sqlite_file (database ()));
     create ();
+  } else {
   }
   // Vacuum it.
   SqliteDatabase sql (database ());
+  sql.add ("PRAGMA temp_store = MEMORY;");
+  sql.execute ();
+  sql.clear ();
   sql.add ("VACUUM;");
   sql.execute ();
 }
