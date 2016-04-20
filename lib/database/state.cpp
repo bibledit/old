@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
-#include <database/logs.h> // Todo
 
 
 // Database resilience: It only contains state information.
@@ -30,11 +29,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void Database_State::create ()
 {
-  if (!database_sqlite_healthy (name ())) {
+  bool healthy_database = database_sqlite_healthy (name ());
+  if (!healthy_database) {
     filter_url_unlink (database_sqlite_file (name ()));
   }
 
-  Database_Logs::log (convert_to_string (file_exists (database_sqlite_file (name ())))); // Todo
   sqlite3 * db = connect ();
   
   string sql =
@@ -48,14 +47,16 @@ void Database_State::create ()
   sql = "DELETE FROM notes;";
   database_sqlite_exec (db, sql);
   
-  // Todo error message in journal: Fix that.
-  this_thread::sleep_for (chrono::milliseconds (10)); // Todo test sleeping
-  Database_Logs::log (convert_to_string (file_exists (database_sqlite_file (name ())))); // Todo
-  Database_Logs::log ("before VACUUM"); // Todo
-  sql = "VACUUM;";
-  database_sqlite_exec (db, sql);
-  Database_Logs::log ("after VACUUM"); // Todo
-  Database_Logs::log (convert_to_string (file_exists (database_sqlite_file (name ())))); // Todo
+  // Here something weird was going on when doing a VACUUM at this stage.
+  // On Android, it always would say this: VACUUM; Unable to open database file.
+  // Testing on the existence of the database file, right before the VACUUM operation, showed that the database file did exist. The question is then: If the file exists, why does it fail to open it?
+  // It also was tried to delay with 100 milliseconds before doing the VACUUM. But this made no difference. It would still give the error.
+  // It also was tried to close the connection to the database, then open it again. This made no difference either.
+  // It now does not VACUUM a newly created database, but only when it was created.
+  if (healthy_database) {
+    sql = "VACUUM;";
+    database_sqlite_exec (db, sql);
+  }
 
   sql =
     "CREATE TABLE IF NOT EXISTS export ("
