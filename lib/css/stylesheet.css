@@ -195,7 +195,7 @@ textarea {
 #workspacewrapper {
   padding: 0.5em;
 }
-#topbar + #workspacewrapper {
+#topbar:not(:empty) + #workspacewrapper {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
