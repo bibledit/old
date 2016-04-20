@@ -72,10 +72,10 @@ void Database_Login::optimize () // Todo
     // (Re)create damaged or non-existing database.
     filter_url_unlink (database_sqlite_file (database ()));
     create ();
-  } else {
   }
   // Vacuum it.
   SqliteDatabase sql (database ());
+  // On Android, this pragma prevents the following error: VACUUM; Unable to open database file.
   sql.add ("PRAGMA temp_store = MEMORY;");
   sql.execute ();
   sql.clear ();

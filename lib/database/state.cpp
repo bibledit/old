@@ -35,8 +35,13 @@ void Database_State::create ()
   }
 
   sqlite3 * db = connect ();
+  string sql;
   
-  string sql =
+  // On Android, this pragma prevents the following error: VACUUM; Unable to open database file.
+  sql = "PRAGMA temp_store = MEMORY;";
+  database_sqlite_exec (db, sql);
+  
+  sql =
     "CREATE TABLE IF NOT EXISTS notes ("
     " first integer,"
     " last integer,"
@@ -53,10 +58,9 @@ void Database_State::create ()
   // It also was tried to delay with 100 milliseconds before doing the VACUUM. But this made no difference. It would still give the error.
   // It also was tried to close the connection to the database, then open it again. This made no difference either.
   // It now does not VACUUM a newly created database, but only when it was created.
-  if (healthy_database) {
-    sql = "VACUUM;";
-    database_sqlite_exec (db, sql);
-  }
+  // Later on, the PRAGMA as above was used to solve the issue.
+  sql = "VACUUM;";
+  database_sqlite_exec (db, sql);
 
   sql =
     "CREATE TABLE IF NOT EXISTS export ("
