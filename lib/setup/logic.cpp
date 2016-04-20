@@ -224,19 +224,13 @@ void setup_initialize_data ()
   Database_Volatile database_volatile = Database_Volatile ();
   database_volatile.create ();
   config_globals_setup_message = "state";
-  Database_Logs::log ("state"); // Todo
   Database_State::create ();
-  Database_Logs::log ("login 1"); // Todo
   config_globals_setup_message = "login";
   Database_Login::create ();
-  Database_Logs::log ("login 2"); // Todo
   Database_Login::optimize ();
   config_globals_setup_message = "privileges";
-  Database_Logs::log ("privileges 1"); // Todo
   Database_Privileges::create ();
-  Database_Logs::log ("privileges 2"); // Todo
   Database_Privileges::upgrade ();
-  Database_Logs::log ("privileges 3"); // Todo
   Database_Privileges::optimize ();
 
   // Create stylesheets.

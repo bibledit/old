@@ -66,7 +66,7 @@ void Database_Login::trim ()
 }
 
 
-void Database_Login::optimize () // Todo
+void Database_Login::optimize ()
 {
   if (!healthy ()) {
     // (Re)create damaged or non-existing database.
