@@ -150,9 +150,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/morphgnt.$(OBJEXT) database/etcbc4.$(OBJEXT) \
 	database/hebrewlexicon.$(OBJEXT) database/cache.$(OBJEXT) \
 	database/login.$(OBJEXT) database/privileges.$(OBJEXT) \
-	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
-	session/logout.$(OBJEXT) session/password.$(OBJEXT) \
-	session/signup.$(OBJEXT) session/switch.$(OBJEXT) \
+	database/git.$(OBJEXT) session/logic.$(OBJEXT) \
+	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
+	session/password.$(OBJEXT) session/signup.$(OBJEXT) \
+	session/switch.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
@@ -604,6 +605,7 @@ libbibledit_a_SOURCES = \
 	database/cache.cpp \
 	database/login.cpp \
 	database/privileges.cpp \
+	database/git.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -1174,6 +1176,8 @@ database/cache.$(OBJEXT): database/$(am__dirstamp) \
 database/login.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/privileges.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
+database/git.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
@@ -2362,6 +2366,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/confirm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/etcbc4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/git.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/hebrewlexicon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/imageresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/ipc.Po@am__quote@
