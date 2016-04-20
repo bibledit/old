@@ -14,13 +14,13 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is prepared as a client installation */
-#define CLIENT "no"
+#define CLIENT "yes"
 
 /* Define whether it is a client installation */
-/* #undef CLIENT_PREPARED */
+#define CLIENT_PREPARED 1
 
 /* Define whether it is a demo installation */
-#define DEMO "yes"
+#define DEMO "no"
 
 /* Define the directory separator as Windows differs from Linux */
 #define DIRECTORY_SEPARATOR "/"

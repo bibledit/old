@@ -49,6 +49,7 @@ void Database_State::create ()
   database_sqlite_exec (db, sql);
   
   // Todo error message in journal: Fix that.
+  this_thread::sleep_for (chrono::milliseconds (10)); // Todo test sleeping
   Database_Logs::log (convert_to_string (file_exists (database_sqlite_file (name ())))); // Todo
   Database_Logs::log ("before VACUUM"); // Todo
   sql = "VACUUM;";
