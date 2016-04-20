@@ -280,25 +280,16 @@ bool filter_git_add_remove_all (string repository, string & error)
 }
 
 
-bool filter_git_commit (string repository, string user, string email, string message, string & error)
-{
-  user.clear ();
-  email.clear ();
-  string output;
-  int result = filter_shell_run (repository, "git", {"commit", "-a", "-m", message}, &output, &error);
-  filter_git_check_error (error);
-  return (result == 0);
-}
-
-
 // This function runs "git commit" through the shell.
-// It is needed because so far the libgit2 calls, in the parallel function, do not yet do the same as the shell call.
-bool filter_git_commit (string repository, string message, vector <string> & messages)
+bool filter_git_commit (string repository, string user, string email, string message,
+                        vector <string> & messages, string & error) // Todo
 {
   string out, err;
   int result = filter_shell_run (repository, "git", {"commit", "-a", "-m", message}, &out, &err);
   out = filter_string_trim (out);
   err = filter_string_trim (err);
+  error = err;
+  filter_git_check_error (error);
   messages = filter_string_explode (out, '\n');
   vector <string> lines = filter_string_explode (err, '\n');
   messages.insert (messages.end(), lines.begin(), lines.end());
@@ -468,7 +459,8 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
 
   if (!unmerged_paths.empty ()) {
     vector <string> messages;
-    filter_git_commit (repository, "Bibledit fixed merge conflicts", messages);
+    string error;
+    filter_git_commit (repository, "", "", "Bibledit fixed merge conflicts", messages, error); // Todo test and pass name and email.
   }
   
   // Done.

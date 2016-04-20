@@ -33,8 +33,8 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
 bool filter_git_remote_read (string url, string & error);
 bool filter_git_remote_clone (string url, string path, int jobid, string & error);
 bool filter_git_add_remove_all (string repository, string & error);
-bool filter_git_commit (string repository, string user, string email, string message, string & error);
-bool filter_git_commit (string repository, string message, vector <string> & messages);
+bool filter_git_commit (string repository, string user, string email, string message,
+                        vector <string> & messages, string & error);
 void filter_git_config_set_bool (string repository, string name, bool value);
 void filter_git_config_set_int (string repository, string name, int value);
 void filter_git_config_set_string (string repository, string name, string value);

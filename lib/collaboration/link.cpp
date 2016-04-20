@@ -109,7 +109,8 @@ void collaboration_link (string object, int jobid, string direction)
   
   // Commit the file locally.
   if (result) {
-    result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 1", error);
+    vector <string> messages; // Todo see what this contains and whether to journal it.
+    result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 1", messages, error);
     if (result) {
       success.push_back (translate("The file was committed successfully."));
     } else {
@@ -151,7 +152,8 @@ void collaboration_link (string object, int jobid, string direction)
     }
   }
   if (result) {
-    result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 2", error);
+    vector <string> messages; // Todo see what it has.
+    result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 2", messages, error);
     if (result) {
       success.push_back (translate("The removed temporal file was committed successfully."));
     } else {
@@ -202,7 +204,8 @@ void collaboration_link (string object, int jobid, string direction)
       }
     }
     if (result) {
-      result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 2", error);
+      vector <string> messages; // Todo seee what it contains.
+      result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 2", messages, error);
       if (result) {
         success.push_back (translate("The local Bible data was committed successfully."));
       } else {
