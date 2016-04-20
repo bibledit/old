@@ -5,14 +5,16 @@
 VERSION="4.9.4"
 
 full=1
+docs=0
 quick=
 function usage
 {
-	echo "Usage: installWin.sh [-h|--help] [-q|--quick] [-f|--full]"
+	echo "Usage: installWin.sh [-h|--help] [-q|--quick] [-f|--full] [-d|--docs]"
 	echo ""
 	echo "Copy files to C:\Program Files or C:\Program Files (x86) to make a full"
 	echo "running environment for Bibledit"
 	echo ""
+	echo "       --docs | -d   Install just docs and quit immediately"
 	echo "       --full | -f   Install everything (default behavior)"
 	echo "       --quick | -q  Only install bibledit binaries; not all libraries "
 	echo "                     or other support files."
@@ -22,6 +24,8 @@ function usage
 while [ "$1" != "" ]; do
     case $1 in
         -q | --quick )          quick=1
+                                ;;
+        -d | --docs )           docs=1
                                 ;;
         -f | --full )           full=1
                                 ;;
@@ -34,11 +38,6 @@ while [ "$1" != "" ]; do
     esac
     shift
 done
-
-echo "I assume you are running this from your-home/bibledit/gtk."
-echo "I also assume this shell is running in elevated/administrator mode!"
-echo "If not, hit Ctrl-C now and correct those problems!"
-sleep 3
 
 #------------------------------------------------------------------------------------------
 # Figure out if we are in a 32-bit or 64-bit environment and target Windows accordingly
@@ -85,6 +84,19 @@ THEMES="/$MINGWDIR/share/themes"
 ENGINES="/$MINGWDIR/lib/gtk-2.0"
 MINGWBIN="/$MINGWDIR/bin"
 USRBIN="/usr/bin"
+
+# If we are in --quick mode, then quit now, don't do more work
+if [ "$docs" = "1" ]; then
+    cp -R doc/site "$SHARE/bibledit"
+    exit 0;
+fi
+
+# I find I sometimes need time to kill a previous instance of the program or
+# something else, and this warning wakes me up to that need.
+echo "I assume you are running this from your-home/bibledit/gtk."
+echo "I also assume this shell is running in elevated/administrator mode!"
+echo "If not, hit Ctrl-C now and correct those problems!"
+sleep 3
 
 echo "Copying Bibledit executables to $BIN..."
 mkdir -v -p "$BIN"

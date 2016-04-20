@@ -1,5 +1,5 @@
 /*
-** Copyright (©) 2003-2013 Teus Benschop.
+** Copyright (©) 2015-2016 Matt Postiff.
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -52,8 +52,11 @@ class directories {
   ustring templates_user;
   ustring restore;
 
-  ustring fix_slashes(ustring &tofix);
-  
+public:
+  ustring fix_slashes(const ustring &tofix);
+  ustring backslashes_to_forwardslashes(const ustring &tofix);
+
+private:
   // Directory path to various file utility programs we use. 3/2016 MAP
   ustring copy;
   ustring copy_recursive;

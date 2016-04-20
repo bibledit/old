@@ -30,6 +30,7 @@
 #include "uname.h"
 #include "windowsoutpost.h"
 #include <glib/gi18n.h>
+#include "debug.h"
 
 #define NUMBER_OF_BROWSERS 10
 
@@ -152,7 +153,6 @@ void htmlbrowser (const ustring & filename, bool network, bool no_tamper)
 ustring html_server_url (const ustring& url)
 {
   ustring server_url = gw_build_filename (Directories->get_package_data (), url);
+  DEBUG("Server url " + server_url)
   return server_url;
 }
-
-

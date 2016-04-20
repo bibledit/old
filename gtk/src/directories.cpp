@@ -1,5 +1,5 @@
 /*
- ** Copyright (©) 2003-2013 Teus Benschop.
+ ** Copyright (©) 2015-2016 Matt Postiff.
  **  
  ** This program is free software; you can redistribute it and/or modify
  ** it under the terms of the GNU General Public License as published by
@@ -33,11 +33,11 @@
 
 // Change forward slash to backslash on WIN32, else there are major
 // problems with system calls to the file system (unix_rmdir, for instance).
-ustring directories::fix_slashes(ustring &tofix)
+ustring directories::fix_slashes(const ustring &tofix)
 {
   ustring retval;
 #ifdef WIN32
-  ustring::iterator it;
+  ustring::const_iterator it;
   for (it = tofix.begin(); it < tofix.end(); it++) {
       if (*it == '/') { retval.push_back('\\'); }
       else { retval.push_back(*it); }
@@ -45,6 +45,17 @@ ustring directories::fix_slashes(ustring &tofix)
 #else
   retval = tofix;
 #endif
+  return retval;
+}
+
+ustring directories::backslashes_to_forwardslashes(const ustring &tofix)
+{
+  ustring retval;
+  ustring::const_iterator it;
+  for (it = tofix.begin(); it < tofix.end(); it++) {
+      if (*it == '\\') { retval.push_back('/'); }
+      else { retval.push_back(*it); }
+  }
   return retval;
 }
 
@@ -313,23 +324,32 @@ void directories::find_utilities(void)
   //---------------------------------------------
   // mkdir
   //---------------------------------------------
-  {
-  // Check for tar (Unix)
-  GwSpawn spawn("mkdir");
-  spawn.arg("--version");
-  spawn.run();
-  if (spawn.exitstatus == 0) { 
-	// We have a mkdir command. Use it.
-	mkdir = "mkdir"; mkdir_args = "-p";
-  }
-  else {
-	// Check for mkdir.exe in the rundir (Windows directly through msys2/mingw binary)
-	GwSpawn spawn(rundir + "\\mkdir.exe");
-    spawn.arg("--version");
-	if (spawn.exitstatus == 0) { mkdir = rundir + "\\mkdir.exe"; mkdir_args = "-p"; }
-	else { gw_message(_("Cannot find a suitable mkdir utility")); }
-  }
-  }
+{
+	GwSpawn spawn("mkdir");
+	spawn.arg("/?");
+	spawn.run();
+	if (spawn.exitstatus == 0) {
+		// We have a DOS mkdir command
+		mkdir = "mkdir"; // no mkdir_args; going to assume that Command Extensions are enabled
+	}
+	else {
+		// Check for tar (Unix)
+		GwSpawn spawn("mkdir");
+		spawn.arg("--version");
+		spawn.run();
+		if (spawn.exitstatus == 0) { 
+			// We have a mkdir command. Use it.
+			mkdir = "mkdir"; mkdir_args = "-p";
+		}
+		else {
+			// Check for mkdir.exe in the rundir (Windows directly through msys2/mingw binary)
+			GwSpawn spawn(rundir + "\\mkdir.exe");
+			spawn.arg("--version");
+			if (spawn.exitstatus == 0) { mkdir = rundir + "\\mkdir.exe"; mkdir_args = "-p"; }
+			else { gw_message(_("Cannot find a suitable mkdir utility")); }
+		}
+	}
+}
   
   //---------------------------------------------
   // Zip
