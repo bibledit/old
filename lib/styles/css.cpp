@@ -278,7 +278,7 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
     }
     
     string backgroundcolor = style->backgroundcolor;
-    if (color != "#FFFFFF") {
+    if (backgroundcolor != "#FFFFFF") {
       code.push_back ("background-color: " + backgroundcolor + ";");
     }
     
