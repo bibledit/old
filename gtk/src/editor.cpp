@@ -612,6 +612,7 @@ void Editor2::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep st
 
 void Editor2::textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count)
 {
+  DEBUG("Signal move_cursor")
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear();
   // Keep postponing the actual handler if a new cursor movement was detected before the previous one was processed.
@@ -632,6 +633,7 @@ bool Editor2::on_textview_move_cursor_delayed(gpointer user_data)
 void Editor2::textview_move_cursor_delayed()
 // Handle cursor movement.
 {
+  DEBUG("Signal move_cursor_delayed")
   textview_move_cursor_id = 0;
   signal_if_styles_changed();
   signal_if_verse_changed();
@@ -662,6 +664,7 @@ void Editor2::on_textview_grab_focus(GtkWidget * widget, gpointer user_data)
 
 void Editor2::textview_grab_focus(GtkWidget * widget)
 {
+	DEBUG("Signal grab_focus")
   // Store the paragraph action that created the widget
   focused_paragraph = widget2paragraph_action (widget);
   // Clear the character style that was going to be applied when the user starts typing.
@@ -686,6 +689,7 @@ void Editor2::textview_grab_focus_delayed() // Todo
  This delayed handler solves that.
  */
 {
+  DEBUG("Signal grab_focus_delayed")
   textview_grab_focus_event_id = 0;
   signal_if_styles_changed();
   signal_if_verse_changed();
@@ -1918,6 +1922,7 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
 
 void Editor2::scroll_to_insertion_point_on_screen() // Todo crashes here...seems better MAP 4/18/2016...no more "timeout" way of using this. Just call it directly and get it done
 {
+	DEBUG("Call")
 	if (!focused_paragraph) { return; }
 	if (!focused_paragraph->textbuffer) { return; }
 
@@ -2009,6 +2014,7 @@ void Editor2::scroll_to_insertion_point_on_screen() // Todo crashes here...seems
 
 	// Remove any previous verse number highlight.
 	{
+		DEBUG("Remove verse num highlights")
 		GtkTextIter startiter, enditer;
 		for (unsigned int i = 0; i < textviews.size(); i++) {
 			GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
@@ -2020,6 +2026,7 @@ void Editor2::scroll_to_insertion_point_on_screen() // Todo crashes here...seems
 	
 	// Highlight the verse if it is non-zero.
 	if (current_verse_number != "0") {
+		DEBUG("Highlight v. " + current_verse_number)
 		GtkWidget * textview;
 		GtkTextIter startiter, enditer;
 		if (get_iterator_at_verse_number (current_verse_number, style_get_verse_marker(project), vbox_paragraphs, startiter, textview)) {
@@ -2851,7 +2858,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
 				// some or all of the paragraph will be deleted instead of copied to the first one (up to insertion point)
 				editor_paragraph_insertion_point_set_offset (following_paragraph, 0);
 				combine_paragraphs(current_paragraph, following_paragraph);
-				return TRUE; // processing is finished
+				return TRUE; // processing is finished...otherwise delete_range can be called and delete the verse number!
 			}
 		}
 	}
@@ -3046,6 +3053,7 @@ void Editor2::switch_verse_tracking_on ()
 void Editor2::go_to_verse(const ustring& number, bool focus)
 // Moves the insertion point of the editor to the verse number.
 {
+  DEBUG("current_verse_number="+number)
   // Ensure verse tracking is on.
   switch_verse_tracking_on ();
   
@@ -3054,7 +3062,7 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
 
   // Only move the insertion point if it goes to another verse.
   if (number != verse_number_get()) {
-    DEBUG("vs number="+number)
+    DEBUG("go_to_verse number="+number)
 	DEBUG("verse_number_get=" + verse_number_get())
     // Get the iterator and textview that contain the verse number.
     GtkTextIter iter;
@@ -3092,6 +3100,7 @@ bool Editor2::on_signal_if_verse_changed_timeout(gpointer data)
 
 void Editor2::signal_if_verse_changed_timeout()
 {
+  DEBUG("Signal verse_changed_timeout")
   // Proceed if verse tracking is on.
   if (verse_tracking_on) {
     // Proceed if there's a focused paragraph.
@@ -3101,6 +3110,7 @@ void Editor2::signal_if_verse_changed_timeout()
         // Emit a signal if the verse number at the insertion point changed.
         ustring verse_number = verse_number_get();
         if (verse_number != current_verse_number) {
+		  DEBUG("current_verse_number="+verse_number)
           current_verse_number = verse_number;
           if (new_verse_signal) {
             gtk_button_clicked(GTK_BUTTON(new_verse_signal));
@@ -3114,6 +3124,7 @@ void Editor2::signal_if_verse_changed_timeout()
 
 void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
 {
+  DEBUG("Start of paragraph_crossing")
   // Bail out if there's no paragraph.
   if (focused_paragraph == NULL) {
     return;
@@ -3127,7 +3138,7 @@ void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
   if (!gtk_text_iter_equal (&paragraph_crossing_insertion_point_iterator_at_key_press, &iter)) {
     return;
   }
-
+  DEBUG("After mvmt chk paragraph_crossing")
   // Focus the crossed widget and place its cursor.  
   GtkWidget * crossed_widget;
   if (count > 0) {
