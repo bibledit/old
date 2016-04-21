@@ -447,6 +447,8 @@
 		CA97857C1BD24A9E00E13388 /* initialize.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = initialize.sh; sourceTree = "<group>"; };
 		CA97857D1BD24AAA00E13388 /* paths.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = paths.sh; sourceTree = "<group>"; };
 		CA97857E1BD251A600E13388 /* livetest.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = livetest.js; sourceTree = "<group>"; };
+		CA9C8D251CC805480092E213 /* git.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = git.cpp; sourceTree = "<group>"; };
+		CA9C8D261CC805480092E213 /* git.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = git.h; sourceTree = "<group>"; };
 		CA9DB7991AA8E4B500D6B549 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA9DB79A1AA8E4B500D6B549 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA9F197A1A8BB28B004FF341 /* libgit2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = libgit2.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -1522,6 +1524,8 @@
 				CAA4D0181A45A647003ABA25 /* confirm.h */,
 				CA605AD21B876D0400EDDBA4 /* etcbc4.cpp */,
 				CA605AD31B876D0400EDDBA4 /* etcbc4.h */,
+				CA9C8D251CC805480092E213 /* git.cpp */,
+				CA9C8D261CC805480092E213 /* git.h */,
 				CA129E461B8F977B007B37B4 /* hebrewlexicon.cpp */,
 				CA129E471B8F977B007B37B4 /* hebrewlexicon.h */,
 				CA36667D1B70E7B00077B58F /* imageresources.cpp */,

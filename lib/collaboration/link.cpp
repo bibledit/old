@@ -109,7 +109,8 @@ void collaboration_link (string object, int jobid, string direction)
   
   // Commit the file locally.
   if (result) {
-    result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 1", error);
+    vector <string> messages;
+    result = filter_git_commit (path, "", "Write test 1", messages, error);
     if (result) {
       success.push_back (translate("The file was committed successfully."));
     } else {
@@ -151,7 +152,8 @@ void collaboration_link (string object, int jobid, string direction)
     }
   }
   if (result) {
-    result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 2", error);
+    vector <string> messages;
+    result = filter_git_commit (path, "", "Write test 2", messages, error);
     if (result) {
       success.push_back (translate("The removed temporal file was committed successfully."));
     } else {
@@ -202,11 +204,16 @@ void collaboration_link (string object, int jobid, string direction)
       }
     }
     if (result) {
-      result = filter_git_commit (path, "Bibledit", "bibledit@bibledit.org", "Write test 2", error);
+      vector <string> messages;
+      result = filter_git_commit (path, "", "Write test 3", messages, error);
       if (result) {
         success.push_back (translate("The local Bible data was committed successfully."));
       } else {
         error.append (" " + translate("Failure committing the local Bible data."));
+        for (auto msg : messages) {
+          error.append (" ");
+          error.append (msg);
+        }
       }
     }
 
@@ -233,13 +240,10 @@ void collaboration_link (string object, int jobid, string direction)
   view.set_variable ("url", url);
   if (direction == "me") view.enable_zone ("takeme");
   if (direction == "repo") view.enable_zone ("takerepo");
-  if (result) {
-    view.enable_zone ("okay");
-    view.set_variable ("success", filter_string_implode (success, "<br>\n"));
-  } else {
-    view.enable_zone ("error");
-    view.set_variable ("error", error);
-  }
+  if (result) view.enable_zone ("okay");
+  else view.enable_zone ("error");
+  view.set_variable ("success", filter_string_implode (success, "<br>\n"));
+  view.set_variable ("error", error);
   page += view.render ("collaboration", "link");
   page += Assets_Page::footer ();
   database_jobs.setResult (jobid, page);

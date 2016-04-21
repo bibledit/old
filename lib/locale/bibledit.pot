@@ -9124,14 +9124,17 @@ msgstr ""
 msgid "Thus there are 15 possible positions."
 msgstr ""
 
-msgid "You can set the height of each of the three rows individually."
+msgid "You can set the relative height of each of the three rows individually."
 msgstr ""
 
 msgid ""
-"The height is set as a percentage of the total height of the browser window."
+"The height is set as integer factor relative to the browser window height "
+"and other panes."
 msgstr ""
 
-msgid "Or add px to the figure to set the height in pixels instead."
+msgid ""
+"For example use factors of 1 and 2 respectively on two panes to get a split "
+"⅓/⅔ layout or 1, 1, and 2 respectively on three panes for a ¼/¼/½ layout."
 msgstr ""
 
 msgid ""
@@ -9140,10 +9143,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Enter their widths as a percentage of the total width of the browser window."
-msgstr ""
-
-msgid "Or add px to set pixels."
+"Enter their relative widths as an integer factor relative to the overall "
+"width and other panes."
 msgstr ""
 
 msgid ""
