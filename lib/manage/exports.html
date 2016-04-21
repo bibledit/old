@@ -1,9 +1,3 @@
-<script>
-  toggleSetting = function(element) {
-    var base = window.location.href.split("?")[0];
-    window.location.href = base + "?" + element.name + "=" + element.checked;
-  }
-</script>
 <h2>translate("Exports")</h2>
 
 <p class="error">##error##</p>
@@ -19,7 +13,7 @@
 <h3>translate("Web")</h3>
 <p>
 <!-- #BEGINZONE cloud -->
-<input type="checkbox" name="webtoggle" onchange="toggleSetting(this)" ##web## /> translate("Export during the night.")
+<a href="?webtoggle=">##web##</a> translate("Export during the night.")
 <!-- #ENDZONE cloud -->
 <a href="?webnow=">translate("Export now.")</a>
 </p>
@@ -27,7 +21,7 @@
 <h3>translate("Html")</h3>
 <p>
 <!-- #BEGINZONE cloud -->
-<input type="checkbox" name="htmltoggle" onchange="toggleSetting(this)" ##html## /> translate("Export during the night.")
+<a href="?htmltoggle=">##html##</a> translate("Export during the night.")
 <!-- #ENDZONE cloud -->
 <a href="?htmlnow=">translate("Export now.")</a>
 </p>
@@ -35,17 +29,17 @@
 <h3>translate("Full USFM")</h3>
 <p>
 <!-- #BEGINZONE cloud -->
-<input type="checkbox" name="usfmtoggle" onchange="toggleSetting(this)" ##usfm## /> translate("Export during the night.")
+<a href="?usfmtoggle=">##usfm##</a> translate("Export during the night.")
 <!-- #ENDZONE cloud -->
 <a href="?usfmnow=">translate("Export now.")</a>
 </p>
 <br>
-<p><input type="checkbox" name="usfmsecuretoggle" onchange="toggleSetting(this)" ##usfmsecure## /> translate("Secure the export with the password.")</p>
+<p><a href="?usfmsecuretoggle=">##usfmsecure##</a> translate("Secure the export with the password.")</p>
 
 <h3>translate("Basic USFM and Text")</h3>
 <p>
 <!-- #BEGINZONE cloud -->
-<input type="checkbox" name="texttoggle" onchange="toggleSetting(this)" ##text## /> translate("Export during the night.")
+<a href="?texttoggle=">##text##</a> translate("Export during the night.")
 <!-- #ENDZONE cloud -->
 <a href="?textnow=">translate("Export now.")</a>
 </p>
@@ -55,13 +49,13 @@
 <!-- #BEGINZONE zip -->
 <p>
 <!-- #BEGINZONE cloud -->
-<input type="checkbox" name="odttoggle" onchange="toggleSetting(this)" ##odt## /> translate("Export during the night.")
+<a href="?odttoggle=">##odt##</a> translate("Export during the night.")
 <!-- #ENDZONE cloud -->
 <a href="?odtnow=">translate("Export now.")</a>
 </p>
 <br>
 <p>
-<input type="checkbox" name="dropcapstoggle" onchange="toggleSetting(this)" ##dropcaps## />
+<a href="?dropcapstoggle=">##dropcaps##</a>
 translate("Use frames for OpenDocument format in case the chapter number gets put just before the first verse in drop caps.")
 </p>
 <br>
@@ -76,12 +70,12 @@ translate("Use frames for OpenDocument format in case the chapter number gets pu
 </table>
 <br>
 <p>
-<input type="checkbox" name="dateinheadertoggle" onchange="toggleSetting(this)" ##dateinheader## />
+<a href="?dateinheadertoggle=">##dateinheader##</a>
 translate("Display the current date in the running headers.")
 </p>
 <br>
 <p>
-  <input type="checkbox" name="odtsecuretoggle" onchange="toggleSetting(this)" ##odtsecure## />
+  <a href="?odtsecuretoggle=">##odtsecure##</a>
   translate("Secure the export with the password.")
 </p>
 <!-- #ENDZONE zip -->
@@ -89,7 +83,7 @@ translate("Display the current date in the running headers.")
 <h3>translate("Info document")</h3>
 <p>
 <!-- #BEGINZONE cloud -->
-<input type="checkbox" name="infotoggle" onchange="toggleSetting(this)" ##info## /> translate("Generate during the night.")
+<a href="?infotoggle=">##info##</a> translate("Generate during the night.")
 <!-- #ENDZONE cloud -->
 <a href="?infonow=">translate("Generate now.")</a>
 </p>
@@ -97,7 +91,7 @@ translate("Display the current date in the running headers.")
 <h3>translate("e-Sword")</h3>
 <p>
 <!-- #BEGINZONE cloud -->
-<input type="checkbox" name="eswordtoggle" onchange="toggleSetting(this)" ##esword## /> translate("Export during the night.")
+<a href="?eswordtoggle=">##esword##</a> translate("Export during the night.")
 <!-- #ENDZONE cloud -->
 <a href="?eswordnow=">translate("Export now.")</a>
 </p>
@@ -105,7 +99,7 @@ translate("Display the current date in the running headers.")
 <h3>translate("Online Bible")</h3>
 <p>
 <!-- #BEGINZONE cloud -->
-<input type="checkbox" name="onlinebibletoggle" onchange="toggleSetting(this)" ##onlinebible## /> translate("Export during the night.")
+<a href="?onlinebibletoggle=">##onlinebible##</a> translate("Export during the night.")
 <!-- #ENDZONE cloud -->
 <a href="?onlinebiblenow=">translate("Export now.")</a>
 </p>

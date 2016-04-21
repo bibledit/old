@@ -95,7 +95,7 @@ string manage_exports (void * webserver_request)
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to Web format was updated."));
   }
-  view.set_variable ("web", get_checkbox_status (Database_Config_Bible::getExportWebDuringNight (bible)));
+  view.set_variable ("web", get_tick_box (Database_Config_Bible::getExportWebDuringNight (bible)));
   
   
   if (request->query.count ("webnow")) {
@@ -110,7 +110,7 @@ string manage_exports (void * webserver_request)
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to Html format was updated."));
   }
-  view.set_variable ("html", get_checkbox_status (Database_Config_Bible::getExportHtmlDuringNight (bible)));
+  view.set_variable ("html", get_tick_box (Database_Config_Bible::getExportHtmlDuringNight (bible)));
   
   
   if (request->query.count ("htmlnow")) {
@@ -124,7 +124,7 @@ string manage_exports (void * webserver_request)
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to USFM format was updated."));
   }
-  view.set_variable ("usfm", get_checkbox_status (Database_Config_Bible::getExportUsfmDuringNight (bible)));
+  view.set_variable ("usfm", get_tick_box (Database_Config_Bible::getExportUsfmDuringNight (bible)));
  
   
   if (request->query.count ("usfmnow")) {
@@ -138,14 +138,14 @@ string manage_exports (void * webserver_request)
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for securing the USFM export was updated."));
   }
-  view.set_variable ("usfmsecure", get_checkbox_status (Database_Config_Bible::getSecureUsfmExport (bible)));
+  view.set_variable ("usfmsecure", get_tick_box (Database_Config_Bible::getSecureUsfmExport (bible)));
 
                      
   if (request->query.count ("texttoggle")) {
     Database_Config_Bible::setExportTextDuringNight (bible, !Database_Config_Bible::getExportTextDuringNight (bible));
     view.set_variable ("success", translate("The setting for nightly export to basic USFM format and text was updated."));
   }
-  view.set_variable ("text", get_checkbox_status (Database_Config_Bible::getExportTextDuringNight (bible)));
+  view.set_variable ("text", get_tick_box (Database_Config_Bible::getExportTextDuringNight (bible)));
   
   
   if (request->query.count ("textnow")) {
@@ -159,7 +159,7 @@ string manage_exports (void * webserver_request)
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to OpenDocument was updated."));
   }
-  view.set_variable ("odt", get_checkbox_status (Database_Config_Bible::getExportOdtDuringNight (bible)));
+  view.set_variable ("odt", get_tick_box (Database_Config_Bible::getExportOdtDuringNight (bible)));
 
   
   if (request->query.count ("odtnow")) {
@@ -172,7 +172,7 @@ string manage_exports (void * webserver_request)
     Database_Config_Bible::setExportChapterDropCapsFrames (bible, !Database_Config_Bible::getExportChapterDropCapsFrames (bible));
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
   }
-  view.set_variable ("dropcaps", get_checkbox_status (Database_Config_Bible::getExportChapterDropCapsFrames (bible)));
+  view.set_variable ("dropcaps", get_tick_box (Database_Config_Bible::getExportChapterDropCapsFrames (bible)));
 
   
   if (request->query.count ("pagewidth")) {
@@ -268,7 +268,7 @@ string manage_exports (void * webserver_request)
   if (request->query.count ("dateinheadertoggle")) {
     Database_Config_Bible::setDateInHeader (bible, !Database_Config_Bible::getDateInHeader (bible));
   }
-  view.set_variable ("dateinheader", get_checkbox_status (Database_Config_Bible::getDateInHeader (bible)));
+  view.set_variable ("dateinheader", get_tick_box (Database_Config_Bible::getDateInHeader (bible)));
   
   
   if (request->query.count ("odtsecuretoggle")) {
@@ -276,7 +276,7 @@ string manage_exports (void * webserver_request)
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for securing the OpenDocument export was updated."));
   }
-  view.set_variable ("odtsecure", get_checkbox_status (Database_Config_Bible::getSecureOdtExport (bible)));
+  view.set_variable ("odtsecure", get_tick_box (Database_Config_Bible::getSecureOdtExport (bible)));
                      
                                           
   if (request->query.count ("infotoggle")) {
@@ -284,7 +284,7 @@ string manage_exports (void * webserver_request)
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly generation of info was updated."));
   }
-  view.set_variable ("info", get_checkbox_status (Database_Config_Bible::getGenerateInfoDuringNight (bible)));
+  view.set_variable ("info", get_tick_box (Database_Config_Bible::getGenerateInfoDuringNight (bible)));
                    
   
   if (request->query.count ("infonow")) {
@@ -298,7 +298,7 @@ string manage_exports (void * webserver_request)
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to e-Sword format was updated."));
   }
-  view.set_variable ("esword", get_checkbox_status (Database_Config_Bible::getExportESwordDuringNight (bible)));
+  view.set_variable ("esword", get_tick_box (Database_Config_Bible::getExportESwordDuringNight (bible)));
                      
                                           
   if (request->query.count ("eswordnow")) {
@@ -312,7 +312,7 @@ string manage_exports (void * webserver_request)
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The setting for nightly export to Online Bible format was updated."));
   }
-  view.set_variable ("onlinebible", get_checkbox_status (Database_Config_Bible::getExportOnlineBibleDuringNight (bible)));
+  view.set_variable ("onlinebible", get_tick_box (Database_Config_Bible::getExportOnlineBibleDuringNight (bible)));
 
                      
   if (request->query.count ("onlinebiblenow")) {
