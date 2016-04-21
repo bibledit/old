@@ -31,6 +31,7 @@
 #include <database/books.h>
 #include <database/mail.h>
 #include <database/modifications.h>
+#include <database/git.h>
 #include <client/logic.h>
 #include <locale/translate.h>
 #include <webserver/request.h>
@@ -119,6 +120,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   if (new_id != old_id) {
     Database_Modifications database_modifications;
     database_modifications.recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);
+    Database_Git::store_chapter (username, bible, book, chapter, old_text, new_text);
   }
 
 
