@@ -4596,6 +4596,17 @@ void test_database_git ()
   // Getting a non-existent rowid should fail.
   get = Database_Git::get_chapter (2, user, bible, book, chapter, oldusfm, newusfm);
   evaluate (__LINE__, __func__, false, get);
+  
+  // Update the timestamps and check that expired entries get removed and recent ones remain.
+  rowids = Database_Git::get_rowids ();
+  evaluate (__LINE__, __func__, 3, rowids.size ());
+  Database_Git::optimize ();
+  rowids = Database_Git::get_rowids ();
+  evaluate (__LINE__, __func__, 3, rowids.size ());
+  Database_Git::touch_timestamps (filter_date_seconds_since_epoch () - 432000 - 1);
+  Database_Git::optimize ();
+  rowids = Database_Git::get_rowids ();
+  evaluate (__LINE__, __func__, 0, rowids.size ());
 }
 
 

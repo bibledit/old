@@ -140,7 +140,7 @@ void database_maintenance ()
   Database_Privileges::optimize ();
   
   
-  Database_Git::create ();
+  Database_Git::optimize ();
   
   
   // Only maintain it when it does not yet exist, to avoid unnecessary downloads by the clients.

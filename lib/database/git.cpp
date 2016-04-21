@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/git.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <database/sqlite.h>
 
 
@@ -29,20 +30,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void Database_Git::create ()
 {
-  bool healthy_database = database_sqlite_healthy (name ());
-  if (!healthy_database) {
-    filter_url_unlink (database_sqlite_file (name ()));
-  }
-
   SqliteDatabase sql = SqliteDatabase (name ());
-  
-  // On Android, this pragma prevents the following error: VACUUM; Unable to open database file.
-  sql.add ("PRAGMA temp_store = MEMORY;");
-  sql.execute ();
-
-  sql.clear ();
-
   sql.add ("CREATE TABLE IF NOT EXISTS changes ("
+           " timestamp integer,"
            " user text,"
            " bible text,"
            " book integer,"
@@ -51,9 +41,34 @@ void Database_Git::create ()
            " newusfm text"
            ");");
   sql.execute ();
+}
+
+
+void Database_Git::optimize ()
+{
+  bool healthy_database = database_sqlite_healthy (name ());
+  if (!healthy_database) {
+    filter_url_unlink (database_sqlite_file (name ()));
+    create ();
+  }
+  
+  SqliteDatabase sql = SqliteDatabase (name ());
+  
+  // On Android, this pragma prevents the following error: VACUUM; Unable to open database file.
+  sql.add ("PRAGMA temp_store = MEMORY;");
+  sql.execute ();
   
   sql.clear ();
 
+  // Delete entries older than 10 days.
+  int timestamp = filter_date_seconds_since_epoch () - 432000;
+  sql.add ("DELETE FROM changes WHERE timestamp <");
+  sql.add (timestamp);
+  sql.add (";");
+  sql.execute ();
+  
+  sql.clear ();
+  
   sql.add ("VACUUM;");
   sql.execute ();
 }
@@ -64,6 +79,8 @@ void Database_Git::store_chapter (string user, string bible, int book, int chapt
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("INSERT INTO changes VALUES (");
+  sql.add (filter_date_seconds_since_epoch ());
+  sql.add (",");
   sql.add (user);
   sql.add (",");
   sql.add (bible);
@@ -125,6 +142,16 @@ void Database_Git::erase_rowid (int rowid)
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("DELETE FROM changes WHERE rowid =");
   sql.add (rowid);
+  sql.add (";");
+  sql.execute ();
+}
+
+
+void Database_Git::touch_timestamps (int timestamp)
+{
+  SqliteDatabase sql = SqliteDatabase (name ());
+  sql.add ("UPDATE changes SET timestamp =");
+  sql.add (timestamp);
   sql.add (";");
   sql.execute ();
 }

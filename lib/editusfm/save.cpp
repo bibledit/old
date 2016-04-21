@@ -26,6 +26,7 @@
 #include <webserver/request.h>
 #include <database/modifications.h>
 #include <database/logs.h>
+#include <database/git.h>
 #include <checksum/logic.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
@@ -99,6 +100,7 @@ string editusfm_save (void * webserver_request)
                   int newID = request->database_bibles()->getChapterId (bible, book, chapter);
                   Database_Modifications database_modifications;
                   database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+                  Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
 #endif
                   // Store a copy of the USFM loaded in the editor for later reference.
                   storeLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
