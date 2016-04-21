@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // It is checked and optionally recreated at least once a day.
 
 
-void Database_Git::create () // Todo
+void Database_Git::create ()
 {
   bool healthy_database = database_sqlite_healthy (name ());
   if (!healthy_database) {

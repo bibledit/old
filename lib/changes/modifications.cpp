@@ -52,7 +52,7 @@ void changes_process_identifiers (Webserver_Request * request,
                                   string bible,
                                   int book, int chapter,
                                   int oldId, int newId,
-                                  string & email) // Todo
+                                  string & email)
 {
   if (oldId != 0) {
     recipients = filter_string_array_diff (recipients, {user});

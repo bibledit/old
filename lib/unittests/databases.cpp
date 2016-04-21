@@ -4556,7 +4556,7 @@ void test_database_privileges ()
 }
 
 
-void test_database_git () // Todo
+void test_database_git ()
 {
   trace_unit_tests (__func__);
   
