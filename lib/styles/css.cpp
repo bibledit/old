@@ -174,7 +174,9 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
     float points = style->fontsize;
     float percents = points * 100 / 12;
     int fontsize = convert_to_int (percents);
-    code.push_back ("font-size: " + convert_to_string (fontsize) + "%;");
+    if (fontsize != 100) {
+      code.push_back ("font-size: " + convert_to_string (fontsize) + "%;");
+    }
   }
   
   // Italics, bold, underline, small caps.
@@ -228,27 +230,31 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
     // Text alignment options.
     string alignment;
     switch (style->justification) {
-      case AlignmentLeft:    alignment = "left"; break;
+      case AlignmentLeft:    alignment = ""; break;
       case AlignmentCenter:  alignment = "center"; break;
       case AlignmentRight:   alignment = "right"; break;
       case AlignmentJustify: alignment = "justify"; break;
     }
-    if (!alignment.empty ()) {
-      
+    if (alignment != "") {
+      code.push_back ("text-align: " + alignment + ";");
     }
-    code.push_back ("text-align: " + alignment + ";");
     
     // Paragraph measurements; given in mm.
-    spacebefore += "mm";
-    code.push_back ("margin-top: " + spacebefore + ";");
-    spaceafter += "mm";
-    code.push_back ("margin-bottom: " + spaceafter + ";");
-    leftmargin += "mm";
-    code.push_back ("margin-left: " + leftmargin + ";");
-    rightmargin += "mm";
-    code.push_back ("margin-right: " + rightmargin + ";");
-    firstlineindent += "mm";
-    code.push_back ("text-indent: " + firstlineindent + ";");
+    if (spacebefore != "0") {
+      code.push_back ("margin-top: " + spacebefore + "mm;");
+    }
+    if (spaceafter != "0") {
+      code.push_back ("margin-bottom: " + spaceafter + "mm;");
+    }
+    if (leftmargin != "0") {
+      code.push_back ("margin-left: " + leftmargin + "mm;");
+    }
+    if (rightmargin != "0") {
+      code.push_back ("margin-right: " + rightmargin + "mm;");
+    }
+    if (firstlineindent != "0") {
+      code.push_back ("text-indent: " + firstlineindent + "mm;");
+    }
     
     // Columns have not yet been implemented.
     //bool spancolumns = style->spancolumns;
