@@ -43,6 +43,7 @@ void Database_Git::create () // Todo
   sql.clear ();
 
   sql.add ("CREATE TABLE IF NOT EXISTS changes ("
+           " user text,"
            " bible text,"
            " book integer,"
            " chapter integer,"
@@ -58,10 +59,13 @@ void Database_Git::create () // Todo
 }
 
 
-void Database_Git::store_chapter (string bible, int book, int chapter, string oldusfm, string newusfm)
+void Database_Git::store_chapter (string user, string bible, int book, int chapter,
+                                  string oldusfm, string newusfm)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("INSERT INTO changes VALUES (");
+  sql.add (user);
+  sql.add (",");
   sql.add (bible);
   sql.add (",");
   sql.add (book);
@@ -90,22 +94,24 @@ vector <int> Database_Git::get_rowids ()
 
 
 bool Database_Git::get_chapter (int rowid,
-                                string & bible, int & book, int & chapter,
+                                string & user, string & bible, int & book, int & chapter,
                                 string & oldusfm, string & newusfm)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
-  sql.add ("SELECT bible, book, chapter, oldusfm, newusfm FROM changes WHERE rowid =");
+  sql.add ("SELECT * FROM changes WHERE rowid =");
   sql.add (rowid);
   sql.add (";");
   map <string, vector <string> > result = sql.query ();
+  vector <string> users    = result ["user"];
   vector <string> bibles   = result ["bible"];
   vector <string> books    = result ["book"];
   vector <string> chapters = result ["chapter"];
   vector <string> oldusfms = result ["oldusfm"];
   vector <string> newusfms = result ["newusfm"];
   if (bibles.empty ()) return false;
-  if (!bibles.empty ())   bible = bibles [0];
-  if (!books.empty ())    book = convert_to_int (books [0]);
+  if (!users.empty ())    user    = users [0];
+  if (!bibles.empty ())   bible   = bibles [0];
+  if (!books.empty ())    book    = convert_to_int (books [0]);
   if (!chapters.empty ()) chapter = convert_to_int (chapters [0]);
   if (oldusfm.empty ())   oldusfm = oldusfms [0];
   if (newusfm.empty ())   newusfm = newusfms [0];

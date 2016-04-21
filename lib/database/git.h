@@ -29,10 +29,11 @@ class Database_Git
 {
 public:
   static void create ();
-  static void store_chapter (string bible, int book, int chapter, string oldusfm, string newusfm);
+  static void store_chapter (string user, string bible, int book, int chapter,
+                             string oldusfm, string newusfm);
   static vector <int> get_rowids ();
   static bool get_chapter (int rowid,
-                           string & bible, int & book, int & chapter,
+                           string & user, string & bible, int & book, int & chapter,
                            string & oldusfm, string & newusfm);
   static void erase_rowid (int rowid);
 private:

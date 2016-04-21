@@ -4566,21 +4566,22 @@ void test_database_git () // Todo
   Database_Git::create ();
 
   // Store one chapter, and check there's one rowid as a result.
-  Database_Git::store_chapter ("bible", 1, 2, "old", "new");
+  Database_Git::store_chapter ("user", "bible", 1, 2, "old", "new");
   vector <int> rowids = Database_Git::get_rowids ();
   evaluate (__LINE__, __func__, {1}, rowids);
 
   // Store some more chapters to get more rowids in the database.
-  Database_Git::store_chapter ("bible2", 2, 5, "old2", "new5");
-  Database_Git::store_chapter ("bible3", 3, 6, "old3", "new6");
-  Database_Git::store_chapter ("bible4", 4, 7, "old4", "new7");
+  Database_Git::store_chapter ("user2", "bible2", 2, 5, "old2", "new5");
+  Database_Git::store_chapter ("user3", "bible3", 3, 6, "old3", "new6");
+  Database_Git::store_chapter ("user4", "bible4", 4, 7, "old4", "new7");
 
   // Retrieve and check a certain rowid whether it has the correct values.
-  string bible;
+  string user, bible;
   int book, chapter;
   string oldusfm, newusfm;
-  bool get = Database_Git::get_chapter (1, bible, book, chapter, oldusfm, newusfm);
+  bool get = Database_Git::get_chapter (1, user, bible, book, chapter, oldusfm, newusfm);
   evaluate (__LINE__, __func__, true, get);
+  evaluate (__LINE__, __func__, "user", user);
   evaluate (__LINE__, __func__, "bible", bible);
   evaluate (__LINE__, __func__, 1, book);
   evaluate (__LINE__, __func__, 2, chapter);
@@ -4593,7 +4594,7 @@ void test_database_git () // Todo
   evaluate (__LINE__, __func__, {1, 3, 4}, rowids);
 
   // Getting a non-existent rowid should fail.
-  get = Database_Git::get_chapter (2, bible, book, chapter, oldusfm, newusfm);
+  get = Database_Git::get_chapter (2, user, bible, book, chapter, oldusfm, newusfm);
   evaluate (__LINE__, __func__, false, get);
 }
 
