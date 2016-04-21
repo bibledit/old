@@ -70,10 +70,10 @@ SystemlogDialog::SystemlogDialog(int dummy)
   dialog = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "dialog"));
   
   // Experimental - trying to make this window not modal, so it can float always to the side.
-  gtk_window_set_modal(GTK_WINDOW(dialog), FALSE);
+  //gtk_window_set_modal(GTK_WINDOW(dialog), FALSE);
   
   textview = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "textview"));
-  //gtk_widget_grab_focus(textview); // omitting this doesn't seem to change the modality of the window
+  gtk_widget_grab_focus(textview);
 
   checkbutton_session = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_session"));
   shortcuts.button (checkbutton_session);
@@ -112,7 +112,7 @@ SystemlogDialog::SystemlogDialog(int dummy)
 
   GtkWidget * okbutton = indialoghelp->okbutton;
   shortcuts.stockbutton(okbutton);
-  gtk_widget_hide (okbutton); */
+  gtk_widget_hide (okbutton);*/
 
   shortcuts.process();
 
@@ -137,6 +137,8 @@ SystemlogDialog::~SystemlogDialog()
 int SystemlogDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(dialog));
+  //gtk_widget_show_all(dialog);
+  //return 0;
 }
 
 

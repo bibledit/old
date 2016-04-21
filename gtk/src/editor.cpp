@@ -1384,6 +1384,8 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
 
   // Care about textbuffer signals again.
   disregard_text_buffer_signals--;
+  // Turn off this mode
+  textbuffer_delete_range_was_fired = false;
 }
 
 
@@ -2809,7 +2811,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
 			}
 		}
 	}
-	
+
 	// Handle pressing the Backspace key.
 	if (keyboard_backspace_pressed (event) && editable && !textbuffer_delete_range_was_fired) {
 		DEBUG("Backspace pressed")
@@ -2829,7 +2831,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
 	}
   
 	// Handle pressing the Delete key.
-	if (keyboard_delete_pressed (event) && editable && !textbuffer_delete_range_was_fired) {
+	else if (keyboard_delete_pressed (event) && editable && !textbuffer_delete_range_was_fired) {
 		DEBUG("Delete pressed")
 		// Determine if we are at the end of a paragraph because without this code,
 		// delete will get "stuck" and not be able to join text from the next paragraph.
@@ -2838,14 +2840,19 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
 		// I think above is equivalent to a call to gtk_text_buffer_get_end_iter  ???
 		if (gtk_text_iter_equal(&iter, &paragraph_crossing_insertion_point_iterator_at_key_press)) {
 			DEBUG("It looks like delete pressed at end of paragraph")
-			DEBUG("Combining paragraphs after delete")
-			EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
-			EditorActionCreateParagraph * following_paragraph = widget2paragraph_action (editor_get_next_textview (vbox_paragraphs, widget));
-			// Next line makes sure cursor insertion point is set to beginning of second paragraph; else 
-			// some or all of the paragraph will be deleted instead of copied to the first one (up to insertion point)
-			editor_paragraph_insertion_point_set_offset (following_paragraph, 0);
-			combine_paragraphs(current_paragraph, following_paragraph);
-			return TRUE; // processing is finished
+			if (gtk_text_buffer_get_selection_bounds(textbuffer, NULL, NULL)) {
+				DEBUG("Looks like there was a selection, however, so don't do anything...")
+			}
+			else {
+				DEBUG("Combining paragraphs after delete")
+				EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
+				EditorActionCreateParagraph * following_paragraph = widget2paragraph_action (editor_get_next_textview (vbox_paragraphs, widget));
+				// Next line makes sure cursor insertion point is set to beginning of second paragraph; else 
+				// some or all of the paragraph will be deleted instead of copied to the first one (up to insertion point)
+				editor_paragraph_insertion_point_set_offset (following_paragraph, 0);
+				combine_paragraphs(current_paragraph, following_paragraph);
+				return TRUE; // processing is finished
+			}
 		}
 	}
 
@@ -2856,7 +2863,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
 // Helper function to implement backspace and delete at paragraph boundaries.
 void Editor2::combine_paragraphs(EditorActionCreateParagraph * first_paragraph, EditorActionCreateParagraph * second_paragraph)
 {
-	//DEBUG("textbuffer_delete_range_was_fired=" + std::to_string(int(textbuffer_delete_range_was_fired)))
+	DEBUG("textbuffer_delete_range_was_fired=" + std::to_string(int(textbuffer_delete_range_was_fired)))
 	
 	if (first_paragraph && second_paragraph) {
 		// Get the text and styles of the second paragraph.
