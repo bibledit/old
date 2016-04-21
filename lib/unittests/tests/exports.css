@@ -36,1049 +36,542 @@ a:hover {
   font-size: normal;
 }
 .add {
-  background-color: #FFF;
   font-style: italic;
 }
-.b {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
-}
 .bd {
-  background-color: #FFF;
   font-weight: bold;
 }
 .bdit {
-  background-color: #FFF;
   font-weight: bold;
   font-style: italic;
 }
 .bk {
-  background-color: #FFF;
   font-style: italic;
 }
 .c {
-  margin-top: 0mm;
-  margin-right: 0mm;
   margin-bottom: -3mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 250%;
 }
 .cd {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
   font-size: 92%;
 }
 .cls {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
   text-align: right;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .d {
   margin-top: 4mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .dc {
-  background-color: #FFF;
   font-style: italic;
 }
 .em {
-  background-color: #FFF;
   font-style: italic;
 }
-.f {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
-}
-.fdc {
-  background-color: #FFF;
-}
-.fe {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
-}
 .fk {
-  background-color: #FFF;
   font-weight: bold;
   font-style: italic;
 }
 .fl {
-  background-color: #FFF;
   font-weight: bold;
   font-style: italic;
 }
 .fm {
-  background-color: #FFF;
   vertical-align: super;
   font-size: x-small;
 }
-.fp {
-  background-color: #FFF;
-}
 .fq {
-  background-color: #FFF;
   font-style: italic;
 }
 .fqa {
-  background-color: #FFF;
   font-style: italic;
 }
 .fr {
-  background-color: #FFF;
   font-weight: bold;
 }
-.ft {
-  background-color: #FFF;
-}
-.fv {
-  background-color: #FFF;
-}
 .ib {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
   font-size: 42%;
 }
 .iex {
   margin-top: 4mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
-  text-align: left;
   text-indent: 3.2mm;
-  font-size: 100%;
-}
-.im {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .imi {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 6.4mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .imq {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 6.4mm;
-  text-align: left;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
 }
 .imt {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 117%;
   page-break-inside: avoid;
 }
 .imt1 {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 117%;
   page-break-inside: avoid;
 }
 .imt2 {
   margin-top: 6mm;
-  margin-right: 0mm;
   margin-bottom: 3mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-style: italic;
   font-size: 108%;
   page-break-inside: avoid;
 }
 .imt3 {
   margin-top: 2mm;
-  margin-right: 0mm;
   margin-bottom: 2mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .imt4 {
   margin-top: 2mm;
-  margin-right: 0mm;
   margin-bottom: 2mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .imte {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 167%;
   page-break-inside: avoid;
 }
 .io {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 12.7mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .io1 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 12.7mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .io2 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 19.1mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .io3 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .io4 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 31.8mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
   page-break-inside: avoid;
-}
-.ior {
-  background-color: #FFF;
 }
 .iot {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .ip {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
   text-indent: 5mm;
-  font-size: 100%;
 }
 .ipi {
-  margin-top: 0mm;
   margin-right: 6.3mm;
-  margin-bottom: 0mm;
   margin-left: 6.3mm;
-  text-align: left;
   text-indent: 3.2mm;
-  font-size: 100%;
 }
 .ipq {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 6.4mm;
-  text-align: left;
   text-indent: 3.2mm;
   font-style: italic;
-  font-size: 100%;
 }
 .ipr {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 6.4mm;
   text-align: right;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
 }
 .iq {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -19.1mm;
   font-style: italic;
-  font-size: 100%;
 }
 .iq1 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -19.1mm;
   font-style: italic;
-  font-size: 100%;
 }
 .iq2 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -12.7mm;
   font-style: italic;
-  font-size: 100%;
 }
 .iq3 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -6.4mm;
   font-style: italic;
-  font-size: 100%;
 }
 .is {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .is1 {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .is2 {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .it {
-  background-color: #FFF;
   font-style: italic;
 }
 .k {
-  background-color: #FFF;
   font-style: italic;
 }
 .k1 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .k2 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .li {
-  margin-top: 0mm;
   margin-right: -9.3mm;
-  margin-bottom: 0mm;
   margin-left: 15.9mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .li1 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 12.7mm;
-  text-align: left;
   text-indent: -6.4mm;
-  font-size: 100%;
 }
 .li2 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 19.1mm;
-  text-align: left;
   text-indent: -6.4mm;
-  font-size: 100%;
 }
 .li3 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -6.4mm;
-  font-size: 100%;
 }
 .li4 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 31.8mm;
-  text-align: left;
   text-indent: -6.4mm;
-  font-size: 100%;
 }
 .lit {
-  background-color: #FFF;
   font-weight: bold;
 }
-.m {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
-}
 .mi {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 6.4mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .mr {
-  margin-top: 0mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .ms {
   margin-top: 16mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 117%;
   page-break-inside: avoid;
 }
 .ms1 {
   margin-top: 16mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 117%;
   page-break-inside: avoid;
 }
 .ms2 {
   margin-top: 16mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 117%;
   page-break-inside: avoid;
 }
 .mt {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 167%;
   page-break-inside: avoid;
 }
 .mt1 {
   margin-top: 2mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 167%;
   page-break-inside: avoid;
 }
 .mt2 {
-  margin-top: 0mm;
-  margin-right: 0mm;
   margin-bottom: 2mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-style: italic;
   font-size: 133%;
   page-break-inside: avoid;
 }
 .mt3 {
   margin-top: 2mm;
-  margin-right: 0mm;
   margin-bottom: 2mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 133%;
   page-break-inside: avoid;
 }
 .mt4 {
   margin-top: 2mm;
-  margin-right: 0mm;
   margin-bottom: 2mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .mte {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 167%;
   page-break-inside: avoid;
 }
 .mte1 {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
   font-size: 167%;
   page-break-inside: avoid;
 }
 .mte2 {
-  margin-top: 0mm;
-  margin-right: 0mm;
   margin-bottom: 2mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-style: italic;
   font-size: 133%;
   page-break-inside: avoid;
 }
 .nb {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
   text-align: justify;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .nd {
-  background-color: #FFF;
   text-decoration: underline;
 }
-.no {
-  background-color: #FFF;
-}
 .ord {
-  background-color: #FFF;
   vertical-align: super;
   font-size: x-small;
 }
 .p {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
   text-align: justify;
   text-indent: 3.2mm;
-  font-size: 100%;
 }
 .p1 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
   text-indent: 3.2mm;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .p2 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 3.2mm;
-  text-align: left;
   text-indent: 3.2mm;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .pc {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .pi {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 6.4mm;
-  text-align: left;
   text-indent: 3.2mm;
-  font-size: 100%;
 }
 .pi1 {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 6.4mm;
-  text-align: left;
   text-indent: 3.2mm;
-  font-size: 100%;
 }
 .pi2 {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 12.7mm;
-  text-align: left;
   text-indent: 3.2mm;
-  font-size: 100%;
 }
 .pi3 {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 19.1mm;
-  text-align: left;
   text-indent: 3.2mm;
-  font-size: 100%;
 }
 .pm {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 6.4mm;
-  text-align: left;
   text-indent: 3.2mm;
-  font-size: 100%;
 }
 .pmc {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 6.4mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .pmo {
-  margin-top: 0mm;
   margin-right: 3.2mm;
-  margin-bottom: 0mm;
   margin-left: 3.2mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .pmr {
-  margin-top: 0mm;
   margin-right: 6.4mm;
-  margin-bottom: 0mm;
   margin-left: 6.4mm;
   text-align: right;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .pn {
-  background-color: #FFF;
   text-decoration: underline;
   font-weight: bold;
 }
 .q {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -19.1mm;
-  font-size: 100%;
 }
 .q1 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 24.4mm;
-  text-align: left;
   text-indent: -19.1mm;
-  font-size: 100%;
 }
 .q2 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -12.7mm;
-  font-size: 100%;
 }
 .q3 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -6.4mm;
-  font-size: 100%;
 }
 .qa {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
 }
 .qac {
-  background-color: #FFF;
   font-style: italic;
 }
 .qc {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .qm {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -19.1mm;
-  font-size: 100%;
 }
 .qm1 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -19.1mm;
-  font-size: 100%;
 }
 .qm2 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -12.7mm;
-  font-size: 100%;
 }
 .qm3 {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
   margin-left: 25.4mm;
-  text-align: left;
   text-indent: -6.4mm;
-  font-size: 100%;
 }
 .qr {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
   text-align: right;
-  text-indent: 0mm;
-  font-size: 100%;
 }
 .qs {
-  background-color: #FFF;
   font-style: italic;
 }
 .qt {
-  background-color: #FFF;
   font-style: italic;
 }
 .r {
-  margin-top: 0mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .rq {
-  margin-top: 0mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: right;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
 }
 .s {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .s1 {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .s2 {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .s3 {
   margin-top: 6mm;
-  margin-right: 0mm;
   margin-bottom: 3mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .s4 {
   margin-top: 6mm;
-  margin-right: 0mm;
   margin-bottom: 3mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .sc {
-  background-color: #FFF;
   font-variant: small-caps;
 }
 .sig {
-  background-color: #FFF;
   font-style: italic;
 }
 .sls {
-  background-color: #FFF;
   font-style: italic;
 }
 .sp {
   margin-top: 8mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
   font-style: italic;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .sr {
-  margin-top: 0mm;
-  margin-right: 0mm;
   margin-bottom: 4mm;
-  margin-left: 0mm;
   text-align: center;
-  text-indent: 0mm;
   font-weight: bold;
-  font-size: 100%;
   page-break-inside: avoid;
 }
 .tl {
-  background-color: #FFF;
   font-style: italic;
 }
 .v {
-  background-color: #FFF;
   vertical-align: super;
   font-size: x-small;
 }
-.va {
-  background-color: #FFF;
-}
-.vp {
-  background-color: #FFF;
-}
 .wj {
-  background-color: #FFF;
   color: #F00;
 }
-.x {
-  margin-top: 0mm;
-  margin-right: 0mm;
-  margin-bottom: 0mm;
-  margin-left: 0mm;
-  text-align: left;
-  text-indent: 0mm;
-  font-size: 100%;
-}
-.xdc {
-  background-color: #FFF;
-}
 .xk {
-  background-color: #FFF;
   font-style: italic;
 }
 .xo {
-  background-color: #FFF;
   font-weight: bold;
 }
 .xq {
-  background-color: #FFF;
   font-style: italic;
-}
-.xt {
-  background-color: #FFF;
 }

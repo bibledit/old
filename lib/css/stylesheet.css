@@ -1,8 +1,159 @@
-html {
+/* BEGIN CSS RESETS */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   margin: 0;
   padding: 0;
-  height: 100%;
+  border: 0;
+  background: transparent;
+  vertical-align: baseline;
+  font: inherit;
   font-size: 100%;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+hr {
+  display: block;
+  margin: 1em 0;
+  padding: 0;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #CCC;
+}
+input,
+select {
+  vertical-align: middle;
+}
+ins {
+  background-color: #FF9;
+  color: #000;
+  text-decoration: none;
+}
+mark {
+  background-color: #FF9;
+  color: #000;
+  font-weight: bold;
+  font-style: italic;
+}
+del {
+  text-decoration: line-through;
+}
+abbr[title],
+dfn[title] {
+  border-bottom: 1px dotted;
+  cursor: help;
+}
+/* END CSS RESETS */
+html {
+  height: 100%;
 }
 *,
 *:before,
@@ -22,16 +173,56 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  font-family: serif;
+  line-height: 1.3em;
 }
-label {
-  font-size: 1em;
+body,
+#editorheader,
+#editorinnerheader {
+  background-color: #F3F3F3;
 }
-input {
-  font-size: 1em;
+.bibleeditor {
+  background: #FFF;
 }
-p {
-  margin: 0;
-  padding: 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+#name1,
+#name2,
+#name3,
+#topbar,
+#editorinnerheader {
+  font-family: sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0.5em 0;
+  font-weight: bold;
+}
+h1 {
+  font-size: 2em;
+}
+h2 {
+  font-size: 1.5em;
+}
+h3 {
+  font-size: 1.3em;
+}
+h4 {
+  font-size: 1.1em;
+}
+h5 {
+  font-size: 0.9em;
+}
+h6 {
+  font-size: 0.7em;
 }
 strong {
   color: #488B9B;
@@ -108,14 +299,13 @@ textarea {
   font-family: Cardo;
   /* font-size: normal; : dynamically generated */
 }
+#oneeditor,
+span[contenteditable=true],
 .focusedverse {
   background: lightyellow;
 }
 .clearfix {
   clear: both;
-}
-#topbar:hover {
-  background-color: #F9F9F9;
 }
 #topbar a {
   color: #000;
@@ -305,6 +495,9 @@ textarea {
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
+}
+span[contenteditable=true] {
+  padding-right: 0.5em;
 }
 #workspacewrapper > table.editor {
   width: 100%;
