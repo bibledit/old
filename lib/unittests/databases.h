@@ -65,6 +65,7 @@ void test_database_cache ();
 void test_database_bibles ();
 void test_database_login ();
 void test_database_privileges ();
+void test_database_git ();
 
 
 #endif

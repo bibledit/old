@@ -3530,7 +3530,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, "", error);
     
     // Commit the index to the repository.
-    success = filter_git_commit (clonedrepository, "username", "username@hostname", "unittest", error);
+    success = filter_git_commit (clonedrepository, "username", "unittest", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     
@@ -3541,7 +3541,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, "", error);
     
     // Commit the index to the repository.
-    success = filter_git_commit (clonedrepository, "username", "username@hostname", "unittest", error);
+    success = filter_git_commit (clonedrepository, "username", "unittest", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     
@@ -3607,6 +3607,7 @@ void test_filter_git ()
 
     // Add the files to the index.
     string error;
+    vector <string> messages;
     filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, "", error);
 
@@ -3618,7 +3619,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "new file:   Song of Solomon/2/data") != paths.end());
     
     // Commit the index.
-    filter_git_commit (repository, "user", "email", "unittest", error);
+    filter_git_commit (repository, "user", "unittest", messages, error);
     evaluate (__LINE__, __func__, "", error);
 
     // There should be no modified paths now.
@@ -3645,7 +3646,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/11/data") != paths.end());
     
     // Commit the index.
-    filter_git_commit (repository, "user", "email", "unittest", error);
+    filter_git_commit (repository, "user", "unittest", messages, error);
     evaluate (__LINE__, __func__, "", error);
     
     // There should be no modified paths now.
@@ -3683,7 +3684,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (repository, "test", "test", "test", error);
+    success = filter_git_commit (repository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_push (repository, messages, true);
@@ -3706,7 +3707,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (newrepository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (newrepository, "test", "test", "test", error);
+    success = filter_git_commit (newrepository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_push (newrepository, messages, true);
@@ -3723,7 +3724,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (repository, "test", "test", "test", error);
+    success = filter_git_commit (repository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_pull (repository, messages);
@@ -3778,7 +3779,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (repository, "test", "test", "test", error);
+    success = filter_git_commit (repository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_push (repository, messages, true);
@@ -3799,7 +3800,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (newrepository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (newrepository, "test", "test", "test", error);
+    success = filter_git_commit (newrepository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_push (newrepository, messages, true);
@@ -3814,7 +3815,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (repository, "test", "test", "test", error);
+    success = filter_git_commit (repository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     // Pulling changes should result in a merge conflict.
@@ -3840,8 +3841,8 @@ void test_filter_git ()
     // evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
 
     // Commit and push the result.
-    success = filter_git_commit (repository, "message", messages);
-    evaluate (__LINE__, __func__, false, success);
+    success = filter_git_commit (repository, "", "message", messages, error);
+    evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, 4, (int)messages.size());
     success = filter_git_push (repository, messages);
     evaluate (__LINE__, __func__, true, success);

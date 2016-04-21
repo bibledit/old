@@ -47,7 +47,7 @@ void Database_Git::create () // Todo
            " book integer,"
            " chapter integer,"
            " oldusfm text,"
-           " newusfm text,"
+           " newusfm text"
            ");");
   sql.execute ();
   
@@ -96,7 +96,7 @@ bool Database_Git::get_chapter (int rowid,
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT bible, book, chapter, oldusfm, newusfm FROM changes WHERE rowid =");
   sql.add (rowid);
-  sql.add (");");
+  sql.add (";");
   map <string, vector <string> > result = sql.query ();
   vector <string> bibles   = result ["bible"];
   vector <string> books    = result ["book"];
@@ -119,7 +119,7 @@ void Database_Git::erase_rowid (int rowid)
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("DELETE FROM changes WHERE rowid =");
   sql.add (rowid);
-  sql.add (");");
+  sql.add (";");
   sql.execute ();
 }
 
