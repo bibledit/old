@@ -37,6 +37,7 @@
 #include <database/state.h>
 #include <database/login.h>
 #include <database/privileges.h>
+#include <database/git.h>
 #include <styles/sheets.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -232,6 +233,8 @@ void setup_initialize_data ()
   Database_Privileges::create ();
   Database_Privileges::upgrade ();
   Database_Privileges::optimize ();
+  config_globals_setup_message = "privileges";
+  Database_Git::create ();
 
   // Create stylesheets.
   config_globals_setup_message = "stylesheets";
