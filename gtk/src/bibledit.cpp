@@ -88,8 +88,8 @@ int main(int argc, char *argv[])
 
   books_init(); // TEMP - MAP
 
+  Directories->find_utilities();  // Find core utilities like copy, rm, etc. Must do before next.
   Directories->check_structure(); // Check on required directory structure.
-  Directories->find_utilities();  // Find core utilities like copy, rm, etc.
 
   // Move logfile for shutdown program.
   move_log_file (lftShutdown);

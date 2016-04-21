@@ -159,6 +159,7 @@ void gw_mkdir_with_parents(const ustring & directory)
   ustring s;
   GwSpawn spawn (Directories->get_mkdir());
   spawn.arg (Directories->get_mkdir_args());
+  spawn.arg (directory);
 /*   GwSpawn spawn("mkdir");
 #ifndef WIN32
   spawn.arg("-p");
