@@ -3147,6 +3147,8 @@ void test_filter_git_setup (Webserver_Request * request, string bible, string ne
   
   refresh_sandbox (true);
   
+  Database_State::create ();
+
   string repository = filter_git_directory (bible);
   string newrepository = filter_git_directory (newbible);
 
@@ -3851,6 +3853,29 @@ void test_filter_git ()
     // Status up-to-date.
     messages = filter_git_status (repository);
     evaluate (__LINE__, __func__, 3, (int)messages.size ());
+
+    // Remove journal entries.
+    refresh_sandbox (false);
+  }
+  
+  // Test storing the user modifications in the git repository. Todo
+  {
+    refresh_sandbox (false); // Todo temporal
+    refresh_sandbox (true);
+    string error;
+    bool success;
+    vector <string> messages;
+    
+    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    
+    /*
+
+    string repository = filter_git_directory (bible);
+    success = filter_git_commit (repository, "username", "unittest", messages, error);
+    evaluate (__LINE__, __func__, true, success);
+    */
+    
+    exit (0); // Todo
 
     // Remove journal entries.
     refresh_sandbox (false);

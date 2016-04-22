@@ -57,6 +57,15 @@ bool filter_git_init (string directory, bool bare)
 }
 
 
+// This filter stores the changes made by users on $bible in $repository.
+// This puts commits in the repository, where the author is the user who made the changes.
+// This information in the git repository can then be used for statistical or other purposes.
+void filter_git_sync_modifications_to_git (string bible, string repository) // Todo
+{
+  
+}
+
+
 // This filter takes the Bible data as it is stored in Bibledit's database,
 // and puts this information into the layout in books and chapters
 // such as is used in Bibledit-Gtk into the $git folder.
