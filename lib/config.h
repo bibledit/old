@@ -14,10 +14,10 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is prepared as a client installation */
-#define CLIENT "no"
+#define CLIENT "yes"
 
 /* Define whether it is a client installation */
-/* #undef CLIENT_PREPARED */
+#define CLIENT_PREPARED 1
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
@@ -86,7 +86,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
-#define HAVE_UNITTESTS 1
+/* #undef HAVE_UNITTESTS */
 
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
@@ -131,7 +131,7 @@
 #define TINYJOURNAL "no"
 
 /* Define whether unit tests are enabled */
-#define UNITTESTS "yes"
+#define UNITTESTS "no"
 
 /* Define whether URL settings are enabled */
 #define URLSETTINGS "no"

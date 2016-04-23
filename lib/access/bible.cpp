@@ -31,9 +31,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 bool access_bible_read (void * webserver_request, const string & bible, string user)
 {
   // Client: User has access to all Bibles.
-  if (client_logic_client_enabled ()) {
-    return true;
-  }
+#ifdef CLIENT_PREPARED
+  return true;
+#endif
 
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   int level = 0;
@@ -74,9 +74,14 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
 // Returns true if the user has write access to the $bible.
 bool access_bible_write (void * webserver_request, const string & bible, string user)
 {
-  // Client: User has access to all Bibles.
-  // if (client_logic_client_enabled ()) return true;
-  // This no longer applies since the client now receives the privileges from the Cloud.
+#ifdef CLIENT_PREPARED
+  // Client: When not yet connected to the Cloud, the user has access to all Bibles.
+  // When connected to the Cloud, this no longer applies,
+  // since the client now receives the privileges from the Cloud.
+  if (!client_logic_client_enabled ()) {
+    return true;
+  }
+#endif
   
   int level = 0;
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -120,9 +125,14 @@ bool access_bible_write (void * webserver_request, const string & bible, string 
 // then the user is considered not to have write access to the entire $bible.
 bool access_bible_book_write (void * webserver_request, string user, const string & bible, int book)
 {
-  // Client: User has access to all Bibles.
-  // if (client_logic_client_enabled ()) return true;
-  // This no longer applies since the client now receives the privileges from the Cloud.
+#ifdef CLIENT_PREPARED
+  // Client: When not yet connected to the Cloud, the user has access to the book.
+  // When connected to the Cloud, this no longer applies,
+  // since the client now receives the privileges from the Cloud.
+  if (!client_logic_client_enabled ()) {
+    return true;
+  }
+#endif
 
   int level = 0;
   Webserver_Request * request = (Webserver_Request *) webserver_request;
