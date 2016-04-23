@@ -97,10 +97,27 @@ void Database_Git::store_chapter (string user, string bible, int book, int chapt
 }
 
 
-vector <int> Database_Git::get_rowids ()
+// Fetches the distinct users from the database for $bible.
+vector <string> Database_Git::get_users (string bible)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
-  sql.add ("SELECT rowid FROM changes;");
+  sql.add ("SELECT DISTINCT user FROM changes WHERE bible =");
+  sql.add (bible);
+  sql.add (";");
+  vector <string> users = sql.query () ["user"];
+  return users;
+}
+
+
+// Fetches the rowids from the database for $user and $bible.
+vector <int> Database_Git::get_rowids (string user, string bible)
+{
+  SqliteDatabase sql = SqliteDatabase (name ());
+  sql.add ("SELECT rowid FROM changes WHERE user =");
+  sql.add (user);
+  sql.add ("AND bible =");
+  sql.add (bible);
+  sql.add ("ORDER BY rowid;");
   vector <string> values = sql.query () ["rowid"];
   vector <int> rowids;
   for (auto value : values) {

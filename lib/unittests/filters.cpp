@@ -28,6 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/modifications.h>
 #include <database/state.h>
+#include <database/git.h>
+#include <database/login.h>
 #include <config/globals.h>
 #include <config/logic.h>
 #include <filter/url.h>
@@ -3148,6 +3150,8 @@ void test_filter_git_setup (Webserver_Request * request, string bible, string ne
   refresh_sandbox (true);
   
   Database_State::create ();
+  Database_Git::create ();
+  Database_Login::create ();
 
   string repository = filter_git_directory (bible);
   string newrepository = filter_git_directory (newbible);
@@ -3858,28 +3862,100 @@ void test_filter_git ()
     refresh_sandbox (false);
   }
   
-  // Test storing the user modifications in the git repository. Todo
+  // Test one user saving Bible data in an uninterrupted sequence, that it leads to correct records in git.
   {
-    refresh_sandbox (false); // Todo temporal
     refresh_sandbox (true);
+
+    string error;
+    bool success;
+    vector <string> messages;
+
+    test_filter_git_setup (&request, bible, newbible, "Psalm 0\n", "Psalm 11\n", "Song of Solomon 2\n");
+    
+    string repository = filter_git_directory (bible);
+
+    // Commit the data to the repository.
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    success = filter_git_commit (repository, "", "initial commit", messages, error);
+    evaluate (__LINE__, __func__, true, success);
+
+    int psalms = 19;
+    string user1 = "user1";
+    string user2 = "user2";
+    string oldusfm1, newusfm1;
+    string out_err;
+
+    // Create records of user saving data.
+    oldusfm1 = "Psalm 11\n";
+    newusfm1 = oldusfm1 + "Praise";
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    oldusfm1 = newusfm1;
+    newusfm1.append (" Jesus");
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    oldusfm1 = newusfm1;
+    newusfm1.append (" forever.\n");
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    filter_git_sync_modifications_to_git (bible, repository);
+
+    // Check the diff.
+    filter_shell_run ("cd " + repository + " && git log -p", out_err);
+    evaluate (__LINE__, __func__, true, out_err.find ("+Praise Jesus forever.") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("User modification") != string::npos);
+    
+    // Remove journal entries.
+    refresh_sandbox (false);
+  }
+  
+  // Test one user saving Bible data, but this time the sequence is interrupted by undefined other users.
+  {
+    refresh_sandbox (true);
+    
     string error;
     bool success;
     vector <string> messages;
     
-    test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
+    test_filter_git_setup (&request, bible, newbible, "Psalm 0\n", "Psalm 11\n", "Song of Solomon 2\n");
     
-    /*
-
     string repository = filter_git_directory (bible);
-    success = filter_git_commit (repository, "username", "unittest", messages, error);
-    evaluate (__LINE__, __func__, true, success);
-    */
     
-    exit (0); // Todo
+    // Commit the data to the repository.
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    success = filter_git_commit (repository, "", "initial commit", messages, error);
+    evaluate (__LINE__, __func__, true, success);
+    
+    int psalms = 19;
+    string user1 = "user1";
+    string user2 = "user2";
+    string oldusfm1, newusfm1;
+    string out_err;
 
+    // Create records of two users saving data.
+    oldusfm1 = "Psalm 11\n";
+    newusfm1 = oldusfm1 + "Praise";
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    oldusfm1 = newusfm1;
+    newusfm1.append (" Jesus");
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    Database_Git::store_chapter (user2, bible, psalms, 11, oldusfm1 + " xx\n", newusfm1 + " xxx\n");
+    oldusfm1 = newusfm1;
+    newusfm1.append (" forever.\n");
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    filter_git_sync_modifications_to_git (bible, repository);
+    filter_shell_run ("cd " + repository + " && git log -p", out_err);
+    evaluate (__LINE__, __func__, true, out_err.find ("+Praise Jesus forever.") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("Author: user2 <bibledit@bibledit.org>") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("User modification") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("System-generated to clearly display user modification in next commit") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("+Praise Jesus xxx") != string::npos);
+    
     // Remove journal entries.
     refresh_sandbox (false);
   }
+
 }
 
 

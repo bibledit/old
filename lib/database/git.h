@@ -32,7 +32,8 @@ public:
   static void optimize ();
   static void store_chapter (string user, string bible, int book, int chapter,
                              string oldusfm, string newusfm);
-  static vector <int> get_rowids ();
+  static vector <string> get_users (string bible);
+  static vector <int> get_rowids (string user, string bible);
   static bool get_chapter (int rowid,
                            string & user, string & bible, int & book, int & chapter,
                            string & oldusfm, string & newusfm);

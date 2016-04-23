@@ -4565,24 +4565,31 @@ void test_database_git ()
   // Create the database.
   Database_Git::create ();
 
+  string user = "user";
+  string bible = "bible";
+  
   // Store one chapter, and check there's one rowid as a result.
-  Database_Git::store_chapter ("user", "bible", 1, 2, "old", "new");
-  vector <int> rowids = Database_Git::get_rowids ();
+  Database_Git::store_chapter (user, bible, 1, 2, "old", "new");
+  vector <int> rowids = Database_Git::get_rowids (user, "");
+  evaluate (__LINE__, __func__, {}, rowids);
+  rowids = Database_Git::get_rowids ("", bible);
+  evaluate (__LINE__, __func__, {}, rowids);
+  rowids = Database_Git::get_rowids (user, bible);
   evaluate (__LINE__, __func__, {1}, rowids);
 
   // Store some more chapters to get more rowids in the database.
-  Database_Git::store_chapter ("user2", "bible2", 2, 5, "old2", "new5");
-  Database_Git::store_chapter ("user3", "bible3", 3, 6, "old3", "new6");
-  Database_Git::store_chapter ("user4", "bible4", 4, 7, "old4", "new7");
+  Database_Git::store_chapter (user, bible, 2, 5, "old2", "new5");
+  Database_Git::store_chapter (user, bible, 3, 6, "old3", "new6");
+  Database_Git::store_chapter (user, bible, 4, 7, "old4", "new7");
 
   // Retrieve and check a certain rowid whether it has the correct values.
-  string user, bible;
+  string user2, bible2;
   int book, chapter;
   string oldusfm, newusfm;
-  bool get = Database_Git::get_chapter (1, user, bible, book, chapter, oldusfm, newusfm);
+  bool get = Database_Git::get_chapter (1, user2, bible2, book, chapter, oldusfm, newusfm);
   evaluate (__LINE__, __func__, true, get);
-  evaluate (__LINE__, __func__, "user", user);
-  evaluate (__LINE__, __func__, "bible", bible);
+  evaluate (__LINE__, __func__, user, user2);
+  evaluate (__LINE__, __func__, bible, bible2);
   evaluate (__LINE__, __func__, 1, book);
   evaluate (__LINE__, __func__, 2, chapter);
   evaluate (__LINE__, __func__, "old", oldusfm);
@@ -4590,7 +4597,7 @@ void test_database_git ()
   
   // Erase a rowid, and check that the remaining ones in the database are correct.
   Database_Git::erase_rowid (2);
-  rowids = Database_Git::get_rowids ();
+  rowids = Database_Git::get_rowids (user, bible);
   evaluate (__LINE__, __func__, {1, 3, 4}, rowids);
 
   // Getting a non-existent rowid should fail.
@@ -4598,15 +4605,22 @@ void test_database_git ()
   evaluate (__LINE__, __func__, false, get);
   
   // Update the timestamps and check that expired entries get removed and recent ones remain.
-  rowids = Database_Git::get_rowids ();
+  rowids = Database_Git::get_rowids ("user", "bible");
   evaluate (__LINE__, __func__, 3, rowids.size ());
   Database_Git::optimize ();
-  rowids = Database_Git::get_rowids ();
+  rowids = Database_Git::get_rowids (user, bible);
   evaluate (__LINE__, __func__, 3, rowids.size ());
   Database_Git::touch_timestamps (filter_date_seconds_since_epoch () - 432000 - 1);
   Database_Git::optimize ();
-  rowids = Database_Git::get_rowids ();
+  rowids = Database_Git::get_rowids (user, bible);
   evaluate (__LINE__, __func__, 0, rowids.size ());
+  
+  // Test that it reads distinct users.
+  Database_Git::store_chapter (user, bible, 2, 5, "old", "new");
+  Database_Git::store_chapter (user, bible, 2, 5, "old", "new");
+  Database_Git::store_chapter ("user2", bible, 2, 5, "old", "new");
+  vector <string> users = Database_Git::get_users (bible);
+  evaluate (__LINE__, __func__, {user, "user2"}, users);
 }
 
 

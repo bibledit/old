@@ -57,6 +57,10 @@ void sendreceive_sendreceive (string bible)
   filter_git_config (directory);
 
   
+  // Separate commits for each user to the local git repository.
+  filter_git_sync_modifications_to_git (bible, directory);
+
+  
   // Synchronize the Bible from the database to the local git repository.
   filter_git_sync_bible_to_git (&request, bible, directory);
   

@@ -25,6 +25,7 @@
 #include <database/logs.h>
 #include <database/books.h>
 #include <database/jobs.h>
+#include <database/git.h>
 #include <database/config/general.h>
 #include <bible/logic.h>
 #include <locale/translate.h>
@@ -57,12 +58,86 @@ bool filter_git_init (string directory, bool bare)
 }
 
 
+// Internal function that commits a user-generated change to the git repository.
+void filter_git_commit_modification_to_git (string repository, string user, int book, int chapter,
+                                            string & oldusfm, string & newusfm)
+{
+  string bookname = Database_Books::getEnglishFromId (book);
+  string bookdir = filter_url_create_path (repository, bookname);
+  string chapterdir = filter_url_create_path (bookdir, convert_to_string (chapter));;
+  if (!file_exists (chapterdir)) filter_url_mkdir (chapterdir);
+  string datafile = filter_url_create_path (chapterdir, "data");
+  string contents = filter_url_file_get_contents (datafile);
+  if (contents != oldusfm) {
+    filter_url_file_put_contents (datafile, oldusfm);
+    string error;
+    filter_git_add_remove_all (repository, error);
+    vector <string> messages;
+    filter_git_commit (repository, "", "System-generated to clearly display user modification in next commit", messages, error);
+  }
+  filter_url_file_put_contents (datafile, newusfm);
+  string error;
+  filter_git_add_remove_all (repository, error);
+  vector <string> messages;
+  filter_git_commit (repository, user, "User modification", messages, error);
+}
+
+
 // This filter stores the changes made by users on $bible in $repository.
 // This puts commits in the repository, where the author is the user who made the changes.
 // This information in the git repository can then be used for statistical or other purposes.
-void filter_git_sync_modifications_to_git (string bible, string repository) // Todo
+void filter_git_sync_modifications_to_git (string bible, string repository)
 {
+  // Go through all the users who saved data to this Bible.
+  vector <string> users = Database_Git::get_users (bible);
+  for (auto & user : users) {
+    
+    bool iteration_initialized = false;
+    string overall_old_usfm, overall_new_usfm;
+    int overall_book, overall_chapter;
+    
+    // Go through all the rowids for the user and the Bible.
+    vector <int> rowids = Database_Git::get_rowids (user, bible);
+    for (auto rowid : rowids) {
+
+      string s;
+      string oldusfm, newusfm;
+      int book, chapter;
+      Database_Git::get_chapter (rowid, s, s, book, chapter, oldusfm, newusfm);
+      
+      if (iteration_initialized) {
+        // Look at the sequences of old and new USFM, and join the matching changes together,
+        // to make one large change that contains all sequential small changes.
+        if (oldusfm == overall_new_usfm) {
+          overall_new_usfm = newusfm;
+        } else {
+          filter_git_commit_modification_to_git (repository, user, overall_book, overall_chapter,
+                                                 overall_old_usfm, overall_new_usfm);
+          iteration_initialized = false;
+        }
+      }
+      
+      if (!iteration_initialized) {
+        // Initialize the large overall book/chapter/USFM from the first change set.
+        overall_book = book;
+        overall_chapter = chapter;
+        overall_old_usfm = oldusfm;
+        overall_new_usfm = newusfm;
+        iteration_initialized = true;
+      }
+
+      // This record has been processed.
+      Database_Git::erase_rowid (rowid);
+
+    }
+    
+    if (iteration_initialized) {
+      // Commit the final overall modification.
+      filter_git_commit_modification_to_git (repository, user, overall_book, overall_chapter,
+                                             overall_old_usfm, overall_new_usfm);
+    }
   
+  }
 }
 
 
