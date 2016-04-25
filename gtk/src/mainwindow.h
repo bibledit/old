@@ -57,6 +57,7 @@
 #include "assistantimport.h"
 #include "floatingwindow.h"
 #include "urltransport.h"
+#include "dialogsystemlog.h"
 
 
 class MainWindow
@@ -319,6 +320,7 @@ protected:
   GtkWidget *help_main;
   GtkWidget *image17520;
   GtkWidget *system_log1;
+  SystemlogDialog *syslogdialog;
   GtkWidget *image4388;
   GtkWidget *about1;
   GtkWidget *toolbar;

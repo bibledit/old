@@ -97,7 +97,7 @@ double convert_to_double(const ustring & s)
   return result;
 }
 
-
+// This routine is not used in the source, and it doesn't make sense to translate these strings.
 ustring convert_bool_to_yes_no(bool b)
 {
   if (b)

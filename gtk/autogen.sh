@@ -98,10 +98,10 @@ then
   echo "After that, you should run sudo make install"
 elif [ $unamestr == "MINGW32_NT-6.1" ]
 then
-  echo "After that, you should run installWin.sh"
+  echo "After that, you should run windows/installWin.sh"
 elif [ $unamestr == "MINGW64_NT-6.1" ]
 then
-  echo "After that, you should run installWin.sh"
+  echo "After that, you should run windows/installWin.sh"
 else
   echo "After that, I'm not quite sure how to install on your system."
 fi

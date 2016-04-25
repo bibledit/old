@@ -38,7 +38,17 @@ class SystemlogDialog
 public:
   SystemlogDialog(int dummy);
   ~SystemlogDialog();
+  GtkWidget *getDialog() { return dialog; }
+  void reset(void);
+  void setup(void);
+  void close(void);
   int run();
+  static gboolean on_system_log_close_activate(GtkDialog * dlg, gpointer user_data);
+  static gboolean on_system_log_delete_event_activate(GtkDialog *dlg, gpointer user_data);
+  static gboolean on_system_log_destroy_activate(GtkDialog *dlg, gpointer user_data);
+  void on_system_log_close(void);
+  void on_system_log_destroy(void);
+  
 protected:
   GtkBuilder *gtkbuilder;
   GtkWidget *dialog;

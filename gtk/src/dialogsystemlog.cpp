@@ -62,6 +62,26 @@ void move_log_file (LogFileType type)
 
 SystemlogDialog::SystemlogDialog(int dummy)
 {
+  //DEBUG("System log constructor")
+  // Don't have to do much here but make sure that pointers are nullified
+  reset();
+}
+
+void SystemlogDialog::reset(void)
+{
+  //DEBUG("System log reset")
+  gtkbuilder = NULL;
+  dialog = NULL;
+  textview = NULL;
+  checkbutton_session = NULL;
+  radiobutton_main = NULL;
+  radiobutton_shutdown = NULL;
+  event_source_id = 0;
+}
+
+void SystemlogDialog::setup(void)
+{
+  //DEBUG("System log setup")
   gtkbuilder = gtk_builder_new ();
   gtk_builder_add_from_file (gtkbuilder, gw_build_filename (Directories->get_package_data(), "gtkbuilder.systemlogdialog.xml").c_str(), NULL);
 
@@ -121,26 +141,88 @@ SystemlogDialog::SystemlogDialog(int dummy)
 
   // Keep loading the text repeatedly so as to show recent changes also.
   event_source_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(show_script_dialog_load), gpointer(this), NULL);
+
 }
 
-
-SystemlogDialog::~SystemlogDialog()
+void SystemlogDialog::close(void)
 {
+  //DEBUG("System log close")
   // Destroy the source of the timeout (bibledit crashes if this is not done).
   gw_destroy_source(event_source_id);
   // Get rid of the dialog.
   g_object_unref (gtkbuilder);
   gtk_widget_destroy(dialog);
+  reset();
+}
+
+SystemlogDialog::~SystemlogDialog()
+{
+  //DEBUG("System log destructor")
+  if (dialog) { close(); }
 }
 
 
 int SystemlogDialog::run()
 {
-  return gtk_dialog_run(GTK_DIALOG(dialog));
-  //gtk_widget_show_all(dialog);
-  //return 0;
+	//DEBUG("System log run")
+	// This run routine is not "non-modal" friendly, so we use another one
+	//return gtk_dialog_run(GTK_DIALOG(dialog)); 
+	if (!dialog) { setup(); }
+
+	// Attach a signal that knows how to handle closing this dialog.
+	// The first one handles the ESC key
+	g_signal_connect((gpointer)(getDialog()), "close",        G_CALLBACK (on_system_log_close_activate), gpointer(this));
+	// This handles clicking the X of the window
+	g_signal_connect((gpointer)(getDialog()), "delete-event", G_CALLBACK (on_system_log_delete_event_activate), gpointer(this));
+	// This handles the "secondary" destroy signal that is emitted as a result of return FALSE from each of the above signal
+	// handlers.
+	g_signal_connect((gpointer)(getDialog()), "destroy",      G_CALLBACK (on_system_log_destroy_activate), gpointer(this));
+    
+	gtk_widget_show_all(dialog);
+	return 0;
 }
 
+gboolean SystemlogDialog::on_system_log_close_activate(GtkDialog *dlg, gpointer user_data)
+{
+  //DEBUG("System log saw close signal")
+  ((SystemlogDialog *) user_data)->on_system_log_close();
+     /* If you return FALSE in this "close" signal handler,
+     * GTK will emit the "destroy" signal. Returning TRUE means
+     * you don't want the window to be destroyed.
+     * This is useful for popping up 'are you sure you want to quit?'
+     * type dialogs. */
+  return FALSE;
+}
+
+void SystemlogDialog::on_system_log_close()
+{
+  //DEBUG("System log processing close signal")
+  // Do nothing, since we will catch the destroy signal next
+}
+
+gboolean SystemlogDialog::on_system_log_delete_event_activate(GtkDialog *dlg, gpointer user_data)
+{
+   //DEBUG("System log saw delete-event signal")
+   // Do nothing, since we will catch teh destroy signal next
+   /* If you return FALSE in the "delete-event" signal handler,
+     * GTK will emit the "destroy" signal. Returning TRUE means
+     * you don't want the window to be destroyed.
+     * This is useful for popping up 'are you sure you want to quit?'
+     * type dialogs. */
+	return FALSE; 
+}
+
+gboolean SystemlogDialog::on_system_log_destroy_activate(GtkDialog *dlg, gpointer user_data)
+{
+	//DEBUG("System log saw destroy signal")
+	((SystemlogDialog *) user_data)->on_system_log_destroy();
+}
+
+void SystemlogDialog::on_system_log_destroy()
+{
+  //DEBUG("System log processing destroy signal")
+  close();
+}
 
 bool SystemlogDialog::show_script_dialog_load(gpointer data)
 {
@@ -261,72 +343,6 @@ void SystemlogDialog::writeSettings()
 	write_lines(settingsfile, lines); // This closes the file when done.
 	return;
 }
-	
-#ifdef OLDSTUFF
-void SystemlogDialog::on_button_diagnostics_clicked(GtkButton * button, gpointer user_data)
-{
-  ((SystemlogDialog *) user_data)->on_button_diagnostics();
-}
-
-
-void SystemlogDialog::on_button_diagnostics()
-{
-  // Show selection dialog.
-  vector < ustring > labels;
-  labels.push_back(_("General settings"));
-  labels.push_back(_("Project settings"));
-  CheckbuttonDialog dialog(_("Diagnostics"), _("Check the items to include in the diagnostics report"), labels, "11");
-  if (dialog.run() != GTK_RESPONSE_OK)
-    return;
-
-  // Container to hold output text.
-  vector < ustring > lines;
-
-  // General settings.
-  if (bitpattern_take(dialog.bitpattern)) {
-    lines.push_back(_("\nGeneral settings\n"));
-    ReadText rt(general_configuration_filename(), true, false);
-    for (unsigned int i = 0; i < rt.lines.size(); i++) {
-      lines.push_back(rt.lines[i]);
-    }
-  }
-  // Project settings.
-  if (bitpattern_take(dialog.bitpattern)) {
-    vector < ustring > projects = projects_get_all();
-    for (unsigned int i = 0; i < projects.size(); i++) {
-      lines.push_back(_("\nProject ") + projects[i] + _(" settings\n"));
-      ReadText rt(project_configuration_filename(projects[i]), true, false);
-      for (unsigned int i = 0; i < rt.lines.size(); i++) {
-        lines.push_back(rt.lines[i]);
-      }
-    }
-  }
-  // Add the diagnostics info to the logfile.
-  ustring diagnosticsfile = gw_build_filename(Directories->get_temp(), _("diagnostics"));
-  write_lines(diagnosticsfile, lines); // This closes the file when done.
-  // If the logfile open is lftMain, the problem in Windows is that since fd=1 (stdout) 
-  // and fd=2 (stderr) are both open to bibledit.log, Windows says
-  // it cannot write to an open file. Linux and msys2 can do it just fine for some reason.
-  // So, we close it, write, and re-open. Hassle, but clean way to do it.
-  /* if (currentLogFileType() == lftMain) {
-	  DEBUG("Temporarily closing main log file")
-	  close(1); // stdout ==> bibledit.log
-	  close(2); // have to close stderr also, because it points to same logfile!
-  } */
-  // Now do the "appending" of the diagnostics file to the log file
-  shell_pipe_file_append(diagnosticsfile, logfilename());
-  // Thus far works, but the log file doesn't seem to reopen
-/*   if (currentLogFileType() == lftMain) {
-	  int fd = open(log_file_name(lftMain, false).c_str(), O_APPEND);
-	  // This should open it back up to fd=1
-	  assert(fd == 1);
-	  close(2);
-      dup(1); // duplicate stderr(2) onto stdout(1), as in bibledit.cpp
-	  DEBUG("Reopened main log file")
-  } */
-  unix_unlink(diagnosticsfile.c_str());
-}
-#endif
 
 void SystemlogDialog::on_radiobutton_toggled (GtkToggleButton *togglebutton, gpointer user_data)
 {
