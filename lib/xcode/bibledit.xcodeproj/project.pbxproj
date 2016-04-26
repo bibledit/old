@@ -902,6 +902,7 @@
 		CABB91DA1AAB1CAA00D500FF /* verses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = verses.h; sourceTree = "<group>"; };
 		CABB91DB1AAB1CAA00D500FF /* verses.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = verses.html; sourceTree = "<group>"; };
 		CABC327E1CCF951600698C7A /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		CABC327F1CCFA21700698C7A /* installchromeos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installchromeos.html; sourceTree = "<group>"; };
 		CABE4D0C1BDBC996000547DB /* pugiconfig.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
 		CABE4D0D1BDBC996000547DB /* pugixml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pugixml.cpp; sourceTree = "<group>"; };
 		CABE4D0E1BDBC996000547DB /* pugixml.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugixml.hpp; sourceTree = "<group>"; };
@@ -2032,6 +2033,7 @@
 				CAA4D1441A45A647003ABA25 /* index.html */,
 				CA816D0F1B63634C00FD276E /* install.sh */,
 				CAA4D1451A45A647003ABA25 /* installandroid.html */,
+				CABC327F1CCFA21700698C7A /* installchromeos.html */,
 				CAA4D1461A45A647003ABA25 /* installation.html */,
 				CA1A4EA51B076BF200731796 /* installcloudubuntu.html */,
 				CAA4D1481A45A647003ABA25 /* installios.html */,
