@@ -609,7 +609,9 @@ void Editor2::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep st
   ((Editor2 *) user_data)->textview_move_cursor(textview, step, count);
 }
 
-
+// According to https://developer.gnome.org/gtk3/stable/GtkTextView.html#GtkTextView-move-cursor,
+// "applications should not connect" to the move-cursor signal. But it is an integral component
+// of how things are done right now as of 4/25/2016.
 void Editor2::textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count)
 {
   DEBUG("Signal move_cursor")

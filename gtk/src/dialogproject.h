@@ -34,6 +34,8 @@ public:
   int run ();
   ustring newprojectname;
   int focusbook;
+  bool isNewProject;
+  bool isChanged;
 protected:
   GtkWidget *projectdialog;
   GtkWidget *dialog_vbox1;

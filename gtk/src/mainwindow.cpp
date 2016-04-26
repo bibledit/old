@@ -1907,10 +1907,17 @@ void MainWindow::editproject ()
       // Reload dictionaries.
       editor_window->load_dictionaries();
     }
-    // As anything could have been changed to the project, reopen it.
-    reload_all_editors (false);
-    // Focus the desired book.
-    navigation.display (Reference (projectdialog.focusbook, 1, "1"));
+    if (projectdialog.isChanged) {
+		// Postiff: have tried to ensure that isChanged is set true when/
+		// it needs to be. If I'm wrong, we could see some strange bugs. But
+		// without having that flag, it is very annoying to have the current
+		// editing window changed out from under you just for looking into the
+		// project properties dialog.
+		// As anything could have been changed to the project, reopen it.
+		reload_all_editors (false);
+		// Focus the desired book.
+		navigation.display (Reference (projectdialog.focusbook, 1, "1"));
+	}
   }
 }
 

@@ -324,31 +324,30 @@ void directories::find_utilities(void)
   //---------------------------------------------
   // mkdir
   //---------------------------------------------
-{
+  {
+#ifdef WIN32
+    // mkdir (md) does not play nice. If you run it with /?, it returns code 1, not 0. So
+	// I rely on the #ifdef to just "know" that we have compiled on Windows and can assume
+	// that mkdir is available.
+    mkdir = "mkdir"; // no mkdir_args
+#else
+	// Check for mkdir (Unix)
 	GwSpawn spawn("mkdir");
-	spawn.arg("/?");
+	spawn.arg("--help");  // TODO: Something is messed up here. It creates Bibledit-x.y.z\--help as a directory!!!
 	spawn.run();
-	if (spawn.exitstatus == 0) {
-		// We have a DOS mkdir command
-		mkdir = "mkdir"; // no mkdir_args; going to assume that Command Extensions are enabled
+	if (spawn.exitstatus == 0) { 
+		// We have a mkdir command. Use it.
+		mkdir = "mkdir"; mkdir_args = "-p";
 	}
 	else {
-		// Check for mkdir (Unix)
-		GwSpawn spawn("mkdir");
-		spawn.arg("--help");  // TODO: Something is messed up here. It creates Bibledit-x.y.z\--help as a directory!!!
-		spawn.run();
-		if (spawn.exitstatus == 0) { 
-			// We have a mkdir command. Use it.
-			mkdir = "mkdir"; mkdir_args = "-p";
-		}
-		else {
-			// Check for mkdir.exe in the rundir (Windows directly through msys2/mingw binary)
-			GwSpawn spawn(rundir + "\\mkdir.exe");
-			spawn.arg("--help");
-			if (spawn.exitstatus == 0) { mkdir = rundir + "\\mkdir.exe"; mkdir_args = "-p"; }
-			else { gw_message(_("Cannot find a suitable mkdir utility")); }
-		}
+		// Check for mkdir.exe in the rundir (Windows directly through msys2/mingw binary)
+		GwSpawn spawn(rundir + "\\mkdir.exe");
+		spawn.arg("--help");
+		if (spawn.exitstatus == 0) { mkdir = rundir + "\\mkdir.exe"; mkdir_args = "-p"; }
+		else { gw_message(_("Cannot find a suitable mkdir utility")); }
 	}
+	}
+#endif
 }
   
   //---------------------------------------------
