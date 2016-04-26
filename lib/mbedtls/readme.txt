@@ -34,3 +34,5 @@ Integrate is with the Bibledit library as follows:
 * Copy the unpackaged source library/*.c to folder mbedtls in Bibledit.
 * Copy the unpacked source include/mbedtls/*.h to folder mbedtls in Bibledit.
 * Put all mbedtls/*.c in Bibledit into Makefile.am in Bibledit.
+
+Example code of SSL/TLS handshake, server, client, and so on, is in the source code of mbed TLS.
