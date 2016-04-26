@@ -45,7 +45,7 @@ public:
   int run();
   static gboolean on_system_log_close_activate(GtkDialog * dlg, gpointer user_data);
   static gboolean on_system_log_delete_event_activate(GtkDialog *dlg, gpointer user_data);
-  static gboolean on_system_log_destroy_activate(GtkDialog *dlg, gpointer user_data);
+  static void     on_system_log_destroy_activate(GtkDialog *dlg, gpointer user_data);
   void on_system_log_close(void);
   void on_system_log_destroy(void);
   

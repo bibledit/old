@@ -203,7 +203,7 @@ void SystemlogDialog::on_system_log_close()
 gboolean SystemlogDialog::on_system_log_delete_event_activate(GtkDialog *dlg, gpointer user_data)
 {
    //DEBUG("System log saw delete-event signal")
-   // Do nothing, since we will catch teh destroy signal next
+   // Do nothing, since we will catch the destroy signal next
    /* If you return FALSE in the "delete-event" signal handler,
      * GTK will emit the "destroy" signal. Returning TRUE means
      * you don't want the window to be destroyed.
@@ -212,7 +212,7 @@ gboolean SystemlogDialog::on_system_log_delete_event_activate(GtkDialog *dlg, gp
 	return FALSE; 
 }
 
-gboolean SystemlogDialog::on_system_log_destroy_activate(GtkDialog *dlg, gpointer user_data)
+void SystemlogDialog::on_system_log_destroy_activate(GtkDialog *dlg, gpointer user_data)
 {
 	//DEBUG("System log saw destroy signal")
 	((SystemlogDialog *) user_data)->on_system_log_destroy();
@@ -246,6 +246,19 @@ void SystemlogDialog::load(bool force)
 	  writeSettings();
   }
   
+  // In the case that the user has asked for the previous session information, AND
+  // we did not just get a click on one of the radio or check buttons (force is true in those cases), then we can be lazy
+  // and not do anything because no change is possible to the log files on disk.
+  // This also has the benefit of helping me (Postiff) track down a memory leak that is
+  // occurring when the System log dialog box stays open on the main and settings log 
+  // files. It uses about 24KB every second while it sits open.
+  gboolean showPreviousSession = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_session));
+  if (!force && showPreviousSession) {
+	// Since we are showing the previous session's log file, there will be no change in it, so we can
+	// skip all this work.
+	return;
+  }
+
   // In cases that message keep streaming in, it may happen that the user tries to copy 
   // the messages. He selects the text, but before he can copy it to the clipboard,
   // the new text being loaded erases his selection. The result is that he fails
@@ -259,21 +272,23 @@ void SystemlogDialog::load(bool force)
   }
 
   // Read the text from the file.
-  gchar *contents;
-  g_file_get_contents(logfilename().c_str(), &contents, NULL, NULL);
+  gchar *contents = NULL;
+  gboolean loadSuccess;
+  loadSuccess = g_file_get_contents(logfilename().c_str(), &contents, NULL, NULL);
 
   // If the text isn't there, clear the textbuffer, and bail out.
-  if (!contents) {
+  if (!loadSuccess) { // Also contents is set to NULL and length (third argument) is set to 0
     gtk_text_buffer_set_text (textbuffer, "", -1);
     return;
   }
-
+  
   // Only insert the text if new text is available on disk.
   GtkTextIter begin;
   gtk_text_buffer_get_start_iter(textbuffer, &begin);
   GtkTextIter end;
   gtk_text_buffer_get_end_iter(textbuffer, &end);
-  if (g_ascii_strcasecmp(contents, gtk_text_buffer_get_text(textbuffer, &begin, &end, false)) != 0) {
+  gchar *oldContents = gtk_text_buffer_get_text(textbuffer, &begin, &end, false); // this call allocates memory
+  if (g_ascii_strcasecmp(contents, oldContents) != 0) {
 
     // Loading a huge chunk of text would take a long time.
     // Temporally removing the view from the buffer speeds it up a huge lot.
@@ -284,13 +299,13 @@ void SystemlogDialog::load(bool force)
     g_object_unref(textbuffer);
 
     // Scroll to end;
-    while (gtk_events_pending())
-      gtk_main_iteration();
+    while (gtk_events_pending()) { gtk_main_iteration(); }
     GtkTextIter end;
     gtk_text_buffer_get_end_iter(gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview)), &end);
     gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(textview), &end, 0, true, 0, 0);
   }
   g_free(contents);
+  g_free(oldContents);
 }
 
 
@@ -337,6 +352,8 @@ void SystemlogDialog::writeSettings()
         lines.push_back(rt.lines[i]);
       }
     }
+	
+	lines.push_back(_("Note that the above settings are always from the current run of Bibledit, not the previous session\n."));
 	
 	// Add the settings info to the temp directory.
 	ustring settingsfile = gw_build_filename(Directories->get_temp(), _("settings.log")); // should pull settings.log out and use log_file_name, and then fix that so that it is not a stand-alone function
