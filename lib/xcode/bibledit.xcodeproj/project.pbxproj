@@ -901,6 +901,7 @@
 		CABB91D91AAB1CAA00D500FF /* verses.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = verses.cpp; sourceTree = "<group>"; };
 		CABB91DA1AAB1CAA00D500FF /* verses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = verses.h; sourceTree = "<group>"; };
 		CABB91DB1AAB1CAA00D500FF /* verses.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = verses.html; sourceTree = "<group>"; };
+		CABC327E1CCF951600698C7A /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CABE4D0C1BDBC996000547DB /* pugiconfig.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
 		CABE4D0D1BDBC996000547DB /* pugixml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pugixml.cpp; sourceTree = "<group>"; };
 		CABE4D0E1BDBC996000547DB /* pugixml.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugixml.hpp; sourceTree = "<group>"; };
@@ -2977,6 +2978,7 @@
 				CAA4D1CF1A45A648003ABA25 /* Makefile.am */,
 				CAA4D1D11A45A648003ABA25 /* manage */,
 				CAA4D1E51A45A648003ABA25 /* mapping */,
+				CABC327D1CCF951600698C7A /* mbedtls */,
 				CAA4D1F51A45A648003ABA25 /* menu */,
 				CAA4D22D1A45A648003ABA25 /* navigation */,
 				CAA4D2371A45A648003ABA25 /* nicedit */,
@@ -3038,6 +3040,15 @@
 			);
 			name = debug;
 			path = ../debug;
+			sourceTree = "<group>";
+		};
+		CABC327D1CCF951600698C7A /* mbedtls */ = {
+			isa = PBXGroup;
+			children = (
+				CABC327E1CCF951600698C7A /* readme.txt */,
+			);
+			name = mbedtls;
+			path = ../mbedtls;
 			sourceTree = "<group>";
 		};
 		CABE4D0B1BDBC996000547DB /* pugixml */ = {
