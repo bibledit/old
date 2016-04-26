@@ -1,0 +1,35 @@
+#!/bin/bash
+
+
+# It takes the relevant source code for building Bibledit for Android.
+# It synchronizes this code to a location in /tmp.
+# It modifies the source to make it better suited to Chrome OS.
+# The purpose of this script is to provide a temporal location for building the port.
+# This does not clutter the bibledit git repository with the built files.
+
+CHROMEOSSOURCE=`dirname $0`
+
+cd $CHROMEOSSOURCE
+
+BIBLEDITCHROMEOS=/tmp/bibledit-chromeos
+
+echo Synchronizing relevant source code to $BIBLEDITCHROMEOS
+
+mkdir -p $BIBLEDITCHROMEOS
+
+rm $BIBLEDITCHROMEOS/* 2> /dev/null
+rsync --archive --delete ../lib $BIBLEDITCHROMEOS
+rsync --archive --delete ../android $BIBLEDITCHROMEOS
+
+echo Adapting source code for Chrome OS
+
+# When the app is obscured or goes into the background, 
+# it should not stop the library, 
+# but rather the library should continue to work.
+# This is because when opening the app from the Chrome browser,
+# the app goes to the background, and should continue to serve.
+sed -i.bak '/StopLibrary/d' $BIBLEDITCHROMEOS/android/src/org/bibledit/android/MainActivity.java
+
+
+
+echo Done

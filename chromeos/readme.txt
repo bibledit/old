@@ -2,8 +2,7 @@ Porting Bibledit to Chrome OS.
 
 Bibledit is supported on Chrome OS.
 
-Bibledit for Android can be ported to run on Chrome OS. 
-This is easy through ARC Welder.
+Bibledit for Android runs on Chrome OS through ARC Welder.
 
 More information is here:
 
@@ -20,3 +19,4 @@ Basically it works like this:
 * Update field “version”.
 * ZIP the directory.
 * Upload this ZIP file to the Chrome Web Store via the developer dashboard.
+
