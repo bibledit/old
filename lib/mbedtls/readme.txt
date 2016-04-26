@@ -29,4 +29,8 @@ This is proprietary code and cannot be downloaded and used freely.
 
 After looking at all of them, the winner is: mbed TLS :)
 
-Download the source tarball and unpack it.
+Integrate is with the Bibledit library as follows:
+* Download the source tarball and unpack it.
+* Copy the unpackaged source library/*.c to folder mbedtls in Bibledit.
+* Copy the unpacked source include/mbedtls/*.h to folder mbedtls in Bibledit.
+* Put all mbedtls/*.c in Bibledit into Makefile.am in Bibledit.
