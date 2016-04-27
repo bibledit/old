@@ -130,15 +130,28 @@ void bibledit_start_library ()
   if (bibledit_started) return;
   bibledit_started = true;
 
+  // Setup server behaviour.
+#ifdef CLIENT_PREPARED
+  config_globals_client_prepared = true;
+#else
+  config_globals_client_prepared = false;
+#endif
+  if (config_logic_demo_enabled ()) {
+    config_globals_open_installation = true;
+  }
+  
+  // Ignore SIGPIPE signal: When the browser cancels the request, it won't kill Bibledit.
+  signal (SIGPIPE, SIG_IGN);
+
   // Set running flag.
   config_globals_http_running = true;
   config_globals_https_running = true;
   
   // Run the web server in a thread.
-  config_globals_http_worker = new thread (webserver);
+  config_globals_http_worker = new thread (http_server);
   
   // Run the secure web server in a thread.
-  config_globals_https_worker = new thread (secure_web_server);
+  config_globals_https_worker = new thread (https_server);
   
   // Run the timers in a thread.
   config_globals_timer = new thread (timer_index);

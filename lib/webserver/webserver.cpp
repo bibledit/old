@@ -171,19 +171,8 @@ void webserver_process_request (int connfd, string clientaddress)
 }
 
 
-void webserver ()
+void http_server ()
 {
-  // Setup server behaviour.
-#ifdef CLIENT_PREPARED
-  config_globals_client_prepared = true;
-#else
-  config_globals_client_prepared = false;
-#endif
-  if (strcmp (DEMO, "yes") == 0) config_globals_open_installation = true;
-
-  // Ignore SIGPIPE signal: When the browser cancels the request, it won't kill Bibledit.
-  signal (SIGPIPE, SIG_IGN);
-  
   // Create a listening socket.
   int listenfd = socket(AF_INET, SOCK_STREAM, 0);
   if (listenfd < 0) cerr << "Error opening socket: It returns a descriptor of " << listenfd << endl;
@@ -243,7 +232,7 @@ void webserver ()
 }
 
 
-void secure_web_server () // Todo
+void https_server () // Todo
 {
   // Create a listening socket.
   int listenfd = socket(AF_INET, SOCK_STREAM, 0);
