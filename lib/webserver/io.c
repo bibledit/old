@@ -22,12 +22,11 @@
 
 /*
  This is our own "bind" function.
- Compiler g++ takes the correct Unix call "bind", but the clang++ compiler takes the C++ "bind" function.
+ GCC links to the correct Unix call "bind", but Clang++ takes the C++ "bind" function.
  The function below corrects that as follows:
  It is located in this .c file.
  This .c file will be compiled through the C compiler, not the C++ compiler.
- Therefore as the C compiler does not know of the C++ "bind" function, it cannot select it.
- It then necessarily takes the Unix "bind" call.
+ The linker then knows not to link to the C++ "bind" function but to the Unix "bind" function.
  */
 int mybind (int socket, const struct sockaddr *address, socklen_t address_len)
 {

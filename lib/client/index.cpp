@@ -114,7 +114,7 @@ string client_index (void * webserver_request)
     if (address.find ("http") == string::npos) address.insert (0, "http://");
     Database_Config_General::setServerAddress (address);
     
-    int port = convert_to_int (config_logic_network_port ());
+    int port = convert_to_int (config_logic_http_network_port ());
     if (connect) port = convert_to_int (request->post ["port"]);
     if (demo) port = demo_port ();
     Database_Config_General::setServerPort (port);

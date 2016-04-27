@@ -41,7 +41,7 @@ string get_base_url (Webserver_Request * request)
   // E.g. http or https: Always use http for just now.
   string scheme = "http";  
   // Port
-  string port = config_logic_network_port ();
+  string port = config_logic_http_network_port ();
   // Full URL.  
   string url = scheme + "://" + request->host + ":" + port + "/";
   return url;

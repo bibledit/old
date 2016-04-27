@@ -251,7 +251,7 @@ string Database_Config_General::getSiteURL ()
 #ifdef CLIENT_PREPARED
   // In case of a client, return a predefined URL.
   string url = "http://localhost:";
-  url.append (config_logic_network_port ());
+  url.append (config_logic_http_network_port ());
   url.append ("/");
   return url;
 #else

@@ -36,9 +36,19 @@ const char * config_logic_version ()
 
 
 // Return the network port configured for the server.
-const char * config_logic_network_port ()
+const char * config_logic_http_network_port ()
 {
   return NETWORK_PORT;
+}
+
+
+// Return the secure network port for the secure server.
+int config_logic_https_network_port ()
+{
+  int port = convert_to_int (NETWORK_PORT);
+  // The secure port is the plain http port plus one.
+  port++;
+  return port;
 }
 
 

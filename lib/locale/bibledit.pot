@@ -3165,10 +3165,13 @@ msgstr ""
 msgid "Bibledit on OS X"
 msgstr ""
 
+msgid "Bibledit on Linux"
+msgstr ""
+
 msgid "Bibledit on iOS"
 msgstr ""
 
-msgid "Bibledit on Linux"
+msgid "Bibledit on Chrome OS"
 msgstr ""
 
 msgid "Bibledit Cloud on Ubuntu"
@@ -3337,6 +3340,15 @@ msgid "You may also run your Bibledit Cloud instance from bibledit.org."
 msgstr ""
 
 msgid "Use the contact form to explain why you need a Bibledit Cloud instance."
+msgstr ""
+
+msgid "Install Bibledit on Chrome OS"
+msgstr ""
+
+msgid "Install Bibledit from the Google Chrome Web Store."
+msgstr ""
+
+msgid "For easier operation, open the Chrome browser and open this URL:"
 msgstr ""
 
 msgid "Install Bibledit Cloud on Ubuntu"

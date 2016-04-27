@@ -52,7 +52,7 @@ void timer_index ()
   int previous_second = -1;
   int previous_minute = -1;
   int previous_fraction = -1;
-  while (config_globals_running) {
+  while (config_globals_http_running && config_globals_https_running) {
 
     try {
 
