@@ -507,10 +507,10 @@ table.burndown {
   text-align: center;
 }
 table.burndown tr {
-  vertical-align: bottom;
 }
 table.burndown td {
   padding: 0.15em;
+  vertical-align: bottom;
 }
 table.burndown td.day {
   width: 1em;
