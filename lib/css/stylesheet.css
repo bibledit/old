@@ -522,10 +522,12 @@ table.burndown td {
 table.burndown td.day {
   width: 1em;
 }
+.tablefloat,
 table.interlinear {
   float: left;
   margin-left: 0.5em;
 }
+.tablefloatheb,
 table.interlinear.rtl {
   float: right;
   margin-right: 0.5em;
