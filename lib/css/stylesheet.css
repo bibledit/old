@@ -290,6 +290,7 @@ textarea {
 .hebrew {
   font-family: "Ezra SIL";
   direction: rtl;
+  line-height: 1.8;
   /* font-size: normal; : dynamically generated */
 }
 @font-face {
@@ -331,10 +332,16 @@ span[contenteditable=true],
 .menu-advanced span {
   margin-right: 0.2em;
 }
-.menu-advanced span.nowrap + span:before {
+.menu-advanced span.selector + span:before {
   margin-right: 0.4em;
   color: #CCC;
   content: "|";
+}
+.menu-advanced span.selector {
+  white-space: nowrap;
+}
+.menu-advanced span.selector.active {
+  font-weight: bold;
 }
 .nowrap {
   white-space: nowrap;
@@ -502,4 +509,26 @@ span[contenteditable=true] {
 }
 #workspacewrapper > table.editor {
   width: 100%;
+}
+table.burndown {
+  text-align: center;
+}
+table.burndown tr {
+}
+table.burndown td {
+  padding: 0.15em;
+  vertical-align: bottom;
+}
+table.burndown td.day {
+  width: 1em;
+}
+.tablefloat,
+table.interlinear {
+  float: left;
+  margin-left: 0.5em;
+}
+.tablefloatheb,
+table.interlinear.rtl {
+  float: right;
+  margin-right: 0.5em;
 }

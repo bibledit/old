@@ -674,13 +674,6 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   // because installing fonts on some tablets is very hard.
   string stylesheet =
   "<style>\n"
-  ".tablefloat {\n"
-  "  float: left;\n"
-  "}\n"
-  ".tablefloatheb\n"
-  "{\n"
-  "  float : right;\n"
-  "}\n"
   "span[class*='ref'] {\n"
   "display: none;\n"
   "}\n"
