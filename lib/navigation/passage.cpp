@@ -88,7 +88,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   string bookName = Database_Books::getEnglishFromId (book);
   bookName = translate (bookName);
 
-  fragment.append ("<span><a id=\"selectbook\" href=\"selectbook\" title=\"" + translate ("Select book") + "\">" + bookName + "</a></span>");
+  fragment.append ("<span><a id='selectbook' href='selectbook' title='" + translate ("Select book") + "'>" + bookName + "</a></span>");
   
   int chapter = Ipc_Focus::getChapter (request);
   
@@ -175,7 +175,7 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
   }
   addSelectorLink (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false);
 
-  html.insert (0, "<span id=\"applybook\">" + translate ("Select book"));
+  html.insert (0, "<span id='applybook'>" + translate ("Select book") + ": ");
   html.append ("</span>");
 
   return html;
@@ -447,12 +447,11 @@ void Navigation_Passage::addSelectorLink (string& html, string id, string href, 
   // Add bit to cause wrapping between the books or chapters or verses.
   if (!html.empty ()) html.append (" ");
 
-  if (selected) html.append ("<mark>");
+  string isactive = "";
+  if (selected) isactive  = " active";
   
   // No wrapping of a book name made of more than one word.
-  html.append ("<span class=\"nowrap\"><a id=\"" + id + "apply\" href=\"" + href + "\"> ");
+  html.append ("<span class='selector" + isactive + "'><a id='" + id + "apply' href='" + href + "'>");
   html.append (text);
-  html.append (" </a></span>");
-  
-  if (selected) html.append ("</mark>");
+  html.append ("</a></span>");
 }

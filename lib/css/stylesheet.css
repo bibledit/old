@@ -331,10 +331,16 @@ span[contenteditable=true],
 .menu-advanced span {
   margin-right: 0.2em;
 }
-.menu-advanced span.nowrap + span:before {
+.menu-advanced span.selector + span:before {
   margin-right: 0.4em;
   color: #CCC;
   content: "|";
+}
+.menu-advanced span.selector {
+  white-space: nowrap;
+}
+.menu-advanced span.selector.active {
+  font-weight: bold;
 }
 .nowrap {
   white-space: nowrap;
