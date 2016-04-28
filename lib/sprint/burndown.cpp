@@ -203,8 +203,8 @@ string sprint_create_burndown_chart (string bible, int year, int month)
   }
   
   vector <string> lines;
-  lines.push_back ("<table style=\"text-align:center;\">");
-  lines.push_back ("<tr style=\"vertical-align: bottom;\">");
+  lines.push_back ("<table class='burndown'>");
+  lines.push_back ("<tr>");
   for (auto element : data) {
     int tasks = element.second;
     string text;
@@ -217,7 +217,7 @@ string sprint_create_burndown_chart (string bible, int year, int month)
   lines.push_back ("<tr>");
   for (auto element : data) {
     int day = element.first;
-    lines.push_back ("<td style=\"width:1em\">" + convert_to_string (day) + "</td>");
+    lines.push_back ("<td>" + convert_to_string (day) + "</td>");
   }
   lines.push_back ("</tr>");
                                       

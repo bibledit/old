@@ -503,3 +503,15 @@ span[contenteditable=true] {
 #workspacewrapper > table.editor {
   width: 100%;
 }
+table.burndown {
+  text-align: center;
+}
+table.burndown tr {
+  vertical-align: bottom;
+}
+table.burndown td {
+  padding: 0.15em;
+}
+table.burndown td.day {
+  width: 1em;
+}

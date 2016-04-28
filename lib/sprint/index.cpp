@@ -176,7 +176,7 @@ string sprint_index (void * webserver_request)
   vector <string> vcategories = filter_string_explode (categorytext, '\n');
   string categories;
   for (auto category : vcategories) {
-    categories.append ("<td class=\"center\">" + category + "</td>\n");
+    categories.append ("<td>" + category + "</td>\n");
   }
   view.set_variable ("categories", categories);
   
@@ -202,7 +202,7 @@ string sprint_index (void * webserver_request)
         // A solution is to navigate to an anchor after clicking an item.
         anchor = "#a" + convert_to_string (id - 3);
       }
-      tasks.append ("<td class=\"center\">\n");
+      tasks.append ("<td>\n");
       if (percentage >= high) {
         tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (low) + anchor + "\">" + get_tick_box (true) + "</a>\n");
       } else {
