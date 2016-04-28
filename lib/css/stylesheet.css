@@ -290,6 +290,7 @@ textarea {
 .hebrew {
   font-family: "Ezra SIL";
   direction: rtl;
+  line-height: 1.8;
   /* font-size: normal; : dynamically generated */
 }
 @font-face {
@@ -520,4 +521,12 @@ table.burndown td {
 }
 table.burndown td.day {
   width: 1em;
+}
+table.interlinear {
+  float: left;
+  margin-left: 0.5em;
+}
+table.interlinear.rtl {
+  float: right;
+  margin-right: 0.5em;
 }
