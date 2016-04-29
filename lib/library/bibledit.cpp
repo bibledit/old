@@ -226,7 +226,7 @@ void bibledit_stop_library ()
     connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
   }
   
-  // Also connect to the secure server to initiate its shutdown mechanism.
+  // Connect to the secure server to initiate its shutdown mechanism.
   {
     struct sockaddr_in sa;
     sa.sin_family = AF_INET;
@@ -237,6 +237,10 @@ void bibledit_stop_library ()
     memset (sa.sin_zero, '\0', sizeof (sa.sin_zero));
     int mysocket = socket (PF_INET, SOCK_STREAM, 0);
     connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
+    // Let the connection start, then close it.
+    // The server will then abort the TLS handshake, and shut down.
+    this_thread::sleep_for (chrono::milliseconds (1));
+    close (mysocket);
   }
   
   // Wait till the servers and the timers shut down.

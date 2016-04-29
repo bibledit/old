@@ -205,8 +205,8 @@ void http_server ()
   if (result != 0) cerr << "Error listening on socket" << endl;
 
   // Keep waiting for, accepting, and processing connections.
-  config_globals_http_running = true; // Todo also secure version needed.
-  while (config_globals_http_running) { // Todo also secure version needed.
+  config_globals_http_running = true;
+  while (config_globals_http_running) {
 
     // Socket and file descriptor for the client connection.
     struct sockaddr_in clientaddr;
@@ -240,24 +240,27 @@ void http_server ()
 }
 
 
-void https_server_display_mbed_tls_error (int ret)
+void https_server_display_mbed_tls_error (int & ret)
 {
   if (ret != 0) {
     char error_buf [100];
     mbedtls_strerror (ret, error_buf, 100);
     cerr << error_buf << " (" << ret << ")" << endl;
+    ret = 0;
   }
 }
 
 
 void https_server () // Todo
 {
+  // File descriptors for the connections.
   mbedtls_net_context listen_fd;
   mbedtls_net_init (&listen_fd);
 
   mbedtls_net_context client_fd;
   mbedtls_net_init (&client_fd);
   
+  // SSL/TSL configurations.
   mbedtls_ssl_context ssl;
   mbedtls_ssl_init (&ssl);
 
@@ -280,63 +283,48 @@ void https_server () // Todo
   mbedtls_ctr_drbg_init (&ctr_drbg);
 
   
-  
-  int ret, len;
-  unsigned char buf[1024];
-  const char *pers = "ssl_server";
-  
-
-  return; // Todo
-
-  
   // Load the certificates and private RSA key.
-  cout << "Loading the https server certificate and key" << endl;
   // This uses embedded test certificates.
   // Instead, you may want to use mbedtls_x509_crt_parse_file() to read the
   // server and CA certificates, as well as mbedtls_pk_parse_keyfile().
+  int ret;
   ret = mbedtls_x509_crt_parse (&srvcert, (const unsigned char *) mbedtls_test_srv_crt, mbedtls_test_srv_crt_len);
-  https_server_display_mbed_tls_error (ret);
-  if (ret != 0) return;
-
+  if (ret != 0) {
+    https_server_display_mbed_tls_error (ret);
+    return;
+  }
   ret = mbedtls_x509_crt_parse (&srvcert, (const unsigned char *) mbedtls_test_cas_pem, mbedtls_test_cas_pem_len);
   if (ret != 0) {
-    cerr << "Failed parsing test cas pem" << endl;
     https_server_display_mbed_tls_error (ret);
     return;
   }
   ret =  mbedtls_pk_parse_key (&pkey, (const unsigned char *) mbedtls_test_srv_key, mbedtls_test_srv_key_len, NULL, 0);
   if (ret != 0) {
-    cerr << "Failed parsing test srv key" << endl;
     https_server_display_mbed_tls_error (ret);
     return;
   }
   
   
   // Seed the random number generator.
-  cout << "Seeding the random number generator" << endl;
+  const char *pers = "Bibledit Cloud";
   ret = mbedtls_ctr_drbg_seed( &ctr_drbg, mbedtls_entropy_func, &entropy, (const unsigned char *) pers, strlen (pers));
   if (ret != 0) {
-    cerr << "Failed to see the random number generator" << endl;
     https_server_display_mbed_tls_error (ret);
     return;
   }
 
   
   // Setup the listening TCP socket.
-  cout << "Binding to localhost" << endl;
   ret = mbedtls_net_bind (&listen_fd, NULL, convert_to_string (config_logic_https_network_port ()).c_str (), MBEDTLS_NET_PROTO_TCP);
   if (ret != 0) {
-    cerr << "Failed to bind to localhost" << endl;
     https_server_display_mbed_tls_error (ret);
     return;
   }
   
   
-  // Setup TLS stuff
-  cout << "Setting up the TLS data" << endl;
+  // Setup TLS stuff.
   ret = mbedtls_ssl_config_defaults (&conf, MBEDTLS_SSL_IS_SERVER, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
   if (ret != 0) {
-    cerr << "Failed configuring TLS default with error " << endl;
     https_server_display_mbed_tls_error (ret);
     return;
   }
@@ -345,13 +333,11 @@ void https_server () // Todo
   mbedtls_ssl_conf_ca_chain (&conf, srvcert.next, NULL);
   ret = mbedtls_ssl_conf_own_cert (&conf, &srvcert, &pkey);
   if (ret != 0) {
-    cerr << "Failed configuring certificates" << endl;
     https_server_display_mbed_tls_error (ret);
     return;
   }
   ret = mbedtls_ssl_setup (&ssl, &conf);
   if (ret != 0) {
-    cerr << "Failed setting up TLS with error " << endl;
     https_server_display_mbed_tls_error (ret);
     return;
   }
@@ -361,6 +347,10 @@ void https_server () // Todo
   config_globals_https_running = true;
   while (config_globals_https_running) {
     
+
+    // This flag indicates a healthy connection, one that can proceed.
+    bool connection_healthy = true;
+    
     
     // Resetting before accepting client connection.
     mbedtls_net_free (&client_fd);
@@ -368,10 +358,8 @@ void https_server () // Todo
 
     
     // Wait until a client connects.
-    cout << "Waiting for a remote connection" << endl;
     ret = mbedtls_net_accept (&listen_fd, &client_fd, NULL, 0, NULL);
     if (ret != 0 ) {
-      cerr << "Failed to accept connection" << endl;
       https_server_display_mbed_tls_error (ret);
       continue;
     }
@@ -379,21 +367,25 @@ void https_server () // Todo
 
     
     // Handshake
-    cout << "Performing the SSL/TLS handshake" << endl;
-    while ((ret = mbedtls_ssl_handshake (&ssl)) != 0) {
+    while (connection_healthy && (ret = mbedtls_ssl_handshake (&ssl)) != 0) {
       if (ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
-        cerr << "SSL/TLS handshake failed" << endl;
-        https_server_display_mbed_tls_error (ret);
-        continue;
+        if (config_globals_https_running) {
+          // In case the secure server runs, display the error.
+          // And in case the server is interrupted by e.g. Ctrl-C, don't display this error.
+          https_server_display_mbed_tls_error (ret);
+        }
+        connection_healthy = false;
       }
     }
+    if (!connection_healthy) continue;
+
     
-    
-    // Read the HTTP Request
-    cout << "Reading from client" << endl;
+    // Read the HTTP Request.
+    int len;
     do {
+      unsigned char buf [1024];
       len = sizeof (buf) - 1;
-      memset ( buf, 0, sizeof (buf));
+      memset (buf, 0, sizeof (buf));
       ret = mbedtls_ssl_read (&ssl, buf, len);
       
       if (ret == MBEDTLS_ERR_SSL_WANT_READ || ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
@@ -401,13 +393,11 @@ void https_server () // Todo
       if (ret <= 0) {
         switch (ret) {
           case MBEDTLS_ERR_SSL_PEER_CLOSE_NOTIFY:
-            cout << "Connection was closed gracefully" << endl;
             break;
           case MBEDTLS_ERR_NET_CONN_RESET:
-            cout << "Connection was reset by peer" << endl;
             break;
           default:
-            cerr << "Failure reading client data" << endl;
+            connection_healthy = false;
             https_server_display_mbed_tls_error (ret);
             break;
         }
@@ -415,73 +405,55 @@ void https_server () // Todo
       }
       
       len = ret;
-      cout << "Bytes read: " << len << endl;
-      cout << "Data read" << endl;
-      cout << (char *) buf << endl;
+      //cout << (char *) buf << endl;
       
       if (ret > 0) break;
     }
-    while (true);
+    while (connection_healthy);
+    if (!connection_healthy) continue;
 
 
     // Write the 200 Response
-#define LONG_RESPONSE "<p>01-blah-blah-blah-blah-blah-blah-blah-blah-blah\r\n" \
-"02-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah\r\n"  \
-"03-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah\r\n"  \
-"04-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah\r\n"  \
-"05-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah\r\n"  \
-"06-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah\r\n"  \
-"07-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah-blah</p>\r\n"
 #define HTTP_RESPONSE \
 "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n" \
-"<h2>mbed TLS Test Server</h2>\r\n" \
-"<p>Successful connection using: %s</p>\r\n" LONG_RESPONSE
+"<h2>Bibledit secure server</h2>\r\n" \
+"<p>Successful connection using: %s</p>\r\n"
 
-    cout << "Write to client" << endl;
+    unsigned char buf[1024];
     len = sprintf ((char *) buf, HTTP_RESPONSE, mbedtls_ssl_get_ciphersuite (&ssl));
-    while ((ret = mbedtls_ssl_write( &ssl, buf, len ) ) <= 0 )
-    {
-      if( ret == MBEDTLS_ERR_NET_CONN_RESET ) {
-        cerr << "Failed writing to client: peer closed the connection" << endl;
+    while ((ret = mbedtls_ssl_write (&ssl, buf, len)) <= 0) {
+      if (ret == MBEDTLS_ERR_NET_CONN_RESET) {
+        https_server_display_mbed_tls_error (ret);
         continue;
       }
-      if( ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE ) {
-        cerr << "Failed writing to client" << endl;
+      if (ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
         https_server_display_mbed_tls_error (ret);
         continue;
       }
     }
     
     len = ret;
-    cout << "Bytes written: " << len << endl;
-    cout << "Response written:" << endl;
-    cout << (char *) buf << endl;
+    //cout << (char *) buf << endl;
     
-    cout << "Closing the connection" << endl;
-    while ((ret = mbedtls_ssl_close_notify (&ssl)) < 0)
-    {
-      if (ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE )
-      {
-        cerr << "Failed to close the connection" << endl;
+    while ((ret = mbedtls_ssl_close_notify (&ssl)) < 0) {
+      if (ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
         https_server_display_mbed_tls_error (ret);
+        break;
       }
     }
-    
-    ret = 0;
   }
   
-  https_server_display_mbed_tls_error (ret);
+  mbedtls_net_free (&client_fd);
+  // Close listening socket, freeing it for a possible subsequent server process.
+  mbedtls_net_free (&listen_fd);
   
-  mbedtls_net_free( &client_fd );
-  mbedtls_net_free( &listen_fd );
-  
-  mbedtls_x509_crt_free( &srvcert );
-  mbedtls_pk_free( &pkey );
-  mbedtls_ssl_free( &ssl );
-  mbedtls_ssl_config_free( &conf );
-  mbedtls_ssl_cache_free( &cache );
-  mbedtls_ctr_drbg_free( &ctr_drbg );
-  mbedtls_entropy_free( &entropy );
+  mbedtls_x509_crt_free (&srvcert);
+  mbedtls_pk_free (&pkey);
+  mbedtls_ssl_free (&ssl);
+  mbedtls_ssl_config_free (&conf);
+  mbedtls_ssl_cache_free (&cache);
+  mbedtls_ctr_drbg_free (&ctr_drbg);
+  mbedtls_entropy_free (&entropy);
   
 
   /* Todo plain http server.
@@ -502,8 +474,6 @@ void https_server () // Todo
       // Detach and delete thread object.
       request_thread.detach ();
   
-  // Close listening socket, freeing it for a possible subsequent server process.
-  close (listenfd);
   */
 }
 
