@@ -117,6 +117,26 @@ bool keyboard_page_up_pressed(GdkEventKey * event)
   return false;
 }
 
+bool keyboard_any_cursor_move(GdkEventKey * event)
+{
+  switch (event->keyval) {
+  case GDK_KEY_Up:
+  case GDK_KEY_KP_Up:
+  case GDK_KEY_Left:
+  case GDK_KEY_KP_Left:
+  case GDK_KEY_Right:
+  case GDK_KEY_KP_Right:
+  case GDK_KEY_Down:
+  case GDK_KEY_KP_Down:
+  case GDK_KEY_Page_Up:
+  case GDK_KEY_KP_Page_Up:
+  case GDK_KEY_Page_Down:
+  case GDK_KEY_KP_Page_Down:
+  // Ctrl-right, for instance, is a right cursor move, but step 2 instead of step 1
+    return true;
+  }
+  return false;
+}
 
 bool keyboard_control_state(GdkEventButton * event)
 // Returns true if the Ctrl key was down at the mouse click.

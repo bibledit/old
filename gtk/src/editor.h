@@ -75,8 +75,12 @@ private:
   // Textview keyboard key pressing.
   static gboolean on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   gboolean textview_key_press_event(GtkWidget *widget, GdkEventKey *event);
-  static gboolean on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
-  void textview_key_release_event(GtkWidget *widget, GdkEventKey *event);
+  unsigned int keystrokeNum;
+  unsigned int keyStrokeNum_paragraph_crossing_processed;
+  // Next two obsolete. We should NOT be processing things when the user releases a key, after holding
+  // it down for an indeterminate length of time (like backspace or delete in particular)
+  //static gboolean on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
+  //void textview_key_release_event(GtkWidget *widget, GdkEventKey *event);
   bool textbuffer_delete_range_was_fired;
   static void on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data);
   void textbuffer_changed(GtkTextBuffer * textbuffer);
@@ -187,7 +191,7 @@ public:
   bool can_undo();
   bool can_redo();
 
-  // Highlighting.
+  // Highlighting (search results, not verse numbers)
   void highlight_searchwords();
   guint highlight_timeout_event_id;
   static bool on_highlight_timeout(gpointer data);
@@ -230,11 +234,17 @@ private:
   static bool on_signal_if_verse_changed_timeout(gpointer data);
   void signal_if_verse_changed_timeout();
   ustring verse_number_get();
+  bool    get_verse_number_at_iterator_internal (GtkTextIter iter, const ustring & verse_marker, ustring& verse_number);
+  ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring & verse_marker, const ustring & project, GtkWidget * parent_box);
+  bool    get_iterator_at_verse_number (const ustring& verse_number, const ustring& verse_marker, GtkWidget * parent_box, GtkTextIter & iter, GtkWidget *& textview, bool deep_search = false);
+
   
-  // Scrolling control.
+  // Scrolling control and verse highlighting.
 public:
 private:
-  void scroll_to_insertion_point_on_screen();
+  void scroll_to_insertion_point_on_screen(bool doVerseHighlighting);
+  void highlightCurrVerse(vector <GtkWidget *> &textviews);
+  ustring currHighlightedVerse;
   GtkTextTag * verse_highlight_tag;
   
   // Moving from one textview to the other.

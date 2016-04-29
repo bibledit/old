@@ -1783,7 +1783,7 @@ MainWindow::~MainWindow()
   delete windowsoutpost;
   
   // The possibly always-on Help | System log dialog box
-  delete syslogdialog;
+  if (syslogdialog) { delete syslogdialog; }
   
   // Do shutdown actions.
   shutdown_actions();
@@ -1979,7 +1979,7 @@ void MainWindow::viewlog()
   }
   // This window can float while the user does other things, so the syslogdialog has some 
   // persistent state to manage this feature. It takes care of killing the window, restarting a 
-  // new one, etc. 
+  // new one, etc. so we don't have to worry about that here.
   syslogdialog->run();
 }
 

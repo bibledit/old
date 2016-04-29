@@ -93,6 +93,8 @@ current_reference(0, 1000, "")
   book = 0;
   chapter = 0;
   signal_if_verse_changed_event_id = 0;
+  keystrokeNum = 0;
+  keyStrokeNum_paragraph_crossing_processed = 0;
   verse_restarts_paragraph = false;
   focused_paragraph = NULL;
   disregard_text_buffer_signals = 0;
@@ -174,6 +176,8 @@ current_reference(0, 1000, "")
     g_object_unref (textbuffer);
   }
 
+  currHighlightedVerse = "0";
+  
   // Automatic saving of the file, periodically.
   save_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 60000, GSourceFunc(on_save_timeout), gpointer(this), NULL);
 }
@@ -308,13 +312,15 @@ void Editor2::chapter_load(unsigned int chapter_in)
   apply_editor_action (new EditorAction (eatLoadChapterBoundary));
 
   // Place cursor at the start and scroll it onto the screen.
+  current_verse_number = "1";
+  currHighlightedVerse = "1";
   vector <GtkWidget *> textviews = editor_get_widgets (vbox_paragraphs);
   if (textviews.empty()) {
     give_focus (textviews[0]);
     GtkTextIter iter;
     gtk_text_buffer_get_start_iter(focused_paragraph->textbuffer, &iter);
     gtk_text_buffer_place_cursor(focused_paragraph->textbuffer, &iter);
-    scroll_to_insertion_point_on_screen();
+    scroll_to_insertion_point_on_screen(/*highlight?*/true);
   }
   
   // Store size of actions buffer so we know whether the chapter changed.
@@ -611,10 +617,13 @@ void Editor2::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep st
 
 // According to https://developer.gnome.org/gtk3/stable/GtkTextView.html#GtkTextView-move-cursor,
 // "applications should not connect" to the move-cursor signal. But it is an integral component
-// of how things are done right now as of 4/25/2016.
+// of how things are done in Bibledit as of 4/25/2016.
 void Editor2::textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count)
 {
-  DEBUG("Signal move_cursor")
+  //DEBUG("Signal move_cursor step="+std::to_string(int(step))+" count="+std::to_string(int(count)))
+  //ustring debug_verse_number = verse_number_get();
+  //DEBUG("debug_verse_number "+debug_verse_number)
+
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear();
   // Keep postponing the actual handler if a new cursor movement was detected before the previous one was processed.
@@ -622,7 +631,7 @@ void Editor2::textview_move_cursor(GtkTextView * textview, GtkMovementStep step,
   textview_move_cursor_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_move_cursor_delayed), gpointer(this), NULL);
   // Act on paragraph crossing.
   paragraph_crossing_act (step, count);
-  scroll_to_insertion_point_on_screen();
+  scroll_to_insertion_point_on_screen(/*highlight?*/true);
 }
 
 bool Editor2::on_textview_move_cursor_delayed(gpointer user_data)
@@ -635,10 +644,12 @@ bool Editor2::on_textview_move_cursor_delayed(gpointer user_data)
 void Editor2::textview_move_cursor_delayed()
 // Handle cursor movement.
 {
-  DEBUG("Signal move_cursor_delayed")
+  //DEBUG("Signal move_cursor_delayed")
+  //ustring debug_verse_number = verse_number_get();
+  //DEBUG("debug_verse_number "+debug_verse_number)
   textview_move_cursor_id = 0;
   signal_if_styles_changed();
-  signal_if_verse_changed();
+  signal_if_verse_changed(); // for SOME cursor moves the verse will change; for no regular letter keystrokes
 }
 
 ustring Editor2::verse_number_get()
@@ -653,10 +664,177 @@ ustring Editor2::verse_number_get()
 		gtk_text_buffer_get_iter_at_mark(focused_paragraph->textbuffer, &iter, gtk_text_buffer_get_insert(focused_paragraph->textbuffer));
 		// Get verse number.
 		number = get_verse_number_at_iterator(iter, style_get_verse_marker(project), project, vbox_paragraphs);
+		//DEBUG("current_verse_number="+current_verse_number+" and returning number="+number)
 	}
 	return number;
 }
 
+bool Editor2::get_verse_number_at_iterator_internal (GtkTextIter iter, const ustring & verse_marker, ustring& verse_number)
+// This function looks at the iterator for the verse number.
+// If a verse number is not found, it iterates back till one is found.
+// If the iterator can't go back any further, and no verse number was found, it returns false.
+// If a verse number is found, it returns true and stores it in parameter "verse_number".
+{
+  // Look for the v style while iterating backward.
+  //DEBUG("3debug_verse_number "+verse_number)
+  bool verse_style_found = false;
+  do {
+    ustring paragraph_style, character_style;
+    get_styles_at_iterator(iter, paragraph_style, character_style);
+    if (character_style == verse_marker) {
+      verse_style_found = true;
+    }
+  } while (!verse_style_found && gtk_text_iter_backward_char(&iter));
+  // If the verse style is not in this textbuffer, bail out.
+  if (!verse_style_found) {
+    return false;
+  }
+  // The verse number may consist of more than one character.
+  // Therefore iterate back to the start of the verse style.
+  // For convenience, it iterates back to the start of any style.
+  while (!gtk_text_iter_begins_tag (&iter, NULL)) {
+    gtk_text_iter_backward_char (&iter);
+  }
+  // Extract the verse number.
+  GtkTextIter enditer = iter;
+  gtk_text_iter_forward_chars(&enditer, 10);
+  verse_number = gtk_text_iter_get_slice(&iter, &enditer);
+  //DEBUG("4debug_verse_number "+verse_number)
+  size_t position = verse_number.find(" ");
+  position = CLAMP(position, 0, verse_number.length());
+  verse_number.erase (position, 10);
+  //DEBUG("5debug_verse_number "+verse_number)
+  // Indicate that a verse number was found.
+  return true;
+}
+
+
+ustring Editor2::get_verse_number_at_iterator(GtkTextIter iter, const ustring & verse_marker, const ustring & project, GtkWidget * parent_box)
+/* 
+This function returns the verse number at the iterator.
+It also takes into account a situation where the cursor is on a heading.
+The user expects a heading to belong to the next verse. 
+*/
+{
+  // Get the paragraph style at the iterator, in case it is in a heading.
+  ustring paragraph_style_at_cursor;
+  {
+    ustring dummy;
+    get_styles_at_iterator(iter, paragraph_style_at_cursor, dummy);
+  }
+  
+  // Verse-related variables.
+  ustring verse_number = "0";
+  bool verse_number_found = false;
+  GtkWidget * textview = NULL;
+
+  do {
+    // Try to find a verse number in the GtkTextBuffer the "iter" points to.
+    verse_number_found = get_verse_number_at_iterator_internal (iter, verse_marker, verse_number);
+    // If the verse number was not found, look through the previous GtkTextBuffer.
+    if (!verse_number_found) {
+      // If the "textview" is not yet set, look for the current one.
+      if (textview == NULL) {
+        GtkTextBuffer * textbuffer = gtk_text_iter_get_buffer (&iter);
+        vector <GtkWidget *> widgets = editor_get_widgets (parent_box);
+        for (unsigned int i = 0; i < widgets.size(); i++) {
+          if (textbuffer == gtk_text_view_get_buffer (GTK_TEXT_VIEW (widgets[i]))) {
+            textview = widgets[i];
+            break;
+          }
+        }
+      }
+      // Look for the previous GtkTextView.
+      textview = editor_get_previous_textview (parent_box, textview);
+      // Start looking at the end of that textview.
+      if (textview) {
+        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+        gtk_text_buffer_get_end_iter (textbuffer, &iter);
+      }
+    }
+
+	//DEBUG("1debug_verse_number "+verse_number)
+
+  } while (!verse_number_found && textview);
+  
+  // Optional: If the cursor is on a title/heading, increase verse number.
+  if (!project.empty()) {
+    StyleType type;
+    int subtype;
+    marker_get_type_and_subtype(project, paragraph_style_at_cursor, type, subtype);
+    if (type == stStartsParagraph) {
+      switch (subtype) {
+        case ptMainTitle:
+        case ptSubTitle:
+        case ptSectionHeading:
+        {
+          unsigned int vs = convert_to_int (verse_number);
+          vs++;
+          verse_number = convert_to_string (vs);
+          break;
+        }
+        case ptNormalParagraph:
+        {
+          break;
+        }
+      }
+    }
+  }
+ 
+  //DEBUG("2debug_verse_number "+verse_number)
+
+  // Return the verse number found.
+  return verse_number;
+}
+
+
+bool Editor2::get_iterator_at_verse_number (const ustring& verse_number, const ustring& verse_marker, GtkWidget * parent_box, GtkTextIter & iter, GtkWidget *& textview, bool deep_search)
+// This returns the iterator and textview where "verse_number" starts.
+// Returns true if the verse was found, else false.
+{
+  // Go through all textviews.
+  vector <GtkWidget *> textviews = editor_get_widgets (parent_box);
+  for (unsigned int i = 0; i < textviews.size(); i++) {
+    // Handle this textview.
+    textview = textviews[i];
+    // Search from start of buffer.
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+    gtk_text_buffer_get_start_iter (textbuffer, &iter);
+    // Verse 0 or empty: beginning of chapter.
+    if ((verse_number == "0") || (verse_number.empty())) {
+      return true;
+    }
+    // Go through the buffer and find out about the verse.
+    do {
+      ustring paragraph_style, character_style, verse_at_iter;
+      get_styles_at_iterator(iter, paragraph_style, character_style);
+      if (character_style == verse_marker) {
+        verse_at_iter = get_verse_number_at_iterator(iter, verse_marker, "", parent_box);
+        if (verse_number == verse_at_iter) {
+          return true;
+        }
+      }
+      // Optionally do a deep search: whether the verse is in a sequence or range of verses.
+      if (deep_search && !verse_at_iter.empty()) {
+        unsigned int verse_int = convert_to_int(verse_at_iter);
+        vector <unsigned int> combined_verses = verse_range_sequence(verse_number);
+        for (unsigned int i2 = 0; i2 < combined_verses.size(); i2++) {
+          if (verse_int == combined_verses[i2]) {
+            return true;
+          }
+        }
+      }
+    } while (gtk_text_iter_forward_char(&iter));
+  }
+  // If we haven't done the deep search yet, do it now.
+  if (!deep_search) {
+    if (get_iterator_at_verse_number (verse_number, verse_marker, parent_box, iter, textview, true)) {
+      return true;
+    }
+  }
+  // Verse was not found.
+  return false;
+}
 
 void Editor2::on_textview_grab_focus(GtkWidget * widget, gpointer user_data)
 {
@@ -666,9 +844,11 @@ void Editor2::on_textview_grab_focus(GtkWidget * widget, gpointer user_data)
 
 void Editor2::textview_grab_focus(GtkWidget * widget)
 {
-	DEBUG("Signal grab_focus")
+  //DEBUG("Signal grab_focus")
   // Store the paragraph action that created the widget
-  focused_paragraph = widget2paragraph_action (widget);
+  EditorActionCreateParagraph *new_focused_paragraph = widget2paragraph_action (widget);
+  //DEBUG("focused_paragraph="+std::to_string(int(focused_paragraph))+" new_focused_paragraph="+std::to_string(int(new_focused_paragraph)))
+  focused_paragraph = new_focused_paragraph;
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear();
   // Further processing of the focus grab is done with a delay.
@@ -691,10 +871,10 @@ void Editor2::textview_grab_focus_delayed() // Todo
  This delayed handler solves that.
  */
 {
-  DEBUG("Signal grab_focus_delayed")
+  //DEBUG("Signal grab_focus_delayed")
   textview_grab_focus_event_id = 0;
   signal_if_styles_changed();
-  signal_if_verse_changed();
+  signal_if_verse_changed(); // rarely will this cause a verse to actually change
   show_quick_references();
 }
 
@@ -1327,7 +1507,7 @@ void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter
     return;
   }
   disregard_text_buffer_signals++;
-  DEBUG("Delete range before - setting textbuffer_delete_range_was_fired")
+  //DEBUG("Delete range before - setting textbuffer_delete_range_was_fired")
   textbuffer_delete_range_was_fired = true;
 
   // Record the content that is about to be deleted.
@@ -1355,7 +1535,7 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
     return;
   }
   disregard_text_buffer_signals++;
-  DEBUG("Delete range after - about to delete text 'after'")
+  //DEBUG("Delete range after - about to delete text 'after'")
   // Delete the text.  
   if (focused_paragraph) {
     ustring text;
@@ -1917,14 +2097,16 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
     } while (!moved && textbuffer);
   }
   if (moved) {
-    scroll_to_insertion_point_on_screen();
+    scroll_to_insertion_point_on_screen(/*highlight?*/true);
   }
   return moved;
 }
 
-void Editor2::scroll_to_insertion_point_on_screen() // Todo crashes here...seems better MAP 4/18/2016...no more "timeout" way of using this. Just call it directly and get it done
+void Editor2::scroll_to_insertion_point_on_screen(bool doVerseHighlighting)
 {
-	DEBUG("Call")
+	//DEBUG("doVerseHighlighting="+std::to_string(int(doVerseHighlighting)))
+	//ustring debug_verse_number = verse_number_get();
+	//DEBUG("debug_verse_number "+debug_verse_number)
 	if (!focused_paragraph) { return; }
 	if (!focused_paragraph->textbuffer) { return; }
 
@@ -2014,21 +2196,30 @@ void Editor2::scroll_to_insertion_point_on_screen() // Todo crashes here...seems
 	//DEBUG("adjustment->upper = " + std::to_string(double(adjustment->upper)))
 	gtk_adjustment_set_value (adjustment, adjustment_value);
 
+	if (doVerseHighlighting) { highlightCurrVerse(textviews); }
+}
+
+void Editor2::highlightCurrVerse(vector <GtkWidget *> &textviews)
+{
+	// Don't do unnecessary work: if verse is already highlighted, bail out
+	if (current_verse_number == currHighlightedVerse) { return; }
+
+	//DEBUG("Verse highlight was on "+currHighlightedVerse+" now to be "+current_verse_number)
+	// Highlighting is not necessary if you just pressed a letter key within the same verse you were in. Arrow keys, yes.
+
 	// Remove any previous verse number highlight.
-	{
-		DEBUG("Remove verse num highlights")
-		GtkTextIter startiter, enditer;
-		for (unsigned int i = 0; i < textviews.size(); i++) {
-			GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
-			gtk_text_buffer_get_start_iter (textbuffer, &startiter);
-			gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-			gtk_text_buffer_remove_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
-		}
+	// TO DO: This loop business is because there are multiple text buffers - one per paragraph -
+	// instead of one per chapter.
+	GtkTextIter startiter, enditer;
+	for (unsigned int i = 0; i < textviews.size(); i++) {
+		GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
+		gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+		gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+		gtk_text_buffer_remove_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
 	}
-	
+
 	// Highlight the verse if it is non-zero.
 	if (current_verse_number != "0") {
-		DEBUG("Highlight v. " + current_verse_number)
 		GtkWidget * textview;
 		GtkTextIter startiter, enditer;
 		if (get_iterator_at_verse_number (current_verse_number, style_get_verse_marker(project), vbox_paragraphs, startiter, textview)) {
@@ -2037,9 +2228,9 @@ void Editor2::scroll_to_insertion_point_on_screen() // Todo crashes here...seems
 			gtk_text_iter_forward_chars (&enditer, current_verse_number.length());
 			gtk_text_buffer_apply_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
 		}
+		currHighlightedVerse = current_verse_number;
 	}
 }
-
 
 void Editor2::apply_editor_action (EditorAction * action, EditorActionApplication application)
 {
@@ -2778,28 +2969,38 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
   // (set to false) when the delete range action is done. A random key press doesn't indicate that. This is probably here
   // for some other reason. Not sure why 4/7/2016.
   // textbuffer_delete_range_was_fired = false;
-
-  DEBUG(ustring(gdk_keyval_name (event->keyval)))
+  keystrokeNum++;
+  DEBUG(ustring(gdk_keyval_name (event->keyval))+" keystroke="+std::to_string(unsigned(keystrokeNum)))
 
   // Store data for paragraph crossing control.
   paragraph_crossing_textview_at_key_press = widget;
   GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
   gtk_text_buffer_get_iter_at_mark(textbuffer, &paragraph_crossing_insertion_point_iterator_at_key_press, gtk_text_buffer_get_insert(textbuffer));
-  // This seems very inefficient. But it handles the case where the insertion point is off the screen
-  // and the user begins typing, as in after he slides the scroll bar so his work moves out of the viewport.
-  scroll_to_insertion_point_on_screen();
-  // Neither of these seemed to work.
+  //DEBUG("paragraph_crossing_insertion...="+std::to_string(int(gtk_text_iter_get_line_index(&paragraph_crossing_insertion_point_iterator_at_key_press))))
+
+  if (!keyboard_any_cursor_move(event)) {
+	// This handles the case where the insertion point is off the screen
+	// and the user begins typing, as in after he slides the scroll bar so his work moves out of the viewport.
+	scroll_to_insertion_point_on_screen(/*highlight?*/false); // don't highlight verses. Subsequent cursor-move signal will do that if there was a cursor move and not a regular key press.
+  }
+  // Else, in the case of a cursor movement key, scroll_to_insertion will be called by the move-cursor handler.
+
+  // We are monkeying with the move-cursor signal and are not supposed to be (see elsewhere in this file)
   //screen_scroll_to_iterator(GTK_TEXT_VIEW(widget), &paragraph_crossing_insertion_point_iterator_at_key_press);
   //textview_scroll_to_mark(GTK_TEXT_VIEW(widget), gtk_text_buffer_get_insert(textbuffer), false);
   
   // A GtkTextView has standard keybindings for clipboard operations.
   // It has been found that if the user presses, e.g. Ctrl-c, that
   // text is copied to the clipboard twice, or e.g. Ctrl-v, that it is
-  // pasted twice. This is probably a bug in Gtk2. MAP 4/7/2016: I believe it probably is that the key press and key release are triggering an action in our code.
+  // pasted twice. This is probably a bug in Gtk2. MAP 4/7/2016: I believe it 
+  // probably is that the key press and key release are triggering an action in our code.
+  // OR, that the textview has smarts in it to do these things so we don't have to,
+  // but we thought we had to do so ourselves.
   // The relevant key bindings for clipboard operations are blocked here.
   // The default bindings for copying to clipboard are Ctrl-c and Ctrl-Insert.
   // The default bindings for cutting to clipboard are Ctrl-x and Shift-Delete.
   // The default bindings for pasting from clipboard are Ctrl-v and Shift-Insert.
+  // TO DO: Set up a switch statement to handle all these cases.
   if (keyboard_control_state(event)) {
     if (event->keyval == GDK_KEY_c) return true;
     if (event->keyval == GDK_KEY_x) return true;
@@ -2823,15 +3024,16 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
 
 	// Handle pressing the Backspace key.
 	if (keyboard_backspace_pressed (event) && editable && !textbuffer_delete_range_was_fired) {
-		DEBUG("Backspace pressed")
+		//DEBUG("Backspace pressed")
 		// Determine if we are at the beginning of a paragraph because without this code,
 		// backspace will get "stuck" and not be able to go back to the prior paragraph.
 		GtkTextIter iter;
 		gtk_text_buffer_get_iter_at_offset(textbuffer, &iter, 0);
 		// Is above equivalent to a call to gtk_text_buffer_get_start_iter  ???
+		  //DEBUG("paragraph_crossing_insertion...="+std::to_string(int(gtk_text_iter_get_line_index(&paragraph_crossing_insertion_point_iterator_at_key_press))))
 		if (gtk_text_iter_equal(&iter, &paragraph_crossing_insertion_point_iterator_at_key_press)) {
-			DEBUG("It looks like backspace pressed at beginning of paragraph")
-			DEBUG("Combining paragraphs after backspace")
+			//DEBUG("It looks like backspace pressed at beginning of paragraph")
+			//DEBUG("Combining paragraphs after backspace")
 			EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
 			EditorActionCreateParagraph * preceding_paragraph = widget2paragraph_action (editor_get_previous_textview (vbox_paragraphs, widget));
 			combine_paragraphs(preceding_paragraph, current_paragraph);
@@ -2841,19 +3043,20 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
   
 	// Handle pressing the Delete key.
 	else if (keyboard_delete_pressed (event) && editable && !textbuffer_delete_range_was_fired) {
-		DEBUG("Delete pressed")
+		//DEBUG("Delete pressed")
 		// Determine if we are at the end of a paragraph because without this code,
 		// delete will get "stuck" and not be able to join text from the next paragraph.
 		GtkTextIter iter;
 		gtk_text_buffer_get_iter_at_offset(textbuffer, &iter, -1);
 		// I think above is equivalent to a call to gtk_text_buffer_get_end_iter  ???
+		  //DEBUG("paragraph_crossing_insertion...="+std::to_string(int(gtk_text_iter_get_line_index(&paragraph_crossing_insertion_point_iterator_at_key_press))))
 		if (gtk_text_iter_equal(&iter, &paragraph_crossing_insertion_point_iterator_at_key_press)) {
-			DEBUG("It looks like delete pressed at end of paragraph")
+			//DEBUG("It looks like delete pressed at end of paragraph")
 			if (gtk_text_buffer_get_selection_bounds(textbuffer, NULL, NULL)) {
-				DEBUG("Looks like there was a selection, however, so don't do anything...")
+				//DEBUG("Looks like there was a selection, however, so don't do anything...")
 			}
 			else {
-				DEBUG("Combining paragraphs after delete")
+				//DEBUG("Combining paragraphs after delete")
 				EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
 				EditorActionCreateParagraph * following_paragraph = widget2paragraph_action (editor_get_next_textview (vbox_paragraphs, widget));
 				// Next line makes sure cursor insertion point is set to beginning of second paragraph; else 
@@ -2872,7 +3075,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
 // Helper function to implement backspace and delete at paragraph boundaries.
 void Editor2::combine_paragraphs(EditorActionCreateParagraph * first_paragraph, EditorActionCreateParagraph * second_paragraph)
 {
-	DEBUG("textbuffer_delete_range_was_fired=" + std::to_string(int(textbuffer_delete_range_was_fired)))
+	//DEBUG("textbuffer_delete_range_was_fired=" + std::to_string(int(textbuffer_delete_range_was_fired)))
 	
 	if (first_paragraph && second_paragraph) {
 		// Get the text and styles of the second paragraph.
@@ -2913,118 +3116,6 @@ void Editor2::combine_paragraphs(EditorActionCreateParagraph * first_paragraph, 
 	}
 }
 
-// OBSOLETE...UNUSED
-gboolean Editor2::on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
-{
-  ((Editor2 *) user_data)->textview_key_release_event(widget, event);
-  return FALSE;
-}
-
-// OBSOLETE...UNUSED
-void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
-{
-  // Handle pressing the Backspace key.
-  if (keyboard_backspace_pressed (event)) {
-	DEBUG("Backspace released")
-	//wait_for_key_release = false;
-    // Handle the case that the backspace key didn't delete text.
-    // Do this only when the Editor is editable.
-    if (!textbuffer_delete_range_was_fired && editable) {
-      // Get the current and preceding paragraphs.
-      // The preceding one may not be there.
-	  DEBUG("Combining paragraphs after backspace")
-      EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
-      EditorActionCreateParagraph * preceding_paragraph = widget2paragraph_action (editor_get_previous_textview (vbox_paragraphs, widget));
-      if (current_paragraph && preceding_paragraph) {
-        // Get the text and styles of the current paragraph.
-        vector <ustring> text;
-        vector <ustring> styles;
-        EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(current_paragraph, text, styles);
-        // Delete the text from the current paragraph.
-        if (delete_action) {
-          apply_editor_action (delete_action);
-        }
-        // Insert the text into the preceding paragraph.
-        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (preceding_paragraph->textview));
-        GtkTextIter enditer;
-        gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-        gint initial_offset = gtk_text_iter_get_offset (&enditer);
-        for (unsigned int i = 0; i < text.size(); i++) {
-          gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-          gint offset = gtk_text_iter_get_offset (&enditer);
-          EditorActionInsertText * insert_action = new EditorActionInsertText (preceding_paragraph, offset, text[i]);
-          apply_editor_action (insert_action);
-          if (!styles[i].empty()) {
-            EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(preceding_paragraph, styles[i], offset, text[i].length());
-            apply_editor_action (style_action);
-          }
-        }
-        // Move the insertion point to the position just before the joined text.
-        editor_paragraph_insertion_point_set_offset (preceding_paragraph, initial_offset);
-		// Focus the preceding paragraph. This must be done  before deleting the 
-		// current_paragraph (which has focus), otherwise the blinking cursor is lost.
-		give_focus (preceding_paragraph->textview);
-        // Remove the current paragraph.
-        apply_editor_action (new EditorActionDeleteParagraph(current_paragraph));
-        // WAS HERE BUT LOST cursor: give_focus (preceding_paragraph->textview);
-        // Insert the One Action boundary.
-        apply_editor_action (new EditorAction (eatOneActionBoundary));
-      }      
-    }
-  }
-
-  // Handle pressing the Delete keys.
-  if (keyboard_delete_pressed (event)) {
-	DEBUG("Delete released")
-	//wait_for_key_release = false;
-    // Handle the case that the delete keys didn't delete text.
-    // Do this only when the Editor is editable.
-    if (!textbuffer_delete_range_was_fired && editable) {
-      // Get the current and following paragraphs.
-      // The following one may not be there.
-	  DEBUG("Combining paragraphs after delete")
-      EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
-      EditorActionCreateParagraph * following_paragraph = widget2paragraph_action (editor_get_next_textview (vbox_paragraphs, widget));
-      if (current_paragraph && following_paragraph) {
-        // Get the text and styles of the whole following paragraph.
-        editor_paragraph_insertion_point_set_offset (following_paragraph, 0);
-        vector <ustring> text;
-        vector <ustring> styles;
-        EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(following_paragraph, text, styles);
-        // Delete the text from the following paragraph.
-        if (delete_action) {
-          apply_editor_action (delete_action);
-        }
-        // Insert the text into the current paragraph.
-        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (current_paragraph->textview));
-        GtkTextIter enditer;
-        gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-        gint initial_offset = gtk_text_iter_get_offset (&enditer);
-        for (unsigned int i = 0; i < text.size(); i++) {
-          gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-          gint offset = gtk_text_iter_get_offset (&enditer);
-          EditorActionInsertText * insert_action = new EditorActionInsertText (current_paragraph, offset, text[i]);
-          apply_editor_action (insert_action);
-          if (!styles[i].empty()) {
-            EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(current_paragraph, styles[i], offset, text[i].length());
-            apply_editor_action (style_action);
-          }
-        }
-        // Move the insertion point to the position just before the joined text.
-        editor_paragraph_insertion_point_set_offset (current_paragraph, initial_offset);
-        // Remove the following paragraph.
-        apply_editor_action (new EditorActionDeleteParagraph(following_paragraph));
-        // Insert the One Action boundary.
-        apply_editor_action (new EditorAction (eatOneActionBoundary));
-      }      
-    }
-  }
-
-  // Clear flag for monitoring deletions from textbuffers.
-  textbuffer_delete_range_was_fired = false;  
-}
-
-
 bool Editor2::on_textview_button_press_delayed (gpointer user_data)
 {
   ((Editor2 *) user_data)->textview_button_press_delayed();
@@ -3036,7 +3127,7 @@ void Editor2::textview_button_press_delayed ()
 {
   textview_button_press_event_id = 0;
   signal_if_styles_changed();
-  signal_if_verse_changed();
+  signal_if_verse_changed(); // rarely will cause verse to change
 }
 
 
@@ -3055,7 +3146,7 @@ void Editor2::switch_verse_tracking_on ()
 void Editor2::go_to_verse(const ustring& number, bool focus)
 // Moves the insertion point of the editor to the verse number.
 {
-  DEBUG("current_verse_number="+number)
+  //DEBUG("go_to_verse "+number+" current_verse_number was "+current_verse_number)
   // Ensure verse tracking is on.
   switch_verse_tracking_on ();
   
@@ -3063,9 +3154,9 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
   current_verse_number = number;
 
   // Only move the insertion point if it goes to another verse.
-  if (number != verse_number_get()) {
-    DEBUG("go_to_verse number="+number)
-	DEBUG("verse_number_get=" + verse_number_get())
+  ustring computedVerse = verse_number_get();
+  if (number != computedVerse) {
+    //DEBUG("go_to_verse number="+number+" but verse_number_get=" + computedVerse)
     // Get the iterator and textview that contain the verse number.
     GtkTextIter iter;
     GtkWidget * textview;
@@ -3080,7 +3171,7 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
   }
 
   // Scroll the insertion point onto the screen
-  scroll_to_insertion_point_on_screen();
+  scroll_to_insertion_point_on_screen(/*highlight?*/true);
 
   // Highlight search words.
   highlight_searchwords();
@@ -3099,10 +3190,11 @@ bool Editor2::on_signal_if_verse_changed_timeout(gpointer data)
   return false;
 }
 
-
+// Postiff: I believe this signals the verse navigator pull down menus 
+// to change the verse number they are showing.
 void Editor2::signal_if_verse_changed_timeout()
 {
-  DEBUG("Signal verse_changed_timeout")
+  //DEBUG("Signal verse_changed_timeout")
   // Proceed if verse tracking is on.
   if (verse_tracking_on) {
     // Proceed if there's a focused paragraph.
@@ -3112,7 +3204,7 @@ void Editor2::signal_if_verse_changed_timeout()
         // Emit a signal if the verse number at the insertion point changed.
         ustring verse_number = verse_number_get();
         if (verse_number != current_verse_number) {
-		  DEBUG("current_verse_number="+verse_number)
+		  //DEBUG("Changing from v"+current_verse_number+" to v"+verse_number+" as new current_verse_number")
           current_verse_number = verse_number;
           if (new_verse_signal) {
             gtk_button_clicked(GTK_BUTTON(new_verse_signal));
@@ -3126,21 +3218,35 @@ void Editor2::signal_if_verse_changed_timeout()
 
 void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
 {
-  DEBUG("Start of paragraph_crossing")
+  //DEBUG("Start of paragraph_crossing")
   // Bail out if there's no paragraph.
   if (focused_paragraph == NULL) {
     return;
   }
   
+  // Explain: keystrokeNum tracks key presses. If we have done a paragraph_crossing_act
+  // before for this keystroke, then we don't to it again!
+  if (keystrokeNum == keyStrokeNum_paragraph_crossing_processed) {
+	  //DEBUG("Bailing out!")
+	  return;
+  }
+  keyStrokeNum_paragraph_crossing_processed = keystrokeNum;
+  
+  //DEBUG("count="+std::to_string(int(count)))
+  //ustring debug_verse_number = verse_number_get();
+  //DEBUG("debug_verse_number "+debug_verse_number)
+  
   // Get the iterator at the insert position of the currently focused paragraph.
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_mark (focused_paragraph->textbuffer, &iter, gtk_text_buffer_get_insert (focused_paragraph->textbuffer));
-
+  //DEBUG("paragraph_crossing_insertion...="+std::to_string(int(gtk_text_iter_get_line_index(&paragraph_crossing_insertion_point_iterator_at_key_press))))
+  //DEBUG("iter...="+std::to_string(int(gtk_text_iter_get_line_index(&iter))))
   // Bail out if there was real movement.
+  // BUG RIGHT HERE: 
   if (!gtk_text_iter_equal (&paragraph_crossing_insertion_point_iterator_at_key_press, &iter)) {
     return;
   }
-  DEBUG("After mvmt chk paragraph_crossing")
+  //DEBUG("After mvmt chk paragraph_crossing")
   // Focus the crossed widget and place its cursor.  
   GtkWidget * crossed_widget;
   if (count > 0) {
@@ -3148,6 +3254,9 @@ void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
   } else {
     crossed_widget = editor_get_previous_textview (vbox_paragraphs, focused_paragraph->textview);
   }  
+   //debug_verse_number = verse_number_get();
+   //DEBUG("debug_verse_number "+debug_verse_number)
+
   if (crossed_widget) {
     GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (crossed_widget));
     if (count > 0) {
@@ -3158,6 +3267,9 @@ void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
     gtk_text_buffer_place_cursor (textbuffer, &iter);
     give_focus (crossed_widget);
   }
+  //debug_verse_number = verse_number_get();
+  //DEBUG("debug_verse_number "+debug_verse_number)
+
 }
 
 
@@ -3221,9 +3333,10 @@ void Editor2::give_focus (GtkWidget * widget)
   if (has_focus ()) {
     // If the editor has focus, then the widget is actually given focus.
     gtk_widget_grab_focus (widget);
+	//DEBUG("Called give_focus and gtk_widget_grab_focus")
   } else {
     // If the editor does not have focus, only the internal focus system is called, without actually having the widget grab focus.
     textview_grab_focus(widget);
+	//DEBUG("Called give_focus and textview_grab_focus")
   }
 }
-
