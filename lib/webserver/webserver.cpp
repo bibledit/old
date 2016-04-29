@@ -245,39 +245,49 @@ void https_server_display_mbed_tls_error (int ret)
   if (ret != 0) {
     char error_buf [100];
     mbedtls_strerror (ret, error_buf, 100);
-    cerr << "Last error was: " << ret << " - " << error_buf << endl;
+    cerr << error_buf << " (" << ret << ")" << endl;
   }
 }
 
 
 void https_server () // Todo
 {
-  return; // Todo
+  mbedtls_net_context listen_fd;
+  mbedtls_net_init (&listen_fd);
+
+  mbedtls_net_context client_fd;
+  mbedtls_net_init (&client_fd);
+  
+  mbedtls_ssl_context ssl;
+  mbedtls_ssl_init (&ssl);
+
+  mbedtls_ssl_config conf;
+  mbedtls_ssl_config_init (&conf);
+  
+  mbedtls_ssl_cache_context cache;
+  mbedtls_ssl_cache_init (&cache);
+
+  mbedtls_x509_crt srvcert;
+  mbedtls_x509_crt_init (&srvcert);
+  
+  mbedtls_pk_context pkey;
+  mbedtls_pk_init (&pkey);
+
+  mbedtls_entropy_context entropy;
+  mbedtls_entropy_init (&entropy);
+
+  mbedtls_ctr_drbg_context ctr_drbg;
+  mbedtls_ctr_drbg_init (&ctr_drbg);
+
+  
+  
   int ret, len;
-  mbedtls_net_context listen_fd, client_fd;
   unsigned char buf[1024];
   const char *pers = "ssl_server";
   
-  
-  mbedtls_entropy_context entropy;
-  mbedtls_ctr_drbg_context ctr_drbg;
-  mbedtls_ssl_context ssl;
-  mbedtls_ssl_config conf;
-  mbedtls_x509_crt srvcert;
-  mbedtls_pk_context pkey;
-  mbedtls_ssl_cache_context cache;
 
-  
-  mbedtls_net_init( &listen_fd );
-  mbedtls_net_init( &client_fd );
-  mbedtls_ssl_init( &ssl );
-  mbedtls_ssl_config_init( &conf );
-  mbedtls_ssl_cache_init( &cache );
-  mbedtls_x509_crt_init( &srvcert );
-  mbedtls_pk_init( &pkey );
-  mbedtls_entropy_init( &entropy );
-  mbedtls_ctr_drbg_init( &ctr_drbg );
-  
+  return; // Todo
+
   
   // Load the certificates and private RSA key.
   cout << "Loading the https server certificate and key" << endl;
@@ -285,11 +295,9 @@ void https_server () // Todo
   // Instead, you may want to use mbedtls_x509_crt_parse_file() to read the
   // server and CA certificates, as well as mbedtls_pk_parse_keyfile().
   ret = mbedtls_x509_crt_parse (&srvcert, (const unsigned char *) mbedtls_test_srv_crt, mbedtls_test_srv_crt_len);
-  if (ret != 0) {
-    cerr << "Failed parsing test srv crt" << endl;
-    https_server_display_mbed_tls_error (ret);
-    return;
-  }
+  https_server_display_mbed_tls_error (ret);
+  if (ret != 0) return;
+
   ret = mbedtls_x509_crt_parse (&srvcert, (const unsigned char *) mbedtls_test_cas_pem, mbedtls_test_cas_pem_len);
   if (ret != 0) {
     cerr << "Failed parsing test cas pem" << endl;
