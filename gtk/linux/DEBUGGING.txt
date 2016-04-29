@@ -1,0 +1,22 @@
+This is a description of how to debug bibledit-gtk on Windows.
+It assumes you have already gone through the BUILDING process
+and the INSTALLING process.
+Written by Matt Postiff, postiffm@umich.edu, 3/29/2016
+
+General Debugging
+----------------------------------------------------------------
+<not written>
+
+Memory Debugging
+----------------------------------------------------------------
+I use 
+valgrind --leak-check=full -v --track-origins=yes /usr/bin/bibledit-gtk >& memory.txt
+
+It runs very slowly, but it gives good information on memory leaks
+and things like conditional jumps that rely on uninitialized memory.
+These are often in library code (several happen in 
+/usr/lib/i386-linux-gnu/libjavascriptcoregtk-1.0.so.0.16.18
+and I can't do anything about that...)
+
+
+
