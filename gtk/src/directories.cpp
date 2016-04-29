@@ -346,7 +346,6 @@ void directories::find_utilities(void)
 		if (spawn.exitstatus == 0) { mkdir = rundir + "\\mkdir.exe"; mkdir_args = "-p"; }
 		else { gw_message(_("Cannot find a suitable mkdir utility")); }
 	}
-	}
 #endif
 }
   
