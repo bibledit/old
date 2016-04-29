@@ -407,7 +407,9 @@ void EditDictionaryDialog::on_okbutton()
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter(textbuffer, &startiter);
   gtk_text_buffer_get_end_iter(textbuffer, &enditer);
-  g_file_set_contents(filename.c_str(), gtk_text_buffer_get_text(textbuffer, &startiter, &enditer, true), -1, NULL);
+  gchar *txt = gtk_text_buffer_get_text(textbuffer, &startiter, &enditer, true);
+  g_file_set_contents(filename.c_str(), txt, -1, NULL);
+  g_free(txt); // Postiff: plug memory leak
 }
 
 

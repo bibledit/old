@@ -170,7 +170,9 @@ void textbuffer_get_lines(GtkTextBuffer * buffer, vector < ustring > &lines, boo
       gtk_text_iter_backward_char(&endofline);
     }
     // Get the line.
-    ustring line = gtk_text_buffer_get_text(buffer, &iterator, &endofline, false);
+    gchar *txt = gtk_text_buffer_get_text(buffer, &iterator, &endofline, false);
+    ustring line = txt;
+    g_free(txt); // Postiff: plug memory leak
     // Trim it.
     if (trimline)
       line = trim(line);

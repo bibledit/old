@@ -551,9 +551,7 @@ void SpellingChecker::ignore_all(GtkWidget * menuitem)
   right_clicked_word_get_extends(&start, &end);
 
   char *word = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-
   correct_words.insert(word);
-
   g_free(word);
 
   gtk_button_clicked(GTK_BUTTON(check_signal));

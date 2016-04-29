@@ -1000,7 +1000,9 @@ void StylesheetDialog::save_style()
   GtkTextIter enditer;
   gtk_text_buffer_get_start_iter(buffer, &startiter);
   gtk_text_buffer_get_end_iter(buffer, &enditer);
-  info = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(buffer), &startiter, &enditer, false);
+  gchar *txt = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(buffer), &startiter, &enditer, false);
+  info = txt; // this copies txt into the ustring
+  g_free(txt); // Postiff: plug memory leak because gtk_text_buffer_get_text allocates a new string
   info = trim(info);
   // Save this style.
   stylesheet_save_style(mystylesheet, mystyle, gtk_entry_get_text(GTK_ENTRY(entryname)), info, type, get_subtype(), fontsize_points, italic, bold, underline, smallcaps, superscript, justification, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, spancolumns, color, print, userbool1, userbool2, userbool3, userint1, userint2, userint3, userstring1, userstring2, userstring3);

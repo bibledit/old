@@ -578,7 +578,9 @@ void USFMView::on_texteditor_click(GtkWidget * widget, GdkEventButton * event)
       gtk_text_iter_forward_word_end(&enditer);
     startiter = enditer;
     gtk_text_iter_backward_word_start(&startiter);
-    word_double_clicked_text = gtk_text_buffer_get_text(GTK_TEXT_BUFFER (sourcebuffer), &startiter, &enditer, false);
+    gchar *txt = gtk_text_buffer_get_text(GTK_TEXT_BUFFER (sourcebuffer), &startiter, &enditer, false);
+    word_double_clicked_text = txt;
+    g_free(txt); // Postiff: plug memory leak
 
     // Signal to have it sent to Toolbox.
     gtk_button_clicked(GTK_BUTTON(word_double_clicked_signal));

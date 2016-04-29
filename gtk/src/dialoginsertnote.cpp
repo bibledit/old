@@ -918,7 +918,9 @@ void InsertNoteDialog::on_okbutton()
     gtk_text_buffer_get_start_iter(textbuffer, &start);
     GtkTextIter end;
     gtk_text_buffer_get_end_iter(textbuffer, &end);
-    ustring text = gtk_text_buffer_get_text(textbuffer, &start, &end, false);
+    gchar *txt = gtk_text_buffer_get_text(textbuffer, &start, &end, false);
+    ustring text = txt;
+    g_free(txt); // Postiff: plug memory leak
     replace_text(text, "\n", " ");
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_tidies[i]))) {
       tidy_text(text);

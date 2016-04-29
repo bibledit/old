@@ -226,7 +226,9 @@ void FiltersDialog::on_button_try()
   gtk_text_buffer_get_start_iter(inputbuffer, &startiter);
   gtk_text_buffer_get_end_iter(inputbuffer, &enditer);
   ustring inputfile = script_temporal_input_file();
-  g_file_set_contents(inputfile.c_str(), gtk_text_buffer_get_text(inputbuffer, &startiter, &enditer, false), -1, NULL);
+  gchar *txt = gtk_text_buffer_get_text(inputbuffer, &startiter, &enditer, false);
+  g_file_set_contents(inputfile.c_str(), txt, -1, NULL);
+  g_free(txt); // Postiff: plug memory leak
 
   // Filter.
   ustring scriptname = combobox_get_active_string(combobox_filters);
@@ -390,7 +392,9 @@ void FiltersDialog::on_rulesbuffer_changed_execute()
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter(rulesbuffer, &startiter);
   gtk_text_buffer_get_end_iter(rulesbuffer, &enditer);
-  g_file_set_contents(scriptfile.c_str(), gtk_text_buffer_get_text(rulesbuffer, &startiter, &enditer, false), -1, NULL);
+  gchar *txt = gtk_text_buffer_get_text(rulesbuffer, &startiter, &enditer, false);
+  g_file_set_contents(scriptfile.c_str(), txt, -1, NULL);
+  g_free(txt); // Postiff: plug memory leak
 
   // If it is a TECkit mapping, compile it.
   if (scripttype == stTECkit) {

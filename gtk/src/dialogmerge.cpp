@@ -199,7 +199,9 @@ void MergeDialog::on_okbutton()
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter(textbuffer, &startiter);
   gtk_text_buffer_get_end_iter(textbuffer, &enditer);
-  reconciled_text = gtk_text_buffer_get_text(textbuffer, &startiter, &enditer, false);
+  gchar *txt = gtk_text_buffer_get_text(textbuffer, &startiter, &enditer, false);
+  reconciled_text = txt;
+  g_free(txt); // Postiff: plug memory leak
   replace_text(reconciled_text, "  ", " ");
   replace_text(reconciled_text, "  ", " ");
 }

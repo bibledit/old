@@ -589,7 +589,9 @@ void Editor2::show_quick_references_execute()
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter(note_buffer, &startiter);
   gtk_text_buffer_get_end_iter(note_buffer, &enditer);
-  ustring note_text = gtk_text_buffer_get_text(note_buffer, &startiter, &enditer, true);
+  gchar *txt = gtk_text_buffer_get_text(note_buffer, &startiter, &enditer, true);
+  ustring note_text = txt;
+  g_free(txt); // Postiff: plug memory leak because above allocates mem, then ustring copies from it
 
   // Get the language of the project.
   extern Settings *settings;
@@ -1060,7 +1062,9 @@ gboolean Editor2::textview_button_press_event(GtkWidget * widget, GdkEventButton
     // Do not include note markers.
     GtkTextIter moved_enditer;
     if (move_end_iterator_before_note_caller_and_validate (startiter, enditer, moved_enditer)) {
-      word_double_clicked_text = gtk_text_buffer_get_text(textbuffer, &startiter, &moved_enditer, false);
+      gchar *txt = gtk_text_buffer_get_text(textbuffer, &startiter, &moved_enditer, false);
+      word_double_clicked_text = txt;
+      g_free(txt); // Postiff: plug memory leak
   
       // Signal to have it sent to Toolbox.
       gtk_button_clicked(GTK_BUTTON(word_double_clicked_signal));

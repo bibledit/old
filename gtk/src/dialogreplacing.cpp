@@ -356,11 +356,13 @@ void ReplacingDialog::accept_change()
     gtk_text_buffer_get_iter_at_line(GTK_TEXT_BUFFER(buffer), &begin, i);
     gtk_text_buffer_get_iter_at_line(GTK_TEXT_BUFFER(buffer), &end, i + 1);
     gtk_text_iter_backward_char(&end);
-    ustring s;
-    s = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(buffer), &begin, &end, false);
+    gchar *txt = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(buffer), &begin, &end, false);
+    ustring s = txt;
     s = trim(s);
-    if (s.length())
+    if (s.length()) {
       verses.push_back(s);
+    }
+    g_free(txt); // Postiff: plug memory leak
   }
   // Save the modified text.
   ustring data;
