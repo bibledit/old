@@ -363,10 +363,26 @@ void https_server () // Todo
       https_server_display_mbed_tls_error (ret);
       continue;
     }
-    mbedtls_ssl_set_bio (&ssl, &client_fd, mbedtls_net_send, mbedtls_net_recv, NULL);
+    mbedtls_ssl_set_bio (&ssl, &client_fd, mbedtls_net_send, mbedtls_net_recv, NULL); // Todo
 
     
-    // Handshake
+    // Socket receive timeout.
+    struct timeval tv;
+    tv.tv_sec = 60;
+    tv.tv_usec = 0;
+    setsockopt (client_fd.fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+
+    
+    // The client's remote IPv4 address in dotted notation.
+    struct sockaddr_in addr;
+    socklen_t addr_size = sizeof(struct sockaddr_in);
+    getpeername (client_fd.fd, (struct sockaddr *)&addr, &addr_size);
+    char remote_address [256];
+    inet_ntop (AF_INET, &addr.sin_addr.s_addr, remote_address, sizeof (remote_address));
+    string clientaddress = remote_address;
+    
+    
+    // SSL / TLS handshake.
     while (connection_healthy && (ret = mbedtls_ssl_handshake (&ssl)) != 0) {
       if (ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
         if (config_globals_https_running) {
@@ -413,7 +429,14 @@ void https_server () // Todo
     if (!connection_healthy) continue;
 
 
-    // Write the 200 Response
+    // Write the response.
+    /* Todo
+     // Handle this request in a thread, enabling parallel requests.
+     thread request_thread = thread (webserver_process_request, connfd, clientaddress);
+     // Detach and delete thread object.
+     request_thread.detach ();
+    */
+
 #define HTTP_RESPONSE \
 "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n" \
 "<h2>Bibledit secure server</h2>\r\n" \
@@ -454,27 +477,6 @@ void https_server () // Todo
   mbedtls_ssl_cache_free (&cache);
   mbedtls_ctr_drbg_free (&ctr_drbg);
   mbedtls_entropy_free (&entropy);
-  
-
-  /* Todo plain http server.
-  
-      // Socket receive timeout.
-      struct timeval tv;
-      tv.tv_sec = 60;
-      tv.tv_usec = 0;
-      setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
-      
-      // The client's remote IPv4 address in dotted notation.
-      char remote_address[256];
-      inet_ntop (AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof (remote_address));
-      string clientaddress = remote_address;
-      
-      // Handle this request in a thread, enabling parallel requests.
-      thread request_thread = thread (webserver_process_request, connfd, clientaddress);
-      // Detach and delete thread object.
-      request_thread.detach ();
-  
-  */
 }
 
 
