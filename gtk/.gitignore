@@ -1,0 +1,19 @@
+# Files that we don't want to git to think about
+Makefile.in
+aclocal.m4
+m4/*.m4
+INSTALL
+compile
+config.guess
+config.h
+config.h.in
+config.sub
+configure
+depcomp
+install-sh
+libtool
+ltmain.sh
+missing
+po/Makefile.in.in
+po/fr.gmo
+po/stamp-it
