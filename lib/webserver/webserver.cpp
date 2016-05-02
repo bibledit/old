@@ -85,7 +85,7 @@ void webserver_process_request (int connfd, string clientaddress)
   request.remote_address = clientaddress;
   
   try {
-    if (config_globals_http_running) { // Todo also secure version.
+    if (config_globals_http_running) {
       
       // Connection health flag.
       bool connection_healthy = true;
@@ -248,7 +248,7 @@ void https_server_display_mbed_tls_error (int & ret)
 
 
 // Processes a single request from a web client.
-void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd) // Todo
+void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd)
 {
   // Socket receive timeout.
   struct timeval tv;
@@ -321,67 +321,113 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       while (connection_healthy && header_parsed) {
         // Read the client's request.
         // With the HTTP protocol it is not possible to read the request till EOF,
-        // because EOF does never come,
-        // since the browser keeps the connection open for the response.
+        // because EOF does not always come,
+        // since the browser may keep the connection open for the response.
         // The HTTP protocol works per line.
         // Read and parse one line of data from the client.
         // An empty line marks the end of the headers.
         unsigned char buffer [1];
         memset (&buffer, 0, 1);
         ret = mbedtls_ssl_read (&ssl, buffer, 1);
-        char c = buffer [0];
-        // The request contains a carriage return (\r) and a new line feed (\n).
-        // The traditional order of this is \r\n.
-        // Therefore when a \r is encountered, just disregard it.
-        // A \n will follow to mark the end of the header line.
-        if (c == '\r') continue;
-        // At a new line, parse the received header line.
-        if (c == '\n') {
-          header_parsed = http_parse_header (header_line, &request);
-          header_line.clear ();
-        } else {
-          header_line += c;
-        }
         if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
         if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
+        if (ret == 0) header_parsed = false; // 0: EOF
         if (ret < 0) connection_healthy = false;
-      }
-      
-      // Write the response.
-#define HTTP_RESPONSE \
-"HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n" \
-"<h2>Bibledit secure server</h2>\r\n" \
-"<p>Successful connection using: %s</p>\r\n"
-      
-      if (connection_healthy) {
-        unsigned char buf[1024];
-        int len;
-        len = sprintf ((char *) buf, HTTP_RESPONSE, mbedtls_ssl_get_ciphersuite (&ssl));
-        while ((ret = mbedtls_ssl_write (&ssl, buf, len)) <= 0) {
-          if (ret == MBEDTLS_ERR_NET_CONN_RESET) {
-            https_server_display_mbed_tls_error (ret);
-            connection_healthy = false;
-            continue;
-          }
-          if (ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
-            connection_healthy = false;
-            https_server_display_mbed_tls_error (ret);
-            continue;
+        if (connection_healthy && header_parsed) {
+          char c = buffer [0];
+          // The request contains a carriage return (\r) and a new line feed (\n).
+          // The traditional order of this is \r\n.
+          // Therefore when a \r is encountered, just disregard it.
+          // A \n will follow to mark the end of the header line.
+          if (c == '\r') continue;
+          // At a new line, parse the received header line.
+          if (c == '\n') {
+            header_parsed = http_parse_header (header_line, &request);
+            header_line.clear ();
+          } else {
+            header_line += c;
           }
         }
-        
-        len = ret;
-        //cout << (char *) buf << endl;
+      }
+      header_line.clear ();
+
+      
+      if (request.is_post) {
+        // In the case of a POST request, more data follows:
+        // The POST request itself.
+        // The length of that data is indicated in the header's Content-Length line.
+        // Read that data.
+        string postdata;
+        bool done_reading = false;
+        int total_bytes_read = 0;
+        while (connection_healthy && !done_reading) {
+          unsigned char buffer [1];
+          memset (&buffer, 0, 1);
+          ret = mbedtls_ssl_read (&ssl, buffer, 1);
+          if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
+          if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
+          if (ret == 0) done_reading = true; // 0: EOF
+          if (ret < 0) connection_healthy = false;
+          if (connection_healthy && !done_reading) {
+            char c = buffer [0];
+            postdata += c;
+            total_bytes_read ++;
+          }
+          // "Content-Length" bytes read: Done.
+          if (total_bytes_read >= request.content_length) done_reading = true;
+        }
+        if (total_bytes_read < request.content_length) connection_healthy = false;
+        // Parse the POSTed data.
+        if (connection_healthy) {
+          http_parse_post (postdata, &request);
+        }
+      }
+
+      
+      // Assemble response.
+      if (connection_healthy) {
+        bootstrap_index (&request);
+        http_assemble_response (&request);
       }
       
       
+      // Write the response to the browser.
+      const char * output = request.reply.c_str();
+      const unsigned char * buf = (const unsigned char *) output;
+      // The C function strlen () fails on null characters in the reply, so take string::size()
+      size_t len = request.reply.size ();
+      while (connection_healthy && (len > 0)) {
+        // Function
+        // int ret = mbedtls_ssl_write (&ssl, buf, len)
+        // will do partial writes in some cases.
+        // If the return value is non-negative but less than length,
+        // the function must be called again with updated arguments:
+        // buf + ret, len - ret
+        // until it returns a value equal to the last 'len' argument.
+        ret = mbedtls_ssl_write (&ssl, buf, len);
+        if (ret > 0) {
+          buf += ret;
+          len -= ret;
+        } else {
+          // When it returns MBEDTLS_ERR_SSL_WANT_WRITE/READ,
+          // it must be called later with the *same* arguments,
+          // until it returns a positive value.
+          if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
+          if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
+          https_server_display_mbed_tls_error (ret);
+          connection_healthy = false;
+        }
+      }
+      
+
+      // Close SSL/TLS connection.
       if (connection_healthy) {
         while ((ret = mbedtls_ssl_close_notify (&ssl)) < 0) {
-          if (ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
-            https_server_display_mbed_tls_error (ret);
-            connection_healthy = false;
-            break;
-          }
+          if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
+          if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
+          https_server_display_mbed_tls_error (ret);
+          connection_healthy = false;
+          break;
         }
       }
       
@@ -405,61 +451,10 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
   
   // Done with the SSL context.
   mbedtls_ssl_free (&ssl);
-  
-  
-  /* Todo old plain http processor.
-      if (connection_healthy) {
-        
-        // In the case of a POST request, more data follows: The POST request itself.
-        // The length of that data is indicated in the header's Content-Length line.
-        // Read that data, and parse it.
-        string postdata;
-        if (request.is_post) {
-          bool done_reading = false;
-          int total_bytes_read = 0;
-          do {
-            bytes_read = read (connfd, buffer, BUFFERSIZE);
-            for (int i = 0; i < bytes_read; i++) {
-              postdata += buffer [i];
-            }
-            // EOF indicates reading is ready.
-            // An error also indicates that reading is ready.
-            if (bytes_read <= 0) done_reading = true;
-            if (bytes_read < 0) connection_healthy = false;
-            // "Content-Length" bytes read: Done.
-            total_bytes_read += bytes_read;
-            if (total_bytes_read >= request.content_length) done_reading = true;
-          } while (!done_reading);
-          if (total_bytes_read < request.content_length) connection_healthy = false;
-        }
-        
-        if (connection_healthy) {
-          
-          http_parse_post (postdata, &request);
-          
-          // Assemble response.
-          bootstrap_index (&request);
-          http_assemble_response (&request);
-          
-          // Send response to browser.
-          const char * output = request.reply.c_str();
-          // The C function strlen () fails on null characters in the reply, so take string::size()
-          size_t length = request.reply.size ();
-          int written = write (connfd, output, length);
-          if (written) {};
-          
-        } else {
-          // cerr << "Insufficient data received, closing connection" << endl;
-        }
-        
-      } else {
-        // cerr << "Unhealthy connection was closed" << endl;
-      }
-   */
 }
 
 
-void https_server () // Todo
+void https_server ()
 {
   // File descriptor for the listener.
   mbedtls_net_context listen_fd;
@@ -561,7 +556,6 @@ void https_server () // Todo
     thread request_thread = thread (secure_webserver_process_request, &conf, client_fd);
     // Detach and delete thread object.
     request_thread.detach ();
-
   }
   
   // Wait shortly to give sufficient time to let the connection fail,
