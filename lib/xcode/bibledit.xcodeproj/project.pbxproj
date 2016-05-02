@@ -1037,7 +1037,7 @@
 		CABB91D91AAB1CAA00D500FF /* verses.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = verses.cpp; sourceTree = "<group>"; };
 		CABB91DA1AAB1CAA00D500FF /* verses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = verses.h; sourceTree = "<group>"; };
 		CABB91DB1AAB1CAA00D500FF /* verses.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = verses.html; sourceTree = "<group>"; };
-		CABC327E1CCF951600698C7A /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		CABC327E1CCF951600698C7A /* 0readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 0readme.txt; sourceTree = "<group>"; };
 		CABC327F1CCFA21700698C7A /* installchromeos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installchromeos.html; sourceTree = "<group>"; };
 		CABE4D0C1BDBC996000547DB /* pugiconfig.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
 		CABE4D0D1BDBC996000547DB /* pugixml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pugixml.cpp; sourceTree = "<group>"; };
@@ -3183,6 +3183,7 @@
 		CABC327D1CCF951600698C7A /* mbedtls */ = {
 			isa = PBXGroup;
 			children = (
+				CABC327E1CCF951600698C7A /* 0readme.txt */,
 				CAB4332B1CCFBED600D1B158 /* aes.c */,
 				CAB4332C1CCFBED600D1B158 /* aes.h */,
 				CAB4332D1CCFBED600D1B158 /* aesni.c */,
@@ -3276,7 +3277,6 @@
 				CAB433851CCFBED600D1B158 /* pkwrite.c */,
 				CAB433861CCFBED600D1B158 /* platform.c */,
 				CAB433871CCFBED600D1B158 /* platform.h */,
-				CABC327E1CCF951600698C7A /* readme.txt */,
 				CAB433881CCFBEFF00D1B158 /* ripemd160.c */,
 				CAB433891CCFBEFF00D1B158 /* ripemd160.h */,
 				CAB4338A1CCFBEFF00D1B158 /* rsa.c */,
