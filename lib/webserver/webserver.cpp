@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <webserver/io.h>
 #include <filter/string.h>
+#include <filter/url.h>
 #include <mbedtls/entropy.h>
 #include <mbedtls/ctr_drbg.h>
 #include <mbedtls/certs.h>
@@ -457,39 +458,36 @@ void https_server ()
   mbedtls_ssl_cache_context cache;
   mbedtls_ssl_cache_init (&cache);
 
-  mbedtls_x509_crt srvcert;
-  mbedtls_x509_crt_init (&srvcert);
-  
-  mbedtls_pk_context pkey;
-  mbedtls_pk_init (&pkey);
-
   // A single entropy source that is used in all the threads.
   mbedtls_entropy_context entropy;
   mbedtls_entropy_init (&entropy);
 
   mbedtls_ctr_drbg_context ctr_drbg;
   mbedtls_ctr_drbg_init (&ctr_drbg);
-  
-  // Load the certificates and private RSA key.
-  // This uses embedded test certificates.
-  // Instead, you may want to use mbedtls_x509_crt_parse_file() to read the
-  // server and CA certificates, as well as mbedtls_pk_parse_keyfile().
+
   int ret;
-  ret = mbedtls_x509_crt_parse (&srvcert, (const unsigned char *) mbedtls_test_srv_crt, mbedtls_test_srv_crt_len);
-  if (ret != 0) {
-    https_server_display_mbed_tls_error (ret);
-    return;
-  }
-  ret = mbedtls_x509_crt_parse (&srvcert, (const unsigned char *) mbedtls_test_cas_pem, mbedtls_test_cas_pem_len);
-  if (ret != 0) {
-    https_server_display_mbed_tls_error (ret);
-    return;
-  }
-  ret = mbedtls_pk_parse_key (&pkey, (const unsigned char *) mbedtls_test_srv_key, mbedtls_test_srv_key_len, NULL, 0);
-  if (ret != 0) {
-    https_server_display_mbed_tls_error (ret);
-    return;
-  }
+  const char * path;
+  
+  // Server certificates store.
+  mbedtls_x509_crt srvcert;
+  mbedtls_x509_crt_init (&srvcert);
+  
+  // Load the server certificate.
+  path = filter_url_create_root_path ("config", "local.server.crt").c_str ();
+  ret = mbedtls_x509_crt_parse_file (&srvcert, path);
+  if (ret != 0) https_server_display_mbed_tls_error (ret);
+
+  // Load the chain of certificates of the certificate authorities.
+  path = filter_url_create_root_path ("config", "local.authorities.crt").c_str ();
+  ret = mbedtls_x509_crt_parse_file (&srvcert, path);
+  if (ret != 0) https_server_display_mbed_tls_error (ret);
+
+  // Load the private RSA server key.
+  mbedtls_pk_context pkey;
+  mbedtls_pk_init (&pkey);
+  path = filter_url_create_root_path ("config", "local.server.key").c_str ();
+  ret = mbedtls_pk_parse_keyfile (&pkey, path, NULL);
+  if (ret != 0) https_server_display_mbed_tls_error (ret);
   
   // Seed the random number generator.
   const char *pers = "Bibledit Cloud";
