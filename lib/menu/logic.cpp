@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/index.h>
 #include <administration/language.h>
 #include <administration/timezone.h>
-#include <administration/network.h>
 #include <bible/manage.h>
 #include <changes/changes.h>
 #include <changes/manage.h>
@@ -606,7 +605,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string notifications = translate ("Notifications");
   string account = translate ("Account");
   string basic_mode = translate ("Basic mode");
-  string network = translate ("Network");
   vector <string> labels = {
     bibles,
     desktops,
@@ -628,8 +626,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     logout,
     notifications,
     account,
-    basic_mode,
-    network
+    basic_mode
   };
   
   // Sort the labels in alphabetical order for the menu.
@@ -833,16 +830,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
         tiplabels.push_back (label);
       }
     }
-    
-#ifndef CLIENT_PREPARED
-    if (label == network) {
-      if (administration_network_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (administration_network_url (), translate ("Network"), true));
-        tiplabels.push_back (label);
-      }
-    }
-#endif
-    
   }
   
   if (!html.empty ()) {

@@ -156,7 +156,6 @@ libbibledit_a_SOURCES = \
 	manage/write.cpp \
 	manage/privileges.cpp \
 	administration/language.cpp \
-	administration/network.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
 	collaboration/flash.cpp \

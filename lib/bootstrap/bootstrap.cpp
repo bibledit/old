@@ -44,7 +44,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/privileges.h>
 #include <administration/language.h>
 #include <administration/timezone.h>
-#include <administration/network.h>
 #include <collaboration/index.h>
 #include <collaboration/flash.h>
 #include <collaboration/open.h>
@@ -321,7 +320,6 @@ void bootstrap_index (void * webserver_request)
   else if ((url == manage_index_url ()) && manage_index_acl (request)) request->reply = manage_index (request);
   else if ((url == administration_language_url ()) && administration_language_acl (request)) request->reply = administration_language (request);
   else if ((url == administration_timezone_url ()) && administration_timezone_acl (request)) request->reply = administration_timezone (request);
-  else if ((url == administration_network_url ()) && administration_network_acl (request)) request->reply = administration_network (request);
   else if ((url == email_index_url ()) && email_index_acl (request)) request->reply = email_index (request);
   else if ((url == styles_indext_url ()) && styles_indext_acl (request)) request->reply = styles_indext (request);
   else if ((url == styles_indexm_url ()) && styles_indexm_acl (request)) request->reply = styles_indexm (request);

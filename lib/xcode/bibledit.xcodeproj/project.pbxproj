@@ -369,9 +369,6 @@
 		CA71AC5A1A641DD800EF85A8 /* all.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = all.html; sourceTree = "<group>"; };
 		CA7387141AA49EEA00FE74D8 /* usfmresources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = usfmresources.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA7387151AA49EEA00FE74D8 /* usfmresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfmresources.h; sourceTree = "<group>"; };
-		CA73C0AC1CAE6DEB001792A3 /* network.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = network.cpp; sourceTree = "<group>"; };
-		CA73C0AD1CAE6DEB001792A3 /* network.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = network.h; sourceTree = "<group>"; };
-		CA73C0AE1CAE6DEB001792A3 /* network.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = network.html; sourceTree = "<group>"; };
 		CA7A748A1C7F655C00FDBF2C /* login.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = login.cpp; sourceTree = "<group>"; };
 		CA7A748B1C7F655C00FDBF2C /* login.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = login.h; sourceTree = "<group>"; };
 		CA7AB7311BB41F2400E14087 /* resources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = resources.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -456,6 +453,7 @@
 		CA9FAD8A1B4414FD00B43C76 /* changes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changes.h; sourceTree = "<group>"; };
 		CA9FAD8B1B44356A00B43C76 /* changes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = changes.cpp; sourceTree = "<group>"; };
 		CA9FAD8C1B44356A00B43C76 /* changes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changes.h; sourceTree = "<group>"; };
+		CAA020621CD8BDCD0039A510 /* config.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.txt; sourceTree = "<group>"; };
 		CAA0BC831B9A00A300115B42 /* import.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = import.cpp; sourceTree = "<group>"; };
 		CAA0BC841B9A00A300115B42 /* import.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = import.h; sourceTree = "<group>"; };
 		CAA0BC851B9A00A300115B42 /* import.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = import.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -1388,9 +1386,6 @@
 				CAA4CF171A45A647003ABA25 /* language.cpp */,
 				CAA4CF181A45A647003ABA25 /* language.h */,
 				CAA4CF191A45A647003ABA25 /* language.html */,
-				CA73C0AC1CAE6DEB001792A3 /* network.cpp */,
-				CA73C0AD1CAE6DEB001792A3 /* network.h */,
-				CA73C0AE1CAE6DEB001792A3 /* network.html */,
 				CAA4CF2C1A45A647003ABA25 /* timezone.cpp */,
 				CAA4CF2D1A45A647003ABA25 /* timezone.h */,
 				CAA4CF2E1A45A647003ABA25 /* timezone.html */,
@@ -1585,6 +1580,7 @@
 			isa = PBXGroup;
 			children = (
 				CA3A57621BD019A40042ADEE /* config.h */,
+				CAA020621CD8BDCD0039A510 /* config.txt */,
 				CAA4CFBB1A45A647003ABA25 /* globals.cpp */,
 				CAA4CFBC1A45A647003ABA25 /* globals.h */,
 				CAA4CFBE1A45A647003ABA25 /* libraries.h */,

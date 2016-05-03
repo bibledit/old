@@ -42,6 +42,7 @@ bool config_logic_android ();
 bool config_logic_ios ();
 bool config_logic_basic_mode (void * webserver_request);
 string config_logic_site_url ();
+string config_logic_manual_user_facing_url ();
 
 
 #endif

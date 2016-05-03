@@ -416,17 +416,3 @@ void Database_Config_General::setIndexBibles (bool value)
 {
   setBValue ("index-bibles", value);
 }
-
-
-string Database_Config_General::getManualUserFacingUrl ()
-{
-#ifdef CLIENT_PREPARED
-  return "";
-#else
-  return getValue ("manual-user-facing-url", "");
-#endif
-}
-void Database_Config_General::setManualUserFacingUrl (string value)
-{
-  setValue ("manual-user-facing-url", value);
-}

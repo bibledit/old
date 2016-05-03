@@ -192,7 +192,6 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
 	manage/write.$(OBJEXT) manage/privileges.$(OBJEXT) \
 	administration/language.$(OBJEXT) \
-	administration/network.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -723,7 +722,6 @@ libbibledit_a_SOURCES = \
 	manage/write.cpp \
 	manage/privileges.cpp \
 	administration/language.cpp \
-	administration/network.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
 	collaboration/flash.cpp \
@@ -1572,8 +1570,6 @@ administration/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) administration/$(DEPDIR)
 	@: > administration/$(DEPDIR)/$(am__dirstamp)
 administration/language.$(OBJEXT): administration/$(am__dirstamp) \
-	administration/$(DEPDIR)/$(am__dirstamp)
-administration/network.$(OBJEXT): administration/$(am__dirstamp) \
 	administration/$(DEPDIR)/$(am__dirstamp)
 administration/timezone.$(OBJEXT): administration/$(am__dirstamp) \
 	administration/$(DEPDIR)/$(am__dirstamp)
@@ -2556,7 +2552,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@access/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@access/$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/language.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/network.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/timezone.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/header.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/page.Po@am__quote@
