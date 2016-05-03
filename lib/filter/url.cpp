@@ -38,11 +38,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Gets the base URL of current Bibledit installation.
 string get_base_url (Webserver_Request * request)
 {
-  // E.g. http or https: Always use http for just now.
-  string scheme = "http";  
-  // Port
-  string port = config_logic_http_network_port ();
-  // Full URL.  
+  string scheme;
+  string port;
+  if (request->secure) {
+    scheme = "https";
+    port = config_logic_https_network_port ();
+  } else {
+    scheme = "http";
+    port = config_logic_http_network_port ();
+  }
   string url = scheme + "://" + request->host + ":" + port + "/";
   return url;
 }
@@ -52,7 +56,7 @@ string get_base_url (Webserver_Request * request)
 // "path" is an absolute value.
 void redirect_browser (Webserver_Request * request, string path)
 {
-  // A location header should contain an absolute url, like http://localhost/some.
+  // A location header should contain an absolute url, like http://localhost/some/path.
   // See 14.30 in the specification https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
   
   // The absolute location contains the user-facing URL, when the administrator entered it.
@@ -62,6 +66,15 @@ void redirect_browser (Webserver_Request * request, string path)
   
   // In case of no known site location, extract it from the browser's request.
   if (location.empty ()) location = get_base_url (request);
+
+  // If the request was secure, ensure the location contains https rather than plain http,
+  // plus the correct secure port.
+  if (request->secure) {
+    location = filter_string_str_replace ("http:", "https:", location);
+    string plainport = config_logic_http_network_port ();
+    string secureport = convert_to_string (config_logic_https_network_port ());
+    location = filter_string_str_replace (":" + plainport, ":" + secureport, location);
+  }
   
   location.append (path);
 

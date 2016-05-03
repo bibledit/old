@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 Webserver_Request::Webserver_Request ()
 {
+  secure = false;
   get = "/index";
   is_post = false;
   user_agent.assign ("Browser/1.0");

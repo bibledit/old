@@ -35,20 +35,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <mbedtls/ssl_cache.h>
 
 
-/*
- Get a line from a socket,
- whether the line ends in a newline, carriage return, or a CR-LF combination.
- Terminates the string read with a null character.  
- If no newline indicator is found before the end of the buffer, 
- the string is terminated with a null. 
- If any of the above three line terminators is read, 
- the last character of the string will be a linefeed 
- and the string will be terminated with a null character.
- Parameters: the socket file descriptor
-             the buffer to save the data in
-             the size of the buffer
- Returns: the number of bytes stored (excluding null)
-*/
+// Gets a line from a socket.
+// The line may end with a newline, a carriage return, or a CR-LF combination.
+// It terminates the string read with a null character.
+// If no newline indicator is found before the end of the buffer the string is terminated with a null.
+// If any of the above three line terminators is read,
+// the last character of the string will be a linefeed
+// and the string will be terminated with a null character.
+// Parameters: the socket file descriptor
+//             the buffer to save the data to
+//             the size of the buffer
+// Returns: the number of bytes stored (excluding null).
 int get_line (int sock, char *buf, int size)
 {
   int i = 0;
@@ -80,6 +77,9 @@ void webserver_process_request (int connfd, string clientaddress)
   // It gets passed around from function to function during the entire request.
   // This provides thread-safety to the request.
   Webserver_Request request;
+  
+  // This is the plain http server.
+  request.secure = false;
 
   // Store remote client address in the request.
   request.remote_address = clientaddress;
@@ -256,22 +256,22 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
   tv.tv_usec = 0;
   setsockopt (client_fd.fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
   
-  
   // The environment for this request.
   // It gets passed around from function to function during the entire request.
   // This provides thread-safety to the request.
   Webserver_Request request;
-
+  
+  // This is the secure http server.
+  request.secure = true;
   
   // SSL/TSL data.
   mbedtls_ssl_context ssl;
   mbedtls_ssl_init (&ssl);
   
-  
   try {
+
     if (config_globals_https_running) {
 
-  
       // The client's remote IPv4 address in dotted notation.
       struct sockaddr_in addr;
       socklen_t addr_size = sizeof(struct sockaddr_in);
@@ -281,12 +281,10 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       // Store it in the webserver request object.
       request.remote_address = remote_address;
       
-      
-      // This flag indicates a healthy connection, one that can proceed.
+      // This flag indicates a healthy connection: One that can proceed.
       bool connection_healthy = true;
       // Function results.
       int ret;
-      
       
       if (connection_healthy) {
         ret = mbedtls_ssl_setup (&ssl, conf);
@@ -296,11 +294,9 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
         }
       }
       
-      
       if (connection_healthy) {
         mbedtls_ssl_set_bio (&ssl, &client_fd, mbedtls_net_send, mbedtls_net_recv, NULL);
       }
-      
       
       // SSL / TLS handshake.
       while (connection_healthy && (ret = mbedtls_ssl_handshake (&ssl)) != 0) {
@@ -313,7 +309,6 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
           connection_healthy = false;
         }
       }
-      
       
       // Read the HTTP headers.
       bool header_parsed = true;
@@ -350,7 +345,6 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
         }
       }
       header_line.clear ();
-
       
       if (request.is_post) {
         // In the case of a POST request, more data follows:
@@ -382,14 +376,12 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
           http_parse_post (postdata, &request);
         }
       }
-
       
       // Assemble response.
       if (connection_healthy) {
         bootstrap_index (&request);
         http_assemble_response (&request);
       }
-      
       
       // Write the response to the browser.
       const char * output = request.reply.c_str();
@@ -418,7 +410,6 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
           connection_healthy = false;
         }
       }
-      
 
       // Close SSL/TLS connection.
       if (connection_healthy) {
@@ -443,11 +434,9 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
   } catch (...) {
     Database_Logs::log ("A general internal error occurred");
   }
-
   
-  // Close client connection.
+  // Close client network connection.
   mbedtls_net_free (&client_fd);
-  
   
   // Done with the SSL context.
   mbedtls_ssl_free (&ssl);
@@ -480,7 +469,6 @@ void https_server ()
 
   mbedtls_ctr_drbg_context ctr_drbg;
   mbedtls_ctr_drbg_init (&ctr_drbg);
-
   
   // Load the certificates and private RSA key.
   // This uses embedded test certificates.
@@ -503,7 +491,6 @@ void https_server ()
     return;
   }
   
-  
   // Seed the random number generator.
   const char *pers = "Bibledit Cloud";
   ret = mbedtls_ctr_drbg_seed( &ctr_drbg, mbedtls_entropy_func, &entropy, (const unsigned char *) pers, strlen (pers));
@@ -511,7 +498,6 @@ void https_server ()
     https_server_display_mbed_tls_error (ret);
     return;
   }
-
   
   // Setup the listening TCP socket.
   ret = mbedtls_net_bind (&listen_fd, NULL, convert_to_string (config_logic_https_network_port ()).c_str (), MBEDTLS_NET_PROTO_TCP);
@@ -519,7 +505,6 @@ void https_server ()
     https_server_display_mbed_tls_error (ret);
     return;
   }
-  
   
   // Setup SSL/TLS default values for the lifetime of the https server.
   ret = mbedtls_ssl_config_defaults (&conf, MBEDTLS_SSL_IS_SERVER, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
@@ -535,7 +520,6 @@ void https_server ()
     https_server_display_mbed_tls_error (ret);
     return;
   }
-  
   
   // Keep preparing for, accepting, and processing client connections.
   config_globals_https_running = true;
