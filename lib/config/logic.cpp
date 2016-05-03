@@ -180,7 +180,7 @@ bool config_logic_basic_mode (void * webserver_request)
 
 
 // This returns the URL of Bibledit Cloud that faces the user.
-string config_logic_site_url () // Todo
+string config_logic_site_url ()
 {
   string url = Database_Config_General::getSiteURL ();
   string user_url = config_logic_manual_user_facing_url ();
@@ -198,7 +198,6 @@ string config_logic_manual_user_facing_url ()
   // Read the configuration file.
   string path = filter_url_create_root_path ("config", "userfacingurl.conf");
   string url = filter_url_file_get_contents (path);
-  cout << url << endl; // Todo
   // Remove white space.
   url = filter_string_trim (url);
   // The file contains dummy text by default. Remove that.
