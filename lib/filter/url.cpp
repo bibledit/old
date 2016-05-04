@@ -42,7 +42,7 @@ string get_base_url (Webserver_Request * request)
   string port;
   if (request->secure) {
     scheme = "https";
-    port = config_logic_https_network_port ();
+    port = convert_to_string (config_logic_https_network_port ());
   } else {
     scheme = "http";
     port = config_logic_http_network_port ();
