@@ -466,29 +466,29 @@ void https_server ()
   mbedtls_ctr_drbg_init (&ctr_drbg);
 
   int ret;
-  const char * path;
+  string path;
+  
+  // Load the private RSA server key.
+  mbedtls_pk_context pkey;
+  mbedtls_pk_init (&pkey);
+  path = config_logic_server_key_path ();
+  ret = mbedtls_pk_parse_keyfile (&pkey, path.c_str (), NULL);
+  if (ret != 0) https_server_display_mbed_tls_error (ret);
   
   // Server certificates store.
   mbedtls_x509_crt srvcert;
   mbedtls_x509_crt_init (&srvcert);
   
   // Load the server certificate.
-  path = filter_url_create_root_path ("config", "local.server.crt").c_str ();
-  ret = mbedtls_x509_crt_parse_file (&srvcert, path);
+  path = config_logic_server_certificate_path ();
+  ret = mbedtls_x509_crt_parse_file (&srvcert, path.c_str ());
   if (ret != 0) https_server_display_mbed_tls_error (ret);
 
   // Load the chain of certificates of the certificate authorities.
-  path = filter_url_create_root_path ("config", "local.authorities.crt").c_str ();
-  ret = mbedtls_x509_crt_parse_file (&srvcert, path);
+  path = config_logic_authorities_certificates_path ();
+  ret = mbedtls_x509_crt_parse_file (&srvcert, path.c_str ());
   if (ret != 0) https_server_display_mbed_tls_error (ret);
 
-  // Load the private RSA server key.
-  mbedtls_pk_context pkey;
-  mbedtls_pk_init (&pkey);
-  path = filter_url_create_root_path ("config", "local.server.key").c_str ();
-  ret = mbedtls_pk_parse_keyfile (&pkey, path, NULL);
-  if (ret != 0) https_server_display_mbed_tls_error (ret);
-  
   // Seed the random number generator.
   const char *pers = "Bibledit Cloud";
   ret = mbedtls_ctr_drbg_seed( &ctr_drbg, mbedtls_entropy_func, &entropy, (const unsigned char *) pers, strlen (pers));

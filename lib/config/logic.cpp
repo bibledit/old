@@ -28,6 +28,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
+const char * config_logic_config_folder ()
+{
+  return "config";
+}
+
+
 // Returns the Bibledit version number.
 const char * config_logic_version ()
 {
@@ -196,16 +202,57 @@ string config_logic_manual_user_facing_url ()
   return "";
 #else
   // Read the configuration file.
-  string path = filter_url_create_root_path ("config", "userfacingurl.conf");
+  string path = filter_url_create_root_path (config_logic_config_folder (), "userfacingurl.conf");
   string url = filter_url_file_get_contents (path);
   // Remove white space.
   url = filter_string_trim (url);
-  // The file contains dummy text by default. Remove that.
-  // (An empty file would not be checked into git, so it needs to contains something.)
+  // The previous file contained dummy text by default. Remove that.
   if (url.length () <= 6) url.clear ();
   // Ensure it ends with a slash.
   if (url.find_last_of ("/") != url.length () - 1) url.append ("/");
   // Done.
   return url;
 #endif
+}
+
+
+// Returns the path to the secure server's private key.
+string config_logic_server_key_path ()
+{
+  // Try the correct config file first.
+  string path = filter_url_create_root_path ("config", "server.key");
+  if (file_exists (path)) return path;
+  // Try the file for localhost next.
+  path = filter_url_create_root_path ("config", "local.server.key");
+  if (file_exists (path)) return path;
+  // Nothing found.
+  return "";
+}
+
+
+// Returns the path to the secure server's public certificate.
+string config_logic_server_certificate_path ()
+{
+  // Try the correct config file first.
+  string path = filter_url_create_root_path ("config", "server.crt");
+  if (file_exists (path)) return path;
+  // Try the file for localhost next.
+  path = filter_url_create_root_path ("config", "local.server.crt");
+  if (file_exists (path)) return path;
+  // Nothing found.
+  return "";
+}
+
+
+// Returns the path to the secure server's chain of certificates of the signing authorities.
+string config_logic_authorities_certificates_path ()
+{
+  // Try the correct config file first.
+  string path = filter_url_create_root_path ("config", "authorities.crt");
+  if (file_exists (path)) return path;
+  // Try the file for localhost next.
+  path = filter_url_create_root_path ("config", "local.authorities.crt");
+  if (file_exists (path)) return path;
+  // Nothing found.
+  return "";
 }

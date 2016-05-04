@@ -1,14 +1,20 @@
 Bibledit Cloud Configuration
 
+
 All configuration files reside in the config folder.
 
-When Bibledit Cloud runs behind a proxy server, Bibledit is not able to find out its own URL that faces the user. The user-facing URL can be set through a configuration file. The name of the configuration file is userfacingurl.conf and it contains the URL, for example: https://bibledit.org:8081
+
+When Bibledit Cloud runs behind a proxy server, Bibledit is not able to find out its own URL that faces the user. The user-facing URL can be set through a configuration file. The name of the configuration file is userfacingurl.conf and it contains the URL, for example: 
+https://bibledit.org:1500
+An example configuration file included: userfacingurl.txt
+
 
 The secure http server needs a private key and a public certificate. 
-Bibledit Cloud comes with a key and a certificate that work for https://localhost.daplie.com, which points to https://localhost. 
+Bibledit Cloud comes with a key and a certificate that work for localhost.daplie.com, which resolves to localhost. 
 They are taken from https://github.com/Daplie/localhost.daplie.com-certificates.
 In case Bibledit Cloud runs on a public server and uses secure http, it will read the private key and the public certificate and the chain of trusted certificate authorities from the following three files:
-server.key: The private key for the server.
-server.crt: The public certificate for the server.
-authorities.crt: The chain of trusted certificate authorities that have issued the server certificate. At the top of the file will be the intermediate authority that issued the server certificate. Next can be more intermediate authorities. At the bottom of the file should be the trusted root certificate.
+* server.key: The private key for the server.
+* server.crt: The public certificate for the server.
+* authorities.crt: The chain of trusted certificate authorities that have issued the server certificate. At the top of the file will be the intermediate authority that issued the server certificate. Next can be more intermediate authorities. At the bottom of the file should be the trusted root certificate.
+Three example files are included. All of them have the "local." prefix. Bibledit will use them in case the proper files are not there.
 
