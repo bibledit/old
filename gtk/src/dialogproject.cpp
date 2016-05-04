@@ -547,6 +547,7 @@ void ProjectDialog::on_book_add()
     progresswindow.set_iterate (0, 1, selection.size());
     for (unsigned int i = 0; i < ids.size(); i++) {
       if (!(selection.find(ids[i]) == selection.end())) {
+	isChanged = true;
         progresswindow.iterate();
         vector <ustring> booktemplate;
         // If the book is found in the templates, take that, else create it.
