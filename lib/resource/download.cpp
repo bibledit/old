@@ -46,7 +46,7 @@ string resource_download_url ()
 
 bool resource_download_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
 }
 
 
