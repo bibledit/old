@@ -1,28 +1,20 @@
 .mono {
   font-family: monospace, Courier, "Courier New", "Lucida Console", Monaco;
 }
-
 #focus {
   border-radius: 100px;
   background-color: black;
   color: white;
-  transition: 500ms linear 0s;
+  -webkit-transition: 500ms linear 0s;
+          transition: 500ms linear 0s;
 }
-
 #buttonbar {
-  border: 1px solid rgb(204, 204, 204);
-  background-color: rgb(239, 239, 239);
+  border: 1px solid #CCC;
+  background-color: #EFEFEF;
 }
-
-#editorheader,
-#editorinnerheader {
-  background: white;
-}
-
 .editorheaderscroll {
   position: fixed;
   top: 0;
   padding-right: 5px;
   padding-bottom: 5px;
 }
-

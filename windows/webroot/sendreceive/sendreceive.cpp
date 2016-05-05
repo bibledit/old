@@ -57,6 +57,10 @@ void sendreceive_sendreceive (string bible)
   filter_git_config (directory);
 
   
+  // Separate commits for each user to the local git repository.
+  filter_git_sync_modifications_to_git (bible, directory);
+
+  
   // Synchronize the Bible from the database to the local git repository.
   filter_git_sync_bible_to_git (&request, bible, directory);
   
@@ -87,11 +91,8 @@ void sendreceive_sendreceive (string bible)
 
   // In case of local changes, commit the index to the repository.
   if (success && localchanges) {
-    string user = Database_Config_General::getSiteMailName ();
-    if (user.empty ()) user = "Bibledit";
-    string mail = Database_Config_General::getSiteMailAddress ();
-    if (mail.empty ()) mail = "bibledit@bibledit.org";
-    success = filter_git_commit (directory, user, mail, "Changes made in Bibledit", error);
+    vector <string> messages;
+    success = filter_git_commit (directory, "", "Changes made in Bibledit", messages, error);
     if (!success) {
       Database_Logs::log (error, Filter_Roles::translator ());
     }
@@ -127,7 +128,8 @@ void sendreceive_sendreceive (string bible)
       filter_git_resolve_conflicts (directory, paths_resolved_conflicts, error);
       if (!error.empty ()) Database_Logs::log (error, Filter_Roles::translator ());
       vector <string> messages;
-      filter_git_commit (directory, "Bibledit resolved the conflicts", messages);
+      string error;
+      filter_git_commit (directory, "", "Bibledit resolved the conflicts", messages, error);
       for (auto & msg : messages) Database_Logs::log ("conflict resolution: " + msg, Filter_Roles::translator ());
       // The above "git pull" operation failed due to the conflict(s).
       // Since the conflicts have now been resolved, set "success" to true again.

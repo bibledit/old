@@ -181,6 +181,7 @@ function oneverseEditorSaveVerse (sync)
   oneverseEditorTextChanged = false;
   if (!oneverseBible) return;
   if (!oneverseBook) return;
+  if (!oneverseVerseLoaded) return;
   var html = $ ("#oneeditor").html ();
   if (html == oneverseLoadedText) return;
   oneverseEditorStatus (oneverseEditorVerseSaving);
@@ -197,7 +198,7 @@ function oneverseEditorSaveVerse (sync)
     async: oneverseSaveAsync,
     data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, html: encodedHtml, checksum: checksum, style: oneverseAddedStyle },
     error: function (jqXHR, textStatus, errorThrown) {
-      oneverseEditorStatus (oneverseEditorChapterRetrying);
+      oneverseEditorStatus (oneverseEditorVerseRetrying);
       oneverseLoadedText = "";
       oneverseEditorChanged ();
       if (!oneverseSaveAsync) oneverseEditorSaveVerse (true);
@@ -346,13 +347,16 @@ Section for scrolling the editable portion into the center.
 
 function oneverseScrollVerseIntoView ()
 {
-  $ ("body").stop ();
-  var element = $ ("#oneeditor");
-  var offset = element.offset ();
-  var verseTop = offset.top;
-  var viewportHeight = $(window).height ();
-  var scrollTo = verseTop - (viewportHeight * verticalCaretPosition / 100);
-  $ ("body,html").animate ({ scrollTop: scrollTo }, 500);
+  $("#workspacewrapper").stop();
+  var verseTop = $("#oneeditor").offset().top;
+  var workspaceHeight = $("#workspacewrapper").height();
+  var currentScrollTop = $("#workspacewrapper").scrollTop();
+  var scrollTo = verseTop - (workspaceHeight * verticalCaretPosition / 100) + currentScrollTop;
+  var lowerBoundary = currentScrollTop - (workspaceHeight / 10);
+  var upperBoundary = currentScrollTop + (workspaceHeight / 10);
+  if ((scrollTo < lowerBoundary) || (scrollTo > upperBoundary)) {
+    $("#workspacewrapper").animate({ scrollTop: scrollTo }, 500);
+  }
 }
 
 

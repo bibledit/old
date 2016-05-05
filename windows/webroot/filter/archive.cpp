@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/shell.h>
 #include <database/logs.h>
-#include <config.h>
 
 
 // Whether the operating system can zip data.

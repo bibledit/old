@@ -18,15 +18,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/globals.h>
-#include <config.h>
 
 
 string config_globals_document_root = DIRECTORY_SEPARATOR;
 bool config_globals_unit_testing = false;
 bool config_globals_open_installation = false;
 bool config_globals_client_prepared = false;
-bool config_globals_running = true;
-thread * config_globals_worker = NULL;
+bool config_globals_http_running = true;
+bool config_globals_https_running = true;
+thread * config_globals_http_worker = NULL;
+thread * config_globals_https_worker = NULL;
 thread * config_globals_timer = NULL;
 bool config_globals_mail_receive_running = false;
 bool config_globals_mail_send_running = false;
@@ -42,4 +43,6 @@ bool config_globals_syncing_bibles = false;
 bool config_globals_syncing_notes = false;
 bool config_globals_syncing_settings = false;
 bool config_globals_syncing_changes = false;
+bool config_globals_syncing_files = false;
+bool config_globals_syncing_resources = false;
 map <string, int> config_globals_prioritized_ip_addresses;

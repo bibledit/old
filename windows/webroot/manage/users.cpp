@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/privileges.h>
 #include <database/login.h>
+#include <database/noteassignment.h>
 #include <access/user.h>
 #include <locale/translate.h>
 #include <notes/logic.h>
@@ -119,6 +120,9 @@ string manage_users (void * webserver_request)
     // The advantage of this is that when a user is removed, all settings are gone,
     // so when the same user would be created again, all settings will go back to their defaults.
     request->database_config_user ()->remove (objectUsername);
+    // Remove note assignments for clients for this user.
+    Database_NoteAssignment database_noteassignment;
+    database_noteassignment.remove (objectUsername);
   }
   
   

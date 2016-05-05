@@ -100,6 +100,9 @@ msgid ""
 "Once in advanced mode, return to basic mode via menu Settings / Basic mode."
 msgstr ""
 
+msgid "Logout."
+msgstr ""
+
 msgid "Abbreviations"
 msgstr ""
 
@@ -3150,10 +3153,13 @@ msgstr ""
 msgid "Bibledit on OS X"
 msgstr ""
 
+msgid "Bibledit on Linux"
+msgstr ""
+
 msgid "Bibledit on iOS"
 msgstr ""
 
-msgid "Bibledit on Linux"
+msgid "Bibledit on Chrome OS"
 msgstr ""
 
 msgid "Bibledit Cloud on Ubuntu"
@@ -3324,6 +3330,15 @@ msgstr ""
 msgid "Use the contact form to explain why you need a Bibledit Cloud instance."
 msgstr ""
 
+msgid "Install Bibledit on Chrome OS"
+msgstr ""
+
+msgid "Install Bibledit from the Google Chrome Web Store."
+msgstr ""
+
+msgid "For easier operation, open the Chrome browser and open this URL:"
+msgstr ""
+
 msgid "Install Bibledit Cloud on Ubuntu"
 msgstr ""
 
@@ -3425,6 +3440,14 @@ msgid ""
 msgstr ""
 
 msgid "Follow the steps below to start Bibledit."
+msgstr ""
+
+msgid "Note:"
+msgstr ""
+
+msgid ""
+"To see the commands to install Bibledit manually, run the downloaded script "
+"as follows:"
 msgstr ""
 
 msgid "Install Bibledit on OSX"
@@ -6373,6 +6396,15 @@ msgstr ""
 msgid "Can modify"
 msgstr ""
 
+msgid "Toggle the modification privileges for entire Testaments"
+msgstr ""
+
+msgid "Old Testament"
+msgstr ""
+
+msgid "New Testament"
+msgstr ""
+
 msgid "Verse Mappings"
 msgstr ""
 
@@ -7156,7 +7188,7 @@ msgstr ""
 msgid "Incorrect caret position in percents"
 msgstr ""
 
-msgid "Please enter a fade out delay between 1 and 10 seconds"
+msgid "Please enter a fade out delay between 1 and 100 seconds or 0 to disable"
 msgstr ""
 
 msgid "Incorrect fade out delay in seconds"
@@ -9049,13 +9081,13 @@ msgstr ""
 msgid "Top row"
 msgstr ""
 
-msgid "height"
+msgid "height factor"
 msgstr ""
 
 msgid "URLs"
 msgstr ""
 
-msgid "Widths"
+msgid "Width factors"
 msgstr ""
 
 msgid "Center row"
@@ -9092,14 +9124,17 @@ msgstr ""
 msgid "Thus there are 15 possible positions."
 msgstr ""
 
-msgid "You can set the height of each of the three rows individually."
+msgid "You can set the relative height of each of the three rows individually."
 msgstr ""
 
 msgid ""
-"The height is set as a percentage of the total height of the browser window."
+"The height is set as integer factor relative to the browser window height "
+"and other panes."
 msgstr ""
 
-msgid "Or add px to the figure to set the height in pixels instead."
+msgid ""
+"For example use factors of 1 and 2 respectively on two panes to get a split "
+"⅓/⅔ layout or 1, 1, and 2 respectively on three panes for a ¼/¼/½ layout."
 msgstr ""
 
 msgid ""
@@ -9108,10 +9143,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Enter their widths as a percentage of the total width of the browser window."
-msgstr ""
-
-msgid "Or add px to set pixels."
+"Enter their relative widths as an integer factor relative to the overall "
+"width and other panes."
 msgstr ""
 
 msgid ""

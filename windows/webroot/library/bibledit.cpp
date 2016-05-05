@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/webserver.h>
 #include <library/bibledit.h>
 #include <config/globals.h>
-#include <config.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <thread>
@@ -53,7 +52,7 @@ const char * bibledit_get_version_number ()
 // Get the port number that Bibledit's web server listens on.
 const char * bibledit_get_network_port ()
 {
-  return config_logic_network_port ();
+  return config_logic_http_network_port ();
 }
 
 
@@ -131,11 +130,28 @@ void bibledit_start_library ()
   if (bibledit_started) return;
   bibledit_started = true;
 
+  // Setup server behaviour.
+#ifdef CLIENT_PREPARED
+  config_globals_client_prepared = true;
+#else
+  config_globals_client_prepared = false;
+#endif
+  if (config_logic_demo_enabled ()) {
+    config_globals_open_installation = true;
+  }
+  
+  // Ignore SIGPIPE signal: When the browser cancels the request, it won't kill Bibledit.
+  signal (SIGPIPE, SIG_IGN);
+
   // Set running flag.
-  config_globals_running = true;
+  config_globals_http_running = true;
+  config_globals_https_running = true;
   
   // Run the web server in a thread.
-  config_globals_worker = new thread (webserver);
+  config_globals_http_worker = new thread (http_server);
+  
+  // Run the secure web server in a thread.
+  config_globals_https_worker = new thread (https_server);
   
   // Run the timers in a thread.
   config_globals_timer = new thread (timer_index);
@@ -157,7 +173,31 @@ const char * bibledit_get_last_page ()
 bool bibledit_is_running ()
 {
   this_thread::sleep_for (chrono::milliseconds (10));
-  return config_globals_running;
+  if (config_globals_http_running) return true;
+  if (config_globals_https_running) return true;
+  return false;
+}
+
+
+// Returns a non-empty string if the client is synchronizing with or downloading from Bibledit Cloud.
+const char * bibledit_is_synchronizing ()
+{
+  // If any of the sync tasks is running, the function considers bibledit to be synchronizing.
+  // On a bad network, it may happen that a task gets stuck.
+  // During the time that the task is stuck, till the watchdog kicks in,
+  // the sync is considered to be running.
+  // When mobile devices use this API call,
+  // the devices will remain awake during the time the task is stuck.
+  // The user may then have to manually put the device on standby.
+  bool syncing = false;
+  if (config_globals_syncing_bibles) syncing = true;
+  if (config_globals_syncing_changes) syncing = true;
+  if (config_globals_syncing_notes) syncing = true;
+  if (config_globals_syncing_settings) syncing = true;
+  if (config_globals_syncing_files) syncing = true;
+  if (config_globals_syncing_resources) syncing = true;
+  if (syncing) return "true";
+  return "false";
 }
 
 
@@ -170,26 +210,47 @@ void bibledit_stop_library ()
   bibledit_started = false;
 
   // Clear running flag.
-  config_globals_running = false;
+  config_globals_http_running = false;
+  config_globals_https_running = false;
   
   // Connect to localhost to initiate the shutdown mechanism in the running server.
-  struct sockaddr_in sa;
-  sa.sin_family = AF_INET;
-  sa.sin_port = htons (convert_to_int (config_logic_network_port ()));
-  //sa.sin_addr.s_addr = inet_addr ("127.0.0.1");
-  inet_pton (AF_INET, "127.0.0.1", &(sa.sin_addr));
-  char str[INET_ADDRSTRLEN];
-  inet_ntop(AF_INET, &(sa.sin_addr), str, INET_ADDRSTRLEN);
-  memset(sa.sin_zero, '\0', sizeof (sa.sin_zero));
-  int mysocket = socket (PF_INET, SOCK_STREAM, 0);
-  connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
+  {
+    struct sockaddr_in sa;
+    sa.sin_family = AF_INET;
+    sa.sin_port = htons (convert_to_int (config_logic_http_network_port ()));
+    inet_pton (AF_INET, "127.0.0.1", &(sa.sin_addr));
+    char str[INET_ADDRSTRLEN];
+    inet_ntop (AF_INET, &(sa.sin_addr), str, INET_ADDRSTRLEN);
+    memset (sa.sin_zero, '\0', sizeof (sa.sin_zero));
+    int mysocket = socket (PF_INET, SOCK_STREAM, 0);
+    connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
+  }
   
-  // Wait till the server and the timers shut down.
-  config_globals_worker->join ();
+  // Connect to the secure server to initiate its shutdown mechanism.
+  {
+    struct sockaddr_in sa;
+    sa.sin_family = AF_INET;
+    sa.sin_port = htons (config_logic_https_network_port ());
+    inet_pton (AF_INET, "127.0.0.1", &(sa.sin_addr));
+    char str[INET_ADDRSTRLEN];
+    inet_ntop (AF_INET, &(sa.sin_addr), str, INET_ADDRSTRLEN);
+    memset (sa.sin_zero, '\0', sizeof (sa.sin_zero));
+    int mysocket = socket (PF_INET, SOCK_STREAM, 0);
+    connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
+    // Let the connection start, then close it.
+    // The server will then abort the TLS handshake, and shut down.
+    this_thread::sleep_for (chrono::milliseconds (1));
+    close (mysocket);
+  }
+  
+  // Wait till the servers and the timers shut down.
+  config_globals_http_worker->join ();
+  config_globals_https_worker->join ();
   config_globals_timer->join ();
   
   // Clear memory.
-  delete config_globals_worker;
+  delete config_globals_http_worker;
+  delete config_globals_https_worker;
   delete config_globals_timer;
 }
 

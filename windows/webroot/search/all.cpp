@@ -32,6 +32,7 @@
 #include <notes/note.h>
 #include <search/logic.h>
 #include <menu/logic.h>
+#include <config/logic.h>
 
 
 string search_all_url ()
@@ -85,7 +86,7 @@ string search_all (void * webserver_request)
   Database_Notes database_notes = Database_Notes (request);
 
   
-  string siteUrl = Database_Config_General::getSiteURL ();
+  string siteUrl = config_logic_site_url ();
 
   
   vector <string> bibles = access_bible_bibles (request);

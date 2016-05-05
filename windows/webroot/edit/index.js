@@ -592,15 +592,14 @@ function editorScrollVerseIntoView ()
       verses = usfm_get_verse_numbers (element[0].textContent);
       if (verses.indexOf (parseInt (editorNavigationVerse)) >= 0) {
         if (navigated == false) {
-          var offset = element.offset ();
-          var verseTop = offset.top;
-          var viewportHeight = $(window).height ();
-          var scrollTo = verseTop - (viewportHeight * verticalCaretPosition / 100);
-          var currentScrollTop = $ (document).scrollTop ();
-          var lowerBoundary = currentScrollTop - (viewportHeight / 10);
-          var upperBoundary = currentScrollTop + (viewportHeight / 10);
+          var verseTop = element.offset().top;
+          var workspaceHeight = $("#workspacewrapper").height();
+          var currentScrollTop = $("#workspacewrapper").scrollTop();
+          var scrollTo = verseTop - (workspaceHeight * verticalCaretPosition / 100) + currentScrollTop;
+          var lowerBoundary = currentScrollTop - (workspaceHeight / 10);
+          var upperBoundary = currentScrollTop + (workspaceHeight / 10);
           if ((scrollTo < lowerBoundary) || (scrollTo > upperBoundary)) {
-            $ ("body,html").animate ({ scrollTop: scrollTo }, 500);
+            $("#workspacewrapper").animate({ scrollTop: scrollTo }, 500);
           }
           navigated = true;
         }
@@ -611,7 +610,7 @@ function editorScrollVerseIntoView ()
 
   });
   if (editorNavigationVerse == 0) {
-    $ ("body,html").animate ({ scrollTop: 0 }, 500);
+    $ ("#workspacewrapper").animate ({ scrollTop: 0 }, 500);
   }
 }
 

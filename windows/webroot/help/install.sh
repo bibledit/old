@@ -1,13 +1,26 @@
 #!/bin/bash
 
-echo Installing Bibledit on Linux.
-
 
 # Some distro's cannot run $ su.
 UNAME=`uname -a`
+echo -n "Installing Bibledit on "
+echo $UNAME
 RUNSU=1;
-if [[ $UNAME == *Ubuntu* ]]; then
+if [ "$UNAME"="*Ubuntu*" ]; then
   RUNSU=0;
+fi
+
+
+# Deal with command line arguments.
+DRYECHO=""
+if [ $# -ne 0 ]; then
+  if [ "$1" = "-dry" ]; then
+    DRYECHO="echo"
+  else
+    echo Pass no arguments to install Bibledit.
+    echo Pass argument -dry to do a dry run.
+    exit 0
+  fi
 fi
 
 
@@ -16,56 +29,70 @@ cat > install2.sh <<'scriptblock'
 
 #!/bin/bash
 
+DRYECHO=$1
+
 clear
 echo Updating the software sources...
-apt-get update
+which apt-get > /dev/null
+if [ $? -eq 0 ]; then
+$DRYECHO apt-get update
+fi
 
-clear
 echo Installing the software Bibledit relies on...
 
-apt-get --yes --force-yes install build-essential
-dnf --assumeyes install gcc-c++
-yum --assumeyes install gcc-c++
-zypper --non-interactive install gcc-c++
+which apt-get > /dev/null
+if [ $? -eq 0 ]
+then
+$DRYECHO apt-get --yes --force-yes install build-essential
+$DRYECHO apt-get --yes --force-yes install git
+$DRYECHO apt-get --yes --force-yes install zip
+$DRYECHO apt-get --yes --force-yes install pkgconf
+$DRYECHO apt-get --yes --force-yes install libsqlite3-dev
+$DRYECHO apt-get --yes --force-yes install libcurl4-openssl-dev
+$DRYECHO apt-get --yes --force-yes install libssl-dev
+$DRYECHO apt-get --yes --force-yes install libatspi2.0-dev
+$DRYECHO apt-get --yes --force-yes install libgtk-3-dev
+fi
 
-apt-get --yes --force-yes install git
-dnf --assumeyes install git
-yum --assumeyes install git
-zypper --non-interactive install git
+which dnf > /dev/null
+if [ $? -eq 0 ]
+then
+$DRYECHO dnf --assumeyes install gcc-c++
+$DRYECHO dnf --assumeyes install git
+$DRYECHO dnf --assumeyes install zip
+$DRYECHO dnf --assumeyes install pkgconfig
+$DRYECHO dnf --assumeyes install sqlite-devel
+$DRYECHO dnf --assumeyes install libcurl-devel
+$DRYECHO dnf --assumeyes install openssl-devel
+$DRYECHO dnf --assumeyes install gtk3-devel
+fi
 
-apt-get --yes --force-yes install zip
-dnf --assumeyes install zip
-yum --assumeyes install zip
-zypper --non-interactive install zip
+which yum > /dev/null
+if [ $? -eq 0 ]
+then
+$DRYECHO yum --assumeyes install gcc-c++
+$DRYECHO yum --assumeyes install git
+$DRYECHO yum --assumeyes install zip
+$DRYECHO yum --assumeyes install pkgconfig
+$DRYECHO yum --assumeyes install sqlite-devel
+$DRYECHO yum --assumeyes install libcurl-devel
+$DRYECHO yum --assumeyes install openssl-devel
+$DRYECHO yum --assumeyes install gtk3-devel
+fi
 
-apt-get --yes --force-yes install pkgconf
-dnf --assumeyes install pkgconfig
-yum --assumeyes install pkgconfig
-zypper --non-interactive install pkg-config
-
-apt-get --yes --force-yes install libsqlite3-dev
-dnf --assumeyes install sqlite-devel
-yum --assumeyes install sqlite-devel
-zypper --non-interactive install sqlite3-devel
-
-apt-get --yes --force-yes install libcurl4-openssl-dev
-dnf --assumeyes install libcurl-devel
-yum --assumeyes install libcurl-devel
-zypper --non-interactive install libcurl-devel
-
-apt-get --yes --force-yes install libssl-dev
-dnf --assumeyes install openssl-devel
-yum --assumeyes install openssl-devel
-zypper --non-interactive install libopenssl-devel
-
-apt-get --yes --force-yes install libatspi2.0-dev
-
-zypper --non-interactive install cairo-devel
-
-apt-get --yes --force-yes install libgtk-3-dev
-dnf --assumeyes install gtk3-devel
-yum --assumeyes install gtk3-devel
-zypper --non-interactive install gtk3-devel
+which zypper > /dev/null
+if [ $? -eq 0 ]
+then
+$DRYECHO zypper --non-interactive install gcc-c++
+$DRYECHO zypper --non-interactive install git
+$DRYECHO zypper --non-interactive install zip
+$DRYECHO zypper --non-interactive install pkg-config
+$DRYECHO zypper --non-interactive install sqlite3-devel
+$DRYECHO zypper --non-interactive install libcurl-devel
+$DRYECHO zypper --non-interactive install libopenssl-devel
+$DRYECHO zypper --non-interactive install cairo-devel
+$DRYECHO zypper --non-interactive install gtk3-devel
+fi
 
 # Create the script to start bibledit.
 rm -f /usr/bin/bibledit
@@ -86,21 +113,21 @@ scriptblock
 chmod +x install2.sh
 
 # Conditionally run $ su.
-if [[ $RUNSU -ne 0 ]]; then
+if [ $RUNSU -ne 0 ]; then
   echo Please provide the password for the root user and press Enter
-  su -c ./install2.sh
+  su -c ./install2.sh $DRYECHO
 fi
 
 EXIT_CODE=$?
 # If $ su did not run, run $ sudo.
-if [[ $RUNSU -eq 0 ]]; then
+if [ $RUNSU -eq 0 ]; then
   EXIT_CODE=1
 fi
 # If $ su ran, but failed, run $ sudo.
 if [ $EXIT_CODE != 0 ]; then
 
   echo Please provide the password for the administrative user and press Enter:
-  sudo ./install2.sh
+  sudo ./install2.sh $DRYECHO
   EXIT_CODE=$?
   if [ $EXIT_CODE != 0 ]; then
     exit
@@ -113,12 +140,9 @@ fi
 rm install2.sh
 
 
-
-
-echo Downloading Bibledit...
 cd
 rm -f index.html
-wget http://bibledit.org/linux -O index.html
+wget http://bibledit.org/linux -q -O index.html
 if [ $? -ne 0 ]
 then
   echo Failed to list tarballs
@@ -128,36 +152,32 @@ cat index.html | grep "bibledit-" | grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]'
 rm index.html
 TARBALL=`cat tarball.txt`
 rm tarball.txt
-wget --continue http://bibledit.org/linux/$TARBALL
+$DRYECHO wget --continue http://bibledit.org/linux/$TARBALL
 if [ $? -ne 0 ]
 then
   echo Failed to download Bibledit
   exit
 fi
-sleep 4
 
-echo Unpacking Bibledit in folder bibledit...
-mkdir -p bibledit
-tar xf $TARBALL -C bibledit --strip-components=1
+$DRYECHO mkdir -p bibledit
+$DRYECHO tar xf $TARBALL -C bibledit --strip-components=1
 if [ $? -ne 0 ]
 then
   echo Failed to unpack Bibledit
   exit
 fi
 
-clear
-echo Building Bibledit...
-cd bibledit
+$DRYECHO cd bibledit
 # Remove bits from any older build that might cause crashes in the new build.
 find . -name "*.o" -delete
-./configure --enable-client --enable-paratext
+$DRYECHO ./configure --enable-client --enable-paratext
 if [ $? -ne 0 ]
 then
   echo Failed to configure Bibledit
   exit
 fi
-make clean
-make --jobs=4
+$DRYECHO make clean
+$DRYECHO make --jobs=4
 if [ $? -ne 0 ]
 then
   echo Failed to build Bibledit
@@ -167,7 +187,7 @@ fi
 echo If there were no errors, Bibledit should be working now.
 echo Bibledit works best with the Google Chrome browser.
 echo Install the browser.
-echo To have Bibledit automatically open in Chrome, set Chrome as the default browser.
+echo To automatically open Bibledit in Chrome, set Chrome as the default browser.
 echo --
 echo To start Bibledit, open a terminal, and type:
 echo bibledit

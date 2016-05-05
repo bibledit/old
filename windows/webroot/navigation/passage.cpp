@@ -88,7 +88,7 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   string bookName = Database_Books::getEnglishFromId (book);
   bookName = translate (bookName);
 
-  fragment.append ("<span><a id=\"selectbook\" href=\"selectbook\" title=\"" + translate ("Select book") + "\">" + bookName + "</a></span>");
+  fragment.append ("<span><a id='selectbook' href='selectbook' title='" + translate ("Select book") + "'>" + bookName + "</a></span>");
   
   int chapter = Ipc_Focus::getChapter (request);
   
@@ -106,6 +106,8 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   
   int verse = Ipc_Focus::getVerse (request);
   
+  bool next_verse_is_available = true;
+  
   // The verse should exist in the chapter.
   if (bible != "") {
     string usfm = request->database_bibles()->getChapter (bible, book, chapter);
@@ -115,11 +117,22 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
       else verse = 1;
       passage_clipped = true;
     }
+    if (!verses.empty ()) {
+      if (verse >= verses.back ()) {
+        next_verse_is_available = false;
+      }
+    }
   }
   
   fragment.append ("<span><a");
-  if (!basic_mode) fragment.append (" class=\"previousverse\"");
-  fragment.append (" id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"> « </a></span>");
+  if (!basic_mode) {
+    fragment.append (" class=\"previousverse\"");
+  }
+  if (verse) {
+    // A previous verse (0) is assumed to be available.
+    fragment.append (" id=\"previousverse\" href=\"previousverse\" title=\"" + translate ("Go to previous verse") + "\"");
+  }
+  fragment.append ("> « </a></span>");
   
   fragment.append ("<span><a");
   if (!basic_mode) fragment.append (" class=\"selectverse\"");
@@ -127,7 +140,10 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
 
   fragment.append ("<span><a");
   if (!basic_mode) fragment.append (" class=\"nextverse\"");
-  fragment.append (" id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"> » </a></span>");
+  if (next_verse_is_available) {
+    fragment.append (" id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"");
+  }
+  fragment.append ("> » </a></span>");
 
   // Store book / chapter / verse if they were clipped.
   if (passage_clipped) {
@@ -159,7 +175,7 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
   }
   addSelectorLink (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false);
 
-  html.insert (0, "<span id=\"applybook\">" + translate ("Select book"));
+  html.insert (0, "<span id='applybook'>" + translate ("Select book") + ": ");
   html.append ("</span>");
 
   return html;
@@ -431,12 +447,11 @@ void Navigation_Passage::addSelectorLink (string& html, string id, string href, 
   // Add bit to cause wrapping between the books or chapters or verses.
   if (!html.empty ()) html.append (" ");
 
-  if (selected) html.append ("<mark>");
+  string isactive = "";
+  if (selected) isactive  = " active";
   
   // No wrapping of a book name made of more than one word.
-  html.append ("<span class=\"nowrap\"><a id=\"" + id + "apply\" href=\"" + href + "\"> ");
+  html.append ("<span class='selector" + isactive + "'><a id='" + id + "apply' href='" + href + "'>");
   html.append (text);
-  html.append (" </a></span>");
-  
-  if (selected) html.append ("</mark>");
+  html.append ("</a></span>");
 }

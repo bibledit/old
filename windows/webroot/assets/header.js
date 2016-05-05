@@ -36,7 +36,7 @@ $ (document).ready (function () {
     // and is to be removed here within the iframe.
     $ ("#topbar").empty ();
   }
-  if (typeof (fadingMenuDelay) != 'undefined') {
+  if (typeof (fadingMenuDelay) != 'undefined' && fadingMenuDelay != 0) {
     $ (".fadeout").delay (parseInt (fadingMenuDelay)).hide (2000);
   }
 });

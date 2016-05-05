@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/cache.h>
 #include <database/login.h>
 #include <database/privileges.h>
+#include <database/git.h>
 #include <client/logic.h>
 #include <notes/logic.h>
 #include <sword/logic.h>
@@ -137,6 +138,9 @@ void database_maintenance ()
   
 
   Database_Privileges::optimize ();
+  
+  
+  Database_Git::optimize ();
   
   
   // Only maintain it when it does not yet exist, to avoid unnecessary downloads by the clients.

@@ -110,11 +110,11 @@ string resource_sword (void * webserver_request)
   view.set_variable ("moduleblock", moduleblock);
 
   
-  if (config_logic_client_prepared ()) {
-    view.enable_zone ("client");
-  } else {
-    view.enable_zone ("server");
-  }
+#ifdef CLIENT_PREPARED
+  view.enable_zone ("client");
+#else
+  view.enable_zone ("server");
+#endif
   
   
   page += view.render ("resource", "sword");

@@ -176,11 +176,11 @@ string notes_actions (void * webserver_request)
   else view.enable_zone ("mark");
   
   
-  if (!config_logic_client_prepared ()) {
-    view.enable_zone ("cloud");
-    string on_off = styles_logic_off_on_inherit_toggle_text (database_notes.getPublic (id));
-    view.set_variable ("publicnote", on_off);
-  }
+#ifndef CLIENT_PREPARED
+  view.enable_zone ("cloud");
+  string on_off = styles_logic_off_on_inherit_toggle_text (database_notes.getPublic (id));
+  view.set_variable ("publicnote", on_off);
+#endif
   // Roles of translator or higher can edit the public visibility of a note.
   if (level >= Filter_Roles::translator ()) view.enable_zone ("translator");
 

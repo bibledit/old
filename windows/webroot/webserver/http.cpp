@@ -213,7 +213,7 @@ void http_assemble_response (Webserver_Request * request)
   }
   if (!request->header.empty ()) response.push_back (request->header);
   response.push_back ("");
-  if (!request->reply.empty ()) response.push_back (request->reply);
+  response.push_back (request->reply);
 
   string assembly;
   for (unsigned int i = 0; i < response.size (); i++) {

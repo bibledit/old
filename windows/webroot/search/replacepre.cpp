@@ -27,6 +27,7 @@
 #include <database/config/general.h>
 #include <search/logic.h>
 #include <access/bible.h>
+#include <config/logic.h>
 
 
 string search_replacepre_url ()
@@ -49,7 +50,7 @@ string search_replacepre (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   
-  string siteUrl = Database_Config_General::getSiteURL ();
+  string siteUrl = config_logic_site_url ();
   
   
   // Get search variables from the query.

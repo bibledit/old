@@ -45,7 +45,7 @@ bool mapping_index_acl (void * webserver_request)
 string mapping_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Mappings database_mappings = Database_Mappings ();
+  Database_Mappings database_mappings;
   
   string page;
   

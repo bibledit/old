@@ -27,14 +27,15 @@
 
 string filter_git_directory (string object);
 bool filter_git_init (string directory, bool bare = false);
+void filter_git_sync_modifications_to_git (string bible, string repository);
 void filter_git_sync_bible_to_git (void * webserver_request, string bible, string repository);
 void filter_git_sync_git_to_bible (void * webserver_request, string repository, string bible);
 void filter_git_sync_git_chapter_to_bible (string repository, string bible, int book, int chapter);
 bool filter_git_remote_read (string url, string & error);
 bool filter_git_remote_clone (string url, string path, int jobid, string & error);
 bool filter_git_add_remove_all (string repository, string & error);
-bool filter_git_commit (string repository, string user, string email, string message, string & error);
-bool filter_git_commit (string repository, string message, vector <string> & messages);
+bool filter_git_commit (string repository, string user, string message,
+                        vector <string> & messages, string & error);
 void filter_git_config_set_bool (string repository, string name, bool value);
 void filter_git_config_set_int (string repository, string name, int value);
 void filter_git_config_set_string (string repository, string name, string value);
@@ -44,6 +45,8 @@ bool filter_git_pull (string repository, vector <string> & messages);
 bool filter_git_push (string repository, vector <string> & messages, bool all = false);
 bool filter_git_resolve_conflicts (string repository, vector <string> & paths, string & error);
 void filter_git_config (string repository);
+string filter_git_user (string user);
+string filter_git_email (string user);
 
 
 #endif

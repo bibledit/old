@@ -114,21 +114,21 @@ string manage_index (void * webserver_request)
   vector <string> fontsblock;
   for (auto & font : fonts) {
     fontsblock.push_back ("<p>");
-    if (!config_logic_client_prepared ()) {
-      fontsblock.push_back ("<a href=\"?deletefont=" + font+ "\" title=\"" + translate("Delete font") + "\"> ✗ </a>");
-    }
+#ifndef CLIENT_PREPARED
+    fontsblock.push_back ("<a href=\"?deletefont=" + font+ "\" title=\"" + translate("Delete font") + "\"> ✗ </a>");
+#endif
     fontsblock.push_back (font);
     fontsblock.push_back ("</p>");
   }
   view.set_variable ("fontsblock", filter_string_implode (fontsblock, "\n"));
 
   
-  if (config_logic_client_prepared ()) {
-    view.enable_zone ("client");
-    view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_index_url (), ""));
-  } else {
-    view.enable_zone ("server");
-  }
+#ifdef CLIENT_PREPARED
+  view.enable_zone ("client");
+  view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_index_url (), ""));
+#else
+  view.enable_zone ("server");
+#endif
   
   
   view.set_variable ("success", success);

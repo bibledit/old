@@ -32,6 +32,8 @@ void setup_initialize_data ();
 void setup_set_admin_details (string username, string password, string email);
 void setup_complete_gui ();
 void setup_generate_locale_databases (bool progress);
+void setup_generate_verse_mapping_databases ();
+void setup_generate_versification_databases ();
 
 
 #endif

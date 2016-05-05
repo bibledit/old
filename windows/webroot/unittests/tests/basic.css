@@ -1,179 +1,96 @@
 .superscript { font-size: x-small; vertical-align: super; }
 .add {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .b {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .bd {
 font-weight: bold;
-background-color: #FFFFFF;
 }
 .bdit {
 font-style: italic;
 font-weight: bold;
-background-color: #FFFFFF;
 }
 .bk {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .c {
 font-size: 250%;
 font-weight: bold;
-text-align: left;
-margin-top: 0mm;
 margin-bottom: -3mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .cd {
 font-size: 92%;
-text-align: left;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .cls {
-font-size: 100%;
 text-align: right;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .d {
-font-size: 100%;
 font-style: italic;
 text-align: center;
 margin-top: 4mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .dc {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .em {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .f {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .fdc {
-background-color: #FFFFFF;
 }
 .fe {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .fk {
 font-style: italic;
 font-weight: bold;
-background-color: #FFFFFF;
 }
 .fl {
 font-style: italic;
 font-weight: bold;
-background-color: #FFFFFF;
 }
 .fm {
 font-size: x-small;
 vertical-align: super;
-background-color: #FFFFFF;
 }
 .fp {
-background-color: #FFFFFF;
 }
 .fq {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .fqa {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .fr {
 font-weight: bold;
-background-color: #FFFFFF;
 }
 .ft {
-background-color: #FFFFFF;
 }
 .fv {
-background-color: #FFFFFF;
 }
 .ib {
 font-size: 42%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .iex {
-font-size: 100%;
-text-align: left;
 margin-top: 4mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
 text-indent: 3.2mm;
 }
 .im {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .imi {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
-text-indent: 0mm;
 }
 .imq {
-font-size: 100%;
 font-style: italic;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
-text-indent: 0mm;
 }
 .imt {
 font-size: 117%;
@@ -181,9 +98,6 @@ font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .imt1 {
@@ -192,9 +106,6 @@ font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .imt2 {
@@ -203,323 +114,163 @@ font-style: italic;
 text-align: center;
 margin-top: 6mm;
 margin-bottom: 3mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .imt3 {
-font-size: 100%;
 font-weight: bold;
 text-align: center;
 margin-top: 2mm;
 margin-bottom: 2mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .imt4 {
-font-size: 100%;
 font-style: italic;
 text-align: center;
 margin-top: 2mm;
 margin-bottom: 2mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .imte {
 font-size: 167%;
 font-weight: bold;
 text-align: center;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .io {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 12.7mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .io1 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 12.7mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .io2 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 19.1mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .io3 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .io4 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 31.8mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .ior {
-background-color: #FFFFFF;
 }
 .iot {
-font-size: 100%;
 font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .ip {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
 text-indent: 5mm;
 }
 .ipi {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 6.3mm;
 margin-right: 6.3mm;
 text-indent: 3.2mm;
 }
 .ipq {
-font-size: 100%;
 font-style: italic;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
 text-indent: 3.2mm;
 }
 .ipr {
-font-size: 100%;
 font-style: italic;
 text-align: right;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
-text-indent: 0mm;
 }
 .iq {
-font-size: 100%;
 font-style: italic;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -19.1mm;
 }
 .iq1 {
-font-size: 100%;
 font-style: italic;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -19.1mm;
 }
 .iq2 {
-font-size: 100%;
 font-style: italic;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -12.7mm;
 }
 .iq3 {
-font-size: 100%;
 font-style: italic;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -6.4mm;
 }
 .is {
-font-size: 100%;
 font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .is1 {
-font-size: 100%;
 font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .is2 {
-font-size: 100%;
 font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .it {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .k {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .k1 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .k2 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .li {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 15.9mm;
 margin-right: -9.3mm;
-text-indent: 0mm;
 }
 .li1 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 12.7mm;
-margin-right: 0mm;
 text-indent: -6.4mm;
 }
 .li2 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 19.1mm;
-margin-right: 0mm;
 text-indent: -6.4mm;
 }
 .li3 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -6.4mm;
 }
 .li4 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 31.8mm;
-margin-right: 0mm;
 text-indent: -6.4mm;
 }
 .lit {
 font-weight: bold;
-background-color: #FFFFFF;
 }
 .m {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .mi {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
-text-indent: 0mm;
 }
 .mr {
-font-size: 100%;
 font-style: italic;
 text-align: center;
-margin-top: 0mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .ms {
@@ -528,9 +279,6 @@ font-weight: bold;
 text-align: center;
 margin-top: 16mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .ms1 {
@@ -539,9 +287,6 @@ font-weight: bold;
 text-align: center;
 margin-top: 16mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .ms2 {
@@ -550,9 +295,6 @@ font-weight: bold;
 text-align: center;
 margin-top: 16mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .mt {
@@ -561,9 +303,6 @@ font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .mt1 {
@@ -572,20 +311,13 @@ font-weight: bold;
 text-align: center;
 margin-top: 2mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .mt2 {
 font-size: 133%;
 font-style: italic;
 text-align: center;
-margin-top: 0mm;
 margin-bottom: 2mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .mt3 {
@@ -594,19 +326,12 @@ font-weight: bold;
 text-align: center;
 margin-top: 2mm;
 margin-bottom: 2mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .mt4 {
-font-size: 100%;
 text-align: center;
 margin-top: 2mm;
 margin-bottom: 2mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .mte {
@@ -615,9 +340,6 @@ font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .mte1 {
@@ -626,423 +348,226 @@ font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .mte2 {
 font-size: 133%;
 font-style: italic;
 text-align: center;
-margin-top: 0mm;
 margin-bottom: 2mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .nb {
-font-size: 100%;
 text-align: justify;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .nd {
-text-decoration: underline;
-background-color: #FFFFFF;
+font-variant: small-caps;
 }
 .no {
-background-color: #FFFFFF;
 }
 .ord {
 font-size: x-small;
 vertical-align: super;
-background-color: #FFFFFF;
 }
 .p {
-font-size: 100%;
 text-align: justify;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
 text-indent: 3.2mm;
 }
 .p1 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
 text-indent: 3.2mm;
 page-break-inside: avoid;
 }
 .p2 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 3.2mm;
-margin-right: 0mm;
 text-indent: 3.2mm;
 page-break-inside: avoid;
 }
 .pc {
-font-size: 100%;
 text-align: center;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .pi {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
 text-indent: 3.2mm;
 }
 .pi1 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
 text-indent: 3.2mm;
 }
 .pi2 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 12.7mm;
 margin-right: 6.4mm;
 text-indent: 3.2mm;
 }
 .pi3 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 19.1mm;
 margin-right: 6.4mm;
 text-indent: 3.2mm;
 }
 .pm {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
 text-indent: 3.2mm;
 }
 .pmc {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
-text-indent: 0mm;
 }
 .pmo {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 3.2mm;
 margin-right: 3.2mm;
-text-indent: 0mm;
 }
 .pmr {
-font-size: 100%;
 text-align: right;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
-text-indent: 0mm;
 }
 .pn {
 font-weight: bold;
 text-decoration: underline;
-background-color: #FFFFFF;
 }
 .q {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -19.1mm;
 }
 .q1 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 24.4mm;
-margin-right: 0mm;
 text-indent: -19.1mm;
 }
 .q2 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -12.7mm;
 }
 .q3 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -6.4mm;
 }
 .qa {
-font-size: 100%;
 font-style: italic;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .qac {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .qc {
-font-size: 100%;
 text-align: center;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .qm {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -19.1mm;
 }
 .qm1 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -19.1mm;
 }
 .qm2 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -12.7mm;
 }
 .qm3 {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
 margin-left: 25.4mm;
-margin-right: 0mm;
 text-indent: -6.4mm;
 }
 .qr {
-font-size: 100%;
 text-align: right;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .qs {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .qt {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .r {
-font-size: 100%;
 font-style: italic;
 text-align: center;
-margin-top: 0mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .rq {
-font-size: 100%;
 font-style: italic;
 text-align: right;
-margin-top: 0mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .s {
-font-size: 100%;
 font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .s1 {
-font-size: 100%;
 font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .s2 {
-font-size: 100%;
 font-style: italic;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .s3 {
-font-size: 100%;
 font-style: italic;
-text-align: left;
 margin-top: 6mm;
 margin-bottom: 3mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .s4 {
-font-size: 100%;
 font-style: italic;
-text-align: left;
 margin-top: 6mm;
 margin-bottom: 3mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .sc {
 font-variant: small-caps;
-background-color: #FFFFFF;
 }
 .sig {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .sls {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .sp {
-font-size: 100%;
 font-style: italic;
-text-align: left;
 margin-top: 8mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .sr {
-font-size: 100%;
 font-weight: bold;
 text-align: center;
-margin-top: 0mm;
 margin-bottom: 4mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 page-break-inside: avoid;
 }
 .tl {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .v {
 font-size: x-small;
 vertical-align: super;
-background-color: #FFFFFF;
 }
 .va {
-background-color: #FFFFFF;
 }
 .vp {
-background-color: #FFFFFF;
 }
 .wj {
 color: #FF0000;
-background-color: #FFFFFF;
 }
 .x {
-font-size: 100%;
-text-align: left;
-margin-top: 0mm;
-margin-bottom: 0mm;
-margin-left: 0mm;
-margin-right: 0mm;
-text-indent: 0mm;
 }
 .xdc {
-background-color: #FFFFFF;
 }
 .xk {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .xo {
 font-weight: bold;
-background-color: #FFFFFF;
 }
 .xq {
 font-style: italic;
-background-color: #FFFFFF;
 }
 .xt {
-background-color: #FFFFFF;
 }

@@ -24,9 +24,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 #include <database/config/general.h>
 #include <database/config/user.h>
-#include <config.h>
 #include <cstdlib>
 #include <webserver/request.h>
+
+
+const char * config_logic_config_folder ()
+{
+  return "config";
+}
 
 
 // Returns the Bibledit version number.
@@ -37,19 +42,19 @@ const char * config_logic_version ()
 
 
 // Return the network port configured for the server.
-const char * config_logic_network_port ()
+const char * config_logic_http_network_port ()
 {
   return NETWORK_PORT;
 }
 
 
-// Returns whether client mode is enabled during configure.
-bool config_logic_client_prepared ()
+// Return the secure network port for the secure server.
+int config_logic_https_network_port ()
 {
-#ifdef CLIENT_PREPARED
-  return true;
-#endif
-  return false;
+  int port = convert_to_int (NETWORK_PORT);
+  // The secure port is the plain http port plus one.
+  port++;
+  return port;
 }
 
 
@@ -177,4 +182,77 @@ bool config_logic_basic_mode (void * webserver_request)
   }
   
   return basic_mode;
+}
+
+
+// This returns the URL of Bibledit Cloud that faces the user.
+string config_logic_site_url ()
+{
+  string url = Database_Config_General::getSiteURL ();
+  string user_url = config_logic_manual_user_facing_url ();
+  if (!user_url.empty ()) url = user_url;
+  return url;
+}
+
+
+// This returns the filtered value of file userfacingurl.conf.
+string config_logic_manual_user_facing_url ()
+{
+#ifdef CLIENT_PREPARED
+  return "";
+#else
+  // Read the configuration file.
+  string path = filter_url_create_root_path (config_logic_config_folder (), "userfacingurl.conf");
+  string url = filter_url_file_get_contents (path);
+  // Remove white space.
+  url = filter_string_trim (url);
+  // The previous file contained dummy text by default. Remove that.
+  if (url.length () <= 6) url.clear ();
+  // Ensure it ends with a slash.
+  if (url.find_last_of ("/") != url.length () - 1) url.append ("/");
+  // Done.
+  return url;
+#endif
+}
+
+
+// Returns the path to the secure server's private key.
+string config_logic_server_key_path ()
+{
+  // Try the correct config file first.
+  string path = filter_url_create_root_path ("config", "server.key");
+  if (file_exists (path)) return path;
+  // Try the file for localhost next.
+  path = filter_url_create_root_path ("config", "local.server.key");
+  if (file_exists (path)) return path;
+  // Nothing found.
+  return "";
+}
+
+
+// Returns the path to the secure server's public certificate.
+string config_logic_server_certificate_path ()
+{
+  // Try the correct config file first.
+  string path = filter_url_create_root_path ("config", "server.crt");
+  if (file_exists (path)) return path;
+  // Try the file for localhost next.
+  path = filter_url_create_root_path ("config", "local.server.crt");
+  if (file_exists (path)) return path;
+  // Nothing found.
+  return "";
+}
+
+
+// Returns the path to the secure server's chain of certificates of the signing authorities.
+string config_logic_authorities_certificates_path ()
+{
+  // Try the correct config file first.
+  string path = filter_url_create_root_path ("config", "authorities.crt");
+  if (file_exists (path)) return path;
+  // Try the file for localhost next.
+  path = filter_url_create_root_path ("config", "local.authorities.crt");
+  if (file_exists (path)) return path;
+  // Nothing found.
+  return "";
 }

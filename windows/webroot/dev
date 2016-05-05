@@ -4,4 +4,3 @@
 # Then run bibledit in that location.
 # This ensures that no databases are being created in the source tree.
 watch -n 1 "rsync -a . /tmp/bibledit-dev"
-rsync -a . /tmp/bibledit-dev

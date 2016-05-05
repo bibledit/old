@@ -135,11 +135,13 @@ function getEntryAfterDelete () {
 function selectEntry (entry)
 {
   if (entry) {
-    $(".selected").removeClass ("selected");
-    entry.addClass ("selected");
-    var elementOffset = entry.offset ();
-    $(document).scrollTop (elementOffset.top + (entry.height () / 2) - ($(window).height () / 2));
-    changesFocusTimerStart ();
+    $(".selected").removeClass("selected");
+    entry.addClass("selected");
+    var elementOffset = entry.offset().top;
+    var currentScrollTop = $("#workspacewrapper").scrollTop();
+    var workspaceHeight = $("#workspacewrapper").height();
+    $("#workspacewrapper").scrollTop(elementOffset + (entry.height() / 2) - (workspaceHeight / 2) + currentScrollTop);
+    changesFocusTimerStart();
   }
 }
 
@@ -182,7 +184,7 @@ function expandEntry () {
       var viewportHeight = $(window).height ();
       var infoHeight = extraInfo.height ();
       var infoOffset = extraInfo.offset ();
-      $("body,html").animate({ scrollTop: infoOffset.top + (infoHeight / 2) - (viewportHeight / 2) }, 500);
+      $("#workspacewrapper").animate({ scrollTop: infoOffset.top + (infoHeight / 2) - (viewportHeight / 2) }, 500);
     },
   });
 }

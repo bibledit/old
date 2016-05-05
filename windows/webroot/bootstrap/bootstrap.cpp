@@ -17,10 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <bootstrap/bootstrap.h>
+#include <webserver/request.h>
+#include <webserver/http.h>
 #include <filter/url.h>
 #include <index/index.h>
-#include <bootstrap/bootstrap.h>
-#include <webserver/http.h>
 #include <session/login.h>
 #include <session/logout.h>
 #include <session/password.h>
@@ -199,9 +200,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // This function is the first function to be called when a client requests a page or file.
-// Based on the request from the client, it decides which other function to call to assemble the response.
-void bootstrap_index (Webserver_Request * request)
+// Based on the request from the client,
+// it decides which other function to call to obtain the response.
+void bootstrap_index (void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
   

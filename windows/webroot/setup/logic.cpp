@@ -37,6 +37,7 @@
 #include <database/state.h>
 #include <database/login.h>
 #include <database/privileges.h>
+#include <database/git.h>
 #include <styles/sheets.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -79,8 +80,10 @@ void setup_conditionally (const char * package)
       Database_Logs::log (message, Filter_Roles::admin());
     }
     
+#ifndef CLIENT_PREPARED
     // Cloud updates the available SWORD modules.
-    if (!config_logic_client_prepared ()) tasks_logic_queue (REFRESHSWORDMODULES);
+    tasks_logic_queue (REFRESHSWORDMODULES);
+#endif
     
     // Update installed version.
     Database_Config_General::setInstalledDatabaseVersion (config_logic_version ());
@@ -89,7 +92,9 @@ void setup_conditionally (const char * package)
   if (config_logic_version () != Database_Config_General::getInstalledInterfaceVersion ()) {
     
     // In client mode or in demo mode do not display the page for entering the admin's details.
-    if (config_logic_client_prepared ()) setup_complete_gui ();
+#ifdef CLIENT_PREPARED
+    setup_complete_gui ();
+#endif
     if (config_logic_demo_enabled ()) setup_complete_gui ();
     
     // When the admin's credentials are configured, enter them, and do not display them in the setup page.
@@ -114,8 +119,10 @@ void setup_conditionally (const char * package)
   // Once the tasks are really complete, they will clear the flag.
   tasks_logic_queue (REINDEXBIBLES);
   tasks_logic_queue (REINDEXNOTES);
+#ifdef CLIENT_PREPARED
   // Same for the resource downloader, for the client.
-  if (config_logic_client_prepared ()) tasks_logic_queue (SYNCRESOURCES);
+  tasks_logic_queue (SYNCRESOURCES);
+#endif
 }
 
 
@@ -202,18 +209,12 @@ void setup_initialize_data ()
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
   config_globals_setup_message = "mappings";
-  Database_Mappings database_mappings = Database_Mappings ();
-  database_mappings.create1 ();
-  database_mappings.defaults ();
-  database_mappings.create2 ();
-  database_mappings.optimize ();
+  setup_generate_verse_mapping_databases ();
   config_globals_setup_message = "note actions";
   Database_NoteActions database = Database_NoteActions ();
   database.create ();
   config_globals_setup_message = "versifications";
-  Database_Versifications database_versifications;
-  database_versifications.create ();
-  database_versifications.defaults ();
+  setup_generate_versification_databases ();
   config_globals_setup_message = "modifications";
   Database_Modifications database_modifications;
   database_modifications.create ();
@@ -232,6 +233,8 @@ void setup_initialize_data ()
   Database_Privileges::create ();
   Database_Privileges::upgrade ();
   Database_Privileges::optimize ();
+  config_globals_setup_message = "privileges";
+  Database_Git::create ();
 
   // Create stylesheets.
   config_globals_setup_message = "stylesheets";
@@ -298,4 +301,38 @@ void setup_generate_locale_databases (bool progress)
     string path = filter_url_create_root_path ("locale", localization + ".po");
     database_localization.create (path);
   }
+}
+
+
+// Generate the verse mapping databases.
+void setup_generate_verse_mapping_databases ()
+{
+  // On Android, do not generate the verse mapping databases.
+  // On this low power device, generating them would take quite a while, as experience shows.
+  // Instead of generating them, the builder and installer put the pre-generated databases into place.
+  if (config_logic_android ()) return;
+  // Same story for iOS.
+  if (config_logic_ios ()) return;
+  // Generate the verse mappings.
+  Database_Mappings database_mappings;
+  database_mappings.create1 ();
+  database_mappings.defaults ();
+  database_mappings.create2 ();
+  database_mappings.optimize ();
+}
+
+
+// Generate the versification databases.
+void setup_generate_versification_databases ()
+{
+  // On Android, do not generate the verse mapping databases.
+  // On this low power device, generating them would take quite a while, as experience shows.
+  // Instead of generating them, the builder and installer put the pre-generated databases into place.
+  if (config_logic_android ()) return;
+  // Same story for iOS.
+  if (config_logic_ios ()) return;
+  // Generate the versifications.
+  Database_Versifications database_versifications;
+  database_versifications.create ();
+  database_versifications.defaults ();
 }

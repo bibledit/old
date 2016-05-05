@@ -223,11 +223,11 @@ string user_notifications (void * webserver_request)
   
   view.set_variable ("sprint_progress_notification", get_tick_box (database_config_user.getSprintProgressNotification ()));
   
-  if (config_logic_client_prepared ()) {
-    view.enable_zone ("client");
-  } else {
-    view.enable_zone ("server");
-  }
+#ifdef CLIENT_PREPARED
+  view.enable_zone ("client");
+#else
+  view.enable_zone ("server");
+#endif
 
   view.set_variable ("url", client_logic_link_to_cloud (user_notifications_url (), translate("You can set the notifications in Bibledit Cloud.")));
 

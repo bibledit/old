@@ -35,7 +35,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/usfm.h>
 #include <session/logic.h>
-#include <config.h>
 
 
 int main (int argc, char **argv) 
@@ -59,7 +58,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  test_filter_url (); refresh_sandbox (true); exit (0); // Todo
+  // test_filter_git (); test_database_git (); refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -159,7 +158,9 @@ int main (int argc, char **argv)
   test_filter_shell ();
   test_database_login ();
   test_database_privileges ();
-
+  test_json ();
+  test_database_git ();
+  
   // Output possible journal entries.
   refresh_sandbox (true);
   

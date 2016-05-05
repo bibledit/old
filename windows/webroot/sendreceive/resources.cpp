@@ -25,6 +25,7 @@
 #include <filter/date.h>
 #include <tasks/logic.h>
 #include <config/logic.h>
+#include <config/globals.h>
 #include <database/config/general.h>
 #include <database/logs.h>
 #include <database/versifications.h>
@@ -53,6 +54,7 @@ void sendreceive_resources_kick_watchdog ()
 void sendreceive_resources_done ()
 {
   sendreceive_resources_watchdog = 0;
+  config_globals_syncing_resources = false;
 }
 
 
@@ -99,6 +101,7 @@ void sendreceive_resources ()
   if (resources.empty ()) return;
   
   sendreceive_resources_kick_watchdog ();
+  config_globals_syncing_resources = true;
 
   // Error counter.
   int error_count = 0;

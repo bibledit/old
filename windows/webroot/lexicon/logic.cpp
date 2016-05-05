@@ -71,7 +71,7 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
       string id = "lexicontxt" + prefix;
       html.append ("<div id=\"" + id + "\">\n");
       for (auto rowid : rowids) {
-        html.append ("<table style=\"float: right\">");
+        html.append ("<table class='interlinear rtl'>");
         html.append ("<tr>");
         html.append ("<td class=\"hebrew\">");
         string word = database_etcbc4.word (rowid);

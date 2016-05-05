@@ -78,9 +78,9 @@ string changes_changes (void * webserver_request)
     int remove = convert_to_int (request->post["remove"]);
     trash_change_notification (request, remove);
     database_modifications.deleteNotification (remove);
-    if (config_logic_client_prepared ()) {
-      request->database_config_user ()->addRemovedChange (remove);
-    }
+#ifdef CLIENT_PREPARED
+    request->database_config_user ()->addRemovedChange (remove);
+#endif
     request->database_config_user ()->setChangeNotificationsChecksum ("");
     return "";
   }
@@ -105,12 +105,12 @@ string changes_changes (void * webserver_request)
   // Remove personal changes notifications and their matching change notifications in the Bible.
   if (request->query.count ("match")) {
     vector <int> ids = database_modifications.clearNotificationMatches (username, changes_personal_category (), changes_bible_category ());
+#ifdef CLIENT_PREPARED
     // Client records deletions for sending to the Cloud.
-    if (config_logic_client_prepared ()) {
-      for (auto & id : ids) {
-        request->database_config_user ()->addRemovedChange (id);
-      }
+    for (auto & id : ids) {
+      request->database_config_user ()->addRemovedChange (id);
     }
+#endif
     // Clear checksum cache.
     request->database_config_user ()->setChangeNotificationsChecksum ("");
   }
@@ -122,9 +122,9 @@ string changes_changes (void * webserver_request)
     for (auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
-      if (config_logic_client_prepared ()) {
-        request->database_config_user ()->addRemovedChange (id);
-      }
+#ifdef CLIENT_PREPARED
+      request->database_config_user ()->addRemovedChange (id);
+#endif
       request->database_config_user ()->setChangeNotificationsChecksum ("");
     }
   }
@@ -136,9 +136,9 @@ string changes_changes (void * webserver_request)
     for (auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
-      if (config_logic_client_prepared ()) {
-        request->database_config_user ()->addRemovedChange (id);
-      }
+#ifdef CLIENT_PREPARED
+      request->database_config_user ()->addRemovedChange (id);
+#endif
       request->database_config_user ()->setChangeNotificationsChecksum ("");
     }
   }
@@ -151,9 +151,9 @@ string changes_changes (void * webserver_request)
     for (auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
-      if (config_logic_client_prepared ()) {
-        request->database_config_user ()->addRemovedChange (id);
-      }
+#ifdef CLIENT_PREPARED
+      request->database_config_user ()->addRemovedChange (id);
+#endif
       request->database_config_user ()->setChangeNotificationsChecksum ("");
     }
   }

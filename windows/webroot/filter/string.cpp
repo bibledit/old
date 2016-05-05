@@ -17,7 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <config.h>
 #include <filter/string.h>
 #include <utf8/utf8.h>
 #include <filter/url.h>
@@ -714,12 +713,19 @@ string filter_string_extract_body (string input, string year, string sender)
 
 
 // Returns an appropriate tick box for "enabled".
+// TODO: factor this out in favor of semantic elements (styled if desired)
 string get_tick_box (bool enabled)
 {
   if (enabled) return "✅";
   return "☐";
 }
 
+// Returns an appropriate value
+string get_checkbox_status (bool enabled)
+{
+  if (enabled) return "checked='checked'";
+  return "";
+}
 
 void quick_swap(string & a, string & b)
 {

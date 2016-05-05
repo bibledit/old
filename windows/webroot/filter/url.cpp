@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/date.h>
 #include <config/logic.h>
-#include <config.h>
 #include <database/books.h>
 #include <database/logs.h>
 #include <sys/socket.h>
@@ -39,11 +38,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Gets the base URL of current Bibledit installation.
 string get_base_url (Webserver_Request * request)
 {
-  // E.g. http or https: Always use http for just now.
-  string scheme = "http";  
-  // Port
-  string port = config_logic_network_port ();
-  // Full URL.  
+  string scheme;
+  string port;
+  if (request->secure) {
+    scheme = "https";
+    port = config_logic_https_network_port ();
+  } else {
+    scheme = "http";
+    port = config_logic_http_network_port ();
+  }
   string url = scheme + "://" + request->host + ":" + port + "/";
   return url;
 }
@@ -53,9 +56,28 @@ string get_base_url (Webserver_Request * request)
 // "path" is an absolute value.
 void redirect_browser (Webserver_Request * request, string path)
 {
-  // A location header needs to contain an absolute url, like http://localhost/some.
-  // See 14.30 in the specification http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
-  string location = get_base_url (request) + path;
+  // A location header should contain an absolute url, like http://localhost/some/path.
+  // See 14.30 in the specification https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
+  
+  // The absolute location contains the user-facing URL, when the administrator entered it.
+  // This is needed in case of a proxy server,
+  // where Bibledit may not be able to obtain the user-facing URL of the website.
+  string location = config_logic_site_url ();
+  
+  // In case of no known site location, extract it from the browser's request.
+  if (location.empty ()) location = get_base_url (request);
+
+  // If the request was secure, ensure the location contains https rather than plain http,
+  // plus the correct secure port.
+  if (request->secure) {
+    location = filter_string_str_replace ("http:", "https:", location);
+    string plainport = config_logic_http_network_port ();
+    string secureport = convert_to_string (config_logic_https_network_port ());
+    location = filter_string_str_replace (":" + plainport, ":" + secureport, location);
+  }
+  
+  location.append (path);
+
   request->header = "Location: " + location;
   request->response_code = 302;
 }
@@ -275,7 +297,7 @@ void filter_url_file_put_contents_append (string filename, string contents)
 
 // Copies the contents of file named "input" to file named "output".
 // It is assumed that the folder where "output" will reside exists.
-bool filter_url_file_cp (string input, string output) // Todo
+bool filter_url_file_cp (string input, string output)
 {
   try {
     ifstream source (input, ios::binary);
@@ -291,7 +313,8 @@ bool filter_url_file_cp (string input, string output) // Todo
 
 
 // Copies the entire directory $input to a directory named $output.
-void filter_url_dir_cp (const string & input, const string & output) // Todo
+// It will recursively copy the inner directories also.
+void filter_url_dir_cp (const string & input, const string & output)
 {
   // Create the output directory.
   filter_url_mkdir (output);

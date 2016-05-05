@@ -28,6 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/modifications.h>
 #include <database/state.h>
+#include <database/git.h>
+#include <database/login.h>
 #include <config/globals.h>
 #include <config/logic.h>
 #include <filter/url.h>
@@ -55,7 +57,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ipc/notes.h>
 #include <client/logic.h>
 #include <bible/logic.h>
-#include <config.h>
 
 
 #ifdef HAVE_UNITTESTS
@@ -3148,6 +3149,10 @@ void test_filter_git_setup (Webserver_Request * request, string bible, string ne
   
   refresh_sandbox (true);
   
+  Database_State::create ();
+  Database_Git::create ();
+  Database_Login::create ();
+
   string repository = filter_git_directory (bible);
   string newrepository = filter_git_directory (newbible);
 
@@ -3531,7 +3536,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, "", error);
     
     // Commit the index to the repository.
-    success = filter_git_commit (clonedrepository, "username", "username@hostname", "unittest", error);
+    success = filter_git_commit (clonedrepository, "username", "unittest", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     
@@ -3542,7 +3547,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, "", error);
     
     // Commit the index to the repository.
-    success = filter_git_commit (clonedrepository, "username", "username@hostname", "unittest", error);
+    success = filter_git_commit (clonedrepository, "username", "unittest", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     
@@ -3608,6 +3613,7 @@ void test_filter_git ()
 
     // Add the files to the index.
     string error;
+    vector <string> messages;
     filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, "", error);
 
@@ -3619,7 +3625,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "new file:   Song of Solomon/2/data") != paths.end());
     
     // Commit the index.
-    filter_git_commit (repository, "user", "email", "unittest", error);
+    filter_git_commit (repository, "user", "unittest", messages, error);
     evaluate (__LINE__, __func__, "", error);
 
     // There should be no modified paths now.
@@ -3646,7 +3652,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/11/data") != paths.end());
     
     // Commit the index.
-    filter_git_commit (repository, "user", "email", "unittest", error);
+    filter_git_commit (repository, "user", "unittest", messages, error);
     evaluate (__LINE__, __func__, "", error);
     
     // There should be no modified paths now.
@@ -3684,7 +3690,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (repository, "test", "test", "test", error);
+    success = filter_git_commit (repository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_push (repository, messages, true);
@@ -3707,7 +3713,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (newrepository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (newrepository, "test", "test", "test", error);
+    success = filter_git_commit (newrepository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_push (newrepository, messages, true);
@@ -3724,7 +3730,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (repository, "test", "test", "test", error);
+    success = filter_git_commit (repository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_pull (repository, messages);
@@ -3779,7 +3785,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (repository, "test", "test", "test", error);
+    success = filter_git_commit (repository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_push (repository, messages, true);
@@ -3800,7 +3806,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (newrepository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (newrepository, "test", "test", "test", error);
+    success = filter_git_commit (newrepository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_push (newrepository, messages, true);
@@ -3815,7 +3821,7 @@ void test_filter_git ()
     success = filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    success = filter_git_commit (repository, "test", "test", "test", error);
+    success = filter_git_commit (repository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     // Pulling changes should result in a merge conflict.
@@ -3841,8 +3847,8 @@ void test_filter_git ()
     // evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
 
     // Commit and push the result.
-    success = filter_git_commit (repository, "message", messages);
-    evaluate (__LINE__, __func__, false, success);
+    success = filter_git_commit (repository, "", "message", messages, error);
+    evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, 4, (int)messages.size());
     success = filter_git_push (repository, messages);
     evaluate (__LINE__, __func__, true, success);
@@ -3855,6 +3861,101 @@ void test_filter_git ()
     // Remove journal entries.
     refresh_sandbox (false);
   }
+  
+  // Test one user saving Bible data in an uninterrupted sequence, that it leads to correct records in git.
+  {
+    refresh_sandbox (true);
+
+    string error;
+    bool success;
+    vector <string> messages;
+
+    test_filter_git_setup (&request, bible, newbible, "Psalm 0\n", "Psalm 11\n", "Song of Solomon 2\n");
+    
+    string repository = filter_git_directory (bible);
+
+    // Commit the data to the repository.
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    success = filter_git_commit (repository, "", "initial commit", messages, error);
+    evaluate (__LINE__, __func__, true, success);
+
+    int psalms = 19;
+    string user1 = "user1";
+    string user2 = "user2";
+    string oldusfm1, newusfm1;
+    string out_err;
+
+    // Create records of user saving data.
+    oldusfm1 = "Psalm 11\n";
+    newusfm1 = oldusfm1 + "Praise";
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    oldusfm1 = newusfm1;
+    newusfm1.append (" Jesus");
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    oldusfm1 = newusfm1;
+    newusfm1.append (" forever.\n");
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    filter_git_sync_modifications_to_git (bible, repository);
+
+    // Check the diff.
+    filter_shell_run ("cd " + repository + " && git log -p", out_err);
+    evaluate (__LINE__, __func__, true, out_err.find ("+Praise Jesus forever.") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("User modification") != string::npos);
+    
+    // Remove journal entries.
+    refresh_sandbox (false);
+  }
+  
+  // Test one user saving Bible data, but this time the sequence is interrupted by undefined other users.
+  {
+    refresh_sandbox (true);
+    
+    string error;
+    bool success;
+    vector <string> messages;
+    
+    test_filter_git_setup (&request, bible, newbible, "Psalm 0\n", "Psalm 11\n", "Song of Solomon 2\n");
+    
+    string repository = filter_git_directory (bible);
+    
+    // Commit the data to the repository.
+    success = filter_git_add_remove_all (repository, error);
+    evaluate (__LINE__, __func__, true, success);
+    success = filter_git_commit (repository, "", "initial commit", messages, error);
+    evaluate (__LINE__, __func__, true, success);
+    
+    int psalms = 19;
+    string user1 = "user1";
+    string user2 = "user2";
+    string oldusfm1, newusfm1;
+    string out_err;
+
+    // Create records of two users saving data.
+    oldusfm1 = "Psalm 11\n";
+    newusfm1 = oldusfm1 + "Praise";
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    oldusfm1 = newusfm1;
+    newusfm1.append (" Jesus");
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    Database_Git::store_chapter (user2, bible, psalms, 11, oldusfm1 + " xx\n", newusfm1 + " xxx\n");
+    oldusfm1 = newusfm1;
+    newusfm1.append (" forever.\n");
+    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    filter_git_sync_modifications_to_git (bible, repository);
+    filter_shell_run ("cd " + repository + " && git log -p", out_err);
+    evaluate (__LINE__, __func__, true, out_err.find ("+Praise Jesus forever.") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("Author: user2 <bibledit@bibledit.org>") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("User modification") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("System-generated to clearly display user modification in next commit") != string::npos);
+    evaluate (__LINE__, __func__, true, out_err.find ("+Praise Jesus xxx") != string::npos);
+    
+    // Remove journal entries.
+    refresh_sandbox (false);
+  }
+
 }
 
 
@@ -4296,11 +4397,15 @@ void test_filter_url ()
     // Test http GET and POST
     string result, error;
     result = filter_url_http_get ("http://localhost/none", error);
-    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+#ifndef CLIENT_PREPARED
+    evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+#endif
     evaluate (__LINE__, __func__, "", result);
     map <string, string> values = {make_pair ("a", "value1"), make_pair ("b", "value2")};
     result = filter_url_http_post ("http://localhost/none", values, error);
-    if (!config_logic_client_prepared ()) evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+#ifndef CLIENT_PREPARED
+    evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+#endif
     evaluate (__LINE__, __func__, "", result);
   }
   {

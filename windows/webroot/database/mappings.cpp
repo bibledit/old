@@ -356,3 +356,18 @@ vector <Passage> Database_Mappings::translate (const string& input, const string
 }
 
 
+/*
+
+ To not overwrite updated verse mappings, 
+ there could be one database with the defaults, 
+ and another one on the system with the modifications.
+ The updated mappings will be stored in the second database. 
+ That means that if the name of a mapping occurs in a second database, 
+ that it won't read it from the first database. 
+ This enables the first database to be always updated, 
+ while the system keeps reading from the second database.
+
+ Another way of doing is to keep it as it is, and make the clients download updated mappings from the Cloud.
+ And then to preserver existing mappings in the Cloud on update.
+ 
+*/

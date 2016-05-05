@@ -64,7 +64,7 @@ string manage_write (void * webserver_request)
   view.set_variable ("bible", bible);
 
   int book = convert_to_int (request->query["book"]);
-
+  
   bool bible_read_access, bible_write_access;
   Database_Privileges::getBible (user, bible, bible_read_access, bible_write_access);
 
@@ -77,7 +77,32 @@ string manage_write (void * webserver_request)
       database_privileges_client_create (user, true);
     }
   }
-
+  
+  // Toggle write access to Testament.
+  string testament = request->query ["testament"];
+  if (!testament.empty ()) {
+    // Count the majority 'write' access situation for the Bible.
+    int majority = 0;
+    vector <int> books = request->database_bibles ()->getBooks (bible);
+    for (auto & book : books) {
+      string type = Database_Books::getType (book);
+      if (type == testament) {
+        bool read, write;
+        Database_Privileges::getBibleBook (user, bible, book, read, write);
+        if (write) majority++;
+        else majority--;
+      }
+    }
+    // Update the write access privileges for the books of the Testament,
+    // by setting the write privileges to the opposite of the majority state.
+    for (auto & book : books) {
+      string type = Database_Books::getType (book);
+      if (type == testament) {
+        Database_Privileges::setBibleBook (user, bible, book, (majority < 0));
+      }
+    }
+  }
+  
   // Read or write access to display.
   vector <string> tbody;
   vector <int> books = request->database_bibles ()->getBooks (bible);

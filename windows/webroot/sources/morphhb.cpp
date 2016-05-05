@@ -19,17 +19,37 @@
 
 #include <sources/morphhb.h>
 #include <database/morphhb.h>
-#include <database/logs.h>
 #include <filter/string.h>
+#include <filter/passage.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
+
+
+void sources_morphhb_parse_w_element (Database_MorphHb * database_morphhb, int book, int chapter, int verse, xml_node node)
+{
+  string lemma = node.attribute ("lemma").value ();
+  string word = node.child_value ();
+  word = filter_string_str_replace ("/", "", word);
+  database_morphhb->store (book, chapter, verse, lemma, word);
+}
+
+
+void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, xml_node node)
+{
+  string passage = filter_passage_display (book, chapter, convert_to_string (verse));
+  string text = node.child_value ();
+  cerr << "Unhandled " << node.name () << " at " << passage << ": " << text << endl;
+}
 
 
 void sources_morphhb_parse ()
 {
-  Database_Logs::log ("Start parsing Open Scriptures's Hebrew");
+  cout << "Starting" << endl;
   Database_MorphHb database_morphhb;
   database_morphhb.create ();
 
-  /* To redo this with pugixml
   vector <string> books = {
     "Gen",
     "Exod",
@@ -71,79 +91,75 @@ void sources_morphhb_parse ()
     "Zech",
     "Mal"
   };
-  
+
   for (size_t bk = 0; bk < books.size (); bk++) {
     
     string file = "sources/morphhb/" + books[bk] + ".xml";
-    Database_Logs::log (file);
-    
-    xmlTextReaderPtr reader = xmlNewTextReaderFilename (file.c_str());
-    
+    cout << file << endl;
+
     int book = bk + 1;
-    int chapter;
-    int verse;
-    string lemma;
-    bool in_note = false;
-    bool in_rdg = false;
-    
-    while ((xmlTextReaderRead(reader) == 1)) {
-      switch (xmlTextReaderNodeType (reader)) {
-        case XML_READER_TYPE_ELEMENT:
-        {
-          string element = (char *) xmlTextReaderName (reader);
-          if (element == "verse") {
-            string osisID = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "osisID");
-            vector <string> bits = filter_string_explode (osisID, '.');
-            chapter = convert_to_int (bits[1]);
-            verse = convert_to_int (bits[2]);
+
+    xml_document document;
+    document.load_file (file.c_str());
+    xml_node osis_node = document.first_child ();
+    xml_node osisText_node = osis_node.child ("osisText");
+    xml_node div_book_node = osisText_node.child ("div");
+    for (xml_node chapter_node : div_book_node.children()) {
+      for (xml_node verse_node : chapter_node.children ()) {
+        string node_name = verse_node.name ();
+        if (node_name != "verse") continue;
+
+        // Get the passage.
+        string osisID = verse_node.attribute ("osisID").value ();
+        vector <string> bits = filter_string_explode (osisID, '.');
+        int chapter = convert_to_int (bits[1]);
+        int verse = convert_to_int (bits[2]);
+
+        bool word_stored = false;
+        
+        // Most of the nodes will be "w" but there's more nodes as well, see the source XML file.
+        for (xml_node node : verse_node.children ()) {
+
+          if (word_stored) database_morphhb.store (book, chapter, verse, "", " ");
+
+          string node_name = node.name ();
+
+          if (node_name == "w") {
+            sources_morphhb_parse_w_element (&database_morphhb, book, chapter, verse, node);
           }
-          if (element == "w") {
-            lemma = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "lemma");
+          
+          else if (node_name == "seg") {
+            string word = node.child_value ();
+            database_morphhb.store (book, chapter, verse, "", word);            
           }
-          if (element == "note") {
-            in_note = true;
+          
+          else if (node_name == "note") {
+            for (xml_node variant_node : node.children ()) {
+              string node_name = variant_node.name ();
+              if (node_name == "catchWord") {
+                sources_morphhb_parse_w_element (&database_morphhb, book, chapter, verse, node);
+              } else if (node_name == "rdg") {
+                for (xml_node w_node : variant_node.children ()) {
+                  database_morphhb.store (book, chapter, verse, "", "/");
+                  sources_morphhb_parse_w_element (&database_morphhb, book, chapter, verse, w_node);
+                }
+              } else {
+                sources_morphhb_parse_unhandled_node (book, chapter, verse, node);
+              }
+            }
           }
-          if (element == "rdg") {
-            in_rdg = true;
-            database_morphhb.store (book, chapter, verse, "", "/");
+          
+          else {
+            sources_morphhb_parse_unhandled_node (book, chapter, verse, node);
           }
-          break;
+          
+          word_stored = true;
         }
-        case XML_READER_TYPE_TEXT:
-        {
-          if (chapter == 0) continue;
-          if (verse == 0) continue;
-          if (!in_rdg) if (in_note) continue;
-          string word = (char *) xmlTextReaderValue (reader);
-          word = filter_string_str_replace ("/", "", word);
-          database_morphhb.store (book, chapter, verse, lemma, word);
-          lemma.clear ();
-          word.clear ();
-          break;
-        }
-        case XML_READER_TYPE_SIGNIFICANT_WHITESPACE:
-        {
-          if (chapter == 0) continue;
-          if (verse == 0) continue;
-          if (!in_rdg) if (in_note) continue;
-          database_morphhb.store (book, chapter, verse, "", " ");
-        }
-        case XML_READER_TYPE_END_ELEMENT:
-        {
-          string element = (char *) xmlTextReaderName (reader);
-          if (element == "note") {
-            in_note = false;
-          }
-          if (element == "rdg") {
-            in_rdg = false;
-          }
-          break;
-        }
+        
       }
     }
   }
-   */
 
   database_morphhb.optimize ();
-  Database_Logs::log ("Finished parsing Open Scriptures's Hebrew");
+  cout << "Completed" << endl;
 }

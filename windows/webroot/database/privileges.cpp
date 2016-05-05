@@ -70,6 +70,10 @@ void Database_Privileges::optimize ()
   }
   // Vacuum it.
   SqliteDatabase sql (database ());
+  // On Android, this pragma prevents the following error: VACUUM; Unable to open database file.
+  sql.add ("PRAGMA temp_store = MEMORY;");
+  sql.execute ();
+  sql.clear ();
   sql.add ("VACUUM;");
   sql.execute ();
 }

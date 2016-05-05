@@ -34,7 +34,6 @@
 #include <sync/resources.h>
 #include <tasks/logic.h>
 #include <demo/logic.h>
-#include <config.h>
 #ifdef HAVE_SWORD
 #include <swmgr.h>
 #include <installmgr.h>
@@ -352,97 +351,98 @@ vector <string> sword_logic_get_installed ()
 
 string sword_logic_get_text (string source, string module, int book, int chapter, int verse)
 {
-  if (config_logic_client_prepared ()) {
+#ifdef CLIENT_PREPARED
 
-    // Client checks for and optionally creates the cache for this SWORD module.
-    if (!Database_Cache::exists (module, book)) {
-      Database_Cache::create (module, book);
-    }
-
-    // If this module/passage exists in the cache, return it (it updates the access days in the cache).
-    if (Database_Cache::exists (module, book, chapter, verse)) {
-      return Database_Cache::retrieve (module, book, chapter, verse);
-    }
-
-    // Fetch this SWORD resource from the server.
-    string address = Database_Config_General::getServerAddress ();
-    int port = Database_Config_General::getServerPort ();
-    if (!client_logic_client_enabled ()) {
-      // If the client has not been connected to a cloud instance,
-      // fetch the SWORD content from the Bibledit Cloud demo.
-      address = demo_address ();
-      port = demo_port ();
-    }
-    string url = client_logic_url (address, port, sync_resources_url ());
-    string resource = "[" + source + "][" + module + "]";
-    url = filter_url_build_http_query (url, "r", resource);
-    url = filter_url_build_http_query (url, "b", convert_to_string (book));
-    url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
-    url = filter_url_build_http_query (url, "v", convert_to_string (verse));
-    string error;
-    string html = filter_url_http_get (url, error);
-    
-    // In case of an error, don't cache that error, but let the user see it.
-    if (!error.empty ()) return error;
-
-    // Client caches this info for later.
-    // Except when the Cloud is now installing the SWORD module.
-    if (html != sword_logic_installing_module_text ()) {
-      Database_Cache::cache (module, book, chapter, verse, html);
-    }
-    
-    return html;
-    
-  } else {
-
-    string module_text;
-    bool module_available = false;
-
-    string osis = Database_Books::getOsisFromId (book);
-#ifdef HAVE_SWORD
-    module_text = sword_logic_diatheke (module, osis, chapter, verse, module_available);
-#else
-    // The server fetches the module text as follows:
-    // diatheke -b KJV -k Jn 3:16
-    string sword_path = sword_logic_get_path ();
-    string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
-    filter_shell_run (command, module_text);
-
-    // If the module has not been installed, the output of "diatheke" will be empty.
-    // If the module was installed, but the requested passage is out of range,
-    // the output of "diatheke" contains the module name, so it won't be empty.
-    module_available = !module_text.empty ();
-#endif
-    
-    if (!module_available) {
-      
-      // Check whether the SWORD module exists.
-      vector <string> modules = sword_logic_get_available ();
-      string smodules = filter_string_implode (modules, "");
-      if (smodules.find ("[" + module + "]") != string::npos) {
-        // Schedule SWORD module installation.
-        // (It used to be the case that this function, to get the text,
-        // would wait till the SWORD module was installed, and then after installation,
-        // return the text from that module.
-        // But due to long waiting on Bibledit demo, while it would install multiple modules,
-        // the Bibledit demo would become unresponsive.
-        // So, it's better to return immediately with an informative text.)
-        tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
-        // Return standard 'installing' information. Client knows not to cache this.
-        return sword_logic_installing_module_text ();
-      } else {
-        return "Cannot find SWORD module " + module;
-      }
-    }
-    
-    // Remove any OSIS elements.
-    filter_string_replace_between (module_text, "<", ">", "");
-    
-    // Clean whitespace away.
-    module_text = filter_string_trim (module_text);
-    
-    return module_text;
+  // Client checks for and optionally creates the cache for this SWORD module.
+  if (!Database_Cache::exists (module, book)) {
+    Database_Cache::create (module, book);
   }
+
+  // If this module/passage exists in the cache, return it (it updates the access days in the cache).
+  if (Database_Cache::exists (module, book, chapter, verse)) {
+    return Database_Cache::retrieve (module, book, chapter, verse);
+  }
+
+  // Fetch this SWORD resource from the server.
+  string address = Database_Config_General::getServerAddress ();
+  int port = Database_Config_General::getServerPort ();
+  if (!client_logic_client_enabled ()) {
+    // If the client has not been connected to a cloud instance,
+    // fetch the SWORD content from the Bibledit Cloud demo.
+    address = demo_address ();
+    port = demo_port ();
+  }
+  string url = client_logic_url (address, port, sync_resources_url ());
+  string resource = "[" + source + "][" + module + "]";
+  url = filter_url_build_http_query (url, "r", resource);
+  url = filter_url_build_http_query (url, "b", convert_to_string (book));
+  url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
+  url = filter_url_build_http_query (url, "v", convert_to_string (verse));
+  string error;
+  string html = filter_url_http_get (url, error);
+  
+  // In case of an error, don't cache that error, but let the user see it.
+  if (!error.empty ()) return error;
+
+  // Client caches this info for later.
+  // Except when the Cloud is now installing the SWORD module.
+  if (html != sword_logic_installing_module_text ()) {
+    Database_Cache::cache (module, book, chapter, verse, html);
+  }
+  
+  return html;
+  
+#else
+
+  string module_text;
+  bool module_available = false;
+
+  string osis = Database_Books::getOsisFromId (book);
+#ifdef HAVE_SWORD
+  module_text = sword_logic_diatheke (module, osis, chapter, verse, module_available);
+#else
+  // The server fetches the module text as follows:
+  // diatheke -b KJV -k Jn 3:16
+  string sword_path = sword_logic_get_path ();
+  string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
+  filter_shell_run (command, module_text);
+
+  // If the module has not been installed, the output of "diatheke" will be empty.
+  // If the module was installed, but the requested passage is out of range,
+  // the output of "diatheke" contains the module name, so it won't be empty.
+  module_available = !module_text.empty ();
+#endif
+  
+  if (!module_available) {
+    
+    // Check whether the SWORD module exists.
+    vector <string> modules = sword_logic_get_available ();
+    string smodules = filter_string_implode (modules, "");
+    if (smodules.find ("[" + module + "]") != string::npos) {
+      // Schedule SWORD module installation.
+      // (It used to be the case that this function, to get the text,
+      // would wait till the SWORD module was installed, and then after installation,
+      // return the text from that module.
+      // But due to long waiting on Bibledit demo, while it would install multiple modules,
+      // the Bibledit demo would become unresponsive.
+      // So, it's better to return immediately with an informative text.)
+      tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
+      // Return standard 'installing' information. Client knows not to cache this.
+      return sword_logic_installing_module_text ();
+    } else {
+      return "Cannot find SWORD module " + module;
+    }
+  }
+  
+  // Remove any OSIS elements.
+  filter_string_replace_between (module_text, "<", ">", "");
+  
+  // Clean whitespace away.
+  module_text = filter_string_trim (module_text);
+  
+  return module_text;
+
+#endif
 
   return "";
 }
@@ -493,18 +493,18 @@ void sword_logic_update_installed_modules ()
 // Trims the installed SWORD modules.
 void sword_logic_trim_modules ()
 {
-  if (!config_logic_client_prepared ()) {
-    Database_Logs::log ("Trimming the installed SWORD modules");
-    vector <string> modules = sword_logic_get_installed ();
-    for (auto module : modules) {
-      module = sword_logic_get_installed_module (module);
-      string url = sword_logic_virtual_url (module, 0, 0, 0);
-      if (!database_filebased_cache_exists (url)) {
-        sword_logic_uninstall_module (module);
-      }
+#ifndef CLIENT_PREPARED
+  Database_Logs::log ("Trimming the installed SWORD modules");
+  vector <string> modules = sword_logic_get_installed ();
+  for (auto module : modules) {
+    module = sword_logic_get_installed_module (module);
+    string url = sword_logic_virtual_url (module, 0, 0, 0);
+    if (!database_filebased_cache_exists (url)) {
+      sword_logic_uninstall_module (module);
     }
-    Database_Logs::log ("Ready trimming the SWORD caches and modules");
   }
+  Database_Logs::log ("Ready trimming the SWORD caches and modules");
+#endif
 }
 
 

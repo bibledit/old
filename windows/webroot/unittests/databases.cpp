@@ -62,12 +62,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/cache.h>
 #include <database/login.h>
 #include <database/privileges.h>
+#include <database/git.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
 #include <styles/logic.h>
 #include <resource/external.h>
-#include <config.h>
 #include <changes/logic.h>
 #include <demo/logic.h>
 
@@ -1009,10 +1009,9 @@ void test_database_morphhb ()
   
   Database_MorphHb database_morphhb = Database_MorphHb ();
 
+  // Job 3:2.
   vector <string> data = database_morphhb.getVerse (18, 3, 2);
   vector <string> standard = {
-    " "
-    ,
     "וַיַּ֥עַן"
     ,
     " "
@@ -1023,14 +1022,12 @@ void test_database_morphhb ()
     ,
     "וַיֹּאמַֽר"
     ,
+    " "
+    ,
     "׃"
-    ,
-    " "
-    ,
-    " "
   };
   evaluate (__LINE__, __func__, standard, data);
-
+  
   vector <Passage> passages = database_morphhb.searchHebrew ("יָדְע֥וּ");
   evaluate (__LINE__, __func__, 2, (int)passages.size());
 
@@ -1042,11 +1039,12 @@ void test_database_morphhb ()
   evaluate (__LINE__, __func__, 3,    passages[1].chapter);
   evaluate (__LINE__, __func__, "10", passages[1].verse);
 
+  // Job 3:2.
   vector <int> items = database_morphhb.rowids (18, 3, 2);
-  evaluate (__LINE__, __func__, 9, (int)items.size());
+  evaluate (__LINE__, __func__, 7, (int)items.size());
   
-  evaluate (__LINE__, __func__, "c/6030 b", database_morphhb.parsing (items[1]));
-  evaluate (__LINE__, __func__, "347", database_morphhb.parsing (items[3]));
+  evaluate (__LINE__, __func__, "c/6030 b", database_morphhb.parsing (items[0]));
+  evaluate (__LINE__, __func__, "347", database_morphhb.parsing (items[2]));
 }
 
 
@@ -1680,7 +1678,7 @@ void test_database_mappings ()
   // Setup
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     database_mappings.defaults ();
     database_mappings.create2 ();
@@ -1691,7 +1689,7 @@ void test_database_mappings ()
   // Import Export
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import = 
       "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
@@ -1706,7 +1704,7 @@ void test_database_mappings ()
   // Create
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     database_mappings.create ("phpunit");
     vector <string> names = database_mappings.names ();
@@ -1715,7 +1713,7 @@ void test_database_mappings ()
   // Translate Same
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     vector <Passage> passages = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
     evaluate (__LINE__, __func__, 1, (int)passages.size ());
@@ -1729,7 +1727,7 @@ void test_database_mappings ()
   // Translate
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import = 
       "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
@@ -1750,7 +1748,7 @@ void test_database_mappings ()
   // Translate
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import =
       "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
@@ -1771,7 +1769,7 @@ void test_database_mappings ()
   // Translate Double Result.
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import =
       "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
@@ -1795,7 +1793,7 @@ void test_database_mappings ()
   // Translate From Original
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
@@ -1807,7 +1805,7 @@ void test_database_mappings ()
   // Translate From Original Double
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import =
       "2 Chronicles 14:12 = 2 Chronicles 14:14\n"
@@ -1823,7 +1821,7 @@ void test_database_mappings ()
   // Translate From Original No Mapping
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
@@ -1835,7 +1833,7 @@ void test_database_mappings ()
   // Translate To Original
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("ABA", import);
@@ -1847,7 +1845,7 @@ void test_database_mappings ()
   // Translate To Original Double
   {
     refresh_sandbox (true);
-    Database_Mappings database_mappings = Database_Mappings ();
+    Database_Mappings database_mappings;
     database_mappings.create1 ();
     string import =
       "2 Chronicles 14:12 = 2 Chronicles 14:13\n"
@@ -4555,6 +4553,74 @@ void test_database_privileges ()
   evaluate (__LINE__, __func__, true, write);
   enabled = Database_Privileges::getFeature (username, 1234);
   evaluate (__LINE__, __func__, true, enabled);
+}
+
+
+void test_database_git ()
+{
+  trace_unit_tests (__func__);
+  
+  refresh_sandbox (true);
+  
+  // Create the database.
+  Database_Git::create ();
+
+  string user = "user";
+  string bible = "bible";
+  
+  // Store one chapter, and check there's one rowid as a result.
+  Database_Git::store_chapter (user, bible, 1, 2, "old", "new");
+  vector <int> rowids = Database_Git::get_rowids (user, "");
+  evaluate (__LINE__, __func__, {}, rowids);
+  rowids = Database_Git::get_rowids ("", bible);
+  evaluate (__LINE__, __func__, {}, rowids);
+  rowids = Database_Git::get_rowids (user, bible);
+  evaluate (__LINE__, __func__, {1}, rowids);
+
+  // Store some more chapters to get more rowids in the database.
+  Database_Git::store_chapter (user, bible, 2, 5, "old2", "new5");
+  Database_Git::store_chapter (user, bible, 3, 6, "old3", "new6");
+  Database_Git::store_chapter (user, bible, 4, 7, "old4", "new7");
+
+  // Retrieve and check a certain rowid whether it has the correct values.
+  string user2, bible2;
+  int book, chapter;
+  string oldusfm, newusfm;
+  bool get = Database_Git::get_chapter (1, user2, bible2, book, chapter, oldusfm, newusfm);
+  evaluate (__LINE__, __func__, true, get);
+  evaluate (__LINE__, __func__, user, user2);
+  evaluate (__LINE__, __func__, bible, bible2);
+  evaluate (__LINE__, __func__, 1, book);
+  evaluate (__LINE__, __func__, 2, chapter);
+  evaluate (__LINE__, __func__, "old", oldusfm);
+  evaluate (__LINE__, __func__, "new", newusfm);
+  
+  // Erase a rowid, and check that the remaining ones in the database are correct.
+  Database_Git::erase_rowid (2);
+  rowids = Database_Git::get_rowids (user, bible);
+  evaluate (__LINE__, __func__, {1, 3, 4}, rowids);
+
+  // Getting a non-existent rowid should fail.
+  get = Database_Git::get_chapter (2, user, bible, book, chapter, oldusfm, newusfm);
+  evaluate (__LINE__, __func__, false, get);
+  
+  // Update the timestamps and check that expired entries get removed and recent ones remain.
+  rowids = Database_Git::get_rowids ("user", "bible");
+  evaluate (__LINE__, __func__, 3, rowids.size ());
+  Database_Git::optimize ();
+  rowids = Database_Git::get_rowids (user, bible);
+  evaluate (__LINE__, __func__, 3, rowids.size ());
+  Database_Git::touch_timestamps (filter_date_seconds_since_epoch () - 432000 - 1);
+  Database_Git::optimize ();
+  rowids = Database_Git::get_rowids (user, bible);
+  evaluate (__LINE__, __func__, 0, rowids.size ());
+  
+  // Test that it reads distinct users.
+  Database_Git::store_chapter (user, bible, 2, 5, "old", "new");
+  Database_Git::store_chapter (user, bible, 2, 5, "old", "new");
+  Database_Git::store_chapter ("user2", bible, 2, 5, "old", "new");
+  vector <string> users = Database_Git::get_users (bible);
+  evaluate (__LINE__, __func__, {user, "user2"}, users);
 }
 
 

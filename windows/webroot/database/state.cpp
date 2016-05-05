@@ -29,13 +29,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void Database_State::create ()
 {
-  if (!database_sqlite_healthy (name ())) {
+  bool healthy_database = database_sqlite_healthy (name ());
+  if (!healthy_database) {
     filter_url_unlink (database_sqlite_file (name ()));
   }
 
   sqlite3 * db = connect ();
+  string sql;
   
-  string sql =
+  // On Android, this pragma prevents the following error: VACUUM; Unable to open database file.
+  sql = "PRAGMA temp_store = MEMORY;";
+  database_sqlite_exec (db, sql);
+  
+  sql =
     "CREATE TABLE IF NOT EXISTS notes ("
     " first integer,"
     " last integer,"
@@ -46,9 +52,16 @@ void Database_State::create ()
   sql = "DELETE FROM notes;";
   database_sqlite_exec (db, sql);
   
-  sql = "VACUUM notes;";
+  // Here something weird was going on when doing a VACUUM at this stage.
+  // On Android, it always would say this: VACUUM; Unable to open database file.
+  // Testing on the existence of the database file, right before the VACUUM operation, showed that the database file did exist. The question is then: If the file exists, why does it fail to open it?
+  // It also was tried to delay with 100 milliseconds before doing the VACUUM. But this made no difference. It would still give the error.
+  // It also was tried to close the connection to the database, then open it again. This made no difference either.
+  // It now does not VACUUM a newly created database, but only when it was created.
+  // Later on, the PRAGMA as above was used to solve the issue.
+  sql = "VACUUM;";
   database_sqlite_exec (db, sql);
-  
+
   sql =
     "CREATE TABLE IF NOT EXISTS export ("
     " bible text,"

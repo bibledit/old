@@ -136,15 +136,15 @@ string sendreceive_index (void * webserver_request)
   }
   
   
-  if (config_logic_client_prepared ()) {
-    if (client_logic_client_enabled ()) {
-      view.enable_zone ("clienton");
-    } else {
-      view.enable_zone ("clientoff");
-    }
+#ifdef CLIENT_PREPARED
+  if (client_logic_client_enabled ()) {
+    view.enable_zone ("clienton");
   } else {
-    view.enable_zone ("server");
+    view.enable_zone ("clientoff");
   }
+#else
+  view.enable_zone ("server");
+#endif
 
   
   if (request->query.count ("repeatsync")) {

@@ -24,6 +24,12 @@
 #include "json/json.h"
 #include "assets/view.h"
 #include "resource/logic.h"
+#include <jsonxx/jsonxx.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace jsonxx;
+using namespace pugi;
 
 
 // Local forward declarations:
@@ -358,117 +364,90 @@ string gbs_digitaal_processor (string url, int verse)
 
 // This funcion processes and displays Bible data from gbsdigitaal.nl
 // plus extra content like headers, introductions, cross references, and notes.
-// It is supposed to be called by a more specific script.
+// It is called by a more specific script.
 string gbs_digitaal_plus_processor (string url, int chapter, int verse)
 {
   string text;
   
+  // Retrieve JSON from the website.
   string json = resource_logic_web_cache_get (url, text);
 
-  vector <string> history;
-  
-  json_parser parser;
-  if (json_parser_init (&parser, NULL, gbs_digitaal_json_callback, &history)) {
-    text.append ("Could not initialize");
+  // Convert the JSON to XML.
+  Object object;
+  object.parse (json);
+  string xml = object.xml(TaggedXML);
+
+  // Parse the XML text.
+  xml_document document;
+  document.load_string (xml.c_str());
+
+  xml_node root_node = document.first_child ();
+
+  // The title of the book plus introduction.
+  if (!chapter) {
+    vector <string> bits;
+    string title = root_node.child_value ("title");
+    if (!title.empty ()) bits.push_back (title);
+    xml_node paragraphs_node = root_node.child ("paragraphs");
+    for (xml_node JsonItem_node : paragraphs_node.children()) {
+      string header = JsonItem_node.child_value ("header");
+      if (!header.empty ()) bits.push_back (header);
+      xml_node lines_node = JsonItem_node.child ("lines");
+      for (xml_node JsonItem_node : lines_node.children()) {
+        string content = JsonItem_node.child_value ("content");
+        if (!content.empty ()) bits.push_back (content);
+      }
+    }
+    text.append (filter_string_implode (bits, "<br>"));
   }
-  if (json_parser_string (&parser, json.c_str(), json.length(), NULL)) {
-    text.append ("Could not parse the data");
-  }
-  json_parser_free (&parser);
   
-  string historyblock;
-  bool collect_notes = false;
-  int text_block_counter = 0;
-  for (unsigned int i = 0; i < history.size (); i++) {
-    // Add possible book title.
-    if (chapter == 0) {
-      if (history[i] == "title") {
-        if (history.size () > i + 1) {
-          text.append (" " + history [i + 1]);
+  // The chapter summary at verse 0.
+  else if (chapter && !verse) {
+    string name = root_node.child_value ("name");
+    text.append (name);
+    text.append (" ");
+    string summary = root_node.child ("summary").child_value ("originalText");
+    text.append (summary);
+  }
+  
+  // Deal with verses other than 0.
+  else if (chapter && verse) {
+    string header;
+    xml_node verses_node = root_node.child ("verses");
+    // Iterate through the children of the verses node.
+    for (xml_node JsonItem_node : verses_node.children()) {
+      // Look for the matching verse number.
+      string number = JsonItem_node.child_value ("number");
+      if (verse == convert_to_int (number)) {
+        // Add queued header.
+        if (!header.empty ()) {
+          text.append (header);
+          text.append ("<br>");
+          header.clear ();
         }
-      }
-    }
-    // Add possible book summary.
-    if (chapter == 0) {
-      if (history[i] == "summary") {
-        if (history.size () > i + 1) {
-          text.append (" " + history [i + 1]);
+        // The node that contains the canonical verse text.
+        string text_value = JsonItem_node.child_value ("text");
+        text.append (text_value);
+        // The node that has the textual notes.
+        xml_node commentaries_node = JsonItem_node.child ("commentaries");
+        for (xml_node JsonItem_node : commentaries_node.children()) {
+          string number = JsonItem_node.child_value ("number");
+          text.append ("<br>\n• ");
+          text.append (number);
+          string originalText = JsonItem_node.child_value ("originalText");
+          text.append (" ");
+          text.append (originalText);
         }
+      } else {
+        // This is not the matching verse: clear the header.
+        header.clear ();
       }
-    }
-    // Add possible chapter title.
-    if (chapter == 0) {
-      if (history[i] == "headerTitle") {
-        if (history.size () > i + 1) {
-          text.append (" " + history [i + 1]);
-        }
+      // Look for a header, and queue it if found.
+      string isHeader = JsonItem_node.child_value ("isHeader");
+      string isPerikoop = JsonItem_node.child_value ("isPerikoop");
+      if (!isHeader.empty () || !isPerikoop.empty ()) {
+        header = JsonItem_node.child_value ("text");
       }
-    }
-    // Add possible book summary.
-    if (chapter == 0) {
-      if (i > 2) {
-        if (history[i] == "content") {
-          if (history[i-1] == "lines") {
-            if (history.size () > i + 1) {
-              text.append (" " + history [i + 1]);
-            }
-          }
-        }
-      }
-    }
-    // Add the chapter summary located at verse 0.
-    if (verse == 0) {
-      if (i > 2) {
-        if (history[i] == "originalText") {
-          if (history[i-1] == "summary") {
-            if (history.size () > i + 1) {
-              text.append (" " + history [i + 1]);
-            }
-          }
-        }
-      }
-    }
-    // History sequence to get the header above a verse:
-    // text -> <header text> -> isPerikoop -> isHeader -> uid -> 0 -> number -> <verse number>
-    if (history[i] == "text") {
-      if (history.size () > i + 7) {
-        if (history[i+2] == "isPerikoop") {
-          if (history[i+7] == convert_to_string (verse)) {
-            text.append ("<p><i>" + history [i+1] + "</i></p>");
-          }
-        }
-      }
-    }
-    // The history sequence to get the verse text is this:
-    // uid -> 0 -> number -> <verse number> -> text -> "verse text"
-    if (history[i] == "text") {
-      if (i >= 5) {
-        if (history [i - 4] == "uid") {
-          if (history [i - 3] == "0") {
-            if (history [i - 2] == "number") {
-              if (history [i - 1] == convert_to_string (verse)) {
-                if (history.size () > i + 1) {
-                  text.append (" " + history [i + 1]);
-                }
-                // Enable notes collection.
-                collect_notes = true;
-              } else {
-                // Disable notes collection
-                collect_notes = false;
-              }
-            }
-          }
-        }
-      }
-    }
-    // Add notes.
-    if (collect_notes && i && history [i-1] == "originalText") {
-      text.append ("<p>" + history [i] + "</p>");
-    }
-    // Add text of Bible references.
-    if (collect_notes && i && history [i-1] == "text") {
-      if (text_block_counter) text.append ("<p>" + history [i] + "</p>");
-      text_block_counter++;
     }
   }
 
@@ -480,7 +459,7 @@ string gbs_digitaal_plus_processor (string url, int chapter, int verse)
   text = filter_string_trim (text);
 
   // Add new line.
-  text += "\n";
+  if (!text.empty ()) text.append ("\n");
 
   // Done.
   return text;
@@ -695,13 +674,6 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   // because installing fonts on some tablets is very hard.
   string stylesheet =
   "<style>\n"
-  ".tablefloat {\n"
-  "  float: left;\n"
-  "}\n"
-  ".tablefloatheb\n"
-  "{\n"
-  "  float : right;\n"
-  "}\n"
   "span[class*='ref'] {\n"
   "display: none;\n"
   "}\n"

@@ -26,6 +26,7 @@
 #include <checksum/logic.h>
 #include <database/modifications.h>
 #include <database/logs.h>
+#include <database/git.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <access/bible.h>
@@ -114,12 +115,13 @@ string editverse_save (void * webserver_request)
   string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm);
   if (message.empty ()) {
     // In server configuration, store details for the user's changes.
-    if (!config_logic_client_prepared ()) {
-      int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-      string newText = request->database_bibles()->getChapter (bible, book, chapter);
-      Database_Modifications database_modifications;
-      database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
-    }
+#ifndef CLIENT_PREPARED
+    int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+    string newText = request->database_bibles()->getChapter (bible, book, chapter);
+    Database_Modifications database_modifications;
+    database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+    Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
+#endif
     return locale_logic_text_saved ();
   }
 

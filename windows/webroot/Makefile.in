@@ -150,9 +150,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/morphgnt.$(OBJEXT) database/etcbc4.$(OBJEXT) \
 	database/hebrewlexicon.$(OBJEXT) database/cache.$(OBJEXT) \
 	database/login.$(OBJEXT) database/privileges.$(OBJEXT) \
-	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
-	session/logout.$(OBJEXT) session/password.$(OBJEXT) \
-	session/signup.$(OBJEXT) session/switch.$(OBJEXT) \
+	database/git.$(OBJEXT) session/logic.$(OBJEXT) \
+	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
+	session/password.$(OBJEXT) session/signup.$(OBJEXT) \
+	session/switch.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
@@ -251,15 +252,15 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	resource/img.$(OBJEXT) resource/imagefetch.$(OBJEXT) \
 	resource/sword.$(OBJEXT) resource/select.$(OBJEXT) \
 	resource/cache.$(OBJEXT) json/json.$(OBJEXT) \
-	mapping/index.$(OBJEXT) mapping/map.$(OBJEXT) \
-	statistics/statistics.$(OBJEXT) changes/change.$(OBJEXT) \
-	changes/changes.$(OBJEXT) changes/logic.$(OBJEXT) \
-	changes/manage.$(OBJEXT) changes/modifications.$(OBJEXT) \
-	sprint/burndown.$(OBJEXT) sprint/index.$(OBJEXT) \
-	checks/run.$(OBJEXT) checks/headers.$(OBJEXT) \
-	checks/index.$(OBJEXT) checks/logic.$(OBJEXT) \
-	checks/sentences.$(OBJEXT) checks/settings.$(OBJEXT) \
-	checks/settingspatterns.$(OBJEXT) \
+	jsonxx/jsonxx.$(OBJEXT) mapping/index.$(OBJEXT) \
+	mapping/map.$(OBJEXT) statistics/statistics.$(OBJEXT) \
+	changes/change.$(OBJEXT) changes/changes.$(OBJEXT) \
+	changes/logic.$(OBJEXT) changes/manage.$(OBJEXT) \
+	changes/modifications.$(OBJEXT) sprint/burndown.$(OBJEXT) \
+	sprint/index.$(OBJEXT) checks/run.$(OBJEXT) \
+	checks/headers.$(OBJEXT) checks/index.$(OBJEXT) \
+	checks/logic.$(OBJEXT) checks/sentences.$(OBJEXT) \
+	checks/settings.$(OBJEXT) checks/settingspatterns.$(OBJEXT) \
 	checks/settingssentences.$(OBJEXT) checks/space.$(OBJEXT) \
 	checks/suppress.$(OBJEXT) checks/usfm.$(OBJEXT) \
 	checks/verses.$(OBJEXT) checks/versification.$(OBJEXT) \
@@ -289,7 +290,43 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
 	public/create.$(OBJEXT) public/note.$(OBJEXT) \
 	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT) \
-	search/logic.$(OBJEXT) basic/index.$(OBJEXT)
+	search/logic.$(OBJEXT) basic/index.$(OBJEXT) \
+	mbedtls/aes.$(OBJEXT) mbedtls/aesni.$(OBJEXT) \
+	mbedtls/arc4.$(OBJEXT) mbedtls/asn1parse.$(OBJEXT) \
+	mbedtls/asn1write.$(OBJEXT) mbedtls/base64.$(OBJEXT) \
+	mbedtls/bignum.$(OBJEXT) mbedtls/blowfish.$(OBJEXT) \
+	mbedtls/camellia.$(OBJEXT) mbedtls/ccm.$(OBJEXT) \
+	mbedtls/certs.$(OBJEXT) mbedtls/cipher.$(OBJEXT) \
+	mbedtls/cipher_wrap.$(OBJEXT) mbedtls/ctr_drbg.$(OBJEXT) \
+	mbedtls/debug.$(OBJEXT) mbedtls/des.$(OBJEXT) \
+	mbedtls/dhm.$(OBJEXT) mbedtls/ecdh.$(OBJEXT) \
+	mbedtls/ecdsa.$(OBJEXT) mbedtls/ecjpake.$(OBJEXT) \
+	mbedtls/ecp.$(OBJEXT) mbedtls/ecp_curves.$(OBJEXT) \
+	mbedtls/entropy.$(OBJEXT) mbedtls/entropy_poll.$(OBJEXT) \
+	mbedtls/error.$(OBJEXT) mbedtls/gcm.$(OBJEXT) \
+	mbedtls/havege.$(OBJEXT) mbedtls/hmac_drbg.$(OBJEXT) \
+	mbedtls/md.$(OBJEXT) mbedtls/md2.$(OBJEXT) \
+	mbedtls/md4.$(OBJEXT) mbedtls/md5.$(OBJEXT) \
+	mbedtls/md_wrap.$(OBJEXT) \
+	mbedtls/memory_buffer_alloc.$(OBJEXT) mbedtls/net.$(OBJEXT) \
+	mbedtls/oid.$(OBJEXT) mbedtls/padlock.$(OBJEXT) \
+	mbedtls/pem.$(OBJEXT) mbedtls/pk.$(OBJEXT) \
+	mbedtls/pk_wrap.$(OBJEXT) mbedtls/pkcs11.$(OBJEXT) \
+	mbedtls/pkcs12.$(OBJEXT) mbedtls/pkcs5.$(OBJEXT) \
+	mbedtls/pkparse.$(OBJEXT) mbedtls/pkwrite.$(OBJEXT) \
+	mbedtls/platform.$(OBJEXT) mbedtls/ripemd160.$(OBJEXT) \
+	mbedtls/rsa.$(OBJEXT) mbedtls/sha1.$(OBJEXT) \
+	mbedtls/sha256.$(OBJEXT) mbedtls/sha512.$(OBJEXT) \
+	mbedtls/ssl_cache.$(OBJEXT) mbedtls/ssl_ciphersuites.$(OBJEXT) \
+	mbedtls/ssl_cli.$(OBJEXT) mbedtls/ssl_cookie.$(OBJEXT) \
+	mbedtls/ssl_srv.$(OBJEXT) mbedtls/ssl_ticket.$(OBJEXT) \
+	mbedtls/ssl_tls.$(OBJEXT) mbedtls/threading.$(OBJEXT) \
+	mbedtls/timing.$(OBJEXT) mbedtls/version.$(OBJEXT) \
+	mbedtls/version_features.$(OBJEXT) mbedtls/x509.$(OBJEXT) \
+	mbedtls/x509_create.$(OBJEXT) mbedtls/x509_crl.$(OBJEXT) \
+	mbedtls/x509_crt.$(OBJEXT) mbedtls/x509_csr.$(OBJEXT) \
+	mbedtls/x509write_crt.$(OBJEXT) \
+	mbedtls/x509write_csr.$(OBJEXT) mbedtls/xtea.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -603,6 +640,7 @@ libbibledit_a_SOURCES = \
 	database/cache.cpp \
 	database/login.cpp \
 	database/privileges.cpp \
+	database/git.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -802,6 +840,7 @@ libbibledit_a_SOURCES = \
 	resource/select.cpp \
 	resource/cache.cpp \
 	json/json.c \
+	jsonxx/jsonxx.cpp \
 	mapping/index.cpp \
 	mapping/map.cpp \
 	statistics/statistics.cpp \
@@ -878,7 +917,77 @@ libbibledit_a_SOURCES = \
 	public/comment.cpp \
 	utf8proc/utf8proc.c \
 	search/logic.cpp \
-	basic/index.cpp
+	basic/index.cpp \
+	mbedtls/aes.c \
+	mbedtls/aesni.c \
+	mbedtls/arc4.c \
+	mbedtls/asn1parse.c \
+	mbedtls/asn1write.c \
+	mbedtls/base64.c \
+	mbedtls/bignum.c \
+	mbedtls/blowfish.c \
+	mbedtls/camellia.c \
+	mbedtls/ccm.c \
+	mbedtls/certs.c \
+	mbedtls/cipher.c \
+	mbedtls/cipher_wrap.c \
+	mbedtls/ctr_drbg.c \
+	mbedtls/debug.c \
+	mbedtls/des.c \
+	mbedtls/dhm.c \
+	mbedtls/ecdh.c \
+	mbedtls/ecdsa.c \
+	mbedtls/ecjpake.c \
+	mbedtls/ecp.c \
+	mbedtls/ecp_curves.c \
+	mbedtls/entropy.c \
+	mbedtls/entropy_poll.c \
+	mbedtls/error.c \
+	mbedtls/gcm.c \
+	mbedtls/havege.c \
+	mbedtls/hmac_drbg.c \
+	mbedtls/md.c \
+	mbedtls/md2.c \
+	mbedtls/md4.c \
+	mbedtls/md5.c \
+	mbedtls/md_wrap.c \
+	mbedtls/memory_buffer_alloc.c \
+	mbedtls/net.c \
+	mbedtls/oid.c \
+	mbedtls/padlock.c \
+	mbedtls/pem.c \
+	mbedtls/pk.c \
+	mbedtls/pk_wrap.c \
+	mbedtls/pkcs11.c \
+	mbedtls/pkcs12.c \
+	mbedtls/pkcs5.c \
+	mbedtls/pkparse.c \
+	mbedtls/pkwrite.c \
+	mbedtls/platform.c \
+	mbedtls/ripemd160.c \
+	mbedtls/rsa.c \
+	mbedtls/sha1.c \
+	mbedtls/sha256.c \
+	mbedtls/sha512.c \
+	mbedtls/ssl_cache.c \
+	mbedtls/ssl_ciphersuites.c \
+	mbedtls/ssl_cli.c \
+	mbedtls/ssl_cookie.c \
+	mbedtls/ssl_srv.c \
+	mbedtls/ssl_ticket.c \
+	mbedtls/ssl_tls.c \
+	mbedtls/threading.c \
+	mbedtls/timing.c \
+	mbedtls/version.c \
+	mbedtls/version_features.c \
+	mbedtls/x509.c \
+	mbedtls/x509_create.c \
+	mbedtls/x509_crl.c \
+	mbedtls/x509_crt.c \
+	mbedtls/x509_csr.c \
+	mbedtls/x509write_crt.c \
+	mbedtls/x509write_csr.c \
+	mbedtls/xtea.c
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1171,6 +1280,8 @@ database/cache.$(OBJEXT): database/$(am__dirstamp) \
 database/login.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/privileges.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
+database/git.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
@@ -1842,6 +1953,14 @@ json/$(DEPDIR)/$(am__dirstamp):
 	@: > json/$(DEPDIR)/$(am__dirstamp)
 json/json.$(OBJEXT): json/$(am__dirstamp) \
 	json/$(DEPDIR)/$(am__dirstamp)
+jsonxx/$(am__dirstamp):
+	@$(MKDIR_P) jsonxx
+	@: > jsonxx/$(am__dirstamp)
+jsonxx/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) jsonxx/$(DEPDIR)
+	@: > jsonxx/$(DEPDIR)/$(am__dirstamp)
+jsonxx/jsonxx.$(OBJEXT): jsonxx/$(am__dirstamp) \
+	jsonxx/$(DEPDIR)/$(am__dirstamp)
 mapping/$(am__dirstamp):
 	@$(MKDIR_P) mapping
 	@: > mapping/$(am__dirstamp)
@@ -2110,6 +2229,152 @@ basic/$(DEPDIR)/$(am__dirstamp):
 	@: > basic/$(DEPDIR)/$(am__dirstamp)
 basic/index.$(OBJEXT): basic/$(am__dirstamp) \
 	basic/$(DEPDIR)/$(am__dirstamp)
+mbedtls/$(am__dirstamp):
+	@$(MKDIR_P) mbedtls
+	@: > mbedtls/$(am__dirstamp)
+mbedtls/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) mbedtls/$(DEPDIR)
+	@: > mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/aes.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/aesni.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/arc4.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/asn1parse.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/asn1write.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/base64.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/bignum.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/blowfish.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/camellia.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ccm.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/certs.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/cipher.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/cipher_wrap.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ctr_drbg.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/debug.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/des.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/dhm.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ecdh.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ecdsa.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ecjpake.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ecp.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ecp_curves.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/entropy.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/entropy_poll.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/error.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/gcm.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/havege.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/hmac_drbg.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/md.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/md2.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/md4.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/md5.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/md_wrap.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/memory_buffer_alloc.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/net.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/oid.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/padlock.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/pem.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/pk.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/pk_wrap.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/pkcs11.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/pkcs12.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/pkcs5.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/pkparse.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/pkwrite.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/platform.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ripemd160.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/rsa.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/sha1.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/sha256.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/sha512.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_cache.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_ciphersuites.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_cli.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_cookie.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_srv.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_ticket.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_tls.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/threading.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/timing.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/version.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/version_features.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/x509.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/x509_create.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/x509_crl.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/x509_crt.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/x509_csr.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/x509write_crt.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/x509write_csr.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/xtea.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -2238,11 +2503,13 @@ mostlyclean-compile:
 	-rm -f jobs/*.$(OBJEXT)
 	-rm -f journal/*.$(OBJEXT)
 	-rm -f json/*.$(OBJEXT)
+	-rm -f jsonxx/*.$(OBJEXT)
 	-rm -f lexicon/*.$(OBJEXT)
 	-rm -f library/*.$(OBJEXT)
 	-rm -f locale/*.$(OBJEXT)
 	-rm -f manage/*.$(OBJEXT)
 	-rm -f mapping/*.$(OBJEXT)
+	-rm -f mbedtls/*.$(OBJEXT)
 	-rm -f menu/*.$(OBJEXT)
 	-rm -f navigation/*.$(OBJEXT)
 	-rm -f notes/*.$(OBJEXT)
@@ -2347,6 +2614,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/confirm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/etcbc4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/git.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/hebrewlexicon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/imageresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/ipc.Po@am__quote@
@@ -2458,6 +2726,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@json/$(DEPDIR)/json.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@jsonxx/$(DEPDIR)/jsonxx.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lexicon/$(DEPDIR)/definition.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lexicon/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/bibledit.Po@am__quote@
@@ -2473,6 +2742,76 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/write.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/map.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/aes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/aesni.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/arc4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/asn1parse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/asn1write.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/base64.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/bignum.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/blowfish.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/camellia.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ccm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/certs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/cipher.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/cipher_wrap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ctr_drbg.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/debug.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/des.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/dhm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecdh.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecdsa.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecjpake.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecp_curves.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/entropy.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/entropy_poll.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/error.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/gcm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/havege.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/hmac_drbg.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md5.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md_wrap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/memory_buffer_alloc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/net.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/oid.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/padlock.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pk.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pk_wrap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkcs11.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkcs12.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkcs5.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkparse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkwrite.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/platform.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ripemd160.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/rsa.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/sha1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/sha256.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/sha512.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_cache.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_ciphersuites.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_cli.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_cookie.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_srv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_ticket.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_tls.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/threading.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/timing.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/version.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/version_features.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509_create.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509_crl.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509_crt.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509_csr.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509write_crt.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509write_csr.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/xtea.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/passage.Po@am__quote@
@@ -3009,6 +3348,8 @@ distclean-generic:
 	-rm -f journal/$(am__dirstamp)
 	-rm -f json/$(DEPDIR)/$(am__dirstamp)
 	-rm -f json/$(am__dirstamp)
+	-rm -f jsonxx/$(DEPDIR)/$(am__dirstamp)
+	-rm -f jsonxx/$(am__dirstamp)
 	-rm -f lexicon/$(DEPDIR)/$(am__dirstamp)
 	-rm -f lexicon/$(am__dirstamp)
 	-rm -f library/$(DEPDIR)/$(am__dirstamp)
@@ -3019,6 +3360,8 @@ distclean-generic:
 	-rm -f manage/$(am__dirstamp)
 	-rm -f mapping/$(DEPDIR)/$(am__dirstamp)
 	-rm -f mapping/$(am__dirstamp)
+	-rm -f mbedtls/$(DEPDIR)/$(am__dirstamp)
+	-rm -f mbedtls/$(am__dirstamp)
 	-rm -f menu/$(DEPDIR)/$(am__dirstamp)
 	-rm -f menu/$(am__dirstamp)
 	-rm -f navigation/$(DEPDIR)/$(am__dirstamp)
@@ -3098,7 +3441,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) basic/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) public/$(DEPDIR) pugixml/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) utf8proc/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) basic/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) jsonxx/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) mbedtls/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) public/$(DEPDIR) pugixml/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) utf8proc/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -3146,7 +3489,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) basic/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) public/$(DEPDIR) pugixml/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) utf8proc/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) administration/$(DEPDIR) assets/$(DEPDIR) basic/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) debug/$(DEPDIR) demo/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) jsonxx/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) mbedtls/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) public/$(DEPDIR) pugixml/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) utf8proc/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workbench/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
