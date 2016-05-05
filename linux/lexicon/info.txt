@@ -1,6 +1,0 @@
-Bibledit Lexicon
-
-Electronic sources for Strong's Hebrew Concordance
-1. https://github.com/openscriptures/HebrewLexicon file HebrewStrong.xml
-2. http://biblehub.com/strongs.htm
-Evaluation: Comparing the entries 1 and 2, it appears that source 1 provides fuller definitions, and has fewer errors.

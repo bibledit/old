@@ -14,9 +14,7 @@
 		CA80EC141B03C31A000A2591 /* bibledit.desktop */ = {isa = PBXFileReference; lastKnownFileType = text; path = bibledit.desktop; sourceTree = "<group>"; };
 		CA80EC151B03C355000A2591 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
 		CA80EC181B03C39C000A2591 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		CABBAFB71B5D53B90097D805 /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
-		CAF3E8331B051B5100A279E6 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; name = Makefile.am; path = ../Makefile.am; sourceTree = "<group>"; };
-		CAF3E8341B051B5C00A279E6 /* configure.ac */ = {isa = PBXFileReference; lastKnownFileType = text; name = configure.ac; path = ../configure.ac; sourceTree = "<group>"; };
+		CA81724F1CDB7A2B00518FA2 /* copy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copy.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -28,9 +26,7 @@
 				CA80EC141B03C31A000A2591 /* bibledit.desktop */,
 				CA80EC151B03C355000A2591 /* bibledit.h */,
 				CA738D1A1B073BB30024175F /* bibledit.sh */,
-				CAF3E8341B051B5C00A279E6 /* configure.ac */,
-				CABBAFB71B5D53B90097D805 /* install.sh */,
-				CAF3E8331B051B5100A279E6 /* Makefile.am */,
+				CA81724F1CDB7A2B00518FA2 /* copy.sh */,
 				CA80EC181B03C39C000A2591 /* README.md */,
 				CA7C433F1B039EFC00FFADCC /* tarball.sh */,
 			);

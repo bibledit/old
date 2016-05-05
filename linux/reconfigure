@@ -1,7 +1,0 @@
-aclocal
-autoconf
-touch AUTHORS NEWS README ChangeLog
-automake --add-missing
-autoreconf
-autoheader
-# libtoolize --install --copy
