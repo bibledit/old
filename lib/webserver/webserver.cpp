@@ -178,6 +178,10 @@ void webserver_process_request (int connfd, string clientaddress)
 
 void http_server ()
 {
+  // Whether the plain http server redirects to secure http.
+  config_globals_enforce_https_browser = config_logic_enforce_https_browser ();
+  config_globals_enforce_https_client = config_logic_enforce_https_client ();
+  
   // Create a listening socket.
   int listenfd = socket(AF_INET, SOCK_STREAM, 0);
   if (listenfd < 0) cerr << "Error opening socket: It returns a descriptor of " << listenfd << endl;

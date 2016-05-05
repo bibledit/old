@@ -46,6 +46,8 @@ string config_logic_manual_user_facing_url ();
 string config_logic_server_key_path ();
 string config_logic_server_certificate_path ();
 string config_logic_authorities_certificates_path ();
+bool config_logic_enforce_https_browser ();
+bool config_logic_enforce_https_client ();
 
 
 #endif

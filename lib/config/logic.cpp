@@ -256,3 +256,17 @@ string config_logic_authorities_certificates_path ()
   // Nothing found.
   return "";
 }
+
+
+// Whether to enforce https traffic for browser communications.
+bool config_logic_enforce_https_browser ()
+{
+  return file_exists (filter_url_create_root_path ("config", "browser.https"));
+}
+
+
+// Whether to enforce https traffic for client communications.
+bool config_logic_enforce_https_client ()
+{
+  return file_exists (filter_url_create_root_path ("config", "client.https"));
+}

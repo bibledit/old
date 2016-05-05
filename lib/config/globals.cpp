@@ -46,3 +46,6 @@ bool config_globals_syncing_changes = false;
 bool config_globals_syncing_files = false;
 bool config_globals_syncing_resources = false;
 map <string, int> config_globals_prioritized_ip_addresses;
+bool config_globals_enforce_https_browser = false;
+bool config_globals_enforce_https_client = false;
+

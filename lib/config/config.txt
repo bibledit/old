@@ -23,3 +23,8 @@ In case Bibledit Cloud runs on a public server and uses secure http, it will rea
 Three example files are included. All of them have the "local." prefix. Bibledit will use them in case the proper files are not there.
 Secure certificates can be purchased from many authorities.
 Free certificates are available from https://letsencrypt.org/ and https://www.startssl.com/ and more.
+
+
+To enforce secure http for browser communications, put a file named browser.https in the config folder.
+The file may be empty. Once this file is found, Bibledit Cloud will redirect any incoming http browser traffic to https traffic.
+A file with the name of client.https will do the same for Bibledit client traffic.
