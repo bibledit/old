@@ -191,6 +191,7 @@ string config_logic_site_url ()
   string url = Database_Config_General::getSiteURL ();
   string user_url = config_logic_manual_user_facing_url ();
   if (!user_url.empty ()) url = user_url;
+  url = filter_string_trim (url);
   return url;
 }
 

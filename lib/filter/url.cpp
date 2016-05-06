@@ -40,7 +40,7 @@ string get_base_url (Webserver_Request * request)
 {
   string scheme;
   string port;
-  if (request->secure) {
+  if (request->secure || config_globals_enforce_https_browser) {
     scheme = "https";
     port = convert_to_string (config_logic_https_network_port ());
   } else {
@@ -67,9 +67,10 @@ void redirect_browser (Webserver_Request * request, string path)
   // In case of no known site location, extract it from the browser's request.
   if (location.empty ()) location = get_base_url (request);
 
-  // If the request was secure, ensure the location contains https rather than plain http,
+  // If the request was secure, or supposed to be secure,
+  // ensure the location contains https rather than plain http,
   // plus the correct secure port.
-  if (request->secure) {
+  if (request->secure || config_globals_enforce_https_browser) {
     location = filter_string_str_replace ("http:", "https:", location);
     string plainport = config_logic_http_network_port ();
     string secureport = convert_to_string (config_logic_https_network_port ());
