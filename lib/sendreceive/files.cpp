@@ -238,7 +238,7 @@ void sendreceive_files ()
       download_url = filter_url_build_http_query (download_url, "u", bin2hex (user));
       download_url = filter_url_build_http_query (download_url, "f", filter_url_urlencode (file));
       // Download and save file locally.
-      filter_url_download_file (download_url, fullpath, error);
+      filter_url_download_file (download_url, fullpath, error, true);
       if (!error.empty ()) {
         Database_Logs::log (sendreceive_files_text () + "Failure downloading file: " + error, Filter_Roles::translator ());
         sendreceive_files_done ();

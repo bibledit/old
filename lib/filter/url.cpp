@@ -502,190 +502,16 @@ size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, voi
 }
 
 
-// This function does not use cURL.
-// It is a very simple function that sends a HTTP GET or POST request and reads the response.
-// It runs on devices without libcurl.
-// $url: The URL including host / port / path.
-// $error: To store any error messages.
-// $post: Value pairs for a POST request.
-// $filename: The filename to store the data to.
-// $verbose: Print headers and data to standard out.
-string filter_url_simple_http_request (string url, string& error, const map <string, string>& post, const string& filename, bool verbose) // Todo replace it.
-{
-  // The "http" scheme is used to locate network resources via the HTTP protocol.
-  // http_URL = "http:" "//" host [ ":" port ] [ abs_path [ "?" query ]]
-  // If the port is empty or not given, port 80 is assumed.
-  
-  // Remove the scheme.
-  size_t pos = url.find ("://");
-  if (pos == string::npos) {
-    error = "Unknown protocol";
-    return "";
-  }
-  url.erase (0, pos + 3);
-
-  // Extract the host.
-  pos = url.find (":");
-  if (pos == string::npos) pos = url.find ("/");
-  if (pos == string::npos) pos = url.length () + 1;
-  string hostname = url.substr (0, pos);
-  url.erase (0, hostname.length ());
-
-  // Extract the port number.
-  int port = 80;
-  pos = url.find (":");
-  if (pos != string::npos) {
-    url.erase (0, 1);
-    size_t pos2 = url.find ("/");
-    if (pos2 == string::npos) pos2 = url.length () + 1;
-    string p = url.substr (0, pos2);
-    port = convert_to_int (p);
-    url.erase (0, p.length ());
-  }
-  
-  // The absolute path plus optional query remain after extracting the preceding stuff.
-
-  // Resolve the host.
-  struct hostent * host = gethostbyname (hostname.c_str());
-  if ( (host == NULL) || (host->h_addr == NULL) ) {
-    error = hostname + ": ";
-    error.append (hstrerror (h_errno));
-    return "";
-  }
-  
-  // Socket setup.
-  struct sockaddr_in client;
-  bzero (&client, sizeof (client));
-  client.sin_family = AF_INET;
-  client.sin_port = htons (port);
-  memcpy (&client.sin_addr, host->h_addr, host->h_length);
-  int sock = socket (AF_INET, SOCK_STREAM, 0);
-  if (sock < 0) {
-    error = "Creating socket: ";
-    error.append (strerror (errno));
-    return "";
-  }
-
-  // Because a Bibledit client should work even over very bad networks, set a timeout on the socket.
-  struct timeval tv;
-  tv.tv_sec = 30;  // Timeout in seconds.
-  setsockopt (sock, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
-  setsockopt (sock, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
-  
-  // Connect to the host.
-  if (connect (sock, (struct sockaddr *)&client, sizeof (client)) < 0 ) {
-    error = "Connecting to " + hostname + ": ";
-    error.append (strerror (errno));
-    close (sock);
-    return "";
-  }
-
-  // Assemble the data to POST, if any.
-  string postdata;
-  for (auto & element : post) {
-    if (!postdata.empty ()) postdata.append ("&");
-    postdata.append (element.first);
-    postdata.append ("=");
-    postdata.append (filter_url_urlencode (element.second));
-  }
-
-  // Send the request.
-  string request = "GET";
-  if (!post.empty ()) request = "POST";
-  request.append (" ");
-  request.append (url);
-  request.append (" ");
-  request.append ("HTTP/1.1");
-  request.append ("\r\n");
-  request.append ("Host: ");
-  request.append (hostname);
-  request.append ("\r\n");
-  //request.append ("Connection: close");
-  //request.append ("\r\n");
-  if (!post.empty ()) {
-    request.append ("Content-Type: application/x-www-form-urlencoded");
-    request.append ("\r\n");
-    request.append ("Content-Length: " + convert_to_string (postdata.length()));
-    request.append ("\r\n");
-  }
-  request.append ("\r\n");
-  request.append (postdata);
-  if (verbose) cout << request << endl;
-  if (send (sock, request.c_str(), request.length(), 0) != (int) request.length ()) {
-    error = "Sending request: ";
-    error.append (strerror (errno));
-    close (sock);
-    return "";
-  }
-
-  // Read the response headers and body.
-  string headers;
-  string response;
-  bool reading_body = false;
-  char prev = 0;
-  char cur;
-  FILE * file = NULL;
-  if (!filename.empty ()) file = fopen (filename.c_str(), "w");
-  while (int result = read (sock, &cur, 1) > 0 ) {
-    if (reading_body) {
-      if (file) fwrite (&cur, 1, 1, file);
-      else response += cur;
-    } else {
-      if (cur == '\r') continue;
-      headers += cur;
-      if ((cur == '\n') && (prev == '\n')) reading_body = true;
-      prev = cur;
-    }
-    if (result < 0) {
-      error = "Receiving: ";
-      error.append (strerror (errno));
-      close (sock);
-      if (file) fclose (file);
-      return "";
-    }
-  }
-  close (sock);
-  if (file) fclose (file);
-  if (verbose) {
-    cout << headers << endl;
-    cout << response << endl;
-  }
-
-  // Check the response headers.
-  vector <string> lines = filter_string_explode (headers, '\n');
-  for (auto & line : lines) {
-    if (line.empty ()) continue;
-    if (line.find ("HTTP") != string::npos) {
-      size_t pos = line.find (" ");
-      if (pos != string::npos) {
-        line.erase (0, pos + 1);
-        int response_code = convert_to_int (line);
-        if (response_code != 200) {
-          error = "Response code: " + line;
-          return "";
-        }
-      } else {
-        error = "Invalid response: " + line;
-        return "";
-      }
-    }
-  }
-  
-  // Done.
-  return response;
-}
-
-
 // Sends a http GET request to the $url.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_get (string url, string& error, bool check_certificate) // Todo
+string filter_url_http_get (string url, string& error, bool check_certificate)
 {
-  (void) check_certificate;
   string response;
 #ifdef CLIENT_PREPARED
-  response = filter_url_simple_http_request (url, error, {}, "", false);
+  response = filter_url_http_request_mbed (url, error, {}, "", check_certificate);
 #else
+  (void) check_certificate;
   CURL *curl = curl_easy_init ();
   if (curl) {
     curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
@@ -720,13 +546,14 @@ string filter_url_http_get (string url, string& error, bool check_certificate) /
 // It posts the $values.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (string url, map <string, string> values, string& error, bool burst) // Todo
+string filter_url_http_post (string url, map <string, string> values, string& error, bool burst, bool check_certificate)
 {
   string response;
 #ifdef CLIENT_PREPARED
   (void) burst;
-  response = filter_url_simple_http_request (url, error, values, "", false);
+  response = filter_url_http_request_mbed (url, error, values, "", check_certificate);
 #else
+  (void) check_certificate;
   // Get a curl handle.
   CURL *curl = curl_easy_init ();
   if (curl) {
@@ -777,14 +604,14 @@ string filter_url_http_post (string url, map <string, string> values, string& er
 // It uploads $filename.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_upload (string url, map <string, string> values, string filename, string& error) // Todo
+string filter_url_http_upload (string url, map <string, string> values, string filename, string& error)
 {
   string response;
 
 #ifdef CLIENT_PREPARED
-  url.clear ();
-  values.clear ();
-  filename.clear ();
+  (void) url;
+  (void) values;
+  (void) filename;
   error = "Not implemented in client configuration";
 #else
 
@@ -903,10 +730,10 @@ string filter_url_http_response_code_text (int code)
 
 
 // Downloads the file at $url, and stores it at $filename.
-void filter_url_download_file (string url, string filename, string& error) // Todo
+void filter_url_download_file (string url, string filename, string& error, bool check_certificate)
 {
 #ifdef CLIENT_PREPARED
-  filter_url_simple_http_request (url, error, {}, filename, false);
+  filter_url_http_request_mbed (url, error, {}, filename, check_certificate);
 #else
   CURL *curl = curl_easy_init ();
   if (curl) {
@@ -1062,6 +889,13 @@ string filter_url_remove_username_password (string url)
 }
 
 
+// A very simple function that sends a HTTP GET or POST request and reads the response.
+// It handles plain and secure http.
+// $url: The URL including host / port / path.
+// $error: To store any error messages.
+// $post: Value pairs for a POST request.
+// $filename: The filename to save the data to.
+// $check_certificate: Whether the check the server certificate in case of secure http.
 string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate) // Todo use it throughout.
 {
   // The "http" scheme is used to locate network resources via the HTTP protocol.

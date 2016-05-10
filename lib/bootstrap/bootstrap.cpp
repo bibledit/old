@@ -221,7 +221,7 @@ bool bootstrap_browser_request_security_okay (Webserver_Request * request)
 // This function is the first function to be called when a client requests a page or file.
 // Based on the request from the client,
 // it decides which other function to call to obtain the response.
-void bootstrap_index (void * webserver_request) // Todo
+void bootstrap_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   

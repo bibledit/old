@@ -124,7 +124,7 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 string Sync_Logic::post (map <string, string> & post, const string& url, string & error, bool burst)
 {
   error.clear ();
-  string response = filter_url_http_post (url, post, error, burst);
+  string response = filter_url_http_post (url, post, error, burst, true);
   if (error.empty ()) {
     // Success: Return response.
     return response;

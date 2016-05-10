@@ -379,7 +379,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
   url = filter_url_build_http_query (url, "v", convert_to_string (verse));
   string error;
-  string html = filter_url_http_get (url, error);
+  string html = filter_url_http_get (url, error, true);
   
   // In case of an error, don't cache that error, but let the user see it.
   if (!error.empty ()) return error;
