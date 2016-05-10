@@ -194,7 +194,7 @@ void sendreceive_resources ()
             url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
             url = filter_url_build_http_query (url, "v", convert_to_string (verse));
             error.clear ();
-            html = filter_url_http_get (url, error);
+            html = filter_url_http_get (url, error, false);
             server_is_installing_module = (html == sword_logic_installing_module_text ());
             if (server_is_installing_module) {
               Database_Logs::log ("Waiting while Bibledit Cloud installs the requested SWORD module");

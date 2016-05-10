@@ -510,7 +510,7 @@ size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, voi
 // $post: Value pairs for a POST request.
 // $filename: The filename to store the data to.
 // $verbose: Print headers and data to standard out.
-string filter_url_simple_http_request (string url, string& error, const map <string, string>& post, const string& filename, bool verbose)
+string filter_url_simple_http_request (string url, string& error, const map <string, string>& post, const string& filename, bool verbose) // Todo replace it.
 {
   // The "http" scheme is used to locate network resources via the HTTP protocol.
   // http_URL = "http:" "//" host [ ":" port ] [ abs_path [ "?" query ]]
@@ -679,8 +679,9 @@ string filter_url_simple_http_request (string url, string& error, const map <str
 // Sends a http GET request to the $url.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_get (string url, string& error)
+string filter_url_http_get (string url, string& error, bool check_certificate) // Todo
 {
+  (void) check_certificate;
   string response;
 #ifdef CLIENT_PREPARED
   response = filter_url_simple_http_request (url, error, {}, "", false);
@@ -691,7 +692,7 @@ string filter_url_http_get (string url, string& error)
     curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
     curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
-    // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
+    //curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
     // Because a Bibledit client should work even over very bad networks,
     // pass some timeout options to curl so it properly deals with such networks.
     filter_url_curl_set_timeout (curl);
@@ -719,11 +720,11 @@ string filter_url_http_get (string url, string& error)
 // It posts the $values.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (string url, map <string, string> values, string& error, bool burst)
+string filter_url_http_post (string url, map <string, string> values, string& error, bool burst) // Todo
 {
   string response;
 #ifdef CLIENT_PREPARED
-  if (burst) {}
+  (void) burst;
   response = filter_url_simple_http_request (url, error, values, "", false);
 #else
   // Get a curl handle.
@@ -776,7 +777,7 @@ string filter_url_http_post (string url, map <string, string> values, string& er
 // It uploads $filename.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_upload (string url, map <string, string> values, string filename, string& error)
+string filter_url_http_upload (string url, map <string, string> values, string filename, string& error) // Todo
 {
   string response;
 
@@ -902,7 +903,7 @@ string filter_url_http_response_code_text (int code)
 
 
 // Downloads the file at $url, and stores it at $filename.
-void filter_url_download_file (string url, string filename, string& error)
+void filter_url_download_file (string url, string filename, string& error) // Todo
 {
 #ifdef CLIENT_PREPARED
   filter_url_simple_http_request (url, error, {}, filename, false);
@@ -1061,7 +1062,7 @@ string filter_url_remove_username_password (string url)
 }
 
 
-string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate) // Todo write plain and secure.
+string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate) // Todo use it throughout.
 {
   // The "http" scheme is used to locate network resources via the HTTP protocol.
   // $url = "http(s):" "//" host [ ":" port ] [ abs_path [ "?" query ]]
@@ -1156,7 +1157,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   
   
   // SSL/TLS connection configuration.
-  if (connection_healthy && secure) { // Todo
+  if (connection_healthy && secure) {
     int ret = mbedtls_ssl_config_defaults (&conf, MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
     if (ret != 0) {
       filter_url_display_mbed_tls_error (ret, &error);

@@ -95,7 +95,7 @@ void sources_etcbc4_download ()
         string url = "https://shebanq.ancient-data.org/hebrew/verse?version=4b&book=" + bookname + "&chapter=" + convert_to_string (chapter) + "&verse=" + convert_to_string (verse);
 
         string error;
-        string response = filter_url_http_get (url, error);
+        string response = filter_url_http_get (url, error, false);
         if (!error.empty ()) {
           Database_Logs::log (error);
           continue;

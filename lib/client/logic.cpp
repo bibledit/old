@@ -83,7 +83,7 @@ string client_logic_connection_setup (string user, string hash)
   string url = client_logic_url (address, port, sync_setup_url ()) + "?user=" + encoded_user + "&pass=" + hash;
   
   string error;
-  string response = filter_url_http_get (url, error);
+  string response = filter_url_http_get (url, error, true);
   int iresponse = convert_to_int (response);
   
   if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {

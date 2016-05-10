@@ -393,7 +393,7 @@ string resource_logic_client_fetch_cache_from_cloud (string resource, int book, 
   url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
   url = filter_url_build_http_query (url, "v", convert_to_string (verse));
   string error;
-  string content = filter_url_http_get (url, error);
+  string content = filter_url_http_get (url, error, false);
   
   if (error.empty ()) {
     // No error: Cache content.
@@ -533,7 +533,7 @@ string resource_logic_web_cache_get (string url, string & error)
   // Fetch the URL from the network.
   // Do not cache the response in an error situation.
   error.clear ();
-  string html = filter_url_http_get (url, error);
+  string html = filter_url_http_get (url, error, false);
   if (!error.empty ()) {
     return html;
   }

@@ -4397,7 +4397,7 @@ void test_filter_url2 ()
   {
     // Test http GET and POST
     string result, error;
-    result = filter_url_http_get ("http://localhost/none", error);
+    result = filter_url_http_get ("http://localhost/none", error, false);
 #ifndef CLIENT_PREPARED
     evaluate (__LINE__, __func__, "Couldn't connect to server", error);
 #endif
@@ -4565,15 +4565,21 @@ void test_filter_url3 ()
 
   string error;
   string html;
+
   html = filter_url_http_request_mbed ("http://www.google.nl", error, {}, "", false);
   evaluate (__LINE__, __func__, "", error);
   if (html.length () < 40000) evaluate (__LINE__, __func__, "html shorter than 40000 bytes", "");
   if (html.length () < 80000) evaluate (__LINE__, __func__, "html longr than 80000 bytes", "");
+
   html = filter_url_http_request_mbed ("https://www.google.nl", error, {}, "", false);
   evaluate (__LINE__, __func__, "", error);
   if (html.length () < 40000) evaluate (__LINE__, __func__, "html shorter than 40000 bytes", "");
   if (html.length () < 80000) evaluate (__LINE__, __func__, "html longr than 80000 bytes", "");
-
+  
+  html = filter_url_http_request_mbed ("https://bibledit.org:8081", error, {}, "", false);
+  evaluate (__LINE__, __func__, "Response code: 302 Found", error);
+  evaluate (__LINE__, __func__, "", html);
+  
   filter_url_ssl_tls_finalize ();
 }
 
