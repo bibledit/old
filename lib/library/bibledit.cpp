@@ -66,7 +66,6 @@ void bibledit_initialize_library (const char * package, const char * webroot)
 #ifdef CLIENT_PREPARED
 #else
   curl_global_init (CURL_GLOBAL_ALL);
-  // cout << curl_version () << endl;
 #endif
   
   // Thread locking.
@@ -75,7 +74,10 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   // Initialize SQLite: Full thread safety: https://www.sqlite.org/threadsafe.html.
   // This is supported to prevent "database locked" errors.
   sqlite3_config (SQLITE_CONFIG_SERIALIZED);
-  
+
+  // Initialize SSL/TLS.
+  filter_url_ssl_tls_initialize ();
+
   // Set the web root folder.
   config_globals_document_root = webroot;
   
@@ -261,6 +263,9 @@ void bibledit_shutdown_library ()
 {
   // Remove thread locks.
   thread_cleanup ();
+  
+  // Finalize SSL/TLS.
+  filter_url_ssl_tls_finalize ();
 
   // Multiple start/stop guard.
   bibledit_started = false;

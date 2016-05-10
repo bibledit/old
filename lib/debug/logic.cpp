@@ -18,11 +18,3 @@
 
 
 #include <debug/logic.h>
-#include <database/logs.h>
-#include <config/globals.h>
-#include <filter/string.h>
-
-
-void debug_logic_log_connections ()
-{
-}

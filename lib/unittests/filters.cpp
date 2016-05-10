@@ -57,6 +57,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ipc/notes.h>
 #include <client/logic.h>
 #include <bible/logic.h>
+#include <debug/logic.h>
 
 
 #ifdef HAVE_UNITTESTS
@@ -4338,7 +4339,7 @@ void test_filter_date ()
 }
 
 
-void test_filter_url ()
+void test_filter_url2 ()
 {
   trace_unit_tests (__func__);
   
@@ -4554,6 +4555,26 @@ void test_filter_shell ()
   
   evaluate (__LINE__, __func__, true, filter_shell_is_present ("zip"));
   evaluate (__LINE__, __func__, false, filter_shell_is_present ("xxxxx"));
+}
+
+
+void test_filter_url3 ()
+{
+  trace_unit_tests (__func__);
+  filter_url_ssl_tls_initialize ();
+
+  string error;
+  string html;
+  html = filter_url_http_request_mbed ("http://www.google.nl", error, {}, "", false);
+  evaluate (__LINE__, __func__, "", error);
+  if (html.length () < 40000) evaluate (__LINE__, __func__, "html shorter than 40000 bytes", "");
+  if (html.length () < 80000) evaluate (__LINE__, __func__, "html longr than 80000 bytes", "");
+  html = filter_url_http_request_mbed ("https://www.google.nl", error, {}, "", false);
+  evaluate (__LINE__, __func__, "", error);
+  if (html.length () < 40000) evaluate (__LINE__, __func__, "html shorter than 40000 bytes", "");
+  if (html.length () < 80000) evaluate (__LINE__, __func__, "html longr than 80000 bytes", "");
+
+  filter_url_ssl_tls_finalize ();
 }
 
 

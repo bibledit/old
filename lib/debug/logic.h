@@ -21,10 +21,4 @@
 #define INCLUDED_DEBUG_LOGIC_H
 
 
-#include <config/libraries.h>
-
-
-void debug_logic_log_connections ();
-
-
 #endif

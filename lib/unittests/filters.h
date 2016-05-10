@@ -58,11 +58,12 @@ void test_filter_merge ();
 void test_filter_tidy ();
 void test_ipc_notes ();
 void test_filter_date ();
-void test_filter_url ();
+void test_filter_url2 ();
 void test_filter_string ();
 void test_filter_string_text2html ();
 void test_filter_archive ();
 void test_filter_shell ();
+void test_filter_url3 ();
 
 
 #endif

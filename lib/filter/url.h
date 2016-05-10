@@ -68,6 +68,10 @@ void filter_url_curl_set_timeout (void *curl_handle, bool burst = false);
 string filter_url_plus_to_tag (string data);
 string filter_url_tag_to_plus (string data);
 string filter_url_remove_username_password (string url);
+string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate);
+void filter_url_ssl_tls_initialize ();
+void filter_url_ssl_tls_finalize ();
+void filter_url_display_mbed_tls_error (int & ret, string * error = NULL);
 
 
 #endif

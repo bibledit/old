@@ -37,7 +37,7 @@ Integrate is with the Bibledit library as follows:
 
 Example code of SSL/TLS handshake, server, client, and so on, is in the source code of mbed TLS.
 
-To use the library in a threaded environment, define the followig in config.h:
+To use the library in a threaded environment, define the following in config.h:
 MBEDTLS_THREADING_C
 MBEDTLS_THREADING_PTHREAD
 

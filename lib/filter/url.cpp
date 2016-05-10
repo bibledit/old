@@ -33,6 +33,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #else
 #include <curl/curl.h>
 #endif
+#include "mbedtls/net.h"
+#include "mbedtls/debug.h"
+#include "mbedtls/ssl.h"
+#include "mbedtls/entropy.h"
+#include "mbedtls/ctr_drbg.h"
+#include "mbedtls/error.h"
+#include "mbedtls/certs.h"
+
+
+// SSL/TLS globals.
+mbedtls_entropy_context filter_url_mbed_tls_entropy;
+mbedtls_ctr_drbg_context filter_url_mbed_tls_ctr_drbg;
+mbedtls_x509_crt filter_url_mbed_tls_cacert;
 
 
 // Gets the base URL of current Bibledit installation.
@@ -1045,4 +1058,389 @@ string filter_url_remove_username_password (string url)
   }
   
   return url;
+}
+
+
+string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate) // Todo write plain and secure.
+{
+  // The "http" scheme is used to locate network resources via the HTTP protocol.
+  // $url = "http(s):" "//" host [ ":" port ] [ abs_path [ "?" query ]]
+  
+  
+  // Whether this is a secure http request.
+  bool secure = url.find ("https:") != string::npos;
+  
+  
+  // Remove the scheme: http(s).
+  size_t pos = url.find ("://");
+  if (pos != string::npos) {
+    url.erase (0, pos + 3);
+  }
+
+  
+  // Extract the host.
+  pos = url.find (":");
+  if (pos == string::npos) pos = url.find ("/");
+  if (pos == string::npos) pos = url.length () + 1;
+  string hostname = url.substr (0, pos);
+  url.erase (0, hostname.length ());
+
+  
+  // Default port numbers for plain or secure http.
+  int port = 80;
+  if (secure) port = 443;
+  // Extract the port number if any.
+  pos = url.find (":");
+  if (pos != string::npos) {
+    url.erase (0, 1);
+    size_t pos2 = url.find ("/");
+    if (pos2 == string::npos) pos2 = url.length () + 1;
+    string p = url.substr (0, pos2);
+    port = convert_to_int (p);
+    url.erase (0, p.length ());
+  }
+  
+  
+  // Empty URL results in a slash.
+  if (url.empty ()) url = "/";
+  
+  
+  // The absolute path plus optional query remain after extracting the preceding stuff.
+  
+
+  bool connection_healthy = true;
+  
+  
+  // SSL/TLS configuration and context.
+  // The configuration is local, because options may not be the same for every website.
+  mbedtls_ssl_context ssl;
+  mbedtls_ssl_config conf;
+  if (secure) {
+    mbedtls_ssl_init (&ssl);
+    mbedtls_ssl_config_init (&conf);
+  }
+  
+  
+  // Resolve the host.
+  struct hostent * host = NULL;
+  if (!secure) {
+    host = gethostbyname (hostname.c_str());
+    if ((host == NULL) || (host->h_addr == NULL)) {
+      error = hostname + ": ";
+      error.append (hstrerror (h_errno));
+      connection_healthy = false;
+    }
+  }
+  
+  
+  // Socket setup.
+  int sock = 0;
+  struct sockaddr_in client;
+  mbedtls_net_context fd;
+  if (connection_healthy) {
+    if (secure) {
+      mbedtls_net_init (&fd);
+    } else {
+      bzero (&client, sizeof (client));
+      client.sin_family = AF_INET;
+      client.sin_port = htons (port);
+      memcpy (&client.sin_addr, host->h_addr, host->h_length);
+      sock = socket (AF_INET, SOCK_STREAM, 0);
+      if (sock < 0) {
+        error = "Creating socket: ";
+        error.append (strerror (errno));
+        connection_healthy = false;
+      }
+    }
+  }
+  
+  
+  // SSL/TLS connection configuration.
+  if (connection_healthy && secure) { // Todo
+    int ret = mbedtls_ssl_config_defaults (&conf, MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
+    if (ret != 0) {
+      filter_url_display_mbed_tls_error (ret, &error);
+      connection_healthy = false;
+    }
+    mbedtls_ssl_conf_authmode (&conf, MBEDTLS_SSL_VERIFY_OPTIONAL);
+    mbedtls_ssl_conf_ca_chain (&conf, &filter_url_mbed_tls_cacert, NULL);
+    mbedtls_ssl_conf_rng (&conf, mbedtls_ctr_drbg_random, &filter_url_mbed_tls_ctr_drbg);
+    ret = mbedtls_ssl_setup (&ssl, &conf);
+    if (ret != 0) {
+      filter_url_display_mbed_tls_error (ret, &error);
+      connection_healthy = false;
+    }
+    ret = mbedtls_ssl_set_hostname (&ssl, "Bibledit");
+    if (ret != 0) {
+      filter_url_display_mbed_tls_error (ret, &error);
+      connection_healthy = false;
+    }
+    mbedtls_ssl_set_bio (&ssl, &fd, mbedtls_net_send, mbedtls_net_recv, NULL);
+  }
+
+  
+  // A Bibledit client should work even over very bad networks,
+  // so set a timeout on the network connection.
+  if (connection_healthy) {
+    int comm_sock = 0;
+    if (secure) comm_sock = fd.fd;
+    else comm_sock = sock;
+    struct timeval tv;
+    tv.tv_sec = 30;  // Timeout in seconds.
+    setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
+    setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
+  }
+  
+  
+  // Connect to the host.
+  if (connection_healthy) {
+    if (secure) {
+      const char * server_port = convert_to_string (port).c_str ();
+      int ret = mbedtls_net_connect (&fd, hostname.c_str(), server_port, MBEDTLS_NET_PROTO_TCP);
+      if (ret != 0) {
+        filter_url_display_mbed_tls_error (ret, &error);
+        connection_healthy = false;
+      }
+    } else {
+      if (connect (sock, (struct sockaddr *)&client, sizeof (client)) < 0 ) {
+        error = "Connecting to " + hostname + ": ";
+        error.append (strerror (errno));
+        connection_healthy = false;
+      }
+    }
+  }
+  
+  
+  // SSL/TLS handshake.
+  if (secure) {
+    int ret;
+    while (connection_healthy && ((ret = mbedtls_ssl_handshake (&ssl)) != 0)) {
+      if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
+      if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
+      filter_url_display_mbed_tls_error (ret, &error);
+      connection_healthy = false;
+    }
+  }
+  
+  
+  // Optionally verify the server certificate.
+  if (connection_healthy && secure && check_certificate) {
+    uint32_t flags = mbedtls_ssl_get_verify_result (&ssl);
+    if (flags != 0) {
+      char vrfy_buf [512];
+      mbedtls_x509_crt_verify_info (vrfy_buf, sizeof (vrfy_buf), " ! ", flags);
+      error = vrfy_buf;
+      connection_healthy = false;
+    }
+  }
+
+  
+  // Assemble the data to POST, if any.
+  string postdata;
+  for (auto & element : post) {
+    if (!postdata.empty ()) postdata.append ("&");
+    postdata.append (element.first);
+    postdata.append ("=");
+    postdata.append (filter_url_urlencode (element.second));
+  }
+  
+  
+  // Send the request.
+  if (connection_healthy) {
+    string request = "GET";
+    if (!post.empty ()) request = "POST";
+    request.append (" ");
+    request.append (url);
+    request.append (" ");
+    request.append ("HTTP/1.1");
+    request.append ("\r\n");
+    request.append ("Host: ");
+    request.append (hostname);
+    request.append ("\r\n");
+    // Close connection, else it's harder to locate the end of the response.
+    request.append ("Connection: close");
+    request.append ("\r\n");
+    if (!post.empty ()) {
+      request.append ("Content-Type: application/x-www-form-urlencoded");
+      request.append ("\r\n");
+      request.append ("Content-Length: " + convert_to_string (postdata.length()));
+      request.append ("\r\n");
+    }
+    request.append ("\r\n");
+    request.append (postdata);
+    if (secure) {
+      
+      // Write the secure http request to the server.
+      const char * output = request.c_str();
+      const unsigned char * buf = (const unsigned char *) output;
+      // The C function strlen () fails on null characters in the request, so take string::size()
+      size_t len = request.size ();
+      while (connection_healthy && (len > 0)) {
+        // Function
+        // int ret = mbedtls_ssl_write (&ssl, buf, len)
+        // will do partial writes in some cases.
+        // If the return value is non-negative but less than length,
+        // the function must be called again with updated arguments:
+        // buf + ret, len - ret
+        // until it returns a value equal to the last 'len' argument.
+        int ret = mbedtls_ssl_write (&ssl, buf, len);
+        if (ret > 0) {
+          buf += ret;
+          len -= ret;
+        } else {
+          // When it returns MBEDTLS_ERR_SSL_WANT_WRITE/READ,
+          // it must be called later with the *same* arguments,
+          // until it returns a positive value.
+          if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
+          if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
+          filter_url_display_mbed_tls_error (ret, &error);
+          connection_healthy = false;
+        }
+      }
+      
+    } else {
+
+      // Send plain http.
+      if (send (sock, request.c_str(), request.length(), 0) != (int) request.length ()) {
+        error = "Sending request: ";
+        error.append (strerror (errno));
+        connection_healthy = false;
+      }
+      
+    }
+  }
+  
+  
+  // Read the response headers and body.
+  string headers;
+  string response;
+  if (connection_healthy) {
+
+    bool reading = true;
+    bool reading_body = false;
+    char prev = 0;
+    char cur;
+    FILE * file = NULL;
+    if (!filename.empty ()) file = fopen (filename.c_str(), "w");
+    
+    do {
+      int ret = 0;
+      if (secure) {
+        unsigned char buffer [1];
+        memset (&buffer, 0, 1);
+        ret = mbedtls_ssl_read (&ssl, buffer, 1);
+        cur = buffer [0];
+      } else {
+        ret = read (sock, &cur, 1);
+      }
+      if (ret > 0) {
+        if (reading_body) {
+          if (file) fwrite (&cur, 1, 1, file);
+          else response += cur;
+        } else {
+          if (cur == '\r') continue;
+          headers += cur;
+          if ((cur == '\n') && (prev == '\n')) reading_body = true;
+          prev = cur;
+        }
+      } else if (!secure && (ret < 0)) {
+        error = "Receiving: ";
+        error.append (strerror (errno));
+        connection_healthy = false;
+      } else if (secure && (ret == MBEDTLS_ERR_SSL_WANT_READ)) {
+      } else if (secure && (ret == MBEDTLS_ERR_SSL_WANT_WRITE)) {
+      } else if (secure && (ret < 0)) {
+        filter_url_display_mbed_tls_error (ret, &error);
+        connection_healthy = false;
+      } else {
+        // Probably EOF.
+        reading = false;
+      }
+    } while (reading && connection_healthy);
+
+    if (file) fclose (file);
+  }
+  
+  
+  if (secure) {
+    mbedtls_ssl_close_notify (&ssl);
+    mbedtls_net_free (&fd);
+    mbedtls_ssl_free (&ssl);
+    mbedtls_ssl_config_free (&conf);
+  } else {
+    close (sock);
+  }
+
+  
+  // Check the response headers.
+  vector <string> lines = filter_string_explode (headers, '\n');
+  for (auto & line : lines) {
+    if (line.empty ()) continue;
+    if (line.find ("HTTP") != string::npos) {
+      size_t pos = line.find (" ");
+      if (pos != string::npos) {
+        line.erase (0, pos + 1);
+        int response_code = convert_to_int (line);
+        if (response_code != 200) {
+          error = "Response code: " + line;
+          return "";
+        }
+      } else {
+        error = "Invalid response: " + line;
+        return "";
+      }
+    }
+  }
+  
+  
+  // Done.
+  if (!connection_healthy) response.clear ();
+  return response;
+}
+
+
+// Initialize the SSL/TLS system once.
+void filter_url_ssl_tls_initialize ()
+{
+  int ret = 0;
+  // Random number generator.
+  mbedtls_ctr_drbg_init (&filter_url_mbed_tls_ctr_drbg);
+  mbedtls_entropy_init (&filter_url_mbed_tls_entropy);
+  const char *pers = "Bibledit Client";
+  ret = mbedtls_ctr_drbg_seed (&filter_url_mbed_tls_ctr_drbg,
+                               mbedtls_entropy_func, &filter_url_mbed_tls_entropy,
+                               (const unsigned char *) pers, strlen (pers));
+  if (ret != 0) filter_url_display_mbed_tls_error (ret);
+  // Trusted root certificates. Todo let it read a trusted bundle of them.
+  ret = mbedtls_x509_crt_parse (&filter_url_mbed_tls_cacert,
+                                (const unsigned char *) mbedtls_test_cas_pem,
+                                mbedtls_test_cas_pem_len);
+  if (ret < 0) filter_url_display_mbed_tls_error (ret);
+}
+
+
+// Finalize the SSL/TLS system once.
+void filter_url_ssl_tls_finalize ()
+{
+  mbedtls_ctr_drbg_free (&filter_url_mbed_tls_ctr_drbg);
+  mbedtls_entropy_free (&filter_url_mbed_tls_entropy);
+  mbedtls_x509_crt_free (&filter_url_mbed_tls_cacert);
+}
+
+
+// This logs the $ret (return) value, converted to readable text, to the journal.
+// If $error is given, it is stored there instead.
+void filter_url_display_mbed_tls_error (int & ret, string * error)
+{
+  if (ret != 0) {
+    char error_buf [100];
+    mbedtls_strerror (ret, error_buf, 100);
+    string msg = error_buf;
+    msg.append (" (");
+    msg.append (convert_to_string (ret));
+    msg.append (")");
+    if (error) error->assign (msg);
+    else Database_Logs::log (msg);
+    ret = 0;
+  }
 }
