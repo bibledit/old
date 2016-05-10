@@ -1246,11 +1246,10 @@ void filter_url_ssl_tls_initialize ()
                                mbedtls_entropy_func, &filter_url_mbed_tls_entropy,
                                (const unsigned char *) pers, strlen (pers));
   if (ret != 0) filter_url_display_mbed_tls_error (ret);
-  // Trusted root certificates. Todo let it read a trusted bundle of them.
-  ret = mbedtls_x509_crt_parse (&filter_url_mbed_tls_cacert,
-                                (const unsigned char *) mbedtls_test_cas_pem,
-                                mbedtls_test_cas_pem_len);
-  if (ret < 0) filter_url_display_mbed_tls_error (ret);
+  // Read the trusted root certificates.
+  string path = filter_url_create_root_path ("filter", "cas.crt");
+  ret = mbedtls_x509_crt_parse_file (&filter_url_mbed_tls_cacert, path.c_str ());
+  if (ret != 0) filter_url_display_mbed_tls_error (ret);
 }
 
 
@@ -1274,8 +1273,11 @@ void filter_url_display_mbed_tls_error (int & ret, string * error)
     msg.append (" (");
     msg.append (convert_to_string (ret));
     msg.append (")");
-    if (error) error->assign (msg);
-    else Database_Logs::log (msg);
+    if (error) {
+      error->assign (msg);
+    } else {
+      Database_Logs::log (msg);
+    }
     ret = 0;
   }
 }

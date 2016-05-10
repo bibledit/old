@@ -75,11 +75,11 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   // This is supported to prevent "database locked" errors.
   sqlite3_config (SQLITE_CONFIG_SERIALIZED);
 
-  // Initialize SSL/TLS.
-  filter_url_ssl_tls_initialize ();
-
   // Set the web root folder.
   config_globals_document_root = webroot;
+  
+  // Initialize SSL/TLS (after webroot has been set).
+  filter_url_ssl_tls_initialize ();
   
   // Initialize data in a thread.
   thread setup_thread = thread (setup_conditionally, package);
