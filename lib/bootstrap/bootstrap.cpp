@@ -202,8 +202,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
 // It returns true if the security is okay.
-// This was introduced in May 2016.
-// After some time when all clients have been updated to use https, it is no longer needed.
 bool bootstrap_browser_request_security_okay (Webserver_Request * request)
 {
   // If the request is made via https, the security is OK.
@@ -516,15 +514,15 @@ void bootstrap_index (void * webserver_request)
   else if ((url == index_listing_url (url)) && bootstrap_browser_request_security_okay (request) && index_listing_acl (request, url)) request->reply = index_listing (request, url);
   
   // Client calls.
-  else if ((url == sync_setup_url ()) && sync_setup_acl (request)) request->reply = sync_setup (request);
-  else if ((url == sync_settings_url ()) && sync_settings_acl (request)) request->reply = sync_settings (request);
-  else if ((url == sync_bibles_url ()) && sync_bibles_acl (request)) request->reply = sync_bibles (request);
-  else if ((url == sync_notes_url ()) && sync_notes_acl (request)) request->reply = sync_notes (request);
-  else if ((url == sync_usfmresources_url ()) && sync_usfmresources_acl (request)) request->reply = sync_usfmresources (request);
-  else if ((url == sync_externalresources_url ()) && sync_externalresources_acl (request)) request->reply = sync_externalresources (request);
-  else if ((url == sync_changes_url ()) && sync_changes_acl (request)) request->reply = sync_changes (request);
-  else if ((url == sync_files_url ()) && sync_files_acl (request)) request->reply = sync_files (request);
-  else if ((url == sync_resources_url ()) && sync_resources_acl (request)) request->reply = sync_resources (request);
+  else if (url == sync_setup_url ()) request->reply = sync_setup (request);
+  else if (url == sync_settings_url ()) request->reply = sync_settings (request);
+  else if (url == sync_bibles_url ()) request->reply = sync_bibles (request);
+  else if (url == sync_notes_url ()) request->reply = sync_notes (request);
+  else if (url == sync_usfmresources_url ()) request->reply = sync_usfmresources (request);
+  else if (url == sync_externalresources_url ()) request->reply = sync_externalresources (request);
+  else if (url == sync_changes_url ()) request->reply = sync_changes (request);
+  else if (url == sync_files_url ()) request->reply = sync_files (request);
+  else if (url == sync_resources_url ()) request->reply = sync_resources (request);
   
   // AJAX calls.
   else if ((url == navigation_update_url ()) && bootstrap_browser_request_security_okay (request) && navigation_update_acl (request)) request->reply = navigation_update (request);

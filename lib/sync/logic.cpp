@@ -46,6 +46,23 @@ Sync_Logic::Sync_Logic (void * webserver_request_in)
 }
 
 
+// Returns true if the request coming from the client is considered secure enough.
+bool Sync_Logic::security_okay ()
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  // If the request is made via https, the security is OK.
+  if (request->secure) return true;
+  
+  // At this stage the request is made via plain http.
+  // If https is not enforced for the client, the security is considered good enough.
+  if (!config_globals_enforce_https_client) return true;
+  
+  // Not secure enough:
+  return false;
+}
+
+
 bool Sync_Logic::credentials_okay ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;

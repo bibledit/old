@@ -26,7 +26,6 @@
 
 
 string sync_settings_url ();
-bool sync_settings_acl (void * webserver_request);
 string sync_settings (void * webserver_request);
 
 

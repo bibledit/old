@@ -25,7 +25,6 @@
 
 
 string sync_externalresources_url ();
-bool sync_externalresources_acl (void * webserver_request);
 string sync_externalresources (void * webserver_request);
 
 

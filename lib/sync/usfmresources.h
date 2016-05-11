@@ -25,7 +25,6 @@
 
 
 string sync_usfmresources_url ();
-bool sync_usfmresources_acl (void * webserver_request);
 string sync_usfmresources (void * webserver_request);
 
 

@@ -31,14 +31,8 @@ string sync_resources_url ()
 }
 
 
-bool sync_resources_acl (void * webserver_request)
-{
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
-}
-
-
 // Serves general resource content to a client.
-string sync_resources (void * webserver_request)
+string sync_resources (void * webserver_request) // Todo consider security
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);

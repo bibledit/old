@@ -47,12 +47,6 @@ string sync_bibles_url ()
 }
 
 
-bool sync_bibles_acl (void * webserver_request)
-{
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
-}
-
-
 string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter)
 {
   // Convert the tags to plus signs, which the client had converted to tags,
@@ -129,7 +123,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
 }
 
 
-string sync_bibles (void * webserver_request)
+string sync_bibles (void * webserver_request) // Todo consider security
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);

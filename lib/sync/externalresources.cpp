@@ -39,13 +39,7 @@ string sync_externalresources_url ()
 }
 
 
-bool sync_externalresources_acl (void * webserver_request)
-{
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
-}
-
-
-string sync_externalresources (void * webserver_request)
+string sync_externalresources (void * webserver_request) // Todo consider security
 {
   Database_OfflineResources database_offlineresources;
   Webserver_Request * request = (Webserver_Request *) webserver_request;

@@ -46,13 +46,7 @@ string sync_usfmresources_url ()
 }
 
 
-bool sync_usfmresources_acl (void * webserver_request)
-{
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
-}
-
-
-string sync_usfmresources (void * webserver_request)
+string sync_usfmresources (void * webserver_request) // Todo consider security
 {
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   Webserver_Request * request = (Webserver_Request *) webserver_request;

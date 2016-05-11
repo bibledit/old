@@ -25,7 +25,6 @@
 
 
 string sync_setup_url ();
-bool sync_setup_acl (void * webserver_request);
 string sync_setup (void * webserver_request);
 
 #endif

@@ -110,6 +110,7 @@ public:
   static const int changes_get_identifiers = 3;
   static const int changes_get_modification = 4;
 
+  bool security_okay ();
   bool credentials_okay ();
   
   string settings_checksum (const vector <string> & bibles);
@@ -147,6 +148,8 @@ public:
 private:
   void * webserver_request;
 };
+
+
 
 
 #endif

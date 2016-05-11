@@ -25,7 +25,6 @@
 
 
 string sync_notes_url ();
-bool sync_notes_acl (void * webserver_request);
 string sync_notes (void * webserver_request);
 
 

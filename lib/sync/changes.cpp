@@ -41,13 +41,7 @@ string sync_changes_url ()
 }
 
 
-bool sync_changes_acl (void * webserver_request)
-{
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
-}
-
-
-string sync_changes (void * webserver_request)
+string sync_changes (void * webserver_request) // Todo consider security
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);

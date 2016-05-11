@@ -111,7 +111,6 @@ string client_index (void * webserver_request)
     string address;
     if (connect) address = request->post ["address"];
     if (demo) address = demo_address ();
-    if (address.find ("http") == string::npos) address.insert (0, "http://"); // Todo leave out at this stage.
     Database_Config_General::setServerAddress (address);
     
     int port = convert_to_int (config_logic_http_network_port ());
@@ -128,11 +127,12 @@ string client_index (void * webserver_request)
     if (demo) pass = session_admin_credentials (); 
 
     string response = client_logic_connection_setup (user, md5 (pass));
+    cout << "final response: " << response << endl; // Todo
     int iresponse = convert_to_int (response);
 
     if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
       // Enable client mode upon a successful connection.
-      client_index_enable_client (request, user, pass, iresponse);
+      // Todo temporally off. client_index_enable_client (request, user, pass, iresponse);
       // Feedback.
       view.set_variable ("success", translate("Connection is okay."));
     } else {

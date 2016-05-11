@@ -25,7 +25,6 @@
 
 
 string sync_bibles_url ();
-bool sync_bibles_acl (void * webserver_request);
 string sync_bibles (void * webserver_request);
 
 

@@ -25,7 +25,6 @@
 
 
 string sync_files_url ();
-bool sync_files_acl (void * webserver_request);
 string sync_files (void * webserver_request);
 
 
