@@ -249,6 +249,11 @@ navigation(0), httpd(0)
   // Main window, xembed is used on the XO machine.
   if (xembed) {
     window_main = gtk_plug_new(GdkNativeWindow(xembed));
+	// In 64-bit compilation, we get this error at xembed:
+	// mainwindow.cpp: In constructor 'MainWindow::MainWindow(long unsigned int, GtkAccelGroup*, Settings*, URLTransport*, VCS*)':
+    // mainwindow.cpp:251:54: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    // window_main = gtk_plug_new(GdkNativeWindow(xembed));
+
   } else {
     window_main = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   }
@@ -907,7 +912,6 @@ navigation(0), httpd(0)
   view_formatted = (GtkRadioMenuItem*)gtk_radio_menu_item_new_with_mnemonic (chapterViewGroup, _("_Formatted"));
   //gtk3 gtk_radio_menu_item_join_group(view_formatted, NULL);
   chapterViewGroup = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (view_formatted));
-  DEBUG("1-group="+std::to_string((int)chapterViewGroup))
   gtk_widget_show((GtkWidget*)view_formatted);
   gtk_container_add(GTK_CONTAINER(view_chapter_submenu), (GtkWidget*)view_formatted);
   gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_formatted), TRUE); // default
@@ -915,14 +919,12 @@ navigation(0), httpd(0)
   view_usfm_code = (GtkRadioMenuItem*)gtk_radio_menu_item_new_with_mnemonic (chapterViewGroup, _("_USFM code"));
   //gtk3 gtk_radio_menu_item_join_group(view_usfm_code, view_formatted);
   chapterViewGroup = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (view_usfm_code));
-  DEBUG("2-group="+std::to_string((int)chapterViewGroup))
   gtk_widget_show((GtkWidget*)view_usfm_code);
   gtk_container_add(GTK_CONTAINER(view_chapter_submenu), (GtkWidget*)view_usfm_code);
 
   view_experimental = (GtkRadioMenuItem*)gtk_radio_menu_item_new_with_mnemonic (chapterViewGroup, _("_Experimental"));
   //gtk3 gtk_radio_menu_item_join_group(view_experimental, view_usfm_code);
   chapterViewGroup = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (view_experimental));
-  DEBUG("3-group="+std::to_string((int)chapterViewGroup))
   gtk_widget_show((GtkWidget*)view_experimental);
   gtk_container_add(GTK_CONTAINER(view_chapter_submenu), (GtkWidget*)view_experimental);
   //-----------------------------------------------------------------------------
