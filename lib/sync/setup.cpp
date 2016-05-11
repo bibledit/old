@@ -41,7 +41,7 @@ string sync_setup (void * webserver_request)
   if (!sync_logic.security_okay ()) {
     // Inform the client to upgrade from http to https.
     // Return the secure port number to be used by the client.
-    return convert_to_string (config_logic_https_network_port ());
+    return "p" + convert_to_string (config_logic_https_network_port ()) + "p";
   }
   
   string page;
@@ -59,8 +59,7 @@ string sync_setup (void * webserver_request)
     }
   }
   
-  
   // The credentials were not accepted.
-  // Todo this_thread::sleep_for (chrono::seconds (1));
+  this_thread::sleep_for (chrono::seconds (1));
   return "Server does not recognize the credentials";
 }
