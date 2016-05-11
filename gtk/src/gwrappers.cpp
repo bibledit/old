@@ -74,9 +74,9 @@ void gw_message(const ustring & message)
   write(1, tmsg.c_str(), strlen(tmsg.c_str()));
 }
 
-void gw_debug(const ustring & message, const char *file, int lineno, const char *func)
+void gw_debug(int msgno, const ustring & message, const char *file, int lineno, const char *func)
 {
-  gw_message("DEBUG: " + message + " " + func + ":" + file + ":" + std::to_string(lineno));
+  gw_message("DEBUG:"+std::to_string(msgno)+": " + message + " " + func + ":" + file + ":" + std::to_string(lineno));
 }
 
 void gw_warning(const ustring & warning)

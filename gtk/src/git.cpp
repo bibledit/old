@@ -243,7 +243,7 @@ void git_resolve_conflicts(const ustring & project, const vector < ustring > &er
 
   // Resolve all conflicts according to the settings of the user.
   for (unsigned int i = 0; i < conflicted_chapters.size(); i++) {
-    git_resolve_conflict_chapter(project, conflicted_chapters[i].book, conflicted_chapters[i].chapter);
+    git_resolve_conflict_chapter(project, conflicted_chapters[i].book_get(), conflicted_chapters[i].chapter_get());
   }
 
   // Commit the changes.

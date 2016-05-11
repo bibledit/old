@@ -98,14 +98,14 @@ void Outline::goto_reference(const ustring & project, Reference & reference)
     new_project_handling();
   }
   // Handle change of book.  
-  if (reference.book != mybook) {
+  if (reference.book_get() != mybook) {
     changed = true;
-    mybook = reference.book;
+    mybook = reference.book_get();
   }
   // Handle change of chapter.
-  if (reference.chapter != mychapter) {
+  if (reference.chapter_get() != mychapter) {
     changed = true;
-    mychapter = reference.chapter;
+    mychapter = reference.chapter_get();
   }
   // If no change, bail out after focusing for any verse change.
   if (!changed) {
@@ -399,7 +399,7 @@ void Outline::focus(Reference & reference)
   GtkTreeIter iter;
   gboolean valid;
   bool focused = false;
-  unsigned int ref_number = reference_number(reference.chapter, convert_to_int(reference.verse));
+  unsigned int ref_number = reference_number(reference.chapter_get(), convert_to_int(reference.verse_get()));
   // Get the first iter in the store.
   valid = gtk_tree_model_get_iter_first(model, &iter);
   while (valid) {

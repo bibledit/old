@@ -187,9 +187,9 @@ void kjv_import_sword (const ustring& textfile, const ustring& database)
             if (attribute) {
               Parse parse (attribute, false, ".");
               if (parse.words.size() == 3) {
-                reference.book = books_osis_to_id (parse.words[0]);
-                reference.chapter = convert_to_int (parse.words[1]);
-                reference.verse = parse.words[2];
+                reference.assign(books_osis_to_id (parse.words[0]), // book
+				 convert_to_int (parse.words[1]),   // chapter
+				 parse.words[2]);                   // verse
               } else {
                 gw_critical (attribute);
               }
@@ -231,7 +231,7 @@ void kjv_import_sword (const ustring& textfile, const ustring& database)
             replace_text (lemmata, "strong:", "");
             char *sql;
             sql = g_strdup_printf("insert into kjv values (%d, %d, %d, %d, '%s', '%s');", 
-                                  reference.book, reference.chapter, convert_to_int (reference.verse), 
+                                  reference.book_get(), reference.chapter_get(), convert_to_int (reference.verse_get()), 
                                   item_number, 
                                   double_apostrophy (textfragment).c_str(), lemmata.c_str());
             sqlite3_exec(db, sql, NULL, NULL, NULL);
@@ -271,7 +271,7 @@ void kjv_get_strongs_data (const Reference& reference, vector <ustring>& strongs
     // Retrieve the bits.
     SqliteReader reader(0);
     char *sql;
-    sql = g_strdup_printf("select fragment, lemma from kjv where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
+    sql = g_strdup_printf("select fragment, lemma from kjv where book = %d and chapter = %d and verse = %d order by item asc;", reference.book_get(), reference.chapter_get(), convert_to_int (reference.verse_get()));
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc) {

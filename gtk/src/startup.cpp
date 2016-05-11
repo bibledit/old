@@ -25,6 +25,7 @@
 #include "debug.h"
 
 int global_debug_level;
+int debug_msg_no;
 
 bool check_bibledit_startup_okay (int argc, char *argv[])
 // Returns true if it is okay to start bibledit.
@@ -42,6 +43,7 @@ bool check_bibledit_startup_okay (int argc, char *argv[])
   if (argc >= 2 && strcmp(argv[1], "--debug") == 0) {
 	// This is primitive argument checking, but I'll live with it for now.
 	global_debug_level = 1;
+	debug_msg_no = 1;
 	DEBUG("Debugging is turned on")
     return true;
   }

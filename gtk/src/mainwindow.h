@@ -189,7 +189,12 @@ protected:
   GtkWidget *image20235;
   GtkWidget *viewnotes;
   GtkWidget *image2627;
-  GtkWidget *view_usfm_code;
+  GtkWidget *view_chapter_item;
+  GtkWidget *view_chapter_submenu;
+  GSList    *chapterViewGroup;
+  GtkRadioMenuItem *view_formatted;
+  GtkRadioMenuItem *view_usfm_code;
+  GtkRadioMenuItem *view_experimental; // experimental no-paragraph divided editor
   GtkWidget *view_planning;
   GtkWidget *image26812;
   GtkWidget *view_references;
@@ -660,8 +665,15 @@ protected:
   static void on_editor_reload_clicked(GtkButton *button, gpointer user_data);
   static void on_editor_changed_clicked(GtkButton *button, gpointer user_data);
   void on_editor_changed();
-  static void on_view_usfm_code_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_usfm_code();
+  static void on_view_formatted_toggled(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_view_usfm_code_toggled(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_view_experimental_toggled(GtkMenuItem *menuitem, gpointer user_data);
+  void on_view_formatted_togg();
+  void on_view_usfm_code_togg();
+  void on_view_experimental_togg();
+  static void on_view_chapteras_activate(GtkRadioMenuItem * menuitem, gpointer user_data);
+  void debug_view(ustring txt, GtkRadioMenuItem *menuitem, viewType vt);
+  void on_view_chapteras(GtkRadioMenuItem *menuitem);
   void reload_all_editors(bool take_chapter_from_focused_editor);
 
   /* Merge */

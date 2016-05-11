@@ -91,12 +91,12 @@ void Mapping::me_to_original(Reference & reference)
 {
   vector < int >remapped_chapters;
   vector < int >remapped_verses;
-  me_to_original(reference.chapter, reference.verse, remapped_chapters, remapped_verses);
-  reference.chapter = remapped_chapters[0];
-  reference.verse = convert_to_string(remapped_verses[0]);
+  me_to_original(reference.chapter_get(), reference.verse_get(), remapped_chapters, remapped_verses);
+  reference.chapter_set(remapped_chapters[0]);
+  reference.verse_set(convert_to_string(remapped_verses[0]));
   if (remapped_verses.size() > 1) {
-    reference.verse.append("-");
-    reference.verse.append(convert_to_string(remapped_verses[remapped_verses.size() - 1]));
+    reference.verse_append("-");
+    reference.verse_append(convert_to_string(remapped_verses[remapped_verses.size() - 1]));
   }
 }
 
@@ -145,12 +145,12 @@ void Mapping::original_to_me(Reference & reference)
 {
   vector < int >remapped_chapters;
   vector < int >remapped_verses;
-  original_to_me(reference.chapter, reference.verse, remapped_chapters, remapped_verses);
-  reference.chapter = remapped_chapters[0];
-  reference.verse = convert_to_string(remapped_verses[0]);
+  original_to_me(reference.chapter_get(), reference.verse_get(), remapped_chapters, remapped_verses);
+  reference.chapter_set(remapped_chapters[0]);
+  reference.verse_set(convert_to_string(remapped_verses[0]));
   if (remapped_verses.size() > 1) {
-    reference.verse.append("-");
-    reference.verse.append(convert_to_string(remapped_verses[remapped_verses.size() - 1]));
+    reference.verse_append("-");
+    reference.verse_append(convert_to_string(remapped_verses[remapped_verses.size() - 1]));
   }
 }
 

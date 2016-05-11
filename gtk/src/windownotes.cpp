@@ -312,9 +312,10 @@ void WindowNotes::notes_fill_edit_screen (int id, bool newnote)
     // Read the reference(s) and show them.
     Parse parse(references, false);
     for (unsigned int i = 0; i < parse.words.size(); i++) {
-      Reference reference(0);
-      reference_discover(0, 0, "", parse.words[i], reference.book, reference.chapter, reference.verse);
-      ustring ref = reference.human_readable(language);
+      Reference newRef(0);
+      Reference oldRef(0);
+      reference_discover(oldRef, parse.words[i], newRef);
+      ustring ref = newRef.human_readable(language);
       gtk_text_buffer_insert_at_cursor(note_editor->textbuffer_references, ref.c_str(), -1);
       gtk_text_buffer_insert_at_cursor(note_editor->textbuffer_references, "\n", -1);
     }
@@ -577,8 +578,8 @@ void WindowNotes::on_notes_button_ok()
     notes_get_references_from_editor (note_editor->textbuffer_references, references, messages);
     // Store the references in OSIS format too.
     for (unsigned int i = 0; i < references.size(); i++) {
-      ustring osis_book = books_id_to_osis(references[i].book);
-      ustring osis_reference = osis_book + "." + convert_to_string(references[i].chapter) + "." + references[i].verse;
+      ustring osis_book = books_id_to_osis(references[i].book_get());
+      ustring osis_reference = osis_book + "." + convert_to_string(references[i].chapter_get()) + "." + references[i].verse_get();
       if (!osis_references.empty())
         osis_references.append(" ");
       osis_references.append(osis_reference);
@@ -727,9 +728,10 @@ void WindowNotes::get_references_from_id(gint id)
   // Read the reference(s).
   Parse parse(references, false);
   for (unsigned int i = 0; i < parse.words.size(); i++) {
-    Reference ref(0);
-    reference_discover(0, 0, "", parse.words[i], ref.book, ref.chapter, ref.verse);
-    available_references.push_back(ref);
+    Reference newRef(0);
+    Reference oldRef(0);
+    reference_discover(oldRef, parse.words[i], newRef);
+    available_references.push_back(newRef);
   }
   // Fire a signal indicating that references are available
   gtk_button_clicked(GTK_BUTTON(references_available_signal_button));

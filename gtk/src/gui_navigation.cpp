@@ -261,29 +261,28 @@ void GuiNavigation::clampref(Reference & reference)
     return;
 
   // Clamp the book.
-  if (!project_book_exists(project, reference.book)) {
+  if (!project_book_exists(project, reference.book_get())) {
     vector < unsigned int >books = project_get_books(project);
     if (books.empty()) {
-      reference.book = 0;
+      reference.book_set(0);
     } else {
-      reference.book = clamp(reference.book, books[0], books[books.size() - 1]);
+      reference.book_set(clamp(reference.book_get(), books[0], books[books.size() - 1]));
     }
   }
   // Clamp the chapter.
-  vector < unsigned int >chapters = project_get_chapters(project, reference.book);
+  vector < unsigned int >chapters = project_get_chapters(project, reference.book_get());
   set < unsigned int >chapterset(chapters.begin(), chapters.end());
-  if (chapterset.find(reference.chapter) == chapterset.end()) {
-    reference.chapter = 0;
-    if (!chapters.empty())
-      reference.chapter = chapters[0];
+  if (chapterset.find(reference.chapter_get()) == chapterset.end()) {
+    reference.chapter_set(0);
+    if (!chapters.empty()) { reference.chapter_set(chapters[0]); }
   }
   // Clamp the verse.
-  vector < ustring > verses = project_get_verses(project, reference.book, reference.chapter);
+  vector < ustring > verses = project_get_verses(project, reference.book_get(), reference.chapter_get());
   set < ustring > verseset(verses.begin(), verses.end());
-  if (verseset.find(reference.verse) == verseset.end()) {
-    reference.verse = "0";
+  if (verseset.find(reference.verse_get()) == verseset.end()) {
+    reference.verse_set("0");
     if (!verses.empty())
-      reference.verse = verses[0];
+      reference.verse_set(verses[0]);
   }
 }
 
@@ -293,7 +292,7 @@ void GuiNavigation::display (const Reference & ref)
 {
   // Check whether the book is known to Bibledit. If not, bail out.
   {
-    ustring bookname = books_id_to_english(ref.book);
+    ustring bookname = books_id_to_english(ref.book_get());
     if (bookname.empty())
       return;
   }
@@ -305,11 +304,11 @@ void GuiNavigation::display (const Reference & ref)
 
   // Find out if there is a change in book, chapter, verse.
   unsigned int currentbook = books_name_to_id(language, combobox_get_active_string(combo_book));
-  bool newbook = (ref.book != currentbook);
+  bool newbook = (ref.book_get() != currentbook);
   unsigned int currentchapter = convert_to_int(combobox_get_active_string(combo_chapter));
-  bool newchapter = (ref.chapter != currentchapter);
+  bool newchapter = (ref.chapter_get() != currentchapter);
   ustring currentverse = combobox_get_active_string(combo_verse);
-  bool newverse = (ref.verse != currentverse);
+  bool newverse = (ref.verse_get() != currentverse);
 
   // If a new book, then there is also a new chapter, and so on.
   if (newbook)
@@ -323,17 +322,17 @@ void GuiNavigation::display (const Reference & ref)
 
   // Handle new book.
   if (newbook) {
-    set_book(ref.book);
-    load_chapters(ref.book);
+    set_book(ref.book_get());
+    load_chapters(ref.book_get());
   }
   // Handle new chapter.
   if (newchapter) {
-    set_chapter(ref.chapter);
-    load_verses(ref.book, ref.chapter);
+    set_chapter(ref.chapter_get());
+    load_verses(ref.book_get(), ref.chapter_get());
   }
   // Handle new verse.
   if (newverse) {
-    set_verse(ref.verse);
+    set_verse(ref.verse_get());
     // Give signal.
     reference = ref;
     signal();
@@ -355,32 +354,31 @@ void GuiNavigation::nextbook()
   if (index == (strings.size() - 1)) {
     return;
   }
-  reference.book = books_name_to_id(language, strings[++index]);
+  reference.book_set(books_name_to_id(language, strings[++index]));
   // Consult database for most recent verse and chapter.
   if (!references_memory_retrieve (reference, false)) {
-    reference.chapter = 1;
+    reference.chapter_set(1);
     // Try to get to verse one.
-    vector <ustring> verses = project_get_verses(project, reference.book, reference.chapter);
-    if (verses.size() > 1)
-      if (verses[0] == "0")
-        reference.verse = verses[1];
-      else
-        reference.verse = verses[0];
-    else
-      reference.verse = "0";
+    vector <ustring> verses = project_get_verses(project, reference.book_get(), reference.chapter_get());
+    if (verses.size() > 1) {
+      if (verses[0] == "0") { reference.verse_set(verses[1]); }
+      else                  { reference.verse_set(verses[0]); }
+    }
+    else { reference.verse_set("0"); }
   }
   clampref(reference);
-  set_book(reference.book);
-  load_chapters(reference.book);
-  set_chapter(reference.chapter);
-  load_verses(reference.book, reference.chapter);
-  set_verse(reference.verse);
+  set_book(reference.book_get());
+  load_chapters(reference.book_get());
+  set_chapter(reference.chapter_get());
+  load_verses(reference.book_get(), reference.chapter_get());
+  set_verse(reference.verse_get());
   signal();
 }
 
 
 void GuiNavigation::previousbook()
 {
+  // TO DO: Lot of common code with nextbook; combine for maintenance purposes
   vector < ustring > strings = combobox_get_strings(combo_book);
   if (strings.size() == 0)
     return;
@@ -393,92 +391,85 @@ void GuiNavigation::previousbook()
   if (index == 0) {
     return;
   }
-  reference.book = books_name_to_id(language, strings[--index]);
+  reference.book_set(books_name_to_id(language, strings[--index]));
   if (!references_memory_retrieve (reference, false)) {
-    reference.chapter = 1;
+    reference.chapter_set(1);
     // Get the first verse of the chapter which is not "0".
-    vector <ustring> verses = project_get_verses(project, reference.book, reference.chapter);
-    if (verses.size() > 1)
-      if (verses[0] == "0")
-        reference.verse = verses[1];
-      else
-        reference.verse = verses[0];
-    else
-      reference.verse = "0";
+    vector <ustring> verses = project_get_verses(project, reference.book_get(), reference.chapter_get());
+    if (verses.size() > 1) {
+      if (verses[0] == "0") { reference.verse_set(verses[1]); }
+      else                  { reference.verse_set(verses[0]); }
+    }
+    else { reference.verse_set("0"); }
   }
   clampref(reference);
-  set_book(reference.book);
-  load_chapters(reference.book);
-  set_chapter(reference.chapter);
-  load_verses(reference.book, reference.chapter);
-  set_verse(reference.verse);
+  set_book(reference.book_get());
+  load_chapters(reference.book_get());
+  set_chapter(reference.chapter_get());
+  load_verses(reference.book_get(), reference.chapter_get());
+  set_verse(reference.verse_get());
   signal();
 }
 
 
 void GuiNavigation::nextchapter()
 {
-  reference.chapter = convert_to_int(combobox_get_active_string(combo_chapter));
+  reference.chapter_set(convert_to_int(combobox_get_active_string(combo_chapter)));
   vector <ustring> strings = combobox_get_strings(combo_chapter);
   if (strings.size() == 0)
     return;
   unsigned int index = 0;
   for (unsigned int i = 0; i < strings.size(); i++) {
-    if (reference.chapter == convert_to_int(strings[i]))
+    if (reference.chapter_get() == convert_to_int(strings[i]))
       index = i;
   }
   if (index == (strings.size() - 1)) {
     crossboundarieschapter(true);
     return;
   }
-  reference.chapter = convert_to_int(strings[++index]);
+  reference.chapter_set(convert_to_int(strings[++index]));
   if (!references_memory_retrieve (reference, true)) {
     // Find proper first verse.
-    vector <ustring> verses = project_get_verses(project, reference.book, reference.chapter);
-    if (verses.size() > 1)
-      reference.verse = verses[1];
-    else
-      reference.verse = "0";
+    vector <ustring> verses = project_get_verses(project, reference.book_get(), reference.chapter_get());
+    if (verses.size() > 1) { reference.verse_set(verses[1]); }
+    else                   { reference.verse_set("0"); }
   }
   clampref(reference);
-  load_verses(reference.book, reference.chapter);
-  set_verse(reference.verse);
-  set_chapter(reference.chapter);
+  load_verses(reference.book_get(), reference.chapter_get());
+  set_verse(reference.verse_get());
+  set_chapter(reference.chapter_get());
   signal();
 }
 
 
 void GuiNavigation::previouschapter()
 {
-  reference.chapter = convert_to_int(combobox_get_active_string(combo_chapter));
+  reference.chapter_set(convert_to_int(combobox_get_active_string(combo_chapter)));
   vector <ustring> strings = combobox_get_strings(combo_chapter);
   if (strings.size() == 0)
     return;
   unsigned int index = 0;
   for (unsigned int i = 0; i < strings.size(); i++) {
-    if (reference.chapter == convert_to_int(strings[i]))
+    if (reference.chapter_get() == convert_to_int(strings[i]))
       index = i;
   }
   if (index == 0) {
     crossboundarieschapter(false);
     return;
   }
-  reference.chapter = convert_to_int(strings[--index]);
+  reference.chapter_set(convert_to_int(strings[--index]));
   if (!references_memory_retrieve (reference, true)) {
     // Find proper first verse.
-    vector <ustring> verses = project_get_verses(project, reference.book, reference.chapter);
-    if (verses.size() > 1)
-      reference.verse = verses[1];
-    else
-      reference.verse = "0";
+    vector <ustring> verses = project_get_verses(project, reference.book_get(), reference.chapter_get());
+    if (verses.size() > 1) { reference.verse_set(verses[1]); }
+    else                   { reference.verse_set("0"); }
   }
   clampref(reference);
-  load_verses(reference.book, reference.chapter);
-  set_verse(reference.verse);
-  set_chapter(reference.chapter);
+  load_verses(reference.book_get(), reference.chapter_get());
+  set_verse(reference.verse_get());
+  set_chapter(reference.chapter_get());
   signal();
 }
-
 
 void GuiNavigation::nextverse()
 {
@@ -497,7 +488,7 @@ void GuiNavigation::nextverse()
   }
   verse = strings[++index];
   set_verse(verse);
-  reference.verse = verse;
+  reference.verse_set(verse);
   signal();
 }
 
@@ -519,7 +510,7 @@ void GuiNavigation::previousverse()
   }
   verse = strings[--index];
   set_verse(verse);
-  reference.verse = verse;
+  reference.verse_set(verse);
   signal();
 }
 
@@ -610,16 +601,16 @@ void GuiNavigation::on_combo_book()
 {
   if (settingcombos)
     return;
-  reference.book = books_name_to_id(language, combobox_get_active_string(combo_book));
+  reference.book_set(books_name_to_id(language, combobox_get_active_string(combo_book)));
   if (!references_memory_retrieve (reference, false)) {
-    reference.chapter = 1;
-    reference.verse = "1";
+    reference.chapter_set(1);
+    reference.verse_set("1");
   }
   clampref(reference);
-  load_chapters(reference.book);
-  set_chapter(reference.chapter);
-  load_verses(reference.book, reference.chapter);
-  set_verse(reference.verse);
+  load_chapters(reference.book_get());
+  set_chapter(reference.chapter_get());
+  load_verses(reference.book_get(), reference.chapter_get());
+  set_verse(reference.verse_get());
   signal();
 }
 
@@ -628,22 +619,21 @@ void GuiNavigation::on_combo_chapter()
 {
   if (settingcombos)
     return;
-  reference.chapter = convert_to_int(combobox_get_active_string(combo_chapter));
+  reference.chapter_set(convert_to_int(combobox_get_active_string(combo_chapter)));
   if (!references_memory_retrieve (reference, true)) {
-    reference.verse = "1";
+    reference.verse_set("1");
   }
   clampref(reference);
-  load_verses(reference.book, reference.chapter);
-  set_verse(reference.verse);
+  load_verses(reference.book_get(), reference.chapter_get());
+  set_verse(reference.verse_get());
   signal();
 }
 
 
 void GuiNavigation::on_combo_verse()
 {
-  if (settingcombos)
-    return;
-  reference.verse = combobox_get_active_string(combo_verse);
+  if (settingcombos) { return; }
+  reference.verse_set(combobox_get_active_string(combo_verse));
   signal();
 }
 
@@ -702,18 +692,18 @@ void GuiNavigation::on_spinbutton_verse()
 bool GuiNavigation::reference_exists(Reference & reference)
 // Returns true if the reference exists.
 {
-  bool exists = project_book_exists(project, reference.book);
+  bool exists = project_book_exists(project, reference.book_get());
   if (exists) {
-    vector < unsigned int >chapters = project_get_chapters(project, reference.book);
+    vector < unsigned int >chapters = project_get_chapters(project, reference.book_get());
     set < unsigned int >chapterset(chapters.begin(), chapters.end());
-    if (chapterset.find(reference.chapter) == chapterset.end()) {
+    if (chapterset.find(reference.chapter_get()) == chapterset.end()) {
       exists = false;
     }
   }
   if (exists) {
-    vector < ustring > verses = project_get_verses(project, reference.book, reference.chapter);
+    vector < ustring > verses = project_get_verses(project, reference.book_get(), reference.chapter_get());
     set < ustring > verseset(verses.begin(), verses.end());
-    if (verseset.find(reference.verse) == verseset.end()) {
+    if (verseset.find(reference.verse_get()) == verseset.end()) {
       exists = false;
     }
   }
@@ -863,7 +853,7 @@ void GuiNavigation::crossboundariesverse(bool forward)
   int bookindex = -1;
   vector < unsigned int >allbooks = project_get_books(project);
   for (unsigned int i = 0; i < allbooks.size(); i++) {
-    if (reference.book == allbooks[i])
+    if (reference.book_get() == allbooks[i])
       bookindex = i;
   }
   // If the requested book does not exist, bail out.
@@ -892,12 +882,12 @@ void GuiNavigation::crossboundariesverse(bool forward)
     }
   }
   // Find the current reference in the list.
-  ustring verse = reference.verse;
+  ustring verse = reference.verse_get();
   unsigned int referenceindex = 0;
   for (unsigned int i = 0; i < books.size(); i++) {
     if (verse == verses[i]) {
-      if (reference.chapter == chapters[i]) {
-        if (reference.book == books[i]) {
+      if (reference.chapter_get() == chapters[i]) {
+        if (reference.book_get() == books[i]) {
           referenceindex = i;
           break;
         }
@@ -915,15 +905,16 @@ void GuiNavigation::crossboundariesverse(bool forward)
     referenceindex--;
   }
   // Ok, give us the new values.
-  reference.book = books[referenceindex];
-  reference.chapter = chapters[referenceindex];
-  reference.verse = verses[referenceindex];
+  reference.book_set(books[referenceindex]);
+  reference.chapter_set(chapters[referenceindex]);
+  reference.verse_set(verses[referenceindex]);
   // Set the values in the comboboxes, and signal a change.
-  set_book(reference.book);
-  load_chapters(reference.book);
-  set_chapter(reference.chapter);
-  load_verses(reference.book, reference.chapter);
-  set_verse(reference.verse);
+  // TO DO: This sequence of code occurs several times; abstract it out
+  set_book(reference.book_get());
+  load_chapters(reference.book_get());
+  set_chapter(reference.chapter_get());
+  load_verses(reference.book_get(), reference.chapter_get());
+  set_verse(reference.verse_get());
   signal();
 }
 
@@ -934,7 +925,7 @@ void GuiNavigation::crossboundarieschapter(bool forward)
   int bookindex = -1;
   vector < unsigned int >allbooks = project_get_books(project);
   for (unsigned int i = 0; i < allbooks.size(); i++) {
-    if (reference.book == allbooks[i])
+    if (reference.book_get() == allbooks[i])
       bookindex = i;
   }
   // If the requested book does not exist, bail out.
@@ -967,8 +958,8 @@ void GuiNavigation::crossboundarieschapter(bool forward)
   // Find the current reference in the list.
   unsigned int referenceindex = 0;
   for (unsigned int i = 0; i < books.size(); i++) {
-    if (reference.chapter == chapters[i]) {
-      if (reference.book == books[i]) {
+    if (reference.chapter_get() == chapters[i]) {
+      if (reference.book_get() == books[i]) {
         referenceindex = i;
         break;
       }
@@ -985,19 +976,19 @@ void GuiNavigation::crossboundarieschapter(bool forward)
     referenceindex--;
   }
   // Ok, give us the new values.
-  reference.book = books[referenceindex];
-  reference.chapter = chapters[referenceindex];
+  reference.book_set(books[referenceindex]);
+  reference.chapter_set(chapters[referenceindex]);
   if (forward) {
-    reference.verse = first_verses[referenceindex];
+    reference.verse_set(first_verses[referenceindex]);
   } else {
-    reference.verse = first_verses[referenceindex];
+    reference.verse_set(first_verses[referenceindex]);
   }
   // Set the values in the comboboxes, and signal a change.
-  set_book(reference.book);
-  load_chapters(reference.book);
-  set_chapter(reference.chapter);
-  load_verses(reference.book, reference.chapter);
-  set_verse(reference.verse);
+  set_book(reference.book_get());
+  load_chapters(reference.book_get());
+  set_chapter(reference.chapter_get());
+  load_verses(reference.book_get(), reference.chapter_get());
+  set_verse(reference.verse_get());
   signal();
 }
 

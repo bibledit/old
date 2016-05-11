@@ -61,7 +61,8 @@ CheckOTQuotationsInNT::CheckOTQuotationsInNT(const ustring& project, const vecto
       return;
 
     // Skip if the reference book is not to be included.
-    unsigned int reference_book = use_ot_order ? otquotations.quotations_ot_order[i].reference.book : otquotations.quotations_nt_order[i].reference.book;
+    unsigned int reference_book = use_ot_order ? otquotations.quotations_ot_order[i].reference.book_get() : 
+      otquotations.quotations_nt_order[i].reference.book_get();
     if (bookset.find(reference_book) == bookset.end())
       continue;
 
@@ -73,8 +74,8 @@ CheckOTQuotationsInNT::CheckOTQuotationsInNT(const ustring& project, const vecto
       mapping.original_to_me(otquotations.quotations_nt_order[i].reference);
 
     // Reference chapter and verse.
-    unsigned int reference_chapter = use_ot_order ? otquotations.quotations_ot_order[i].reference.chapter : otquotations.quotations_nt_order[i].reference.chapter;
-    ustring reference_verse = use_ot_order ? otquotations.quotations_ot_order[i].reference.verse : otquotations.quotations_nt_order[i].reference.verse;
+    unsigned int reference_chapter = use_ot_order ? otquotations.quotations_ot_order[i].reference.chapter_get() : otquotations.quotations_nt_order[i].reference.chapter_get();
+    ustring reference_verse = use_ot_order ? otquotations.quotations_ot_order[i].reference.verse_get() : otquotations.quotations_nt_order[i].reference.verse_get();
     
     // Store reference, optionally verse text, and comment.
     ustring reference = use_ot_order ? otquotations.quotations_ot_order[i].reference.human_readable (language) : otquotations.quotations_nt_order[i].reference.human_readable(language);
@@ -94,26 +95,24 @@ CheckOTQuotationsInNT::CheckOTQuotationsInNT(const ustring& project, const vecto
     unsigned int i2_limit = use_ot_order ? otquotations.quotations_ot_order[i].referents.size() : otquotations.quotations_nt_order[i].referents.size();
     for (unsigned i2 = 0; i2 < i2_limit; i2++) {
       if (use_ot_order) {
-        mapping.book_change(otquotations.quotations_ot_order[i].referents[i2].book);
+        mapping.book_change(otquotations.quotations_ot_order[i].referents[i2].book_get());
         mapping.original_to_me(otquotations.quotations_ot_order[i].referents[i2]);
       } else {
-        mapping.book_change(otquotations.quotations_nt_order[i].referents[i2].book);
+        mapping.book_change(otquotations.quotations_nt_order[i].referents[i2].book_get());
         mapping.original_to_me(otquotations.quotations_nt_order[i].referents[i2]);
       }
       ustring reference = use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].human_readable(language) : otquotations.quotations_nt_order[i].referents[i2].human_readable(language);
       ustring verse_text;
       if (includetext) {
         verse_text = project_retrieve_verse(project,
-                                            use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].book : otquotations.quotations_nt_order[i].referents[i2].book, 
-                                            use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].chapter : otquotations.quotations_nt_order[i].referents[i2].chapter, 
-                                            use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].verse : otquotations.quotations_nt_order[i].referents[i2].verse);
+                                            use_ot_order ? otquotations.quotations_ot_order[i].referents[i2] : otquotations.quotations_nt_order[i].referents[i2]);
         verse_text = usfm_get_verse_text_only(verse_text);
       }
       refs_store.push_back(reference);
       text_store.push_back(verse_text);
-      Reference ref ((use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].book : otquotations.quotations_nt_order[i].referents[i2].book),
-                     (use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].chapter : otquotations.quotations_nt_order[i].referents[i2].chapter),
-                     (use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].verse : otquotations.quotations_nt_order[i].referents[i2].verse));
+      Reference ref ((use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].book_get() : otquotations.quotations_nt_order[i].referents[i2].book_get()),
+                     (use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].chapter_get() : otquotations.quotations_nt_order[i].referents[i2].chapter_get()),
+                     (use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].verse_get() : otquotations.quotations_nt_order[i].referents[i2].verse_get()));
       references.push_back(ref.human_readable (""));
       comments.push_back(_("Old Testament verse quoted from"));
     }
@@ -174,20 +173,20 @@ CheckParallelPassages::CheckParallelPassages(bool nt, const ustring & project, c
       OtNtParallelDataSet dataset(0);
       for (unsigned int i3 = 0; i3 < otntparallels.sections[i].sets[i2].references.size(); i3++) {
         // Skip if NT book is not to be included.
-        if (bookset.find(otntparallels.sections[i].sets[i2].references[i3].book) == bookset.end())
+        if (bookset.find(otntparallels.sections[i].sets[i2].references[i3].book_get()) == bookset.end())
           continue;
         vector < int >remapped_chapter;
         vector < int >remapped_verse;
-        mapping.book_change(otntparallels.sections[i].sets[i2].references[i3].book);
-        mapping.original_to_me(otntparallels.sections[i].sets[i2].references[i3].chapter, otntparallels.sections[i].sets[i2].references[i3].verse, remapped_chapter, remapped_verse);
-        Reference mapped_reference(otntparallels.sections[i].sets[i2].references[i3].book, remapped_chapter[0], convert_to_string(remapped_verse[0]));
+        mapping.book_change(otntparallels.sections[i].sets[i2].references[i3].book_get());
+        mapping.original_to_me(otntparallels.sections[i].sets[i2].references[i3].chapter_get(), otntparallels.sections[i].sets[i2].references[i3].verse_get(), remapped_chapter, remapped_verse);
+        Reference mapped_reference(otntparallels.sections[i].sets[i2].references[i3].book_get(), remapped_chapter[0], convert_to_string(remapped_verse[0]));
         ustring verse = mapped_reference.human_readable(language);
         if (includetext) {
           verse.append(" ");
-          verse.append(usfm_get_verse_text_only(project_retrieve_verse(project, mapped_reference.book, mapped_reference.chapter, mapped_reference.verse)));
+          verse.append(usfm_get_verse_text_only(project_retrieve_verse(project, mapped_reference.book_get(), mapped_reference.chapter_get(), mapped_reference.verse_get())));
         }
         dataset.data.push_back(verse);
-        references.push_back(books_id_to_english(mapped_reference.book) + " " + convert_to_string(mapped_reference.chapter) + ":" + mapped_reference.verse);
+        references.push_back(books_id_to_english(mapped_reference.book_get()) + " " + convert_to_string(mapped_reference.chapter_get()) + ":" + mapped_reference.verse_get());
         comments.push_back(_("Parallel"));
       }
 
@@ -205,20 +204,20 @@ CheckParallelPassages::CheckParallelPassages(bool nt, const ustring & project, c
 
     	  for (unsigned int i3 = 0; i3 < otntparallels.sections[i].sets[i2].references.size(); i3++) {
     		  // Skip if NT book is not to be included.
-    		  if (bookset.find(otntparallels.sections[i].sets[i2].references[i3].book) == bookset.end())
+	    if (bookset.find(otntparallels.sections[i].sets[i2].references[i3].book_get()) == bookset.end())
     			  continue;
     		  vector < int >remapped_chapter;
     		  vector < int >remapped_verse;
-    		  mapping2.book_change(otntparallels.sections[i].sets[i2].references[i3].book);
-    		  mapping2.original_to_me(otntparallels.sections[i].sets[i2].references[i3].chapter, otntparallels.sections[i].sets[i2].references[i3].verse, remapped_chapter, remapped_verse);
-    		  Reference mapped_reference(otntparallels.sections[i].sets[i2].references[i3].book, remapped_chapter[0], convert_to_string(remapped_verse[0]));
+    		  mapping2.book_change(otntparallels.sections[i].sets[i2].references[i3].book_get());
+    		  mapping2.original_to_me(otntparallels.sections[i].sets[i2].references[i3].chapter_get(), otntparallels.sections[i].sets[i2].references[i3].verse_get(), remapped_chapter, remapped_verse);
+    		  Reference mapped_reference(otntparallels.sections[i].sets[i2].references[i3].book_get(), remapped_chapter[0], convert_to_string(remapped_verse[0]));
     		  ustring verse = mapped_reference.human_readable(language);
     		  if (includetext) {
     			  verse.append(" ");
-    			  verse.append(usfm_get_verse_text_only(project_retrieve_verse(project2, mapped_reference.book, mapped_reference.chapter, mapped_reference.verse)));
+    			  verse.append(usfm_get_verse_text_only(project_retrieve_verse(project2, mapped_reference.book_get(), mapped_reference.chapter_get(), mapped_reference.verse_get())));
     		  }
     		  dataset2.data.push_back(verse);
-    		  references.push_back(books_id_to_english(mapped_reference.book) + " " + convert_to_string(mapped_reference.chapter) + ":" + mapped_reference.verse);
+    		  references.push_back(books_id_to_english(mapped_reference.book_get()) + " " + convert_to_string(mapped_reference.chapter_get()) + ":" + mapped_reference.verse_get());
     		  comments.push_back(_("Parallel"));
     	  }
       	  datasection.sets.push_back(dataset2);
@@ -231,6 +230,6 @@ CheckParallelPassages::CheckParallelPassages(bool nt, const ustring & project, c
 
 CheckParallelPassages::~CheckParallelPassages()
 {
-  if (progresswindow)
-    delete progresswindow;
+  if (progresswindow) { delete progresswindow; }
+  progresswindow = NULL;
 }

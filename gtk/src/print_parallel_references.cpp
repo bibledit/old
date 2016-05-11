@@ -164,8 +164,8 @@ void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring
     // Map this verse to the original, that is, to Hebrew or Greek.
     vector <int> hebrew_greek_chapters;
     vector <int> hebrew_greek_verses;
-    mapping.book_change(references[rf].book);
-    mapping.me_to_original(references[rf].chapter, references[rf].verse, hebrew_greek_chapters, hebrew_greek_verses);
+    mapping.book_change(references[rf].book_get());
+    mapping.me_to_original(references[rf].chapter_get(), references[rf].verse_get(), hebrew_greek_chapters, hebrew_greek_verses);
     // Get verse text for each version.
     for (unsigned int vsn = 0; vsn <= project_names.size(); vsn++) {
 
@@ -186,11 +186,11 @@ void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring
       ustring line;
       if (vsn == 0) {
         // First version.
-        ProjectBook *projectbook = main_project.get_book_pointer(references[rf].book);
+        ProjectBook *projectbook = main_project.get_book_pointer(references[rf].book_get());
         if (projectbook) {
-          ProjectChapter *projectchapter = projectbook->get_chapter_pointer(references[rf].chapter);
+          ProjectChapter *projectchapter = projectbook->get_chapter_pointer(references[rf].chapter_get());
           if (projectchapter) {
-            ProjectVerse *projectverse = projectchapter->get_verse_pointer(references[rf].verse);
+            ProjectVerse *projectverse = projectchapter->get_verse_pointer(references[rf].verse_get());
             if (projectverse) {
               line = projectverse->data;
             }
@@ -202,12 +202,12 @@ void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring
         line.clear();
         vector <int> mychapters;
         vector <int> myverses;
-        mapping_s[vsn - 1].book_change(references[rf].book);
+        mapping_s[vsn - 1].book_change(references[rf].book_get());
         mapping_s[vsn - 1].original_to_me(hebrew_greek_chapters, hebrew_greek_verses, mychapters, myverses);
         // Get text of any of the mapped verses.
         for (unsigned int mp = 0; mp < mychapters.size(); mp++) {
           // Get the verse and add it to the usfm code.
-          ProjectBook *projectbook = project_memories[vsn - 1].get_book_pointer(references[rf].book);
+          ProjectBook *projectbook = project_memories[vsn - 1].get_book_pointer(references[rf].book_get());
           if (projectbook) {
             ProjectChapter *projectchapter = projectbook->get_chapter_pointer(mychapters[mp]);
             if (projectchapter) {

@@ -45,7 +45,7 @@ RevertDialog::RevertDialog(Reference * reference)
   project = settings->genconfig.project_get();
   ProjectConfiguration *projectconfig = settings->projectconfig(project);
   language = projectconfig->language_get();
-  reference_chapter = reference->chapter;
+  reference_chapter = reference->chapter_get();
   revisionloaded = false;
   branch = 0;
 
@@ -208,7 +208,7 @@ RevertDialog::RevertDialog(Reference * reference)
     localbooks.push_back(books_id_to_name(language, books[i]));
   }
   combobox_set_strings(comboboxbook, localbooks);
-  combobox_set_string(comboboxbook, books_id_to_name(language, reference->book));
+  combobox_set_string(comboboxbook, books_id_to_name(language, reference->book_get()));
   
   // By default view changes.
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_changes), true);

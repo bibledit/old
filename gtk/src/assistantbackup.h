@@ -79,7 +79,7 @@ private:
   GtkWidget *label_confirm;
   GtkWidget *label_progress;
   GtkWidget *label_summary;
-  unsigned int summary_page_number;
+  int summary_page_number;
   static void on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data);
   void on_assistant_apply ();
   static gint assistant_forward_function (gint current_page, gpointer user_data);

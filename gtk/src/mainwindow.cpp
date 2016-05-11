@@ -127,6 +127,7 @@
 #include "dialogxetex.h"
 #include "vcs.h"
 #include <glib/gi18n.h>
+#include "chapterview.h"
 #include "debug.h"
 
 /*
@@ -893,9 +894,38 @@ navigation(0), httpd(0)
 
   }
 
-  view_usfm_code = gtk_check_menu_item_new_with_mnemonic (_("_USFM code"));
-  gtk_widget_show(view_usfm_code);
-  gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_usfm_code);
+  //-----------------------------------------------------------------------------
+  // View | Chapter as =>  _Formatted, _USFM code, or _Experimental
+  view_chapter_item = gtk_menu_item_new_with_mnemonic(_("Chapter as"));
+  gtk_widget_show(view_chapter_item);
+  gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_chapter_item);
+
+  view_chapter_submenu = gtk_menu_new();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(view_chapter_item), view_chapter_submenu);
+  // was gtk_check_menu...
+  chapterViewGroup = NULL;
+  view_formatted = (GtkRadioMenuItem*)gtk_radio_menu_item_new_with_mnemonic (chapterViewGroup, _("_Formatted"));
+  //gtk3 gtk_radio_menu_item_join_group(view_formatted, NULL);
+  chapterViewGroup = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (view_formatted));
+  DEBUG("1-group="+std::to_string((int)chapterViewGroup))
+  gtk_widget_show((GtkWidget*)view_formatted);
+  gtk_container_add(GTK_CONTAINER(view_chapter_submenu), (GtkWidget*)view_formatted);
+  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_formatted), TRUE); // default
+
+  view_usfm_code = (GtkRadioMenuItem*)gtk_radio_menu_item_new_with_mnemonic (chapterViewGroup, _("_USFM code"));
+  //gtk3 gtk_radio_menu_item_join_group(view_usfm_code, view_formatted);
+  chapterViewGroup = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (view_usfm_code));
+  DEBUG("2-group="+std::to_string((int)chapterViewGroup))
+  gtk_widget_show((GtkWidget*)view_usfm_code);
+  gtk_container_add(GTK_CONTAINER(view_chapter_submenu), (GtkWidget*)view_usfm_code);
+
+  view_experimental = (GtkRadioMenuItem*)gtk_radio_menu_item_new_with_mnemonic (chapterViewGroup, _("_Experimental"));
+  //gtk3 gtk_radio_menu_item_join_group(view_experimental, view_usfm_code);
+  chapterViewGroup = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (view_experimental));
+  DEBUG("3-group="+std::to_string((int)chapterViewGroup))
+  gtk_widget_show((GtkWidget*)view_experimental);
+  gtk_container_add(GTK_CONTAINER(view_chapter_submenu), (GtkWidget*)view_experimental);
+  //-----------------------------------------------------------------------------
 
   view_planning = gtk_image_menu_item_new_with_mnemonic(_("Pl_anning"));
   gtk_widget_show(view_planning);
@@ -1609,8 +1639,19 @@ navigation(0), httpd(0)
     g_signal_connect((gpointer) view_text_font, "activate", G_CALLBACK(on_view_text_font_activate), gpointer(this));
   if (viewnotes)
     g_signal_connect((gpointer) viewnotes, "activate", G_CALLBACK(on_viewnotes_activate), gpointer(this));
-  if (view_usfm_code)
-    g_signal_connect((gpointer) view_usfm_code, "activate", G_CALLBACK(on_view_usfm_code_activate), gpointer(this));
+  if (view_formatted) {
+    g_signal_connect((gpointer) view_formatted, "activate", G_CALLBACK(on_view_chapteras_activate), gpointer(this));
+    g_signal_connect((gpointer) view_formatted, "toggled", G_CALLBACK(on_view_formatted_toggled), gpointer(this));
+  }
+  if (view_usfm_code) {
+    g_signal_connect((gpointer) view_usfm_code, "activate", G_CALLBACK(on_view_chapteras_activate), gpointer(this));
+    g_signal_connect((gpointer) view_usfm_code, "toggled", G_CALLBACK(on_view_usfm_code_toggled), gpointer(this));
+  }
+  if (view_experimental) {
+    g_signal_connect((gpointer) view_experimental, "activate", G_CALLBACK(on_view_chapteras_activate), gpointer(this));
+    g_signal_connect((gpointer) view_experimental, "toggled", G_CALLBACK(on_view_experimental_toggled), gpointer(this));
+  }
+
   if (view_planning)
     g_signal_connect((gpointer) view_planning, "activate", G_CALLBACK(on_view_planning_activate), gpointer(this));
   if (view_related_verses)
@@ -2303,9 +2344,9 @@ void MainWindow::on_navigation_new_reference()
 // This function is called when the navigation object goes to another reference.
 {
   // Store the new reference in the configuration.
-  settings->genconfig.book_set(navigation.reference.book);
-  settings->genconfig.chapter_set(convert_to_string(navigation.reference.chapter));
-  settings->genconfig.verse_set(navigation.reference.verse);
+  settings->genconfig.book_set(navigation.reference.book_get());
+  settings->genconfig.chapter_set(convert_to_string(navigation.reference.chapter_get()));
+  settings->genconfig.verse_set(navigation.reference.verse_get());
 
   // Let the editor(s) show the reference.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
@@ -2328,7 +2369,9 @@ void MainWindow::on_navigation_new_reference()
 
   // Create a reference for the related windows.
   // These may not take verses like 10a or 10-12, but only numbers like 10 or 12.
-  Reference goto_reference(navigation.reference.book, navigation.reference.chapter, number_in_string(navigation.reference.verse));
+  Reference goto_reference(navigation.reference.book_get(),
+			   navigation.reference.chapter_get(),
+			   number_in_string(navigation.reference.verse_get()));
 
   // Send it to the outline window.  
   if (window_outline) {
@@ -2388,16 +2431,18 @@ void MainWindow::goto_reference_interactive()
   bool go_forward = false;
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
-    GotoReferenceDialog dialog(editor_window->current_reference().book, editor_window->current_reference().chapter, editor_window->current_reference().verse);
+    GotoReferenceDialog dialog(editor_window->current_reference().book_get(),
+			       editor_window->current_reference().chapter_get(),
+			       editor_window->current_reference().verse_get());
     if (dialog.run() == GTK_RESPONSE_OK) {
       if (dialog.newreference) {
         // If the dialog closes, then another window will receive focus again.
         // This focusing causes the navigation to take the values as they are in the configuration.
         // This would frustrate the desire of the user to go somewhere else.
         // To fix the problem, the settings are updated here.
-        settings->genconfig.book_set(dialog.reference.book);
-        settings->genconfig.chapter_set(convert_to_string(dialog.reference.chapter));
-        settings->genconfig.verse_set(dialog.reference.verse);
+        settings->genconfig.book_set(dialog.reference.book_get());
+        settings->genconfig.chapter_set(convert_to_string(dialog.reference.chapter_get()));
+        settings->genconfig.verse_set(dialog.reference.verse_get());
         navigation.display(dialog.reference);
       }
       go_back = dialog.go_back;
@@ -2424,7 +2469,9 @@ void MainWindow::on_editor_another_verse()
 {
   WindowEditor *last_focused_editor = last_focused_editor_window();
   if (last_focused_editor) {
-    Reference reference(navigation.reference.book, navigation.reference.chapter, last_focused_editor->current_verse_number());
+    Reference reference(navigation.reference.book_get(),
+			navigation.reference.chapter_get(),
+			last_focused_editor->current_verse_number());
     navigation.display(reference);
   }
 }
@@ -2652,7 +2699,7 @@ void MainWindow::on_view_references ()
 
 void MainWindow::show_references_window()
 {
-  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_references), true);
+  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_references), TRUE);
   window_references->focus_set ();
 }
 
@@ -2668,7 +2715,7 @@ void MainWindow::on_window_references_delete_button()
   if (window_references) {
     delete window_references;
     window_references = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_references), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_references), FALSE);
   }
 }
 
@@ -2814,11 +2861,11 @@ void MainWindow::on_preferences_windows_outpost()
 void MainWindow::on_tool_send_reference ()
 {
   // Send the focus to Bibledit-Web.
-  ustring payload = convert_to_string (navigation.reference.book);
+  ustring payload = convert_to_string (navigation.reference.book_get());
   payload.append (".");
-  payload.append (convert_to_string (navigation.reference.chapter));
+  payload.append (convert_to_string (navigation.reference.chapter_get()));
   payload.append (".");
-  payload.append (navigation.reference.verse);
+  payload.append (navigation.reference.verse_get());
   ustring url = settings->genconfig.bibledit_web_url_get();
   ustring user = settings->genconfig.bibledit_web_user_get();
   url.append ("/ipc/setmessage.php?user=" + user + "&subject=focus&message=");
@@ -3929,7 +3976,7 @@ void MainWindow::on_insert_special_character()
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   settings->session.special_character_selection = dialog.selection;
-  editor_window->text_insert(characters[dialog.selection]);
+  editor_window->insert_text(characters[dialog.selection]);
 }
 
 
@@ -3986,7 +4033,7 @@ void MainWindow::on_window_check_keyterms_delete_button()
   if (window_check_keyterms) {
     delete window_check_keyterms;
     window_check_keyterms = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), FALSE);
   }
 }
 
@@ -4002,7 +4049,9 @@ void MainWindow::keyterms_check_action()
 {
   if (window_check_keyterms->new_reference_showing) {
     // Go to another reference.
-    Reference reference(window_check_keyterms->new_reference_showing->book, window_check_keyterms->new_reference_showing->chapter, window_check_keyterms->new_reference_showing->verse);
+    Reference reference(window_check_keyterms->new_reference_showing->book_get(),
+			window_check_keyterms->new_reference_showing->chapter_get(),
+			window_check_keyterms->new_reference_showing->verse_get());
     navigation.display(reference);
   } else {
     // Transfer references to the references window.
@@ -4042,7 +4091,7 @@ void MainWindow::on_window_show_related_verses_delete_button()
   if (window_show_related_verses) {
     delete window_show_related_verses;
     window_show_related_verses = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_related_verses), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_related_verses), FALSE);
   }
 }
 
@@ -4062,7 +4111,7 @@ void MainWindow::on_window_show_related_verses_item_button()
     }
     case ritKeytermId:
     {
-      gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), true);
+      gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), TRUE);
       window_check_keyterms->go_to_term (convert_to_int (window_show_related_verses->item_id));
       break;
     }
@@ -4402,7 +4451,7 @@ void MainWindow::on_window_outline_delete_button()
   if (window_outline) {
     delete window_outline;
     window_outline = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_outline), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_outline), FALSE);
   }
 }
 
@@ -4417,8 +4466,8 @@ void MainWindow::on_button_outline()
 {
   if (window_outline) {
     Reference reference(navigation.reference);
-    reference.chapter = window_outline->outline->newchapter;
-    reference.verse = convert_to_string(window_outline->outline->newverse);
+    reference.chapter_set(window_outline->outline->newchapter);
+    reference.verse_set(convert_to_string(window_outline->outline->newverse));
     navigation.display(reference);
   }
 }
@@ -4445,7 +4494,7 @@ void MainWindow::on_edit_planning_activate(GtkMenuItem * menuitem, gpointer user
 
 void MainWindow::on_edit_planning()
 {
-  PlanningEditDialog dialog (navigation.reference.book, navigation.reference.chapter);
+  PlanningEditDialog dialog (navigation.reference.book_get(), navigation.reference.chapter_get());
   dialog.run ();
 }
 
@@ -4736,17 +4785,53 @@ void MainWindow::on_editor_reload_clicked(GtkButton * button, gpointer user_data
   ((MainWindow *) user_data)->reload_all_editors(true);
 }
 
+void MainWindow::debug_view(ustring txt, GtkRadioMenuItem *menuitem, viewType vt)
+{
+  ustring menu = "none";
+  if (menuitem == (GtkRadioMenuItem*)view_formatted) { menu = "formatted"; }
+  else if (menuitem == (GtkRadioMenuItem*)view_usfm_code) { menu = "view_usfm_code"; }
+  else if (menuitem == (GtkRadioMenuItem*)view_experimental) { menu = "experimental"; }
+  DEBUG(txt+":menuitem="+menu);
+  bool formatted = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_formatted));
+  bool usfm = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_usfm_code));
+  bool experi = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_experimental));
+  DEBUG("  formatted\t= "+std::to_string(formatted));
+  DEBUG("  usfm\t\t= "+std::to_string(usfm));
+  DEBUG("  experimental\t= "+std::to_string(experi));
+  switch (vt) {
+  case vtNone:
+    break;
+  case vtFormatted:
+    if (!formatted) { DEBUG("vtFormatted but view_formatted not active!!") }
+    break;
+  case vtUSFM:
+    if (!usfm) { DEBUG("vtUSFM but view_usfm_code not active!!") }
+    break;
+  case vtExperimental:
+    if (!experi) { DEBUG("vtExperimental but view_experimental not active!!") }
+    break;
+  }
+}
+
 void MainWindow::handle_editor_focus()
 {
   // Get the focused editor and the project.
   WindowEditor *editor_window = last_focused_editor_window();
+
   ustring project;
-  if (editor_window)
+  if (editor_window) {
     project = editor_window->project();
+  }
 
   // Bail out if there's no change in focused project.
-  if (project == previously_focused_project_name)
+  // In other words, if this routine is called because the user
+  // clicked another project window, then keep on going. If it
+  // is called because the view was changed on the same project,
+  // then let the caller handle the change in state of the
+  // radio buttons.
+  if (project == previously_focused_project_name) {
     return;
+  }
   previously_focused_project_name = project;
 
   // Set the focused project in the configuration.
@@ -4764,14 +4849,39 @@ void MainWindow::handle_editor_focus()
     }
     window_merge->set_open_projects(open_projects);
   }
-  
-  // Set the toggle item for the USFM view. It depends on the focused text editor.
-  bool viewing_usfm = false;
+
+  // Set the state for the radio-button menu group depending on what
+  // view the current focused editor is in (formatted, usfm, etc.)
+  viewType vt = vtNone;
   if (editor_window) {
-    viewing_usfm = editor_window->editing_usfm_code_get();
-  }  
-  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_usfm_code), viewing_usfm);
-  
+    vt = editor_window->vt_get();
+  }
+  // Turn on one checkmark (and because they are 'grouped', the others
+  // in the View|Chapter as| submenu will be turned off automagically).
+  // Turn off signal handling for the submenu radio items while we do this...
+  // g_signal_handlers_block_by_func(view_formatted, G_CALLBACK(on_view_chapteras_activate), gpointer(this));
+  // g_signal_handlers_block_by_func(view_usfm_code, G_CALLBACK(on_view_chapteras_activate), gpointer(this));
+  // g_signal_handlers_block_by_func(view_experimental, G_CALLBACK(on_view_chapteras_activate), gpointer(this));
+  switch (vt) {
+  case vtNone: // do nothing
+    break;
+  case vtFormatted:
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_formatted), TRUE);
+    break;
+  case vtUSFM:
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_usfm_code), TRUE);
+    break;
+  case vtExperimental:
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_experimental), TRUE);
+    break;
+  }
+  // Turn signals back on for this submenu
+  // g_signal_handlers_unblock_by_func(view_formatted, G_CALLBACK(on_view_chapteras_activate), gpointer(this));
+  // g_signal_handlers_unblock_by_func(view_usfm_code, G_CALLBACK(on_view_chapteras_activate), gpointer(this));
+  // g_signal_handlers_unblock_by_func(view_experimental, G_CALLBACK(on_view_chapteras_activate), gpointer(this));
+
+  debug_view("4", 0x0, vt);
+
   // Inform the check USFM window about the focused editor.
   check_usfm_window_ping ();
   
@@ -4876,6 +4986,25 @@ void MainWindow::on_editor_changed()
   }
 }
 
+#if 0
+void MainWindow::on_view_formatted_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_formatted();
+}
+
+
+void MainWindow::on_view_formatted()
+{
+  // We interpret a click on the view to be a "turn that view on" signal, not a toggle
+  WindowEditor *editor_window = last_focused_editor_window();
+  if (editor_window) {
+    editor_window->vt_set(vtFormatted);
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_formatted), TRUE);
+  }
+  // There are objects that act on USFM view or formatted view only.
+  // Inform these about a possible change.
+  handle_editor_focus();
+}
 
 void MainWindow::on_view_usfm_code_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
@@ -4887,11 +5016,110 @@ void MainWindow::on_view_usfm_code()
 {
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
-    editor_window->editing_usfm_code_set (gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (view_usfm_code)));
+    editor_window->vt_set(vtUSFM);
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_usfm_code), TRUE);
+  }
+  // There are objects that act on a certain view only.
+  // Inform these about a possible change.
+  handle_editor_focus();
+}
+
+void MainWindow::on_view_experimental_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_experimental();
+}
+
+
+void MainWindow::on_view_experimental()
+{
+  WindowEditor *editor_window = last_focused_editor_window();
+  if (editor_window) {
+    editor_window->vt_set(vtExperimental);
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_experimental), TRUE);
   }
   // There are objects that act on USFM view or formatted view only.
   // Inform these about a possible change.
   handle_editor_focus();
+}
+#endif
+
+void MainWindow::on_view_formatted_toggled(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_formatted_togg();
+}
+
+void MainWindow::on_view_formatted_togg()
+{
+  DEBUG("View|Formatted toggled")
+}
+
+void MainWindow::on_view_usfm_code_toggled(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_usfm_code_togg();
+}
+
+void MainWindow::on_view_usfm_code_togg()
+{
+  DEBUG("View|USFM toggled")
+}
+
+void MainWindow::on_view_experimental_toggled(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_experimental_togg();
+}
+
+void MainWindow::on_view_experimental_togg()
+{
+  DEBUG("View|Experimental toggled")
+}
+
+void MainWindow::on_view_chapteras_activate(GtkRadioMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_chapteras(menuitem);
+}
+
+// Called when a view is toggled
+void MainWindow::on_view_chapteras(GtkRadioMenuItem *menuitem)
+{
+  // TO DO: why is this called twice on the first use of the View|Chapter as| submenu?
+  // Once for the formatted view (already turned on by default) and again for the 
+  // USFM view (the one the user is going to)? Looks like gtk calls the activate 
+  // when the checkmark is turned off on one, and again for the one that the checkmark
+  // is turned on for.
+
+  // Make sure only ONE of the views is on...the menuitem one
+  // bool formattedViewIsOn = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_formatted));
+  // bool usfmViewIsOn = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_usfm_code));
+  // bool experiViewIsOn = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_experimental));
+
+  bool radioButtonIsOn = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem));
+
+  viewType vt = vtNone;
+  if (menuitem == (GtkRadioMenuItem *)view_formatted) {
+    vt = vtFormatted;
+    // if (usfmViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_usfm_code), FALSE); }
+    // if (experiViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_experimental), FALSE); } 
+  }
+  else if (menuitem == (GtkRadioMenuItem *)view_usfm_code) {
+    vt = vtUSFM;
+    // if (formattedViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_formatted), FALSE); }
+    // if (experiViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_experimental), FALSE); } 
+  }
+  else if (menuitem == (GtkRadioMenuItem *)view_experimental) {
+    vt = vtExperimental;
+    // if (usfmViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_usfm_code), FALSE); }
+    // if (formattedViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_formatted), FALSE); }
+  }
+  debug_view("1", menuitem, vt);
+  WindowEditor *editor_window = last_focused_editor_window();
+  if (radioButtonIsOn && editor_window) {
+    editor_window->vt_set(vt);
+    debug_view("2", menuitem, vt);
+    // There are objects that act on USFM view or formatted view only.
+    // Inform these about a possible change.
+    handle_editor_focus();
+    debug_view("3", menuitem, vt);
+  }
 }
 
 void MainWindow::reload_all_editors(bool take_chapter_from_focused_editor)
@@ -4906,9 +5134,9 @@ void MainWindow::reload_all_editors(bool take_chapter_from_focused_editor)
 
   // If needed take the chapter number from the currently focused project.
   if (take_chapter_from_focused_editor) {
-    reference.chapter = editor_window->reload_chapter_number();
+    reference.chapter_set(editor_window->reload_chapter_number());
     if (editor_window->reload_chapter_number() == 0) {
-      reference.verse = "0";
+      reference.verse_set("0");
     }
   }
   
@@ -4920,7 +5148,7 @@ void MainWindow::reload_all_editors(bool take_chapter_from_focused_editor)
 
   // Reload all editors.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    editor_windows[i]->chapter_load(reference.chapter);
+    editor_windows[i]->chapter_load(reference.chapter_get());
   }
   
   // Go to the right reference.
@@ -4977,7 +5205,7 @@ void MainWindow::on_window_merge_delete_button()
   if (window_merge) {
     delete window_merge;
     window_merge = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(file_projects_merge), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(file_projects_merge), FALSE);
   }
 }
 
@@ -4997,8 +5225,8 @@ void MainWindow::on_merge_window_get_text_button()
         window_merge->edited_project_data = editor_windows[i]->get_chapter();
       }
     }
-    window_merge->book = navigation.reference.book;
-    window_merge->chapter = navigation.reference.chapter;
+    window_merge->book = navigation.reference.book_get();
+    window_merge->chapter = navigation.reference.chapter_get();
   }
 }
 
@@ -5613,7 +5841,7 @@ void MainWindow::on_window_check_usfm_delete_button()
   if (window_check_usfm) {
     delete window_check_usfm;
     window_check_usfm = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_usfm), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_usfm), FALSE);
   }
 }
 
@@ -5728,12 +5956,12 @@ bool MainWindow::on_windows_startup()
       switch (id) {
       case widShowRelatedVerses:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_related_verses), true);
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_related_verses), TRUE);
           break;
         }
       case widMerge:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(file_projects_merge), true);
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(file_projects_merge), TRUE);
           break;
         }
       case widResource:
@@ -5743,12 +5971,12 @@ bool MainWindow::on_windows_startup()
         }
       case widOutline:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_outline), true);
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_outline), TRUE);
           break;
         }
       case widCheckKeyterms:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), true);
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), TRUE);
           break;
         }
       case widStyles:
@@ -5782,7 +6010,7 @@ bool MainWindow::on_windows_startup()
         }
       case widCheckUSFM:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_usfm), true);
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_usfm), TRUE);
           break;
         }
       case widSourceLanguages:

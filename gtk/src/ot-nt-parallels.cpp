@@ -147,17 +147,17 @@ void OtNtParallels::read(const gchar * filename)
             char *attribute;
             attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "book");
             if (attribute) {
-              ref.book = books_english_to_id(attribute);
+              ref.book_set(books_english_to_id(attribute));
               free(attribute);
             }
             attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "chapter");
             if (attribute) {
-              ref.chapter = convert_to_int(attribute);
+              ref.chapter_set(convert_to_int(attribute));
               free(attribute);
             }
             attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "verse");
             if (attribute) {
-              ref.verse = attribute;
+              ref.verse_set(attribute);
               free(attribute);
             }
             parallelset.references.push_back(ref);

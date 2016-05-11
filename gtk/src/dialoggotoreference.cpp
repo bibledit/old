@@ -179,16 +179,17 @@ void GotoReferenceDialog::on_jump()
 {
   int page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
   if (page == 0) {
-    if (reference_discover(oldbook, oldchapter, oldverse, gtk_entry_get_text(GTK_ENTRY(entry_free)), reference.book, reference.chapter, reference.verse, true)) {
+    Reference oldRef(oldbook, oldchapter, oldverse);
+    if (reference_discover(oldRef, gtk_entry_get_text(GTK_ENTRY(entry_free)), reference, true)) {
       completion_finish(entry_free, cpGoto);
       newreference = true;
     } else {
       show_bad_reference();
     }
   } else if (page == 1) {
-    reference.book = books_name_to_id(language, listview_get_active_string(treeview_book));
-    reference.chapter = convert_to_int(listview_get_active_string(treeview_chapter));
-    reference.verse = listview_get_active_string(treeview_verse);
+    reference.book_set(books_name_to_id(language, listview_get_active_string(treeview_book)));
+    reference.chapter_set(convert_to_int(listview_get_active_string(treeview_chapter)));
+    reference.verse_set(listview_get_active_string(treeview_verse));
     newreference = true;
   } else {
    go_back = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_back));

@@ -316,10 +316,10 @@ ustring resource_url_get(const ustring& url, const ustring& templatefile)
 ustring resource_url_enter_reference(const ustring& constructor, map <unsigned int, ustring>& books, map <unsigned int, ustring>& books2, const Reference& reference)
 {
   ustring url (constructor);
-  replace_text(url, resource_url_constructor_book(), books[reference.book]);
-  replace_text(url, resource_url_constructor_book2(), books2[reference.book]);
-  replace_text(url, resource_url_constructor_chapter(), convert_to_string(reference.chapter));
-  replace_text(url, resource_url_constructor_verse(), number_in_string(reference.verse));
+  replace_text(url, resource_url_constructor_book(), books[reference.book_get()]);
+  replace_text(url, resource_url_constructor_book2(), books2[reference.book_get()]);
+  replace_text(url, resource_url_constructor_chapter(), convert_to_string(reference.chapter_get()));
+  replace_text(url, resource_url_constructor_verse(), number_in_string(reference.verse_get()));
   return url;
 }
 

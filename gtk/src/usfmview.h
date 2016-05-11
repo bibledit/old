@@ -31,43 +31,64 @@
 #include "editor_aids.h"
 #include <gtksourceview/gtksourceview.h>
 #include "spelling.h"
+#include "chapterview.h"
+#include "gwrappers.h"
 
-
-class USFMView
+class USFMView : public ChapterView // USFMView has to implement the ChapterView interface
 {
+  ustring project;
 public:
   USFMView(GtkWidget * vbox, const ustring& project_in);
   ~USFMView();
+  viewType vt_get() { return vtUSFM; }
   GtkWidget * sourceview;
-  Reference current_reference;
-  ustring project;
-  void book_set(unsigned int book_in);
-  unsigned int book;
+  ustring project_get() { return project; }
   void chapter_load(unsigned int chapter_in);
   void chapter_save();
+ private:
   unsigned int reload_chapter_number;
+ public:
+  unsigned int reload_chapter_num_get() { return reload_chapter_number; }
+  void create_or_update_formatting_data() { gw_warning("Cannot create or update formatting data in usfmview"); }
+  void apply_style(const ustring& marker) { gw_warning("Cannot apply styles in usfmview"); }
   bool can_undo ();
   void undo();
   bool can_redo();
   void redo();
+ private:
   bool editable;
+ public:
+  bool editable_get() { return editable; }
   GtkWidget * reload_signal;
   GtkWidget * changed_signal;
-  void set_font();
-  void position_cursor_at_verse(const ustring& verse);
+  void font_set();
+  void go_to_verse(const ustring& versenum, bool focus=false);
+ private:
   ustring current_verse_number;
+  ustring word_double_clicked_text;
+ public:
+  ustring current_verse_get() { return current_verse_number; }
   GtkWidget * new_verse_signal;
   ustring text_get_selection();
-  void text_insert(ustring text);
+  void insert_text(const ustring &text);
+  void insert_table(const ustring &rawtext) { insert_text(rawtext); }
   GtkWidget * word_double_clicked_signal;
-  ustring word_double_clicked_text;
+  ustring word_double_clicked_text_get() { return word_double_clicked_text; }
   void insert_note(const ustring& marker, const ustring& rawtext);
-  ustring get_chapter();
+  ustring chapter_get_ustring();
+  // I don't think following should be here...duplicates current_reference
+ private:
+  unsigned int book;
   unsigned int chapter;
+ public:
+  unsigned int book_get() { return book; }
+  void book_set(unsigned int book_in) { book = book_in; }
+  unsigned int chapter_num_get() { return chapter; }
   void cut ();
   void copy ();
   void paste ();
   GtkSourceBuffer * sourcebuffer;
+  inline EditorTextViewType last_focused_type() { return etvtBody; } // This is a no-op for usfmview
 private:
   GtkWidget *scrolledwindow;
   guint save_timeout_event_id;

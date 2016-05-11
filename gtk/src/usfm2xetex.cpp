@@ -2026,9 +2026,7 @@ void Usfm2XeTex::optionally_add_full_references(ustring & line, Usfm2XslFoStyle 
     line.append(" ");
     line.append(refscanner.references[i].human_readable(language));
     line.append(" ");
-    ustring text = project_retrieve_verse(project,
-                                          refscanner.references[i].book, refscanner.references[i].chapter,
-                                          refscanner.references[i].verse);
+    ustring text = project_retrieve_verse(project, refscanner.references[i]);
     if (text.empty()) {
       line.append("<empty>");
     } else {

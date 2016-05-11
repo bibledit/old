@@ -123,7 +123,11 @@ void decode_reference(const ustring & reference, ustring & book, ustring & chapt
   }
 }
 
-bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, const ustring & oldverse, const ustring & reference, unsigned int &newbook, unsigned int &newchapter, ustring & newverse, bool consult_memory)
+bool reference_discover_internal(const Reference &oldRef, // inRef was unsigned int oldbook, unsigned int oldchapter, const ustring & oldverse
+				 const ustring &reference,
+				 Reference &newRef, // outRef was unsigned int &newbook, unsigned int &newchapter, ustring & newverse, 
+				 bool consult_memory)
+
 /*
   This interprets "reference" as a valid reference.
   If needed it will use information of the current reference to complete the info.
@@ -201,6 +205,15 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
      These situations will be dealt with below.
    */
 
+  // For convenience, extract the data fields of the reference before use
+  // These are barely used.
+  unsigned int oldbook = oldRef.book_get();
+  unsigned int oldchapter = oldRef.chapter_get();
+
+  // These will be packaged up in the newRef and sent as output
+  unsigned int newbook = 0, newchapter = 0;
+  ustring newverse("");
+
   // Handle situation where a book is passed.
   if (!bookpart.empty()) {
     newbook = book_find_valid(bookpart);
@@ -221,6 +234,7 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
   }
   // Bail out on a bad book.
   if (newbook == 0) {
+    newRef.book_set(newbook); // this is all we could figure out...
     return false;
   }
   // From here and down we can be sure of having a proper book.
@@ -234,8 +248,8 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
     if (consult_memory) {
       Reference reference (newbook, newchapter, newverse);
       if (references_memory_retrieve (reference, false)) {
-        newchapter = reference.chapter;
-        newverse = reference.verse;
+        newchapter = reference.chapter_get();
+        newverse = reference.verse_get();
       }
     }
   }
@@ -257,7 +271,7 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
     if (consult_memory) {
       Reference reference (newbook, newchapter, newverse);
       if (references_memory_retrieve (reference, true)) {
-        newverse = reference.verse;
+        newverse = reference.verse_get();
       }
     }
   }
@@ -267,10 +281,20 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
     newverse = lowerCase(numbers[1]);
   }
   // Return okay.
+  newRef.book_set(newbook);
+  newRef.chapter_set(newchapter);
+  newRef.verse_set(newverse);
   return true;
 }
 
-bool reference_discover(unsigned int oldbook, unsigned int oldchapter, const ustring & oldverse, const ustring & reference, unsigned int &newbook, unsigned int &newchapter, ustring & newverse, bool consult_memory)
+//-------------------------------------------------------------------------------
+// Given the users's reference (oldRef), figure out what the user really meant
+// and put the results in the output reference (newRef).
+//-------------------------------------------------------------------------------
+bool reference_discover(const Reference &oldRef, // inRef was unsigned int oldbook, unsigned int oldchapter, const ustring & oldverse
+			const ustring &reference,
+			Reference &newRef, // outRef was unsigned int &newbook, unsigned int &newchapter, ustring & newverse, 
+			bool consult_memory)
 {
   /* 
      This is the new function "reference_discover". It uses the previous one which
@@ -284,6 +308,7 @@ bool reference_discover(unsigned int oldbook, unsigned int oldchapter, const ust
 
      KJV 2Ki 25:18
      KJV 1Ch 6:36
+     KJV 1Co 1:1     I think is the shortest example we might see of this sort, 11 bytes long
 
      In this example the "KJV" needs to be taken out and then the reference will 
      appear cleanly.
@@ -292,12 +317,12 @@ bool reference_discover(unsigned int oldbook, unsigned int oldchapter, const ust
    */
   // Do the discovery.
   bool result;
-  result = reference_discover_internal(oldbook, oldchapter, oldverse, reference, newbook, newchapter, newverse, consult_memory);
+  result = reference_discover_internal(oldRef, reference, newRef, consult_memory);
   if (!result) {
     if (reference.length() >= 11) {
       ustring adaptedreference(reference);
-      adaptedreference.erase(0, 4);
-      result = reference_discover_internal(oldbook, oldchapter, oldverse, adaptedreference, newbook, newchapter, newverse, consult_memory);
+      adaptedreference.erase(0, 4); // erase the Bible version "KJV " and try again
+      result = reference_discover_internal(oldRef, adaptedreference, newRef, consult_memory);
     }
   }
   return result;
@@ -489,9 +514,9 @@ unsigned int reference_to_numerical_equivalent(const Reference & reference)
  */
 {
   unsigned int i;
-  i = reference.book * 1000000;
-  i = i + (reference.chapter * 1000);
-  vector < int >verses = verses_encode(reference.verse);
+  i = reference.book_get() * 1000000;
+  i = i + (reference.chapter_get() * 1000);
+  vector < int >verses = verses_encode(reference.verse_get());
   i = i + verses[0];
   return i;
 }

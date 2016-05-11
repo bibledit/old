@@ -31,7 +31,7 @@ ustring gw_build_filename (const ustring& part1, const ustring& part2, const ust
 ustring gw_build_filename (const ustring& part1, const ustring& part2, const ustring& part3, const ustring& part4);
 ustring gw_build_filename (const ustring& part1, const ustring& part2, const ustring& part3, const ustring& part4, const ustring& part5);
 void gw_message (const ustring& message);
-void gw_debug(const ustring & message, const char *file, int lineno, const char *func);
+void gw_debug(int msgno, const ustring & message, const char *file, int lineno, const char *func);
 void gw_warning (const ustring& warning);
 void gw_critical (const ustring& critical);
 void gw_error (const ustring& error);

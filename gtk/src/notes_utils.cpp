@@ -421,12 +421,13 @@ void notes_display_internal(const ustring& language, bool show_reference_text, b
   // Go through each reference.
   for (unsigned int i2 = 0; i2 < parse.words.size(); i2++) {
     // Make it human readable.
-    Reference ref(0);
-    reference_discover(0, 0, "", parse.words[i2], ref.book, ref.chapter, ref.verse);
+    Reference oldRef(0);
+    Reference newRef(0);
+    reference_discover(oldRef, parse.words[i2], newRef);
     if (!reference.empty())
       reference.append(", ");
-    reference.append(ref.human_readable(language));
-    references.push_back(ref);
+    reference.append(newRef.human_readable(language));
+    references.push_back(newRef);
   }
   
   // Start creating the heading with links.
@@ -489,13 +490,13 @@ void notes_display_internal(const ustring& language, bool show_reference_text, b
   // Insert text of the references, if requested.
   if (show_reference_text) {
     for (unsigned int r = 0; r < references.size(); r++) {
-      vector <unsigned int> simple_verses = verse_range_sequence(references[r].verse);
+      vector <unsigned int> simple_verses = verse_range_sequence(references[r].verse_get());
       for (unsigned int sv = 0; sv < simple_verses.size(); sv++) {
         Reference ref(references[r]);
-        ref.verse = convert_to_string(simple_verses[sv]);
+        ref.verse_set(convert_to_string(simple_verses[sv]));
         note_buffer.append(ref.human_readable(language));
         note_buffer.append(" ");
-        ustring text = project_retrieve_verse(project, ref.book, ref.chapter, ref.verse);
+        ustring text = project_retrieve_verse(project, ref);
         if (!text.empty()) {
           text = usfm_get_verse_text_only (text);
         }
@@ -575,7 +576,7 @@ void notes_get_references_from_editor(GtkTextBuffer * textbuffer, vector < Refer
     if (!lines[i].empty()) {
       // Normalize reference.
       Reference reference(0);
-      if (reference_discover(previousreference.book, previousreference.chapter, previousreference.verse, lines[i], reference.book, reference.chapter, reference.verse)) {
+      if (reference_discover(previousreference, lines[i], reference)) {
         ustring ch1, vs1, ch2, vs2;
         if (chapter_span_discover(lines[i], ch1, vs1, ch2, vs2)) {
           // We cross the chapter boundaries. 
@@ -585,31 +586,29 @@ void notes_get_references_from_editor(GtkTextBuffer * textbuffer, vector < Refer
           // and any chapter in-between.
           extern Settings *settings;
           ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-          Reference ref(reference.book, convert_to_int(ch1), vs1);
-          ustring lastverse = versification_get_last_verse(projectconfig->versification_get(), reference.book, convert_to_int(ch1));
-          ref.verse.append("-" + lastverse);
+          Reference ref(reference.book_get(), convert_to_int(ch1), vs1);
+          ustring lastverse = versification_get_last_verse(projectconfig->versification_get(), reference.book_get(), convert_to_int(ch1));
+          ref.verse_append("-" + lastverse);
           references.push_back(ref);
           for (unsigned int ch = convert_to_int(ch1) + 1; ch < convert_to_int(ch2); ch++) {
-            Reference ref(reference.book, ch, "1");
-            ustring lastverse = versification_get_last_verse(projectconfig->versification_get(), reference.book, ch);
-            ref.verse.append("-" + lastverse);
+            Reference ref(reference.book_get(), ch, "1");
+            ustring lastverse = versification_get_last_verse(projectconfig->versification_get(), reference.book_get(), ch);
+            ref.verse_append("-" + lastverse);
             references.push_back(ref);
           }
-          ref.chapter = convert_to_int(ch2);
-          ref.verse = "1-" + vs2;
+          ref.chapter_set(convert_to_int(ch2));
+          ref.verse_set("1-" + vs2);
           references.push_back(ref);
           // Store values to discover next reference.
-          previousreference.book = reference.book;
-          previousreference.chapter = convert_to_int(ch2);
-          previousreference.verse = vs2;
+          previousreference.book_set(reference.book_get());
+          previousreference.chapter_set(convert_to_int(ch2));
+          previousreference.verse_set(vs2);
         } else {
           // We've a normal reference.
           // Store reference.
           references.push_back(reference);
           // Store values to discover next reference.
-          previousreference.book = reference.book;
-          previousreference.chapter = reference.chapter;
-          previousreference.verse = reference.verse;
+	  previousreference.assign(reference);
         }
       } else {
         messages.push_back(_("Reference ") + lines[i] + _(" is not valid and has been removed."));
@@ -1044,11 +1043,12 @@ void notes_store_index_entry (sqlite3 *db, gint32 id)
   Parse parse(references, false);
   ustring encoded_references;
   for (unsigned int i = 0; i < parse.words.size(); i++) {
-    Reference reference(0);
-    reference_discover(0, 0, "", parse.words[i], reference.book, reference.chapter, reference.verse);
-    ustring book = books_id_to_english(reference.book);
-    ustring chapter = convert_to_string(reference.chapter);
-    vector < int >verses = verses_encode(reference.verse);
+    Reference oldRef(0);
+    Reference newRef(0);
+    reference_discover(oldRef, parse.words[i], newRef);
+    ustring book = books_id_to_english(newRef.book_get());
+    ustring chapter = convert_to_string(newRef.chapter_get());
+    vector < int >verses = verses_encode(newRef.verse_get());
     int book_chapter = reference_to_numerical_equivalent(book, chapter, "0");
     for (unsigned int i2 = 0; i2 < verses.size(); i2++) {
       encoded_references.append(" ");

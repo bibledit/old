@@ -45,9 +45,10 @@ void checks_display_references_comments(vector < ustring > &references, vector <
 {
   vector < Reference > refs;
   for (unsigned int i = 0; i < references.size(); i++) {
-    Reference ref(0);
-    reference_discover(0, 0, "", references[i], ref.book, ref.chapter, ref.verse);
-    refs.push_back(ref);
+    Reference newRef(0);
+    Reference oldRef(0);
+    reference_discover(oldRef, references[i], newRef);
+    refs.push_back(newRef);
   }
   extern Settings *settings;
   references_window->set (refs, settings->genconfig.project_get(), &comments);

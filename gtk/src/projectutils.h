@@ -25,7 +25,10 @@
 #include "libraries.h"
 #include "categorize.h"
 #include "sqlite_reader.h"
+#include "reference.h"
 
+// TO DO: Many of these should have "Reference" versions or be entirely ported over to 
+// that interface.
 
 void projects_initial_check ();
 vector<ustring> projects_get_all ();
@@ -44,6 +47,7 @@ void project_store_chapter (const ustring& project, unsigned int book, Categoriz
 void project_remove_chapter (const ustring& project, unsigned int book, unsigned int chapter);
 void project_store_verse (const ustring& project, unsigned int book, unsigned int chapter, const ustring& verse, const ustring& data);
 ustring project_retrieve_verse (const ustring& project, unsigned int book, unsigned int chapter, const ustring& verse);
+inline ustring project_retrieve_verse (const ustring& project, const Reference &ref) { return project_retrieve_verse(project, ref.book_get(), ref.chapter_get(), ref.verse_get()); }
 vector<ustring> project_retrieve_chapter (const ustring& project, unsigned int book, unsigned int chapter);
 vector<ustring> project_retrieve_book (const ustring& project, unsigned int book);
 vector<unsigned int> project_get_books (const ustring& project);

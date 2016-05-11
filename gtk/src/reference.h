@@ -1,5 +1,5 @@
 /*
-** Copyright (©) 2003-2013 Teus Benschop.
+** Copyright (©) 2003-2013 Teus Benschop, 2016 Matt Postiff
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -17,26 +17,36 @@
 **  
 */
 
-
 #ifndef INCLUDED_REFERENCE_H
 #define INCLUDED_REFERENCE_H
 
-
 #include "libraries.h"
-
 
 class Reference
 {
-public:
-  Reference (int dummy);
-  Reference (unsigned int book_in, unsigned int chapter_in, const ustring& verse_in);
+ private:
   unsigned int book;
   unsigned int chapter;
-  ustring verse;
-  ustring human_readable (const ustring& language);
-  bool equals (const Reference& reference);
-  void assign(const Reference& reference);
-  };
+  ustring verse;  // this is not just a verse integer, but could be 16-18, for example
+ public:
+  Reference ();
+  Reference (int dummy); // not sure why this was pre-existent, but I kept it for now
+  Reference (unsigned int book_in, unsigned int chapter_in, const ustring& verse_in);
 
+  inline unsigned int book_get() const { return book; }
+  inline unsigned int chapter_get() const { return chapter; }
+  inline ustring verse_get() const { return verse; }
+
+  inline void book_set(unsigned int b) { book = b; }
+  inline void chapter_set(unsigned int c) { chapter = c; }
+  inline void verse_set(const ustring &v) { verse = v; }
+  inline void verse_append(ustring ap) { verse.append(ap); }
+
+  ustring human_readable (const ustring& language);
+  bool equals(const Reference& reference);
+  void assign(const Reference& reference);
+  void assign(unsigned int book_in, unsigned int chapter_in, const ustring& verse_in);
+  void clear(void);
+};
 
 #endif

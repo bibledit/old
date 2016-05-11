@@ -22,7 +22,7 @@
 #include <glib.h>
 #include "notes_utils.h"
 #include "mainwindow.h"
-
+#include "debug.h"
 
 DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * webview_in, vector < unsigned int >*ids, unsigned int& edited_note_id)
 {
@@ -44,6 +44,7 @@ DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * 
   // Start main thread.  
   // New g_thread_new ("displayprojectnotes", GThreadFunc (thread_start), gpointer(this));
   g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
+  DEBUG("Started thread")
 }
 
 

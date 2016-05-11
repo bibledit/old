@@ -134,7 +134,7 @@ void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustr
 
     // Store the references belonging to the keyword.
     for (unsigned int i = 0; i < references.size(); i++) {
-      sql = g_strdup_printf("insert into reference values (%d, %d, %d, %d);", keyterm_id, references[i].book, references[i].chapter, convert_to_int (references[i].verse));
+      sql = g_strdup_printf("insert into reference values (%d, %d, %d, %d);", keyterm_id, references[i].book_get(), references[i].chapter_get(), convert_to_int (references[i].verse_get()));
       rc = sqlite3_exec(db, sql, NULL, NULL, &error);
       g_free(sql);
       if (rc)
@@ -244,10 +244,11 @@ void keyterms_import_textfile(const ustring & textfile, ustring category)
           // Clean line.
           keyterms_clean_reference_line (line);
           // Store the reference.
-          Reference reference(0);
-          if (reference_discover(previousbook, previouschapter, "0", line, reference.book, reference.chapter, reference.verse)) {
-            references.push_back(reference);
-            comments.push_back (keyterms_reference_start_markup () + reference.human_readable ("") + keyterms_reference_end_markup ());
+	  Reference oldRef(previousbook, previouschapter, "0");
+          Reference newRef(0);
+          if (reference_discover(oldRef, line, newRef)) {
+            references.push_back(newRef);
+            comments.push_back (keyterms_reference_start_markup () + newRef.human_readable ("") + keyterms_reference_end_markup ());
           }
         }
         if (line == "[keyterm]") {
@@ -347,11 +348,12 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
         else if (ref_line) {
           ustring ref = line.substr(4, 1000);
           keyterms_clean_reference_line (ref);
-          Reference reference(0);
-          if (reference_discover(previousbook, previouschapter, "0", ref, reference.book, reference.chapter, reference.verse)) {
-            reference.verse = number_in_string(reference.verse);
-            references.push_back(reference);
-            comments.push_back (keyterms_reference_start_markup () + reference.human_readable ("") + keyterms_reference_end_markup ());
+	  Reference oldRef(previousbook, previouschapter, "0");
+          Reference newRef(0);
+          if (reference_discover(oldRef, ref, newRef)) {
+            newRef.verse_set(number_in_string(newRef.verse_get()));
+            references.push_back(newRef);
+            comments.push_back (keyterms_reference_start_markup () + newRef.human_readable ("") + keyterms_reference_end_markup ());
           }
         }
         
@@ -497,13 +499,14 @@ void keyterms_import_ktref_db(const ustring& textfile, ustring category)
             }
           }
           for (unsigned int i2 = 0; i2 < refs.size(); i2++) {
-            Reference reference(0);
-            if (reference_discover(previousbook, previouschapter, "0", refs[i2], reference.book, reference.chapter, reference.verse)) {
-              reference.verse = number_in_string(reference.verse);
-              references.push_back(reference);
-              comments.push_back (keyterms_reference_start_markup () + reference.human_readable ("") + keyterms_reference_end_markup ());
-              previousbook = reference.book;
-              previouschapter = reference.chapter;
+	    Reference oldRef(previousbook, previouschapter, "0");
+            Reference newRef(0);
+            if (reference_discover(oldRef, refs[i2], newRef)) {
+              newRef.verse_set(number_in_string(newRef.verse_get()));
+              references.push_back(newRef);
+              comments.push_back (keyterms_reference_start_markup () + newRef.human_readable ("") + keyterms_reference_end_markup ());
+              previousbook = newRef.book_get();
+              previouschapter = newRef.chapter_get();
             }
           }
         }
@@ -1132,11 +1135,12 @@ void keyterms_export(const ustring & directory, bool gui)
       paratext_lines.push_back("\\optional <p>" + comments + "</p>");
       for (unsigned int rf = 0; rf < references.size(); rf++) {
         ustring reference("\\ref ");
-        reference.append(books_id_to_paratext(references[rf].book));
+	// TO DO: should we use reference.human_readable here?
+        reference.append(books_id_to_paratext(references[rf].book_get()));
         reference.append(" ");
-        reference.append(convert_to_string(references[rf].chapter));
+        reference.append(convert_to_string(references[rf].chapter_get()));
         reference.append(":");
-        reference.append(references[rf].verse);
+        reference.append(references[rf].verse_get());
         paratext_lines.push_back(reference);
       }
       paratext_lines.push_back("");
@@ -1157,7 +1161,7 @@ vector <int> keyterms_get_terms_in_verse(const Reference & reference)
   sqlite3_open(keyterms_get_filename().c_str(), &db);
   sqlite3_busy_timeout(db, 1000);
   SqliteReader reader(0);
-  char *sql = g_strdup_printf("select id from reference where book = %d and chapter = %d and verse = '%s';", reference.book, reference.chapter, reference.verse.c_str());
+  char *sql = g_strdup_printf("select id from reference where book = %d and chapter = %d and verse = '%s';", reference.book_get(), reference.chapter_get(), reference.verse_get().c_str());
   sqlite3_exec(db, sql, reader.callback, &reader, NULL);
   g_free(sql);
   for (unsigned int i = 0; i < reader.ustring0.size(); i++) {

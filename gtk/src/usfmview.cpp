@@ -46,9 +46,10 @@
 #include "progresswindow.h"
 #include <glib/gi18n.h>
 
-USFMView::USFMView(GtkWidget * vbox, const ustring & project_in):
-current_reference(0, 1000, "")
+USFMView::USFMView(GtkWidget * vbox, const ustring & project_in)
 {
+  Reference dummyRef(0, 1000, "");
+  current_reference_set(dummyRef);
   // Save and initialize variables.
   project = project_in;
   book = 0;
@@ -99,7 +100,7 @@ current_reference(0, 1000, "")
   save_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 60000, GSourceFunc(on_save_timeout), gpointer(this), NULL);
 
   // Fonts.
-  set_font();
+  font_set();
 
   // Spelling checker.
   GtkTextTagTable * texttagtable = gtk_text_buffer_get_tag_table (GTK_TEXT_BUFFER (sourcebuffer));
@@ -134,13 +135,6 @@ USFMView::~USFMView()
   // Destroy the sourceview.
   gtk_widget_destroy(scrolledwindow);
 }
-
-
-void USFMView::book_set(unsigned int book_in)
-{
-  book = book_in;
-}
-
 
 void USFMView::chapter_load(unsigned int chapter_in)
 // Loads a chapter with the number "chapter_in".
@@ -218,7 +212,7 @@ void USFMView::chapter_save()
     return;
 
   // Get the USFM text.
-  ustring chaptertext = get_chapter();
+  ustring chaptertext = chapter_get_ustring();
 
   // If the chapter text is completely empty, 
   // that means that the user has deleted everything.
@@ -310,7 +304,7 @@ void USFMView::chapter_save()
 }
 
 
-ustring USFMView::get_chapter()
+ustring USFMView::chapter_get_ustring()
 {
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER (sourcebuffer), &startiter);
@@ -347,7 +341,7 @@ void USFMView::redo()
 }
 
 
-void USFMView::set_font()
+void USFMView::font_set()
 {
   // Set font.
   PangoFontDescription *font_desc = NULL;
@@ -506,19 +500,18 @@ bool USFMView::on_verse_tracker()
 }
 
 
-void USFMView::position_cursor_at_verse (const ustring & verse)
+void USFMView::go_to_verse (const ustring & verse, bool focus)
 // Moves the cursor to the verse
 {
   // Bail out of the cursor is already on the verse.
-  if (verse == current_verse_number)
-    return;
+  if (verse == current_verse_number) { return; }
 
   // Save the current verse.
   current_verse_number = verse;
 
   while (gtk_events_pending()) gtk_main_iteration();
-  if (!sourcebuffer) return;
-  if (!sourceview) return;
+  if (!sourcebuffer) { return; }
+  if (!sourceview)   { return; }
 
   // Place the cursor at the verse. Verse 0 is at the start of the buffer.
   GtkTextIter startiter;
@@ -542,13 +535,12 @@ ustring USFMView::text_get_selection()
 }
 
 
-void USFMView::text_insert(ustring text)
+void USFMView::insert_text(const ustring &text)
 // Inserts text at the cursor location.
 // If text is selected, this is erased first.
 {
   // If the text is not editable, bail out.
-  if (!editable)
-    return;
+  if (!editable) { return; }
 
   // Erase selected text.
   gtk_text_buffer_delete_selection(GTK_TEXT_BUFFER (sourcebuffer), true, editable);

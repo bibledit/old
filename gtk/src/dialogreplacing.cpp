@@ -241,7 +241,10 @@ void ReplacingDialog::set_gui()
     // Show reference.
     gtk_label_set_text(GTK_LABEL(referencelabel), references[referencepointer].human_readable(mylanguage).c_str());
     // Get the verse.
-    ustring line = project_retrieve_verse(myproject, references[referencepointer].book, references[referencepointer].chapter, references[referencepointer].verse);
+    ustring line = project_retrieve_verse(myproject,
+					  references[referencepointer].book_get(),
+					  references[referencepointer].chapter_get(),
+					  references[referencepointer].verse_get());
     // Verse exists?
     if (!line.empty()) {
       // Parse into lines.
@@ -372,7 +375,11 @@ void ReplacingDialog::accept_change()
     data.append(verses[i]);
   }
   if (verses.size() > 0) {
-    project_store_verse(myproject, references[referencepointer].book, references[referencepointer].chapter, references[referencepointer].verse, data);
+    project_store_verse(myproject,
+			references[referencepointer].book_get(),
+			references[referencepointer].chapter_get(),
+			references[referencepointer].verse_get(),
+			data);
   }
 }
 

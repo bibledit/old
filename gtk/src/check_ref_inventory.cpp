@@ -85,7 +85,7 @@ gui: show graphical progressbar.
               human_readable_references.append(refscanner.references[i].human_readable(language));
               if (includetext) {
                 human_readable_references.append(" ");
-                ustring text = project_retrieve_verse(project, refscanner.references[i].book, refscanner.references[i].chapter, refscanner.references[i].verse);
+                ustring text = project_retrieve_verse(project, refscanner.references[i]);
                 if (text.empty())
                   text = "<empty>";
                 human_readable_references.append(text);

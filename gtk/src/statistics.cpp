@@ -245,7 +245,7 @@ StatisticsRecord::~StatisticsRecord()
       // Record edits.
       int seconds = date_time_seconds_get_current();
       for (unsigned int i = 0; i < edits.size(); i++) {
-        sql = g_strdup_printf("insert into edits values (%d, %d, '%s', %d)", edits[i].book, edits[i].chapter, edits[i].verse.c_str(), seconds);
+        sql = g_strdup_printf("insert into edits values (%d, %d, '%s', %d)", edits[i].book_get(), edits[i].chapter_get(), edits[i].verse_get().c_str(), seconds);
         rc = sqlite3_exec(db, sql, NULL, NULL, NULL);
         g_free(sql);
         if (rc)

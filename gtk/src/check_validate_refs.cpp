@@ -106,13 +106,15 @@ void CheckValidateReferences::check(const ustring & text)
     // Check whether the reference fits within the limits of the versification system.
     bool reference_fits = true;
     unsigned int highest_chapter = 0;
-    vector < unsigned int >chapters = versification_get_chapters(versification, refscanner.references[i].book);
+    vector < unsigned int >chapters = versification_get_chapters(versification, refscanner.references[i].book_get());
     if (!chapters.empty())
       highest_chapter = chapters[chapters.size() - 1];
-    if (refscanner.references[i].chapter > highest_chapter)
+    if (refscanner.references[i].chapter_get() > highest_chapter)
       reference_fits = false;
-    unsigned int last_verse = convert_to_int(versification_get_last_verse(versification, refscanner.references[i].book, refscanner.references[i].chapter));
-    unsigned int this_verse = convert_to_int(refscanner.references[i].verse);
+    unsigned int last_verse = convert_to_int(versification_get_last_verse(versification, 
+									  refscanner.references[i].book_get(),
+									  refscanner.references[i].chapter_get()));
+    unsigned int this_verse = convert_to_int(refscanner.references[i].verse_get());
     if (this_verse > last_verse)
       reference_fits = false;
     if (!reference_fits) {
@@ -120,7 +122,7 @@ void CheckValidateReferences::check(const ustring & text)
     }
     // Check whether the reference exists in the project.
     if (reference_fits) {
-      ustring versetext = project_retrieve_verse(myproject, refscanner.references[i].book, refscanner.references[i].chapter, refscanner.references[i].verse);
+      ustring versetext = project_retrieve_verse(myproject, refscanner.references[i]);
       if (versetext.empty()) {
         message(refscanner.references[i].human_readable(language) + _(" contains no text"));
       }
@@ -141,8 +143,8 @@ void CheckValidateReferences::check(const ustring & text)
         mytext.erase(0, myverse.length());
         bool referencefound = false;
         for (unsigned int i = 0; i < references.size(); i++) {
-          if (refscanner.references[i].chapter == mychapter)
-            if (refscanner.references[i].verse == myverse)
+          if (refscanner.references[i].chapter_get() == mychapter)
+            if (refscanner.references[i].verse_get() == myverse)
               referencefound = true;
         }
         if (!referencefound) {

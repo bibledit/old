@@ -34,7 +34,12 @@ class WindowEditor : public FloatingWindow
 public:
   WindowEditor(const ustring& project_name, GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowEditor();
-  
+ private:
+  viewType current_view;
+ public:
+  inline viewType vt_get() { return current_view; }
+  void vt_set(viewType vt);
+
   void go_to(const Reference& reference);
   Reference current_reference();
   ustring current_verse_number();
@@ -52,7 +57,7 @@ public:
   bool can_undo();
   bool can_redo();
   ustring text_get_selection();
-  void text_insert(ustring text);
+  void insert_text(const ustring &text);
   ustring word_double_clicked_text();
   void insert_note(const ustring& marker, const ustring& rawtext);
   ustring get_chapter();
@@ -81,10 +86,7 @@ public:
   GtkWidget * word_double_clicked_signal;
   GtkWidget * reload_signal;
   GtkWidget * changed_signal;
-  
-  bool editing_usfm_code_get();
-  void editing_usfm_code_set (bool setting);
-  
+
   GtkTextBuffer * edit_usfm_textbuffer ();
 
   void spelling_trigger ();
@@ -95,9 +97,11 @@ public:
 
 protected:
   GtkWidget *vbox;
-  void switch_to_view (bool viewusfm, ustring project);
+  void switch_to_view (viewType vt, ustring project);
+  ChapterView * currView; // this is either NULL or equal to one of the following editor/view pointers
   Editor2 * editor2;
   USFMView * usfmview;
+  // eventually, experimental editor goes here for no-paragraph-division view
 
   static void on_new_verse_signalled(GtkButton *button, gpointer user_data);
   void on_new_verse();

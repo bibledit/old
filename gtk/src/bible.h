@@ -29,10 +29,16 @@
 void sort_references (vector <Reference> &references);
 void decode_reference (const ustring & reference, ustring & book,
                        ustring & chapter, ustring & verse);
+bool reference_discover(const Reference &oldRef, // inRef was unsigned int oldbook, unsigned int oldchapter, const ustring & oldverse
+			const ustring &reference,
+			Reference &newRef, // outRef was unsigned int &newbook, unsigned int &newchapter, ustring & newverse, 
+			bool consult_memory = false);
+#if 0
 bool reference_discover (unsigned int oldbook, unsigned int oldchapter, 
                          const ustring& oldverse, const ustring& reference,
                          unsigned int& newbook, unsigned int& newchapter, ustring& newverse,
                          bool consult_memory = false);
+#endif
 unsigned int book_find_valid (const ustring & rawbook);
 unsigned int reference_to_numerical_equivalent (const ustring& book, const ustring& chapter, const ustring& verse);
 unsigned int reference_to_numerical_equivalent (const Reference& reference);

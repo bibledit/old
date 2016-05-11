@@ -246,11 +246,11 @@ void EditNoteDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data
 void EditNoteDialog::on_okbutton()
 {
   // Get the old note type.
-  EditorNoteType oldnotetype = note_type_get(myeditor->project, note_paragraph->opening_closing_marker);
+  EditorNoteType oldnotetype = note_type_get(myeditor->project_get(), note_paragraph->opening_closing_marker);
 
   // Get and store the new note marker and type.
   note_paragraph->opening_closing_marker = get_marker(combobox_get_active_string(combobox1));
-  EditorNoteType newnotetype = note_type_get(myeditor->project, note_paragraph->opening_closing_marker);
+  EditorNoteType newnotetype = note_type_get(myeditor->project_get(), note_paragraph->opening_closing_marker);
 
   // Change the caller, if needed.
   NumberingType numberingtype = (NumberingType) numbering_get();

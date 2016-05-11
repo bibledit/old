@@ -539,17 +539,18 @@ When we encounter an element that ends data, this handler deals with that.
       reference_content.clear();
       for (unsigned int i = 0; i < parse.lines.size(); i++) {
         // Get the reference.
-        Reference reference(0);
-        if (reference_discover(0, 0, "", trim(parse.lines[i]), reference.book, reference.chapter, reference.verse)) {
-          vector < int >verses = verses_encode(reference.verse);
-          int book_chapter = reference_to_numerical_equivalent(books_id_to_english(reference.book), convert_to_string(reference.chapter), "0");
+	Reference oldRef(0);
+        Reference newRef(0);
+        if (reference_discover(oldRef, trim(parse.lines[i]), newRef)) {
+          vector < int >verses = verses_encode(newRef.verse_get());
+          int book_chapter = reference_to_numerical_equivalent(books_id_to_english(newRef.book_get()), convert_to_string(newRef.chapter_get()), "0");
           for (unsigned int i2 = 0; i2 < verses.size(); i2++) {
             reference_content.append(" ");
             reference_content.append(convert_to_string(int (book_chapter + verses[i2])));
           }
           // Store the reference in OSIS format too.
-          ustring osis_book = books_id_to_osis(reference.book);
-          ustring osis_ref = osis_book + "." + convert_to_string(reference.chapter) + "." + reference.verse;
+          ustring osis_book = books_id_to_osis(newRef.book_get());
+          ustring osis_ref = osis_book + "." + convert_to_string(newRef.chapter_get()) + "." + newRef.verse_get();
           if (!osis_reference.empty())
             osis_reference.append(" ");
           osis_reference.append(osis_ref);

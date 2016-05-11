@@ -32,13 +32,14 @@
 #include "highlight.h"
 #include "spelling.h"
 #include "editoractions.h"
+#include "chapterview.h"
 
-
-class Editor2
+class Editor2 : public ChapterView // Editor2 has to implement the ChapterView interface
 {
 public:
   Editor2(GtkWidget * vbox_in, const ustring& project_in);
   ~Editor2();
+  viewType vt_get() { return vtFormatted; }
   GtkWidget * new_widget_signal;
   GtkWidget * new_widget_pointer;
 private:
@@ -123,31 +124,42 @@ public:
   vector <ustring> loaded_chapter_lines;
   void chapter_save();
   GtkWidget * reload_signal;
+ private:
   unsigned int reload_chapter_number;
-
+ public:
+  unsigned int reload_chapter_num_get() { return reload_chapter_number; }
   ustring text_get_selection();
-  void text_insert(ustring text);
+  void insert_text(const ustring &text);
+  void insert_table(const ustring& rawtext);
 
   void show_quick_references();
   guint event_id_show_quick_references;
   static bool show_quick_references_timeout(gpointer user_data);
   void show_quick_references_execute();
+ private:
   vector <Reference> quick_references;
-  GtkWidget * quick_references_button;
-
-  GtkWidget * new_styles_signal;
-
-  Reference current_reference;
-  bool go_to_new_reference_highlight;
   ustring word_double_clicked_text;
+ public:
+  vector<Reference> quick_references_get() { return quick_references; }
+  GtkWidget * quick_references_button;
+  GtkWidget * new_styles_signal;
+  bool go_to_new_reference_highlight;
+  ustring word_double_clicked_text_get() { return word_double_clicked_text; }
   GtkWidget * word_double_clicked_signal;
 
-  void set_font();
+  void font_set();
   void set_font_textview (GtkWidget * textview);
-
+ private:
   ustring project;
+ public:
+  ustring project_get() { return project; }
+  // Following should not be duplicated...should be in "current reference"
+ private:
   unsigned int book;
   unsigned int chapter;
+ public:
+  unsigned int book_get() { return book; }
+  unsigned int chapter_num_get() { return chapter; }
 
   set <ustring> get_styles_at_cursor();
 
@@ -176,14 +188,15 @@ public:
   void buffer_delete_range_after(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end);
   void text_get_all(vector <ustring>& texts, vector <VectorUstring>& styles);
 
+ private:
   bool editable;
+ public:
+  bool editable_get() { return editable; }
 
   void signal_if_styles_changed();
   set <ustring> styles_at_cursor;
   set <ustring> styles_at_iterator(GtkTextIter iter);
   void apply_style(const ustring& marker);
-
-  void insert_table(const ustring& rawtext);
 
   // Undo/redo
   void undo();
@@ -202,7 +215,7 @@ public:
   GtkTextTag * reference_tag;
 
   GtkWidget * changed_signal;
-  ustring get_chapter();
+  ustring chapter_get_ustring();
 private:
 
   // Spelling check.
@@ -221,11 +234,12 @@ private:
   static void on_button_spelling_recheck_clicked(GtkButton *button, gpointer user_data);
 
   // Verse positioning and tracking.
-public:
-  void go_to_verse(const ustring& number, bool focus);
-  ustring current_verse_number;
-  GtkWidget * new_verse_signal;
 private:
+  ustring current_verse_number;
+public:
+  void go_to_verse(const ustring& versenum, bool focus=false);
+  GtkWidget * new_verse_signal;
+  ustring current_verse_get() { return current_verse_number; }
   void switch_verse_tracking_off ();
   void switch_verse_tracking_on ();
   bool verse_tracking_on;

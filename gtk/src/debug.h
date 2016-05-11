@@ -22,13 +22,14 @@
 
 #include "gwrappers.h"
 
-// See startup.cpp for definition of this variable
+// See startup.cpp for definition of these variables
 extern int global_debug_level;
+extern int debug_msg_no;
 
 #define DEBUG_CODE_INCLUDED
 
 #ifdef DEBUG_CODE_INCLUDED
-	#define DEBUG(MSG)   if (global_debug_level) { gw_debug(MSG, __FILE__, __LINE__, __func__); }
+        #define DEBUG(MSG)   if (global_debug_level) { gw_debug(debug_msg_no++, MSG, __FILE__, __LINE__, __func__); }
 #else
 	#define DEBUG(MSG)
 #endif	

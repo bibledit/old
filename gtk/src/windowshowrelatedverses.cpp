@@ -150,7 +150,7 @@ void WindowShowRelatedVerses::load_webview (const gchar * url)
 
     // Display the keyterms in the verse, and their renderings.
     htmlwriter.heading_open (3);
-    htmlwriter.text_add (_("Keyterms in verse ") + myreference.verse);
+    htmlwriter.text_add (_("Keyterms in verse ") + myreference.verse_get());
     htmlwriter.heading_close ();
     vector <int> keyterms = keyterms_get_terms_in_verse(myreference);
     for (unsigned int i = 0; i < keyterms.size(); i++) {

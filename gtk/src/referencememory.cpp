@@ -72,18 +72,18 @@ void references_memory_store (const Reference& reference)
   char *sql;
 
   // Store the most recent chapter per book.
-  sql = g_strdup_printf("delete from chapters where book = %d;", reference.book);
+  sql = g_strdup_printf("delete from chapters where book = %d;", reference.book_get());
   sqlite3_exec(db, sql, NULL, NULL, NULL);
   g_free(sql);
-  sql = g_strdup_printf("insert into chapters values (%d, %d);", reference.book, reference.chapter);
+  sql = g_strdup_printf("insert into chapters values (%d, %d);", reference.book_get(), reference.chapter_get());
   sqlite3_exec(db, sql, NULL, NULL, NULL);
   g_free(sql);
 
   // Store the most recent verse per chapter.
-  sql = g_strdup_printf("delete from verses where book = %d and chapter = %d;", reference.book, reference.chapter);
+  sql = g_strdup_printf("delete from verses where book = %d and chapter = %d;", reference.book_get(), reference.chapter_get());
   sqlite3_exec(db, sql, NULL, NULL, NULL);
   g_free(sql);
-  sql = g_strdup_printf("insert into verses values (%d, %d, '%s');", reference.book, reference.chapter, reference.verse.c_str());
+  sql = g_strdup_printf("insert into verses values (%d, %d, '%s');", reference.book_get(), reference.chapter_get(), reference.verse_get().c_str());
   sqlite3_exec(db, sql, NULL, NULL, NULL);
   g_free(sql);
   
@@ -115,28 +115,28 @@ bool references_memory_retrieve (Reference& reference, bool chapter_switch)
   // Retrieve the chapter number in case the book switched.
   if (!chapter_switch) {
     SqliteReader reader(0);
-    sql = g_strdup_printf("select chapter from chapters where book = %d;", reference.book);
+    sql = g_strdup_printf("select chapter from chapters where book = %d;", reference.book_get());
     sqlite3_exec(db, sql, reader.callback, &reader, NULL);
     g_free(sql);
     if (reader.ustring0.empty()) {
       result = false;
     }
     if (result) {
-      reference.chapter = convert_to_int (reader.ustring0[0]);
+      reference.chapter_set(convert_to_int (reader.ustring0[0]));
     }
   }
 
   // Retrieve the verse number based on the chapter that is there.
   if (result) {
     SqliteReader reader(0);
-    sql = g_strdup_printf("select verse from verses where book = %d and chapter = %d;", reference.book, reference.chapter);
+    sql = g_strdup_printf("select verse from verses where book = %d and chapter = %d;", reference.book_get(), reference.chapter_get());
     sqlite3_exec(db, sql, reader.callback, &reader, NULL);
     g_free(sql);
     if (reader.ustring0.empty()) {
       result = false;
     }
     if (result) {
-      reference.verse = reader.ustring0[0];
+      reference.verse_set(reader.ustring0[0]);
     }
   }
   

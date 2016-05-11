@@ -71,9 +71,7 @@ void OTQuotations::read()
         {
           opening_element = (char *)xmlTextReaderName(reader);
           if (!strcmp(opening_element, "set")) {
-            quotation.reference.book = 0;
-            quotation.reference.chapter = 0;
-            quotation.reference.verse.clear();
+            quotation.reference.clear();
             quotation.referents.clear();
             quotation.lxx = false;
 	    free(opening_element); opening_element = NULL; // not used next loop iteration
@@ -83,23 +81,21 @@ void OTQuotations::read()
             char *attribute;
             attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "book");
             if (attribute) {
-              ref.book = books_english_to_id(attribute);
+              ref.book_set(books_english_to_id(attribute));
               free(attribute);
             }
             attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "chapter");
             if (attribute) {
-              ref.chapter = convert_to_int(attribute);
+              ref.chapter_set(convert_to_int(attribute));
               free(attribute);
             }
             attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "verse");
             if (attribute) {
-              ref.verse = attribute;
+              ref.verse_set(attribute);
               free(attribute);
             }
             if (!strcmp(opening_element, "nt")) {
-              quotation.reference.book = ref.book;
-              quotation.reference.chapter = ref.chapter;
-              quotation.reference.verse = ref.verse;
+              quotation.reference.assign(ref);
             }
             if (!strcmp(opening_element, "ot")) {
               quotation.referents.push_back(ref);
@@ -163,12 +159,12 @@ references: The output reference: contains the related references.
   extern Settings *settings;
   ustring project = settings->genconfig.project_get();
   ProjectConfiguration *projectconfig = settings->projectconfig(project, false);
-  Mapping mapping(projectconfig->versification_get(), reference.book);
+  Mapping mapping(projectconfig->versification_get(), reference.book_get());
   for (unsigned int i = 0; i < quotations_nt_order.size(); i++) {
-    mapping.book_change(quotations_nt_order[i].reference.book);
+    mapping.book_change(quotations_nt_order[i].reference.book_get());
     mapping.original_to_me(quotations_nt_order[i].reference);
     for (unsigned int i2 = 0; i2 < quotations_nt_order[i].referents.size(); i2++) {
-      mapping.book_change(quotations_nt_order[i].referents[i2].book);
+      mapping.book_change(quotations_nt_order[i].referents[i2].book_get());
       mapping.original_to_me(quotations_nt_order[i].referents[i2]);
     }
   }

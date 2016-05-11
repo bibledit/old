@@ -250,11 +250,11 @@ void WindowReferences::load (const ustring & filename)
     ReadText rt(filename, true);
     // Pick out the references and leave the rest.
     for (unsigned int i = 0; i < rt.lines.size(); i++) {
-      unsigned int book, chapter;
       ustring verse;
-      if (reference_discover(0, 0, "", rt.lines[i], book, chapter, verse)) {
-        Reference reference(book, chapter, verse);
-        references.push_back(reference);
+      Reference oldRef(0);
+      Reference newRef(0);
+      if (reference_discover(oldRef, rt.lines[i], newRef)) {
+        references.push_back(newRef);
         comments.push_back ("");
       }
     }
@@ -299,7 +299,7 @@ void WindowReferences::save ()
     }
     // Store the references and the comments.
     for (unsigned int i = 0; i < references.size(); i++) {
-      sql = g_strdup_printf("insert into refs values (%d, %d, '%s', '%s')", references[i].book, references[i].chapter, references[i].verse.c_str(), double_apostrophy(comments[i]).c_str());
+      sql = g_strdup_printf("insert into refs values (%d, %d, '%s', '%s')", references[i].book_get(), references[i].chapter_get(), references[i].verse_get().c_str(), double_apostrophy(comments[i]).c_str());
       rc = sqlite3_exec(db, sql, NULL, NULL, &error);
       g_free(sql);
       if (rc) {
@@ -528,7 +528,7 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
     
     // If text is to be shown, do so.
     if (settings->genconfig.reference_window_show_verse_text_get()) {
-      ustring text = project_retrieve_verse(project, references[i].book, references[i].chapter, references[i].verse);
+      ustring text = project_retrieve_verse(project, references[i]);
       text = usfm_get_verse_text_only (text);
       // Search words highlighting.
       vector <size_t> startpositions;

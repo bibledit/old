@@ -579,13 +579,13 @@ void WindowCheckKeyterms::html_write_keyterms (HtmlWriter2& htmlwriter, unsigned
         Reference reference = get_reference (original_reference_text);
         // Remap the reference.
         {
-          Mapping mapping(versification, reference.book);
+          Mapping mapping(versification, reference.book_get());
           vector <int> chapters;
           vector <int> verses;
-          mapping.original_to_me(reference.chapter, reference.verse, chapters, verses);
+          mapping.original_to_me(reference.chapter_get(), reference.verse_get(), chapters, verses);
           if (!chapters.empty()) {
-            reference.chapter = chapters[0];
-            reference.verse = convert_to_string (verses[0]);
+            reference.chapter_set(chapters[0]);
+            reference.verse_set(convert_to_string (verses[0]));
           }
         }
         ustring remapped_reference_text = reference.human_readable ("");
@@ -599,12 +599,12 @@ void WindowCheckKeyterms::html_write_keyterms (HtmlWriter2& htmlwriter, unsigned
         htmlwriter.hyperlink_add ("goto " + remapped_reference_text, remapped_reference_text);
         information.erase (0, pos + keyterms_reference_end_markup ().length());
         // Add the reference's text.
-        ustring verse = project_retrieve_verse(project, reference.book, reference.chapter, reference.verse);
+        ustring verse = project_retrieve_verse(project, reference);
         if (verse.empty()) {
           verse.append(_("<empty>"));
         } else {
           CategorizeLine cl(verse);
-          cl.remove_verse_number(reference.verse);
+          cl.remove_verse_number(reference.verse_get());
           verse = cl.verse;
         }
         htmlwriter.text_add (" ");
@@ -650,10 +650,11 @@ Reference WindowCheckKeyterms::get_reference (const ustring& text)
 // Generates a reference out of the text.
 {
   Reference ref (0);
-  ustring book, chapter;
-  decode_reference(text, book, chapter, ref.verse);
-  ref.book = books_english_to_id (book);
-  ref.chapter = convert_to_int (chapter);
+  ustring book, chapter, verse = ref.verse_get();
+  decode_reference(text, book, chapter, verse);
+  ref.book_set(books_english_to_id (book));
+  ref.chapter_set(convert_to_int (chapter));
+  ref.verse_set(verse);
   return ref;
 }
 

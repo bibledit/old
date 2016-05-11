@@ -95,16 +95,16 @@ ustring WindowsOutpost::BibleWorksReferenceGet()
 void WindowsOutpost::BibleWorksReferenceSet(const Reference & reference)
 // Schedules a reference to be sent to BibleWorks.
 {
-  if (!reference.book)
+  if (!reference.book_get())
     return;
   // As it does not respond properly to chapter/verses that are 0, care for that.
-  unsigned int goto_ch = reference.chapter;
+  unsigned int goto_ch = reference.chapter_get();
   if (goto_ch == 0)
     goto_ch = 1;
-  ustring goto_vs = reference.verse;
+  ustring goto_vs = reference.verse_get();
   if (goto_vs == "0")
     goto_vs = "1";
-  ustring bw_book = books_id_to_bibleworks(reference.book);
+  ustring bw_book = books_id_to_bibleworks(reference.book_get());
   if (bw_book.empty())
     return;
   bibleworks_reference_set_value = "BibleWorksReferenceSet " + bw_book + " " + convert_to_string(goto_ch) + ":" + goto_vs;
@@ -124,14 +124,13 @@ ustring WindowsOutpost::SantaFeFocusReferenceGet()
 void WindowsOutpost::SantaFeFocusReferenceSet(const Reference & reference)
 // Schedules a reference to be sent to the santa fe focus system.
 {
-  if (!reference.book)
+  if (!reference.book_get())
     return;
-  ustring bk = books_id_to_paratext(reference.book);
+  ustring bk = books_id_to_paratext(reference.book_get());
   if (bk.empty())
     return;
-  santafefocus_reference_set_value = "SantaFeFocusReferenceSet " + bk + " " + convert_to_string(reference.chapter) + ":" + reference.verse;
+  santafefocus_reference_set_value = "SantaFeFocusReferenceSet " + bk + " " + convert_to_string(reference.chapter_get()) + ":" + reference.verse_get();
 }
-
 
 void WindowsOutpost::SantaFeFocusWordSet(const ustring & word)
 // Schedules a word to be sent to the santa fe focus system.
@@ -149,13 +148,13 @@ void WindowsOutpost::OnlineBibleReferenceSet(const Reference & reference)
   online_bible_server_connect (true);
 
   // Send the references.
-  if (!reference.book)
+  if (!reference.book_get())
     return;
-  if (!reference.chapter)
+  if (!reference.chapter_get())
     return;
-  if (reference.verse.empty())
+  if (reference.verse_get().empty())
     return;
-  onlinebible_reference_set_value = "OLB ShowPassage AV \"" + books_id_to_online_bible (reference.book) + " " + convert_to_string(reference.chapter) + ":" + reference.verse + "\"";
+  onlinebible_reference_set_value = "OLB ShowPassage AV \"" + books_id_to_online_bible (reference.book_get()) + " " + convert_to_string(reference.chapter_get()) + ":" + reference.verse_get() + "\"";
 }
 
 
