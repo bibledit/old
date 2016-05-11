@@ -4403,7 +4403,7 @@ void test_filter_url2 ()
 #endif
     evaluate (__LINE__, __func__, "", result);
     map <string, string> values = {make_pair ("a", "value1"), make_pair ("b", "value2")};
-    result = filter_url_http_post ("http://localhost/none", values, error);
+    result = filter_url_http_post ("http://localhost/none", values, error, false, false);
 #ifndef CLIENT_PREPARED
     evaluate (__LINE__, __func__, "Couldn't connect to server", error);
 #endif
@@ -4563,9 +4563,17 @@ void test_filter_url3 ()
   trace_unit_tests (__func__);
   filter_url_ssl_tls_initialize ();
 
+  string url;
   string error;
   string html;
 
+  url = filter_url_set_scheme (" localhost ", false);
+  evaluate (__LINE__, __func__, "http://localhost", url);
+  url = filter_url_set_scheme ("httpx://localhost", false);
+  evaluate (__LINE__, __func__, "http://localhost", url);
+  url = filter_url_set_scheme ("http://localhost", true);
+  evaluate (__LINE__, __func__, "https://localhost", url);
+  
   html = filter_url_http_request_mbed ("http://www.google.nl", error, {}, "", false);
   evaluate (__LINE__, __func__, "", error);
   if (html.length () < 40000) evaluate (__LINE__, __func__, "html shorter than 40000 bytes", "");

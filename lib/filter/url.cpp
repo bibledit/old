@@ -1281,3 +1281,26 @@ void filter_url_display_mbed_tls_error (int & ret, string * error)
     ret = 0;
   }
 }
+
+
+// This takes $url, removes any scheme (http / https) it has,
+// then sets the correct scheme based on $secure,
+// and returns the URL, e.g. as http://localhost or https://localhost.
+string filter_url_set_scheme (string url, bool secure) // Todo
+{
+  // Remove whitespace.
+  url = filter_string_trim (url);
+  // Remove amy existing scheme: http(s) or whatever.
+  size_t pos = url.find ("://");
+  if (pos != string::npos) {
+    url.erase (0, pos + 3);
+  }
+  // Produce the correct scheme.
+  string scheme = "http";
+  if (secure) scheme.append ("s");
+  scheme.append ("://");
+  // Insert the scheme.
+  url = scheme + url;
+  // Done.
+  return url;
+}

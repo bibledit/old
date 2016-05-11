@@ -72,6 +72,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
 void filter_url_ssl_tls_initialize ();
 void filter_url_ssl_tls_finalize ();
 void filter_url_display_mbed_tls_error (int & ret, string * error = NULL);
+string filter_url_set_scheme (string url, bool secure);
 
 
 #endif
