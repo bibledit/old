@@ -271,16 +271,16 @@ pair <int, int> Database_Cache::progress (string resource, int book)
 
 string database_filebased_cache_clean_name (string name)
 {
-  // Remove invalid characters in Windows filenames.
-  name = filter_string_str_replace ("\\", "", name);
-  name = filter_string_str_replace ("/",  "", name);
-  name = filter_string_str_replace (":",  "", name);
-  name = filter_string_str_replace ("*",  "", name);
-  name = filter_string_str_replace ("?",  "", name);
-  name = filter_string_str_replace ("\"", "", name);
-  name = filter_string_str_replace ("<",  "", name);
-  name = filter_string_str_replace (">",  "", name);
-  name = filter_string_str_replace ("|",  "", name);
+  // Replace invalid characters in Windows filenames with valid abbreviations.
+  name = filter_string_str_replace ("\\", "b2", name);
+  name = filter_string_str_replace ("/",  "sl", name);
+  name = filter_string_str_replace (":",  "co", name);
+  name = filter_string_str_replace ("*",  "as", name);
+  name = filter_string_str_replace ("?",  "qu", name);
+  name = filter_string_str_replace ("\"", "ba", name);
+  name = filter_string_str_replace ("<",  "sm", name);
+  name = filter_string_str_replace (">",  "la", name);
+  name = filter_string_str_replace ("|",  "ve", name);
   return name;
 }
 
