@@ -90,9 +90,11 @@ void verse::addToWordCount(void)
 	vector<ustring> words;
 	// Split string into its components, deleting USFM codes along the way
 	string::size_type s = 0, e = 0; // start and end markers
-    ustring delims(" \\,:;!?.\u0022");
-	ustring nonUSFMdelims(" ,:;!?.\u0022"); // same list as above except without '\'
+    ustring delims(" \\,:;!?.\u0022()");
+	ustring nonUSFMdelims(" ,:;!?.\u0022()"); // same list as above except without '\'
 	// u0022 is unicode double-quote mark
+	// TO DO : configuration file that has delimiters in it, and "’s" kinds of things to strip out
+	// for the target language.
 	for (string::size_type i = 0; i < text.size(); i++) {
 		// Walk forward until we run into a character that splits words
 		e = i; // move e along to track the iterator i
@@ -104,6 +106,13 @@ void verse::addToWordCount(void)
 			if (s >= e) { continue; }
 			ustring newWord = text.substr(s, e-s); // start pos, length
 			//cout << "Found new word at s=" << s << " e=" << e << ":" << newWord << ":" << endl;
+			ustring::size_type pos = newWord.find("’s");
+			bool found_apostrophe_s = (pos != ustring::npos);
+			if (found_apostrophe_s) {
+				cout << "Found new word with apostrophe s=" << newWord;
+				newWord = newWord.substr(0, pos);
+				cout << " replacing with " << newWord << endl;
+			}
 			if (newWord[0] != '\\') { words.push_back(newWord); } // only add non-usfm words
 			// Advance past the splitting character unless it is the usfm delimiter '\'
 			if (text[e] != '\\') { e++; }
@@ -116,7 +125,7 @@ void verse::addToWordCount(void)
 	// Print each word
 	for (auto &word : words) {
 		//cout << "Word: " << word << ":" << endl;
-		// TODO: The problem with lowercase is words like Lord, proper names, etc. need to remain uppercase.
+		// TODO: The problem with lowercase is words like Lord, proper names, etc. need to remain uppercase, sometimes.
 		wordCounts[word.lowercase()]++;
 	}
 }
