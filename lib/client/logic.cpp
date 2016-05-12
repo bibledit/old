@@ -148,6 +148,7 @@ string client_logic_connection_setup (string user, string hash, bool intelligent
         }
       }
     }
+    
   }
   
   if (response.empty ()) response = error;
