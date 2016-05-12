@@ -225,6 +225,12 @@ h5 {
 h6 {
   font-size: 0.7em;
 }
+i, em {
+  font-style: italic;
+}
+b, strong {
+  font-weight: bold;
+}
 strong {
   color: #488B9B;
 }
