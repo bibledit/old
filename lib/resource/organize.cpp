@@ -27,11 +27,15 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
+#include <resource/external.h>
+#include <sword/logic.h>
 #include <sync/logic.h>
 #include <dialog/entry.h>
 #include <config/logic.h>
 #include <client/logic.h>
 #include <access/logic.h>
+#include <tasks/logic.h>
+#include <database/config/general.h>
 
 
 string resource_organize_url ()
@@ -80,7 +84,7 @@ string resource_organize (void * webserver_request)
     return "";
   }
   
-
+  
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
   header.jQueryUIOn ();
@@ -125,6 +129,35 @@ string resource_organize (void * webserver_request)
     }
   }
   view.set_variable ("after", convert_to_string (request->database_config_user ()->getResourceVersesAfter ()));
+  
+  
+  if (request->query.count ("install")) {
+    vector <string> usfm_resources = client_logic_usfm_resources_get ();
+    vector <string> original_language_resources = resource_external_get_original_language_resources ();
+    vector <string> bible_resources = resource_external_get_bibles ();
+    vector <string> commentary_resources = resource_external_get_commentaries ();
+    vector <string> general_resources = resource_external_get_general_resources ();
+    vector <string> sword_resources = sword_logic_get_available ();
+    vector <string> installable_resources;
+    installable_resources.insert (installable_resources.end (), usfm_resources.begin (), usfm_resources.end ());
+    installable_resources.insert (installable_resources.end (), original_language_resources.begin (), original_language_resources.end ());
+    installable_resources.insert (installable_resources.end (), bible_resources.begin (), bible_resources.end ());
+    installable_resources.insert (installable_resources.end (), commentary_resources.begin (), commentary_resources.end ());
+    installable_resources.insert (installable_resources.end (), general_resources.begin (), general_resources.end ());
+    installable_resources.insert (installable_resources.end (), sword_resources.begin (), sword_resources.end ());
+    vector <string> installing_resources = Database_Config_General::getResourcesToCache ();
+    vector <string> active_resources = request->database_config_user()->getActiveResources ();
+    for (auto & resource : active_resources) {
+      if (in_array (resource, installable_resources)) {
+        if (!in_array (resource, installing_resources)) {
+          installing_resources.push_back (resource);
+          Database_Config_General::setResourcesToCache (installing_resources);
+        }
+      }
+    }
+    tasks_logic_queue (SYNCRESOURCES);
+    view.set_variable ("success", translate ("Will install the resources.") + " " + translate ("The journal displays the progress."));
+  }
   
   
   page += view.render ("resource", "organize");
