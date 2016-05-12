@@ -90,7 +90,7 @@ void sendreceive_bibles ()
   Sync_Logic sync_logic = Sync_Logic (&request);
   
   
-  string response = client_logic_connection_setup ();
+  string response = client_logic_connection_setup ("", "", false);
   int iresponse = convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (sendreceive_bibles_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());

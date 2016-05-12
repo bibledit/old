@@ -60,6 +60,6 @@ string sync_setup (void * webserver_request)
   }
   
   // The credentials were not accepted.
-  this_thread::sleep_for (chrono::seconds (1));
+  this_thread::sleep_for (chrono::milliseconds (100));
   return "Server does not recognize the credentials";
 }

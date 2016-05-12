@@ -93,7 +93,7 @@ void sendreceive_changes ()
   }
   
   
-  string response = client_logic_connection_setup ();
+  string response = client_logic_connection_setup ("", "", false);
   int iresponse = convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (sendreceive_changes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());

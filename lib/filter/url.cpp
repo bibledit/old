@@ -1005,7 +1005,8 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       filter_url_display_mbed_tls_error (ret, &error);
       connection_healthy = false;
     }
-    ret = mbedtls_ssl_set_hostname (&ssl, "Bibledit");
+    // The hostname it connects to, and verifies the certificate for.
+    ret = mbedtls_ssl_set_hostname (&ssl, hostname.c_str ());
     if (ret != 0) {
       filter_url_display_mbed_tls_error (ret, &error);
       connection_healthy = false;
@@ -1184,6 +1185,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         connection_healthy = false;
       } else if (secure && (ret == MBEDTLS_ERR_SSL_WANT_READ)) {
       } else if (secure && (ret == MBEDTLS_ERR_SSL_WANT_WRITE)) {
+      } else if (secure && (ret == MBEDTLS_ERR_SSL_PEER_CLOSE_NOTIFY)) {
       } else if (secure && (ret < 0)) {
         filter_url_display_mbed_tls_error (ret, &error);
         connection_healthy = false;

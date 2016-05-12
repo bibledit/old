@@ -1075,7 +1075,7 @@ msgstr ""
 msgid "Connection is okay."
 msgstr ""
 
-msgid "Could not make the connection with Bibledit Cloud"
+msgid "Could not create a connection with Bibledit Cloud"
 msgstr ""
 
 msgid "Server"
@@ -3184,6 +3184,19 @@ msgid ""
 msgstr ""
 
 msgid "Upgrading from Bibledit-Web to Bibledit Cloud works differently."
+msgstr ""
+
+msgid "Securing"
+msgstr ""
+
+msgid ""
+"It is possible to secure traffic between a user's browser and Bibledit "
+"Cloud, and between Bibledit clients and Bibledit Cloud."
+msgstr ""
+
+msgid ""
+"The following file in the Bibledit installation provides all information "
+"needed:"
 msgstr ""
 
 msgid "Clients"
