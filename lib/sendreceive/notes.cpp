@@ -107,7 +107,7 @@ bool sendreceive_notes_upload ()
   Database_Logs::log (sendreceive_notes_sendreceive_text (), Filter_Roles::translator ());
   
   
-  string response = client_logic_connection_setup ("", "", false);
+  string response = client_logic_connection_setup ("", "");
   int iresponse = convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());
@@ -323,7 +323,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   Notes_Logic notes_logic = Notes_Logic (&request);
   
   
-  string response = client_logic_connection_setup ("", "", false);
+  string response = client_logic_connection_setup ("", "");
   int iresponse = convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());

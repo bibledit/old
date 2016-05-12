@@ -39,10 +39,17 @@ string sync_externalresources_url ()
 }
 
 
-string sync_externalresources (void * webserver_request) // Todo consider security
+string sync_externalresources (void * webserver_request)
 {
-  Database_OfflineResources database_offlineresources;
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Sync_Logic sync_logic = Sync_Logic (webserver_request);
+  Database_OfflineResources database_offlineresources;
+
+  if (!sync_logic.security_okay ()) {
+    // When the Cloud enforces https, inform the client to upgrade.
+    request->response_code = 426;
+    return "";
+  }
 
   int action = convert_to_int (request->post ["a"]);
   string resource = request->post ["r"];

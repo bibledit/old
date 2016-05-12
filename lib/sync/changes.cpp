@@ -41,12 +41,18 @@ string sync_changes_url ()
 }
 
 
-string sync_changes (void * webserver_request) // Todo consider security
+string sync_changes (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
   Database_Modifications database_modifications;
 
+  if (!sync_logic.security_okay ()) {
+    // When the Cloud enforces https, inform the client to upgrade.
+    request->response_code = 426;
+    return "";
+  }
+  
   // Check on the credentials.
   if (!sync_logic.credentials_okay ()) return "";
 

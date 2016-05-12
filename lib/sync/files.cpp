@@ -36,10 +36,16 @@ string sync_files_url ()
 }
 
 
-string sync_files (void * webserver_request) // Todo consider security
+string sync_files (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
+
+  if (!sync_logic.security_okay ()) {
+    // When the Cloud enforces https, inform the client to upgrade.
+    request->response_code = 426;
+    return "";
+  }
 
   // If the client's IP address very recently made a prioritized server call,
   // then delay the current call.

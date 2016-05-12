@@ -39,9 +39,9 @@ string sync_setup (void * webserver_request)
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
   
   if (!sync_logic.security_okay ()) {
-    // Inform the client to upgrade from http to https.
-    // Return the secure port number to be used by the client.
-    return "p" + convert_to_string (config_logic_https_network_port ()) + "p";
+    // When the Cloud enforces https, inform the client to upgrade.
+    request->response_code = 426;
+    return "";
   }
   
   string page;

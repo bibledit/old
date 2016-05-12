@@ -64,10 +64,10 @@ string client_logic_url (string address, int port, string path)
 // It receives settings from the server and applies them to the client.
 // It returns the level of the user.
 // It returns an empty string in case of failure or the response from the server.
-string client_logic_connection_setup (string user, string hash, bool intelligent) // Todo
+string client_logic_connection_setup (string user, string hash)
 {
   Database_Users database_users;
-
+  
   if (user.empty ()) {
     vector <string> users = database_users.getUsers ();
     if (users.empty()) return "";
@@ -76,79 +76,25 @@ string client_logic_connection_setup (string user, string hash, bool intelligent
   }
   
   string encoded_user = bin2hex (user);
-
-  string path = filter_url_build_http_query (sync_setup_url (), "user", encoded_user);
-  path = filter_url_build_http_query (path, "pass", hash);
-
+  
+  string address = Database_Config_General::getServerAddress ();
+  int port = Database_Config_General::getServerPort ();
+  
+  string url = client_logic_url (address, port, sync_setup_url ()) + "?user=" + encoded_user + "&pass=" + hash;
+  
   string error;
-  string response;
-  int method = 0;
-  bool connecting = true;
-
-  while (connecting) {
-    
-    // Method 0: Just take the server and port as they are, and try to connect.
-    string address = Database_Config_General::getServerAddress ();
-    int port = Database_Config_General::getServerPort ();
-
-    // Method 1: Try plain http.
-    if (method == 1) address = filter_url_set_scheme (address, false);
-    
-    // Method 2: Try secure http.
-    if (method == 2) address = filter_url_set_scheme (address, true);
-    
-    string url = client_logic_url (address, port, path);
-
-    response = filter_url_http_get (url, error, true);
-    int iresponse = convert_to_int (response);
-    
-    if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
-      // Set user's role on the client to be the same as on the server.
-      // Do this only when it differs, to prevent excessive database writes on the client.
-      int level = database_users.getUserLevel (user);
-      if (iresponse != level) {
-        database_users.updateUserLevel (user, iresponse);
-      }
-      // Intelligent connection sets the server address.
-      if (intelligent) {
-        Database_Config_General::setServerAddress (address);
-      }
-      // Done connecting.
-      connecting = false;
-    } else {
-      Database_Logs::log (error, Filter_Roles::translator ());
+  string response = filter_url_http_get (url, error, true);
+  int iresponse = convert_to_int (response);
+  
+  if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
+    // Set user's role on the client to be the same as on the server.
+    // Do this only when it differs, to prevent excessive database writes on the client.
+    int level = database_users.getUserLevel (user);
+    if (iresponse != level) {
+      database_users.updateUserLevel (user, iresponse);
     }
-    
-    if (intelligent) {
-      // Try next connection method.
-      method++;
-      // Connection methods all done?
-      if (method > 2) connecting = false;
-    } else {
-      // Dumb connection: Done.
-      connecting = false;
-    }
-    
-    // It parses the output to see whether to upgrade to https.
-    // In such a case, the output would be, e.g.: p8081p
-    // The two characters p are indicators to say that the "p"ort number for https is included.
-    if (connecting) {
-      int count = 0;
-      string port = filter_string_str_replace ("p", "", response, &count);
-      if (count == 2) {
-        if (filter_string_is_numeric (port)) {
-          // The server is saying to upgrade to https and gives the port number to us.
-          address = filter_url_set_scheme (address, true);
-          Database_Config_General::setServerAddress (address);
-          Database_Config_General::setServerPort (convert_to_int (port));
-          // After the upgrade to https, no longer intelligently try to find the connection parameters,
-          // but rather just try this upgraded https one, and see what happens, and leave it at that.
-          intelligent = false;
-          method = 0;
-        }
-      }
-    }
-    
+  } else {
+    Database_Logs::log (error, Filter_Roles::translator ());
   }
   
   if (response.empty ()) response = error;

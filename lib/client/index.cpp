@@ -127,7 +127,7 @@ string client_index (void * webserver_request)
     if (connect) pass = request->post ["pass"];
     if (demo) pass = session_admin_credentials (); 
 
-    string response = client_logic_connection_setup (user, md5 (pass), true);
+    string response = client_logic_connection_setup (user, md5 (pass));
     int iresponse = convert_to_int (response);
 
     if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {

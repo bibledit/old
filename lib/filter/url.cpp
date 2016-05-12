@@ -896,7 +896,7 @@ string filter_url_remove_username_password (string url)
 // $post: Value pairs for a POST request.
 // $filename: The filename to save the data to.
 // $check_certificate: Whether the check the server certificate in case of secure http.
-string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate) // Todo use it throughout.
+string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate)
 {
   // The "http" scheme is used to locate network resources via the HTTP protocol.
   // $url = "http(s):" "//" host [ ":" port ] [ abs_path [ "?" query ]]
@@ -1288,7 +1288,7 @@ void filter_url_display_mbed_tls_error (int & ret, string * error)
 // This takes $url, removes any scheme (http / https) it has,
 // then sets the correct scheme based on $secure,
 // and returns the URL, e.g. as http://localhost or https://localhost.
-string filter_url_set_scheme (string url, bool secure) // Todo
+string filter_url_set_scheme (string url, bool secure)
 {
   // Remove whitespace.
   url = filter_string_trim (url);
