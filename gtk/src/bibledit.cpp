@@ -47,6 +47,7 @@
 #include <libintl.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <errno.h>
 
 directories *Directories;
 Settings *settings;
@@ -101,13 +102,24 @@ int main(int argc, char *argv[])
     // When a file is opened it is always allocated the lowest available file 
     // descriptor. Therefore the following commands cause stdout to be 
     // redirected to the logfile.
+	//int stdin_copy = dup(0);
+	int stdout_copy = dup(1);
+	int stderr_copy = dup(2);
     close(1);
     creat (log_file_name (lftMain, false).c_str(), 0666); 
     // The dup() routine makes a duplicate file descriptor for an already opened 
     // file using the first available file descriptor. Therefore the following 
     // commands cause stderr to be redirected to the file stdout writes to.
     close(2);
-    if (dup(1));
+    int new_stderr_fd = dup(1);
+	if (new_stderr_fd == -1) {
+		// Restore stdout and stderr to what they were originally
+		close(1); // and close(2) is unnecessary since 2 did not get opened
+		dup2(stdout_copy, 1);
+		dup2(stderr_copy, 2);
+		perror("bibledit.cpp:main:dup(1) call failed");
+		return 1;
+	}
   }
 
 #ifdef WIN32
