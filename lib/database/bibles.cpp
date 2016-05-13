@@ -144,6 +144,13 @@ void Database_Bibles::storeChapter (string name, int book, int chapter_number, s
   string folder = chapterFolder (name, book, chapter_number);
   if (!file_exists (folder)) filter_url_mkdir (folder);
 
+  // Ensure that the data to be stored ends with a new line.
+  if (!chapter_text.empty ()) {
+    size_t pos = chapter_text.length () - 1;
+    if (chapter_text.substr (pos, 1) != "\n") {
+      chapter_text.append ("\n");
+    }
+  }
   // Increase the chapter identifier, and store the chapter data.
   int id = getChapterId (name, book, chapter_number);
   id++;
@@ -225,6 +232,8 @@ string Database_Bibles::getChapter (string bible, int book, int chapter)
   if (!files.empty ()) {
     string file = files [files.size () - 1];
     string data = filter_url_file_get_contents (filter_url_create_path (folder, file));
+    // Remove trailing new line.
+    data = filter_string_trim (data);
     return data;
   }
   return "";
