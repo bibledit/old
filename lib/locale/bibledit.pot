@@ -7618,6 +7618,12 @@ msgstr ""
 msgid "How many verses of context to display after the focused verse."
 msgstr ""
 
+msgid "Will install the resources."
+msgstr ""
+
+msgid "The journal displays the progress."
+msgstr ""
+
 msgid "Resource Organizer"
 msgstr ""
 
@@ -7628,6 +7634,9 @@ msgid "Number of verses to display before the focused verse:"
 msgstr ""
 
 msgid "Number of verses to display after the focused verse:"
+msgstr ""
+
+msgid "Install all the above resources on the device."
 msgstr ""
 
 msgid "Select a book"
