@@ -1219,8 +1219,8 @@ string encrypt_decrypt (string key, string data)
 }
 
 
-// Gets a new key for encryption and decryption.
-string get_new_key ()
+// Gets a new random string for sessions, encryption, you name it.
+string get_new_random_string ()
 {
   string u = convert_to_string (filter_date_numerical_microseconds ());
   string s = convert_to_string (filter_date_seconds_since_epoch ());

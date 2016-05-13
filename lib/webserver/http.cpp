@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  Connection: keep-alive
  User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36
  Accept-Language: sn,en-US;q=0.8,en;q=0.6
+ Cookie: session=abcdefghijklmnopqrstuvwxyz; foo=bar; extra=clutter
  
  The function extracts the relevant information from the headers.
  
@@ -115,6 +116,22 @@ bool http_parse_header (string header, Webserver_Request * request)
   // Extract the ETag from a header.
   if (header.substr (0, 13) == "If-None-Match") {
     request->if_none_match = header.substr (15);
+  }
+
+  // Extract the relevant cookie, e.g.:
+  // Cookie: Session=abcdefghijklmnopqrstuvwxyz; foo=bar; extra=clutter
+  // Note that the above has multiple cookies, and Bibledit is only interested in the "Session" one.
+  if (header.substr (0, 6) == "Cookie") {
+    string cookie = header.substr (8);
+    size_t pos = cookie.find ("Session=");
+    if (pos != string::npos) {
+      cookie.erase (0, pos + 8);
+      pos = cookie.find (";");
+      if (pos != string::npos) {
+        cookie.erase (pos);
+      }
+    }
+    request->cookie = cookie;
   }
   
   // Something was or could have been parsed if the header contained something.
@@ -210,6 +227,11 @@ void http_assemble_response (Webserver_Request * request)
   if (!request->etag.empty ()) {
     response.push_back ("Cache-Control: max-age=120");
     response.push_back ("ETag: " + request->etag);
+  }
+  if (request->cookie.empty ()) {
+    // If the browser did not send a cookie to the server, the server sends a new one to the browser.
+    string cookie = "Session=" + get_new_random_string () + "; Path=/; Max-Age=2678400; HttpOnly";
+    response.push_back ("Set-Cookie: " + cookie);
   }
   if (!request->header.empty ()) response.push_back (request->header);
   response.push_back ("");

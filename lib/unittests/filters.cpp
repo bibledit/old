@@ -4453,9 +4453,9 @@ void test_filter_string ()
   }
 
   {
-    string one = get_new_key ();
+    string one = get_new_random_string ();
     this_thread::sleep_for (chrono::milliseconds (10));
-    string two = get_new_key ();
+    string two = get_new_random_string ();
     evaluate (__LINE__, __func__, 32, one.length ());
     evaluate (__LINE__, __func__, true, one != two);
   }

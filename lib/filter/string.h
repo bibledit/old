@@ -91,7 +91,7 @@ string html_tidy (string html);
 string html2xml (string html);
 string convert_xml_character_entities_to_characters (string data);
 string encrypt_decrypt (string key, string data);
-string get_new_key ();
+string get_new_random_string ();
 string non_breaking_space_entity ();
 
 

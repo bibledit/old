@@ -735,6 +735,7 @@ void filter_url_download_file (string url, string filename, string& error, bool 
 #ifdef CLIENT_PREPARED
   filter_url_http_request_mbed (url, error, {}, filename, check_certificate);
 #else
+  (void) check_certificate;
   CURL *curl = curl_easy_init ();
   if (curl) {
     curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
