@@ -26,10 +26,10 @@
 #include <locale/logic.h>
 #include <database/sprint.h>
 #include <database/logs.h>
-#include <database/mail.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <client/logic.h>
+#include <email/send.h>
 
 
 // This function runs the sprint burndown history logger for $bible.
@@ -70,7 +70,6 @@ void sprint_burndown (string bible, bool email)
   Database_Logs::log ("Updating Sprint information", Filter_Roles::manager ());
 
   Webserver_Request request;
-  Database_Mail database_mail = Database_Mail (&request);
   Database_Sprint database_sprint = Database_Sprint ();
 
   
@@ -153,7 +152,7 @@ void sprint_burndown (string bible, bool email)
             
             if (!body.empty ()) {
               string mailbody = filter_string_implode (body, "\n");
-              if (!client_logic_client_enabled ()) database_mail.send (user, subject, mailbody);
+              email_schedule (user, subject, mailbody);
             }
             
           }
@@ -213,7 +212,7 @@ string sprint_create_burndown_chart (string bible, int year, int month)
   }
   lines.push_back ("</tr>");
   
-  // Write number of days along the x-axis.
+  // Write number of days along the X-axis.
   lines.push_back ("<tr>");
   for (auto element : data) {
     int day = element.first;
@@ -221,7 +220,7 @@ string sprint_create_burndown_chart (string bible, int year, int month)
   }
   lines.push_back ("</tr>");
                                       
-  // Write "days" below the x-axis.
+  // Write "days" below the X-axis.
   lines.push_back ("<tr>");
   int columncount = data.size ();
   string text = translate("days");

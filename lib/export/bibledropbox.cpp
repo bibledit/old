@@ -21,7 +21,6 @@
 #include <export/logic.h>
 #include <tasks/logic.h>
 #include <database/bibles.h>
-#include <database/mail.h>
 #include <database/logs.h>
 #include <database/users.h>
 #include <filter/url.h>
@@ -31,6 +30,7 @@
 #include <locale/translate.h>
 #include <styles/sheets.h>
 #include <webserver/request.h>
+#include <email/send.h>
 
 
 void export_bibledropbox (string user, string bible)
@@ -38,7 +38,6 @@ void export_bibledropbox (string user, string bible)
   Webserver_Request request;
   Database_Bibles database_bibles;
   Database_Users database_users;
-  Database_Mail database_mail = Database_Mail (&request);
 
   
   string tag = translate ("Submit to the Bible Drop Box") + ": ";
@@ -128,13 +127,13 @@ void export_bibledropbox (string user, string bible)
   string response = filter_url_http_upload (url, post, zipfile, error);
   if (!error.empty ()) {
     Database_Logs::log (tag + error, Filter_Roles::translator ());
-    database_mail.send (user, "Error submitting to the Bible Drop Box", error);
+    email_schedule (user, "Error submitting to the Bible Drop Box", error);
   }
   size_t pos = response.find ("<head>");
   if (pos != string::npos) {
     response.insert (pos + 6, "<base href=\"http://freely-given.org/Software/BibleDropBox/\">");
   }
-  database_mail.send (user, "Result of your submission to the Bible Drop Box", response);
+  email_schedule (user, "Result of your submission to the Bible Drop Box", response);
 
   
   // Done.

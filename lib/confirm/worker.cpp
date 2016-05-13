@@ -21,10 +21,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/confirm.h>
-#include <database/mail.h>
 #include <database/sqlite.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+#include <email/send.h>
 
 
 Confirm_Worker::Confirm_Worker (void * webserver_request_in)
@@ -54,8 +54,7 @@ void Confirm_Worker::setup (string to, string initial_subject, string initial_bo
   initial_subject += " " + convert_to_string (confirmation_id);
   initial_body += "\n\n";
   initial_body += translate ("Please confirm this request by replying to this email. There is a confirmation number in the subject line. Your reply should have this same confirmation number in the subject line.");
-  Database_Mail database_mail = Database_Mail (webserver_request);
-  database_mail.send (to, initial_subject, initial_body);
+  email_schedule (to, initial_subject, initial_body);
   database_confirm.store (confirmation_id, query, to, subsequent_subject, subsequent_body);
 }
 
@@ -80,8 +79,7 @@ bool Confirm_Worker::handleEmail (string from, string subject, string body)
   string mailto = database_confirm.getMailTo (id);
   subject = database_confirm.getSubject (id);
   body = database_confirm.getBody (id);
-  Database_Mail database_mail = Database_Mail (webserver_request);
-  database_mail.send (mailto, subject, body);
+  email_schedule (mailto, subject, body);
   // Delete the confirmation record.
   database_confirm.erase (id);
   // Job done.

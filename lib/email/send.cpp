@@ -33,11 +33,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <curl/curl.h>
 #endif
 #include <config/globals.h>
+#include <tasks/logic.h>
 
 
 void email_send ()
 {
-  // One email send process runs simultaneously.
+  // No more than one email send process to run simultaneously.
   if (config_globals_mail_send_running) return;
   config_globals_mail_send_running = true;
 
@@ -56,9 +57,6 @@ void email_send ()
     string subject = details.subject;
     string body = details.body;
 
-    // Bail out when username was empty.
-    if (username == "") return;
-  
     // If this username was not found, it could be that the email was addressed to a non-user,
     // and that the To: address was actually contained in the username.
     if (email == "") {
@@ -69,7 +67,7 @@ void email_send ()
     // If the email address validates, ok, else remove this mail from the queue and log the action.
     if (!filter_url_email_is_valid (email)) {
       database_mail.erase (id);
-      Database_Logs::log ("Email to email was deleted because of an invalid email address");
+      Database_Logs::log ("Email to " + email + " was deleted because of an invalid email address");
       continue;
     }
   
@@ -80,7 +78,7 @@ void email_send ()
       result = "Email to " + email + " with subject " + subject + " was sent successfully";
     } else {
       database_mail.postpone (id);
-      result.insert (0, "Email to email could not be sent - reason: ");
+      result.insert (0, "Email to " + email + " could not be sent - reason: ");
     }
     Database_Logs::log (result, Filter_Roles::manager ());
   }
@@ -280,3 +278,20 @@ string email_send (string to_mail, string to_name, string subject, string body, 
 #endif
 }
 
+
+void email_schedule (string to, string subject, string body, int time)
+{
+#ifdef CLIENT_PREPARED
+  // A Bibledit client cannot send mail.
+  (void) to;
+  (void) subject;
+  (void) body);
+  (void) time;
+#else
+  // In the Cloud, schedule the mail for sending.
+  Database_Mail database_mail = Database_Mail (NULL);
+  database_mail.send (to, subject, body, time);
+  // Schedule a task to send the scheduled mail right away.
+  tasks_logic_queue (SENDEMAIL);
+#endif
+}

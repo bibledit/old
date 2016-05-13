@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/md5.h>
-#include <database/mail.h>
+#include <email/send.h>
 
 
 const char * session_password_url ()
@@ -82,7 +82,6 @@ string session_password (void * webserver_request)
       generated_password = generated_password.substr (0, 15);
       string username = database_users.getEmailToUser (email);
       database_users.updateUserPassword (username, generated_password);
-      Database_Mail database_mail = Database_Mail (webserver_request);
       // Send the new password to the user.
       string subject = translate("Account changed");
       string body = translate("Somebody requested a new password for your account.");
@@ -92,7 +91,7 @@ string session_password (void * webserver_request)
       body += generated_password;
       body += "\n\n";
       body += translate("It is recommended to log into your account with this new password, and then change it.");
-      database_mail.send (username, subject, body);
+      email_schedule (username, subject, body);
       view.set_variable ("success_message", translate("A message was sent to the email address belonging to this account to help you getting the password"));
     } else {
       view.set_variable ("error_message", translate("Username or email address cannot be found"));

@@ -21,7 +21,6 @@
 #include <webserver/request.h>
 #include <database/logs.h>
 #include <database/check.h>
-#include <database/mail.h>
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <database/config/general.h>
@@ -40,13 +39,13 @@
 #include <checks/verses.h>
 #include <checks/index.h>
 #include <config/logic.h>
+#include <email/send.h>
 
 
 void checks_run (string bible)
 {
   Webserver_Request request;
   Database_Check database_check;
-  Database_Mail database_mail = Database_Mail (&request);
   
   
   if (bible == "") return;
@@ -196,7 +195,7 @@ void checks_run (string bible)
     for (auto user : users) {
       if (request.database_config_user()->getUserBibleChecksNotification (user)) {
         if (access_bible_read (&request, bible, user)) {
-          if (!client_logic_client_enabled ()) database_mail.send (user, subject, body);
+          if (!client_logic_client_enabled ()) email_schedule (user, subject, body);
         }
       }
     }

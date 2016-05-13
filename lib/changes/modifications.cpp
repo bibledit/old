@@ -31,7 +31,6 @@
 #include <text/text.h>
 #include <database/logs.h>
 #include <database/modifications.h>
-#include <database/mail.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <webserver/request.h>
@@ -41,6 +40,7 @@
 #include <config/globals.h>
 #include <changes/logic.h>
 #include <styles/css.h>
+#include <email/send.h>
 
 
 // Helper function.
@@ -120,7 +120,6 @@ void changes_modifications ()
   // Data objects.
   Webserver_Request request;
   Database_Modifications database_modifications;
-  Database_Mail database_mail = Database_Mail (&request);
 
 
   // Check on the health of the modifications database and (re)create it if needed.
@@ -205,7 +204,7 @@ void changes_modifications ()
         // Send the user email with the user's personal changes if the user opted to receive it.
         if (request.database_config_user()->getUserUserChangesNotification (user)) {
           string subject = translate("Changes you entered in") + " " + bible;
-          if (!client_logic_client_enabled ()) database_mail.send (user, subject, email);
+          if (!client_logic_client_enabled ()) email_schedule (user, subject, email);
         }
       }
     }
@@ -351,7 +350,7 @@ void changes_modifications ()
         if (request.database_config_user()->getUserBibleChangesNotification (user)) {
           if (access_bible_read (&request, bible, user)) {
             if (!client_logic_client_enabled ()) {
-              database_mail.send (user, subject, body);
+              email_schedule (user, subject, body);
             }
           }
         }

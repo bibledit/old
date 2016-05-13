@@ -22,7 +22,6 @@
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <database/notes.h>
-#include <database/mail.h>
 #include <database/logs.h>
 #include <database/modifications.h>
 #include <database/config/general.h>
@@ -32,12 +31,12 @@
 #include <client/logic.h>
 #include <changes/changes.h>
 #include <config/logic.h>
+#include <email/send.h>
 
 
 void statistics_statistics ()
 {
   Webserver_Request request;
-  Database_Mail database_mail = Database_Mail (&request);
   Database_Modifications database_modifications;
   Database_Notes database_notes (&request);
   
@@ -149,7 +148,7 @@ void statistics_statistics ()
     
     if (!body.empty ()) {
       string mailbody = filter_string_implode (body, "\n");
-      database_mail.send (user, subject, mailbody);
+      email_schedule (user, subject, mailbody);
     }
   }
 }

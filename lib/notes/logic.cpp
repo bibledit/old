@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/notes.h>
 #include <database/noteactions.h>
 #include <database/noteassignment.h>
-#include <database/mail.h>
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <config/logic.h>
@@ -35,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/note.h>
 #include <workbench/index.h>
 #include <access/bible.h>
+#include <email/send.h>
 
 
 Notes_Logic::Notes_Logic (void * webserver_request_in)
@@ -468,7 +468,6 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
 {
   // Databases.
   Database_Notes database_notes (webserver_request);
-  Database_Mail database_mail = Database_Mail(webserver_request);
 
   // Send mail to all users.
   string summary = database_notes.getSummary (identifier);
@@ -521,7 +520,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
       subject.append (" | (CNID");
       subject.append (convert_to_string (identifier));
       subject.append (")");
-      database_mail.send (user, subject, contents, timestamp);
+      email_schedule (user, subject, contents, timestamp);
     }
   }
 }
@@ -573,12 +572,11 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   request->session_logic ()->setUsername (sessionuser);
   // Mail confirmation to the username.
   if (request->database_config_user()->getUserNotifyMeOfMyPosts (username)) {
-    Database_Mail database_mail = Database_Mail (webserver_request);
     string subject = translate("Your comment was posted");
     subject.append (" [CNID");
     subject.append (convert_to_string (identifier));
     subject.append ("]");
-    database_mail.send (username, subject, body);
+    email_schedule (username, subject, body);
   }
   // Log operation.
   Database_Logs::log ("Comment posted: " + body);
@@ -646,10 +644,9 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
     noteCheck.append (translate("Unknown summary"));
   }
   // Mail user if the note could not be posted.
-  Database_Mail database_mail = Database_Mail (webserver_request);
   if (noteCheck != "") {
     subject = translate("Your new note could not be posted");
-    database_mail.send (username, subject  + ": " + originalSubject, noteCheck);
+    email_schedule (username, subject  + ": " + originalSubject, noteCheck);
     return false;
   }
   // Clean the email's body.
@@ -665,7 +662,7 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   // Mail confirmation to the username.
   if (request->database_config_user()->getUserNotifyMeOfMyPosts (username)) {
     subject = translate("Your new note was posted");
-    database_mail.send (username, subject + ": " + originalSubject, body);
+    email_schedule (username, subject + ": " + originalSubject, body);
   }
   // Log operation.
   Database_Logs::log ("New note posted : " + body);
