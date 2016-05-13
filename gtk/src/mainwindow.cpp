@@ -4882,7 +4882,7 @@ void MainWindow::handle_editor_focus()
   // g_signal_handlers_unblock_by_func(view_usfm_code, G_CALLBACK(on_view_chapteras_activate), gpointer(this));
   // g_signal_handlers_unblock_by_func(view_experimental, G_CALLBACK(on_view_chapteras_activate), gpointer(this));
 
-  debug_view("4", 0x0, vt);
+  //debug_view("4", 0x0, vt);
 
   // Inform the check USFM window about the focused editor.
   check_usfm_window_ping ();
@@ -4988,63 +4988,6 @@ void MainWindow::on_editor_changed()
   }
 }
 
-#if 0
-void MainWindow::on_view_formatted_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_formatted();
-}
-
-
-void MainWindow::on_view_formatted()
-{
-  // We interpret a click on the view to be a "turn that view on" signal, not a toggle
-  WindowEditor *editor_window = last_focused_editor_window();
-  if (editor_window) {
-    editor_window->vt_set(vtFormatted);
-    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_formatted), TRUE);
-  }
-  // There are objects that act on USFM view or formatted view only.
-  // Inform these about a possible change.
-  handle_editor_focus();
-}
-
-void MainWindow::on_view_usfm_code_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_usfm_code();
-}
-
-
-void MainWindow::on_view_usfm_code()
-{
-  WindowEditor *editor_window = last_focused_editor_window();
-  if (editor_window) {
-    editor_window->vt_set(vtUSFM);
-    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_usfm_code), TRUE);
-  }
-  // There are objects that act on a certain view only.
-  // Inform these about a possible change.
-  handle_editor_focus();
-}
-
-void MainWindow::on_view_experimental_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_experimental();
-}
-
-
-void MainWindow::on_view_experimental()
-{
-  WindowEditor *editor_window = last_focused_editor_window();
-  if (editor_window) {
-    editor_window->vt_set(vtExperimental);
-    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_experimental), TRUE);
-  }
-  // There are objects that act on USFM view or formatted view only.
-  // Inform these about a possible change.
-  handle_editor_focus();
-}
-#endif
-
 void MainWindow::on_view_formatted_toggled(GtkMenuItem *menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_view_formatted_togg();
@@ -5052,7 +4995,7 @@ void MainWindow::on_view_formatted_toggled(GtkMenuItem *menuitem, gpointer user_
 
 void MainWindow::on_view_formatted_togg()
 {
-  DEBUG("View|Formatted toggled")
+  //DEBUG("View|Formatted toggled")
 }
 
 void MainWindow::on_view_usfm_code_toggled(GtkMenuItem *menuitem, gpointer user_data)
@@ -5062,7 +5005,7 @@ void MainWindow::on_view_usfm_code_toggled(GtkMenuItem *menuitem, gpointer user_
 
 void MainWindow::on_view_usfm_code_togg()
 {
-  DEBUG("View|USFM toggled")
+  //DEBUG("View|USFM toggled")
 }
 
 void MainWindow::on_view_experimental_toggled(GtkMenuItem *menuitem, gpointer user_data)
@@ -5072,7 +5015,7 @@ void MainWindow::on_view_experimental_toggled(GtkMenuItem *menuitem, gpointer us
 
 void MainWindow::on_view_experimental_togg()
 {
-  DEBUG("View|Experimental toggled")
+  //DEBUG("View|Experimental toggled")
 }
 
 void MainWindow::on_view_chapteras_activate(GtkRadioMenuItem * menuitem, gpointer user_data)
@@ -5083,44 +5026,31 @@ void MainWindow::on_view_chapteras_activate(GtkRadioMenuItem * menuitem, gpointe
 // Called when a view is toggled
 void MainWindow::on_view_chapteras(GtkRadioMenuItem *menuitem)
 {
-  // TO DO: why is this called twice on the first use of the View|Chapter as| submenu?
-  // Once for the formatted view (already turned on by default) and again for the 
-  // USFM view (the one the user is going to)? Looks like gtk calls the activate 
-  // when the checkmark is turned off on one, and again for the one that the checkmark
-  // is turned on for.
-
-  // Make sure only ONE of the views is on...the menuitem one
-  // bool formattedViewIsOn = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_formatted));
-  // bool usfmViewIsOn = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_usfm_code));
-  // bool experiViewIsOn = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_experimental));
+  // When you select a view from the View|Chapter as submenu, this routine is 
+  // called twice: once for the view that is on, to indicate it is "activated" off, 
+  // and once for the new view to be turned on.
 
   bool radioButtonIsOn = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem));
 
   viewType vt = vtNone;
   if (menuitem == (GtkRadioMenuItem *)view_formatted) {
     vt = vtFormatted;
-    // if (usfmViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_usfm_code), FALSE); }
-    // if (experiViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_experimental), FALSE); } 
   }
   else if (menuitem == (GtkRadioMenuItem *)view_usfm_code) {
     vt = vtUSFM;
-    // if (formattedViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_formatted), FALSE); }
-    // if (experiViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_experimental), FALSE); } 
   }
   else if (menuitem == (GtkRadioMenuItem *)view_experimental) {
     vt = vtExperimental;
-    // if (usfmViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_usfm_code), FALSE); }
-    // if (formattedViewIsOn) { gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_formatted), FALSE); }
   }
-  debug_view("1", menuitem, vt);
+  //debug_view("1", menuitem, vt);
   WindowEditor *editor_window = last_focused_editor_window();
   if (radioButtonIsOn && editor_window) {
     editor_window->vt_set(vt);
-    debug_view("2", menuitem, vt);
+    //debug_view("2", menuitem, vt);
     // There are objects that act on USFM view or formatted view only.
     // Inform these about a possible change.
     handle_editor_focus();
-    debug_view("3", menuitem, vt);
+    //debug_view("3", menuitem, vt);
   }
 }
 
@@ -5646,11 +5576,17 @@ void MainWindow::accelerator_view_usfm_code(gpointer user_data)
   ((MainWindow *) user_data)->accelerator_view_usfm_code_toggle();
 }
 
-
+// Toggle between USFM and Formatted views. If in any other view, go to 
+// USFM view.
 void MainWindow::accelerator_view_usfm_code_toggle()
 {
   bool active = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (view_usfm_code));
-  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_usfm_code), !active);
+  if (active) {
+	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_formatted), TRUE);
+  }
+  else {
+	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_usfm_code), TRUE);
+  }
 }
 
 
