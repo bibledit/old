@@ -285,7 +285,7 @@ void email_schedule (string to, string subject, string body, int time)
   // A Bibledit client cannot send mail.
   (void) to;
   (void) subject;
-  (void) body);
+  (void) body;
   (void) time;
 #else
   // In the Cloud, schedule the mail for sending.
