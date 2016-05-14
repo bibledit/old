@@ -118,9 +118,10 @@ bool http_parse_header (string header, Webserver_Request * request)
     request->if_none_match = header.substr (15);
   }
 
-  // Extract the relevant cookie, e.g.:
+  // Extract the relevant cookie.
+  // When the browser has more than one cookies, it sends them all, e.g.:
   // Cookie: Session=abcdefghijklmnopqrstuvwxyz; foo=bar; extra=clutter
-  // Note that the above has multiple cookies, and Bibledit is only interested in the "Session" one.
+  // Bibledit is only interested in the "Session" one.
   if (header.substr (0, 6) == "Cookie") {
     string cookie_data = header.substr (8);
     size_t pos = cookie_data.find ("Session=");
@@ -230,6 +231,33 @@ void http_assemble_response (Webserver_Request * request)
   }
   if (request->session_identifier.empty ()) {
     // If the browser did not send a cookie to the server, the server sends a new one to the browser.
+    
+    // The cookie consists of the following components:
+    // * Name
+    // * Value
+    // * Zero or more attributes
+    
+    // Create a new identifier, and stores it in the cookie as name "Session".
+    // The identifier is a long string of random letters and numbers.
+    
+    // The Path is given as / because typically the client connects to e.g. bibledit.org:8080/.
+    // It would be good if the port number can be used with cookies also,
+    // but it can't, see https://tools.ietf.org/html/rfc6265.
+
+    // The Max-Age attribute is used to set the cookie’s expiration
+    // as an interval of seconds in the future,
+    // relative to the time the browser received the cookie.
+    // If the expiry information were omitted from the cookie, closing the browser would remove the cookie.
+    
+    // The Secure attribute could be used, but it is not currently used.
+    // It is meant to keep cookie communication limited to encrypted transmission,
+    // directing browsers to use cookies only via secure/encrypted connections.
+    // For maximum security, cookies with the Secure attribute should only be set over a secure connection.
+
+    // The HttpOnly attribute means that the cookie can be accessed by the HTTP API only,
+    // and not by for example Javascript running in the browser.
+    // This provides extra security.
+    
     string cookie = "Session=" + get_new_random_string () + "; Path=/; Max-Age=2678400; HttpOnly";
     response.push_back ("Set-Cookie: " + cookie);
   }
