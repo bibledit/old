@@ -76,7 +76,8 @@ void gw_message(const ustring & message)
 
 void gw_debug(int msgno, const ustring & message, const char *file, int lineno, const char *func)
 {
-  gw_message("DEBUG:"+std::to_string(msgno)+": " + message + " " + func + ":" + file + ":" + std::to_string(lineno));
+  gint64 milliseconds = (g_get_monotonic_time() / 1000);
+  gw_message("DEBUG:"+std::to_string(msgno)+":"+std::to_string(milliseconds)+"ms: " + message + " " + func + ":" + file + ":" + std::to_string(lineno));
 }
 
 void gw_warning(const ustring & warning)

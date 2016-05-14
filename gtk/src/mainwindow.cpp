@@ -2183,17 +2183,20 @@ void MainWindow::on_findspecial1_activate(GtkMenuItem * menuitem, gpointer user_
 
 void MainWindow::menu_findspecial()
 {
+  DEBUG("Called")
   // Before finding, save the current file.
   save_editors();
+  DEBUG("Saved editors...now show_references_window")
   // Display the references window.
   show_references_window();
   // Start dialog.
   {
+	DEBUG("Now run search special dialog")
     SearchSpecialDialog dialog(0);
-    if (dialog.run() != GTK_RESPONSE_OK)
-      return;
+    if (dialog.run() != GTK_RESPONSE_OK) { return; }
   }
   // Carry out the search. 
+  DEBUG("Now do the search")
   search_string(window_references);
 }
 
@@ -2689,8 +2692,10 @@ void MainWindow::on_view_references_activate (GtkMenuItem *menuitem, gpointer us
 
 void MainWindow::on_view_references ()
 {
+  DEBUG("Called")
   on_window_references_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_references))) {
+	DEBUG("Create new references window")
     window_references = new WindowReferences(layout, accelerator_group, windows_startup_pointer != G_MAXINT, references_management_enabled);
     g_signal_connect((gpointer) window_references->delete_signal_button, "clicked", G_CALLBACK(on_window_references_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -2701,6 +2706,7 @@ void MainWindow::on_view_references ()
 
 void MainWindow::show_references_window()
 {
+  DEBUG("Called")
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_references), TRUE);
   window_references->focus_set ();
 }
@@ -2714,8 +2720,10 @@ void MainWindow::on_window_references_delete_button_clicked(GtkButton * button, 
 
 void MainWindow::on_window_references_delete_button()
 {
+  DEBUG("Called")
   if (window_references) {
-    delete window_references;
+  DEBUG("Delete old references window")
+  delete window_references;
     window_references = NULL;
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_references), FALSE);
   }
@@ -5246,8 +5254,9 @@ void MainWindow::on_print()
     labels.push_back(_("References"));
     //labels.push_back("Test usfm2pdf");
     RadiobuttonDialog dialog(_("Print"), _("Select what to print"), labels, settings->genconfig.print_job_get(), false);
-    if (dialog.run() != GTK_RESPONSE_OK)
+    if (dialog.run() != GTK_RESPONSE_OK) {
       return;
+	}
     selection = dialog.selection;
     settings->genconfig.print_job_set(selection);
   }

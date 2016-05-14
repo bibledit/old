@@ -200,16 +200,13 @@ void USFMView::chapter_save()
   reload_chapter_number = chapter;
 
   // If the text is not editable, bail out.
-  if (!editable)
-    return;
+  if (!editable) { return; }
 
   // If the text was not changed, bail out.
-  if (!gtk_text_buffer_get_modified(GTK_TEXT_BUFFER (sourcebuffer)))
-    return;
+  if (!gtk_text_buffer_get_modified(GTK_TEXT_BUFFER (sourcebuffer))) { return; }
 
   // If the project is empty, bail out.
-  if (project.empty())
-    return;
+  if (project.empty()) { return; }
 
   // Get the USFM text.
   ustring chaptertext = chapter_get_ustring();
@@ -225,8 +222,9 @@ void USFMView::chapter_save()
       project_remove_chapter(project, book, chapter);
       save_action_is_over = true;
       reload = true;
-      if (chapter > 0)
+      if (chapter > 0) {
         reload_chapter_number = chapter - 1;
+	  }
     }
   }
 
@@ -289,8 +287,9 @@ void USFMView::chapter_save()
       }
     }
     // Store chapter in database.
-    if (!save_action_is_over)
+    if (!save_action_is_over) {
       project_store_chapter(project, book, ccv);
+	}
     save_action_is_over = true;
   }
   // Set the buffer non-modified.
