@@ -122,16 +122,16 @@ bool http_parse_header (string header, Webserver_Request * request)
   // Cookie: Session=abcdefghijklmnopqrstuvwxyz; foo=bar; extra=clutter
   // Note that the above has multiple cookies, and Bibledit is only interested in the "Session" one.
   if (header.substr (0, 6) == "Cookie") {
-    string cookie = header.substr (8);
-    size_t pos = cookie.find ("Session=");
+    string cookie_data = header.substr (8);
+    size_t pos = cookie_data.find ("Session=");
     if (pos != string::npos) {
-      cookie.erase (0, pos + 8);
-      pos = cookie.find (";");
+      cookie_data.erase (0, pos + 8);
+      pos = cookie_data.find (";");
       if (pos != string::npos) {
-        cookie.erase (pos);
+        cookie_data.erase (pos);
       }
     }
-    request->cookie = cookie;
+    request->session_identifier = cookie_data;
   }
   
   // Something was or could have been parsed if the header contained something.
@@ -228,7 +228,7 @@ void http_assemble_response (Webserver_Request * request)
     response.push_back ("Cache-Control: max-age=120");
     response.push_back ("ETag: " + request->etag);
   }
-  if (request->cookie.empty ()) {
+  if (request->session_identifier.empty ()) {
     // If the browser did not send a cookie to the server, the server sends a new one to the browser.
     string cookie = "Session=" + get_new_random_string () + "; Path=/; Max-Age=2678400; HttpOnly";
     response.push_back ("Set-Cookie: " + cookie);
