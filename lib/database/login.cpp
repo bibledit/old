@@ -95,7 +95,8 @@ bool Database_Login::healthy ()
 // It only writes to the table if the combination of username and tokens differs from what the table already contains.
 void Database_Login::setTokens (string username, string address, string agent, string fingerprint, string cookie, bool touch)
 {
-  if (username == getUsername (cookie)) return;
+  bool daily;
+  if (username == getUsername (cookie, daily)) return;
   address = md5 (address);
   agent = md5 (agent);
   fingerprint = md5 (fingerprint);
@@ -176,7 +177,8 @@ void Database_Login::renameTokens (string username_existing, string username_new
 
 
 // Returns the username that matches the cookie sent by the browser.
-string Database_Login::getUsername (string cookie)
+// Once a day, $daily will be set true.
+string Database_Login::getUsername (string cookie, bool & daily)
 {
   //address = md5 (address);
   //agent = md5 (agent);
@@ -198,12 +200,15 @@ string Database_Login::getUsername (string cookie)
     sql.add ("WHERE rowid =");
     sql.add (rowid);
     sql.execute ();
+    daily = true;
+  } else {
+    daily = false;
   }
   return username;
 }
 
 
-// Returns whether the device that matches the cookie sent, is touch-enabled.
+// Returns whether the device, that matches the cookie it sent, is touch-enabled.
 bool Database_Login::getTouchEnabled (string cookie)
 {
   //address = md5 (address);

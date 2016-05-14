@@ -32,9 +32,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  GET /index/page HTTP/1.1
  Host: localhost:8080
  Connection: keep-alive
- User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36
+ User-Agent: Mozilla/n.0 (X11; Linux x86_64) AppleWebKit/nnn.nn (KHTML, like Gecko) Chrome/3nn.n.nnnn.nnn Safari/nnn.nn
  Accept-Language: sn,en-US;q=0.8,en;q=0.6
- Cookie: session=abcdefghijklmnopqrstuvwxyz; foo=bar; extra=clutter
+ Cookie: Session=abcdefghijklmnopqrstuvwxyz; foo=bar; extra=clutter
  
  The function extracts the relevant information from the headers.
  
@@ -229,8 +229,9 @@ void http_assemble_response (Webserver_Request * request)
     response.push_back ("Cache-Control: max-age=120");
     response.push_back ("ETag: " + request->etag);
   }
-  if (request->session_identifier.empty ()) {
+  if (request->session_identifier.empty () || request->resend_cookie) {
     // If the browser did not send a cookie to the server, the server sends a new one to the browser.
+    // Once a day, it resends the existing one, to refresh it in the browser.
     
     // The cookie consists of the following components:
     // * Name
@@ -257,8 +258,10 @@ void http_assemble_response (Webserver_Request * request)
     // The HttpOnly attribute means that the cookie can be accessed by the HTTP API only,
     // and not by for example Javascript running in the browser.
     // This provides extra security.
-    
-    string cookie = "Session=" + get_new_random_string () + "; Path=/; Max-Age=2678400; HttpOnly";
+
+    string identifier = request->session_identifier;
+    if (identifier.empty ()) get_new_random_string ();
+    string cookie = "Session=" + identifier + "; Path=/; Max-Age=2678400; HttpOnly";
     response.push_back ("Set-Cookie: " + cookie);
   }
   if (!request->header.empty ()) response.push_back (request->header);

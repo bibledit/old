@@ -36,7 +36,7 @@ public:
   static void removeTokens (string username);
   static void removeTokens (string username, string cookie);
   static void renameTokens (string username_existing, string username_new, string cookie);
-  static string getUsername (string cookie);
+  static string getUsername (string cookie, bool & daily);
   static bool getTouchEnabled (string cookie);
   static void testTimestamp ();
 private:

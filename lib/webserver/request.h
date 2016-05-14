@@ -39,6 +39,7 @@ public:
   ~Webserver_Request ();
   bool secure; // Whether the connection runs via the secure server.
   string session_identifier; // The session identifier of the cookie sent by the browser.
+  bool resend_cookie; // Whether to resend the cookie to the browser.
   string remote_address; // The browser's or client's remote IPv4 address.
   string get; // The page the browser requests via GET or via POST.
   bool is_post; // Whether it is a POST request.

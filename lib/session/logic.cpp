@@ -80,17 +80,16 @@ void Session_Logic::Open ()
   if (openAccess ()) return;
   if (clientAccess ()) return;
 
-  //string address = remoteAddress ();
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   // Work around a weird bug where the user_agent's size is 140735294083184 leading to a crash.
   if (request->user_agent.size () > 10000) return;
-  //string agent = request->user_agent;
-  //string finger_print = fingerprint ();
   string cookie = request->session_identifier;
-  string username = Database_Login::getUsername (cookie);
+  bool daily;
+  string username = Database_Login::getUsername (cookie, daily);
   if (!username.empty ()) {
     setUsername (username);
     logged_in = true;
+    if (daily) request->resend_cookie = true;
     touch_enabled = Database_Login::getTouchEnabled (cookie);
   } else {
     setUsername ("");
@@ -160,14 +159,10 @@ bool Session_Logic::attemptLogin (string user_or_email, string password, bool to
     // Fetch username that belongs to the email address that was used to login.
     user_or_email = database.getEmailToUser (user_or_email);
   }
-
   if (login_okay) {
     Open ();
     setUsername (user_or_email);
     logged_in = true;
-    //string security1 = remoteAddress ();
-    //string security2 = ((Webserver_Request *) webserver_request)->user_agent;
-    //string security3 = fingerprint ();
     string cookie = ((Webserver_Request *) webserver_request)->session_identifier;
     Database_Login::setTokens (user_or_email, "", "", "", cookie, touch_enabled);
     currentLevel (true);
@@ -231,9 +226,6 @@ int Session_Logic::currentLevel (bool force)
 void Session_Logic::logout ()
 {
   string username = currentUser ();
-  //string security1 = remoteAddress ();
-  //string security2 = ((Webserver_Request *) webserver_request)->user_agent;
-  //string security3 = fingerprint ();
   string cookie = ((Webserver_Request *) webserver_request)->session_identifier;
   Database_Login::removeTokens (username, cookie);
   setUsername ("");
@@ -267,9 +259,6 @@ bool Session_Logic::clientAccess ()
 
 void Session_Logic::switchUser (string username)
 {
-  //string security1 = remoteAddress ();
-  //string security2 = ((Webserver_Request *) webserver_request)->user_agent;
-  //string security3 = fingerprint ();
   string cookie = ((Webserver_Request *) webserver_request)->session_identifier;
   Database_Login::removeTokens (username, cookie);
   Database_Login::renameTokens (currentUser (), username, cookie);

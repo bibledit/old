@@ -29,6 +29,7 @@ Webserver_Request::Webserver_Request ()
   accept_language = "en-US";
   content_length = 0;
   response_code = 200;
+  resend_cookie = false;
 }
 
 
