@@ -129,6 +129,12 @@ string sprint_index (void * webserver_request)
   int id = convert_to_int (request->query ["id"]);
   
   
+  if (request->query.count ("remove")) {
+    database_sprint.deleteTask (id);
+    view.set_variable ("success", translate("The task was removed"));
+  }
+  
+  
   if (request->query.count ("moveback")) {
     filter_date_get_previous_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
@@ -187,6 +193,8 @@ string sprint_index (void * webserver_request)
     string title = filter_string_sanitize_html (database_sprint.getTitle (id));
     int percentage = database_sprint.getComplete (id);
     tasks.append ("<tr id=\"a" + convert_to_string (id) + "\">\n");
+    tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&remove=\"> ✗ </a></td>\n");
+    tasks.append ("<td></td>\n");
     tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&moveback=\"> « </a></td>\n");
     tasks.append ("<td>" + title + "</td>\n");
     int category_count = vcategories.size();
