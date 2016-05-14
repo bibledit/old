@@ -140,12 +140,6 @@ void Database_Login::removeTokens (string username, string cookie)
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM logins WHERE username =");
   sql.add (username);
-  //sql.add ("AND address =");
-  //sql.add (address);
-  //sql.add ("AND agent =");
-  //sql.add (agent);
-  //sql.add ("AND fingerprint =");
-  //sql.add (agent);
   sql.add ("AND cookie =");
   sql.add (cookie);
   sql.add (";");
@@ -155,20 +149,11 @@ void Database_Login::removeTokens (string username, string cookie)
 
 void Database_Login::renameTokens (string username_existing, string username_new, string cookie)
 {
-  //address = md5 (address);
-  //agent = md5 (agent);
-  //fingerprint = md5 (fingerprint);
   SqliteDatabase sql (database ());
   sql.add ("UPDATE logins SET username =");
   sql.add (username_new);
   sql.add ("WHERE username =");
   sql.add (username_existing);
-  //sql.add ("AND address =");
-  //sql.add (address);
-  //sql.add ("AND agent =");
-  //sql.add (agent);
-  //sql.add ("AND fingerprint =");
-  //sql.add (fingerprint);
   sql.add ("AND cookie =");
   sql.add (cookie);
   sql.add (";");
@@ -180,9 +165,6 @@ void Database_Login::renameTokens (string username_existing, string username_new
 // Once a day, $daily will be set true.
 string Database_Login::getUsername (string cookie, bool & daily)
 {
-  //address = md5 (address);
-  //agent = md5 (agent);
-  //fingerprint = md5 (fingerprint);
   SqliteDatabase sql (database ());
   sql.add ("SELECT rowid, timestamp, username FROM logins WHERE cookie =");
   sql.add (cookie);
@@ -211,9 +193,6 @@ string Database_Login::getUsername (string cookie, bool & daily)
 // Returns whether the device, that matches the cookie it sent, is touch-enabled.
 bool Database_Login::getTouchEnabled (string cookie)
 {
-  //address = md5 (address);
-  //agent = md5 (agent);
-  //fingerprint = md5 (fingerprint);
   SqliteDatabase sql (database ());
   sql.add ("SELECT touch FROM logins WHERE cookie =");
   sql.add (cookie);
@@ -232,7 +211,7 @@ void Database_Login::testTimestamp ()
 }
 
 
-// Gets the current timestamp.
+// Gets the current number of days since the Unix epoch.
 int Database_Login::timestamp ()
 {
   return filter_date_seconds_since_epoch () / 86400;
