@@ -44,30 +44,24 @@ In such a case, the session mechanism does not always work as desired.
 This may result in frequently being locked out.
 A possible solution would be to work around this behaviour.
 
-Bibledit has another solution:
-It has its own persistent session storage mechanism.
-This mechanism is independent of any hosting provider or any PHP session mechanism.
+Bibledit then found another solution:
+It had its own persistent session storage mechanism.
+This mechanism was independent of any hosting provider or any PHP session mechanism.
 
-The current mechanism makes the following situation possible, although not likely:
+That mechanism made the following situation possible, although not likely:
 * One user logs in.
 * Another user, with exactly the same signature, is automatically logged in too.
 The above is undesired.
 The behaviour can be prevented when one of the users sets another user agent.
 
-To improve the persistent login mechanism, the following could be done:
-1. On sending the login screen, Bibledit generates a unique cookie with unique name and the correct path.
+To improve the persistent login mechanism, the following has been done:
+1. Bibledit generates a cookie with unique session identifier and other parameters.
 2. When the user logs in, the browser will send this new cookie.
-3. Bibledit stores the cookie details as it receives the cookie details through the header during login.
+3. Bibledit stores the cookie details as it receives the cookie during login.
 4. Next time when the user requests any page page, the browser will again send this cookie.
-   Bibledit checks the details from the submitted header with its database.
+   Bibledit checks the details from the submitted cookie with its database.
    If the details match, the user is logged in.
-Optionally it sets the cookie to expire after a week, or a month, or to never expire.
-Upon regenerating the cookie, it will keep storing the old cookie signature, and will also store the new cookie signature.
-Both are now acceptable for the time being.
-This requires two columns in the table, where the stuff is shifted from new to old, to swapped away.
-
-After the port to C++, the PHP session mechanism is no longer a good option.
-The database is now used for that.
+It sets the cookie to expire after a certain time.
 
 */
 
