@@ -158,7 +158,12 @@ string resource_organize (void * webserver_request)
     tasks_logic_queue (SYNCRESOURCES);
     view.set_variable ("success", translate ("Will install the resources.") + " " + translate ("The journal displays the progress."));
   }
+
   
+#ifdef CLIENT_PREPARED
+  view.enable_zone ("client");
+#endif
+
   
   page += view.render ("resource", "organize");
   page += Assets_Page::footer ();
