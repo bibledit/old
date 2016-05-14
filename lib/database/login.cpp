@@ -93,14 +93,14 @@ bool Database_Login::healthy ()
 // Sets the login security tokens for a user.
 // Also store whether the device is touch-enabled.
 // It only writes to the table if the combination of username and tokens differs from what the table already contains.
-void Database_Login::setTokens (string username, string address, string agent, string fingerprint, bool touch)
+void Database_Login::setTokens (string username, string address, string agent, string fingerprint, string cookie, bool touch)
 {
-  if (username == getUsername (address, agent, fingerprint)) return;
+  if (username == getUsername (cookie)) return;
   address = md5 (address);
   agent = md5 (agent);
   fingerprint = md5 (fingerprint);
   SqliteDatabase sql (database ());
-  sql.add ("INSERT INTO logins (username, address, agent, fingerprint, touch, timestamp) VALUES (");
+  sql.add ("INSERT INTO logins VALUES (");
   sql.add (username);
   sql.add (",");
   sql.add (address);
@@ -108,6 +108,8 @@ void Database_Login::setTokens (string username, string address, string agent, s
   sql.add (agent);
   sql.add (",");
   sql.add (fingerprint);
+  sql.add (",");
+  sql.add (cookie);
   sql.add (",");
   sql.add (touch);
   sql.add (",");
@@ -128,62 +130,60 @@ void Database_Login::removeTokens (string username)
 }
 
 
-// Remove the login security tokens for a user based on the tokens themselves.
-void Database_Login::removeTokens (string username, string address, string agent, string fingerprint)
+// Remove the login security tokens for a user based on the cookie.
+void Database_Login::removeTokens (string username, string cookie)
 {
-  address = md5 (address);
-  agent = md5 (agent);
-  fingerprint = md5 (fingerprint);
+  //address = md5 (address);
+  //agent = md5 (agent);
+  //fingerprint = md5 (fingerprint);
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM logins WHERE username =");
   sql.add (username);
-  sql.add ("AND address =");
-  sql.add (address);
-  sql.add ("AND agent =");
-  sql.add (agent);
-  sql.add ("AND fingerprint =");
-  sql.add (fingerprint);
+  //sql.add ("AND address =");
+  //sql.add (address);
+  //sql.add ("AND agent =");
+  //sql.add (agent);
+  //sql.add ("AND fingerprint =");
+  //sql.add (agent);
+  sql.add ("AND cookie =");
+  sql.add (cookie);
   sql.add (";");
   sql.execute ();
 }
 
 
-void Database_Login::renameTokens (string username_existing, string username_new,
-                                   string address, string agent, string fingerprint)
+void Database_Login::renameTokens (string username_existing, string username_new, string cookie)
 {
-  address = md5 (address);
-  agent = md5 (agent);
-  fingerprint = md5 (fingerprint);
+  //address = md5 (address);
+  //agent = md5 (agent);
+  //fingerprint = md5 (fingerprint);
   SqliteDatabase sql (database ());
   sql.add ("UPDATE logins SET username =");
   sql.add (username_new);
   sql.add ("WHERE username =");
   sql.add (username_existing);
-  sql.add ("AND address =");
-  sql.add (address);
-  sql.add ("AND agent =");
-  sql.add (agent);
-  sql.add ("AND fingerprint =");
-  sql.add (fingerprint);
+  //sql.add ("AND address =");
+  //sql.add (address);
+  //sql.add ("AND agent =");
+  //sql.add (agent);
+  //sql.add ("AND fingerprint =");
+  //sql.add (fingerprint);
+  sql.add ("AND cookie =");
+  sql.add (cookie);
   sql.add (";");
   sql.execute ();
 }
 
 
-// Returns the username that matches the remote IP $address and the browser's user $agent,
-// and the other fingerprints from the user.
-string Database_Login::getUsername (string address, string agent, string fingerprint)
+// Returns the username that matches the cookie sent by the browser.
+string Database_Login::getUsername (string cookie)
 {
-  address = md5 (address);
-  agent = md5 (agent);
-  fingerprint = md5 (fingerprint);
+  //address = md5 (address);
+  //agent = md5 (agent);
+  //fingerprint = md5 (fingerprint);
   SqliteDatabase sql (database ());
-  sql.add ("SELECT rowid, timestamp, username FROM logins WHERE address =");
-  sql.add (address);
-  sql.add ("AND agent =");
-  sql.add (agent);
-  sql.add ("AND fingerprint =");
-  sql.add (fingerprint);
+  sql.add ("SELECT rowid, timestamp, username FROM logins WHERE cookie =");
+  sql.add (cookie);
   sql.add (";");
   map <string, vector <string> > result = sql.query ();
   if (result.empty()) return "";
@@ -203,20 +203,15 @@ string Database_Login::getUsername (string address, string agent, string fingerp
 }
 
 
-// Returns whether the device that matches the remote IP $address and the browser's user $agent,
-// and the other fingerprint, is touch-enabled.
-bool Database_Login::getTouchEnabled (string address, string agent, string fingerprint)
+// Returns whether the device that matches the cookie sent, is touch-enabled.
+bool Database_Login::getTouchEnabled (string cookie)
 {
-  address = md5 (address);
-  agent = md5 (agent);
-  fingerprint = md5 (fingerprint);
+  //address = md5 (address);
+  //agent = md5 (agent);
+  //fingerprint = md5 (fingerprint);
   SqliteDatabase sql (database ());
-  sql.add ("SELECT touch FROM logins WHERE address =");
-  sql.add (address);
-  sql.add ("AND agent =");
-  sql.add (agent);
-  sql.add ("AND fingerprint =");
-  sql.add (fingerprint);
+  sql.add ("SELECT touch FROM logins WHERE cookie =");
+  sql.add (cookie);
   sql.add (";");
   vector <string> result = sql.query () ["touch"];
   if (!result.empty()) return convert_to_bool (result [0]);

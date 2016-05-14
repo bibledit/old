@@ -32,13 +32,12 @@ public:
   static void trim ();
   static void optimize ();
   static bool healthy ();
-  static void setTokens (string username, string address, string agent, string fingerprint, bool touch);
+  static void setTokens (string username, string address, string agent, string fingerprint, string cookie, bool touch);
   static void removeTokens (string username);
-  static void removeTokens (string username, string address, string agent, string fingerprint);
-  static void renameTokens (string username_existing, string username_new,
-                            string address, string agent, string fingerprint);
-  static string getUsername (string address, string agent, string fingerprint);
-  static bool getTouchEnabled (string address, string agent, string fingerprint);
+  static void removeTokens (string username, string cookie);
+  static void renameTokens (string username_existing, string username_new, string cookie);
+  static string getUsername (string cookie);
+  static bool getTouchEnabled (string cookie);
   static void testTimestamp ();
 private:
   static int timestamp ();
