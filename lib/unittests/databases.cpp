@@ -4334,46 +4334,48 @@ void test_database_login ()
   string username = "unittest";
   string username2 = "unittest2";
   string address = "192.168.1.0";
-  string address2 = "192.168.1.1";
   string agent = "Browser's user agent";
   string fingerprint = "ԴԵԶԸ";
+  string cookie = "abcdefghijklmnopqrstuvwxyz";
+  string cookie2 = "abcdefghijklmnopqrstuvwxyzabc";
+  bool daily;
 
   // Testing whether setting tokens and reading the username, and removing the tokens works.
-  Database_Login::setTokens (username, address, agent, fingerprint, true);
-  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (cookie, daily));
   Database_Login::removeTokens (username);
-  evaluate (__LINE__, __func__, "", Database_Login::getUsername (address, agent, fingerprint));
+  evaluate (__LINE__, __func__, "", Database_Login::getUsername (cookie, daily));
 
   // Testing whether a persistent login gets removed after about a year.
-  Database_Login::setTokens (username, address, agent, fingerprint, true);
-  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (cookie, daily));
   Database_Login::testTimestamp ();
   Database_Login::trim ();
-  evaluate (__LINE__, __func__, "", Database_Login::getUsername (address, agent, fingerprint));
+  evaluate (__LINE__, __func__, "", Database_Login::getUsername (cookie, daily));
 
   // Testing whether storing touch enabled
-  Database_Login::setTokens (username, address, agent, fingerprint, true);
-  evaluate (__LINE__, __func__, true, Database_Login::getTouchEnabled (address, agent, fingerprint));
+  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
+  evaluate (__LINE__, __func__, true, Database_Login::getTouchEnabled (cookie));
   Database_Login::removeTokens (username);
-  evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint));
-  Database_Login::setTokens (username, address, agent, fingerprint, true);
-  evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (address, agent, fingerprint + "x"));
+  evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (cookie));
+  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
+  evaluate (__LINE__, __func__, false, Database_Login::getTouchEnabled (cookie + "x"));
 
   // Testing that removing tokens for one set does not remove all tokens for a user.
-  Database_Login::setTokens (username, address, agent, fingerprint, true);
-  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
-  Database_Login::setTokens (username, address2, agent, fingerprint, true);
-  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address2, agent, fingerprint));
-  Database_Login::removeTokens (username, address2, agent, fingerprint);
-  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
-  evaluate (__LINE__, __func__, "", Database_Login::getUsername (address2, agent, fingerprint));
+  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (cookie, daily));
+  Database_Login::setTokens (username, address, agent, fingerprint, cookie2, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (cookie2, daily));
+  Database_Login::removeTokens (username, cookie2);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (cookie, daily));
+  evaluate (__LINE__, __func__, "", Database_Login::getUsername (cookie2, daily));
   
   // Test moving tokens to a new username.
   Database_Login::removeTokens (username);
-  Database_Login::setTokens (username, address, agent, fingerprint, true);
-  evaluate (__LINE__, __func__, username, Database_Login::getUsername (address, agent, fingerprint));
-  Database_Login::renameTokens (username, username2, address, agent, fingerprint);
-  evaluate (__LINE__, __func__, username2, Database_Login::getUsername (address, agent, fingerprint));
+  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
+  evaluate (__LINE__, __func__, username, Database_Login::getUsername (cookie, daily));
+  Database_Login::renameTokens (username, username2, cookie);
+  evaluate (__LINE__, __func__, username2, Database_Login::getUsername (cookie, daily));
 }
 
 
@@ -4621,6 +4623,15 @@ void test_database_git ()
   Database_Git::store_chapter ("user2", bible, 2, 5, "old", "new");
   vector <string> users = Database_Git::get_users (bible);
   evaluate (__LINE__, __func__, {user, "user2"}, users);
+}
+
+
+void test_database_userresources () // Todo
+{
+  trace_unit_tests (__func__);
+  
+  refresh_sandbox (true);
+  
 }
 
 
