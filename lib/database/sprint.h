@@ -38,8 +38,6 @@ public:
 class Database_Sprint
 {
 public:
-  Database_Sprint ();
-  ~Database_Sprint ();
   void create ();
   void optimize ();
   void storeTask (const string& bible, int year, int month, const string& title);

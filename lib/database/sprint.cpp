@@ -30,16 +30,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //    This is acceptable, because translation work can still continue.
 
 
-Database_Sprint::Database_Sprint ()
-{
-}
-
-
-Database_Sprint::~Database_Sprint ()
-{
-}
-
-
 sqlite3 * Database_Sprint::connect ()
 {
   return database_sqlite_connect ("sprint");
