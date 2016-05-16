@@ -237,6 +237,7 @@ navigation(0), httpd(0)
     gtk_accel_group_connect(accelerator_group, GDK_KEY_R, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_replace_callback), gpointer(this), NULL));
   }
   gtk_accel_group_connect(accelerator_group, GDK_KEY_F1, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_main_help_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_F2, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_main_jumpto_callback), gpointer(this), NULL));
   // For USFM view, we first had defined the Ctrl-U for that. The U is the first letter of USFM,
   // and also in for example Firefox, the Ctrl-U views the source code.
   // But since the Ctrl-U clashed with the Ctrl-U for underline in the note editor,
@@ -2035,6 +2036,12 @@ void MainWindow::on_help_main_activate(GtkMenuItem * menuitem, gpointer user_dat
 void MainWindow::on_help_main()
 {
   gtkw_show_uri (html_server_url ("site/home.html"), false);
+}
+
+// For F2 accelerator
+void MainWindow::on_jumpto_main()
+{
+  gtk_widget_grab_focus (navigation.get_entry_free());
 }
 
 
@@ -5577,6 +5584,12 @@ void MainWindow::accelerator_replace_callback(gpointer user_data)
 void MainWindow::accelerator_main_help_callback(gpointer user_data)
 {
   ((MainWindow *) user_data)->on_help_main();
+}
+
+// For F2 accelerator
+void MainWindow::accelerator_main_jumpto_callback(gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_jumpto_main();
 }
 
 

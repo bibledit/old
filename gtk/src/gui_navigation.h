@@ -31,6 +31,8 @@
 
 class GuiNavigation
 {
+ private:
+  GtkWidget *parentToolbar;
 public:
   GuiNavigation (int dummy);
   ~GuiNavigation ();
@@ -38,6 +40,7 @@ public:
   void sensitive (bool sensitive);
   void set_project (const ustring& value, bool force);
   void clampref (Reference& reference);
+  Reference get_current_ref (void);
   void display (const Reference& ref);
   void nextbook ();
   void previousbook ();
@@ -51,6 +54,7 @@ public:
   void on_forward ();
   void on_list_back ();
   void on_list_forward ();
+  GtkWidget *get_entry_free() { return entry_free; }
 private:
   GtkWidget *button_list_back;
   GtkWidget *image_list_back;
@@ -69,6 +73,7 @@ private:
   GtkWidget *combo_verse;
   GtkObject *spinbutton_verse_adj;
   GtkWidget *spinbutton_verse;
+  GtkWidget *entry_free;
 
   static void on_button_list_back_clicked (GtkButton *button, gpointer user_data);
   static void on_button_back_clicked (GtkButton *button, gpointer user_data);
@@ -80,12 +85,14 @@ private:
   static void on_spinbutton_book_value_changed (GtkSpinButton *spinbutton, gpointer user_data);
   static void on_spinbutton_chapter_value_changed (GtkSpinButton *spinbutton, gpointer user_data);
   static void on_spinbutton_verse_value_changed (GtkSpinButton *spinbutton, gpointer user_data);
+  static void on_entry_free_activate (GtkEntry *entry_box, gpointer user_data);
   void on_combo_book ();
   void on_combo_chapter ();
   void on_combo_verse ();
   void on_spinbutton_book ();
   void on_spinbutton_chapter ();
   void on_spinbutton_verse ();
+  void on_entry_free ();
 
   bool reference_exists (Reference& reference);
   void load_books ();
@@ -113,7 +120,5 @@ private:
   guint track_event_id;
   Track track;
 };
-
-
 
 #endif

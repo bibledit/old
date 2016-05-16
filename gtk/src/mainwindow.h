@@ -353,6 +353,7 @@ protected:
   void viewlog();
   static void on_help_main_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_help_main();
+  void on_jumpto_main(); // F2 accelerator focuses the Jump to: GtkEntry * box for quick kbd navigation
   static void on_about1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void showabout();
   static void on_undo1_activate(GtkMenuItem * menuitem, gpointer user_data);
@@ -731,6 +732,7 @@ protected:
   static void accelerator_find_callback(gpointer user_data);
   static void accelerator_replace_callback(gpointer user_data);
   static void accelerator_main_help_callback(gpointer user_data);
+  static void accelerator_main_jumpto_callback(gpointer user_data);
   static void accelerator_view_usfm_code(gpointer user_data);
   void accelerator_view_usfm_code_toggle();
   

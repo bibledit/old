@@ -32,11 +32,13 @@
 #include "referencememory.h"
 #include "dialogradiobutton.h"
 #include <glib/gi18n.h>
+#include "completion.h"
 
 GuiNavigation::GuiNavigation(int dummy):
 reference(0), track(0)
 {
   // Initialize variables.
+  parentToolbar = NULL;
   settingcombos = false;
   spinbutton_book_previous_value = 0;
   spinbutton_chapter_previous_value = 0;
@@ -53,6 +55,10 @@ GuiNavigation::~GuiNavigation()
 
 void GuiNavigation::build(GtkWidget * toolbar)
 {
+  parentToolbar = toolbar; // Save this so we have something to attach
+			   // children widgets to (like error message
+			   // dialogs), as well as the following
+			   // contents.
   // Signalling buttons, but not visible.
   GtkToolItem *toolitem_delayed = gtk_tool_item_new();
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(toolitem_delayed), -1);
@@ -193,6 +199,32 @@ void GuiNavigation::build(GtkWidget * toolbar)
   gtk_widget_set_size_request(spinbutton_chapter, int (defaultheight * 0.7), -1);
   gtk_widget_set_size_request(spinbutton_verse, int (defaultheight * 0.7), -1);
 
+  // Jump to verse (basically same as Go to reference dialog, built right into the main window navigation toolbar
+  GtkSeparatorToolItem *separator = (GtkSeparatorToolItem*)gtk_separator_tool_item_new();
+  gtk_separator_tool_item_set_draw (separator, true);
+  gtk_widget_show(GTK_WIDGET(separator));
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), (GtkToolItem*)separator, -1);
+  GtkToolItem *toolitem10 = gtk_tool_item_new();
+  gtk_widget_show(GTK_WIDGET(toolitem10));
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(toolitem10), -1);
+  GtkLabel *jump_label = (GtkLabel *)gtk_label_new(_("Jump to: "));
+  gtk_widget_show(GTK_WIDGET(jump_label));
+  gtk_container_add(GTK_CONTAINER(toolitem10), GTK_WIDGET(jump_label));
+  gtk_widget_set_can_focus (GTK_WIDGET(jump_label), false);
+
+  GtkToolItem *toolitem9 = gtk_tool_item_new();
+  gtk_widget_show(GTK_WIDGET(toolitem9));
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(toolitem9), -1);
+
+  GtkEntryBuffer *entry_free_buf = gtk_entry_buffer_new (NULL, 0);
+  entry_free = gtk_entry_new_with_buffer(entry_free_buf);
+  gtk_editable_select_region(GTK_EDITABLE(entry_free), 0, -1);
+  gtk_widget_show(GTK_WIDGET(entry_free));
+  gtk_container_add(GTK_CONTAINER(toolitem9), entry_free);
+  gtk_widget_set_can_focus (entry_free, true);
+
+  g_signal_connect((gpointer) entry_free, "activate", G_CALLBACK(on_entry_free_activate), gpointer(this));
+
   g_signal_connect((gpointer) button_list_back, "clicked", G_CALLBACK(on_button_list_back_clicked), gpointer(this));
   g_signal_connect((gpointer) button_back, "clicked", G_CALLBACK(on_button_back_clicked), gpointer(this));
   g_signal_connect((gpointer) button_forward, "clicked", G_CALLBACK(on_button_forward_clicked), gpointer(this));
@@ -286,6 +318,13 @@ void GuiNavigation::clampref(Reference & reference)
   }
 }
 
+Reference GuiNavigation::get_current_ref (void)
+{
+  unsigned int currentbook = books_name_to_id(language, combobox_get_active_string(combo_book));
+  unsigned int currentchapter = convert_to_int(combobox_get_active_string(combo_chapter));
+  ustring currentverse = combobox_get_active_string(combo_verse);
+  return Reference(currentbook, currentchapter, currentverse);
+}
 
 void GuiNavigation::display (const Reference & ref)
 // This has the reference displayed.
@@ -303,22 +342,17 @@ void GuiNavigation::display (const Reference & ref)
   language = projectconfig->language_get();
 
   // Find out if there is a change in book, chapter, verse.
-  unsigned int currentbook = books_name_to_id(language, combobox_get_active_string(combo_book));
-  bool newbook = (ref.book_get() != currentbook);
-  unsigned int currentchapter = convert_to_int(combobox_get_active_string(combo_chapter));
-  bool newchapter = (ref.chapter_get() != currentchapter);
-  ustring currentverse = combobox_get_active_string(combo_verse);
-  bool newverse = (ref.verse_get() != currentverse);
+  Reference currRef = get_current_ref();
+  bool newbook    = (ref.book_get()    != currRef.book_get());
+  bool newchapter = (ref.chapter_get() != currRef.chapter_get());
+  bool newverse   = (ref.verse_get()   != currRef.verse_get());
 
   // If a new book, then there is also a new chapter, and so on.
-  if (newbook)
-    newchapter = true;
-  if (newchapter)
-    newverse = true;
+  if (newbook)    { newchapter = true; }
+  if (newchapter) { newverse = true; }
 
   // If there is no change in the reference, do nothing.
-  if (!newverse)
-    return;
+  if (!newverse) { return; }
 
   // Handle new book.
   if (newbook) {
@@ -1036,3 +1070,33 @@ void GuiNavigation::on_list_forward ()
   }
 }
 
+void GuiNavigation::on_entry_free_activate (GtkEntry *entry_box, gpointer user_data)
+{
+  ((GuiNavigation *) user_data)->on_entry_free ();
+}
+
+void GuiNavigation::on_entry_free ()
+{
+  bool newreference = false;
+  Reference reference; // the new, target scripture reference
+  // Code copied from GotoReferenceDialog::on_jump()
+  Reference oldRef = get_current_ref();
+  if (reference_discover(oldRef, gtk_entry_get_text(GTK_ENTRY(entry_free)), reference, true)) {
+    completion_finish(entry_free, cpGoto);
+    newreference = true;
+  } else {
+    // Code copied from GotoReferenceDialog::show_bad_reference()
+    ustring message = "No such reference: ";
+    message.append(gtk_entry_get_text(GTK_ENTRY(entry_free)));
+    gtkw_dialog_error(parentToolbar, message);
+  }
+
+  extern Settings *settings;
+
+  if (newreference) {
+    settings->genconfig.book_set(reference.book_get());
+    settings->genconfig.chapter_set(convert_to_string(reference.chapter_get()));
+    settings->genconfig.verse_set(reference.verse_get());
+    display(reference);
+  }
+}
