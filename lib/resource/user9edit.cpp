@@ -32,6 +32,7 @@
 #include <menu/logic.h>
 #include <dialog/entry.h>
 #include <dialog/yes.h>
+#include <database/userresources.h>
 
 
 string resource_user9edit_url ()
@@ -53,53 +54,53 @@ string resource_user9edit (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("User resources"), request);
-  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ()); // Todo check this one and the others also.
+  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
   string error, success;
   
 
-  // New image resource handler.
+  // New user-defined resource handler. Todo
   if (request->query.count ("new")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("images", translate("Please enter a name for the new empty image resource"), "", "new", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("user9edit", translate("Please enter a name for the new user-defined resource"), "", "new", "");
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count ("new")) {
     string resource = request->post ["entry"];
-    vector <string> resources;
+    vector <string> resources = Database_UserResources::names ();
     if (in_array (resource, resources)) {
-      error = translate("This image resource already exists");
+      error = translate("This user-defined resource already exists");
     } else if (resource.empty ()) {
-      error = translate("Please give a name for the image resource");
+      error = translate("Please give a name for the user-defined resource");
     } else {
-      //database_imageresources.create (resource);
-      success = translate("The image resource was created");
+      Database_UserResources::url (resource, resource_logic_default_user_url ());
+      success = translate("The user-defined resource was created");
     }
   }
 
   
-  // Delete resource.
+  // Delete resource. Todo
   string remove = request->query ["delete"];
   if (remove != "") {
     string confirm = request->query ["confirm"];
     if (confirm == "") {
-      Dialog_Yes dialog_yes = Dialog_Yes ("images", translate("Would you like to delete this resource?"));
+      Dialog_Yes dialog_yes = Dialog_Yes ("user9edit", translate("Would you like to delete this resource?"));
       dialog_yes.add_query ("delete", remove);
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      //database_imageresources.erase (remove);
+      Database_UserResources::remove (remove);
       success = translate ("The resource was deleted");
     }
   }
 
 
-  vector <string> resources /* = database_imageresources.names () */;
+  vector <string> resources = Database_UserResources::names ();
   vector <string> resourceblock;
   for (auto & resource : resources) {
     resourceblock.push_back ("<p>");
-    resourceblock.push_back ("<a href=\"image?name=" + resource + "\">");
+    resourceblock.push_back ("<a href=\"user1edit?name=" + resource + "\">");
     resourceblock.push_back (resource);
     resourceblock.push_back ("</a>");
     resourceblock.push_back ("</p>");

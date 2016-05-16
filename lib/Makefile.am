@@ -275,6 +275,7 @@ libbibledit_a_SOURCES = \
 	resource/select.cpp \
 	resource/cache.cpp \
 	resource/user9edit.cpp \
+	resource/user1edit.cpp \
 	json/json.c \
 	jsonxx/jsonxx.cpp \
 	mapping/index.cpp \

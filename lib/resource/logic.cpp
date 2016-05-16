@@ -564,3 +564,9 @@ string resource_logic_selector_caller (void * webserver_request)
   if (caller == "print") caller = "print";
   return caller;
 }
+
+
+string resource_logic_default_user_url ()
+{
+  return "http://bibledit.org/resource-[book]-[chapter]-[verse].html";
+}
