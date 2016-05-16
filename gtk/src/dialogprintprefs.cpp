@@ -185,7 +185,6 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   checkbuttondate = gtk_check_button_new_with_mnemonic(_("Print date beside page number"));
   gtk_widget_show(checkbuttondate);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbuttondate, FALSE, FALSE, 0);
-
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttondate), settings->genconfig.printdate_get());
 
   hbox2 = gtk_hbox_new(FALSE, 5);
@@ -207,6 +206,11 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   label13 = gtk_label_new(_("points"));
   gtk_widget_show(label13);
   gtk_box_pack_start(GTK_BOX(hbox2), label13, FALSE, FALSE, 0);
+
+  draftchkbox = gtk_check_button_new_with_mnemonic(_("Print draft: 1 column, double-spaced"));
+  gtk_widget_show(draftchkbox);
+  gtk_box_pack_start(GTK_BOX(vbox1), draftchkbox, FALSE, FALSE, 0);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(draftchkbox), settings->genconfig.printdraft_get());
 
   label1 = gtk_label_new(_("Page"));
   gtk_widget_show(label1);
@@ -331,6 +335,7 @@ void PrintPreferencesDialog::on_okbutton1()
   settings->genconfig.paper_top_margin_set(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spinbutton_top)));
   settings->genconfig.paper_bottom_margin_set(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spinbutton_bottom)));
   settings->genconfig.printdate_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttondate)));
+  settings->genconfig.printdraft_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(draftchkbox)));
   settings->genconfig.header_font_size_set(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spinbutton_header_font_size)));
   settings->genconfig.print_engine_use_intermediate_text_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_intermediate_text)));
 }

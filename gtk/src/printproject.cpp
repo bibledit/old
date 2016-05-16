@@ -83,8 +83,9 @@ void PrintProject::print()
 {
   // Scripture related data.
   // Possible exclusion of books.
-  if (portionproject.empty())
+  if (portionproject.empty()) {
     portionproject = myproject->name;
+  }
   scriptureportions = new ScripturePortions(portionproject);
   if (scriptureportions->books.empty()) {
     gtkw_dialog_info(NULL, _("There were no books to print\nSelect some books and try again"));
@@ -113,9 +114,15 @@ void PrintProject::print()
   if (!projectconfig->editor_font_default_get())
     text2pdf.set_font(projectconfig->editor_font_name_get());
 
-  // Line spacing.
-  if (!projectconfig->editor_font_default_get())
-    text2pdf.set_line_spacing(projectconfig->text_line_height_get());
+  // Line spacing...was in project config, but better to have it in general config
+  //if (projectconfig->text_line_height_get())
+  //  text2pdf.set_line_spacing(projectconfig->text_line_height_get());
+
+  if (settings->genconfig.printdraft_get()) {
+    // Defaults for draft mode are double-spaced (300) and single column.
+    text2pdf.set_line_spacing(300);
+    text2pdf.page_one_column_only();
+  }
 
   // Right-to-left.
   text2pdf.set_right_to_left(projectconfig->right_to_left_get());

@@ -80,6 +80,7 @@ public:
   DEFINE_GENCONFIG_H (double, paper_top_margin);
   DEFINE_GENCONFIG_H (double, paper_bottom_margin);
   DEFINE_GENCONFIG_H (bool, printdate);
+  DEFINE_GENCONFIG_H (bool, printdraft);
   DEFINE_GENCONFIG_H (double, header_font_size);
   DEFINE_GENCONFIG_H (bool, print_engine_use_intermediate_text);
   DEFINE_GENCONFIG_H (bool, print_changes_only);

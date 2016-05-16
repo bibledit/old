@@ -65,6 +65,7 @@ private:
   GtkWidget *vseparator2;
   GtkWidget *vbox1;
   GtkWidget *checkbuttondate;
+  GtkWidget *draftchkbox;
   GtkWidget *hbox2;
   GtkWidget *label12;
   GtkObject *spinbutton_header_font_size_adj;
