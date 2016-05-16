@@ -8,20 +8,22 @@ General Debugging
 
 1. If you are a hardy soul, you can run gdb from the DOS command
    line. It works. 
-   cd C:\Program Files\Bibledit-4.9.3\
+   cd C:\Program Files\Bibledit-4.9.4\
    \msys64\mingw64\bin\gdb editor\bin\bibledit-gtk.exe
 		or
-   cd C:\Program Files (x86)\Bibledit-4.9.3\ or 
+   cd C:\Program Files (x86)\Bibledit-4.9.4\ or 
    \msys64\mingw32\bin\gdb editor\bin\bibledit-gtk.exe   
    
 2. In the past I have preferred to use gdb from emacs. Run 
-   /mingw64/bin/emacs &
+   /mingw64/bin/emacs & or your stock Windows version of emacs
    from an msys64 shell. Once in emacs, do M-x (Alt-X) and type
-   gud-gdb <enter>. Then type for the 64-bit compiled version:
-   gdb --fullname "C:/Program Files/Bibledit-4.9.3/editor/bin/bibledit-gtk.exe"
-	or for 32-bit
-   gdb --fullname "C:/Program Files (x86)/Bibledit-4.9.3/editor/bin/bibledit-gtk.exe"
-   cd "C:/Program Files/Bibledit-4.9.3/" or whatever syntax works to get to that directory
+   gud-gdb <enter> and run it this way:
+   C:\msys64\mingw64\bin\gdb --fullname "C:/Program Files/Bibledit-4.9.4/editor/bin/bibledit-gtk.exe"   
+	  or for 32-bit
+   C:\msys64\mingw32\bin\gdb --fullname "C:/Program Files (x86)/Bibledit-4.9.3/editor/bin/bibledit-gtk.exe"
+   cd .. a couple of times to get back to the bibledit-4.9.4 directory
+   set args --debug
+   Set breakpoints (Ctrl)
    This will start gdb and then you can use the commands n, p, 
    l, etc, or the buttons at the top of the emacs window to step
    and so forth.
