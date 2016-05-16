@@ -60,6 +60,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/print.h>
 #include <resource/sword.h>
 #include <resource/cache.h>
+#include <resource/user9edit.h>
 #include <search/index.h>
 #include <search/replace.h>
 #include <search/search2.h>
@@ -863,7 +864,13 @@ string menu_logic_settings_resources_category (void * webserver_request)
     html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD resources"), true));
   }
 #endif
-  
+
+#ifndef CLIENT_PREPARED
+  if (resource_user9edit_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_user9edit_url (), translate ("User resources"), true));
+  }
+#endif
+
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_resources_text () + ": ");
   }

@@ -45,7 +45,6 @@ private:
 };
 
 
-string database_filebased_cache_clean_name (string name);
 bool database_filebased_cache_exists (string schema);
 void database_filebased_cache_put (string schema, string contents);
 string database_filebased_cache_get (string schema);

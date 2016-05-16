@@ -1307,3 +1307,53 @@ string filter_url_set_scheme (string url, bool secure)
   // Done.
   return url;
 }
+
+
+// Replace invalid characters in Windows filenames with valid abbreviations.
+string filter_url_clean_filename (string name)
+{
+  name = filter_string_str_replace ("\\", "b2", name);
+  name = filter_string_str_replace ("/",  "sl", name);
+  name = filter_string_str_replace (":",  "co", name);
+  name = filter_string_str_replace ("*",  "as", name);
+  name = filter_string_str_replace ("?",  "qu", name);
+  name = filter_string_str_replace ("\"", "ba", name);
+  name = filter_string_str_replace ("<",  "sm", name);
+  name = filter_string_str_replace (">",  "la", name);
+  name = filter_string_str_replace ("|",  "ve", name);
+  return name;
+}
+
+
+// Replace invalid characters in Windows filenames with valid abbreviations.
+// In contrast with the above function, the $name in this function can be "uncleaned" again.
+// The next function does the "unclean" operation, to get the original $name back.
+string filter_url_filename_clean (string name)
+{
+  name = filter_string_str_replace ("\\", "___b2___", name);
+  name = filter_string_str_replace ("/",  "___sl___", name);
+  name = filter_string_str_replace (":",  "___co___", name);
+  name = filter_string_str_replace ("*",  "___as___", name);
+  name = filter_string_str_replace ("?",  "___qu___", name);
+  name = filter_string_str_replace ("\"", "___ba___", name);
+  name = filter_string_str_replace ("<",  "___sm___", name);
+  name = filter_string_str_replace (">",  "___la___", name);
+  name = filter_string_str_replace ("|",  "___ve___", name);
+  return name;
+}
+
+
+// Take $name, and undo the "clean" function in the above.
+string filter_url_filename_unclean (string name)
+{
+  name = filter_string_str_replace ("___b2___", "\\", name);
+  name = filter_string_str_replace ("___sl___", "/",  name);
+  name = filter_string_str_replace ("___co___", ":",  name);
+  name = filter_string_str_replace ("___as___", "*",  name);
+  name = filter_string_str_replace ("___qu___", "?",  name);
+  name = filter_string_str_replace ("___ba___", "\"", name);
+  name = filter_string_str_replace ("___sm___", "<",  name);
+  name = filter_string_str_replace ("___la___", ">",  name);
+  name = filter_string_str_replace ("___ve___", "|",  name);
+  return name;
+}

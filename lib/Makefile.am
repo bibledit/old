@@ -75,6 +75,7 @@ libbibledit_a_SOURCES = \
 	database/login.cpp \
 	database/privileges.cpp \
 	database/git.cpp \
+	database/userresources.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -273,6 +274,7 @@ libbibledit_a_SOURCES = \
 	resource/sword.cpp \
 	resource/select.cpp \
 	resource/cache.cpp \
+	resource/user9edit.cpp \
 	json/json.c \
 	jsonxx/jsonxx.cpp \
 	mapping/index.cpp \

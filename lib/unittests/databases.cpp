@@ -63,6 +63,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/login.h>
 #include <database/privileges.h>
 #include <database/git.h>
+#include <database/userresources.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -4632,6 +4633,43 @@ void test_database_userresources () // Todo
   
   refresh_sandbox (true);
   
+  vector <string> names;
+  string name = "unit//test";
+  string url = "https://website.org/resources/<book>/<chapter>/<verse>.html";
+  int book = 99;
+  string abbrev = "Book 99";
+  string fragment;
+  string value;
+  vector <string> specialnames = { "abc\\def:ghi", name };
+  
+  names = Database_UserResources::names ();
+  evaluate (__LINE__, __func__, {}, names);
+
+  Database_UserResources::url (name, url);
+  value = Database_UserResources::url (name);
+  evaluate (__LINE__, __func__, url, value);
+  
+  for (auto name : specialnames) {
+    Database_UserResources::url (name, name + url);
+  }
+  names = Database_UserResources::names ();
+  evaluate (__LINE__, __func__, specialnames, names);
+
+  for (auto name : specialnames) {
+    Database_UserResources::remove (name);
+  }
+  names = Database_UserResources::names ();
+  evaluate (__LINE__, __func__, {}, names);
+
+  Database_UserResources::book (name, book, abbrev);
+  fragment = Database_UserResources::book (name, book);
+  evaluate (__LINE__, __func__, abbrev, fragment);
+
+  fragment = Database_UserResources::book (name + "x", book);
+  evaluate (__LINE__, __func__, "", fragment);
+
+  fragment = Database_UserResources::book (name, book + 1);
+  evaluate (__LINE__, __func__, "", fragment);
 }
 
 

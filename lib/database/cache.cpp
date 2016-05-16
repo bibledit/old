@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 string Database_Cache::database_resource (string resource, int book)
 {
   // Name of the database for this resource.
-  resource = database_filebased_cache_clean_name (resource);
+  resource = filter_url_clean_filename (resource);
   string book_fragment;
   if (book) {
     book_fragment = "_" + convert_to_string (book);
@@ -269,22 +269,6 @@ pair <int, int> Database_Cache::progress (string resource, int book)
 }
 
 
-string database_filebased_cache_clean_name (string name)
-{
-  // Replace invalid characters in Windows filenames with valid abbreviations.
-  name = filter_string_str_replace ("\\", "b2", name);
-  name = filter_string_str_replace ("/",  "sl", name);
-  name = filter_string_str_replace (":",  "co", name);
-  name = filter_string_str_replace ("*",  "as", name);
-  name = filter_string_str_replace ("?",  "qu", name);
-  name = filter_string_str_replace ("\"", "ba", name);
-  name = filter_string_str_replace ("<",  "sm", name);
-  name = filter_string_str_replace (">",  "la", name);
-  name = filter_string_str_replace ("|",  "ve", name);
-  return name;
-}
-
-
 string database_cache_full_path (string file)
 {
   return filter_url_create_root_path ("databases", "cache", file);
@@ -306,7 +290,7 @@ string database_cache_split_file (string file)
 
 bool database_filebased_cache_exists (string schema)
 {
-  schema = database_filebased_cache_clean_name (schema);
+  schema = filter_url_clean_filename (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
   return file_exists (schema);
@@ -315,7 +299,7 @@ bool database_filebased_cache_exists (string schema)
 
 void database_filebased_cache_put (string schema, string contents)
 {
-  schema = database_filebased_cache_clean_name (schema);
+  schema = filter_url_clean_filename (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
   string path = filter_url_dirname (schema);
@@ -326,7 +310,7 @@ void database_filebased_cache_put (string schema, string contents)
 
 string database_filebased_cache_get (string schema)
 {
-  schema = database_filebased_cache_clean_name (schema);
+  schema = filter_url_clean_filename (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
   return filter_url_file_get_contents (schema);
@@ -335,7 +319,7 @@ string database_filebased_cache_get (string schema)
 
 void database_filebased_cache_remove (string schema)
 {
-  schema = database_filebased_cache_clean_name (schema);
+  schema = filter_url_clean_filename (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
   filter_url_unlink (schema);

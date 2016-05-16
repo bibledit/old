@@ -809,6 +809,11 @@
 		CAA9C1CA1C651A93006D8709 /* notifit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = notifit.js; sourceTree = "<group>"; };
 		CAA9C1CB1C651A93006D8709 /* notifit.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = notifit.min.js; sourceTree = "<group>"; };
 		CAA9C1CC1C651A93006D8709 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CAACBC691CE79B7E00D7D40D /* user9edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user9edit.cpp; sourceTree = "<group>"; };
+		CAACBC6A1CE79B7E00D7D40D /* user9edit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = user9edit.h; sourceTree = "<group>"; };
+		CAACBC6B1CE79B7E00D7D40D /* user9edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = user9edit.html; sourceTree = "<group>"; };
+		CAACBC6C1CE7AE9500D7D40D /* userresources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = userresources.cpp; sourceTree = "<group>"; };
+		CAACBC6D1CE7AE9500D7D40D /* userresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = userresources.h; sourceTree = "<group>"; };
 		CAB0634B1AD53D56006D9683 /* search.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = search.html; sourceTree = "<group>"; };
 		CAB06DFD1AD2FA3800AE245C /* bibleditweb.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = bibleditweb.html; sourceTree = "<group>"; };
 		CAB274B21BB1834C00703ED5 /* cache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cache.cpp; sourceTree = "<group>"; };
@@ -1712,6 +1717,8 @@
 				CAD1D0341B7DEAC400AEDA70 /* strong.h */,
 				CAA4D03E1A45A647003ABA25 /* styles.cpp */,
 				CAA4D03F1A45A647003ABA25 /* styles.h */,
+				CAACBC6C1CE7AE9500D7D40D /* userresources.cpp */,
+				CAACBC6D1CE7AE9500D7D40D /* userresources.h */,
 				CAA4D0401A45A647003ABA25 /* users.cpp */,
 				CAA4D0411A45A647003ABA25 /* users.h */,
 				CAA4D0421A45A647003ABA25 /* usfmresources.cpp */,
@@ -2565,6 +2572,9 @@
 				CAF0A8EF1BAD76E40066723D /* sword.cpp */,
 				CAF0A8F01BAD76E40066723D /* sword.h */,
 				CAF0A8F11BAD76E40066723D /* sword.html */,
+				CAACBC691CE79B7E00D7D40D /* user9edit.cpp */,
+				CAACBC6A1CE79B7E00D7D40D /* user9edit.h */,
+				CAACBC6B1CE79B7E00D7D40D /* user9edit.html */,
 			);
 			name = resource;
 			path = ../resource;

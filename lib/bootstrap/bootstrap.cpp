@@ -123,6 +123,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/print.h>
 #include <resource/download.h>
 #include <resource/select.h>
+#include <resource/images.h>
+#include <resource/image.h>
+#include <resource/img.h>
+#include <resource/imagefetch.h>
+#include <resource/sword.h>
+#include <resource/cache.h>
+#include <resource/user9edit.h>
 #include <mapping/index.h>
 #include <mapping/map.h>
 #include <notes/index.h>
@@ -181,12 +188,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <personalize/index.h>
 #include <menu/index.h>
 #include <fonts/logic.h>
-#include <resource/images.h>
-#include <resource/image.h>
-#include <resource/img.h>
-#include <resource/imagefetch.h>
-#include <resource/sword.h>
-#include <resource/cache.h>
 #include <lexicon/definition.h>
 #include <database/logs.h>
 #include <public/index.h>
@@ -365,7 +366,9 @@ void bootstrap_index (void * webserver_request)
   else if ((url == resource_select_url ()) && bootstrap_browser_request_security_okay (request) && resource_select_acl (request)) request->reply = resource_select (request);
   
   else if ((url == resource_cache_url ()) && bootstrap_browser_request_security_okay (request) && resource_cache_acl (request)) request->reply = resource_cache (request);
-  
+
+  else if ((url == resource_user9edit_url ()) && bootstrap_browser_request_security_okay (request) && resource_user9edit_acl (request)) request->reply = resource_user9edit (request);
+
   // Changes menu.
   else if ((url == journal_index_url ()) && bootstrap_browser_request_security_okay (request) && journal_index_acl (request)) request->reply = journal_index (request);
   

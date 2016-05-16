@@ -6573,6 +6573,9 @@ msgstr ""
 msgid "SWORD resources"
 msgstr ""
 
+msgid "User resources"
+msgstr ""
+
 msgid "Select stylesheet"
 msgstr ""
 
@@ -7752,6 +7755,19 @@ msgid ""
 "uninstalled."
 msgstr ""
 
+msgid "User-defined resources"
+msgstr ""
+
+msgid "Create a new empty user-defined resource"
+msgstr ""
+
+msgid ""
+"User-defined resources provide a way to display content from other websites."
+msgstr ""
+
+msgid "It displays a web page based on the focused passage within Bibledit."
+msgstr ""
+
 msgid "Search all Bibles and consultation notes:"
 msgstr ""
 
@@ -8239,6 +8255,9 @@ msgid "The information was mailed to the subscribers"
 msgstr ""
 
 msgid "Select which Bible to display the Sprint for"
+msgstr ""
+
+msgid "The task was removed"
 msgstr ""
 
 msgid "The task was moved to the previous sprint"
