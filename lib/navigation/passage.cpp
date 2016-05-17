@@ -138,12 +138,12 @@ string Navigation_Passage::getNavigator (void * webserver_request, string bible)
   if (!basic_mode) fragment.append (" class=\"selectverse\"");
   fragment.append (" id=\"selectverse\" href=\"selectverse\" title=\"" + translate ("Select verse") + "\"> " + convert_to_string (verse) +  " </a></span>");
 
-  fragment.append ("<span><a");
-  if (!basic_mode) fragment.append (" class=\"nextverse\"");
   if (next_verse_is_available) {
+    fragment.append ("<span><a");
+    if (!basic_mode) fragment.append (" class=\"nextverse\"");
     fragment.append (" id=\"nextverse\" href=\"nextverse\" title=\"" + translate ("Go to next verse") + "\"");
+    fragment.append ("> » </a></span>");
   }
-  fragment.append ("> » </a></span>");
 
   // Store book / chapter / verse if they were clipped.
   if (passage_clipped) {
