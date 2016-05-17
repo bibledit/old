@@ -7758,6 +7758,48 @@ msgstr ""
 msgid "User-defined resources"
 msgstr ""
 
+msgid "Number of books saved of this user-defined resource definition:"
+msgstr ""
+
+msgid "User-defined resource"
+msgstr ""
+
+msgid "To update the user-defined resource, make changes above, and save them."
+msgstr ""
+
+msgid "The first line will be the URL of the resource."
+msgstr ""
+
+msgid ""
+"When fetching the user-defined resource, Bibledit will replace the three "
+"words in brackets with the values of the passage to fetch."
+msgstr ""
+
+msgid ""
+"The book will be replaced with the book name or abbreviation, for example "
+"Matthew."
+msgstr ""
+
+msgid ""
+"The chapter and the verse will be replaced with the appropriate numbers."
+msgstr ""
+
+msgid ""
+"The next lines will be the names or abbreviations for all the Bible books."
+msgstr ""
+
+msgid "Please enter a name for the new user-defined resource"
+msgstr ""
+
+msgid "This user-defined resource already exists"
+msgstr ""
+
+msgid "Please give a name for the user-defined resource"
+msgstr ""
+
+msgid "The user-defined resource was created"
+msgstr ""
+
 msgid "Create a new empty user-defined resource"
 msgstr ""
 
