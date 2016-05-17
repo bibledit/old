@@ -76,11 +76,11 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   // Initialize variables.
   INITIALIZE(screen_width);
   INITIALIZE(screen_height);
-  INITIALIZE (window_width);
-  INITIALIZE (window_height);
-  INITIALIZE (window_x_position);
-  INITIALIZE (window_y_position);
-  INITIALIZE (window_maximized);
+  INITIALIZE(window_width);
+  INITIALIZE(window_height);
+  INITIALIZE(window_x_position);
+  INITIALIZE(window_y_position);
+  INITIALIZE(window_maximized);
   INITIALIZE(window_widths);
   INITIALIZE(window_heights);
   INITIALIZE(window_x_positions);
@@ -104,7 +104,9 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(paper_outside_margin);
   INITIALIZE(paper_top_margin);
   INITIALIZE(paper_bottom_margin);
+  INITIALIZE(column_spacing);
   INITIALIZE(printdate);
+  INITIALIZE(printdraft);
   INITIALIZE(header_font_size);
   INITIALIZE(print_engine_use_intermediate_text);
   INITIALIZE(print_changes_only);
@@ -223,11 +225,11 @@ void GeneralConfiguration::save()
 
   SAVE_VALUE(screen_width);
   SAVE_VALUE(screen_height);
-  SAVE_VALUE (window_width);
-  SAVE_VALUE (window_height);
-  SAVE_VALUE (window_x_position);
-  SAVE_VALUE (window_y_position);
-  SAVE_VALUE (window_maximized);
+  SAVE_VALUE(window_width);
+  SAVE_VALUE(window_height);
+  SAVE_VALUE(window_x_position);
+  SAVE_VALUE(window_y_position);
+  SAVE_VALUE(window_maximized);
   SAVE_VALUE(window_widths);
   SAVE_VALUE(window_heights);
   SAVE_VALUE(window_x_positions);
@@ -251,6 +253,7 @@ void GeneralConfiguration::save()
   SAVE_VALUE(paper_outside_margin);
   SAVE_VALUE(paper_top_margin);
   SAVE_VALUE(paper_bottom_margin);
+  SAVE_VALUE(column_spacing);
   SAVE_VALUE(printdate);
   SAVE_VALUE(printdraft);
   SAVE_VALUE(header_font_size);
@@ -482,6 +485,7 @@ IMPLEMENT(double, double_get, paper_inside_margin, 2)
 IMPLEMENT(double, double_get, paper_outside_margin, 1)
 IMPLEMENT(double, double_get, paper_top_margin, 2)
 IMPLEMENT(double, double_get, paper_bottom_margin, 2)
+IMPLEMENT(double, double_get, column_spacing, 1.0)
 IMPLEMENT(bool, bool_get, printdate, true)
 IMPLEMENT(bool, bool_get, printdraft, false)
 IMPLEMENT(double, double_get, header_font_size, 12)

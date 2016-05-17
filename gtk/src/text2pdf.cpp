@@ -89,7 +89,7 @@ void Text2Pdf::initialize_variables()
   // The height of the footer default value in centimeters.
   footer_height_pango_units = centimeters_to_pango_units(0);
 
-  // The default spacing between the two columsn in centimeters.
+  // The default spacing between the two columns in centimeters.
   column_spacing_pango_units = centimeters_to_pango_units(0.5);
 
   // Whether one column only.

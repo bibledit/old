@@ -123,6 +123,14 @@ void PrintProject::print()
     text2pdf.set_line_spacing(300);
     text2pdf.page_one_column_only();
   }
+  
+  if (settings->genconfig.column_spacing_get() != 0.0) {
+	text2pdf.column_spacing_set(settings->genconfig.column_spacing_get());
+  }
+  else {
+	// Default to 1.0 cm
+	text2pdf.column_spacing_set(1.0);
+  }
 
   // Right-to-left.
   text2pdf.set_right_to_left(projectconfig->right_to_left_get());

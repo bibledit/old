@@ -79,6 +79,7 @@ public:
   DEFINE_GENCONFIG_H (double, paper_outside_margin);
   DEFINE_GENCONFIG_H (double, paper_top_margin);
   DEFINE_GENCONFIG_H (double, paper_bottom_margin);
+  DEFINE_GENCONFIG_H (double, column_spacing);
   DEFINE_GENCONFIG_H (bool, printdate);
   DEFINE_GENCONFIG_H (bool, printdraft);
   DEFINE_GENCONFIG_H (double, header_font_size);

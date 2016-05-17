@@ -111,7 +111,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   gtk_widget_show(vseparator1);
   gtk_box_pack_start(GTK_BOX(hbox1), vseparator1, FALSE, TRUE, 0);
 
-  table2 = gtk_table_new(5, 2, FALSE);
+  table2 = gtk_table_new(6, 2, FALSE);
   gtk_widget_show(table2);
   gtk_box_pack_start(GTK_BOX(hbox1), table2, TRUE, TRUE, 0);
   gtk_table_set_row_spacings(GTK_TABLE(table2), 6);
@@ -141,6 +141,11 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   gtk_widget_show(label10);
   gtk_table_attach(GTK_TABLE(table2), label10, 0, 1, 4, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC(label10), 1, 0.5);
+
+  label11 = gtk_label_new(_("Column Gap"));
+  gtk_widget_show(label11);
+  gtk_table_attach(GTK_TABLE(table2), label11, 0, 1, 5, 6, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment(GTK_MISC(label11), 1, 0.5);
 
   spinbutton_left_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0);
   spinbutton_left = gtk_spin_button_new(GTK_ADJUSTMENT(spinbutton_left_adj), 1, 2);
@@ -174,6 +179,14 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
 
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_bottom), settings->genconfig.paper_bottom_margin_get());
 
+  spinbutton_columngap_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0);
+  spinbutton_columngap = gtk_spin_button_new(GTK_ADJUSTMENT(spinbutton_columngap_adj), 1, 2);
+  gtk_widget_show(spinbutton_columngap);
+  gtk_table_attach(GTK_TABLE(table2), spinbutton_columngap, 1, 2, 5, 6, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+  gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(spinbutton_columngap), TRUE);
+
+  gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_columngap), settings->genconfig.column_spacing_get());
+  
   vseparator2 = gtk_vseparator_new();
   gtk_widget_show(vseparator2);
   gtk_box_pack_start(GTK_BOX(hbox1), vseparator2, TRUE, TRUE, 0);
@@ -323,6 +336,7 @@ void PrintPreferencesDialog::on_okbutton1()
   gtk_spin_button_update(GTK_SPIN_BUTTON(spinbutton_right));
   gtk_spin_button_update(GTK_SPIN_BUTTON(spinbutton_top));
   gtk_spin_button_update(GTK_SPIN_BUTTON(spinbutton_bottom));
+  gtk_spin_button_update(GTK_SPIN_BUTTON(spinbutton_columngap));
   gtk_spin_button_update(GTK_SPIN_BUTTON(spinbutton_header_font_size));
 
   // Store all values in the configuration.
@@ -334,6 +348,7 @@ void PrintPreferencesDialog::on_okbutton1()
   settings->genconfig.paper_outside_margin_set(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spinbutton_right)));
   settings->genconfig.paper_top_margin_set(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spinbutton_top)));
   settings->genconfig.paper_bottom_margin_set(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spinbutton_bottom)));
+  settings->genconfig.column_spacing_set(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spinbutton_columngap)));
   settings->genconfig.printdate_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttondate)));
   settings->genconfig.printdraft_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(draftchkbox)));
   settings->genconfig.header_font_size_set(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spinbutton_header_font_size)));

@@ -62,6 +62,8 @@ private:
   GtkWidget *spinbutton_top;
   GtkObject *spinbutton_bottom_adj;
   GtkWidget *spinbutton_bottom;
+  GtkObject *spinbutton_columngap_adj;
+  GtkWidget *spinbutton_columngap;
   GtkWidget *vseparator2;
   GtkWidget *vbox1;
   GtkWidget *checkbuttondate;
