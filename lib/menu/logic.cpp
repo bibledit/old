@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <consistency/index.h>
 #include <database/config/general.h>
+#include <database/userresources.h>
 #include <debug/index.h>
 #include <edit/index.h>
 #include <editone/index.h>
@@ -61,6 +62,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/sword.h>
 #include <resource/cache.h>
 #include <resource/user9edit.h>
+#include <resource/user9view.h>
 #include <search/index.h>
 #include <search/replace.h>
 #include <search/search2.h>
@@ -341,6 +343,15 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
     labels.push_back (label);
   }
 
+  if (resource_user9view_acl (webserver_request)) {
+    // Only display user-defined resources if they are there.
+    if (!Database_UserResources::names ().empty ()) {
+      string label = translate ("User resources");
+      html.push_back (menu_logic_create_item (resource_user9view_url (), label, true));
+      labels.push_back (label);
+    }
+  }
+  
   if (changes_changes_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (changes_changes_url (), menu_logic_changes_text (), true));
     labels.push_back (menu_logic_changes_text ());

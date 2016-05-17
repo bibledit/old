@@ -131,6 +131,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/cache.h>
 #include <resource/user9edit.h>
 #include <resource/user1edit.h>
+#include <resource/user9view.h>
 #include <mapping/index.h>
 #include <mapping/map.h>
 #include <notes/index.h>
@@ -372,6 +373,8 @@ void bootstrap_index (void * webserver_request)
 
   else if ((url == resource_user1edit_url ()) && bootstrap_browser_request_security_okay (request) && resource_user1edit_acl (request)) request->reply = resource_user1edit (request);
 
+  else if ((url == resource_user9view_url ()) && bootstrap_browser_request_security_okay (request) && resource_user9view_acl (request)) request->reply = resource_user9view (request);
+  
   // Changes menu.
   else if ((url == journal_index_url ()) && bootstrap_browser_request_security_okay (request) && journal_index_acl (request)) request->reply = journal_index (request);
   
