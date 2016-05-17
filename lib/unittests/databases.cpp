@@ -4627,7 +4627,7 @@ void test_database_git ()
 }
 
 
-void test_database_userresources () // Todo
+void test_database_userresources ()
 {
   trace_unit_tests (__func__);
   

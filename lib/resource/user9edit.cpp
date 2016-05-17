@@ -60,7 +60,7 @@ string resource_user9edit (void * webserver_request)
   string error, success;
   
 
-  // New user-defined resource handler. Todo
+  // New user-defined resource handler.
   if (request->query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("user9edit", translate("Please enter a name for the new user-defined resource"), "", "new", "");
     page += dialog_entry.run ();
@@ -80,7 +80,7 @@ string resource_user9edit (void * webserver_request)
   }
 
   
-  // Delete resource. Todo
+  // Delete resource.
   string remove = request->query ["delete"];
   if (remove != "") {
     string confirm = request->query ["confirm"];

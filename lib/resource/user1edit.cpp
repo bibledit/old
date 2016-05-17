@@ -68,7 +68,7 @@ string resource_user1edit (void * webserver_request)
   view.set_variable ("name", name);
   
 
-  if (request->post.count ("submit")) { // Todo
+  if (request->post.count ("submit")) {
     string data = request->post["data"];
     vector <string> lines = filter_string_explode (data, '\n');
     int count = 0;

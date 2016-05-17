@@ -365,6 +365,10 @@
 		CA69D51B1CEB30220036B21C /* user9view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user9view.cpp; sourceTree = "<group>"; };
 		CA69D51C1CEB30220036B21C /* user9view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = user9view.h; sourceTree = "<group>"; };
 		CA69D51D1CEB30220036B21C /* user9view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = user9view.html; sourceTree = "<group>"; };
+		CA69D51E1CEB3FA90036B21C /* user1view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user1view.cpp; sourceTree = "<group>"; };
+		CA69D51F1CEB3FA90036B21C /* user1view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = user1view.h; sourceTree = "<group>"; };
+		CA69D5201CEB3FA90036B21C /* user1view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = user1view.html; sourceTree = "<group>"; };
+		CA69D5211CEB3FA90036B21C /* user1view.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = user1view.js; sourceTree = "<group>"; };
 		CA6EF52E1B5FDAC00006EBAB /* state.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = state.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA6EF52F1B5FDAC00006EBAB /* state.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = state.h; sourceTree = "<group>"; };
 		CA7098721C75FE780097DBA1 /* generate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = generate.cpp; sourceTree = "<group>"; };
@@ -2581,6 +2585,10 @@
 				CA4A9A1A1CEA1D750039133C /* user1edit.cpp */,
 				CA4A9A1B1CEA1D750039133C /* user1edit.h */,
 				CA4A9A1C1CEA1D750039133C /* user1edit.html */,
+				CA69D51E1CEB3FA90036B21C /* user1view.cpp */,
+				CA69D51F1CEB3FA90036B21C /* user1view.h */,
+				CA69D5201CEB3FA90036B21C /* user1view.html */,
+				CA69D5211CEB3FA90036B21C /* user1view.js */,
 				CAACBC691CE79B7E00D7D40D /* user9edit.cpp */,
 				CAACBC6A1CE79B7E00D7D40D /* user9edit.h */,
 				CAACBC6B1CE79B7E00D7D40D /* user9edit.html */,

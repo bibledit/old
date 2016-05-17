@@ -17,59 +17,70 @@
  */
 
 
-#include <resource/user9view.h>
+#include <resource/user1view.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
-#include <filter/url.h>
+#include <filter/passage.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-#include <resource/logic.h>
-#include <config/logic.h>
+#include <sword/logic.h>
+#include <demo/logic.h>
+#include <resource/external.h>
 #include <menu/logic.h>
-#include <database/userresources.h>
 #include <access/logic.h>
+#include <database/userresources.h>
+#include <database/books.h>
 
 
-string resource_user9view_url ()
+string resource_user1view_url ()
 {
-  return "resource/user9view";
+  return "resource/user1view";
 }
 
 
-bool resource_user9view_acl (void * webserver_request)
+bool resource_user1view_acl (void * webserver_request)
 {
   return access_logic_privilege_view_resources (webserver_request);
 }
 
 
-string resource_user9view (void * webserver_request)
+string resource_user1view (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-
+  
   
   string page;
-  Assets_Header header = Assets_Header (translate("User resources"), request);
+  Assets_Header header = Assets_Header (translate("Resources"), request);
+  header.setNavigator ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   Assets_View view;
   
 
-  vector <string> resources = Database_UserResources::names ();
-  vector <string> resourceblock;
-  for (auto & resource : resources) {
-    resourceblock.push_back ("<p>");
-    resourceblock.push_back ("<a href=\"user1view?name=" + resource + "\">");
-    resourceblock.push_back (resource);
-    resourceblock.push_back ("</a>");
-    resourceblock.push_back ("</p>");
-  }
-  view.set_variable ("resourceblock", filter_string_implode (resourceblock, "\n"));
+  string name = request->query ["name"];
 
-   
-  page += view.render ("resource", "user9view");
+  
+  vector <string> code;
+  string url = Database_UserResources::url (name);
+  code.push_back ("var userResourceUrl = \"" + url + "\";");
+  code.push_back ("var userResourceBooks = [];");
+  vector <int> ids = Database_Books::getIDs ();
+  for (auto id : ids) {
+    string type = Database_Books::getType (id);
+    if ((type == "ot") || (type == "nt")) {
+      string book = Database_UserResources::book (name, id);
+      if (book.empty ()) book = convert_to_string (id);
+      code.push_back ("userResourceBooks [" + convert_to_string (id) + "] = \"" + book + "\";");
+    }
+  }
+  string script = filter_string_implode (code, "\n");
+  view.set_variable ("script", script);
+  
+  
+  page += view.render ("resource", "user1view");
   page += Assets_Page::footer ();
   return page;
 }
