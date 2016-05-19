@@ -34,6 +34,7 @@ void database_sqlite_exec (sqlite3 * db, string sql);
 map <string, vector <string> > database_sqlite_query (sqlite3 * db, string sql);
 void database_sqlite_disconnect (sqlite3 * database);
 bool database_sqlite_healthy (string database);
+void database_sqlite_error (sqlite3 * database, const string & prefix, char * error);
 
 
 // Creates a database SQL query.

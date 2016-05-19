@@ -89,9 +89,7 @@ sqlite3 * database_sqlite_connect_file (string filename)
   int rc = sqlite3_open (filename.c_str(), &db);
   if (rc) {
     const char * error = sqlite3_errmsg (db);
-    string message = "Database " + filename + ": ";
-    if (error) message.append (error);
-    Database_Logs::log (message);
+    database_sqlite_error (db, "Database " + filename, (char *) error);
     return NULL;
   }
   sqlite3_busy_timeout (db, 1000);
@@ -133,25 +131,17 @@ void database_sqlite_exec (sqlite3 * db, string sql)
 {
   char *error = NULL;
   int rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
-  if (rc != SQLITE_OK) {
-    string message = "SQL " + sql + ": ";
-    if (error) message.append (error);
-    Database_Logs::log (message);
-  }
+  if (rc != SQLITE_OK) database_sqlite_error (db, sql, error);
   if (error) sqlite3_free (error);
 }
 
 
 map <string, vector <string> > database_sqlite_query (sqlite3 * db, string sql)
 {
-  char *error = NULL;
+  char * error = NULL;
   SqliteReader reader (0);
   int rc = sqlite3_exec (db, sql.c_str(), reader.callback, &reader, &error);
-  if (rc != SQLITE_OK) {
-    string message = "SQL " + sql + ": ";
-    if (error) message.append (error);
-    Database_Logs::log (message);
-  }
+  if (rc != SQLITE_OK) database_sqlite_error (db, sql, error);
   if (error) sqlite3_free (error);
   return reader.result;
 }
@@ -182,6 +172,35 @@ bool database_sqlite_healthy (string database)
     database_sqlite_disconnect (db);
   }
   return ok;
+}
+
+
+// Logs any error on the database connection,
+// The error will be prefixed by $prefix.
+void database_sqlite_error (sqlite3 * database, const string & prefix, char * error)
+{
+  string message = prefix;
+  if (error) {
+    message.append (" - ");
+    message.append (error);
+  }
+  int errcode = sqlite3_errcode (database);
+  const char * errstr = sqlite3_errstr (errcode);
+  string error_string;
+  if (errstr) error_string.assign (errstr);
+  int x_errcode = sqlite3_extended_errcode (database);
+  const char * x_errstr = sqlite3_errstr (x_errcode);
+  string extended_error_string;
+  if (x_errstr) extended_error_string.assign (x_errstr);
+  if (!error_string.empty ()) {
+    message.append (" - ");
+    message.append (error_string);
+  }
+  if (extended_error_string != error_string) {
+    message.append (" - ");
+    message.append (extended_error_string);
+  }
+  Database_Logs::log (message);
 }
 
 
