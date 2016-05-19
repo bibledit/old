@@ -308,15 +308,33 @@ void WindowReferences::save ()
       throw runtime_error(sqlite3_errmsg(db));
     }
 	DEBUG("Step 21...references.size="+std::to_string(references.size()))
+    // Use sqlite prepared statement to really make it faster...less conversions to strings, less sql compile time
+	sqlite3_exec(db, "BEGIN TRANSACTION", NULL, NULL, &error);
+	char buffer[] = "INSERT INTO refs VALUES (?1, ?2, ?3, ?4)";
+	sqlite3_stmt* stmt;
+	sqlite3_prepare_v2(db, buffer, strlen(buffer), &stmt, NULL);
     // Store the references and the comments.
     for (unsigned int i = 0; i < references.size(); i++) {
-      sql = g_strdup_printf("insert into refs values (%d, %d, '%s', '%s')", references[i].book_get(), references[i].chapter_get(), references[i].verse_get().c_str(), double_apostrophy(comments[i]).c_str());
-      rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-      g_free(sql);
+	  sqlite3_bind_int(stmt, 1, references[i].book_get());
+	  sqlite3_bind_int(stmt, 2, references[i].chapter_get());
+	  ustring verse = references[i].verse_get();
+	  sqlite3_bind_text(stmt, 3, verse.c_str(), verse.size(), SQLITE_STATIC);
+	  ustring comment = double_apostrophy(comments[i]);
+	  sqlite3_bind_text(stmt, 4, comment.c_str(), comment.size(), SQLITE_STATIC);
+	  if (sqlite3_step(stmt) != SQLITE_DONE) {
+        throw runtime_error(sqlite3_errmsg(db));
+	  }
+      sqlite3_reset(stmt);
+      // WAS sql = g_strdup_printf("insert into refs values (%d, %d, '%s', '%s')", references[i].book_get(), references[i].chapter_get(), references[i].verse_get().c_str(), double_apostrophy(comments[i]).c_str());
+      // WAS rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+      // WAS g_free(sql);
       if (rc) {
         throw runtime_error(sqlite3_errmsg(db));
       }
     }
+	sqlite3_exec(db, "COMMIT TRANSACTION", NULL, NULL, &error);
+    sqlite3_finalize(stmt);
+	
 	DEBUG("Step 30")
     // Create table for the searchwords.
     sql = g_strdup_printf("create table highlights (word text, casesensitive integer, glob integer, matchbegin integer, matchend integer, areatype integer, areaid integer, areaintro integer, areaheading integer, areachapter integer, areastudy integer, areanotes integer, areaxref integer, areaverse integer);");
