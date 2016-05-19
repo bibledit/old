@@ -6501,6 +6501,9 @@ msgstr ""
 msgid "USFM verse editor"
 msgstr ""
 
+msgid "User resources"
+msgstr ""
+
 msgid "Search"
 msgstr ""
 
@@ -6571,9 +6574,6 @@ msgid "USFM resources"
 msgstr ""
 
 msgid "SWORD resources"
-msgstr ""
-
-msgid "User resources"
 msgstr ""
 
 msgid "Select stylesheet"
@@ -7630,9 +7630,6 @@ msgstr ""
 msgid "Resource Organizer"
 msgstr ""
 
-msgid "To change the display order, drag a resource to another location."
-msgstr ""
-
 msgid "Number of verses to display before the focused verse:"
 msgstr ""
 
@@ -7767,12 +7764,17 @@ msgstr ""
 msgid "To update the user-defined resource, make changes above, and save them."
 msgstr ""
 
-msgid "The first line will be the URL of the resource."
+msgid "The first line will be the internet address of the resource."
 msgstr ""
 
 msgid ""
-"When fetching the user-defined resource, Bibledit will replace the three "
-"words in brackets with the values of the passage to fetch."
+"The next lines will be the names or abbreviations for all the Bible books."
+msgstr ""
+
+msgid ""
+"When fetching the user-defined resource, Bibledit will take the internet "
+"address, and replace the three words in brackets with the values of the "
+"passage to fetch."
 msgstr ""
 
 msgid ""
@@ -7782,10 +7784,6 @@ msgstr ""
 
 msgid ""
 "The chapter and the verse will be replaced with the appropriate numbers."
-msgstr ""
-
-msgid ""
-"The next lines will be the names or abbreviations for all the Bible books."
 msgstr ""
 
 msgid "Please enter a name for the new user-defined resource"

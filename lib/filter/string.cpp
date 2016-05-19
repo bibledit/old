@@ -310,7 +310,7 @@ string filter_string_desanitize_html (string html)
   html = filter_string_str_replace ("&apos;", "'", html);
   html = filter_string_str_replace ("&lt;", "<", html);
   html = filter_string_str_replace ("&gt;", ">", html);
-  html = filter_string_str_replace (non_breaking_space_entity (), " ", html);
+  html = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", html);
   html = filter_string_str_replace (non_breaking_space_utf8_c2a0 (), " ", html);
   html = filter_string_str_replace (non_breaking_space_utf8_a0 (), " ", html);
   return html;
@@ -1229,7 +1229,37 @@ string get_new_random_string ()
 }
 
 
-string non_breaking_space_entity ()
+string unicode_non_breaking_space_entity ()
 {
   return "&nbsp;";
+}
+
+
+string unicode_black_up_pointing_triangle ()
+{
+  return "▲";
+}
+
+
+string unicode_black_right_pointing_triangle ()
+{
+  return "▶";
+}
+
+
+string unicode_black_down_pointing_triangle ()
+{
+  return "▼";
+}
+
+
+string unicode_black_left_pointing_triangle ()
+{
+  return "◀";
+}
+
+
+string unicode_ballot_x ()
+{
+  return "✗";
 }

@@ -92,7 +92,12 @@ string html2xml (string html);
 string convert_xml_character_entities_to_characters (string data);
 string encrypt_decrypt (string key, string data);
 string get_new_random_string ();
-string non_breaking_space_entity ();
+string unicode_non_breaking_space_entity ();
+string unicode_black_up_pointing_triangle ();
+string unicode_black_right_pointing_triangle ();
+string unicode_black_down_pointing_triangle ();
+string unicode_black_left_pointing_triangle ();
+string unicode_ballot_x ();
 
 
 #endif

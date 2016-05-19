@@ -74,20 +74,38 @@ string resource_organize (void * webserver_request)
     request->database_config_user()->setActiveResources (resources);
     request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
   }
+
   
+  if (request->query.count ("moveup")) {
+    size_t moveup = convert_to_int (request->query["moveup"]);
+    vector <string> resources = request->database_config_user()->getActiveResources ();
+    if (moveup) {
+      if (moveup < resources.size ()) {
+        string resource = resources[moveup - 1];
+        resources [moveup - 1] = resources [moveup];
+        resources [moveup] = resource;
+        request->database_config_user()->setActiveResources (resources);
+        request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
+      }
+    }
+  }
+
   
-  if (request->post.count ("resources")) {
-    string resources = request->post ["resources"];
-    vector <string> v_resources = filter_string_explode (resources, ',');
-    request->database_config_user()->setActiveResources (v_resources);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
-    return "";
+  if (request->query.count ("movedown")) {
+    size_t movedown = convert_to_int (request->query["movedown"]);
+    vector <string> resources = request->database_config_user()->getActiveResources ();
+    if (movedown < (resources.size () - 1)) {
+      string resource = resources [movedown + 1];
+      resources [movedown + 1] = resources [movedown];
+      resources [movedown] = resource;
+      request->database_config_user()->setActiveResources (resources);
+      request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
+    }
   }
   
   
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
-  header.jQueryUIOn ();
   page = header.run ();
   Assets_View view;
 
@@ -96,7 +114,21 @@ string resource_organize (void * webserver_request)
   vector <string> active_resources = request->database_config_user()->getActiveResources ();
   string activesblock;
   for (size_t i = 0; i < active_resources.size (); i++) {
-    activesblock.append ("<p class=\"ui-state-default\"><a href=\"?remove=" + convert_to_string (i) + "\"> ✗ </a><span class=\"drag\">" + active_resources [i] + "</span></p>\n");
+    activesblock.append ("<p>");
+    activesblock.append ("<a href=\"?remove=" + convert_to_string (i) + "\">");
+    activesblock.append (unicode_ballot_x ());
+    activesblock.append ("</a>");
+    activesblock.append (" ");
+    activesblock.append ("<a href=\"?moveup=" + convert_to_string (i) + "\">");
+    activesblock.append (unicode_black_up_pointing_triangle ());
+    activesblock.append ("</a>");
+    activesblock.append ("<a href=\"?movedown=" + convert_to_string (i) + "\">");
+    activesblock.append (unicode_black_down_pointing_triangle ());
+    activesblock.append ("</a>");
+    activesblock.append (" ");
+    activesblock.append (active_resources [i]);
+    activesblock.append ("</p>");
+    activesblock.append ("\n");
   }
   view.set_variable ("activesblock", activesblock);
   
