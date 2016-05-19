@@ -109,7 +109,14 @@ void verse::addToWordCount(void)
 			ustring::size_type pos = newWord.find("’s");
 			bool found_apostrophe_s = (pos != ustring::npos);
 			if (found_apostrophe_s) {
-				cout << "Found new word with apostrophe s=" << newWord;
+				//cout << "Found new word with apostrophe s=" << newWord;
+				newWord = newWord.substr(0, pos);
+				//cout << " replacing with " << newWord << endl;
+			}
+			pos = newWord.find("…");
+			bool found_ellipsis = (pos != ustring::npos);
+			if (found_ellipsis) {
+				cout << "Found new word with …=" << newWord;
 				newWord = newWord.substr(0, pos);
 				cout << " replacing with " << newWord << endl;
 			}
