@@ -104,11 +104,10 @@ void htmlbrowser (const ustring & filename, bool network, bool no_tamper)
 {
   // Get the prefix.
   ustring prefix;
+  // This largely duplicates gtkwrappers.cpp show_uri function. Combine?
   if (!no_tamper) {
-    if (network)
-      prefix = "http://";
-    else
-      prefix = "file://";
+    if (network) { prefix = "http://"; }
+    else         { prefix = "file://"; }
   }
   // Handle if Windows.
 #ifdef WIN32

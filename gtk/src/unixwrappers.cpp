@@ -37,11 +37,6 @@ bool unix_fnmatch(const char *pattern, const ustring & text)
 void unix_cp(const ustring & from, const ustring & to)
 // This is a wrapper for the cp function on Unix, as Windows uses another one.
 {
-//#ifdef WIN32
-//  GwSpawn spawn("copy");
-//#else
-//  GwSpawn spawn("cp");
-//#endif
   GwSpawn spawn(Directories->get_copy());
   spawn.arg(from);
   spawn.arg(to);
@@ -52,15 +47,6 @@ void unix_cp(const ustring & from, const ustring & to)
 void unix_cp_r(const ustring & from, const ustring & to)
 // This is a wrapper for the recursive cp function on Unix, as Windows uses another one.
 {
-/* #ifdef WIN32
-  gw_mkdir_with_parents(to);
-  GwSpawn spawn("xcopy");
-  spawn.arg("/E /I /Y");
-#else
-  GwSpawn spawn("cp");
-  spawn.arg("-r");
-#endif
- */
   GwSpawn spawn(Directories->get_copy_recursive());
   spawn.arg(Directories->get_copy_recursive_args());
   spawn.arg(from);
@@ -75,14 +61,6 @@ void unix_mv(const ustring & from, const ustring & to, bool force)
   GwSpawn spawn(Directories->get_move());
   spawn.arg(Directories->get_move_args());
   // To do: I don't think I need the force business...I have it in the args by default.
-/* #ifdef WIN32
-  if (force)
-	  spawn.arg("/Y");
-#else
-  if (force)
-  	  spawn.arg ("-f");
-#endif
- */
   spawn.arg(from);
   spawn.arg(to);
   spawn.run();
@@ -105,17 +83,8 @@ void unix_rmdir(const ustring & dir)
 {
 	GwSpawn spawn(Directories->get_rmdir());
 	spawn.arg(Directories->get_rmdir_args());
-/* #ifdef WIN32
-  GwSpawn spawn("rmdir");
-  spawn.arg("/s");
-  spawn.arg("/q");
-#else
-  GwSpawn spawn("rm");
-  spawn.arg("-rf");
-#endif
- */
-  spawn.arg(dir);
-  spawn.run();
+	spawn.arg(dir);
+	spawn.run();
 }
 
 
@@ -126,4 +95,3 @@ void unix_kill(GPid pid)
   spawn.arg(convert_to_string(pid));
   spawn.run();
 }
-

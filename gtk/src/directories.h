@@ -22,6 +22,10 @@
 ** figure out the various directories. The interface is identical to
 ** what it was before except you call through Directories->XYZ()
 ** instead of directories_XYZ().
+**
+** March 2016: Added a lot of new functionality to track paths
+** of various utilities. Goal was to make bibledit more cross-platform
+** compatible.
 */
 
 #ifndef INCLUDED_DIRECTORIES_H

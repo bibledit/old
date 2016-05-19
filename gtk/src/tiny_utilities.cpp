@@ -18,6 +18,7 @@
  */
 
 
+#include <config.h>
 #include "tiny_utilities.h"
 #include <glib.h>
 #include <glib/gi18n.h>

@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 	int stdout_copy = dup(1);
 	int stderr_copy = dup(2);
     close(1);
-    creat (log_file_name (lftMain, false).c_str(), 0666); 
+    creat (log_file_name (lftMain, false).c_str(), 0666);
     // The dup() routine makes a duplicate file descriptor for an already opened 
     // file using the first available file descriptor. Therefore the following 
     // commands cause stderr to be redirected to the file stdout writes to.

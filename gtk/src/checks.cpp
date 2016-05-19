@@ -332,7 +332,7 @@ void DisplayCheckingResults::paragraph(const ustring & text)
 
 void DisplayCheckingResults::open_table()
 {
-  html.push_back("<table border=\"0\" cellpadding=\"2\" cellspacing=\"15\">");
+  html.push_back("<table border=\"1\" cellpadding=\"2\" cellspacing=\"15\">");
   html.push_back("<tbody>");
   html.push_back("</tr>");
 }

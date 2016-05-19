@@ -21,6 +21,7 @@
 #include "opendocument.h"
 #include "usfm.h"
 #include "bible.h"
+#include "settings.h"
 #include "usfmtools.h"
 #include "gwrappers.h"
 #include "shell.h"
