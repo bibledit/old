@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
   // Create a new directories 'factory' and initialize it with argv[0]
   Directories = new directories(argv[0]);
   books_init(); // TEMP - MAP
+  Directories->init(); // important step
 
   // Bibledit can read from or write to Bible data.
   // Syntax: bibledit-rdwrt -r|-w ...

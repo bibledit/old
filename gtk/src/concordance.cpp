@@ -221,8 +221,7 @@ int main(int argc, char *argv[])
 
     books_init(); // TEMP - MAP
 
-	Directories->find_utilities();  // Find core utilities like copy, rm, etc. Must do before next.
-	//NOT NEEDED Directories->check_structure(); // Check on required directory structure.
+	Directories->init(); // important step
 	settings = new Settings(true);
 	booklocalizations = new BookLocalizations(0);
 	versifications = new Versifications(0);

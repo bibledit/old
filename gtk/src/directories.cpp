@@ -136,6 +136,91 @@ directories::directories(char *argv0)
   restore = fix_slashes(restore);
 }
 
+void directories::init(void)
+{
+  // Have to have the temp directory to do almost anything...and may need to create it
+  // so we need mkdir, at least a temporary version of it.
+#ifdef WIN32
+    // mkdir (md) does not play nice. If you run it with /?, it returns code 1, not 0. So
+	// I rely on the #ifdef to just "know" that we have compiled on Windows and can assume
+	// that mkdir is available.
+    mkdir = "mkdir"; // no mkdir_args
+#else
+	// Linux
+	mkdir = "mkdir"; // no mkdir_args
+#endif
+  gw_mkdir_with_parents(get_temp());
+  gw_mkdir_with_parents(get_templates());
+
+  //find_mkdir();
+  find_rmdir();
+  check_structure(); // Check on required directory structure.
+  find_utilities();  // Find rest of core utilities like copy, rm, etc.
+}
+
+void directories::find_mkdir(void)
+{
+  //---------------------------------------------
+  // mkdir
+  //---------------------------------------------
+  {
+#ifdef WIN32
+    // mkdir (md) does not play nice. If you run it with /?, it returns code 1, not 0. So
+	// I rely on the #ifdef to just "know" that we have compiled on Windows and can assume
+	// that mkdir is available.
+    mkdir = "mkdir"; // no mkdir_args
+#else
+	// Check for mkdir (Unix)
+	GwSpawn spawn("mkdir");
+	spawn.arg("--help");  // TODO: Something is messed up here. It creates Bibledit-x.y.z\--help as a directory!!!
+	spawn.run();
+	if (spawn.exitstatus == 0) { 
+		// We have a mkdir command. Use it.
+		mkdir = "mkdir"; mkdir_args = "-p";
+	}
+	else {
+		// Check for mkdir.exe in the rundir (Windows directly through msys2/mingw binary)
+		GwSpawn spawn(rundir + "\\mkdir.exe");
+		spawn.arg("--help");
+		if (spawn.exitstatus == 0) { mkdir = rundir + "\\mkdir.exe"; mkdir_args = "-p"; }
+		else { gw_message(_("Cannot find a suitable mkdir utility")); }
+	}
+#endif
+}
+}
+
+void directories::find_rmdir(void)
+{
+  //---------------------------------------------
+  // Rmdir
+  //---------------------------------------------
+  {
+  // Check for rm (Unix)
+  GwSpawn spawn("rm");
+  spawn.arg("--version");
+  spawn.run();
+  if (spawn.exitstatus == 0) { 
+	// We have a rm command. Use it.
+	rmdir = "rm";
+	rmdir_args = "-rf";
+  }
+  else {
+	// Check for rmdir (Windows/DOS through cmd.exe)
+	GwSpawn spawn("rmdir");
+    spawn.arg("/?");
+	if (spawn.exitstatus == 0) { rmdir = "rmdir"; rmdir_args = "/s/q"; }
+	else {
+		// Check for rm.exe in the rundir (Windows directly through msys2/mingw binary)
+		GwSpawn spawn(rundir + "\\rm.exe");
+		spawn.arg("--version");
+		if (spawn.exitstatus == 0) { rmdir = rundir + "\\rm.exe"; rmdir_args = "-rf"; }
+		// We have rmdir.exe, but it only works if the directories are empty
+		else { gw_message(_("Cannot find a suitable rmdir utility")); }
+	}
+  }
+  }	
+}
+
 void directories::find_utilities(void)
 {
   // Find some utilities that we need to use (cp, rm, tar, zip, etc.)
@@ -293,35 +378,6 @@ void directories::find_utilities(void)
   }
   
   //---------------------------------------------
-  // Rmdir
-  //---------------------------------------------
-  {
-  // Check for rm (Unix)
-  GwSpawn spawn("rm");
-  spawn.arg("--version");
-  spawn.run();
-  if (spawn.exitstatus == 0) { 
-	// We have a rm command. Use it.
-	rmdir = "rm";
-	rmdir_args = "-rf";
-  }
-  else {
-	// Check for rmdir (Windows/DOS through cmd.exe)
-	GwSpawn spawn("rmdir");
-    spawn.arg("/?");
-	if (spawn.exitstatus == 0) { rmdir = "rmdir"; rmdir_args = "/s/q"; }
-	else {
-		// Check for rm.exe in the rundir (Windows directly through msys2/mingw binary)
-		GwSpawn spawn(rundir + "\\rm.exe");
-		spawn.arg("--version");
-		if (spawn.exitstatus == 0) { rmdir = rundir + "\\rm.exe"; rmdir_args = "-rf"; }
-		// We have rmdir.exe, but it only works if the directories are empty
-		else { gw_message(_("Cannot find a suitable rmdir utility")); }
-	}
-  }
-  }
-  
-  //---------------------------------------------
   // Diff
   //---------------------------------------------
   {
@@ -341,35 +397,7 @@ void directories::find_utilities(void)
 	else { gw_message(_("Cannot find a suitable diff utility")); }
   }
   }
-  
-  //---------------------------------------------
-  // mkdir
-  //---------------------------------------------
-  {
-#ifdef WIN32
-    // mkdir (md) does not play nice. If you run it with /?, it returns code 1, not 0. So
-	// I rely on the #ifdef to just "know" that we have compiled on Windows and can assume
-	// that mkdir is available.
-    mkdir = "mkdir"; // no mkdir_args
-#else
-	// Check for mkdir (Unix)
-	GwSpawn spawn("mkdir");
-	spawn.arg("--help");  // TODO: Something is messed up here. It creates Bibledit-x.y.z\--help as a directory!!!
-	spawn.run();
-	if (spawn.exitstatus == 0) { 
-		// We have a mkdir command. Use it.
-		mkdir = "mkdir"; mkdir_args = "-p";
-	}
-	else {
-		// Check for mkdir.exe in the rundir (Windows directly through msys2/mingw binary)
-		GwSpawn spawn(rundir + "\\mkdir.exe");
-		spawn.arg("--help");
-		if (spawn.exitstatus == 0) { mkdir = rundir + "\\mkdir.exe"; mkdir_args = "-p"; }
-		else { gw_message(_("Cannot find a suitable mkdir utility")); }
-	}
-#endif
-}
-  
+
   //---------------------------------------------
   // Zip
   //---------------------------------------------
@@ -449,9 +477,9 @@ void directories::print()
   gw_message("Pictures: \t" + pictures);
   gw_message("Resources: \t" + resources);
   gw_message("Scripts: \t" + scripts);
+  gw_message("User templates: \t" + templates_user);
   gw_message("Temp: \t" + temp);
   gw_message("Templates: \t" + templates);
-  gw_message("User templates: \t" + templates_user);
   gw_message("Restore: \t" + restore);
   gw_message("Copy util: \t" + copy);
   gw_message("Copy recursive: \t" + copy_recursive + " " + copy_recursive_args);
@@ -485,6 +513,8 @@ void directories::print()
 void directories::check_structure()
 {
   restore_all_stage_two ();
+
+  // All these are in the user's home directory (~/.bibledit/... or C:\users\username\.bibledit)
   gw_mkdir_with_parents(root);
   gw_mkdir_with_parents(get_projects());
   gw_mkdir_with_parents(get_notes());
@@ -493,8 +523,6 @@ void directories::check_structure()
   gw_mkdir_with_parents(get_pictures());
   gw_mkdir_with_parents(get_resources());
   gw_mkdir_with_parents(get_scripts());
-  gw_mkdir_with_parents(get_temp());
-  gw_mkdir_with_parents(get_templates());
   gw_mkdir_with_parents(get_templates_user());
 }
 

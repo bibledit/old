@@ -99,6 +99,9 @@ private:
   // program was run from. See bibledit.cpp and bibledit-rdwrt.cpp for
   // this.
   directories(char *argv0);
+  void init(void);
+  void find_mkdir(void);
+  void find_rmdir(void);
   void find_utilities(void);
   ~directories();
   
