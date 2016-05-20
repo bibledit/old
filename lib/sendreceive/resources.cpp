@@ -64,11 +64,11 @@ bool sendreceive_resources_interrupt = false;
 void sendreceive_resources_delay_during_prioritized_tasks ()
 {
   if (sendreceive_logic_prioritized_task_is_active ()) {
-    // When prioritized sync actions ran,
+    // Before, when prioritized sync actions ran,
     // it used to interrupt and reschedule a resource installation.
-    // This gives a lot of clutter in the journal,
+    // This gave a lot of clutter in the journal,
     // and it takes some time to restart the resource installation.
-    // Rather it now delays the installatiion a bit while the priority tasks flag is on.
+    // Rather it now delays the installation a bit while the priority tasks flag is on.
     // That delay is not visible in the Journal, it just happens silently.
     this_thread::sleep_for (chrono::seconds (10));
   }

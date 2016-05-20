@@ -439,6 +439,12 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
 
 void https_server ()
 {
+  // On clients, don't run the secure web server.
+  // It is not possible to get a https certificate for https://localhost anyway.
+  // Shutting down this secure server saves value system resources on low power devices.
+#ifdef CLIENT_PREPARED
+  return;
+#endif
   // File descriptor for the listener.
   mbedtls_net_context listen_fd;
   mbedtls_net_init (&listen_fd);

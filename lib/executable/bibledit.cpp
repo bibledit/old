@@ -114,8 +114,11 @@ int main (int argc, char **argv)
   // Start the Bibledit library.
   bibledit_start_library ();
   bibledit_log ("The server started");
-  cout << "Listening on http://localhost:" << config_logic_http_network_port () <<
-    " and https://localhost:" << config_logic_https_network_port () << endl;
+  cout << "Listening on http://localhost:" << config_logic_http_network_port ();
+#ifndef CLIENT_PREPARED
+  cout << " and https://localhost:" << config_logic_https_network_port ();
+#endif
+  cout << endl;
   cout << "Press Ctrl-C to quit" << endl;
 
   // Log possible backtrace from a previous crash.
