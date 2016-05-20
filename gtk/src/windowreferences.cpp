@@ -54,11 +54,13 @@ WindowReferences::WindowReferences(GtkWidget * parent_layout, GtkAccelGroup *acc
   active_entry = -1;
   references_management_on = reference_management_enabled;
   
+  DEBUG("10")
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
   gtk_container_add(GTK_CONTAINER(vbox_client), scrolledwindow);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
+  DEBUG("20")
   webview = webkit_web_view_new();
   gtk_widget_show(webview);
   gtk_container_add(GTK_CONTAINER(scrolledwindow), webview);
@@ -66,19 +68,21 @@ WindowReferences::WindowReferences(GtkWidget * parent_layout, GtkAccelGroup *acc
   connect_focus_signals (webview);
 
   g_signal_connect((gpointer) webview, "navigation-policy-decision-requested", G_CALLBACK(on_navigation_policy_decision_requested), gpointer(this));
-
+  DEBUG("30")
   // Signal button.
   signal_button = gtk_button_new();
 
   // Main focused widget.
   last_focused_widget = webview;
   gtk_widget_grab_focus (last_focused_widget);
-
+  DEBUG("40")
   set_fonts ();
   
   // Load previously saved references.
   load ();
+  DEBUG("50")
   load_webview ("");
+  DEBUG("60")
 }
 
 
