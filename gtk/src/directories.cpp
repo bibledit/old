@@ -19,6 +19,7 @@
 
 
 #include "directories.h"
+#include <stdlib.h>
 #include <glib.h>
 #include <config.h>
 #include "constants.h"
@@ -156,6 +157,18 @@ void directories::init(void)
   find_rmdir();
   check_structure(); // Check on required directory structure.
   find_utilities();  // Find rest of core utilities like copy, rm, etc.
+
+  path = ustring(getenv("PATH"));
+#ifdef WIN32
+  // Set path properly for Windows. We need this because tar -czf, for instance, needs
+  // to know how to find gzip in the path. If no gzip in path, then tar
+  // does not work; backups are not created; and end-users not happy!
+  path = rundir + ";" + path;
+  //setenv("PATH", path.c_str(), TRUE/*overwrite*/);
+  ustring pathspec = "PATH="+path;
+  putenv(pathspec.c_str());
+  // This could affect how utilities are found, but we do that ABOVE.
+#endif
 }
 
 void directories::find_mkdir(void)
@@ -451,6 +464,28 @@ void directories::find_utilities(void)
 	}
   }
   }
+
+  //---------------------------------------------
+  // gzip
+  //---------------------------------------------
+  {
+  // Check for unzip (Unix)
+  GwSpawn spawn("gzip");
+  spawn.arg("--version");  // unzip.exe on Windows and Linux (on my systems at least) returns 10 even though it is present and runs --version because it doesn't know the --version flag
+  spawn.run();
+  if (spawn.exitstatus == 0) {
+	// We have an unzip command. Use it.
+	gzip = "gzip";
+  }
+  else {
+	// Check for gzip.exe in the rundir (Windows directly through msys2/mingw binary)
+	GwSpawn spawn(rundir + "\\gzip.exe");
+	spawn.arg("--version");
+	if (spawn.exitstatus == 0) { gzip = rundir + "\\gzip.exe"; }
+	else { gw_message(_("Cannot find a suitable gzip utility")); }
+  }
+  }
+
   
   //---------------------------------------------
   // Bibledit Outpost for Windows
@@ -481,6 +516,7 @@ void directories::print()
   gw_message("Temp: \t" + temp);
   gw_message("Templates: \t" + templates);
   gw_message("Restore: \t" + restore);
+  gw_message("Path: \t" + path);
   gw_message("Copy util: \t" + copy);
   gw_message("Copy recursive: \t" + copy_recursive + " " + copy_recursive_args);
   gw_message("Move util:   \t" + move + " " + move_args);
@@ -491,6 +527,7 @@ void directories::print()
   gw_message("Tar util:    \t" + tar);
   gw_message("Zip util:    \t" + zip);
   gw_message("Unzip util:  \t" + unzip);
+  gw_message("gzip util:   \t" + gzip);
   gw_message("Any of these that are blank indicate that we have not worked on them yet!!!!!");
   gw_message("Git:         \t" + git);
   gw_message("bibledit_git \t" + bibledit_git);
@@ -540,6 +577,7 @@ ustring directories::get_templates()          { return templates; }
 ustring directories::get_templates_user()     { return templates_user; }
 ustring directories::get_package_data()       { return package_data; }
 ustring directories::get_restore ()           { return restore; }
+ustring directories::get_path ()              { return path; }
 
 // File utility programs
 ustring directories::get_copy ()              { return copy;     }
@@ -556,6 +594,7 @@ ustring directories::get_mkdir_args ()        { return mkdir_args; }
 ustring directories::get_tar ()               { return tar; }
 ustring directories::get_zip ()               { return zip; }
 ustring directories::get_unzip ()             { return unzip; }
+ustring directories::get_gzip ()              { return gzip; }
 ustring directories::get_git ()               { return git; }
 ustring directories::get_bibledit_git ()      { return bibledit_git; }
 ustring directories::get_curl ()              { return curl; }
