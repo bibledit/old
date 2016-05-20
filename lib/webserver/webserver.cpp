@@ -183,7 +183,7 @@ void http_server ()
   config_globals_enforce_https_client = config_logic_enforce_https_client ();
   
   // Create a listening socket.
-  int listenfd = socket(AF_INET, SOCK_STREAM, 0);
+  int listenfd = socket (AF_INET, SOCK_STREAM, 0);
   if (listenfd < 0) cerr << "Error opening socket: It returns a descriptor of " << listenfd << endl;
 
   // Eliminate "Address already in use" error from bind.
@@ -191,12 +191,19 @@ void http_server ()
   int result = setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, (const char *) &optval, sizeof (int));
   if (result != 0) cerr << "Error setting socket options" << endl;
 
-  // The listening socket will be an endpoint for all requests to a port on any IP address for this host.
+  // The listening socket will be an endpoint for all requests to a port on this host.
+  // When configured as a server it listens on any IP address.
+  // When configured as a client, it listens on the loopback device.
   typedef struct sockaddr SA;
   struct sockaddr_in serveraddr;
   memset (&serveraddr, 0, sizeof (serveraddr));
   serveraddr.sin_family = AF_INET;
-  serveraddr.sin_addr.s_addr = htonl (INADDR_ANY);
+  serveraddr.sin_addr.s_addr =
+#ifdef CLIENT_PREPARED
+  htonl (INADDR_LOOPBACK);
+#else
+  htonl (INADDR_ANY);
+#endif
   serveraddr.sin_port = htons (convert_to_int (config_logic_http_network_port ()));
   result = mybind (listenfd, (SA *) &serveraddr, sizeof (serveraddr));
   if (result != 0) cerr << "Error binding server to socket" << endl;
