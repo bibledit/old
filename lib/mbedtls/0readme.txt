@@ -41,3 +41,9 @@ To use the library in a threaded environment, define the following in config.h:
 MBEDTLS_THREADING_C
 MBEDTLS_THREADING_PTHREAD
 
+To disable assembler, undefine the following in config.h:
+MBEDTLS_HAVE_ASM
+MBEDTLS_AESNI_C
+MBEDTLS_PADLOCK_C
+The reason that assembler has been disabled is that on Android there is weird behaviour after the library was introduced, and therefore it was thought to disable assembler just to be sure that this is not the cause of the undefined behaviour.
+
