@@ -322,6 +322,27 @@ void directories::find_utilities(void)
   }
   
   //---------------------------------------------
+  // Diff
+  //---------------------------------------------
+  {
+  // Check for diff (Unix)
+  GwSpawn spawn("diff");
+  spawn.arg("--version");
+  spawn.run();
+  if (spawn.exitstatus == 0) { 
+	// We have a rm command. Use it.
+	diff = "diff";
+  }
+  else {
+	// Check for diff.exe in the rundir (Windows directly through msys2/mingw binary)
+	GwSpawn spawn(rundir + "\\diff.exe");
+	spawn.arg("--version");
+	if (spawn.exitstatus == 0) { diff = rundir + "\\diff.exe"; }
+	else { gw_message(_("Cannot find a suitable diff utility")); }
+  }
+  }
+  
+  //---------------------------------------------
   // mkdir
   //---------------------------------------------
   {
@@ -438,6 +459,7 @@ void directories::print()
   gw_message("Remove util: \t" + rm);
   gw_message("Rmdir util:  \t" + rmdir + " " + rmdir_args);
   gw_message("Mkdir:       \t" + mkdir + " " + mkdir_args);
+  gw_message("Diff util:   \t" + diff);
   gw_message("Tar util:    \t" + tar);
   gw_message("Zip util:    \t" + zip);
   gw_message("Unzip util:  \t" + unzip);
@@ -500,6 +522,7 @@ ustring directories::get_move_args ()         { return move_args; }
 ustring directories::get_rm ()                { return rm; }
 ustring directories::get_rmdir ()             { return rmdir; }
 ustring directories::get_rmdir_args ()        { return rmdir_args; }
+ustring directories::get_diff ()              { return diff; }
 ustring directories::get_mkdir ()             { return mkdir; }
 ustring directories::get_mkdir_args ()        { return mkdir_args; }
 ustring directories::get_tar ()               { return tar; }

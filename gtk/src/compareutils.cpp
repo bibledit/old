@@ -386,7 +386,7 @@ void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector
   output.clear ();
   
   // Run diff.  
-  ustring command = "diff -U 1000000" + shell_quote_space(originalfile) + shell_quote_space(editfile) + ">" + shell_quote_space(outputfile);
+  ustring command = shell_quote_space(Directories->get_diff()) + " -U 1000000" + shell_quote_space(originalfile) + shell_quote_space(editfile) + ">" + shell_quote_space(outputfile);
   if (system(command.c_str()));
   // GwSpawn needs a change before it can be used, because ::standardout trims the text.
  

@@ -929,7 +929,7 @@ void WindowMerge::approval_show_diff()
 {
   // Create a patch file by running a diff.
   approve_patch_file = gw_build_filename(workingdirectory, "patch");
-  ustring command = "diff" + shell_quote_space(approve_master_file) + shell_quote_space(approve_merge_file) + ">" + shell_quote_space(approve_patch_file);
+  ustring command = shell_quote_space(Directories->get_diff()) + shell_quote_space(approve_master_file) + shell_quote_space(approve_merge_file) + ">" + shell_quote_space(approve_patch_file);
   if (system(command.c_str())) ; // This one does not work with GwSpawn because of the pipes used.
 
   // Clear items.

@@ -70,6 +70,7 @@ private:
   ustring rm;
   ustring rmdir;
   ustring rmdir_args;
+  ustring diff;
   ustring tar;
   ustring zip;
   ustring unzip;
@@ -130,6 +131,7 @@ private:
   ustring get_rm ();
   ustring get_rmdir ();
   ustring get_rmdir_args ();
+  ustring get_diff ();
   ustring get_mkdir ();
   ustring get_mkdir_args ();
   ustring get_tar ();
