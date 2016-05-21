@@ -1206,7 +1206,8 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     mbedtls_ssl_free (&ssl);
     mbedtls_ssl_config_free (&conf);
   } else {
-    close (sock);
+    // Only close the socket if it was open.
+    if (sock > 0) close (sock);
   }
 
   
