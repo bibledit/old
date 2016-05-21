@@ -30,9 +30,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // It is re-indexed every night.
 
 
+const char * Database_Modifications::filename ()
+{
+  return "modifications";
+}
+
+
 sqlite3 * Database_Modifications::connect ()
 {
-  return database_sqlite_connect ("modifications");
+  return database_sqlite_connect (filename ());
 }
 
 
@@ -1115,4 +1121,13 @@ void Database_Modifications::deleteNotificationFile (int identifier)
   if (filter_url_is_dir (path)) filter_url_rmdir (path);
   // Delete the new database file from the file system.
   if (file_exists (path)) filter_url_unlink (path);
+}
+
+
+vector <string> Database_Modifications::getCategories ()
+{
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT DISTINCT category FROM notifications ORDER BY category;");
+  vector <string> categories = sql.query ()["category"];
+  return categories;
 }

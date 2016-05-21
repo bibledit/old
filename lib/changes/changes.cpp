@@ -160,7 +160,7 @@ string changes_changes (void * webserver_request)
   
   
   // Read the identifiers.
-  // Limit the number of results to keep the page reasonabley fast even if there are many notifications.
+  // Limit the number of results to keep the page reasonably fast even if there are many notifications.
   vector <int> personal_ids = database_modifications.getNotificationPersonalIdentifiers (username, changes_personal_category (), true);
   vector <int> bible_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), true);
   vector <int> ids = database_modifications.getNotificationIdentifiers (username, true);
@@ -198,8 +198,11 @@ string changes_changes (void * webserver_request)
   
   // Add links to clear the notifications from the individual contributors.
   string dismissblock;
-  vector <string> users = request->database_users ()->getUsers ();
-  for (auto & user : users) {
+  vector <string> categories = database_modifications.getCategories ();
+  for (auto & category : categories) {
+    if (category == changes_personal_category ()) continue;
+    if (category == changes_bible_category ()) continue;
+    string user = category;
     vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, true);
     if (!ids.empty ()) {
       dismissblock.append ("<p>* <a href=\"?dismiss=");

@@ -37,5 +37,3 @@ const char * changes_bible_category ()
 {
   return "B";
 }
-
-
