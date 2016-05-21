@@ -45,5 +45,5 @@ To disable assembler, undefine the following in config.h:
 MBEDTLS_HAVE_ASM
 MBEDTLS_AESNI_C
 MBEDTLS_PADLOCK_C
-The reason that assembler has been disabled is that on Android there is weird behaviour after the library was introduced, and therefore it was thought to disable assembler just to be sure that this is not the cause of the undefined behaviour.
+The reason that assembler has been disabled is that on Android there were crashes after the mbed TLS library was introduced, and when the internet connection was off. After disabling assembler, the crashes were fewer, although still there. Since disabling assembler led to improved behaviour, it is wise to leave it disabled.
 
