@@ -101,28 +101,36 @@ string manage_users (void * webserver_request)
   if (request->query.count ("delete")) {
     string role = Filter_Roles::text (objectUserLevel);
     string email = request->database_users ()->getUserToEmail (objectUsername);
-    string message = "Deleted user " + objectUsername + " with role " + role + " and email " + email;
-    Database_Logs::log (message, Filter_Roles::admin ());
-    request->database_users ()->removeUser (objectUsername);
-    user_updated = true;
-    database_privileges_client_remove (objectUsername);
-    page += Assets_Page::success (message);
-    // Also remove any privileges for this user.
-    // In particular for the Bible privileges this is necessary,
-    // beause if old users remain in the privileges storage,
-    // then a situation where no user has any privileges to any Bible,
-    // and thus all relevant users have all privileges,
-    // can never be achieved again.
-    Database_Privileges::removeUser (objectUsername);
-    // Remove any login tokens the user might have had: Just to clean things up.
-    Database_Login::removeTokens (objectUsername);
-    // Remove any settings for the user.
-    // The advantage of this is that when a user is removed, all settings are gone,
-    // so when the same user would be created again, all settings will go back to their defaults.
-    request->database_config_user ()->remove (objectUsername);
-    // Remove note assignments for clients for this user.
-    Database_NoteAssignment database_noteassignment;
-    database_noteassignment.remove (objectUsername);
+    vector <string> users = request->database_users ()->getUsers ();
+    vector <string> administrators = request->database_users ()->getAdministrators ();
+    if (users.size () == 1) {
+      page += Assets_Page::error (translate("Cannot remove the last user"));
+    } else if ((objectUserLevel >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
+      page += Assets_Page::error (translate("Cannot remove the last administrator"));
+    } else {
+      string message = "Deleted user " + objectUsername + " with role " + role + " and email " + email;
+      Database_Logs::log (message, Filter_Roles::admin ());
+      request->database_users ()->removeUser (objectUsername);
+      user_updated = true;
+      database_privileges_client_remove (objectUsername);
+      page += Assets_Page::success (message);
+      // Also remove any privileges for this user.
+      // In particular for the Bible privileges this is necessary,
+      // beause if old users remain in the privileges storage,
+      // then a situation where no user has any privileges to any Bible,
+      // and thus all relevant users have all privileges,
+      // can never be achieved again.
+      Database_Privileges::removeUser (objectUsername);
+      // Remove any login tokens the user might have had: Just to clean things up.
+      Database_Login::removeTokens (objectUsername);
+      // Remove any settings for the user.
+      // The advantage of this is that when a user is removed, all settings are gone,
+      // so when the same user would be created again, all settings will go back to their defaults.
+      request->database_config_user ()->remove (objectUsername);
+      // Remove note assignments for clients for this user.
+      Database_NoteAssignment database_noteassignment;
+      database_noteassignment.remove (objectUsername);
+    }
   }
   
   
