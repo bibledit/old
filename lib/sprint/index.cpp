@@ -90,6 +90,36 @@ string sprint_index (void * webserver_request)
   int month = request->database_config_user()->getSprintMonth ();
   int year = request->database_config_user()->getSprintYear ();
   
+
+  if (request->post.count ("id")) {
+    string id = request->post ["id"];
+    string checked = request->post ["checked"];
+    if (id.length () >= 9) {
+      // Remove "task".
+      id.erase (0, 4);
+      // Convert the fragment to an integer.
+      int identifier = convert_to_int (id);
+      // Find the fragment "box".
+      size_t pos = id.find ("box");
+      if (pos != string::npos) {
+        // Remove the fragment "box".
+        id.erase (0, pos + 3);
+        // Convert the box to an integer.
+        int box = convert_to_int (id);
+        string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
+        vector <string> categories = filter_string_explode (categorytext, '\n');
+        int category_count = categories.size ();
+        float category_percentage = 100 / category_count;
+        int percentage;
+        bool on = (checked == "true");
+        if (on) percentage = round ((box + 1) * category_percentage);
+        else percentage = round (box * category_percentage);
+        database_sprint.updateComplete (identifier, percentage);
+      }
+    }
+    return "";
+  }
+  
   
   if (request->post.count ("add")) {
     string title = request->post ["add"];
@@ -153,12 +183,6 @@ string sprint_index (void * webserver_request)
   }
 
   
-  if (request->query.count ("complete")) {
-    int complete = convert_to_int (request->query ["complete"]);
-    database_sprint.updateComplete (id, complete);
-  }
-  
-  
   if (request->post.count ("categories")) {
     string categories = request->post ["categories"];
     vector <string> categories2;
@@ -199,18 +223,22 @@ string sprint_index (void * webserver_request)
     tasks.append ("<td>" + title + "</td>\n");
     int category_count = vcategories.size();
     float category_percentage = 100 / category_count;
-    for (unsigned int i2 = 0; i2 < vcategories.size (); i2++) {
-      int low = round (i2 * category_percentage);
+    for (size_t i2 = 0; i2 < vcategories.size (); i2++) {
       int high = round ((i2 + 1) * category_percentage);
       tasks.append ("<td>\n");
-      if (percentage >= high) {
-        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (low) + "\">" + get_tick_box (true) + "</a>\n");
-      } else {
-        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (high) + "\">" + get_tick_box (false) + "</a>\n");
-      }
+      tasks.append ("<input type=\"checkbox\" id=\"task");
+      tasks.append (convert_to_string (id));
+      tasks.append ("box");
+      tasks.append (convert_to_string (i2));
+      tasks.append ("\"");
+      if (percentage >= high)
+        tasks.append (" checked");
+      else
+        tasks.append ("");
+      tasks.append (">");
+      
       tasks.append ("</td>\n");
     }
-    
     tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&moveforward=\"> » </a></td>\n");
     tasks.append ("</tr>\n");
   }
