@@ -202,19 +202,11 @@ string sprint_index (void * webserver_request)
     for (unsigned int i2 = 0; i2 < vcategories.size (); i2++) {
       int low = round (i2 * category_percentage);
       int high = round ((i2 + 1) * category_percentage);
-      string anchor;
-      if (id > 3) {
-        // When the monthly sprint has many items, and so the list will be long,
-        // clicking an item down in the list scrolls the page back to the top.
-        // And the clicked items scrolls out of view.
-        // A solution is to navigate to an anchor after clicking an item.
-        anchor = "#a" + convert_to_string (id - 3);
-      }
       tasks.append ("<td>\n");
       if (percentage >= high) {
-        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (low) + anchor + "\">" + get_tick_box (true) + "</a>\n");
+        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (low) + "\">" + get_tick_box (true) + "</a>\n");
       } else {
-        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (high) + anchor + "\">" + get_tick_box (false) + "</a>\n");
+        tasks.append ("<a href=\"?id=" + convert_to_string (id) + "&complete=" + convert_to_string (high) + "\">" + get_tick_box (false) + "</a>\n");
       }
       tasks.append ("</td>\n");
     }

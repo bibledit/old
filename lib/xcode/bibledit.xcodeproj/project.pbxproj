@@ -165,6 +165,7 @@
 		CA2ABC2F1BE53B0500C7E429 /* create.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = create.h; sourceTree = "<group>"; };
 		CA2ABC301BE53B0500C7E429 /* create.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = create.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA2ABC311BE53B0500C7E429 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CA2B2E331CF06173008A6D74 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CA2F06D71AE52F84008B8BDB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CA2F06D81AE52F84008B8BDB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA2F06E41AE568E2008B8BDB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -2743,6 +2744,7 @@
 				CA333CF21ABD6E1300D3D4B6 /* index.cpp */,
 				CA333CF31ABD6E1300D3D4B6 /* index.h */,
 				CA333CF41ABD6E1300D3D4B6 /* index.html */,
+				CA2B2E331CF06173008A6D74 /* index.js */,
 			);
 			name = sprint;
 			path = ../sprint;
