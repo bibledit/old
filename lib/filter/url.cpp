@@ -1207,6 +1207,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     mbedtls_ssl_config_free (&conf);
   } else {
     // Only close the socket if it was open.
+    // It used to close (0), and on Android, when this was done a couple of times, it would crash the app.
     if (sock > 0) close (sock);
   }
 
