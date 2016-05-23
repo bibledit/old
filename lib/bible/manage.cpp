@@ -112,15 +112,17 @@ string bible_manage (void * webserver_request)
       } else {
         // User needs read access to the original.
         if (access_bible_read (request, origin)) {
-          request->database_bibles ()->createBible (destination);
-          vector <int> books = request->database_bibles ()->getBooks (origin);
-          for (auto & book : books) {
-            vector <int> chapters = request->database_bibles ()->getChapters (origin, book);
-            for (auto & chapter : chapters) {
-              string data = request->database_bibles ()->getChapter (origin, book, chapter);
-              Bible_Logic::storeChapter (destination, book, chapter, data);
-            }
-          }
+          // Create a Bible to get its numeric identifier, then remove that Bible again.
+          int id = request->database_bibles ()->createBible (destination);
+          request->database_bibles ()->deleteBible (destination);
+          // Copy the Bible data.
+          string origin_folder = request->database_bibles ()->bibleFolder (origin);
+          string destination_folder = request->database_bibles ()->bibleFolder (destination);
+          filter_url_dir_cp (origin_folder, destination_folder);
+          request->database_bibles ()->setID (destination, id);
+          // Copy the Bible search index.
+          search_logic_copy_bible (origin, destination);
+          // Feedback.
           success_message = translate("The Bible was copied.");
           // Check / grant access to destination Bible.
           if (!access_bible_write (request, destination)) {
@@ -145,13 +147,6 @@ string bible_manage (void * webserver_request)
       // User needs write access for delete operation.
       if (access_bible_write (request, bible)) {
         Bible_Logic::deleteBible (bible);
-        string gitdirectory = filter_git_directory (bible);
-        if (file_exists (gitdirectory)) {
-          filter_url_rmdir (gitdirectory);
-        }
-        // Remove associated settings and privileges.
-        Database_Privileges::removeBible (bible);
-        Database_Config_Bible::remove (bible);
       } else {
         page += Assets_Page::error ("Insufficient privileges to complete action");
       }

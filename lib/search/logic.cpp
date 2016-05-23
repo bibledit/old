@@ -497,3 +497,22 @@ int search_logic_get_verse_count (string bible)
   }
   return verse_count;
 }
+
+
+// Copies the search index of Bible $original to Bible $destination.
+void search_logic_copy_bible (string original, string destination)
+{
+  string original_fragment = search_logic_bible_fragment (original);
+  original_fragment = filter_url_basename (original_fragment);
+  string destination_fragment = search_logic_bible_fragment (destination);
+  destination_fragment = filter_url_basename (destination_fragment);
+  vector <string> files = filter_url_scandir (search_logic_index_folder ());
+  for (auto & file : files) {
+    if (file.find (original_fragment) == 0) {
+      string original_path = filter_url_create_path (search_logic_index_folder (), file);
+      string destination_file = destination_fragment + file.substr (original_fragment.length ());
+      string destination_path = filter_url_create_path (search_logic_index_folder (), destination_file);
+      filter_url_file_cp (original_path, destination_path);
+    }
+  }
+}

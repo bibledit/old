@@ -6318,6 +6318,12 @@ msgstr ""
 msgid "User created"
 msgstr ""
 
+msgid "Cannot remove the last user"
+msgstr ""
+
+msgid "Cannot remove the last administrator"
+msgstr ""
+
 msgid "Select a role for"
 msgstr ""
 
@@ -8678,6 +8684,9 @@ msgid "Style"
 msgstr ""
 
 msgid "Add a style to the stylesheet."
+msgstr ""
+
+msgid "Select this stylesheet."
 msgstr ""
 
 msgid "Delete the entire stylesheet."

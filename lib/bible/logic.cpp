@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/roles.h>
+#include <filter/git.h>
 #include <database/bibles.h>
 #include <database/modifications.h>
 #include <database/bibleactions.h>
@@ -37,6 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/resources.h>
 #include <sword/logic.h>
 #include <resource/logic.h>
+#include <search/logic.h>
 
 
 void Bible_Logic::storeChapter (const string& bible, int book, int chapter, const string& usfm)
@@ -140,11 +142,20 @@ void Bible_Logic::deleteBible (const string& bible)
     // Server stores diff data.
     Database_Modifications database_modifications;
     database_modifications.storeTeamDiffBible (bible);
+    
+    // Possible git repository.
+    string gitdirectory = filter_git_directory (bible);
+    if (file_exists (gitdirectory)) {
+      filter_url_rmdir (gitdirectory);
+    }
 
   }
 
   // Delete the Bible from the database.
   database_bibles.deleteBible (bible);
+  
+  // Delete the search index.
+  search_logic_delete_bible (bible);
   
   // Delete associated settings and privileges.
   Database_Privileges::removeBible (bible);
