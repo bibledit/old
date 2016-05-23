@@ -2,7 +2,7 @@
 # Copy all necessary files from git repo to Windows to make a "nice" installation.
 # Run this from the bibledit/gtk build directory
 
-VERSION="4.9.4"
+VERSION="4.9.5"
 
 full=1
 docs=0
