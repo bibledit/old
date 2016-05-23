@@ -14,29 +14,32 @@ General Debugging
    cd C:\Program Files (x86)\Bibledit-4.9.4\ or 
    \msys64\mingw32\bin\gdb editor\bin\bibledit-gtk.exe   
    
-2. In the past I have preferred to use gdb from emacs. Run 
-   /mingw64/bin/emacs & or your stock Windows version of emacs
-   from an msys64 shell. Once in emacs, do M-x (Alt-X) and type
-   gud-gdb <enter> and run it this way:
-   C:\msys64\mingw64\bin\gdb --fullname "C:/Program Files/Bibledit-4.9.4/editor/bin/bibledit-gtk.exe"   
-	  or for 32-bit
-   C:\msys64\mingw32\bin\gdb --fullname "C:/Program Files (x86)/Bibledit-4.9.3/editor/bin/bibledit-gtk.exe"
-   cd .. a couple of times to get back to the bibledit-4.9.4 directory
-   set args --debug
-   Set breakpoints (Ctrl)
-   This will start gdb and then you can use the commands n, p, 
-   l, etc, or the buttons at the top of the emacs window to step
-   and so forth.
-   
-   // Following doesn't quite work for some reason - application doesn't start all the way.
-   Using Windows-native Emacs, I do the same, and run this:
-   \msys64\mingw32\bin\gdb --fullname "C:/Program Files (x86)/Bibledit-4.9.3/editor/bin/bibledit-gtk.exe"
-   cd "C:/Program Files (x86)/Bibledit-4.9.3/" or whatever syntax works to get to that directory
-   run
+2. I sometimes preferr to use gdb from emacs.
+	1. From DOS command prompt run
+	   \msys64\mingw64\bin\emacs or your stock Windows version of emacs
+   	2. Once in emacs, do M-x (Alt-X) and type
+	   gud-gdb <enter> and make the command line like this
+	   C:/msys64/mingw64/bin/gdb --fullname
+	3. Once successfully running gdb, type
+	   file "C:/Program Files/Bibledit-4.9.4/editor/bin/bibledit-gtk.exe"
+	   (Assuming you are running 64bit version of Bibledit, change to Program Files (x86)
+	   if needed).
+	4. cd C:/Program Files/Bibledit-4.9.4
+	   to fix up the working directory.
+	5. Verify by typing pwd and make sure it says the same directory as above
+	6. set args --debug
+	7. Set breakpoints by opening source file and line, and type Ctrl-x Ctrl-a Ctrl-b
+	   (hold Ctrl, then press x, a, b in sequence). You can also type
+	   M-x gud-break and it will set a breakpoint at that line.
+	   The Ctrl-x <space> that works on linux doesn't work by default here unless
+	   you make some change to your emacs config.
+	8. Now you can type run, n for next, p for print, etc. to do debugging.
+	   Or use the buttons at the top of the emacs window to step and so forth.
+	9. DOESN"T WORK YET You may have to tell gdb where to find the source code to show as you debug.
+	   directory C:/msys64/home/postiffm/64bit/bibledit/gtk/src
 
 3. I like Notepad++ for editing source code, but compiling
-   (not to mention debugging) are not really strong points of
-   Notepad++.
+   (not to mention debugging) are not really available in it.
 
 4. Eclipse. ?
 

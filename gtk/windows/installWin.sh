@@ -104,7 +104,7 @@ cp ./src/.libs/bibledit-gtk.exe "$BIN"
 cp ./src/.libs/bibledit-rdwrt.exe "$BIN"
 cp ./src/.libs/concordance.exe "$BIN"
 cp ./git/bibledit-git.exe "$BIN"
-cp ./shutdown/bibledit-shutdown.exe "$BIN"
+cp ./shutdown/.libs/bibledit-shutdown.exe "$BIN"
 cp -R ./windows/bibledit.ico "$BIN"
 
 # If we are in --quick mode, then quit now, don't do more work

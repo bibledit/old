@@ -29,7 +29,6 @@
 #include "tiny_utilities.h"
 #include <config.h>
 
-
 bool program_is_running(const ustring & commandline)
 // Returns true if the program given on "commandline" is running.
 {
@@ -44,9 +43,11 @@ int programs_running_count(const ustring & commandline)
   vector <ustring> processes = list_processes ();
   // Usage count.
   int count = 0;
-  for (unsigned int i = 0; i < processes.size(); i++)
-    if (processes[i].find(commandline) != string::npos)
+  for (unsigned int i = 0; i < processes.size(); i++) {
+    if (processes[i].find(commandline) != string::npos) {
       count++;
+	}
+  }
   // Return the count.
   return count;
 }

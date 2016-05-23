@@ -49,14 +49,7 @@ bool check_bibledit_startup_okay (int argc, char *argv[])
   }
 
   // See whether Bibledit itself is running already.
-  vector <ustring> processes = list_processes ();
-  int count = 0;
-  for (unsigned int i = 0; i < processes.size(); i++) {
-    if (g_str_has_suffix (processes[i].c_str(), "bibledit-gtk")) {
-      count++;
-    }
-  }
-  if (count > 1) {
+  if (programs_running_count("bibledit-gtk") > 1) {
     gtkw_dialog_error(NULL, _("Bibledit-Gtk is already running."));
     return false;
   }
