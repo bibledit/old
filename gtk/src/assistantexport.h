@@ -138,8 +138,11 @@ private:
   
   // Compress it?
   int page_number_zip;
-  GtkWidget *checkbutton_zip;
+  GtkWidget *vbox_options;
+  GtkWidget *checkbutton_zip; // compress the output (.tar.gz)
+  GtkWidget *checkbutton_combined; // combine USFMs into a single huge file
   bool get_compressed ();
+  bool get_combined ();
   
   // Select date and time.
   int page_number_date_time;

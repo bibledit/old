@@ -92,9 +92,9 @@ ustring remove_spaces(const ustring & s)
 }
 
 
-void write_lines(const ustring & file, vector < ustring > &lines)
+void write_lines(const ustring & file, vector < ustring > &lines, bool append)
 {
-  WriteText wt(file);
+  WriteText wt(file, append);
   for (unsigned int i = 0; i < lines.size(); i++) {
     wt.text(lines[i]);
     wt.text("\n");
@@ -810,7 +810,7 @@ ReadText::~ReadText()
 }
 
 
-WriteText::WriteText(const ustring & file)
+WriteText::WriteText(const ustring & file, bool append)
 {
 /*
   This opens a textfile for writing.
@@ -818,7 +818,10 @@ WriteText::WriteText(const ustring & file)
   this causes crashes on Macintosh when writing Unicode, this has been changed
   to regular Linux calls: open, write.
 */
-  fd = open(file.c_str(), O_CREAT | O_WRONLY | O_TRUNC, 0666);
+  int openflags = O_CREAT | O_WRONLY | O_TRUNC; // default to truncate
+  if (append) { openflags = O_CREAT | O_WRONLY | O_APPEND; }
+
+  fd = open(file.c_str(), openflags, 0666);
   if (fd < 0) {
     gw_critical(_("Error creating file ") + file);
     perror(NULL);

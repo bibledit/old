@@ -429,21 +429,31 @@ radiobutton_select_type_references = gtk_radio_button_new_with_mnemonic (NULL, _
   shortcuts_keyterms_wo_rendering.button (checkbutton_keyterms_without_rendering);
   shortcuts_keyterms_wo_rendering.consider_assistant();
   shortcuts_keyterms_wo_rendering.process();
-  
-  // Compress it?
-  checkbutton_zip = gtk_check_button_new_with_mnemonic (_("Compress it"));
+
+  // Export options...to compress the output (.tar.gz) or combine
+  // output into a single file
+  vbox_options = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_options);
+  page_number_zip = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_options);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_select_type), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_options, _("Export Options"));
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_options, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_options, true);
+
+  checkbutton_zip = gtk_check_button_new_with_mnemonic (_("Compress the backup"));
   gtk_widget_show (checkbutton_zip);
-  page_number_zip = gtk_assistant_append_page (GTK_ASSISTANT (assistant), checkbutton_zip);
-  gtk_container_set_border_width (GTK_CONTAINER (checkbutton_zip), 10);
+  gtk_box_pack_start (GTK_BOX (vbox_options), checkbutton_zip, FALSE, FALSE, 0);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_zip, _("Would you like to compress it?"));
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), checkbutton_zip, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), checkbutton_zip, true);
+  checkbutton_combined = gtk_check_button_new_with_mnemonic (_("For USFM, combine files into one"));
+  gtk_widget_show (checkbutton_combined);
+  gtk_box_pack_start (GTK_BOX (vbox_options), checkbutton_combined, FALSE, FALSE, 0);
 
-  Shortcuts shortcuts_compress (0);
-  shortcuts_compress.button (checkbutton_zip);
-  shortcuts_compress.consider_assistant();
-  shortcuts_compress.process();
+  Shortcuts shortcuts_exportoptions (0);
+  shortcuts_exportoptions.button (checkbutton_zip);
+  shortcuts_exportoptions.button (checkbutton_combined);
+  shortcuts_exportoptions.consider_assistant();
+  shortcuts_exportoptions.process();
   
   // Select date and time.
   vbox_date_time = gtk_vbox_new (FALSE, 0);
@@ -690,9 +700,9 @@ void ExportAssistant::on_assistant_apply ()
             case eutEverything:
             {
               if (get_compressed ()) {
-                export_to_usfm(bible_name, filename, true);
+                export_to_usfm(bible_name, filename, /*compressed*/true, get_combined());
               } else {
-                export_to_usfm(bible_name, foldername, false);
+                export_to_usfm(bible_name, foldername, /*compressed*/false, get_combined());
               }
               break;
             }
@@ -1117,6 +1127,11 @@ ExportUsfmChangesType ExportAssistant::get_usfm_changes_type ()
 bool ExportAssistant::get_compressed ()
 {
   return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_zip));
+}
+
+bool ExportAssistant::get_combined ()
+{
+  return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_combined));
 }
 
 

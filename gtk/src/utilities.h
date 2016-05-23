@@ -32,7 +32,7 @@ unsigned int digit_count_in_string (const ustring & str);
 ustring upperCase (const ustring & s);
 ustring lowerCase (const ustring & s);
 ustring remove_spaces (const ustring & s);
-void write_lines (const ustring & file, vector < ustring > &lines);
+void write_lines (const ustring & file, vector < ustring > &lines, bool append=false);
 ustring temporary_file (const ustring & filename);
 ustring string_reverse (const ustring & s);
 ustring double_apostrophy (const ustring & line);
@@ -98,7 +98,7 @@ private:
 class WriteText
 {
 public:
-  WriteText (const ustring & file);
+  WriteText (const ustring & file, bool append=false);
   ~WriteText ();
   void text (const ustring& text);
 private:
