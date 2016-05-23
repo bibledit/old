@@ -342,6 +342,8 @@ cp -R doc/style.css "$SHARE/bibledit"
 cp -R doc/site.xml "$SHARE/bibledit"
 
 echo "Fetching bwoutpost.exe and installing to $BIN"
+# Remove old version if there is one in this directory
+rm -f bwoutpost.exe
 wget http://fbcaa.org/bibledit/bwoutpost.exe
 mv -f bwoutpost.exe "$BIN"
 
