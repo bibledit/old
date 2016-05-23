@@ -85,7 +85,7 @@ private:
 
 public:  
   ustring title;
-private:
+public:
   WindowID window_id;
 
   // Focus tools.

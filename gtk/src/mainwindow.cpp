@@ -950,6 +950,10 @@ navigation(0), httpd(0)
   gtk_widget_show(view_outline);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_outline);
 
+  view_tile_windows = gtk_image_menu_item_new_with_mnemonic (_("_Tile Windows"));
+  gtk_widget_show(view_tile_windows);
+  gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_tile_windows);
+
   insert1 = gtk_menu_item_new_with_mnemonic(_("_Insert"));
   gtk_widget_show(insert1);
   gtk_container_add(GTK_CONTAINER(menubar1), insert1);
@@ -1662,6 +1666,7 @@ navigation(0), httpd(0)
   g_signal_connect ((gpointer) view_references, "activate", G_CALLBACK (on_view_references_activate), gpointer(this));
   if (view_outline)
     g_signal_connect((gpointer) view_outline, "activate", G_CALLBACK(on_view_outline_activate), gpointer(this));
+  g_signal_connect((gpointer) view_tile_windows, "activate", G_CALLBACK(on_view_tile_windows_activate), gpointer (this));
   if (insert1)
     g_signal_connect((gpointer) insert1, "activate", G_CALLBACK(on_insert1_activate), gpointer(this));
   if (insert_special_character)
@@ -4726,8 +4731,47 @@ void MainWindow::on_file_resources_delete()
  |
  |
  */
+void MainWindow::on_view_tile_windows_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+	((MainWindow *) user_data)->on_view_tile_windows();
+}
 
+void MainWindow::on_view_tile_windows()
+// This function tiles all open windows
+{
+  guint width, height, x=0, y = 0;
+  gtk_layout_get_size (GTK_LAYOUT (layout), &width, &height);
 
+  // Resize each editor window
+   for (unsigned int i=0;i<editor_windows.size();i++) {
+     FloatingWindow *floating_window = (FloatingWindow *) editor_windows[i];
+     GdkRectangle rectangle = floating_window->rectangle_get ();
+     rectangle.height = height;
+     rectangle.width = (width / editor_windows.size())*0.666;
+     rectangle.x = x;
+     rectangle.y = 0;
+     floating_window->rectangle_set(rectangle);
+     x += rectangle.width;
+     y = rectangle.height;
+   }
+
+  // Reset the Y field, as it is no longer relevant to the remaining windows
+  y = 0;
+
+  // Resize the remaining windows
+  for (unsigned int i=0;i<settings->session.open_floating_windows.size();i++) {
+    FloatingWindow *floating_window = (FloatingWindow *) settings->session.open_floating_windows[i];
+    if (floating_window->window_id != widEditor) {
+      GdkRectangle rectangle = floating_window->rectangle_get ();
+      rectangle.width = (settings->session.open_floating_windows.size()>editor_windows.size()) ? width * 0.333 : width;
+      rectangle.height = height / (settings->session.open_floating_windows.size() - editor_windows.size());
+      rectangle.x = x;
+      rectangle.y = y;
+      y += rectangle.height;
+      floating_window->rectangle_set(rectangle);
+   }
+ }
+}
 void MainWindow::on_window_editor_delete_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_window_editor_delete_button(button);

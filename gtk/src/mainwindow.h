@@ -200,6 +200,7 @@ protected:
   GtkWidget *view_references;
   GtkWidget *view_related_verses;
   GtkWidget *view_outline;
+  GtkWidget *view_tile_windows;
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *insert_special_character;
@@ -672,6 +673,8 @@ protected:
   void on_view_formatted_togg();
   void on_view_usfm_code_togg();
   void on_view_experimental_togg();
+  static void on_view_tile_windows_activate(GtkMenuItem *menuitem, gpointer user_data);
+  void on_view_tile_windows();
   static void on_view_chapteras_activate(GtkRadioMenuItem * menuitem, gpointer user_data);
   void debug_view(ustring txt, GtkRadioMenuItem *menuitem, viewType vt);
   void on_view_chapteras(GtkRadioMenuItem *menuitem);
