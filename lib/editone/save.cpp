@@ -104,6 +104,8 @@ string editone_save (void * webserver_request)
   
   // If an initial style was added to the first paragraph, remove it again.
   if (!added_style.empty ()) {
+    // First do a html to xml conversion to avoid a mismatched tag error later in the save chain.
+    html = html2xml (html);
     xml_document document;
     document.load_string (html.c_str(), parse_ws_pcdata_single);
     xml_node p_node = document.first_child ();
