@@ -124,8 +124,9 @@ CheckOTQuotationsInNT::CheckOTQuotationsInNT(const ustring& project, const vecto
 
 CheckOTQuotationsInNT::~CheckOTQuotationsInNT()
 {
-  if (progresswindow)
+  if (progresswindow) {
     delete progresswindow;
+  }
 }
 
 CheckParallelPassages::CheckParallelPassages(bool nt, const ustring & project, const vector < unsigned int >&books, bool includetext, bool gui,const ustring & project2)
@@ -140,16 +141,19 @@ CheckParallelPassages::CheckParallelPassages(bool nt, const ustring & project, c
 
   // Get a list of the books to check. If no books were given, take them all.
   vector < unsigned int >mybooks(books.begin(), books.end());
-  if (mybooks.empty())
+  if (mybooks.empty()) {
     mybooks = project_get_books(project);
+  }
   set < unsigned int >bookset(mybooks.begin(), mybooks.end());
 
   // Get the parallel passages.
   OtNtParallels otntparallels(0);
-  if (nt)
+  if (nt) {
     otntparallels.readnt();
-  else
+  }
+  else {
     otntparallels.readot();
+  }
 
   // GUI.
   progresswindow = NULL;
@@ -173,20 +177,37 @@ CheckParallelPassages::CheckParallelPassages(bool nt, const ustring & project, c
       OtNtParallelDataSet dataset(0);
       for (unsigned int i3 = 0; i3 < otntparallels.sections[i].sets[i2].references.size(); i3++) {
         // Skip if NT book is not to be included.
-        if (bookset.find(otntparallels.sections[i].sets[i2].references[i3].book_get()) == bookset.end())
+        if (bookset.find(otntparallels.sections[i].sets[i2].references[i3].book_get()) == bookset.end()) {
           continue;
+	}
         vector < int >remapped_chapter;
         vector < int >remapped_verse;
         mapping.book_change(otntparallels.sections[i].sets[i2].references[i3].book_get());
         mapping.original_to_me(otntparallels.sections[i].sets[i2].references[i3].chapter_get(), otntparallels.sections[i].sets[i2].references[i3].verse_get(), remapped_chapter, remapped_verse);
-        Reference mapped_reference(otntparallels.sections[i].sets[i2].references[i3].book_get(), remapped_chapter[0], convert_to_string(remapped_verse[0]));
-        ustring verse = mapped_reference.human_readable(language);
-        if (includetext) {
-          verse.append(" ");
-          verse.append(usfm_get_verse_text_only(project_retrieve_verse(project, mapped_reference.book_get(), mapped_reference.chapter_get(), mapped_reference.verse_get())));
-        }
+	ustring verse;
+
+	// The verse can have a range, like Matthew 3:1-2, and we have to handle all verses in that range.
+	// Prior to 5/23/2016, all that was used was remapped_verse[0], which destroyed any other verses in the range.
+	for (unsigned int i4 = 0; i4 < remapped_verse.size(); i4++) {
+	  Reference mapped_reference(otntparallels.sections[i].sets[i2].references[i3].book_get(), remapped_chapter[0], convert_to_string(remapped_verse[i4]));
+	  if (i4 > 0) {
+	    // For the second verse and beyond, we need to put an extra space and handle the verse number specially.
+	    verse.append(" [" + mapped_reference.verse_get() + "]");
+	  }
+	  else {
+	    verse.append(mapped_reference.human_readable(language));
+	  }
+	  if (includetext) {
+	    verse.append(" ");
+	    verse.append(usfm_get_verse_text_only(project_retrieve_verse(project, mapped_reference.book_get(), mapped_reference.chapter_get(), mapped_reference.verse_get())));
+	  }
+	}
+
         dataset.data.push_back(verse);
-        references.push_back(books_id_to_english(mapped_reference.book_get()) + " " + convert_to_string(mapped_reference.chapter_get()) + ":" + mapped_reference.verse_get());
+	//        references.push_back(books_id_to_english(mapped_reference.book_get()) + " " + convert_to_string(mapped_reference.chapter_get()) + ":" + mapped_reference.verse_get());
+        references.push_back(books_id_to_english(otntparallels.sections[i].sets[i2].references[i3].book_get()) + " "
+			     + convert_to_string(otntparallels.sections[i].sets[i2].references[i3].chapter_get()) + ":"
+			     + otntparallels.sections[i].sets[i2].references[i3].verse_get());
         comments.push_back(_("Parallel"));
       }
 

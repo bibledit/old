@@ -358,17 +358,17 @@ void DisplayCheckingResults::add_table_cell(const ustring & text, bool bold, boo
 {
   ustring line;
   line = "<td";
-  if (right_aligned)
+  if (right_aligned) {
     line.append(" style=\"text-align: right;\" valign=\"undefined\"");
+  }
   line.append(">");
-  if (bold)
-    line.append("<b>");
+  if (bold) { line.append("<b>"); }
   ustring text2(text);
-  if (translate_entities)
+  if (translate_entities) {
     xml_handle_entities(text2, NULL);
+  }
   line.append(text2);
-  if (bold)
-    line.append("</b>");
+  if (bold) { line.append("</b>"); }
   line.append("</td>");
   html.push_back(line);
 }
