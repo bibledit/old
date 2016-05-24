@@ -27,7 +27,7 @@
 void setup_conditionally (const char * package);
 void setup_copy_library (const char * package);
 void setup_write_access ();
-void setup_main_folders_present ();
+void setup_wait_till_main_folders_present ();
 void setup_initialize_data ();
 void setup_set_admin_details (string username, string password, string email);
 void setup_complete_gui ();

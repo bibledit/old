@@ -56,7 +56,7 @@ void setup_conditionally (const char * package)
   // it may mean that another program installs the data for us.
   // This is the case on Android.
   // In that case, wait till the most important data has been installed.
-  if (p == config_globals_document_root) setup_main_folders_present ();
+  if (p == config_globals_document_root) setup_wait_till_main_folders_present ();
   
   // Run the setup if the versions differ.
   if (config_logic_version () != Database_Config_General::getInstalledDatabaseVersion ()) {
@@ -77,7 +77,7 @@ void setup_conditionally (const char * package)
     setup_initialize_data ();
     
     for (auto message : messages) {
-      Database_Logs::log (message, Filter_Roles::admin());
+      Database_Logs::log (message);
     }
     
 #ifndef CLIENT_PREPARED
@@ -158,12 +158,12 @@ void setup_write_access ()
 
 
 // Waits until the main folders for setup are present.
-void setup_main_folders_present ()
+void setup_wait_till_main_folders_present ()
 {
   bool present;
   do {
     present = true;
-    vector <string> folders = {"dyncss", "databases", "databases/config/general", "logbook", "bibles"};
+    vector <string> folders = {"dyncss", "databases", "databases/config/general", "logbook", "bibles", "processes"};
     for (auto folder : folders) {
       string path = filter_url_create_root_path (folder);
       if (!file_exists (path)) {

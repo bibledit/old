@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/logic.h>
 #include <export/logic.h>
 #include <debug/logic.h>
+#include <setup/logic.h>
 
 
 // CPU-intensive actions run at night.
@@ -59,7 +60,8 @@ void timer_index ()
       // Wait shortly.
       this_thread::sleep_for (chrono::milliseconds (100));
       
-      // Wait tilll the data structures have been initialized.
+      // Wait till the data structures have been initialized.
+      setup_wait_till_main_folders_present ();
       if (!config_globals_data_initialized) continue;
       
       // The current time, localized.
