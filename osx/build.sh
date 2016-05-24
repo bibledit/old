@@ -100,9 +100,13 @@ rm generate
 popd
 
 
-say Building for OS X is ready
+
+# Build the app.
+cd $BIBLEDITOSX/osx
+xcodebuild
 
 
-echo To build the app for OSX open the project in Xcode:
+
+echo To graphically build the app for OSX, open the project in Xcode:
 echo open $BIBLEDITOSX/osx/Bibledit.xcodeproj
 echo Then build it from within Xcode
