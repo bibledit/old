@@ -1914,8 +1914,9 @@ void MainWindow::open()
 {
   // Get new project, bail out if none.
   ustring newproject;
-  if (!project_select(newproject))
+  if (!project_select(newproject)) {
     return;
+  }
   // Open editor.
   on_file_project_open(newproject, false);
 }

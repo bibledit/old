@@ -84,12 +84,26 @@ ustring shell_quote_space(const ustring & filename)
 {
   ustring quotedname;
 #ifdef WIN32
-  if (filename.find(" ") != string::npos)
+  if (filename.find(" ") != string::npos) {
     quotedname = " \"" + filename + "\" ";
-  else
+  }
+  else {
     quotedname = " " + filename + " ";
+  }
 #else
-  quotedname = " '" + filename + "' ";
+  // Was quotedname = " '" + filename + "' ";
+  // Then was
+#if 0
+  if (filename.find(" ") != string::npos) {
+    quotedname = " '" + filename + "' ";
+  }
+  else { 
+    quotedname = filename; // if no spaces, leave it alone
+  }
+#endif
+  // Now we just escape any spaces in the filename and run
+  quotedname = filename;
+  replace_text(quotedname, " ", "\\ ");
 #endif
   return quotedname;
 }

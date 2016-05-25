@@ -148,7 +148,8 @@ void directories::init(void)
     mkdir = "mkdir"; // no mkdir_args
 #else
 	// Linux
-	mkdir = "mkdir"; // no mkdir_args
+	mkdir = "mkdir";
+	mkdir_args = "-p";
 #endif
   gw_mkdir_with_parents(get_temp());
   gw_mkdir_with_parents(get_templates());
