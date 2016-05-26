@@ -103,10 +103,12 @@ string sendreceive_index (void * webserver_request)
   }
   
   
-  if (request->query.count ("repeatbible")) {
-    Database_Config_Bible::setRepeatSendReceive (bible, !Database_Config_Bible::getRepeatSendReceive (bible));
+  string checkbox = request->post ["checkbox"];
+  bool checked = convert_to_bool (request->post ["checked"]);
+  if (checkbox == "repeatbible") {
+    Database_Config_Bible::setRepeatSendReceive (bible, checked);
   }
-  view.set_variable ("repeatbible", get_tick_box (Database_Config_Bible::getRepeatSendReceive (bible)));
+  view.set_variable ("repeatbible", get_checkbox_status (Database_Config_Bible::getRepeatSendReceive (bible)));
   
   
   string url = Database_Config_Bible::getRemoteRepositoryUrl (bible);

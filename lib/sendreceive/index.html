@@ -84,8 +84,7 @@ translate("If Paratext were installed on this computer, and Bibles in Bibledit w
 <p>translate("Bibledit sends and receives this Bible every night.")</p>
 <p><a href="?runbible=">translate("Send and receive it now.")</a></p>
 <p>
-<a href="?repeatbible="> ##repeatbible## </a>
-translate("Send and receive it every five minutes.")
+<input type="checkbox" name="repeatbible" onchange="checkbox(this)" ##repeatbible## /> translate("Send and receive it every five minutes.")
 </p>
 <p>
 translate("It receives changes made by others in other instances of Bibledit.")
@@ -102,3 +101,4 @@ translate("View the history:")
 <br>
 
 <p><a href="/journal/index">translate("The Journal displays progress and diagnostic messages.")</a></p>
+<script type="text/javascript" src="../assets/checkbox.js"></script>
