@@ -4532,6 +4532,15 @@ void test_filter_string ()
     evaluate (__LINE__, __func__, true, unicode_string_is_punctuation ("."));
     evaluate (__LINE__, __func__, true, unicode_string_is_punctuation (","));
   }
+  
+  {
+    evaluate (__LINE__, __func__, false, convert_to_bool ("0"));
+    evaluate (__LINE__, __func__, false, convert_to_bool ("false"));
+    evaluate (__LINE__, __func__, false, convert_to_bool ("FALSE"));
+    evaluate (__LINE__, __func__, true, convert_to_bool ("1"));
+    evaluate (__LINE__, __func__, true, convert_to_bool ("true"));
+    evaluate (__LINE__, __func__, true, convert_to_bool ("TRUE"));
+  }
 }
 
 

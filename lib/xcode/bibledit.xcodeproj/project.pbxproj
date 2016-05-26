@@ -325,6 +325,7 @@
 		CA5DE2CB1AA5BA3900AE051C /* externalresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = externalresources.h; sourceTree = "<group>"; };
 		CA5DE2CC1AA5F02100AE051C /* locks.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = locks.c; sourceTree = "<group>"; };
 		CA5DE2CD1AA5F02100AE051C /* locks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = locks.h; sourceTree = "<group>"; };
+		CA5FE4121CF72F7B00D3BE90 /* checkbox.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = checkbox.js; sourceTree = "<group>"; };
 		CA605ACF1B876CA400EDDBA4 /* etcbc4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = etcbc4.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA605AD01B876CA400EDDBA4 /* etcbc4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = etcbc4.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA605AD11B876CA400EDDBA4 /* etcbc4.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = etcbc4.txt; sourceTree = "<group>"; };
@@ -1414,6 +1415,7 @@
 			children = (
 				CAA4CF371A45A647003ABA25 /* bibledit.png */,
 				CAA4CF381A45A647003ABA25 /* bibledit.xpm */,
+				CA5FE4121CF72F7B00D3BE90 /* checkbox.js */,
 				CAA4CF3B1A45A647003ABA25 /* error.html */,
 				CAA4CF3C1A45A647003ABA25 /* footer.html */,
 				CAA4CF3D1A45A647003ABA25 /* header.cpp */,
