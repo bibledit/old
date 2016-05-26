@@ -8,106 +8,100 @@
 
 <h2>translate("Consultation Notes")</h2>
 
-<table>
+<p>
+<input type="checkbox" name="editednotessubscription" onchange="checkbox(this)" ##editednotessubscription## />
+translate("Subscribe to a consultation note you created or edited online or by email.")
+</p>
 
-<tr>
-<td><a id="editednotessubscription" href="toggle">##edited_notes_subscription##</a></td>
-<td>translate("Subscribe to a consultation note you created or edited online or by email.")</td>
-</tr>
+<p>
+<input type="checkbox" name="anynotessubscription" onchange="checkbox(this)" ##anynotessubscription## />
+translate("Subscribe to a consultation note created or edited by anybody online or by email.")
+</p>
 
-<tr>
-<td><a id="anynotessubscription" href="toggle">##any_notes_subscription##</a></td>
-<td>translate("Subscribe to a consultation note created or edited by anybody online or by email.")</td>
-</tr>
+<p>
+<input type="checkbox" name="emailconfirmationyourposts" onchange="checkbox(this)" ##emailconfirmationyourposts## />
+translate("Receive email confirmation of your posts to a consultation notes done by email.")
+</p>
 
-<tr>
-<td><a id="emailconfirmationyourposts" href="toggle">##email_confirmation_your_posts##</a></td>
-<td>translate("Receive email confirmation of your posts to a consultation notes done by email.")</td>
-</tr>
+<p>
+<input type="checkbox" name="subscribednotenotification" onchange="checkbox(this)" ##subscribednotenotification## />
+translate("Receive email about changes in a consultation note you are subscribed to.")
+</p>
 
-<tr>
-<td><a id="subscribednotenotification" href="toggle">##subscription_notification##</a></td>
-<td>translate("Receive email about changes in a consultation note you are subscribed to.")</td>
-</tr>
+<p>
+<input type="checkbox" name="notesassignment" onchange="checkbox(this)" ##notesassignment## />
+translate("A consultation note that get changed will be assigned to you.")
+</p>
 
-<tr>
-<td><a id="notesassignment" href="toggle">##notes_assignment##</a></td>
-<td>translate("A consultation note that get changed will be assigned to you.")</td>
-</tr>
+<p>
+<input type="checkbox" name="assignednotenotification" onchange="checkbox(this)" ##assignednotenotification## />
+translate("Receive email about changes in a consultation note assigned to you.")
+</p>
 
-<tr>
-<td><a id="assignednotenotification" href="toggle">##assignment_notification##</a></td>
-<td>translate("Receive email about changes in a consultation note assigned to you.")</td>
-</tr>
+<p>
+<input type="checkbox" name="suppressemailsfromnotesyouupdated" onchange="checkbox(this)" ##suppressemailsfromnotesyouupdated## />
+translate("Suppress receiving email from an updated consultation note in case the update was made by you.")
+</p>
 
-<tr>
-<td><a id="suppressemailsfromnotesyouupdated" href="toggle">##suppress_mails_from_your_updates##</a></td>
-<td>translate("Suppress receiving email from an updated consultation note in case the update was made by you.")</td>
-</tr>
+<p>
+<input type="checkbox" name="assignednotesnotification" onchange="checkbox(this)" ##assignednotesnotification## />
+translate("Receive a daily email with the number of consultation notes assigned to you.")
+</p>
 
-<tr>
-<td><a id="assignednotesnotification" href="toggle">##assigned_notes_notifications##</a></td>
-<td>translate("Receive a daily email with the number of consultation notes assigned to you.")</td>
-</tr>
+<p>
+<input type="checkbox" name="subscribednotesnotification" onchange="checkbox(this)" ##subscribednotesnotification## />
+translate("Receive a daily email with the number of consultation notes you are subscribed to.")
+</p>
 
-<tr>
-<td><a id="subscribednotesnotification" href="toggle">##subscribed_notes_notifications##</a></td>
-<td>translate("Receive a daily email with the number of consultation notes you are subscribed to.")</td>
-</tr>
+<p>
+<input type="checkbox" name="deletednotenotification" onchange="checkbox(this)" ##deletednotenotification## />
+translate("Receive email about a deleted consultation note.")
+</p>
 
-<tr>
-<td><a id="deletednotenotification" href="toggle">##deleted_note_notification##</a></td>
-<td>translate("Receive email about a deleted consultation note.")</td>
-</tr>
-
-<tr>
-<td><a id="postponenewnotesmails" href="toggle">##postpone_new_notes_mails##</a></td>
-<td>
-  translate("Emails generated when you create a consultation note, hold on to them for a while, and send them in the evening.")
-  translate("This setting may be useful in the following scenario:")
-  translate("Each time you create a new note, the other members of the team get interrupted by your email.")
-  translate("This happens many times a day.")
-  translate("You don't want these interruptions, but the team members need to get your email eventually.")
-  translate("Tick this setting, and you're done.")
-</td>
-</tr>
-
-</table>
+<p>
+<input type="checkbox" name="postponenewnotesmails" onchange="checkbox(this)" ##postponenewnotesmails## />
+translate("Emails generated when you create a consultation note, hold on to them for a while, and send them in the evening.")
+translate("This setting may be useful in the following scenario:")
+translate("Each time you create a new note, the other members of the team get interrupted by your email.")
+translate("This happens many times a day.")
+translate("You don't want these interruptions, but the team members need to get your email eventually.")
+translate("Tick this setting, and you're done.")
+</p>
 
 <h2>translate("Change Notifications")</h2>
 
 <!-- #BEGINZONE writebible -->
 <p>
-<a id="mychangesemailnotifications" href="toggle">##my_changes_email_notifications##</a>
+<input type="checkbox" name="mychangesemailnotifications" onchange="checkbox(this)" ##mychangesemailnotifications## />
 translate("Receive a daily email with the changes in the Bible made by you.")
 </p>
 <!-- #ENDZONE writebible -->
 
 <!-- #BEGINZONE readbible -->
 <p>
-<a id="anyonechangesemailnotification" href="toggle">##anyone_changes_email_notification##</a>
+<input type="checkbox" name="anyonechangesemailnotification" onchange="checkbox(this)" ##anyonechangesemailnotification## />
 translate("Receive a daily email with the changes in the Bible made by anyone.")
 </p>
 <!-- #ENDZONE readbible -->
 
 <!-- #BEGINZONE consultant -->
 <p>
-<a id="anyonechangesonlinenotifications" href="toggle">##anyone_changes_online_notifications##</a>
-<a href="/changes/changes">translate("Notifications about changes in the Bible made by anyone will be generated for you online.")</a>
+<input type="checkbox" name="anyonechangesonlinenotifications" onchange="checkbox(this)" ##anyonechangesonlinenotifications## />
+<a href="../changes/changes">translate("Notifications about changes in the Bible made by anyone will be generated for you online.")</a>
 </p>
 
 <p>
-<a id="mychangesonlinenotifications" href="toggle">##my_changes_online_notifications##</a>
-<a href="/changes/changes">translate("Notifications about changes in the Bible made by you will be generated for you online.")</a>
+<input type="checkbox" name="mychangesonlinenotifications" onchange="checkbox(this)" ##mychangesonlinenotifications## />
+<a href="../changes/changes">translate("Notifications about changes in the Bible made by you will be generated for you online.")</a>
 </p>
 
 <p>
-<a id="contributorschangesonlinenotifications" href="toggle">##contributors_changes_online_notifications##</a>
-<a href="/changes/changes">translate("Notifications about changes in the Bible made by the individual contributors will be generated for you online.")</a>
+<input type="checkbox" name="contributorschangesonlinenotifications" onchange="checkbox(this)" ##contributorschangesonlinenotifications## />
+<a href="../changes/changes">translate("Notifications about changes in the Bible made by the individual contributors will be generated for you online.")</a>
 </p>
 
 <p>
-<a id="pendingchangenotifications" href="toggle">##pending_changes_notifications##</a>
+<input type="checkbox" name="pendingchangenotifications" onchange="checkbox(this)" ##pendingchangenotifications## />
 translate("Receive a daily email with the number of online change notifications awaiting your attention.")
 </p>
 <!-- #ENDZONE consultant -->
@@ -116,19 +110,19 @@ translate("Receive a daily email with the number of online change notifications 
 <h2>translate("Text Checks")</h2>
 
 <p>
-<a id="biblechecksnotification" href="toggle">##bible_checks_notification##</a>
+<input type="checkbox" name="biblechecksnotification" onchange="checkbox(this)" ##biblechecksnotification## />
 translate("Receive a daily email with results of checks on the text of the Bibles.")
 </p>
 
 <h2>translate("Team work")</h2>
 
 <p>
-<a id="sprintprogressnotification" href="toggle">##sprint_progress_notification##</a>
-<a href="/sprint/index">translate("Receive a weekly email about the team's progress during the course of the sprint.")</a>
+<input type="checkbox" name="sprintprogressnotification" onchange="checkbox(this)" ##sprintprogressnotification## />
+<a href="../sprint/index">translate("Receive a weekly email about the team's progress during the course of the sprint.")</a>
 </p>
 <!-- #ENDZONE consultant -->
 
 <!-- #ENDZONE server -->
 
 <br>
-<script type="text/javascript" src="notifications.js"></script>
+<script type="text/javascript" src="../assets/checkbox.js"></script>

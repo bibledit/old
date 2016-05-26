@@ -107,6 +107,7 @@ string sendreceive_index (void * webserver_request)
   bool checked = convert_to_bool (request->post ["checked"]);
   if (checkbox == "repeatbible") {
     Database_Config_Bible::setRepeatSendReceive (bible, checked);
+    return "";
   }
   view.set_variable ("repeatbible", get_checkbox_status (Database_Config_Bible::getRepeatSendReceive (bible)));
   

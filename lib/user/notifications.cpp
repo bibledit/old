@@ -61,167 +61,130 @@ string user_notifications (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Config_User database_config_user = Database_Config_User (webserver_request);
   
-  string id = request->post ["id"];
-
-  if (id == "editednotessubscription") {
-    bool state = !database_config_user.getSubscribeToConsultationNotesEditedByMe ();
-    database_config_user.setSubscribeToConsultationNotesEditedByMe (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "anynotessubscription") {
-    bool state = !database_config_user.getNotifyMeOfAnyConsultationNotesEdits ();
-    database_config_user.setNotifyMeOfAnyConsultationNotesEdits (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "emailconfirmationyourposts") {
-    bool state = !database_config_user.getNotifyMeOfMyPosts ();
-    database_config_user.setNotifyMeOfMyPosts (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "subscribednotenotification") {
-    bool state = !database_config_user.getSubscribedConsultationNoteNotification ();
-    database_config_user.setSubscribedConsultationNoteNotification (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "notesassignment") {
-    bool state = !database_config_user.getAssignedToConsultationNotesChanges ();
-    database_config_user.setAssignedToConsultationNotesChanges (state);
-    return get_tick_box (state);
-  }
-  
-  if (id == "assignednotenotification") {
-    bool state = !database_config_user.getAssignedConsultationNoteNotification ();
-    database_config_user.setAssignedConsultationNoteNotification (state);
-    return get_tick_box (state);
-  }
-  
-  if (id == "suppressemailsfromnotesyouupdated") {
-    bool state = !database_config_user.getSuppressMailFromYourUpdatesNotes ();
-    database_config_user.setSuppressMailFromYourUpdatesNotes (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "assignednotesnotification") {
-    bool state = !database_config_user.getAssignedNotesStatisticsNotification ();
-    database_config_user.setAssignedNotesStatisticsNotification (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "subscribednotesnotification") {
-    bool state = !database_config_user.getSubscribedNotesStatisticsNotification ();
-    database_config_user.setSubscribedNotesStatisticsNotification (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "deletednotenotification") {
-    bool state = !database_config_user.getDeletedConsultationNoteNotification ();
-    database_config_user.setDeletedConsultationNoteNotification (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "postponenewnotesmails") {
-    bool state = !database_config_user.getPostponeNewNotesMails ();
-    database_config_user.setPostponeNewNotesMails (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "anyonechangesemailnotification") {
-    bool state = !database_config_user.getBibleChangesNotification ();
-    database_config_user.setBibleChangesNotification (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "anyonechangesonlinenotifications") {
-    bool state = !database_config_user.getGenerateChangeNotifications ();
-    database_config_user.setGenerateChangeNotifications (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "pendingchangenotifications") {
-    bool state = !database_config_user.getPendingChangesNotification ();
-    database_config_user.setPendingChangesNotification (state);
-    return get_tick_box (state);
-  }
-  
-  if (id == "mychangesemailnotifications") {
-    bool state = !database_config_user.getUserChangesNotification ();
-    database_config_user.setUserChangesNotification (state);
-    return get_tick_box (state);
-  }
-  
-  if (id == "mychangesonlinenotifications") {
-    bool state = !database_config_user.getUserChangesNotificationsOnline ();
-    database_config_user.setUserChangesNotificationsOnline (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "contributorschangesonlinenotifications") {
-    bool state = !database_config_user.getContributorChangesNotificationsOnline ();
-    database_config_user.setContributorChangesNotificationsOnline (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "biblechecksnotification") {
-    bool state = !database_config_user.getBibleChecksNotification ();
-    database_config_user.setBibleChecksNotification (state);
-    return get_tick_box (state);
-  }
-
-  if (id == "sprintprogressnotification") {
-    bool state = !database_config_user.getSprintProgressNotification ();
-    database_config_user.setSprintProgressNotification (state);
-    return get_tick_box (state);
-  }
-  
   string page;
-
+  
   Assets_Header header = Assets_Header (translate("Notifications"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
-
+  
   Assets_View view;
 
-  view.set_variable ("edited_notes_subscription", get_tick_box (database_config_user.getSubscribeToConsultationNotesEditedByMe ()));
+  string checkbox = request->post ["checkbox"];
+  bool checked = convert_to_bool (request->post ["checked"]);
+
+  if (checkbox == "editednotessubscription") {
+    database_config_user.setSubscribeToConsultationNotesEditedByMe (checked);
+    return "";
+  }
+  view.set_variable ("editednotessubscription", get_checkbox_status (database_config_user.getSubscribeToConsultationNotesEditedByMe ()));
+
+  if (checkbox == "anynotessubscription") {
+    database_config_user.setNotifyMeOfAnyConsultationNotesEdits (checked);
+    return "";
+  }
+  view.set_variable ("anynotessubscription", get_checkbox_status (database_config_user.getNotifyMeOfAnyConsultationNotesEdits ()));
+
+  if (checkbox == "emailconfirmationyourposts") {
+    database_config_user.setNotifyMeOfMyPosts (checked);
+    return "";
+  }
+  view.set_variable ("emailconfirmationyourposts", get_checkbox_status (database_config_user.getNotifyMeOfMyPosts ()));
+
+  if (checkbox == "subscribednotenotification") {
+    database_config_user.setSubscribedConsultationNoteNotification (checked);
+    return "";
+  }
+  view.set_variable ("subscribednotenotification", get_checkbox_status (database_config_user.getSubscribedConsultationNoteNotification ()));
+
+  if (checkbox == "notesassignment") {
+    database_config_user.setAssignedToConsultationNotesChanges (checked);
+    return "";
+  }
+  view.set_variable ("notesassignment", get_checkbox_status (database_config_user.getAssignedToConsultationNotesChanges ()));
   
-  view.set_variable ("any_notes_subscription", get_tick_box (database_config_user.getNotifyMeOfAnyConsultationNotesEdits ()));
+  if (checkbox == "assignednotenotification") {
+    database_config_user.setAssignedConsultationNoteNotification (checked);
+    return "";
+  }
+  view.set_variable ("assignednotenotification", get_checkbox_status (database_config_user.getAssignedConsultationNoteNotification ()));
   
-  view.set_variable ("email_confirmation_your_posts", get_tick_box (database_config_user.getNotifyMeOfMyPosts ()));
+  if (checkbox == "suppressemailsfromnotesyouupdated") {
+    database_config_user.setSuppressMailFromYourUpdatesNotes (checked);
+    return "";
+  }
+  view.set_variable ("suppressemailsfromnotesyouupdated", get_checkbox_status (database_config_user.getSuppressMailFromYourUpdatesNotes ()));
+
+  if (checkbox == "assignednotesnotification") {
+    database_config_user.setAssignedNotesStatisticsNotification (checked);
+    return "";
+  }
+  view.set_variable ("assignednotesnotification", get_checkbox_status (database_config_user.getAssignedNotesStatisticsNotification ()));
+
+  if (checkbox == "subscribednotesnotification") {
+    database_config_user.setSubscribedNotesStatisticsNotification (checked);
+    return "";
+  }
+  view.set_variable ("subscribednotesnotification", get_checkbox_status (database_config_user.getSubscribedNotesStatisticsNotification ()));
+
+  if (checkbox == "deletednotenotification") {
+    database_config_user.setDeletedConsultationNoteNotification (checked);
+    return "";
+  }
+  view.set_variable ("deletednotenotification", get_checkbox_status (database_config_user.getDeletedConsultationNoteNotification ()));
+
+  if (checkbox == "postponenewnotesmails") {
+    database_config_user.setPostponeNewNotesMails (checked);
+    return "";
+  }
+  view.set_variable ("postponenewnotesmails", get_checkbox_status (database_config_user.getPostponeNewNotesMails ()));
+
+  if (checkbox == "anyonechangesemailnotification") {
+    database_config_user.setBibleChangesNotification (checked);
+    return "";
+  }
+  view.set_variable ("anyonechangesemailnotification", get_checkbox_status (database_config_user.getBibleChangesNotification ()));
+
+  if (checkbox == "anyonechangesonlinenotifications") {
+    database_config_user.setGenerateChangeNotifications (checked);
+    return "";
+  }
+  view.set_variable ("anyonechangesonlinenotifications", get_checkbox_status (database_config_user.getGenerateChangeNotifications ()));
+
+  if (checkbox == "pendingchangenotifications") {
+    database_config_user.setPendingChangesNotification (checked);
+    return "";
+  }
+  view.set_variable ("pendingchangenotifications", get_checkbox_status (database_config_user.getPendingChangesNotification ()));
   
-  view.set_variable ("subscription_notification", get_tick_box (database_config_user.getSubscribedConsultationNoteNotification ()));
+  if (checkbox == "mychangesemailnotifications") {
+    database_config_user.setUserChangesNotification (checked);
+    return "";
+  }
+  view.set_variable ("mychangesemailnotifications", get_checkbox_status (database_config_user.getUserChangesNotification ()));
   
-  view.set_variable ("notes_assignment", get_tick_box (database_config_user.getAssignedToConsultationNotesChanges ()));
-  
-  view.set_variable ("assignment_notification", get_tick_box (database_config_user.getAssignedConsultationNoteNotification ()));
-  
-  view.set_variable ("suppress_mails_from_your_updates", get_tick_box (database_config_user.getSuppressMailFromYourUpdatesNotes ()));
-  
-  view.set_variable ("assigned_notes_notifications", get_tick_box (database_config_user.getAssignedNotesStatisticsNotification ()));
-  
-  view.set_variable ("subscribed_notes_notifications", get_tick_box (database_config_user.getSubscribedNotesStatisticsNotification ()));
-  
-  view.set_variable ("deleted_note_notification", get_tick_box (database_config_user.getDeletedConsultationNoteNotification ()));
-  
-  view.set_variable ("postpone_new_notes_mails", get_tick_box (database_config_user.getPostponeNewNotesMails ()));
-  
-  view.set_variable ("anyone_changes_email_notification", get_tick_box (database_config_user.getBibleChangesNotification ()));
-  
-  view.set_variable ("anyone_changes_online_notifications", get_tick_box (database_config_user.getGenerateChangeNotifications ()));
-  
-  view.set_variable ("pending_changes_notifications", get_tick_box (database_config_user.getPendingChangesNotification ()));
-  
-  view.set_variable ("my_changes_email_notifications", get_tick_box (database_config_user.getUserChangesNotification ()));
-  
-  view.set_variable ("my_changes_online_notifications", get_tick_box (database_config_user.getUserChangesNotificationsOnline ()));
-  
-  view.set_variable ("contributors_changes_online_notifications", get_tick_box (database_config_user.getContributorChangesNotificationsOnline ()));
-  
-  view.set_variable ("bible_checks_notification", get_tick_box (database_config_user.getBibleChecksNotification ()));
-  
-  view.set_variable ("sprint_progress_notification", get_tick_box (database_config_user.getSprintProgressNotification ()));
+  if (checkbox == "mychangesonlinenotifications") {
+    database_config_user.setUserChangesNotificationsOnline (checked);
+    return "";
+  }
+  view.set_variable ("mychangesonlinenotifications", get_checkbox_status (database_config_user.getUserChangesNotificationsOnline ()));
+
+  if (checkbox == "contributorschangesonlinenotifications") {
+    database_config_user.setContributorChangesNotificationsOnline (checked);
+    return "";
+  }
+  view.set_variable ("contributorschangesonlinenotifications", get_checkbox_status (database_config_user.getContributorChangesNotificationsOnline ()));
+
+  if (checkbox == "biblechecksnotification") {
+    database_config_user.setBibleChecksNotification (checked);
+    return "";
+  }
+  view.set_variable ("biblechecksnotification", get_checkbox_status (database_config_user.getBibleChecksNotification ()));
+
+  if (checkbox == "sprintprogressnotification") {
+    database_config_user.setSprintProgressNotification (checked);
+    return "";
+  }
+  view.set_variable ("sprintprogressnotification", get_checkbox_status (database_config_user.getSprintProgressNotification ()));
   
 #ifdef CLIENT_PREPARED
   view.enable_zone ("client");
@@ -238,7 +201,6 @@ string user_notifications (void * webserver_request)
   if (write_bible) view.enable_zone ("writebible");
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ()))
     view.enable_zone ("consultant");
-
   
   page += view.render ("user", "notifications");
 
