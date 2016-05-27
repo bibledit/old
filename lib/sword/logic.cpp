@@ -305,6 +305,11 @@ void sword_logic_install_module (string source_name, string module_name)
   }
   
 //#endif
+
+  // After the installation is complete, cache some data.
+  // This cached data indicates the last access-time for this SWORD module.
+  string url = sword_logic_virtual_url (module_name, 0, 0, 0);
+  database_filebased_cache_put (url, "SWORD");
 }
 
 
@@ -406,6 +411,10 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   string sword_path = sword_logic_get_path ();
   string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
   filter_shell_run (command, module_text);
+
+  // Touch the cache so the server knows that the module has been accessed just now.
+  string url = sword_logic_virtual_url (module, 0, 0, 0);
+  database_filebased_cache_get (url);
 
   // If the module has not been installed, the output of "diatheke" will be empty.
   // If the module was installed, but the requested passage is out of range,
