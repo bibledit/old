@@ -52,6 +52,7 @@ fi
 
 cp -f "$ACLOCAL/codeset.m4" m4/
 cp -f "$ACLOCAL/gettext.m4" m4/
+cp -f "$ACLOCAL/glib-gettext.m4" m4/
 cp -f "$ACLOCAL/glibc21.m4" m4/
 cp -f "$ACLOCAL/iconv.m4" m4/
 cp -f "$ACLOCAL/lcmessage.m4" m4/
