@@ -6,7 +6,8 @@ VERSION="4.9.5"
 
 full=1
 docs=0
-quick=
+quick=0
+do_strip=0
 function usage
 {
 	echo "Usage: installWin.sh [-h|--help] [-q|--quick] [-f|--full] [-d|--docs]"
@@ -18,11 +19,14 @@ function usage
 	echo "       --full | -f   Install everything (default behavior)"
 	echo "       --quick | -q  Only install bibledit binaries; not all libraries "
 	echo "                     or other support files."
+	echo "       --strip | -s  Shrink binary size for faster copy/download."
 }
 
 # Process command-line arguments
 while [ "$1" != "" ]; do
     case $1 in
+		-s | --strip )			do_strip=1
+								;;
         -q | --quick )          quick=1
                                 ;;
         -d | --docs )           docs=1
@@ -103,9 +107,20 @@ mkdir -v -p "$BIN"
 cp ./src/.libs/bibledit-gtk.exe "$BIN"
 cp ./src/.libs/bibledit-rdwrt.exe "$BIN"
 cp ./src/.libs/concordance.exe "$BIN"
-cp ./git/bibledit-git.exe "$BIN"
+cp ./git/.libs/bibledit-git.exe "$BIN"
 cp ./shutdown/.libs/bibledit-shutdown.exe "$BIN"
 cp -R ./windows/bibledit.ico "$BIN"
+
+# If we are in --strip mode, then shrink the executables in the dest directory
+# I opt to leave them as-is in the source directory in case debug info is needed
+if [ "$do_strip" = "1" ]; then
+    strip "$BIN/bibledit-gtk.exe"
+	strip "$BIN/bibledit-rdwrt.exe"
+	strip "$BIN/concordance.exe"
+	strip "$BIN/bibledit-git.exe"
+	strip "$BIN/bibledit-shutdown.exe"
+fi
+
 
 # If we are in --quick mode, then quit now, don't do more work
 if [ "$quick" = "1" ]; then
