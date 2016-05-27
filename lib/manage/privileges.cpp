@@ -65,76 +65,57 @@ string manage_privileges (void * webserver_request)
   access_logic_user_level (webserver_request, user, level);
 
   
-  bool state;
   bool privileges_updated = false;
+  string checkbox = request->post ["checkbox"];
+  bool checked = convert_to_bool (request->post ["checked"]);
+  bool state;
   
   
   // The privilege to view the Resources.
-  if (level < access_logic_view_resources_role ()) {
-    view.enable_zone ("viewresourcesoff");
-    if (request->query.count ("viewresources")) {
-      state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_RESOURCES);
-      Database_Privileges::setFeature (user, PRIVILEGE_VIEW_RESOURCES, !state);
-      privileges_updated = true;
-    }
-    state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_RESOURCES);
-  } else {
-    view.enable_zone ("viewresourceson");
-    state = true;
+  if (checkbox == "viewresources") {
+    Database_Privileges::setFeature (user, PRIVILEGE_VIEW_RESOURCES, checked);
+    privileges_updated = true;
   }
-  view.set_variable ("viewresources", get_tick_box (state));
+  state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_RESOURCES);
+  if (level >= access_logic_view_resources_role ()) {
+    state = true;
+    view.set_variable ("viewresourcesdisabled", get_disabled (true));
+  }
+  view.set_variable ("viewresourceschecked", get_checkbox_status (state));
 
   
   // Privilege to view the Consultation Notes.
-  if (request->query.count ("viewnotes")) {
-    state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_NOTES);
-    Database_Privileges::setFeature (user, PRIVILEGE_VIEW_NOTES, !state);
-    // Reconcile the other notes privileges.
-    if (!access_logic_privilege_view_notes (webserver_request, user)) {
-      if (access_logic_privilege_create_comment_notes (webserver_request, user)) {
-        Database_Privileges::setFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES, false);
-      }
-    }
+  if (checkbox == "viewnotes") {
+    Database_Privileges::setFeature (user, PRIVILEGE_VIEW_NOTES, checked);
     privileges_updated = true;
   }
-  if (level >= access_logic_view_notes_role ()) {
-    view.enable_zone ("viewnoteson");
-  } else {
-    view.enable_zone ("viewnotesoff");
+  state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_NOTES);
+  if (level >= access_logic_view_resources_role ()) {
+    view.set_variable ("viewnotesdisabled", get_disabled (true));
   }
-
+  state = access_logic_privilege_view_notes (webserver_request, user);
+  view.set_variable ("viewnoteschecked", get_checkbox_status (state));
+  
   
   // Privilege to create and comment on Consultation Notes.
-  if (request->query.count ("createcommentnotes")) {
-    state = Database_Privileges::getFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
-    Database_Privileges::setFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES, !state);
-    // Reconcile the other notes privileges.
-    if (access_logic_privilege_create_comment_notes (webserver_request, user)) {
-      if (!access_logic_privilege_view_notes (webserver_request, user)) {
-        Database_Privileges::setFeature (user, PRIVILEGE_VIEW_NOTES, true);
-      }
-    }
+  if (checkbox == "createcommentnotes") {
+    Database_Privileges::setFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES, checked);
     privileges_updated = true;
   }
-  if (level >= access_logic_create_comment_notes_role ()) {
-    view.enable_zone ("createcommentnoteson");
-  } else {
-    view.enable_zone ("createcommentnotesoff");
+  state = Database_Privileges::getFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
+  if (level >= access_logic_view_resources_role ()) {
+    view.set_variable ("createcommentnotesdisabled", get_disabled (true));
   }
-  
+  state = access_logic_privilege_create_comment_notes (webserver_request, user);
+  view.set_variable ("createcommentnoteschecked", get_checkbox_status (state));
+
   
   if (privileges_updated) database_privileges_client_create (user, true);
-  
-
-  // Notes privileges interface.
-  state = access_logic_privilege_view_notes (webserver_request, user);
-  view.set_variable ("viewnotes", get_tick_box (state));
-  state = access_logic_privilege_create_comment_notes (webserver_request, user);
-  view.set_variable ("createcommentnotes", get_tick_box (state));
 
   
-  view.set_variable ("grey", filter_css_grey_background ());
-  
+  if (privileges_updated) return "";
+
+
   page += view.render ("manage", "privileges");
   
   page += Assets_Page::footer ();

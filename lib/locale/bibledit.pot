@@ -5954,35 +5954,16 @@ msgstr ""
 msgid "The export has been removed."
 msgstr ""
 
-msgid "The setting for nightly export to Web format was updated."
-msgstr ""
-
 msgid "The Bible is being exported to Web format."
-msgstr ""
-
-msgid "The setting for nightly export to Html format was updated."
 msgstr ""
 
 msgid "The Bible is being exported to Html format."
 msgstr ""
 
-msgid "The setting for nightly export to USFM format was updated."
-msgstr ""
-
 msgid "The Bible is being exported to USFM format."
 msgstr ""
 
-msgid "The setting for securing the USFM export was updated."
-msgstr ""
-
-msgid ""
-"The setting for nightly export to basic USFM format and text was updated."
-msgstr ""
-
 msgid "The Bible is being exported to basic USFM format and text."
-msgstr ""
-
-msgid "The setting for nightly export to OpenDocument was updated."
 msgstr ""
 
 msgid "The Bible is being exported to OpenDocument format."
@@ -6012,22 +5993,10 @@ msgstr ""
 msgid "Please enter an bottom margin size in millimeters"
 msgstr ""
 
-msgid "The setting for securing the OpenDocument export was updated."
-msgstr ""
-
-msgid "The setting for nightly generation of info was updated."
-msgstr ""
-
 msgid "The info documents are being generated."
 msgstr ""
 
-msgid "The setting for nightly export to e-Sword format was updated."
-msgstr ""
-
 msgid "The Bible is being exported to e-Sword format."
-msgstr ""
-
-msgid "The setting for nightly export to Online Bible format was updated."
 msgstr ""
 
 msgid "The Bible is being exported to Online Bible format."

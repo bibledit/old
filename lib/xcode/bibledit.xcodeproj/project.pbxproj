@@ -54,6 +54,7 @@
 		CA05B0251AC4505400488ECE /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA05B0261AC4505400488ECE /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA05B0271AC4505400488ECE /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		CA060B981CF89E8C000839FF /* privileges.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = privileges.js; sourceTree = "<group>"; };
 		CA06BDCF1A56871E00A051FF /* abbreviations.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = abbreviations.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA06BDD01A56871E00A051FF /* abbreviations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = abbreviations.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA06BDD11A56871E00A051FF /* abbreviations.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = abbreviations.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -2324,6 +2325,7 @@
 				CA201E941C88763400646D98 /* privileges.cpp */,
 				CA201E951C88763400646D98 /* privileges.h */,
 				CA201E961C88763400646D98 /* privileges.html */,
+				CA060B981CF89E8C000839FF /* privileges.js */,
 				CAA4D1E21A45A648003ABA25 /* users.cpp */,
 				CAA4D1E31A45A648003ABA25 /* users.h */,
 				CAA4D1E41A45A648003ABA25 /* users.html */,

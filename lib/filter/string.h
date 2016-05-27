@@ -70,6 +70,7 @@ string filter_string_extract_email (string input);
 string filter_string_extract_body (string input, string year = "", string sender = "");
 string get_tick_box (bool enabled);
 string get_checkbox_status (bool enabled);
+string get_disabled (bool disabled);
 void quick_sort (vector <unsigned int>& one, vector <string>& two, unsigned int beg, unsigned int end);
 void quick_sort (vector <string>& one, vector <unsigned int>& two, unsigned int beg, unsigned int end);
 void quick_sort (vector <unsigned int>& one, vector <unsigned int>& two, unsigned int beg, unsigned int end);

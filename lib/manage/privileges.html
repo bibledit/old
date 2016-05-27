@@ -4,34 +4,21 @@
 <br>
 
 <p>
-<!-- #BEGINZONE viewresourcesoff -->
-<a href="?user=##user##&viewresources">##viewresources##</a>
-<!-- #ENDZONE viewresourcesoff -->
-<!-- #BEGINZONE viewresourceson -->
-<span ##grey##>##viewresources##</span>
-<!-- #ENDZONE viewresourceson -->
+<input type="checkbox" name="viewresources" onchange="checkbox(this, 'privileges?user=##user##')" ##viewresourceschecked## ##viewresourcesdisabled## />
 translate("Can view the resources.")
 </p>
 
 <p>
-<!-- #BEGINZONE viewnotesoff -->
-<a href="?user=##user##&viewnotes">##viewnotes##</a>
-<!-- #ENDZONE viewnotesoff -->
-<!-- #BEGINZONE viewnoteson -->
-<span ##grey##>##viewnotes##</span>
-<!-- #ENDZONE viewnoteson -->
+<input type="checkbox" id="view" name="viewnotes" onchange="checkbox(this, 'privileges?user=##user##')" ##viewnoteschecked## ##viewnotesdisabled## />
 translate("Can view the consultation notes.")
 </p>
 
 <p>
-<!-- #BEGINZONE createcommentnotesoff -->
-<a href="?user=##user##&createcommentnotes">##createcommentnotes##</a>
-<!-- #ENDZONE createcommentnotesoff -->
-<!-- #BEGINZONE createcommentnoteson -->
-<span ##grey##>##createcommentnotes##</span>
-<!-- #ENDZONE createcommentnoteson -->
+<input type="checkbox" id="create" name="createcommentnotes" onchange="checkbox(this, 'privileges?user=##user##')" ##createcommentnoteschecked## ##createcommentnotesdisabled## />
 translate("Can create and comment on consultation notes.")
 </p>
 
 <br>
 <p><a href="users">translate ("Go back.")</a></p>
+<script type="text/javascript" src="../assets/checkbox.js"></script>
+<script type="text/javascript" src="privileges.js"></script>

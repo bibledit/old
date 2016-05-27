@@ -723,10 +723,17 @@ string get_tick_box (bool enabled)
 }
 
 
-// Returns an appropriate value
+// Returns an appropriate value.
 string get_checkbox_status (bool enabled)
 {
-  if (enabled) return "checked='checked'";
+  if (enabled) return "checked";
+  return "";
+}
+
+
+string get_disabled (bool disabled)
+{
+  if (disabled) return "disabled";
   return "";
 }
 
