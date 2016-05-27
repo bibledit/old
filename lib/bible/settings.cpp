@@ -198,14 +198,19 @@ string bible_settings (void * webserver_request)
   view.set_variable ("bookblock", bookblock);
   view.set_variable ("book_count", convert_to_string ((int)book_ids.size()));
 
-  if (request->query.count ("public")) {
-    if (write_access) Database_Config_Bible::setPublicFeedbackEnabled (bible, !Database_Config_Bible::getPublicFeedbackEnabled (bible));
+  
+  string checkbox = request->post ["checkbox"];
+  bool checked = convert_to_bool (request->post ["checked"]);
+  if (checkbox == "public") {
+    if (write_access) Database_Config_Bible::setPublicFeedbackEnabled (bible, checked);
   }
-  view.set_variable ("public", get_tick_box (Database_Config_Bible::getPublicFeedbackEnabled (bible)));
+  view.set_variable ("public", get_checkbox_status  (Database_Config_Bible::getPublicFeedbackEnabled (bible)));
 
+  
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
 
+  
   if (client_logic_client_enabled ()) {
     view.enable_zone ("client");
     view.set_variable ("cloudlink", client_logic_link_to_cloud (bible_manage_url (), translate ("More operations in the Cloud")));
@@ -213,9 +218,8 @@ string bible_settings (void * webserver_request)
     view.enable_zone ("server");
   }
 
+  
   page += view.render ("bible", "settings");
-  
   page += Assets_Page::footer ();
-  
   return page;
 }

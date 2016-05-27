@@ -48,9 +48,10 @@
 <!-- #BEGINZONE write_access -->
 <!-- #BEGINZONE server -->
 <p>
-<a href="?bible=##bible##&public=">##public##</a>
+<input type="checkbox" name="public" onchange="checkbox(this, 'settings?bible=##bible##')" ##public## />
 translate("The public can give feedback")
 </p>
 <p><a href="?bible=##bible##&resource=">translate("Import text from a resource")</a></p>
 <!-- #ENDZONE server -->
 <!-- #ENDZONE write_access -->
+<script type="text/javascript" src="../assets/checkbox.js"></script>
