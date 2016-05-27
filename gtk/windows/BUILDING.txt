@@ -2,6 +2,8 @@ This is a description of how to build bibledit-gtk on Windows from scratch.
 Written by Matt Postiff, postiffm@umich.edu, 3/21/2016
 
 Revised: 3/24/2016
+Outated of of 5/25/206
+See latest updates to these instructions at http://fbcaa.org/cms/bible-resources/bibledit/developers/create-build-windows
 
 Bibledit Build Environment Instructions
 	1. Go to http://msys2.github.io/  and follow the simple instructions there.  Make sure that you use the default directory suggested, msys64 or msys32, depending on which platform you are on.
