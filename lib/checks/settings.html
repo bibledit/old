@@ -10,75 +10,56 @@ translate("Bible"): <a href="?bible=">##bible##</a>.
 <p>translate("Enable the desired checks:")</p>
 
 <p>
-<a href="?doublespacesusfm=">
-##double_spaces_usfm##
-</a>
+<input type="checkbox" name="doublespacesusfm" onchange="checkbox(this)" ##doublespacesusfm## />
 translate("double spaces in the raw USFM")
 </p>
 
 <p>
-<a href="?fullstopheadings=">
-##full_stop_headings##
-</a>
+<input type="checkbox" name="fullstopheadings" onchange="checkbox(this)" ##fullstopheadings## />
 translate("punctuation at the end of a heading")
 </p>
 
 <p>
-<a href="?spacebeforepunctuation=">
-##space_before_punctuation##
-</a>
+<input type="checkbox" name="spacebeforepunctuation" onchange="checkbox(this)" ##spacebeforepunctuation## />
 translate("a space before a comma, semicolon, colon, full stop, question mark, or exclamation mark")
 </p>
 
 <p>
-<a href="?sentencestructure=">
-##sentence_structure##
-</a>
+<input type="checkbox" name="sentencestructure" onchange="checkbox(this)" ##sentencestructure## />
 translate("sentence structure")
 </p>
 
 <p>
-<a href="?paragraphstructure=">
-##paragraph_structure##
-</a>
+<input type="checkbox" name="paragraphstructure" onchange="checkbox(this)" ##paragraphstructure## />
 translate("paragraph starts with a capital and ends with a correct end marker")
 </p>
 
 <p>
-<a href="?booksversification=">
-  ##books_versification##
-</a>
+<input type="checkbox" name="booksversification" onchange="checkbox(this)" ##booksversification## />
 translate("correct number of books according to the versification system")
 </p>
 
 <p>
-<a href="?chaptersversesversification=">
-##chapters_verses_versification##
-</a>
+<input type="checkbox" name="chaptersversesversification" onchange="checkbox(this)" ##chaptersversesversification## />
 translate("correct number of chapters and verses in existing books, according to the versification system")
 </p>
 
 <p>
-<a href="?wellformedusfm=">
-##well_formed_usfm##
-</a>
+<input type="checkbox" name="wellformedusfm" onchange="checkbox(this)" ##wellformedusfm## />
 translate("well-formed USFM")
 </p>
 
 <p>
-<a href="?punctuationatendverse=">
-##punctuation_end_verse##
-</a>
+<input type="checkbox" name="punctuationatendverse" onchange="checkbox(this)" ##punctuationatendverse## />
 translate("missing punctuation at the end of a verse")
 </p>
 
 <p>
-<a href="?patterns=">
-##check_patterns##
-</a>
-  translate("patterns in the text")
-  [<a href="settingspatterns">translate("settings")</a>]
+<input type="checkbox" name="patterns" onchange="checkbox(this)" ##patterns## />
+translate("patterns in the text")
+[<a href="settingspatterns">translate("settings")</a>]
 </p>
 
 <br>
 <p><a href="settingssentences">translate("Settings for the sentence structure")</a></p>
+<script type="text/javascript" src="../assets/checkbox.js"></script>

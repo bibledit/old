@@ -85,65 +85,69 @@ string checks_settings (void * webserver_request)
     view.set_variable ("success", translate("Will run the checks. See the Journal for progress."));
   }
   
+  
+  string checkbox = request->post ["checkbox"];
+  bool checked = convert_to_bool (request->post ["checked"]);
+  
                         
-  if (request->query.count ("doublespacesusfm")) {
-    Database_Config_Bible::setCheckDoubleSpacesUsfm (bible, !Database_Config_Bible::getCheckDoubleSpacesUsfm (bible));
+  if (checkbox == "doublespacesusfm") {
+    Database_Config_Bible::setCheckDoubleSpacesUsfm (bible, checked);
   }
-  view.set_variable ("double_spaces_usfm", get_tick_box (Database_Config_Bible::getCheckDoubleSpacesUsfm (bible)));
+  view.set_variable ("doublespacesusfm", get_checkbox_status (Database_Config_Bible::getCheckDoubleSpacesUsfm (bible)));
    
   
-  if (request->query.count ("fullstopheadings")) {
-    Database_Config_Bible::setCheckFullStopInHeadings (bible, !Database_Config_Bible::getCheckFullStopInHeadings (bible));
+  if (checkbox == "fullstopheadings") {
+    Database_Config_Bible::setCheckFullStopInHeadings (bible, checked);
   }
-  view.set_variable ("full_stop_headings", get_tick_box (Database_Config_Bible::getCheckFullStopInHeadings (bible)));
+  view.set_variable ("fullstopheadings", get_checkbox_status (Database_Config_Bible::getCheckFullStopInHeadings (bible)));
 
   
-  if (request->query.count ("spacebeforepunctuation")) {
-    Database_Config_Bible::setCheckSpaceBeforePunctuation (bible, !Database_Config_Bible::getCheckSpaceBeforePunctuation (bible));
+  if (checkbox == "spacebeforepunctuation") {
+    Database_Config_Bible::setCheckSpaceBeforePunctuation (bible, checked);
   }
-  view.set_variable ("space_before_punctuation", get_tick_box (Database_Config_Bible::getCheckSpaceBeforePunctuation (bible)));
+  view.set_variable ("spacebeforepunctuation", get_checkbox_status (Database_Config_Bible::getCheckSpaceBeforePunctuation (bible)));
                       
                       
-  if (request->query.count ("sentencestructure")) {
-    Database_Config_Bible::setCheckSentenceStructure (bible, !Database_Config_Bible::getCheckSentenceStructure (bible));
+  if (checkbox == "sentencestructure") {
+    Database_Config_Bible::setCheckSentenceStructure (bible, checked);
   }
-  view.set_variable ("sentence_structure", get_tick_box (Database_Config_Bible::getCheckSentenceStructure (bible)));
+  view.set_variable ("sentencestructure", get_checkbox_status (Database_Config_Bible::getCheckSentenceStructure (bible)));
                       
                       
-  if (request->query.count ("paragraphstructure")) {
-    Database_Config_Bible::setCheckParagraphStructure (bible, !Database_Config_Bible::getCheckParagraphStructure (bible));
+  if (checkbox == "paragraphstructure") {
+    Database_Config_Bible::setCheckParagraphStructure (bible, checked);
   }
-  view.set_variable ("paragraph_structure", get_tick_box (Database_Config_Bible::getCheckParagraphStructure (bible)));
+  view.set_variable ("paragraphstructure", get_checkbox_status (Database_Config_Bible::getCheckParagraphStructure (bible)));
                       
                       
-  if (request->query.count ("booksversification")) {
-    Database_Config_Bible::setCheckBooksVersification (bible, !Database_Config_Bible::getCheckBooksVersification (bible));
+  if (checkbox == "booksversification") {
+    Database_Config_Bible::setCheckBooksVersification (bible, checked);
   }
-  view.set_variable ("books_versification", get_tick_box (Database_Config_Bible::getCheckBooksVersification (bible)));
+  view.set_variable ("booksversification", get_checkbox_status (Database_Config_Bible::getCheckBooksVersification (bible)));
   
   
-  if (request->query.count ("chaptersversesversification")) {
-    Database_Config_Bible::setCheckChaptesVersesVersification (bible, !Database_Config_Bible::getCheckChaptesVersesVersification (bible));
+  if (checkbox == "chaptersversesversification") {
+    Database_Config_Bible::setCheckChaptesVersesVersification (bible, checked);
   }
-  view.set_variable ("chapters_verses_versification", get_tick_box (Database_Config_Bible::getCheckChaptesVersesVersification (bible)));
+  view.set_variable ("chaptersversesversification", get_checkbox_status (Database_Config_Bible::getCheckChaptesVersesVersification (bible)));
                       
                       
-  if (request->query.count ("wellformedusfm")) {
-    Database_Config_Bible::setCheckWellFormedUsfm (bible, !Database_Config_Bible::getCheckWellFormedUsfm (bible));
+  if (checkbox == "wellformedusfm") {
+    Database_Config_Bible::setCheckWellFormedUsfm (bible, checked);
   }
-  view.set_variable ("well_formed_usfm", get_tick_box (Database_Config_Bible::getCheckWellFormedUsfm (bible)));
+  view.set_variable ("wellformedusfm", get_checkbox_status (Database_Config_Bible::getCheckWellFormedUsfm (bible)));
                       
                       
-  if (request->query.count ("punctuationatendverse")) {
-    Database_Config_Bible::setCheckMissingPunctuationEndVerse (bible, !Database_Config_Bible::getCheckMissingPunctuationEndVerse (bible));
+  if (checkbox == "punctuationatendverse") {
+    Database_Config_Bible::setCheckMissingPunctuationEndVerse (bible, checked);
   }
-  view.set_variable ("punctuation_end_verse", get_tick_box (Database_Config_Bible::getCheckMissingPunctuationEndVerse (bible)));
+  view.set_variable ("punctuationatendverse", get_checkbox_status (Database_Config_Bible::getCheckMissingPunctuationEndVerse (bible)));
                       
                       
-  if (request->query.count ("patterns")) {
-    Database_Config_Bible::setCheckPatterns (bible, !Database_Config_Bible::getCheckPatterns (bible));
+  if (checkbox == "patterns") {
+    Database_Config_Bible::setCheckPatterns (bible, checked);
   }
-  view.set_variable ("check_patterns", get_tick_box (Database_Config_Bible::getCheckPatterns (bible)));
+  view.set_variable ("patterns", get_checkbox_status (Database_Config_Bible::getCheckPatterns (bible)));
 
                       
   view.set_variable ("bible", bible);
