@@ -259,7 +259,9 @@ void GwSpawn::arg(ustring value)
 #else
   // Escape any '.
   replace_text(value, "'", "\\'");
-  value = shell_quote_space(value);
+  // We do not shell_quote_space this argument because 
+  // we are not executing this through a shell. GwSpawnpawn::run
+  // passes arguments directly through argv[].
 #endif
   // Save argument.
   myarguments.push_back(value);

@@ -91,19 +91,31 @@ ustring shell_quote_space(const ustring & filename)
     quotedname = " " + filename + " ";
   }
 #else
-  // Was quotedname = " '" + filename + "' ";
-  // Then was
 #if 0
+  // Was quotedname = " '" + filename + "' ";
+  // Then was:
   if (filename.find(" ") != string::npos) {
     quotedname = " '" + filename + "' ";
   }
   else { 
     quotedname = filename; // if no spaces, leave it alone
   }
-#endif
-  // Now we just escape any spaces in the filename and run
+
+  // Then was that we just escape any spaces in the argument
   quotedname = filename;
   replace_text(quotedname, " ", "\\ ");
+  // The original way worked better. But it seemed to fail on "New Project" directory
+  // name. So I tried the two above alternate methods, but it failed when creating
+  // 1\ Samuel directory. I don't know...This is confusing.
+#endif
+  // Finally, we settle on this:
+  if (filename.find(" ") != string::npos) {
+    quotedname = " '" + filename + "' ";
+    // Question: why the space before and after? Not sure. I don't think we need it.
+  }
+  else {
+  quotedname = filename;
+  }
 #endif
   return quotedname;
 }
