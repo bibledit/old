@@ -264,7 +264,7 @@ string Assets_Header::run ()
   }
   fontsize = request->database_config_user ()->getMenuFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back (".menu { font-size: " + convert_to_string (fontsize) + "%; }");
+    embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + convert_to_string (fontsize) + "%; }");
   }
   fontsize = request->database_config_user ()->getBibleEditorsFontSize ();
   if (fontsize != 100) {
