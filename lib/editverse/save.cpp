@@ -121,6 +121,8 @@ string editverse_save (void * webserver_request)
     Database_Modifications database_modifications;
     database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
     Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
+#else
+    (void) oldID;
 #endif
     return locale_logic_text_saved ();
   }
