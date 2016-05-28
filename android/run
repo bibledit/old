@@ -1,0 +1,22 @@
+#!/bin/bash
+
+
+# Run this script from the directory where it is located: ./run
+
+
+# Export environment variables to find the Android SDK and NDK tools.
+export ANDROID_HOME=~/scr/android-sdk-macosx
+export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-macosx/tools:~/scr/android-ndk-r10e
+
+
+# Clear and uninstall previous version.
+# adb shell pm clear org.bibledit.android
+# adb shell pm uninstall -k org.bibledit.android
+
+
+# Install it.
+adb install -r bin/Bibledit-debug.apk
+
+
+# Start it.
+adb shell am start -a android.intent.action.MAIN -n org.bibledit.android/.MainActivity

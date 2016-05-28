@@ -46,14 +46,3 @@ if [ $EXIT_CODE != 0 ]; then
 fi
 
 
-# Clear and uninstall previous version.
-# adb shell pm clear org.bibledit.android
-# adb shell pm uninstall -k org.bibledit.android
-
-
-# Install it.
-adb install -r bin/Bibledit-debug.apk
-
-
-# Start it.
-adb shell am start -a android.intent.action.MAIN -n org.bibledit.android/.MainActivity

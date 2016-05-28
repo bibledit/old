@@ -25,6 +25,7 @@
 		CA97BC201B0F7EE300877437 /* main.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = main.xml; sourceTree = "<group>"; };
 		CA97BC221B0F7EE300877437 /* strings.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = strings.xml; sourceTree = "<group>"; };
 		CA97BC241B0F9CF400877437 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		CAA820141CF9C7E200D8FDF6 /* run */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
 		CABA805A1B110D8800E86B23 /* bibleditjni.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bibleditjni.c; sourceTree = "<group>"; };
 		CAE0F22B1B1DDCBE00970969 /* gdb */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = gdb; sourceTree = "<group>"; };
 		CAE2DAFB1B10DE4A008EE025 /* Android.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Android.am; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 				CA97BC161B0F7E1E00877437 /* project.properties */,
 				CA97BC241B0F9CF400877437 /* README.md */,
 				CA97BC171B0F7E1E00877437 /* release */,
+				CAA820141CF9C7E200D8FDF6 /* run */,
 				CA97BC231B0F7EED00877437 /* src */,
 				CA97BC181B0F7E3600877437 /* testing.txt */,
 				CA97BC211B0F7EE300877437 /* values */,
