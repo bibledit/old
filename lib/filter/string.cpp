@@ -1265,3 +1265,24 @@ string unicode_ballot_x ()
 {
   return "✗";
 }
+
+
+// Move the $item $up (towards the beginning), or else down (towards the end).
+void array_move_up_down (vector <string> & container, size_t item, bool up)
+{
+  if (up) {
+    if (item > 0) {
+      if (item < container.size ()) {
+        string s = container [item - 1];
+        container [item - 1] = container [item];
+        container [item] = s;
+      }
+    }
+  } else {
+    if (item < (container.size () - 1)) {
+      string s = container [item + 1];
+      container [item + 1] = container [item];
+      container [item] = s;
+    }
+  }
+}

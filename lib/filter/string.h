@@ -98,6 +98,7 @@ string unicode_black_right_pointing_triangle ();
 string unicode_black_down_pointing_triangle ();
 string unicode_black_left_pointing_triangle ();
 string unicode_ballot_x ();
+void array_move_up_down (vector <string> & container, size_t item, bool up);
 
 
 #endif

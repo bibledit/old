@@ -79,28 +79,18 @@ string resource_organize (void * webserver_request)
   if (request->query.count ("moveup")) {
     size_t moveup = convert_to_int (request->query["moveup"]);
     vector <string> resources = request->database_config_user()->getActiveResources ();
-    if (moveup) {
-      if (moveup < resources.size ()) {
-        string resource = resources[moveup - 1];
-        resources [moveup - 1] = resources [moveup];
-        resources [moveup] = resource;
-        request->database_config_user()->setActiveResources (resources);
-        request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
-      }
-    }
+    array_move_up_down (resources, moveup, true);
+    request->database_config_user()->setActiveResources (resources);
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
   }
 
   
   if (request->query.count ("movedown")) {
     size_t movedown = convert_to_int (request->query["movedown"]);
     vector <string> resources = request->database_config_user()->getActiveResources ();
-    if (movedown < (resources.size () - 1)) {
-      string resource = resources [movedown + 1];
-      resources [movedown + 1] = resources [movedown];
-      resources [movedown] = resource;
-      request->database_config_user()->setActiveResources (resources);
-      request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
-    }
+    array_move_up_down (resources, movedown, false);
+    request->database_config_user()->setActiveResources (resources);
+    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
   }
   
   
