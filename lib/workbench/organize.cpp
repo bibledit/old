@@ -59,12 +59,18 @@ string workbench_organize (void * webserver_request)
   }
   
   
-  // Re-ordering workbenches.
-  if (request->post.count ("workbenches")) {
-    string s_workbenches = request->post ["workbenches"];
-    vector <string> workbenches = filter_string_explode (s_workbenches, ',');
-    workbench_reorder (request, workbenches);
-    return "";
+  // Re-ordering desktops.
+  if (request->query.count ("up")) {
+    size_t item = convert_to_int (request->query ["up"]);
+    vector <string> desktops = workbench_get_names (request);
+    array_move_up_down (desktops, item, true);
+    workbench_reorder (request, desktops);
+  }
+  if (request->query.count ("down")) {
+    size_t item = convert_to_int (request->query ["down"]);
+    vector <string> desktops = workbench_get_names (request);
+    array_move_up_down (desktops, item, false);
+    workbench_reorder (request, desktops);
   }
   
   
@@ -77,8 +83,7 @@ string workbench_organize (void * webserver_request)
   string page;
   
   
-  Assets_Header header = Assets_Header (translate("Workbenches"), request);
-  header.jQueryUIOn ();
+  Assets_Header header = Assets_Header (translate("Desktops"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   
@@ -129,30 +134,31 @@ string workbench_organize (void * webserver_request)
   Assets_View view;
   
   
-  vector <string> workbenchblock;
-  vector <string> workbenches = workbench_get_names (request);
-  for (auto & workbench : workbenches) {
-    workbenchblock.push_back ("<p class=\"ui-state-default\">");
-    workbenchblock.push_back ("<a href=\"?remove=" + workbench + "\" title=\"" + translate("Delete workbench") + "\"> ✗ </a>");
-    workbenchblock.push_back ("|");
-    workbenchblock.push_back ("<a href=\"settings?name=" + workbench + "\" title=\"" + translate("Edit desktop") + "\"> ✎ </a>");
-    workbenchblock.push_back ("|");
-    workbenchblock.push_back ("<a href=\"?copy=" + workbench + "\" title=\"" + translate("Copy desktop") + "\"> ⎘ </a>");
-#ifdef CLIENT_PREPARED
-    // On a client, sending a desktop to other users does not work.
-    // Put a placeholder instead.
-    // The placeholder makes sure that the javascript keeps working by picking the correct child.
-    workbenchblock.push_back ("<span> </span>");
-#else
+  vector <string> desktopblock;
+  vector <string> desktops = workbench_get_names (request);
+  for (size_t i = 0; i < desktops.size (); i++) {
+    string desktop = desktops [i];
+    desktopblock.push_back ("<p>");
+    desktopblock.push_back ("<a href=\"?remove=" + desktop + "\" title=\"" + translate("Delete desktop") + "\"> ✗ </a>");
+    desktopblock.push_back ("|");
+    desktopblock.push_back ("<a href=\"?up=" + convert_to_string (i) + "\" title=\"" + translate("Move desktop up") + "\"> " + unicode_black_up_pointing_triangle () + " </a>");
+    desktopblock.push_back ("|");
+    desktopblock.push_back ("<a href=\"?down=" + convert_to_string (i) + "\" title=\"" + translate("Move desktop down") + "\"> " + unicode_black_down_pointing_triangle () + " </a>");
+    desktopblock.push_back ("|");
+    desktopblock.push_back ("<a href=\"settings?name=" + desktop + "\" title=\"" + translate("Edit desktop") + "\"> ✎ </a>");
+    desktopblock.push_back ("|");
+    desktopblock.push_back ("<a href=\"?copy=" + desktop + "\" title=\"" + translate("Copy desktop") + "\"> ⎘ </a>");
+#ifndef CLIENT_PREPARED
     // In the Cloud, one can send the desktop configuration to other users.
-    workbenchblock.push_back ("|");
-    workbenchblock.push_back ("<a href=\"?send=" + workbench + "\" title=\"" + translate("Send desktop to all users") + "\"> ✉ </a>");
+    // On a client, sending a desktop to other users does not work.
+    desktopblock.push_back ("|");
+    desktopblock.push_back ("<a href=\"?send=" + desktop + "\" title=\"" + translate("Send desktop to all users") + "\"> ✉ </a>");
 #endif
-    workbenchblock.push_back ("|");
-    workbenchblock.push_back ("<span class=\"drag\">" + workbench + "</span>");
-    workbenchblock.push_back ("</p>");
+    desktopblock.push_back ("|");
+    desktopblock.push_back ("<span>" + desktop + "</span>");
+    desktopblock.push_back ("</p>");
   }
-  view.set_variable ("workbenchblock", filter_string_implode (workbenchblock, "\n"));
+  view.set_variable ("desktopblock", filter_string_implode (desktopblock, "\n"));
 
   
 #ifndef CLIENT_PREPARED

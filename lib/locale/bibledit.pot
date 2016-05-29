@@ -9089,16 +9089,19 @@ msgstr ""
 msgid "Visual editor and USFM editor"
 msgstr ""
 
-msgid "Workbenches"
-msgstr ""
-
 msgid "Would you like to delete this desktop configuration?"
 msgstr ""
 
 msgid "Please enter a name for the new desktop"
 msgstr ""
 
-msgid "Delete workbench"
+msgid "Delete desktop"
+msgstr ""
+
+msgid "Move desktop up"
+msgstr ""
+
+msgid "Move desktop down"
 msgstr ""
 
 msgid "Edit desktop"
