@@ -337,7 +337,8 @@ public class MainActivity extends Activity
             webview.loadUrl (webAppUrl);
         } else {
             // Just to be sure that any javascript runs, reload the loaded URL.
-            webview.loadUrl (url);
+            // This was disabled later, as reloading the page could lead to the loss of the information that page contained, e.g. when creating a note.
+            // webview.loadUrl (url);
         }
     }
     

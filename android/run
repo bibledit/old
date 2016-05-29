@@ -14,9 +14,9 @@ export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-maco
 # adb shell pm uninstall -k org.bibledit.android
 
 
-# Install it.
+echo Install Bibledit.
 adb install -r bin/Bibledit-debug.apk
 
 
-# Start it.
+echo Start Bibledit.
 adb shell am start -a android.intent.action.MAIN -n org.bibledit.android/.MainActivity
