@@ -7,6 +7,7 @@ Bibledit for Android runs on Chrome OS through ARC Welder.
 More information is here:
 
 https://developer.chrome.com/apps/getstarted_arc
+https://chrome.google.com/webstore/detail/arc-welder/emfinbmielocnlhgmfkkmkngdoccbadn/
 
 Basically it works like this: 
 * Install and start ARC Welder. 
