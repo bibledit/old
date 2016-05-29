@@ -48,7 +48,7 @@ string styles_view_url ()
 
 bool styles_view_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 

@@ -46,7 +46,7 @@ string styles_sheetm_url ()
 
 bool styles_sheetm_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 
