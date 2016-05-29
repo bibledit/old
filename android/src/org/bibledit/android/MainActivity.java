@@ -106,6 +106,11 @@ public class MainActivity extends Activity
         
         // Keep-awake timer.
         startTimer ();
+
+        /* FORCHROMEOS
+        Intent browserIntent = new Intent (Intent.ACTION_VIEW, Uri.parse (webAppUrl));
+        startActivity(browserIntent);
+        FORCHROMEOS */
     }
     
     

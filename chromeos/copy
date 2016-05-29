@@ -30,6 +30,7 @@ echo Adapting source code for Chrome OS
 # the app goes to the background, and should continue to serve.
 sed -i.bak '/StopLibrary/d' $BIBLEDITCHROMEOS/android/src/org/bibledit/android/MainActivity.java
 
-
+# Enable the code to open the Bibledit server from the system browser.
+sed -i.bak '/FORCHROMEOS/d' $BIBLEDITCHROMEOS/android/src/org/bibledit/android/MainActivity.java
 
 echo Done
