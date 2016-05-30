@@ -13,11 +13,11 @@ export PATH=$PATH:~/scr/android-sdk-macosx/platform-tools:~/scr/android-sdk-maco
 
 # Build the locale databases for inclusion with the Android package.
 # The reason for this is that building them on Android takes a lot of time during the setup phase.
-# So to include pre-built databases speeds up the setup phase of Bibledit on Android.
+# To include pre-built databases, that will speed up the setup phase of Bibledit on Android.
 # This gives a better user experience.
 pushd ../lib
 ./configure
-make --jobs=12
+make --jobs=24
 ./generate . locale
 ./generate . mappings
 ./generate . versifications
