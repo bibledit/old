@@ -10,7 +10,7 @@ The current port of Bibledit for iOS consists of the following parts:
 
 Libraries
 
-The Bibledit library depends on libsqlite3, libz, libc++ libxml2 Security.framework CFNetwork.framework. The iOS SDK with Xcode includes these libraries. Link against all of these libraries in the project settings, the Build Phases. It also depends on the ICU library. It uses the ICU library for iOS from https://github.com/zhm/icu-ios.
+The Bibledit library depends on libsqlite3, libz, libc++ Security.framework CFNetwork.framework. The iOS SDK with Xcode includes these libraries. Link against all of these libraries in the project settings, the Build Phases.
 
 Beta testing iOS apps is made easy: https://developer.apple.com/app-store/testflight
 
