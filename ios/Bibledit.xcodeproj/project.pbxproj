@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA3FC6861CFC5703002926FB /* cppfiles.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA3FC6851CFC5703002926FB /* cppfiles.txt */; };
+		CA3FC6881CFC57FE002926FB /* cfiles.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA3FC6871CFC57FE002926FB /* cfiles.txt */; };
 		CA6B9C191A9906C800FAB064 /* BibleditController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6B9C181A9906C800FAB064 /* BibleditController.m */; };
 		CA8C8A261B92D9BC00E9BA18 /* build.sh in Resources */ = {isa = PBXBuildFile; fileRef = CA8C8A251B92D9BC00E9BA18 /* build.sh */; };
 		CA9ADE021A8A9752000FD430 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9ADE011A8A9752000FD430 /* webroot */; };
@@ -31,6 +33,8 @@
 
 /* Begin PBXFileReference section */
 		CA0773801A8E80DB0061C5B7 /* develop.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = develop.txt; sourceTree = "<group>"; };
+		CA3FC6851CFC5703002926FB /* cppfiles.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cppfiles.txt; sourceTree = "<group>"; };
+		CA3FC6871CFC57FE002926FB /* cfiles.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cfiles.txt; sourceTree = "<group>"; };
 		CA6B9C171A9906C800FAB064 /* BibleditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleditController.h; sourceTree = "<group>"; };
 		CA6B9C181A9906C800FAB064 /* BibleditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleditController.m; sourceTree = "<group>"; };
 		CA73236F1B257BE4003E3387 /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = bibledit.h; path = include/bibledit.h; sourceTree = SOURCE_ROOT; };
@@ -100,6 +104,8 @@
 				CA0773801A8E80DB0061C5B7 /* develop.txt */,
 				CA8C8A231B92D9B000E9BA18 /* README.md */,
 				CA8C8A251B92D9BC00E9BA18 /* build.sh */,
+				CA3FC6871CFC57FE002926FB /* cfiles.txt */,
+				CA3FC6851CFC5703002926FB /* cppfiles.txt */,
 				CEA9296D19B06C9600DA3766 /* Bibledit iOS */,
 				CEA9296619B06C9600DA3766 /* Frameworks */,
 				CEA9296519B06C9600DA3766 /* Products */,
@@ -238,8 +244,10 @@
 			files = (
 				CA9ADE021A8A9752000FD430 /* webroot in Resources */,
 				CEA9298319B06C9700DA3766 /* Images.xcassets in Resources */,
+				CA3FC6881CFC57FE002926FB /* cfiles.txt in Resources */,
 				CEA9297219B06C9600DA3766 /* InfoPlist.strings in Resources */,
 				CA8C8A261B92D9BC00E9BA18 /* build.sh in Resources */,
+				CA3FC6861CFC5703002926FB /* cppfiles.txt in Resources */,
 				CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
