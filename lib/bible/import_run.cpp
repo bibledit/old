@@ -35,7 +35,7 @@ void bible_import_run (string location, string bible, int book, int chapter)
   Database_Logs::log ("Importing Bible data from location " + location + " into Bible " + bible);
 
   string folder = filter_archive_uncompress (location);
-  if (folder != "") location = folder;
+  if (!folder.empty ()) location = folder;
   vector <string> files;
   if (filter_url_is_dir (location)) {
     filter_url_recursive_scandir (location, files);

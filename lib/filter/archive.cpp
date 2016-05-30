@@ -94,6 +94,10 @@ string filter_archive_unzip (string file)
     folder.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
+  } else {
+    // Set free permissions after unzipping.
+    command = "chmod -R 0777 " + folder;
+    system (command.c_str ());
   }
   return folder;
 }
