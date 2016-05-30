@@ -525,13 +525,12 @@ popd
 # Put it in a temporal location.
 # The purpose is to put the build files in a temporal location,
 # and to have no duplicated code for the bibledit library.
-# This does not clutter the bibledit git repositoy with the built files.
+# This does not clutter the bibledit git repository with the built files.
 IOSSOURCE=`dirname $0`
 cd $IOSSOURCE
 BIBLEDITIOS=/tmp/bibledit-ios
 echo Synchronizing relevant source code to $BIBLEDITIOS
 mkdir -p $BIBLEDITIOS
-rm $BIBLEDITIOS/* 2> /dev/null
 rsync --archive --delete ../lib $BIBLEDITIOS/
 rsync --archive --delete ../ios $BIBLEDITIOS/
 
