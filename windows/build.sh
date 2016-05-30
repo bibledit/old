@@ -4,6 +4,19 @@
 # This script runs from within a Cygwin shell.
 # It refreshes the bibledit library sources.
 # It builds the bibledit library for Windows.
+# It works in a temporal location outside of the source tree.
+
+
+WINDOWSSOURCE=`dirname $0`
+cd $WINDOWSSOURCE
+BIBLEDITWINDOWS=/tmp/bibledit-windows
+echo Synchronizing relevant source code to $BIBLEDITWINDOWS
+mkdir -p $BIBLEDITWINDOWS
+rsync --archive --delete ../lib $BIBLEDITWINDOWS/
+rsync --archive --delete ../windows $BIBLEDITWINDOWS/
+
+
+cd $BIBLEDITWINDOWS/windows
 
 
 pushd webroot
