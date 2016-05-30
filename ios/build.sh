@@ -27,11 +27,25 @@ SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/$PLATFORM.platform/
 TOOLDIR=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
 COMPILEFLAGS="-Wall -Wextra -pedantic -g -O2 -c -I.."
 
+pushd webroot
+
+# The following command saves all source files from Makefile.am to file.
+# It uses several steps to obtain the result:
+# * Obtain source files between the correct patterns.
+# * Remove first line.
+# * Remove last line.
+# * Remove tabs.
+# * Remove new lines.
+# * Remove backslashes.
+sed -n "/libbibledit_a_SOURCES/,/bin_PROGRAMS/p" Makefile.am | tail -n +2 | sed '$d' | strings | sed 's/\\//g' > sources.txt
+
+# Save the names of the C++ sources to file and load them.
+grep .cpp sources.txt > cppfiles.txt
 CPPFILES=(`cat cppfiles.txt`)
 
+# Save the name of the C sources to file and load them.
+sed '/.cpp/d' sources.txt > cfiles.txt
 CFILES=(`cat cfiles.txt`)
-
-pushd webroot
 
 for cpp in ${CPPFILES[@]}; do
 
