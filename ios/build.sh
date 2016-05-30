@@ -250,6 +250,10 @@ popd
 
 # say Compile for iOS is ready
 
-echo To build the app for iOS open the project in Xcode:
+# Build the app.
+cd $BIBLEDITIOS/ios
+xcodebuild
+
+echo To graphically build the app for iOS open the project in Xcode:
 echo open $BIBLEDITIOS/ios/Bibledit.xcodeproj
 echo Then build it from within Xcode
