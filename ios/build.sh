@@ -39,7 +39,7 @@ extension="${cpp##*.}"
 basepath="${cpp%.*}"
 echo Compiling $cpp
 
-$TOOLDIR/clang++ -arch ${ARCH} -isysroot $SYSROOT -I. -I/usr/include/libxml2 $COMPILEFLAGS -std=c++11 -stdlib=libc++ -o $basepath.o $cpp
+$TOOLDIR/clang++ -arch ${ARCH} -isysroot $SYSROOT -I. $COMPILEFLAGS -std=c++11 -stdlib=libc++ -o $basepath.o $cpp
 EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
   exit
@@ -234,7 +234,7 @@ rm -rf sources
 
 popd
 
-say Compile for iOS is ready
+# say Compile for iOS is ready
 
 echo To build the app for iOS open the project in Xcode:
 echo open $BIBLEDITIOS/ios/Bibledit.xcodeproj
