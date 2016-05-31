@@ -1530,12 +1530,16 @@ void Filter_Text::createNoteCitation (Database_Styles_Item style)
 */
 string Filter_Text::getNoteCitation (Database_Styles_Item style)
 {
+  bool end_of_text_reached = (chapterUsfmMarkersAndTextPointer + 1) >= chapterUsfmMarkersAndText.size ();
+  if (end_of_text_reached) return "";
+
   // Get the raw note citation from the USFM. This could be, e.g. '+'.
   string nextText = chapterUsfmMarkersAndText [chapterUsfmMarkersAndTextPointer + 1];
   string citation = nextText.substr (0, 1);
   nextText = filter_string_ltrim (nextText.substr (1));
   chapterUsfmMarkersAndText [chapterUsfmMarkersAndTextPointer + 1] = nextText;
   citation = filter_string_trim (citation);
+  cout << citation << endl; // Todo
   if (citation == "+") {
     string marker = style.marker;
     vector <string> sequence = notecitations[marker].sequence;
