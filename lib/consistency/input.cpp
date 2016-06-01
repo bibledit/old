@@ -40,14 +40,13 @@ bool consistency_input_acl (void * webserver_request)
 string consistency_input (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Volatile database_volatile;
   int id = convert_to_int (request->post ["id"]);
   string passages = request->post ["passages"];
   string translations = request->post ["translations"];
-  database_volatile.setValue (id, "passages", passages);
-  database_volatile.setValue (id, "translations", translations);
+  Database_Volatile::setValue (id, "passages", passages);
+  Database_Volatile::setValue (id, "translations", translations);
   Consistency_Logic consistency_logic = Consistency_Logic (webserver_request, id);
   string response = consistency_logic.response ();
-  database_volatile.setValue (id, "response", response);
+  Database_Volatile::setValue (id, "response", response);
   return response;
 }

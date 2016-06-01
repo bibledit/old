@@ -53,7 +53,6 @@ string resource_img (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_ImageResources database_imageresources;
-  Database_Volatile database_volatile;
 
   
   string page;
@@ -111,7 +110,7 @@ string resource_img (void * webserver_request)
 
     database_imageresources.assign (name, image, book1, chapter1, verse1, book2, chapter2, verse2);
     
-    database_volatile.setValue (userid, "imageresources", convert_to_string (end));
+    Database_Volatile::setValue (userid, "imageresources", convert_to_string (end));
 
     error = filter_string_implode (errors, " ");
     if (errors.empty ()) {
@@ -124,7 +123,7 @@ string resource_img (void * webserver_request)
   // Retrieve passage range for this image.
   database_imageresources.get (name, image, book1, chapter1, verse1, book2, chapter2, verse2);
   if ((book1 == 0) || (book2 == 0)) {
-    string end = database_volatile.getValue (userid, "imageresources");
+    string end = Database_Volatile::getValue (userid, "imageresources");
     Passage passage = filter_integer_to_passage (convert_to_int (end));
     book1 = book2 = passage.book;
     chapter1 = chapter2 = passage.chapter;

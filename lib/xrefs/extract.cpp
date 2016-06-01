@@ -53,9 +53,6 @@ string xrefs_extract (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
-  Database_Volatile database_volatile;
-  
-  
   string bible = request->database_config_user()->getSourceXrefBible ();
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
@@ -84,7 +81,7 @@ string xrefs_extract (void * webserver_request)
   
   int identifier = filter_string_user_identifier (webserver_request);
   string value = filter_string_implode (allxrefs, "\n");
-  database_volatile.setValue (identifier, "sourcexrefs", value);
+  Database_Volatile::setValue (identifier, "sourcexrefs", value);
   
 
   if (!allxrefs.empty ()) {

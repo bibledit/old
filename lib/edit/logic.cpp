@@ -48,8 +48,7 @@ void storeLoadedUsfm (void * webserver_request, string bible, int book, int chap
   
   string usfm = request->database_bibles ()->getChapter (bible, book, chapter);
   
-  Database_Volatile database_volatile;
-  database_volatile.setValue (userid, key, usfm);
+  Database_Volatile::setValue (userid, key, usfm);
 }
 
 
@@ -59,8 +58,7 @@ string getLoadedUsfm (void * webserver_request, string bible, int book, int chap
   
   string key = edit_logic_volatile_key (bible, book, chapter, editor);
   
-  Database_Volatile database_volatile;
-  string usfm = database_volatile.getValue (userid, key);
+  string usfm = Database_Volatile::getValue (userid, key);
   
   return usfm;
 }

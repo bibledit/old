@@ -55,7 +55,6 @@ string notes_bulk (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Notes database_notes (webserver_request);
-  Database_Volatile database_volatile;
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
   Database_NoteAssignment database_noteassignment;
 
@@ -129,7 +128,7 @@ string notes_bulk (void * webserver_request)
                                               -1);
     vector <string> sids;
     for (auto id : identifiers) sids.push_back (convert_to_string (id));
-    database_volatile.setValue (userid, "identifiers", filter_string_implode (sids, " "));
+    Database_Volatile::setValue (userid, "identifiers", filter_string_implode (sids, " "));
   }
 
 
@@ -137,7 +136,7 @@ string notes_bulk (void * webserver_request)
   // Get the stored note identifiers from the database.
   vector <int> identifiers;
   {
-    vector <string> sids = filter_string_explode (database_volatile.getValue (userid, "identifiers"), ' ');
+    vector <string> sids = filter_string_explode (Database_Volatile::getValue (userid, "identifiers"), ' ');
     for (auto id : sids) identifiers.push_back (convert_to_int (id));
   }
   

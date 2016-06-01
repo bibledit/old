@@ -33,7 +33,6 @@
 #include <database/versifications.h>
 #include <database/modifications.h>
 #include <database/notes.h>
-#include <database/volatile.h>
 #include <database/state.h>
 #include <database/login.h>
 #include <database/privileges.h>
@@ -221,9 +220,6 @@ void setup_initialize_data ()
   config_globals_setup_message = "notes";
   Database_Notes database_notes (&request);
   database_notes.create ();
-  config_globals_setup_message = "volatile";
-  Database_Volatile database_volatile = Database_Volatile ();
-  database_volatile.create ();
   config_globals_setup_message = "state";
   Database_State::create ();
   config_globals_setup_message = "login";

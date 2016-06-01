@@ -40,12 +40,11 @@ bool consistency_poll_acl (void * webserver_request)
 string consistency_poll (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Volatile database_volatile;
   int id = convert_to_int (request->query ["id"]);
   Consistency_Logic consistency_logic = Consistency_Logic (webserver_request, id);
   string response = consistency_logic.response ();
-  if (response != database_volatile.getValue (id, "response")) {
-    database_volatile.setValue (id, "response", response);
+  if (response != Database_Volatile::getValue (id, "response")) {
+    Database_Volatile::setValue (id, "response", response);
     return response;
   }
   return "";

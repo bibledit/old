@@ -56,9 +56,6 @@ string xrefs_interpret (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   
-  Database_Volatile database_volatile;
-  
-  
   string bible = request->database_config_user()->getSourceXrefBible ();
   
   
@@ -77,7 +74,7 @@ string xrefs_interpret (void * webserver_request)
   
   
   // Retrieve all notes from the database.
-  string s_allnotes = database_volatile.getValue (identifier, "sourcexrefs");
+  string s_allnotes = Database_Volatile::getValue (identifier, "sourcexrefs");
   vector <string> allnotes = filter_string_explode (s_allnotes, '\n');
   
   

@@ -46,21 +46,18 @@ string Consistency_Logic::response ()
   // The request.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  // The databases to access.
-  Database_Volatile database_volatile;
-  
   // The resources to display in the Consistency tool.
   vector <string> resources = request->database_config_user()->getConsistencyResources ();
   string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
   resources.insert (resources.begin (), bible);
   
   // The passages entered in the Consistency tool.
-  string s_passages = database_volatile.getValue (id, "passages");
+  string s_passages = Database_Volatile::getValue (id, "passages");
   s_passages = filter_string_trim (s_passages);
   vector <string> passages = filter_string_explode (s_passages, '\n');
   
   // The translations from the Consistency tool.
-  string s_translations = database_volatile.getValue (id, "translations");
+  string s_translations = Database_Volatile::getValue (id, "translations");
   s_translations = filter_string_trim (s_translations);
   vector <string> translations = filter_string_explode (s_translations, '\n');
   
@@ -88,9 +85,9 @@ string Consistency_Logic::response ()
         bool redoPassage = false;
         string passageKey = convert_to_string (book) + "." + convert_to_string (chapter) + "." + verse;
         int currentChapterId = request->database_bibles()->getChapterId (resources [0], book, chapter);
-        int storedChapterId = convert_to_int (database_volatile.getValue (id, passageKey + ".id"));
+        int storedChapterId = convert_to_int (Database_Volatile::getValue (id, passageKey + ".id"));
         if (currentChapterId != storedChapterId) {
-          database_volatile.setValue (id, passageKey + ".id", convert_to_string (currentChapterId));
+          Database_Volatile::setValue (id, passageKey + ".id", convert_to_string (currentChapterId));
           redoPassage = true;
         }
         
@@ -104,9 +101,9 @@ string Consistency_Logic::response ()
             if (!translations.empty ()) {
               text = filter_string_markup_words (translations, text);
             }
-            database_volatile.setValue (id, passageKey + "." + resource, text);
+            Database_Volatile::setValue (id, passageKey + "." + resource, text);
           } else {
-            text = database_volatile.getValue (id, passageKey + "." + resource);
+            text = Database_Volatile::getValue (id, passageKey + "." + resource);
           }
           
           // Formatting.

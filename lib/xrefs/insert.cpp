@@ -56,9 +56,6 @@ string xrefs_insert (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   
-  Database_Volatile database_volatile;
-  
-  
   string sourceBible = request->database_config_user()->getSourceXrefBible ();
   string targetBible = request->database_config_user()->getTargetXrefBible ();
   int book = Ipc_Focus::getBook (webserver_request);
@@ -99,7 +96,7 @@ string xrefs_insert (void * webserver_request)
   
   
   // Retrieve all notes from the database.
-  string s_allxrefs = database_volatile.getValue (identifier, "sourcexrefs");
+  string s_allxrefs = Database_Volatile::getValue (identifier, "sourcexrefs");
   vector <string> allxrefs = filter_string_explode (s_allxrefs, '\n');
   
   

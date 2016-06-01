@@ -23,81 +23,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 
 
-// Database resilience: It is recreated every night.
-
-
-sqlite3 * Database_Volatile::connect ()
-{
-  return database_sqlite_connect ("volatile");
-}
-
-
-void Database_Volatile::create ()
-{
-  sqlite3 * db = connect ();
-  string sql = 
-    "CREATE TABLE IF NOT EXISTS volatile ("
-    " id integer,"
-    " key text,"
-    " value text"
-    ");";
-  database_sqlite_exec (db, sql);
-  sql = "DELETE FROM volatile;";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
-}
-
-
-vector <string> Database_Volatile::getKeys (int id)
-{
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT key FROM volatile WHERE id =");
-  sql.add (id);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> keys = database_sqlite_query (db, sql.sql)["key"];
-  database_sqlite_disconnect (db);
-  return keys;
-}
+// Database resilience: It is stored in the plain filesystem in the temporal location.
 
 
 string Database_Volatile::getValue (int id, const string& key)
 {
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT value FROM volatile WHERE id =");
-  sql.add (id);
-  sql.add ("AND key =");
-  sql.add (key);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> values = database_sqlite_query (db, sql.sql)["value"];
-  database_sqlite_disconnect (db);
-  for (auto value : values) {
-    return value;
-  }
-  return "";
+  return filter_url_file_get_contents (filename (id, key));
 }
 
 
 void Database_Volatile::setValue (int id, const string& key, const string& value)
 {
-  SqliteSQL sql1 = SqliteSQL ();
-  sql1.add ("DELETE FROM volatile WHERE id =");
-  sql1.add (id);
-  sql1.add ("AND key =");
-  sql1.add (key);
-  sql1.add (";");
-  SqliteSQL sql2 = SqliteSQL ();
-  sql2.add ("INSERT INTO volatile VALUES (");
-  sql2.add (id);
-  sql2.add (",");
-  sql2.add (key);
-  sql2.add (",");
-  sql2.add (value);
-  sql2.add (");");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql1.sql);
-  database_sqlite_exec (db, sql2.sql);
-  database_sqlite_disconnect (db);
+  filter_url_file_put_contents (filename (id, key), value);
 }
 
+
+string Database_Volatile::filename (int id, string key)
+{
+  string identifier = filter_url_clean_filename (convert_to_string (id));
+  key = filter_url_clean_filename (key);
+  return filter_url_create_root_path ("tmp", "volatile__" + identifier + "__" + key);
+}

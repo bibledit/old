@@ -32,7 +32,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/ipc.h>
 #include <database/notes.h>
 #include <database/check.h>
-#include <database/volatile.h>
 #include <database/sprint.h>
 #include <database/navigation.h>
 #include <database/sprint.h>
@@ -108,11 +107,6 @@ void database_maintenance ()
   
   Database_Check database_check = Database_Check ();
   database_check.optimize ();
-  
-  
-  filter_url_unlink (filter_url_create_root_path ("databases", "volatile.sqlite"));
-  Database_Volatile database_volatile = Database_Volatile ();
-  database_volatile.create ();
   
   
   Database_Sprint database_sprint = Database_Sprint ();

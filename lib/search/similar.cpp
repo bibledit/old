@@ -54,9 +54,6 @@ string search_similar (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
  
-  Database_Volatile database_volatile = Database_Volatile ();
-  
-
   int myIdentifier = filter_string_user_identifier (request);
   
   
@@ -82,7 +79,7 @@ string search_similar (void * webserver_request)
       versetext = filter_string_str_replace (sign, "", versetext);
     }
     versetext = filter_string_trim (versetext);
-    database_volatile.setValue (myIdentifier, "searchsimilar", versetext);
+    Database_Volatile::setValue (myIdentifier, "searchsimilar", versetext);
     return versetext;
   }
   
@@ -91,7 +88,7 @@ string search_similar (void * webserver_request)
     
     string words = request->query ["words"];
     words = filter_string_trim (words);
-    database_volatile.setValue (myIdentifier, "searchsimilar", words);
+    Database_Volatile::setValue (myIdentifier, "searchsimilar", words);
     vector <string> vwords = filter_string_explode (words, ' ');
     
     // Include items if there are no more search hits than 30% of the total number of verses in the Bible.
@@ -156,7 +153,7 @@ string search_similar (void * webserver_request)
     string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
     
     // Get search words.
-    vector <string> words = filter_string_explode (database_volatile.getValue (myIdentifier, "searchsimilar"), ' ');
+    vector <string> words = filter_string_explode (Database_Volatile::getValue (myIdentifier, "searchsimilar"), ' ');
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);

@@ -55,9 +55,6 @@ string search_search2 (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
-  Database_Volatile database_volatile = Database_Volatile ();
-  
-
   string siteUrl = config_logic_site_url ();
   
   
@@ -77,9 +74,9 @@ string search_search2 (void * webserver_request)
     
     
     // Retrieve the search parameters from the volatile database.
-    string query = database_volatile.getValue (identifier, "query");
-    //bool casesensitive = convert_to_bool (database_volatile.getValue (identifier, "casesensitive"));
-    bool plaintext = convert_to_bool (database_volatile.getValue (identifier, "plaintext"));
+    string query = Database_Volatile::getValue (identifier, "query");
+    //bool casesensitive = convert_to_bool (Database_Volatile::getValue (identifier, "casesensitive"));
+    bool plaintext = convert_to_bool (Database_Volatile::getValue (identifier, "plaintext"));
     
     
     // Get the Bible and passage for this identifier.
@@ -119,9 +116,9 @@ string search_search2 (void * webserver_request)
     bool plaintext = (request->query ["p"] == "true");
     bool currentbook = (request->query ["b"] == "true");
     string sharing = request->query ["s"];
-    database_volatile.setValue (identifier, "query", query);
-    database_volatile.setValue (identifier, "casesensitive", convert_to_string (casesensitive));
-    database_volatile.setValue (identifier, "plaintext", convert_to_string (plaintext));
+    Database_Volatile::setValue (identifier, "query", query);
+    Database_Volatile::setValue (identifier, "casesensitive", convert_to_string (casesensitive));
+    Database_Volatile::setValue (identifier, "plaintext", convert_to_string (plaintext));
     
     
     // Deal with case sensitivity.
@@ -162,7 +159,7 @@ string search_search2 (void * webserver_request)
       hits.push_back (passage.to_text ());
     }
     if (sharing != "load") {
-      vector <string> loaded_hits = filter_string_explode (database_volatile.getValue (identifier, "hits"), '\n');
+      vector <string> loaded_hits = filter_string_explode (Database_Volatile::getValue (identifier, "hits"), '\n');
       if (sharing == "add") {
         hits.insert (hits.end(), loaded_hits.begin(), loaded_hits.end());
       }
@@ -181,7 +178,7 @@ string search_search2 (void * webserver_request)
 
 
     // Store search hits in the volatile database.
-    database_volatile.setValue (identifier, "hits", output);
+    Database_Volatile::setValue (identifier, "hits", output);
 
 
     // Output results.
