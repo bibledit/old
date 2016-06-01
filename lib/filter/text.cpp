@@ -1539,7 +1539,6 @@ string Filter_Text::getNoteCitation (Database_Styles_Item style)
   nextText = filter_string_ltrim (nextText.substr (1));
   chapterUsfmMarkersAndText [chapterUsfmMarkersAndTextPointer + 1] = nextText;
   citation = filter_string_trim (citation);
-  cout << citation << endl; // Todo
   if (citation == "+") {
     string marker = style.marker;
     vector <string> sequence = notecitations[marker].sequence;
