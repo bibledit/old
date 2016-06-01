@@ -73,6 +73,9 @@ string sendreceive_index (void * webserver_request)
   Assets_View view;
   
   
+  string starting_to_sync = translate ("Starting to send and receive now.");
+  
+  
   string bible;
   if (request->query.count ("bible")) {
     bible = request->query["bible"];
@@ -99,7 +102,7 @@ string sendreceive_index (void * webserver_request)
   
   if (request->query.count ("runbible")) {
     sendreceive_queue_bible (bible);
-    view.set_variable ("successbible", translate("Will send and receive."));
+    view.set_variable ("successbible", starting_to_sync);
   }
   
   
@@ -126,7 +129,7 @@ string sendreceive_index (void * webserver_request)
       view.set_variable ("error", translate("Still sending and receiving from the last time."));
     }
     sendreceive_queue_sync (-1);
-    view.set_variable ("success", translate("Will send and receive."));
+    view.set_variable ("success", starting_to_sync);
   }
   
   
@@ -135,7 +138,7 @@ string sendreceive_index (void * webserver_request)
       view.set_variable ("error", translate("Still synchronizing with Paratext."));
     }
     sendreceive_queue_paratext ();
-    view.set_variable ("success", translate("Will send and receive."));
+    view.set_variable ("success", starting_to_sync);
   }
   
   
