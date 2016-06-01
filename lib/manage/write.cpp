@@ -101,6 +101,8 @@ string manage_write (void * webserver_request)
         Database_Privileges::setBibleBook (user, bible, book, (majority < 0));
       }
     }
+    // Update privileges for the clients.
+    database_privileges_client_create (user, true);
   }
   
   // Read or write access to display.
