@@ -954,6 +954,35 @@ navigation(0), httpd(0)
   gtk_widget_show(view_tile_windows);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_tile_windows);
 
+  //----------------------------------------------------------------------
+  // View verse in external website or Bibleworks (Windows only, via OLE)
+  //----------------------------------------------------------------------
+  view_verse_external = gtk_image_menu_item_new_with_mnemonic (_("_External Resource"));
+  gtk_widget_show(view_verse_external);
+  gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_verse_external);
+
+  view_external_submenu = gtk_menu_new();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(view_verse_external), view_external_submenu);
+
+  view_biblegateway = gtk_image_menu_item_new_with_mnemonic(_("_Bible Gateway"));
+  gtk_widget_show(view_biblegateway);
+  gtk_container_add(GTK_CONTAINER(view_external_submenu), view_biblegateway);
+
+  view_biblestudytools = gtk_image_menu_item_new_with_mnemonic(_("_Bible Study Tools"));
+  gtk_widget_show(view_biblestudytools);
+  gtk_container_add(GTK_CONTAINER(view_external_submenu), view_biblestudytools);
+
+  view_blueletterbible = gtk_image_menu_item_new_with_mnemonic(_("_Blue Letter Bible"));
+  gtk_widget_show(view_blueletterbible);
+  gtk_container_add(GTK_CONTAINER(view_external_submenu), view_blueletterbible);
+
+  view_bibleorg = gtk_image_menu_item_new_with_mnemonic(_("_Bible.org (book)"));
+  gtk_widget_show(view_bibleorg);
+  gtk_container_add(GTK_CONTAINER(view_external_submenu), view_bibleorg);
+  
+  //----------------------------------------------------------------------
+  // Insert menu
+  //----------------------------------------------------------------------
   insert1 = gtk_menu_item_new_with_mnemonic(_("_Insert"));
   gtk_widget_show(insert1);
   gtk_container_add(GTK_CONTAINER(menubar1), insert1);
@@ -1667,6 +1696,19 @@ navigation(0), httpd(0)
   if (view_outline)
     g_signal_connect((gpointer) view_outline, "activate", G_CALLBACK(on_view_outline_activate), gpointer(this));
   g_signal_connect((gpointer) view_tile_windows, "activate", G_CALLBACK(on_view_tile_windows_activate), gpointer (this));
+  if (view_biblegateway) {
+    g_signal_connect((gpointer) view_biblegateway, "activate", G_CALLBACK(on_view_biblegateway_activate), gpointer (this));
+  }
+  if (view_biblestudytools) {
+    g_signal_connect((gpointer) view_biblestudytools, "activate", G_CALLBACK(on_view_biblestudytools_activate), gpointer (this));
+  }
+  if (view_blueletterbible) {
+    g_signal_connect((gpointer) view_blueletterbible, "activate", G_CALLBACK(on_view_blueletterbible_activate), gpointer (this));
+  }
+  if (view_bibleorg) {
+    g_signal_connect((gpointer) view_bibleorg, "activate", G_CALLBACK(on_view_bibleorg_activate), gpointer (this));
+  }
+
   if (insert1)
     g_signal_connect((gpointer) insert1, "activate", G_CALLBACK(on_insert1_activate), gpointer(this));
   if (insert_special_character)
@@ -4773,6 +4815,78 @@ void MainWindow::on_view_tile_windows()
    }
  }
 }
+
+void MainWindow::on_view_biblegateway_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_biblegateway();
+}
+
+void MainWindow::on_view_biblegateway(void)
+{
+  extern book_record books_table[];
+  Reference current_reference = navigation.get_current_ref();
+
+  // For now, we jump to the chapter
+  // Example uri: https://www.biblegateway.com/passage/?search=mt+1&version=ESV
+  ustring book(books_table[current_reference.book_get()].bibleworks);
+  ustring uri = "www.biblegateway.com/passage?search=" + book + "+" + 
+    std::to_string(current_reference.chapter_get()) + "&version=ESV";
+  gtkw_show_uri(uri, true);
+}
+
+void MainWindow::on_view_blueletterbible_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_blueletterbible();
+}
+
+void MainWindow::on_view_blueletterbible(void)
+{
+  extern book_record books_table[];
+  Reference current_reference = navigation.get_current_ref();
+
+  // For now, we jump to the chapter
+  // Example uri: https://www.blueletterbible.org/esv/mat/3/1/
+  ustring book(books_table[current_reference.book_get()].bibleworks);
+  ustring uri = "www.blueletterbible.org/esv/" + book + "/" + 
+    std::to_string(current_reference.chapter_get()) + "/1/";
+  gtkw_show_uri(uri, true);
+}
+
+void MainWindow::on_view_biblestudytools_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_biblestudytools();
+}
+
+void MainWindow::on_view_biblestudytools(void)
+{
+  extern book_record books_table[];
+  Reference current_reference = navigation.get_current_ref();
+
+  // For now, we jump to the chapter
+  // Example uri: http://www.biblestudytools.com/esv/2-samuel/3.html
+  ustring book(books_table[current_reference.book_get()].biblestudytools);
+  ustring uri = "www.biblestudytools.com/esv/" + book + "/" + 
+    std::to_string(current_reference.chapter_get()) + ".html";
+  gtkw_show_uri(uri, true);
+}
+
+void MainWindow::on_view_bibleorg_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_bibleorg();
+}
+
+void MainWindow::on_view_bibleorg(void)
+{
+  extern book_record books_table[];
+  Reference current_reference = navigation.get_current_ref();
+
+  // For now, we jump to the book for their study resources
+  // Example uri: https://bible.org/book/2%20Corinthians
+  ustring book(books_table[current_reference.book_get()].name);
+  ustring uri = "www.bible.org/book/" + book;
+  gtkw_show_uri(uri, true);
+}
+
 void MainWindow::on_window_editor_delete_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_window_editor_delete_button(button);
