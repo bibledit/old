@@ -138,3 +138,39 @@ string filter_merge_run (string base, string change, string prioritized_change)
   // Return the prioritized change.
   return prioritized_change;
 }
+
+
+bool filter_merge_conflict_mail (string base, string change, string prioritized_change, string result)
+{
+  // Clean input.
+  base = filter_string_trim (base);
+  change = filter_string_trim (change);
+  prioritized_change = filter_string_trim (prioritized_change);
+  result = filter_string_trim (result);
+  
+  // If any of the inputs is empty: No conflict.
+  cout << 1 << endl; // Todo
+  if (base.empty ()) return false;
+  if (change.empty ()) return false;
+  if (prioritized_change.empty ()) return false;
+  if (result.empty ()) return false;
+  
+  // If any of the changes equals the base: No conflict.
+  cout << 2 << endl; // Todo
+  if (change == base) return false;
+  cout << 3 << endl; // Todo
+  if (prioritized_change == base) return false;
+  
+  // If there's no change: No conflict.
+  cout << 4 << endl; // Todo
+  if (change == prioritized_change) return false;
+  
+  // If the prioritized change differs from the result: No conflict.
+  cout << 5 << endl; // Todo
+  if (prioritized_change != result) return false;
+
+  cout << 6 << endl; // Todo
+  // There was a conflict. Todo
+  
+  return true;
+}

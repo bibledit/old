@@ -7962,7 +7962,7 @@ msgstr ""
 msgid "Send/Receive"
 msgstr ""
 
-msgid "Will send and receive."
+msgid "Starting to send and receive now."
 msgstr ""
 
 msgid "Still sending and receiving from the last time."

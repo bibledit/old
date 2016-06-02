@@ -25,6 +25,7 @@
 
 
 string filter_merge_run (string base, string change, string prioritized_change);
+bool filter_merge_conflict_mail (string base, string change, string prioritized_change, string result);
 
 
 #endif

@@ -3960,7 +3960,7 @@ void test_filter_git ()
 }
 
 
-void test_filter_merge ()
+void test_filter_merge () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -3984,6 +3984,9 @@ void test_filter_merge ()
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\s Ukuvuka kukaJesu";
     evaluate (__LINE__, __func__, standard, output);
+
+    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Line Merge Equal Modifications
   {
@@ -4005,6 +4008,9 @@ void test_filter_merge ()
     "\\s Ukuvuka kukaJesu\n"
     "\\s Ukuvuka kukaJesu";
     evaluate (__LINE__, __func__, standard, output);
+
+    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Line Merge Multiple Modifications
   {
@@ -4042,6 +4048,9 @@ void test_filter_merge ()
     "\\v 3 Lokubonakala kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesematho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65-66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Word Merge Simple Modifications
   {
@@ -4059,6 +4068,9 @@ void test_filter_merge ()
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Word Merge Equal Modifications.
   {
@@ -4076,6 +4088,9 @@ void test_filter_merge ()
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Word Merge Multiple Modifications
   {
@@ -4113,6 +4128,9 @@ void test_filter_merge ()
     "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Hlu. 13.6.\\x*, njalo isembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Grapheme Merge Simple Modifications
   {
@@ -4130,6 +4148,9 @@ void test_filter_merge ()
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela besabe baba njengabafileyo\\x + 27.65,66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Conflict Take Server.
   {
@@ -4147,6 +4168,9 @@ void test_filter_merge ()
     "\\c 29\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba; baba njengabafileyo\\x + 27.65,66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, true, conflict);
   }
   // Test Practical Merge Example One
   {
@@ -4184,6 +4208,9 @@ void test_filter_merge ()
     "\\v 4 The fourth verse.\n"
     "\\v 5";
     evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
   }
 }
 
