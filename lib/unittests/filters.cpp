@@ -3960,7 +3960,7 @@ void test_filter_git ()
 }
 
 
-void test_filter_merge () // Todo
+void test_filter_merge ()
 {
   trace_unit_tests (__func__);
   
@@ -3985,7 +3985,7 @@ void test_filter_merge () // Todo
     "\\s Ukuvuka kukaJesu";
     evaluate (__LINE__, __func__, standard, output);
 
-    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Line Merge Equal Modifications
@@ -4009,7 +4009,7 @@ void test_filter_merge () // Todo
     "\\s Ukuvuka kukaJesu";
     evaluate (__LINE__, __func__, standard, output);
 
-    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Line Merge Multiple Modifications
@@ -4049,7 +4049,7 @@ void test_filter_merge () // Todo
     "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65-66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
     
-    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Word Merge Simple Modifications
@@ -4069,10 +4069,10 @@ void test_filter_merge () // Todo
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
     
-    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
-  // Test Word Merge Equal Modifications.
+  // Test Word Merge Conflicting Modifications.
   {
     string mergeBaseData =
     "\\c 28\n"
@@ -4089,8 +4089,8 @@ void test_filter_merge () // Todo
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
     
-    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
-    evaluate (__LINE__, __func__, false, conflict);
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, true, conflict);
   }
   // Test Word Merge Multiple Modifications
   {
@@ -4129,7 +4129,7 @@ void test_filter_merge () // Todo
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
     
-    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Grapheme Merge Simple Modifications
@@ -4149,7 +4149,7 @@ void test_filter_merge () // Todo
     "\\v 4 Abalindi bathuthumela besabe baba njengabafileyo\\x + 27.65,66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
     
-    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
   // Test Conflict Take Server.
@@ -4169,7 +4169,7 @@ void test_filter_merge () // Todo
     "\\v 4 Abalindi basebethuthumela ngokuyesaba; baba njengabafileyo\\x + 27.65,66.\\x*.";
     evaluate (__LINE__, __func__, standard, output);
     
-    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, true, conflict);
   }
   // Test Practical Merge Example One
@@ -4209,7 +4209,7 @@ void test_filter_merge () // Todo
     "\\v 5";
     evaluate (__LINE__, __func__, standard, output);
     
-    bool conflict = filter_merge_conflict_mail (mergeBaseData, userModificationData, serverModificationData, output);
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
 }

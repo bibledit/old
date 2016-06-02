@@ -21,6 +21,11 @@
 #include <dtl/dtl.hpp>
 using dtl::Diff3;
 #include <filter/string.h>
+#include <pugixml/pugixml.hpp>
+#include <email/send.h>
+
+
+using namespace pugi;
 
 
 // merge - three-way merge.
@@ -140,7 +145,9 @@ string filter_merge_run (string base, string change, string prioritized_change)
 }
 
 
-bool filter_merge_conflict_mail (string base, string change, string prioritized_change, string result)
+bool filter_merge_irregularity_mail (vector <string> users,
+                                     string base, string change, string prioritized_change,
+                                     string result)
 {
   // Clean input.
   base = filter_string_trim (base);
@@ -148,29 +155,91 @@ bool filter_merge_conflict_mail (string base, string change, string prioritized_
   prioritized_change = filter_string_trim (prioritized_change);
   result = filter_string_trim (result);
   
-  // If any of the inputs is empty: No conflict.
-  cout << 1 << endl; // Todo
-  if (base.empty ()) return false;
-  if (change.empty ()) return false;
-  if (prioritized_change.empty ()) return false;
-  if (result.empty ()) return false;
-  
-  // If any of the changes equals the base: No conflict.
-  cout << 2 << endl; // Todo
-  if (change == base) return false;
-  cout << 3 << endl; // Todo
-  if (prioritized_change == base) return false;
-  
-  // If there's no change: No conflict.
-  cout << 4 << endl; // Todo
-  if (change == prioritized_change) return false;
-  
-  // If the prioritized change differs from the result: No conflict.
-  cout << 5 << endl; // Todo
-  if (prioritized_change != result) return false;
+  bool irregularity = false;
+  string subject;
 
-  cout << 6 << endl; // Todo
-  // There was a conflict. Todo
+  if (!irregularity) {
+    if (base.empty ()) {
+      subject = "There was no text to base merge upon";
+      irregularity = true;
+    }
+  }
+
+  if (!irregularity) {
+    if (change.empty ()) {
+      subject = "There was no changed text to merge with";
+      irregularity = true;
+    }
+  }
   
-  return true;
+  if (!irregularity) {
+    if (prioritized_change.empty ()) {
+      subject = "There was no existing text to merge with";
+      irregularity = true;
+    }
+  }
+  
+  if (!irregularity) {
+    if (result.empty ()) {
+      subject = "The merge resulted in empty text";
+      irregularity = true;
+    }
+  }
+  
+  if (!irregularity) {
+    if ((change != base) && (prioritized_change != change) && (prioritized_change == result)) {
+      subject = "Failed to merge: The existing text was kept";
+      irregularity = true;
+    }
+  }
+  
+  if (irregularity) {
+
+    // Create the body of the email.
+    xml_document document;
+    xml_node node;
+    node = document.append_child ("h3");
+    node.text ().set (subject.c_str());
+    
+    // Add the base text.
+    document.append_child ("br");
+    node = document.append_child ("p");
+    node.text ().set ("Base text");
+    node = document.append_child ("pre");
+    node.text ().set (base.c_str ());
+    
+    // Add the changed text.
+    document.append_child ("br");
+    node = document.append_child ("p");
+    node.text ().set ("Changed text");
+    node = document.append_child ("pre");
+    node.text ().set (change.c_str ());
+
+    // Add the existing text.
+    document.append_child ("br");
+    node = document.append_child ("p");
+    node.text ().set ("Existing text");
+    node = document.append_child ("pre");
+    node.text ().set (prioritized_change.c_str ());
+
+    // Add the merge result.
+    document.append_child ("br");
+    node = document.append_child ("p");
+    node.text ().set ("New text");
+    node = document.append_child ("pre");
+    node.text ().set (result.c_str ());
+
+    // Convert the document to a string.
+    stringstream output;
+    document.print (output, "", format_raw);
+    string html = output.str ();
+
+    // Schedule the mail for sending to the user(s).
+    for (auto user : users) {
+      email_schedule (user, subject, html); // Todo
+    }
+    
+  }
+  
+  return irregularity;
 }

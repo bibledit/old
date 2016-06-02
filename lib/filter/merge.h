@@ -25,7 +25,9 @@
 
 
 string filter_merge_run (string base, string change, string prioritized_change);
-bool filter_merge_conflict_mail (string base, string change, string prioritized_change, string result);
+bool filter_merge_irregularity_mail (vector <string> users,
+                                     string base, string change, string prioritized_change,
+                                     string result);
 
 
 #endif
