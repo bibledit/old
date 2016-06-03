@@ -512,7 +512,7 @@ bool filter_git_push (string repository, vector <string> & messages, bool all)
 
 // Resolves any conflicts in "repository".
 // It fills "paths" with the paths to the files with the resolved merge conflicts.
-// It fills "error" with any error that the library generates.
+// It fills "error" with any error that git generates.
 // It returns true on success, that is, no errors occurred.
 bool filter_git_resolve_conflicts (string repository, vector <string> & paths, string & error)
 {

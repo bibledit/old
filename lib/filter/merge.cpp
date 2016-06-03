@@ -160,7 +160,7 @@ bool filter_merge_irregularity_mail (vector <string> users,
 
   if (!irregularity) {
     if (base.empty ()) {
-      subject = "There was no text to base merge upon";
+      subject = "There was no text to base the merge upon";
       irregularity = true;
     }
   }
@@ -201,6 +201,10 @@ bool filter_merge_irregularity_mail (vector <string> users,
     node = document.append_child ("h3");
     node.text ().set (subject.c_str());
     
+    // Add some information for the user.
+    node = document.append_child ("p");
+    node.text ().set ("While saving Bible text, Bibledit detected something unusual. It may be okay, but Bibledit just was not sure about it.");
+    
     // Add the base text.
     document.append_child ("br");
     node = document.append_child ("p");
@@ -225,7 +229,7 @@ bool filter_merge_irregularity_mail (vector <string> users,
     // Add the merge result.
     document.append_child ("br");
     node = document.append_child ("p");
-    node.text ().set ("New text");
+    node.text ().set ("The text that was actually saved to the chapter");
     node = document.append_child ("pre");
     node.text ().set (result.c_str ());
 
@@ -236,7 +240,7 @@ bool filter_merge_irregularity_mail (vector <string> users,
 
     // Schedule the mail for sending to the user(s).
     for (auto user : users) {
-      email_schedule (user, subject, html); // Todo
+      email_schedule (user, subject, html);
     }
     
   }

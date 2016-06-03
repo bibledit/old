@@ -122,6 +122,9 @@ string edit_save (void * webserver_request)
   string newText = user_usfm;
   string oldText = ancestor_usfm;
   
+  // Safekeep the USFM to save for later.
+  string change = user_usfm;
+  
   // Merge if the ancestor is there and differs from what's in the database.
   if (!ancestor_usfm.empty ()) {
     if (server_usfm != ancestor_usfm) {
@@ -130,6 +133,9 @@ string edit_save (void * webserver_request)
       Database_Logs::log (translate ("Merging chapter."));
     }
   }
+  
+  // Check on the merge.
+  filter_merge_irregularity_mail ({username}, ancestor_usfm, change, server_usfm, user_usfm);
   
   // Safely store the chapter.
   string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm);

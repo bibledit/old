@@ -82,14 +82,16 @@ string editusfm_save (void * webserver_request)
               string oldText = ancestor_usfm;
               string newText = chapter_data_to_save;
               // Merge if the ancestor is there and differs from what's in the database.
+              string server_usfm = request->database_bibles ()->getChapter (bible, book, chapter);
               if (!ancestor_usfm.empty ()) {
-                string server_usfm = request->database_bibles ()->getChapter (bible, book, chapter);
                 if (server_usfm != ancestor_usfm) {
                   // Prioritize the USFM to save.
                   chapter_data_to_save = filter_merge_run (ancestor_usfm, server_usfm, chapter_data_to_save);
                   Database_Logs::log (translate ("Merging and saving chapter."));
                 }
               }
+              // Check on the merge.
+              filter_merge_irregularity_mail ({username}, ancestor_usfm, data.data, server_usfm, chapter_data_to_save);
               // Check on write access.
               if (access_bible_book_write (request, "", bible, book)) {
                 // Safely store the chapter.

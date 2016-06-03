@@ -286,11 +286,10 @@ void Paratext_Logic::synchronize ()
   
 
   /*
-
-   When Bibledit writes changes to Paratext's USFM files, Paratext does not reload those changed USFM files. Thus Bibledit may overwrite changes made by others in the loaded chapter.
-   Best would be that Bibledit refuses to sync while Paratext is opened. Bibledit would then give a message in its interface that changes for Paratext are ready, and that they will go through after closing Paratext. It keeps checking on Paratext while it syncs, and stops syncing right away when Paratext opens again. The library could contain the Linux check on Paratext running, and have an interface API for the Windows check. When Paratext is on, it refuses to sync, and gives a message in the log about that. On startup, the Windows exe immediately check whether Paratext runs to be sure the library does not start sync while Paratext is on.
-   We might check what happens with Paratext Live, whether that gets updated immediately or not.
-   Else only update the USFM files when Paratext does not run: This is a fool-proof method of update.
+  When Bibledit writes changes to Paratext's USFM files, Paratext does not reload those changed USFM files. Thus Bibledit may overwrite changes made by others in the loaded chapter.
+  Best would be that Bibledit refuses to sync while Paratext is opened. Bibledit would then give a message in its interface that changes for Paratext are ready, and that they will go through after closing Paratext. It keeps checking on Paratext while it syncs, and stops syncing right away when Paratext opens again. The library could contain the Linux check on Paratext running, and have an interface API for the Windows check. When Paratext is on, it refuses to sync, and gives a message in the log about that. On startup, the Windows exe immediately check whether Paratext runs to be sure the library does not start sync while Paratext is on.
+  We might check what happens with Paratext Live, whether that gets updated immediately or not.
+  Else only update the USFM files when Paratext does not run: This is a fool-proof method of update.
    
   On Linux the code below works well: It does not sync with Paratext while Paratext is running.
   On Windows 7 with Cygwin it works well too.

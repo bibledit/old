@@ -106,6 +106,8 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
     string mergedusfm = filter_merge_run (oldusfm, newusfm, serverusfm);
     // Update the server with the new chapter data.
     Bible_Logic::storeChapter (bible, book, chapter, mergedusfm);
+    // Check on the merge.
+    filter_merge_irregularity_mail ({username}, oldusfm, newusfm, serverusfm, mergedusfm);
   }
   
 
