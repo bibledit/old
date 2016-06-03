@@ -163,6 +163,8 @@ navigation(0), httpd(0)
   window_styles = NULL;
   window_notes = NULL;
   window_references = NULL;
+  window_info = NULL;
+  //window_bibles = NULL;
   import_keyterms_assistant = NULL;
   delete_keyterms_assistant = NULL;
   changes_assistant = NULL;
@@ -946,6 +948,10 @@ navigation(0), httpd(0)
   gtk_widget_show(view_related_verses);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_related_verses);
 
+  view_concordance = gtk_check_menu_item_new_with_mnemonic (_("_Concordance"));
+  gtk_widget_show (view_concordance);
+  gtk_container_add (GTK_CONTAINER (menuitem_view_menu), view_concordance);
+
   view_outline = gtk_check_menu_item_new_with_mnemonic(_("_Outline"));
   gtk_widget_show(view_outline);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_outline);
@@ -1693,6 +1699,9 @@ navigation(0), httpd(0)
   if (view_related_verses)
     g_signal_connect((gpointer) view_related_verses, "activate", G_CALLBACK(on_view_related_verses_activate), gpointer(this));
   g_signal_connect ((gpointer) view_references, "activate", G_CALLBACK (on_view_references_activate), gpointer(this));
+  if (view_concordance) {
+	g_signal_connect ((gpointer) view_concordance, "activate", G_CALLBACK (on_view_concordance_activate), gpointer(this));
+  }
   if (view_outline)
     g_signal_connect((gpointer) view_outline, "activate", G_CALLBACK(on_view_outline_activate), gpointer(this));
   g_signal_connect((gpointer) view_tile_windows, "activate", G_CALLBACK(on_view_tile_windows_activate), gpointer (this));
@@ -2744,7 +2753,6 @@ void MainWindow::on_view_references_activate (GtkMenuItem *menuitem, gpointer us
   ((MainWindow *) user_data)->on_view_references();
 }
 
-
 void MainWindow::on_view_references ()
 {
   DEBUG("Called")
@@ -2758,6 +2766,23 @@ void MainWindow::on_view_references ()
   }
 }
 
+void MainWindow::on_view_concordance_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_concordance();
+}
+
+
+void MainWindow::on_view_concordance ()
+{
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_concordance))) {
+	// This tabbed window may already be created, so it need not be created again
+    if (!window_info) { window_info = new WindowTabbed(layout, accelerator_group, windows_startup_pointer != G_MAXINT); }
+	window_info->Concordance();
+    g_signal_connect((gpointer) window_info->delete_signal_button, "clicked", G_CALLBACK(on_window_info_delete_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_info->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_info->signal_button, "clicked", G_CALLBACK(on_window_info_signal_button_clicked), gpointer(this));
+  }
+}
 
 void MainWindow::show_references_window()
 {
@@ -2781,6 +2806,22 @@ void MainWindow::on_window_references_delete_button()
   delete window_references;
     window_references = NULL;
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_references), FALSE);
+  }
+}
+
+void MainWindow::on_window_info_delete_button_clicked(GtkButton * button, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_window_info_delete_button();
+}
+
+
+void MainWindow::on_window_info_delete_button()
+{
+  if (window_info) {
+	delete window_info;
+    window_info = NULL;
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_concordance), FALSE);
+	                                                    // ^^^ for now...need to change to view_info or so
   }
 }
 
@@ -2812,6 +2853,30 @@ void MainWindow::on_window_references_signal_button()
   editor_window->go_to_new_reference_highlight_set();
 }
 
+void MainWindow::on_window_info_signal_button_clicked(GtkButton * button, gpointer user_data)
+// This routine is called when the info window fires a signal that something has happened.
+{
+  ((MainWindow *) user_data)->on_window_info_signal_button();
+}
+
+
+void MainWindow::on_window_info_signal_button()
+// Handler for when the user clicks something in the window we will do the right thing
+{
+  // Get the editor window. If none, bail out.
+  WindowEditor *editor_window = last_focused_editor_window();
+  if (!editor_window) { return; }
+  
+  // Bail out if there's no info window (how is this possible?)
+  if (!window_info) { return; }
+
+  // Focus the editor.
+  //editor_window->focus_set ();
+
+  // Jump to the reference.
+  //navigation.display(window_info->reference);
+  //editor_window->go_to_new_reference_highlight_set();
+}
 
 void MainWindow::on_next_reference()
 // Go to the next reference in the references window.
@@ -6137,6 +6202,10 @@ bool MainWindow::on_windows_startup()
           // The window was removed since the external applications provide source text and do it much better than Bibledit.
           break;
         }
+	  case widTabbed:
+	    {
+		  // What kind of tabbed window? Bible text, or informational? Which tabs were opened?
+	    }
       }
       window_started = true;
     }
@@ -6243,8 +6312,7 @@ void MainWindow::on_window_focus_button(GtkButton * button)
   static GtkWidget * previously_focused_window_button = NULL;
   // Bail out if there's no change in the focus.
   GtkWidget *widget = GTK_WIDGET(button);
-  if (widget == previously_focused_window_button)
-    return;
+  if (widget == previously_focused_window_button) { return; }
   previously_focused_window_button = widget;
 
   // Save possible new focused resource.
@@ -6286,8 +6354,12 @@ void MainWindow::on_window_focus_button(GtkButton * button)
     window_notes->focus_set (window_notes->focus_in_signal_button == widget);
   if (window_references)
     window_references->focus_set (window_references->focus_in_signal_button == widget);
-  for (unsigned int i = 0; i < editor_windows.size(); i++)
+  if (window_info) {
+	  window_info->focus_set (window_info->focus_in_signal_button == widget);
+  }
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->focus_set (editor_windows[i]->focus_in_signal_button == widget);
+  }
   if (window_check_usfm)
     window_check_usfm->focus_set (window_check_usfm->focus_in_signal_button == widget);
 }

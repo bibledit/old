@@ -49,6 +49,7 @@
 #include "assistantdeletekeyterms.h"
 #include "assistantchanges.h"
 #include "windowcheckusfm.h"
+#include "windowtabbed.h"
 #include "assistantremoterepository.h"
 #include "assistantresource.h"
 #include "assistantbackup.h"
@@ -198,6 +199,7 @@ protected:
   GtkWidget *view_planning;
   GtkWidget *image26812;
   GtkWidget *view_references;
+  GtkWidget *view_concordance;
   GtkWidget *view_related_verses;
   GtkWidget *view_outline;
   GtkWidget *view_tile_windows;
@@ -436,12 +438,23 @@ protected:
   bool references_management_enabled;
   static void on_view_references_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_view_references ();
+  static void on_view_concordance_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_view_concordance ();
   void show_references_window();
   WindowReferences * window_references;
+  WindowTabbed * window_info;
+  // WindowTabbed *window_bibles;
   static void on_window_references_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_references_delete_button();
   static void on_window_references_signal_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_references_signal_button();
+
+  /* Information window: concordance, etc. */
+  static void on_window_info_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_info_delete_button();
+  static void on_window_info_signal_button_clicked(GtkButton * button, gpointer user_data);
+  void on_window_info_signal_button();
+
   void on_next_reference();
   void on_previous_reference();
   static void on_show_quick_references_signal_button_clicked(GtkButton * button, gpointer user_data);
