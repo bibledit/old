@@ -35,7 +35,7 @@ then
 	  ACLOCAL="/mingw64/share/aclocal"
     ;;
     MSYS)
-      error_exit "copying autoconf macros"
+      error_exit "copying autoconf macros (you are using an MSYS shell instead of a MINGW shell?)"
     ;;
     *)
       echo "Unknown value $MSYSTEM in MSYSTEM environment variable, so I don't know what to do."
