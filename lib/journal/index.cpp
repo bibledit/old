@@ -64,7 +64,6 @@ string render_journal_entry (string entry)
   seconds = filter_date_local_seconds (seconds);
   // Split entry into lines.
   vector <string> lines = filter_string_explode (entry, '\n');
-  cout << lines.size () << endl; // Todo
   if (!lines.empty ()) entry = lines [0];
   // Sanitize HTML.
   entry = filter_string_sanitize_html (entry);
