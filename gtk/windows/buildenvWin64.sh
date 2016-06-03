@@ -43,13 +43,12 @@ pacman -S --noconfirm base-devel
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-gtk2
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-gtkmm
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-gtkmm3
-# We do use glibmm as well, but that appears to be installed as a 
-# side-effect of some of these other packages.
-#pacman -S --noconfirm mingw32/mingw-w64-i686-glibmm 2.46.1-1
-#pacman -S --noconfirm mingw64/mingw-w64-x86_64-glibmm 2.46.1-1
+pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-glibmm
+pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-glib2
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-python2-pygtk
 pacman -S --noconfirm msys/gtk-doc
 pacman -S --noconfirm msys/git
+#pacman -S --noconfirm msys/glib2-devel
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-sqlite3 msys/libsqlite-devel msys/sqlite msys/sqlite-doc
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-gtksourceview2 $MINGWDIR/mingw-w64-$PLATFORM-gtksourceviewmm3
 pacman -S --noconfirm $MINGWDIR/mingw-w64-$PLATFORM-webkitgtk2 $MINGWDIR/mingw-w64-$PLATFORM-webkitgtk3
