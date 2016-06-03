@@ -205,11 +205,13 @@ protected:
   GtkWidget *view_tile_windows;
   GtkWidget *view_verse_external;
   GtkWidget *view_external_submenu;
+#ifdef WIN32
+  GtkWidget *view_bibleworks;
+#endif
   GtkWidget *view_biblegateway;
   GtkWidget *view_blueletterbible;
   GtkWidget *view_biblestudytools;
   GtkWidget *view_bibleorg;
-  GtkWidget *view_bibleworks;
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *insert_special_character;
@@ -695,7 +697,11 @@ protected:
   void on_view_experimental_togg();
   static void on_view_tile_windows_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_tile_windows();
+  static void on_view_bibleworks_activate(GtkMenuItem *menuitem, gpointer user_data);
+#ifdef WIN32
+  void on_view_bibleworks();
   static void on_view_biblegateway_activate(GtkMenuItem *menuitem, gpointer user_data);
+#endif
   void on_view_biblegateway();
   static void on_view_blueletterbible_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_blueletterbible();

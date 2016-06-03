@@ -1,0 +1,947 @@
+
+<!-- saved from url=(0047)http://www.bibleworks.com/bw9help/bwh45_OLE.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<meta name="Generator" content="Microsoft Word 11 (filtered)">
+<title>OLE and DDE</title>
+<style>
+<!--
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.05in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:Arial;}
+h1
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.05in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:Arial;
+	font-weight:bold;}
+h2
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.05in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:Arial;
+	font-weight:bold;}
+h3
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.05in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:Arial;
+	font-weight:bold;}
+h4
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.05in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:Arial;
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;}
+p
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.05in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:Arial;}
+p.indented, li.indented, div.indented
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.2in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:Arial;}
+p.banner, li.banner, div.banner
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:Arial;}
+p.drop2, li.drop2, div.drop2
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.2in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:Arial;
+	color:darkgreen;}
+p.drop1, li.drop1, div.drop1
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.05in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:Arial;
+	color:darkblue;}
+p.s1, li.s1, div.s1
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.05in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:Arial;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+
+<script language="JavaScript" src="./BW9OLEandDDE_files/bwjs.js"></script></head>
+
+
+
+<body lang="EN-US" link="blue" vlink="purple" onkeypress="BwOnKeyPress()" onload="BwOnLoad()">
+
+<div class="Section1">
+
+<div>
+
+<table class="MsoNormalTable" border="1" cellspacing="0" cellpadding="0" width="100%" style="width:100.0%;background:#C5E2FF;border:solid #99CCFF 1.0pt">
+ <tbody><tr>
+  <td style="border:none;padding:.7pt .05in .7pt .05in">
+  <h2>68 OLE and DDE</h2>
+  </td>
+  <td style="border:none;padding:0in 0in 0in 0in">
+  <p>&nbsp;</p>
+  </td>
+ </tr>
+</tbody></table>
+
+</div>
+
+<div>
+
+<p class="MsoNormal" align="right" style="text-align:right">&nbsp;</p>
+
+<h2><a href="http://www.bibleworks.com/bw9help/bwh45_OLE.htm#OLEandDDE">
+<span style="font-size:10.0pt;
+font-weight:normal">OLE and Dynamic Data Exchange&nbsp; (DDE)</span></a></h2>
+
+<p class="MsoNormal"><a href="http://www.bibleworks.com/bw9help/bwh45_OLE.htm#DDEEx">A DDE Example</a></p>
+
+<p class="MsoNormal"><a href="http://www.bibleworks.com/bw9help/bwh45_OLE.htm#OLEAutomationEx">An OLE Automation
+Example</a></p>
+
+<p class="MsoNormal"><span style="font-weight: 400">
+<a href="http://www.bibleworks.com/bw9help/bwh45_OLE.htm#Word2003UnicodeMacros">Word 2003 Unicode Conversion Macros</a></span></p>
+<p>&nbsp;</p>
+
+
+<hr noshade="" color="#CDE6FF">
+
+
+
+<h2><a name="OLEandDDE">OLE and Dynamic Data Exchange&nbsp; (DDE)</a></h2>
+
+<h1>&nbsp;</h1>
+
+<p class="MsoNormal">BibleWorks has rudimentary DDE capabilities. They allow you
+to fetch BibleWorks verse data and status information from other applications
+via DDE links. The available commands are shown below. Each command has a
+sample showing how it is used in a Word for Windows macro.</p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal">BibleWorks can also function as a simple OLE Server. This permits
+you to control BibleWorks from any application that supports OLE Automation,
+including Word, Excel, Internet Explorer. Using JavaScript you can control
+BibleWorks from an HTML file. The commands at the present time are basic and
+mirror the DDE functionality in most respects. The examples below show both DDE
+and JavaScript (OLE) versions of the commands.</p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal"><b>Command:</b> GetCurrentVerse</p>
+
+<p class="MsoNormal"><b>Function:</b> Returns a string containing the current
+verse reference, preceded by the current version descriptor. For example:
+&lt;KJV Rom 8:28&gt;</p>
+
+<p class="MsoNormal"><b>Word DDE Example:</b> a$ =
+DDERequest(ChanNum,"GetCurrentVerse")<br>
+<b>Word OLE Example:</b> a$ = bwObj.GetCurrentVerse()</p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal"><b>Command:</b> SetVersions</p>
+
+<p class="MsoNormal"><b>Function: </b>Sets the current search version and display
+versions. The string sent to BibleWorks should contain a list of version
+specifiers, with the search version first. For example you might send the
+following: &lt;KJV KJV GNT WTT VUL LXT&gt;</p>
+
+<p class="MsoNormal"><b>Word DDE Example:</b> DDEExecute ChanNum,
+"SetVersions KJV KJV ASV GNT"<br>
+<b>Word OLE Example:</b>&nbsp; bwObj.SetVersions("KJV KJV ASV GNT")</p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal"><b>Command:</b> GetVersions</p>
+
+<p class="MsoNormal"><b>Function: </b>Returns the current search and display
+versions in BibleWorks in the form of a string of version specifiers with the
+current search version first. See "SetVersions" above.</p>
+
+<p class="MsoNormal"><b>Word DDE Example:</b> a$ =
+DDERequest(ChanNum,"GetVersions");<br>
+<b>Word OLE Example:</b>&nbsp; a$ = bwObj.GetVersions()</p>
+
+<p class="MsoNormal"><b>&nbsp;</b></p>
+
+<p class="MsoNormal"><b>Command:</b> GoToVerse</p>
+
+<p class="MsoNormal"><b>Function: </b>Causes BibleWorks to load the specified
+verse. It also loads the Browse Window into the Windows Clipboard so that it is
+available to the calling application.</p>
+
+<p class="MsoNormal"><b>Word DDE Example:</b> DDEExecute ChanNum, "GoToVerse
+Mat 1:1"<br>
+<b>Word OLE Example:</b>&nbsp; bwObj.GoToVerse("Mat 1:1")</p>
+
+<p class="MsoNormal"><b>&nbsp;</b></p>
+
+<p class="MsoNormal"><b>Command:</b> Lookup</p>
+
+<p class="MsoNormal"><b>Function:</b> Causes the string following the command to
+be looked up in the currently set search version.</p>
+
+<p class="MsoNormal"><b>Word DDE Example:</b> DDEExecute ChanNum, "Lookup moses"<br>
+<b>Word OLE Example:</b>&nbsp; bwObj.Lookup("moses")</p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal"><b>Command:</b> IgnoreErrors</p>
+
+<p class="MsoNormal"><b>Function:</b> Prevents BibleWorks from displaying a
+Window when GoToVerse is executed with an invalid verse reference. It has two
+Options - TRUE and FALSE.</p>
+
+<p class="MsoNormal"><b>Word DDE Example:</b> DDEExecute ChanNum,
+"IgnoreErrors TRUE"<br>
+<b>Word OLE Example:</b>&nbsp; bwObj.IgnoreErrors(1)</p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal"><b>Command:</b> ClipGoToVerse</p>
+
+<p class="MsoNormal"><b>Function:</b> If set to TRUE the GoToVerse option will
+also copy the current Browse Window to the system clipboard.&nbsp; It has two
+Options - TRUE and FALSE. The default is TRUE.</p>
+
+<p class="MsoNormal"><b>Word DDE Example:</b> DDEExecute ChanNum, "
+ClipGoToVerse TRUE"<br>
+<b>Word OLE Example:</b>&nbsp; bwObj.ClipGoToVerse(1)</p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal"><b>Command:</b> AutoQuit</p>
+
+<p class="MsoNormal"><b>Function:</b> If set to TRUE BibleWorks will quit after
+all commands have been processed.</p>
+
+<p class="MsoNormal"><b>Word DDE Example:</b> DDEExecute ChanNum, " AutoQuitTRUE"<br>
+<b>Word OLE Example:</b>&nbsp; bwObj.AutoQuit(1)</p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+
+<hr noshade="" color="#CDE6FF">
+
+
+<p class="MsoNormal"><a name="DDEEx"><b>A DDE Example</b></a></p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal">The following example is a do-nothing Word for Windows Macro
+that illustrates how to use the DDE functions. </p>
+<p class="MsoNormal">&nbsp;</p>
+
+<div class="Section1">
+	<p class="MsoNormal" style="margin-left: 0.5in">Sub MAIN()</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">Dim a As String</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">ChanNum = 
+	DDEInitiate("bw900", "Commands")</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">DDEExecute ChanNum, 
+	"GoToVerse Mat 1:1"</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">MsgBox "You should be at 
+	Matthew 1:1"</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">a = DDERequest(ChanNum, 
+	"GetCurrentVerse")</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">MsgBox "The current verse is 
+	" + a</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">DDEExecute ChanNum, 
+	"SetVersions KJV KJV ASV BGT"</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">MsgBox "The current search 
+	version should be KJV."</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">a = DDERequest(ChanNum, 
+	"GetVersions")</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">MsgBox a</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">DDEExecute ChanNum, "Lookup 
+	moses"</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">MsgBox "I just looked up 
+	Moses"</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">DDETerminate ChanNum</p>
+	<p class="MsoNormal" style="margin-left: 0.5in">End Sub</p></div>
+
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal" style="margin-bottom:12.0pt">The following is another
+example that fetches a verse from BibleWorks and inserts it into a Word for
+Windows document using DDE.</p>
+<div class="Section1">
+	<p class="MsoNormal" style="MARGIN-LEFT: 0.5in">The following is a Word 2003 
+	Macro:</p>
+	<p class="MsoNormal" style="MARGIN-LEFT: 0.5in">&nbsp;</p>
+	<p class="MsoNormal" style="MARGIN-LEFT: 0.5in">Sub Main()</p>
+	<p class="MsoNormal" style="margin-left: 0.5in" align=".5IN">ChanNum = 
+	DDEInitiate("bw900", "Commands")</p>
+	<p class="MsoNormal" style="margin-left: 0.5in" align=".5IN">Verse$ = 
+	InputBox("Enter Reference to Insert:", "BibleWorks")</p>
+	<p class="MsoNormal" style="margin-left: 0.5in" align=".5IN">DDEExecute 
+	ChanNum, Verse$</p>
+	<p class="MsoNormal" style="margin-left: 0.5in" align=".5IN">DDETerminate 
+	ChanNum</p>
+	<p class="MsoNormal" style="margin-left: 0.5in" align=".5IN">Selection.Paste</p>
+	<p class="MsoNormal" style="MARGIN-LEFT: 0.5in">End Sub</p></div>
+
+<p class="MsoNormal" style="margin-left:.5in">&nbsp;</p>
+<p class="MsoNormal" style="margin-left:.5in">In Word 2000 Basic macro would look 
+like this:</p>
+<p class="MsoNormal" style="margin-left:.5in">&nbsp;</p>
+<p class="MsoNormal" style="margin-left:.5in">Sub MAIN</p>
+
+<p class="MsoNormal" style="margin-left:.5in">Begin Dialog UserDialog 218,
+118, "BibleWorks"</p>
+
+<p class="MsoNormal" style="margin-left:.5in">TextBox 10, 26, 189,
+18, .TextBox1</p>
+
+<p class="MsoNormal" style="margin-left:.5in">Text 8, 6, 176, 13,
+"Enter Reference to Insert:"</p>
+
+<p class="MsoNormal" style="margin-left:.5in">OKButton 115, 56, 88,
+21</p>
+
+<p class="MsoNormal" style="margin-left:.5in">CancelButton 114, 81,
+88, 21</p>
+
+<p class="MsoNormal" style="margin-left:.5in">End Dialog</p>
+
+<p class="MsoNormal" style="margin-left:.5in">Dim VerseDlg As UserDialog</p>
+
+<p class="MsoNormal" style="margin-left:.5in">DisableInput</p>
+
+<p class="MsoNormal" style="margin-left:.5in">ChanNum =
+DDEInitiate("bw900", "Commands")</p>
+
+<p class="MsoNormal" style="margin-left:.5in">Dialog VerseDlg</p>
+
+<p class="MsoNormal" style="margin-left:.5in">Verse$ = VerseDlg.TextBox1</p>
+
+<p class="MsoNormal" style="margin-left:.5in">DDEExecute ChanNum, Verse$</p>
+
+<p class="MsoNormal" style="margin-left:.5in">EditPaste</p>
+
+<p class="MsoNormal" style="margin-left:.5in">DDETerminate ChanNum</p>
+
+<p class="MsoNormal" style="margin-left:.5in">End Sub</p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+
+<hr noshade="" color="#CDE6FF">
+
+
+<p class="MsoNormal"><a name="OLEAutomationEx"><b>An OLE Automation Example</b></a></p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal">The following is an OLE Automation example also in Word. </p>
+
+<p class="MsoNormal">&nbsp;</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">Sub Main()</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+Dim bwObj As Object</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+Set bwObj = CreateObject("bibleworks.automation") </p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+bwObj.AutoQuit (0)</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+bwObj.GoToVerse ("Mat 1:5")</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+MsgBox "You should be at Matthew 1:5"</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+a$ = bwObj.GetCurrentVerse()</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+MsgBox "The current verse is " + a$</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+bwObj.SetVersions ("KJV KJV ASV BGT")</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+MsgBox "The current search version should be KJV."</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+a$ = bwObj.GetVersions()</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+MsgBox a$</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+bwObj.Lookup ("moses")</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+MsgBox "I just looked up Moses"</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">&nbsp;&nbsp;
+Set bwObj = Nothing</p>
+
+<p class="MsoNormal" style="margin-left:.5in;page-break-after:avoid">End Sub&nbsp;</p>
+
+</div>
+
+</div>
+
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">&nbsp;</p>
+
+
+<hr noshade="" color="#CDE6FF">
+
+
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">&nbsp;</p>
+<h3 style="page-break-after: avoid; margin-left: 0.2in">
+<a name="Word2003UnicodeMacros">Word 2003 Unicode Macros</a></h3>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">&nbsp;</p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">
+BibleWorks contains support internally for converting BibleWorks non-Unicode 
+fonts to Unicode. If you have Word Documents which use BibleWorks non-Unicode 
+fonts you can access the conversion routines through the following Word Macros. 
+They have been tested only in Word 2003. To implement them just copy the blue 
+text below into the Word Macro editor. If you want to use a different Unicode 
+font you will need to edit the font names in the calling routines.</p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">&nbsp;</p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">
+<font color="#0000FF">Sub ConvertAllBwGrk2Unicode()<br>
+ConvertBwGrk2Unicode "bwgrkl", "Arial Unicode MS", True<br>
+End Sub</font></p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">
+<font color="#0000FF"><br>
+Sub ConvertAllBwHeb2Unicode()<br>
+ConvertBwHeb2Unicode "bwhebb", "Ezra SIL", True<br>
+End Sub</font></p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">
+<font color="#0000FF"><br>
+Sub ConvertAllBwLex2Unicode()<br>
+ConvertBwLex2Unicode "bwlexs", "Arial Unicode MS", True<br>
+End Sub</font></p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">
+<font color="#0000FF"><br>
+Sub ConvertAllBwSym2Unicode()<br>
+ConvertBwSym2Unicode "bwsymbs", "Arial Unicode MS", True<br>
+End Sub</font></p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">
+<font color="#0000FF"><br>
+Sub ConvertNextBwGrk2Unicode()<br>
+ConvertBwGrk2Unicode "bwgrkl", "Arial Unicode MS", False<br>
+End Sub</font></p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">
+<font color="#0000FF"><br>
+Sub ConvertNextBwHeb2Unicode()<br>
+ConvertBwHeb2Unicode "bwhebb", "Ezra SIL", False<br>
+End Sub</font></p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">
+<font color="#0000FF"><br>
+Sub ConvertNextBwLex2Unicode()<br>
+ConvertBwLex2Unicode "bwlexs", "Arial Unicode MS", False<br>
+End Sub</font></p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">
+<font color="#0000FF"><br>
+Sub ConvertNextBwSym2Unicode()<br>
+ConvertBwSym2Unicode "bwsymbs", "Arial Unicode MS", False<br>
+End Sub</font><font color="#FF0000"><br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">The 
+following are support routines for the previous subroutines.</p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">&nbsp;</p>
+
+
+<hr noshade="" color="#CDE6FF">
+
+
+<font size="2">
+<blockquote>
+	<p><font color="#0000FF">Sub ConvertBwHeb2Unicode(fromfont$, tofont$, 
+	doentirefile)</font></p>
+	<p><font color="#0000FF">Dim o As Object</font></p>
+	<p><font color="#0000FF">Dim ucstr As Variant</font></p>
+	<p><font color="#0000FF">ReDim ucstr(1024) As Long</font></p>
+	<p><font color="#0000FF">If (doentirefile = True) Then Selection.HomeKey 
+	Unit:=wdStory</font></p>
+	<p><font color="#0000FF">Set o = CreateObject("bibleworks.automation")</font></p>
+	<p><font color="#0000FF">Application.ScreenUpdating = True</font></p>
+	<p><font color="#0000FF">icheck = 0</font></p>
+	<p><font color="#0000FF">While (icheck = 0)</font></p>
+	<p><font color="#0000FF">Selection.Find.ClearFormatting</font></p>
+	<p><font color="#0000FF">With Selection.Find</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Font.Name = fromfont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Text = ""</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Replacement.Text = ""</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Forward = True</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Wrap = wdFindStop</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Format = True</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchCase = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchWholeWord = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchKashida = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchDiacritics = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchAlefHamza = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchControl = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchByte = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.CorrectHangulEndings = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchAllWordForms = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchSoundsLike = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchWildcards = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchFuzzy = False</font></p>
+	<p><font color="#0000FF">End With</font></p>
+	<p><font color="#0000FF">If (Selection.Find.Execute = False) Then</font></p>
+	<p><font color="#0000FF">icheck = 1</font></p>
+	<p><font color="#0000FF">Else</font></p>
+	<p><font color="#0000FF">istart = 1</font></p>
+	<p><font color="#0000FF">iend = Selection.Characters.Count</font></p>
+	<p><font color="#0000FF">ReDim ucstr(3 * iend + 2) As Long</font></p>
+	<p><font color="#0000FF">ucstr(1) = iend</font></p>
+	<p><font color="#0000FF">For i = istart To iend</font></p>
+	<p><font color="#0000FF">ucstr(i + 1) = Asc(Selection.Characters(i))</font></p>
+	<p><font color="#0000FF">Next i</font></p>
+	<p><font color="#0000FF">o.BwHebb2Unicode ucstr</font></p>
+	<p><font color="#0000FF">rem Selection.Delete</font></p>
+	<p><font color="#0000FF">Application.Keyboard (1037)</font></p>
+	<p><font color="#0000FF">With Selection.Font</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameFarEast = "SimSun"</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameAscii = "Arial"</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameOther = "Arial"</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Name = "Arial"</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Size = 10</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Bold = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Italic = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Underline = 
+	wdUnderlineNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.UnderlineColor = 
+	wdColorAutomatic</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.StrikeThrough = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.DoubleStrikeThrough = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Outline = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Emboss = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Shadow = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Hidden = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.SmallCaps = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.AllCaps = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Color = 
+	wdColorAutomatic</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Engrave = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Superscript = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Subscript = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Spacing = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Scaling = 100</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Position = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Kerning = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Animation = 
+	wdAnimationNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">
+	.DisableCharacterSpaceGrid = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.EmphasisMark = 
+	wdEmphasisMarkNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.SizeBi = 14</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameBi = tofont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.BoldBi = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.ItalicBi = False</font></p>
+	<p><font color="#0000FF">End With</font></p>
+	<p><font color="#0000FF">For i = 1 To ucstr(1)</font></p>
+	<p><font color="#0000FF">s$ = ChrW(ucstr(i + 1))</font></p>
+	<p><font color="#0000FF">Selection.TypeText Text:=s$</font></p>
+	<p><font color="#0000FF">Next i</font></p>
+	<p><font color="#0000FF">Application.Keyboard (1033)</font></p>
+	<p><font color="#0000FF">End If</font></p>
+	<p><font color="#0000FF">If (doentirefile = False) Then icheck = 1</font></p>
+	<p><font color="#0000FF">Wend</font></p>
+	<p><font color="#0000FF">Application.ScreenUpdating = True</font></p>
+	<p><font color="#0000FF">Set bwutil = Nothing</font></p>
+	<p><font color="#0000FF">End Sub</font></p>
+
+
+<hr noshade="" color="#CDE6FF">
+
+
+	<p>&nbsp;</p>
+	<p><font color="#0000FF">Sub ConvertBwGrk2Unicode(fromfont$, tofont$, 
+	doentirefile)</font></p>
+	<p><font color="#0000FF">Dim o As Object</font></p>
+	<p><font color="#0000FF">Dim ucstr As Variant</font></p>
+	<p><font color="#0000FF">ReDim ucstr(1024) As Long</font></p>
+	<p><font color="#0000FF">If (doentirefile = True) Then Selection.HomeKey 
+	Unit:=wdStory</font></p>
+	<p><font color="#0000FF">Set o = CreateObject("bibleworks.automation")</font></p>
+	<p><font color="#0000FF">icheck = 0</font></p>
+	<p><font color="#0000FF">While (icheck = 0)</font></p>
+	<p><font color="#0000FF">Selection.Find.ClearFormatting</font></p>
+	<p><font color="#0000FF">With Selection.Find</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Font.Name = fromfont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Text = ""</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Replacement.Text = ""</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Forward = True</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Wrap = wdFindStop</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Format = True</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchCase = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchWholeWord = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchKashida = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchDiacritics = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchAlefHamza = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchControl = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchByte = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.CorrectHangulEndings = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchAllWordForms = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchSoundsLike = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchWildcards = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchFuzzy = False</font></p>
+	<p><font color="#0000FF">End With</font></p>
+	<p><font color="#0000FF">If (Selection.Find.Execute = False) Then</font></p>
+	<p><font color="#0000FF">icheck = 1</font></p>
+	<p><font color="#0000FF">Else</font></p>
+	<p><font color="#0000FF">istart = 1</font></p>
+	<p><font color="#0000FF">iend = Selection.Characters.Count</font></p>
+	<p><font color="#0000FF">ReDim ucstr(3 * iend + 2) As Long</font></p>
+	<p><font color="#0000FF">ucstr(1) = iend</font></p>
+	<p><font color="#0000FF">For i = istart To iend</font></p>
+	<p><font color="#0000FF">ucstr(i + 1) = Asc(Selection.Characters(i))</font></p>
+	<p><font color="#0000FF">Next i</font></p>
+	<p><font color="#0000FF">o.BwGrkl2Unicode ucstr</font></p>
+	<p><font color="#0000FF">rem Selection.Delete</font></p>
+	<p><font color="#0000FF">Application.Keyboard (1032)</font></p>
+	<p><font color="#0000FF">With Selection.Font</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameFarEast = "SimSun"</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameAscii = "Arial"</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameOther = "Arial"</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Name = "Arial"</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Size = 10</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Bold = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Italic = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Underline = 
+	wdUnderlineNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.UnderlineColor = 
+	wdColorAutomatic</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.StrikeThrough = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.DoubleStrikeThrough = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Outline = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Emboss = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Shadow = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Hidden = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.SmallCaps = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.AllCaps = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Color = 
+	wdColorAutomatic</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Engrave = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Superscript = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Subscript = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Spacing = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Scaling = 100</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Position = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Kerning = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Animation = 
+	wdAnimationNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">
+	.DisableCharacterSpaceGrid = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.EmphasisMark = 
+	wdEmphasisMarkNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.SizeBi = 14</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameBi = tofont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.BoldBi = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.ItalicBi = False</font></p>
+	<p><font color="#0000FF">End With</font></p>
+	<p><font color="#0000FF">For i = 1 To ucstr(1)</font></p>
+	<p><font color="#0000FF">s$ = ChrW(ucstr(i + 1))</font></p>
+	<p><font color="#0000FF">Selection.TypeText Text:=s$</font></p>
+	<p><font color="#0000FF">Next i</font></p>
+	<p><font color="#0000FF">Application.Keyboard (1033)</font></p>
+	<p><font color="#0000FF">End If</font></p>
+	<p><font color="#0000FF">If (doentirefile = False) Then icheck = 1</font></p>
+	<p><font color="#0000FF">Wend</font></p>
+	<p><font color="#0000FF">Set bwutil = Nothing</font></p>
+	<p><font color="#0000FF">End Sub</font></p>
+
+
+<hr noshade="" color="#CDE6FF">
+
+
+	<p>&nbsp;</p>
+	<p><font color="#0000FF">Sub ConvertBwSym2Unicode(fromfont$, tofont$, 
+	doentirefile)</font></p>
+	<p><font color="#0000FF">Dim o As Object</font></p>
+	<p><font color="#0000FF">Dim ucstr As Variant</font></p>
+	<p><font color="#0000FF">ReDim ucstr(1024) As Long</font></p>
+	<p><font color="#0000FF">If (doentirefile = True) Then Selection.HomeKey 
+	Unit:=wdStory</font></p>
+	<p><font color="#0000FF">Set o = CreateObject("bibleworks.automation")</font></p>
+	<p><font color="#0000FF">icheck = 0</font></p>
+	<p><font color="#0000FF">While (icheck = 0)</font></p>
+	<p><font color="#0000FF">Selection.Find.ClearFormatting</font></p>
+	<p><font color="#0000FF">With Selection.Find</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Font.Name = fromfont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Text = ""</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Replacement.Text = ""</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Forward = True</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Wrap = wdFindStop</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Format = True</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchCase = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchWholeWord = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchKashida = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchDiacritics = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchAlefHamza = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchControl = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchByte = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.CorrectHangulEndings = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchAllWordForms = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchSoundsLike = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchWildcards = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchFuzzy = False</font></p>
+	<p><font color="#0000FF">End With</font></p>
+	<p><font color="#0000FF">If (Selection.Find.Execute = False) Then</font></p>
+	<p><font color="#0000FF">icheck = 1</font></p>
+	<p><font color="#0000FF">Else</font></p>
+	<p><font color="#0000FF">istart = 1</font></p>
+	<p><font color="#0000FF">iend = Selection.Characters.Count</font></p>
+	<p><font color="#0000FF">ReDim ucstr(3 * iend + 2) As Long</font></p>
+	<p><font color="#0000FF">ucstr(1) = iend</font></p>
+	<p><font color="#0000FF">For i = istart To iend</font></p>
+	<p><font color="#0000FF">ucstr(i + 1) = Asc(Selection.Characters(i))</font></p>
+	<p><font color="#0000FF">Next i</font></p>
+	<p><font color="#0000FF">o.BwSym2Unicode ucstr</font></p>
+	<p><font color="#0000FF">rem Selection.Delete</font></p>
+	<p><font color="#0000FF">Application.Keyboard (1033)</font></p>
+	<p><font color="#0000FF">With Selection.Font</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameFarEast = "SimSun"</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameAscii = tofont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameOther = tofont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Name = tofont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Size = 10</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Bold = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Italic = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Underline = 
+	wdUnderlineNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.UnderlineColor = 
+	wdColorAutomatic</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.StrikeThrough = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.DoubleStrikeThrough = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Outline = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Emboss = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Shadow = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Hidden = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.SmallCaps = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.AllCaps = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Color = 
+	wdColorAutomatic</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Engrave = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Superscript = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Subscript = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Spacing = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Scaling = 100</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Position = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Kerning = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Animation = 
+	wdAnimationNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">
+	.DisableCharacterSpaceGrid = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.EmphasisMark = 
+	wdEmphasisMarkNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.SizeBi = 12</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameBi = tofont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.BoldBi = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.ItalicBi = False</font></p>
+	<p><font color="#0000FF">End With</font></p>
+	<p><font color="#0000FF">For i = 1 To ucstr(1)</font></p>
+	<p><font color="#0000FF">isetsuper = 0</font></p>
+	<p><font color="#0000FF">If (ucstr(i + 1) &lt; 0) Then</font></p>
+	<p><font color="#0000FF">Selection.Font.Superscript = True</font></p>
+	<p><font color="#0000FF">isetsuper = 1</font></p>
+	<p><font color="#0000FF">s$ = ChrW(-ucstr(i + 1))</font></p>
+	<p><font color="#0000FF">ElseIf (ucstr(i + 1) &gt; 0) Then</font></p>
+	<p><font color="#0000FF">s$ = ChrW(ucstr(i + 1))</font></p>
+	<p><font color="#0000FF">Else</font></p>
+	<p><font color="#0000FF">s$ = " "</font></p>
+	<p><font color="#0000FF">End If</font></p>
+	<p><font color="#0000FF">Selection.TypeText Text:=s$</font></p>
+	<p><font color="#0000FF">If (isetsuper = 1) Then Selection.Font.Superscript 
+	= False</font></p>
+	<p><font color="#0000FF">Next i</font></p>
+	<p><font color="#0000FF">Application.Keyboard (1033)</font></p>
+	<p><font color="#0000FF">End If</font></p>
+	<p><font color="#0000FF">If (doentirefile = False) Then icheck = 1</font></p>
+	<p><font color="#0000FF">Wend</font></p>
+	<p><font color="#0000FF">Application.ScreenUpdating = True</font></p>
+	<p><font color="#0000FF">Set bwutil = Nothing</font></p>
+	<p><font color="#0000FF">End Sub</font></p>
+
+
+<hr noshade="" color="#CDE6FF">
+
+
+	<p>&nbsp;</p>
+	<p><font color="#0000FF">Sub ConvertBwLex2Unicode(fromfont$, tofont$, 
+	doentirefile)</font></p>
+	<p><font color="#0000FF">Dim o As Object</font></p>
+	<p><font color="#0000FF">Dim ucstr As Variant</font></p>
+	<p><font color="#0000FF">ReDim ucstr(1024) As Long</font></p>
+	<p><font color="#0000FF">If (doentirefile = True) Then Selection.HomeKey 
+	Unit:=wdStory</font></p>
+	<p><font color="#0000FF">Set o = CreateObject("bibleworks.automation")</font></p>
+	<p><font color="#0000FF">icheck = 0</font></p>
+	<p><font color="#0000FF">While (icheck = 0)</font></p>
+	<p><font color="#0000FF">Selection.Find.ClearFormatting</font></p>
+	<p><font color="#0000FF">With Selection.Find</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Font.Name = fromfont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Text = ""</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Replacement.Text = ""</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Forward = True</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Wrap = wdFindStop</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Format = True</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchCase = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchWholeWord = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchKashida = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchDiacritics = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchAlefHamza = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchControl = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchByte = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.CorrectHangulEndings = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchAllWordForms = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchSoundsLike = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchWildcards = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.MatchFuzzy = False</font></p>
+	<p><font color="#0000FF">End With</font></p>
+	<p><font color="#0000FF">If (Selection.Find.Execute = False) Then</font></p>
+	<p><font color="#0000FF">icheck = 1</font></p>
+	<p><font color="#0000FF">Else</font></p>
+	<p><font color="#0000FF">istart = 1</font></p>
+	<p><font color="#0000FF">iend = Selection.Characters.Count</font></p>
+	<p><font color="#0000FF">ReDim ucstr(3 * iend + 2) As Long</font></p>
+	<p><font color="#0000FF">ucstr(1) = iend</font></p>
+	<p><font color="#0000FF">For i = istart To iend</font></p>
+	<p><font color="#0000FF">ucstr(i + 1) = Asc(Selection.Characters(i))</font></p>
+	<p><font color="#0000FF">Next i</font></p>
+	<p><font color="#0000FF">o.BwLex2Unicode ucstr</font></p>
+	<p><font color="#0000FF">rem Selection.Delete</font></p>
+	<p><font color="#0000FF">Application.Keyboard (1033)</font></p>
+	<p><font color="#0000FF">With Selection.Font</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameFarEast = "SimSun"</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameAscii = tofont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameOther = tofont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Name = tofont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Size = 10</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Bold = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Italic = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Underline = 
+	wdUnderlineNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.UnderlineColor = 
+	wdColorAutomatic</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.StrikeThrough = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.DoubleStrikeThrough = 
+	False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Outline = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Emboss = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Shadow = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Hidden = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.SmallCaps = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.AllCaps = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Color = 
+	wdColorAutomatic</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Engrave = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Superscript = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Subscript = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Spacing = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Scaling = 100</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Position = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Kerning = 0</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.Animation = 
+	wdAnimationNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">
+	.DisableCharacterSpaceGrid = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.EmphasisMark = 
+	wdEmphasisMarkNone</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.SizeBi = 12</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.NameBi = tofont$</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.BoldBi = False</font></p>
+	<p style="margin-left: 0.5in"><font color="#0000FF">.ItalicBi = False</font></p>
+	<p><font color="#0000FF">End With</font></p>
+	<p><font color="#0000FF">For i = 1 To ucstr(1)</font></p>
+	<p><font color="#0000FF">isetsuper = 0</font></p>
+	<p><font color="#0000FF">If (ucstr(i + 1) &lt; 0) Then</font></p>
+	<p><font color="#0000FF">Selection.Font.Superscript = True</font></p>
+	<p><font color="#0000FF">isetsuper = 1</font></p>
+	<p><font color="#0000FF">s$ = ChrW(-ucstr(i + 1))</font></p>
+	<p><font color="#0000FF">ElseIf (ucstr(i + 1) &gt; 0) Then</font></p>
+	<p><font color="#0000FF">s$ = ChrW(ucstr(i + 1))</font></p>
+	<p><font color="#0000FF">Else</font></p>
+	<p><font color="#0000FF">s$ = " "</font></p>
+	<p><font color="#0000FF">End If</font></p>
+	<p><font color="#0000FF">Selection.TypeText Text:=s$</font></p>
+	<p><font color="#0000FF">If (isetsuper = 1) Then Selection.Font.Superscript 
+	= False</font></p>
+	<p><font color="#0000FF">Next i</font></p>
+	<p><font color="#0000FF">Application.Keyboard (1033)</font></p>
+	<p><font color="#0000FF">End If</font></p>
+	<p><font color="#0000FF">If (doentirefile = False) Then icheck = 1</font></p>
+	<p><font color="#0000FF">Wend</font></p>
+	<p><font color="#0000FF">Application.ScreenUpdating = True</font></p>
+	<p><font color="#0000FF">Set bwutil = Nothing</font></p>
+	<p><font color="#0000FF">End Sub</font></p>
+</blockquote>
+</font>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">&nbsp;</p>
+<p class="MsoNormal" style="page-break-after: avoid; margin-left: .5in">&nbsp;</p>
+
+
+
+
+</body></html>
