@@ -56,8 +56,8 @@ bool journal_index_acl (void * webserver_request)
 string render_journal_entry (string filename, int userlevel)
 {
   // Sample filename: "146495380700927147".
-  // It is the number of seconds past the Unix epoch, plus the microseconds within the current second.
-  // The first 10 characters represent the number of seconds.
+  // The first 10 characters are the number of seconds past the Unix epoch,
+  // followed by the number of microseconds within the current second.
 
   // Get the contents of the file.
   string path = filter_url_create_path (Database_Logs::folder (), filename);
@@ -66,17 +66,12 @@ string render_journal_entry (string filename, int userlevel)
   // Deal with the user-level of the entry.
   int entryLevel = convert_to_int (entry);
   // Cloud: Only render journal entries of a sufficiently high level.
-  // Client: Render any journal entry.
+  // Client: Render journal entries of any level.
 #ifndef CLIENT_PREPARED
   if (entryLevel > userlevel) return "";
 #endif
   // Remove the user's level.
   entry.erase (0, 2);
-  
-  // Extract the seconds since the Unix epoch from the filename.
-  time_t seconds = convert_to_int (filename.substr (0, 10));
-  // Localize the seconds.
-  seconds = filter_date_local_seconds (seconds);
   
   // Split entry into lines.
   vector <string> lines = filter_string_explode (entry, '\n');
@@ -85,9 +80,16 @@ string render_journal_entry (string filename, int userlevel)
   // Sanitize HTML.
   entry = filter_string_sanitize_html (entry);
   
-  // Convert \n to <br>
-  // Todo entry = filter_string_str_replace ("\n", "<br>", entry);
-  
+  bool limit = entry.size () > 150;
+  if (limit) {
+    entry.erase (150);
+    entry.append ("...");
+  }
+    
+  // Extract the seconds since the Unix epoch from the filename.
+  time_t seconds = convert_to_int (filename.substr (0, 10));
+  // Localize the seconds.
+  seconds = filter_date_local_seconds (seconds);
   // Convert the seconds into a human readable time.
   string timestamp = filter_string_fill (convert_to_string (filter_date_numerical_hour (seconds)), 2, '0');
   timestamp.append (":");
@@ -95,8 +97,14 @@ string render_journal_entry (string filename, int userlevel)
   timestamp.append (":");
   timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
   
+  string a_open, a_close;
+  if (limit || lines.size () > 1) {
+    a_open = "<a href=\"" + filename + "\">";
+    a_close = "</a>";
+  }
+  
   // Done.
-  return "<p>" + timestamp + " | " + entry + "</p>\n";
+  return "<p>" + timestamp + " | " + a_open + entry + a_close + "</p>\n";
 }
 
 
@@ -106,14 +114,7 @@ string journal_index_ajax (Webserver_Request * request, string filename)
   int userLevel = request->session_logic()->currentLevel ();
   string result = Database_Logs::getNext (filename);
   if (!result.empty()) {
-    int entryLevel = convert_to_int (result);
-    // Cloud: Pay attention to only rendering journal entries of sufficient user level.
-    // Client: Render any journal entry.
-    if ((entryLevel <= userLevel) || client_logic_client_enabled ()) {
-      result = render_journal_entry (result, userLevel);
-    } else {
-      result.clear ();
-    }
+    result = render_journal_entry (result, userLevel);
     result.insert (0, filename + "\n");
   }
   return result;
@@ -130,7 +131,25 @@ string journal_index (void * webserver_request)
   if (!filename.empty ()) {
     return journal_index_ajax (request, filename);
   }
-
+  
+  
+  string expansion = request->query ["expansion"];
+  if (!expansion.empty ()) {
+    // Get file path.
+    expansion = filter_url_basename (expansion);
+    string path = filter_url_create_path (Database_Logs::folder (), expansion);
+    // Get contents of the record.
+    expansion = filter_url_file_get_contents (path);
+    // Remove the user's level.
+    expansion.erase (0, 2);
+    // Convert \n to <br>
+    expansion = filter_string_str_replace ("\n", "<br>", expansion);
+    // Clean it up.
+    expansion = filter_string_sanitize_html (expansion);
+    // Done.
+    return expansion;
+  }
+  
   
   Assets_Header header = Assets_Header (translate ("Journal"), webserver_request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
