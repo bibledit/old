@@ -25,6 +25,9 @@
 #include <glib/gi18n.h>
 #include "directories.h"
 #include "debug.h"
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 void gtkw_dialog_info(GtkWidget * parent, const ustring & info)
 {
@@ -209,8 +212,9 @@ void gtkw_show_uri (ustring uri, bool internet)
 // The problem is that gtk_show_uri is not working right on Windows
 // We do something similar to what is done at https://build.opensuse.org/package/view_file?file=0012-Work-around-disfunctional-gtk_show_uri-on-Windows.patch&package=mingw32-evince&project=home%3Ahiberis%3Awix&rev=93e9eb22b7da0de079015d2b2014e02c
   DEBUG("Showing URI Windows " + uri)
-  GwSpawn spawn(uri);
-  spawn.run();
+  ShellExecute(0, 0, uri.c_str(), 0, 0 , SW_SHOW );
+//  GwSpawn spawn(uri);
+//  spawn.run();
   // Got rid of outpost for this one
   //windowsoutpost_open_url(uri);
   return;
