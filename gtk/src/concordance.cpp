@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
+#include <map>
 #include "directories.h"
 #include "settings.h"
 #include "books.h"
@@ -90,8 +91,8 @@ void verse::addToWordCount(void)
 	vector<ustring> words;
 	// Split string into its components, deleting USFM codes along the way
 	string::size_type s = 0, e = 0; // start and end markers
-    ustring delims(" \\,:;!?.\u0022()");
-	ustring nonUSFMdelims(" ,:;!?.\u0022()"); // same list as above except without '\'
+    ustring delims(" \\,:;!?.\u0022()¶");
+	ustring nonUSFMdelims(" ,:;!?.\u0022()¶"); // same list as above except without '\'
 	// u0022 is unicode double-quote mark
 	// TO DO : configuration file that has delimiters in it, and "’s" kinds of things to strip out
 	// for the target language.
@@ -106,6 +107,13 @@ void verse::addToWordCount(void)
 			if (s >= e) { continue; }
 			ustring newWord = text.substr(s, e-s); // start pos, length
 			//cout << "Found new word at s=" << s << " e=" << e << ":" << newWord << ":" << endl;
+			
+			/* --------------------------------------------------------------------------
+			 * These are KJV-only modifications possible because I understand
+			 * English. Other things will have to be done for other languages,
+			 * or nothing at all.
+			   --------------------------------------------------------------------------*/			
+			
 			ustring::size_type pos = newWord.find("’s");
 			bool found_apostrophe_s = (pos != ustring::npos);
 			if (found_apostrophe_s) {
@@ -116,11 +124,25 @@ void verse::addToWordCount(void)
 			pos = newWord.find("…");
 			bool found_ellipsis = (pos != ustring::npos);
 			if (found_ellipsis) {
-				cout << "Found new word with …=" << newWord;
+				//cout << "Found new word with …=" << newWord;
 				newWord = newWord.substr(0, pos);
-				cout << " replacing with " << newWord << endl;
+				//cout << " replacing with " << newWord << endl;
 			}
+			
+			// Handle paragraph marker
+			pos = newWord.find("¶");
+			bool found_paragraph_marker = (pos != ustring::npos);
+			if (found_paragraph_marker) {
+				//cout << "Found paragraph marker" << endl;
+				newWord = newWord.substr(0, pos);
+			}
+			
+			/* --------------------------------------------------------------------------
+			 * End of KJV-specific modifications
+			   --------------------------------------------------------------------------*/
+			
 			if (newWord[0] != '\\') { words.push_back(newWord); } // only add non-usfm words
+			
 			// Advance past the splitting character unless it is the usfm delimiter '\'
 			if (text[e] != '\\') { e++; }
 			// Now if s has landed on a non-USFM delimiter, move fwd one
@@ -156,7 +178,7 @@ void chapter::load(int book, int chapter)
 	// so that I can see how much faster it will go.
 	// TODO. This copies a huge vector. Not efficient. Need to pass references.
 	vector<ustring> data = project_retrieve_chapter (bk->bbl->projname, book, chapter);
-	cout << "Processing " << bk->bookname << " " << chapnum << endl;
+	//cout << "Processing " << bk->bookname << " " << chapnum << endl;
 	for (auto it = data.begin(); it != data.end(); ++it) {
 		// TODO: probably more inefficiencies here
 		ustring marker = usfm_extract_marker(*it);
@@ -234,6 +256,13 @@ int main(int argc, char *argv[])
 	// URLTransport object.
 	urltransport = new URLTransport(0);
 	
+	// The kinds of things we should be able to do include
+	// 1. Build a sorted list of words with frequency counts (DONE 5/27/2016)
+	// 2. Attach each verse ref to the words for quickly navigating to where they occur
+	// 3. Use exclude list to exclude common words in building an actual concordance
+	// 4. Use important verse list to only include those verses that are deemed important
+	// 5. Build actual concordance with verse portions
+	
 	// Now do the work of loading the chapters and verses, splitting into words, 
 	// counting in our mapping structure, etc.
 	bible kjv("KJVBibleFromUSFM");
@@ -250,11 +279,24 @@ int main(int argc, char *argv[])
 
 	unsigned int totalWords = 0;
 	unsigned int uniqueWords = 0;
+	std::map<std::string, int> sortedWordCounts;
+	// Not sure why addition of ", std::hash<std::string>" is not needed
+
 	for (const auto &pair : wordCounts) {
-		cout << pair.first << " " << pair.second << endl;
+		//cout << pair.first << " " << pair.second << endl;
 		uniqueWords++;
 		totalWords+=pair.second;
+		// Add the word/count to a map so I can print it sorted. The reason I 
+		// did not use a regular map to begin with is that it has O(n) access
+		// time, and I wanted O(1) for speed in the gathering stage of the 
+		// algorithm.
+		sortedWordCounts[pair.first] = pair.second;
 	}
+	
+	for (const auto &pair : sortedWordCounts) {
+		cout << pair.first << " " << pair.second << endl;
+	}
+	
 	cout << "UniqueWords " << uniqueWords << endl;
 	cout << "TotalWords " << totalWords << endl;
 	return 0;
