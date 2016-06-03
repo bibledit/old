@@ -220,6 +220,7 @@ bibledit_gtk_SOURCES = \
   windownotes.cpp \
   dialogprojectnote.cpp \
   windowreferences.cpp \
+  windowtabbed.cpp \
   windoweditor.cpp \
   compress.cpp \
   localizednumerals.cpp \
@@ -444,6 +445,7 @@ bibledit_rdwrt_SOURCES = \
   usfm2text.cpp \
   dialogtext2pdf.cpp \
   windowreferences.cpp \
+  windowtabbed.cpp \
   compress.cpp \
   localizednumerals.cpp \
   widgetdate.cpp \
@@ -651,6 +653,7 @@ concordance_SOURCES = \
   usfm2text.cpp \
   dialogtext2pdf.cpp \
   windowreferences.cpp \
+  windowtabbed.cpp \
   compress.cpp \
   localizednumerals.cpp \
   widgetdate.cpp \
