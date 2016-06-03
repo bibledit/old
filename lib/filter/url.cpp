@@ -420,9 +420,9 @@ string filter_url_urlencode (string url)
 
 
 // Returns the name of a temporary file.
-string filter_url_tempfile (const char * directory)
+string filter_url_tempfile (const char * directory) // Todo
 {
-  string filename = convert_to_string (filter_date_seconds_since_epoch ()) + convert_to_string (filter_date_numerical_microseconds ());
+  string filename = convert_to_string (filter_date_seconds_since_epoch ()) + convert_to_string (filter_date_numerical_microseconds ()) + convert_to_string (filter_string_rand (10000000, 99999999));
   if (directory) {
     filename = filter_url_create_path (directory, filename);
   } else {
