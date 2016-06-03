@@ -33,7 +33,6 @@ public:
   static vector <string> get (string & lastfilename);
   static string getNext (string &filename);
   static void clear ();
-private:
   static string folder ();
 };
 

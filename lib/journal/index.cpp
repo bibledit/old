@@ -53,28 +53,48 @@ bool journal_index_acl (void * webserver_request)
 }
 
 
-string render_journal_entry (string entry)
+string render_journal_entry (string filename, int userlevel)
 {
+  // Sample filename: "146495380700927147".
+  // It is the number of seconds past the Unix epoch, plus the microseconds within the current second.
+  // The first 10 characters represent the number of seconds.
+
+  // Get the contents of the file.
+  string path = filter_url_create_path (Database_Logs::folder (), filename);
+  string entry = filter_url_file_get_contents (path);
+  
+  // Deal with the user-level of the entry.
+  int entryLevel = convert_to_int (entry);
+  // Cloud: Only render journal entries of a sufficiently high level.
+  // Client: Render any journal entry.
+#ifndef CLIENT_PREPARED
+  if (entryLevel > userlevel) return "";
+#endif
   // Remove the user's level.
   entry.erase (0, 2);
-  // Extract and remove the seconds since the Unix epoch.
-  time_t seconds = convert_to_int (entry);
-  entry.erase (0, 11);
+  
+  // Extract the seconds since the Unix epoch from the filename.
+  time_t seconds = convert_to_int (filename.substr (0, 10));
   // Localize the seconds.
   seconds = filter_date_local_seconds (seconds);
+  
   // Split entry into lines.
   vector <string> lines = filter_string_explode (entry, '\n');
   if (!lines.empty ()) entry = lines [0];
+  
   // Sanitize HTML.
   entry = filter_string_sanitize_html (entry);
+  
   // Convert \n to <br>
   // Todo entry = filter_string_str_replace ("\n", "<br>", entry);
+  
   // Convert the seconds into a human readable time.
   string timestamp = filter_string_fill (convert_to_string (filter_date_numerical_hour (seconds)), 2, '0');
   timestamp.append (":");
   timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_minute (seconds)), 2, '0'));
   timestamp.append (":");
   timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
+  
   // Done.
   return "<p>" + timestamp + " | " + entry + "</p>\n";
 }
@@ -84,15 +104,13 @@ string render_journal_entry (string entry)
 string journal_index_ajax (Webserver_Request * request, string filename)
 {
   int userLevel = request->session_logic()->currentLevel ();
-  // Sample filetime: "141708283400041520".
-  // It is the number of seconds past the Unix epoch, plus the microseconds within the current second.
   string result = Database_Logs::getNext (filename);
   if (!result.empty()) {
     int entryLevel = convert_to_int (result);
     // Cloud: Pay attention to only rendering journal entries of sufficient user level.
     // Client: Render any journal entry.
     if ((entryLevel <= userLevel) || client_logic_client_enabled ()) {
-      result = render_journal_entry (result);
+      result = render_journal_entry (result, userLevel);
     } else {
       result.clear ();
     }
@@ -107,11 +125,13 @@ string journal_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   int userLevel = request->session_logic()->currentLevel ();
 
+  
   string filename = request->query ["filename"];
   if (!filename.empty ()) {
     return journal_index_ajax (request, filename);
   }
 
+  
   Assets_Header header = Assets_Header (translate ("Journal"), webserver_request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   string page = header.run ();
@@ -122,7 +142,7 @@ string journal_index (void * webserver_request)
 
   if (request->query.count ("clear")) {
     Database_Logs::clear ();
-    // If the logbook has been cleared on a mobile device, and the screen shuts off,
+    // If the logbook has been cleared on a mobile device, and the screen goes off,
     // and then the user activates the screen on the mobile device,
     // the logbook will then again be cleared, because that was the last opened URL.
     // Redirecting the browser to a clean URL fixes this behaviour.
@@ -132,18 +152,15 @@ string journal_index (void * webserver_request)
 
   
   string lastfilename;
-  vector <string> entries = Database_Logs::get (lastfilename);
+  vector <string> records = Database_Logs::get (lastfilename);
 
 
   string lines;
-  for (auto entry : entries) {
-    int entryLevel = convert_to_int (entry);
-    // Cloud: Pay attention to only rendering journal entries of sufficient user level.
-    // Client: Render any journal entry.
-#ifndef CLIENT_PREPARED
-    if (entryLevel > userLevel) continue;
-#endif
-    lines.append (render_journal_entry (entry));
+  for (string record : records) {
+    string rendering = render_journal_entry (record, userLevel);
+    if (!rendering.empty ()) {
+      lines.append (rendering);
+    }
   }
   view.set_variable ("lines", lines);
 

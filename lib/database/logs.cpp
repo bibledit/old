@@ -27,22 +27,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 
 
-string Database_Logs::folder ()
-{
-  return filter_url_create_root_path ("logbook");
-}
+// Bibledit no longer uses a database for storing the journal.
+// Reasons that a database is no longer used:
+// 1. Simpler system.
+// 2. Android has VACUUM errors due to a locked database.
 
 
 void Database_Logs::log (string description, int level)
 {
-  // No new lines.
-  description = filter_string_str_replace ("\n", " ", description);
+  // Trim spaces.
+  description = filter_string_trim (description);
   // Discard empty line.
-  if (filter_string_trim (description).empty()) return;
-  // Truncate long entry.
+  if (description.empty()) return;
+  // Truncate very long entry.
   int length = description.length ();
-  if (length > 1000) {
-    description.erase (1000);
+  if (length > 50000) {
+    description.erase (50000);
     description.append ("... This entry was too large and has been truncated: " + convert_to_string (length) + " bytes");
   }
   // Save this logbook entry to a filename with seconds and microseconds.
@@ -56,7 +56,7 @@ void Database_Logs::log (string description, int level)
   if (file_exists (file)) {
     description.insert (0, " | ");
   } else {
-    description.insert (0, convert_to_string (level) + " " + seconds + " ");
+    description.insert (0, convert_to_string (level) + " ");
   }
   filter_url_file_put_contents_append (file, description);
   // Delay to cover for lower usec granularity on Windows.
@@ -68,18 +68,7 @@ void Database_Logs::log (string description, int level)
 
 void Database_Logs::rotate ()
 {
-  // Remove the database that was used in older versions of Bibledit.
-  // Since February 2016 Bibledit no longer uses a database for storing the journal.
-  // Reasons that a database is no longer used:
-  // 1. Simpler system.
-  // 2. Android has VACUUM errors due to a locked database.
-  string old_database_file = database_sqlite_file ("logs2");
-  if (file_exists (old_database_file)) {
-    filter_url_unlink (old_database_file);
-  }
-
-  
-  // Use a mechanism that handles huge amounts of entries.
+  // Under PHP it used a mechanism that handled huge amounts of entries.
   // The PHP function scandir choked on this or took a very long time.
   // The PHP functions opendir / readdir / closedir handled it better.
   // But now, in C++, with the new journal mechanism, this is no longer relevant.
@@ -95,8 +84,8 @@ void Database_Logs::rotate ()
 #endif
 
   
-  // Limit the available the journal entrie count in the filesystem.
-  // This speeds up subsequent reading of the Journal by the users.
+  // Limit the journal entry count in the filesystem.
+  // This speeds up subsequent reading of the journal by the users.
   // In previous versions of Bibledit, there were certain conditions
   // that led to an infinite loop, as had been noticed at times,
   // and this quickly exhausted the available inodes on the filesystem.
@@ -145,21 +134,15 @@ vector <string> Database_Logs::get (string & lastfilename)
 {
   lastfilename = "0";
 
-  // Read entries from the filesystem.
-  vector <string> entries;
-  string directory = folder ();
-  vector <string> files = filter_url_scandir (directory);
+  // Read the journal records from the filesystem.
+  vector <string> files = filter_url_scandir (folder ());
   for (unsigned int i = 0; i < files.size(); i++) {
-    string file = files [i];
-    string path = filter_url_create_path (directory, file);
-    string contents = filter_url_file_get_contents (path);
-    entries.push_back (contents);
     // Last second gets updated based on the filename.
-    lastfilename = file;
+    lastfilename = files [i];
   }
 
   // Done.  
-  return entries;
+  return files;
 }
 
 
@@ -167,15 +150,12 @@ vector <string> Database_Logs::get (string & lastfilename)
 // Updates "filename" to the item it got.
 string Database_Logs::getNext (string &filename)
 {
-  string directory = folder ();
-  vector <string> files = filter_url_scandir (directory);
+  vector <string> files = filter_url_scandir (folder ());
   for (unsigned int i = 0; i < files.size (); i++) {
     string file = files [i];
     if (file > filename) {
       filename = file;
-      string path = filter_url_create_path (directory, file);
-      string contents = filter_url_file_get_contents (path);
-      return contents;
+      return file;
     }
   }
   return "";
@@ -191,4 +171,11 @@ void Database_Logs::clear ()
     filter_url_unlink (filter_url_create_path (directory, file));
   }
   log ("The journal was cleared");
+}
+
+
+// The folder where to store the records.
+string Database_Logs::folder ()
+{
+  return filter_url_create_root_path ("logbook");
 }
