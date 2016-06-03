@@ -28,7 +28,7 @@
 
 enum WindowID { widShowRelatedVerses, widMerge, widResource, 
                 widOutline, widCheckKeyterms, widStyles, widNotes, widReferences,
-                widEditor, widMenu, widShowVerses, widCheckUSFM, widSourceLanguages };
+                widEditor, widMenu, widShowVerses, widCheckUSFM, widSourceLanguages, widTabbed };
 
 
 class WindowData
