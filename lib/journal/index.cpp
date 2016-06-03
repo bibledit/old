@@ -41,9 +41,9 @@ const char * journal_index_url ()
 bool journal_index_acl (void * webserver_request)
 {
   // In Client mode, anyone can view the journal.
-  if (client_logic_client_enabled ()) {
-    return true;
-  }
+#ifdef CLIENT_PREPARED
+  return true;
+#endif
   // The role of Consultant or higher can view the journal.
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) {
     return true;
@@ -62,10 +62,14 @@ string render_journal_entry (string entry)
   entry.erase (0, 11);
   // Localize the seconds.
   seconds = filter_date_local_seconds (seconds);
+  // Split entry into lines.
+  vector <string> lines = filter_string_explode (entry, '\n');
+  cout << lines.size () << endl; // Todo
+  if (!lines.empty ()) entry = lines [0];
   // Sanitize HTML.
   entry = filter_string_sanitize_html (entry);
   // Convert \n to <br>
-  entry = filter_string_str_replace ("\n", "<br>", entry);
+  // Todo entry = filter_string_str_replace ("\n", "<br>", entry);
   // Convert the seconds into a human readable time.
   string timestamp = filter_string_fill (convert_to_string (filter_date_numerical_hour (seconds)), 2, '0');
   timestamp.append (":");
@@ -73,7 +77,7 @@ string render_journal_entry (string entry)
   timestamp.append (":");
   timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
   // Done.
-  return timestamp + " | " + entry;
+  return "<p>" + timestamp + " | " + entry + "</p>\n";
 }
 
 
@@ -83,8 +87,7 @@ string journal_index_ajax (Webserver_Request * request, string filename)
   int userLevel = request->session_logic()->currentLevel ();
   // Sample filetime: "141708283400041520".
   // It is the number of seconds past the Unix epoch, plus the microseconds within the current second.
-  Database_Logs database_logs = Database_Logs ();
-  string result = database_logs.getNext (filename);
+  string result = Database_Logs::getNext (filename);
   if (!result.empty()) {
     int entryLevel = convert_to_int (result);
     // Cloud: Pay attention to only rendering journal entries of sufficient user level.
@@ -110,9 +113,6 @@ string journal_index (void * webserver_request)
     return journal_index_ajax (request, filename);
   }
 
-  Database_Logs database_logs = Database_Logs ();
-
-  
   Assets_Header header = Assets_Header (translate ("Journal"), webserver_request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   string page = header.run ();
@@ -122,7 +122,7 @@ string journal_index (void * webserver_request)
 
 
   if (request->query.count ("clear")) {
-    database_logs.clear ();
+    Database_Logs::clear ();
     // If the logbook has been cleared on a mobile device, and the screen shuts off,
     // and then the user activates the screen on the mobile device,
     // the logbook will then again be cleared, because that was the last opened URL.
@@ -133,7 +133,7 @@ string journal_index (void * webserver_request)
 
   
   string lastfilename;
-  vector <string> entries = database_logs.get (lastfilename);
+  vector <string> entries = Database_Logs::get (lastfilename);
 
 
   string lines;
@@ -141,13 +141,10 @@ string journal_index (void * webserver_request)
     int entryLevel = convert_to_int (entry);
     // Cloud: Pay attention to only rendering journal entries of sufficient user level.
     // Client: Render any journal entry.
-    if (!client_logic_client_enabled ()) {
-      if (entryLevel > userLevel) continue;
-    }
-    entry = render_journal_entry (entry);
-    lines.append ("<p>");
-    lines.append (entry);
-    lines.append ("</p>\n");
+#ifndef CLIENT_PREPARED
+    if (entryLevel > userLevel) continue;
+#endif
+    lines.append (render_journal_entry (entry));
   }
   view.set_variable ("lines", lines);
 

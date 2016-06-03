@@ -233,12 +233,11 @@ void test_database_logs ()
     // Test the getNext function of the Journal.
     refresh_sandbox (true);
     Database_Logs::log ("description");
-    Database_Logs database_logs = Database_Logs ();
     int second = filter_date_seconds_since_epoch ();
     string filename = convert_to_string (second) + "00000000";
     // First time: getNext gets the logged entry.
     string s;
-    s = database_logs.getNext (filename);
+    s = Database_Logs::getNext (filename);
     if (s == "") evaluate (__LINE__, __func__, "...description", s);
     // Since variable "filename" is updated and set to the last filename,
     // next time function getNext gets nothing.
