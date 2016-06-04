@@ -229,7 +229,7 @@ void bible_logic_import_resource (string bible, string resource)
 
 
 // This logs the change in the Bible text.
-void bible_logic_log_change (const string& bible, int book, int chapter, const string& usfm, const string & user, const string & summary) // Todo
+void bible_logic_log_change (const string& bible, int book, int chapter, const string& usfm, const string & user, const string & summary)
 {
 #ifdef CLIENT_PREPARED
 

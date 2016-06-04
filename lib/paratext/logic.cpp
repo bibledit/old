@@ -272,7 +272,7 @@ vector <string> Paratext_Logic::enabledBibles ()
 }
 
 
-void Paratext_Logic::synchronize () // Todo extended journal
+void Paratext_Logic::synchronize ()
 {
   // The Bibles for which Paratext synchronization has been enabled.
   vector <string> bibles = enabledBibles ();
