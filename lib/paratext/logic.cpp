@@ -272,7 +272,7 @@ vector <string> Paratext_Logic::enabledBibles ()
 }
 
 
-void Paratext_Logic::synchronize ()
+void Paratext_Logic::synchronize () // Todo extended journal
 {
   // The Bibles for which Paratext synchronization has been enabled.
   vector <string> bibles = enabledBibles ();
@@ -421,7 +421,7 @@ void Paratext_Logic::synchronize ()
         
         if (!usfm.empty ()) {
           // Store the ßupdated chapter in Bibledit.
-          Bible_Logic::storeChapter (bible, book, chapter, usfm);
+          bible_logic_store_chapter (bible, book, chapter, usfm);
           book_is_updated = true;
         }
 

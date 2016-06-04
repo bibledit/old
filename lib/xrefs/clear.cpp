@@ -52,7 +52,7 @@ bool xrefs_clear_acl (void * webserver_request)
 }
 
 
-string xrefs_clear (void * webserver_request)
+string xrefs_clear (void * webserver_request) // Todo extended journal
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -67,7 +67,7 @@ string xrefs_clear (void * webserver_request)
   
   if (request->query.count ("overwrite")) {
     usfm = usfm_remove_notes (usfm, {"x"});
-    Bible_Logic::storeChapter (bible, book, chapter, usfm);
+    bible_logic_store_chapter (bible, book, chapter, usfm);
   }
   
   

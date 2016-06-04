@@ -29,9 +29,10 @@ class Database_Logs
 {
 public:
   static void log (string description, int level = 5);
+  static void log (string subject, string body, int level = 5);
   static void rotate ();
   static vector <string> get (string & lastfilename);
-  static string getNext (string &filename);
+  static string next (string &filename);
   static void clear ();
   static string folder ();
 };

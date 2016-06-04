@@ -51,7 +51,7 @@ bool xrefs_insert_acl (void * webserver_request)
 }
 
 
-string xrefs_insert (void * webserver_request)
+string xrefs_insert (void * webserver_request) // Todo extended journal
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -162,7 +162,7 @@ string xrefs_insert (void * webserver_request)
     if (!usfm.empty ()) usfm.append ("\n");
     usfm.append (element.second);
   }
-  Bible_Logic::storeChapter (targetBible, book, chapter, usfm);
+  bible_logic_store_chapter (targetBible, book, chapter, usfm);
 
   
   string page;

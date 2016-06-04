@@ -47,7 +47,7 @@ string sync_bibles_url ()
 }
 
 
-string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter)
+string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter) // Todo extended journal
 {
   // Convert the tags to plus signs, which the client had converted to tags,
   // for safekeeping the + signs during transit.
@@ -100,12 +100,12 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   
   if (serverusfm == "") {
     // If the chapter on the server is still empty, then just store the client's version on the server, and that's it.
-    Bible_Logic::storeChapter (bible, book, chapter, newusfm);
+    bible_logic_store_chapter (bible, book, chapter, newusfm);
   } else if (newusfm != serverusfm) {
     // Do a merge in case the client sends USFM that differs from what's on the server.
     string mergedusfm = filter_merge_run (oldusfm, newusfm, serverusfm);
     // Update the server with the new chapter data.
-    Bible_Logic::storeChapter (bible, book, chapter, mergedusfm);
+    bible_logic_store_chapter (bible, book, chapter, mergedusfm);
     // Check on the merge.
     filter_merge_irregularity_mail ({username}, oldusfm, newusfm, serverusfm, mergedusfm);
   }

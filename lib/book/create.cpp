@@ -31,8 +31,7 @@
 
 // Creates book template with ID $book in Bible $bible.
 // If a $chapter is given instead of -1, it creates that chapter only.
-bool book_create (string bible, int book, int chapter, vector <string> & feedback)
-
+bool book_create (string bible, int book, int chapter, vector <string> & feedback) // Todo extended journal
 {
   Database_Bibles database_bibles;
   Database_Versifications database_versifications;
@@ -57,7 +56,7 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
     data  = "\\id "    + Database_Books::getUsfmFromId(book)     + "\n";
     data += "\\h "     + Database_Books::getEnglishFromId (book) + "\n";
     data += "\\toc2 "  + Database_Books::getEnglishFromId (book) + "\n";
-    Bible_Logic::storeChapter (bible, book, 0, data);
+    bible_logic_store_chapter (bible, book, 0, data);
     chaptersCreated.push_back (0);
   }
   
@@ -75,7 +74,7 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
         for (int i = 1; i <= verse; i++) {
           data += "\\v " + convert_to_string (i) + "\n";
         }
-        Bible_Logic::storeChapter (bible, book, ch, data);
+        bible_logic_store_chapter (bible, book, ch, data);
         chaptersCreated.push_back (ch);
       }
     }

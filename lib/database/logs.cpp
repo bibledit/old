@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // 2. Android has VACUUM errors due to a locked database.
 
 
+// Records a journal entry.
 void Database_Logs::log (string description, int level)
 {
   // Trim spaces.
@@ -63,6 +64,16 @@ void Database_Logs::log (string description, int level)
   if (config_logic_windows ()) {
     this_thread::sleep_for (chrono::milliseconds (1));
   }
+}
+
+
+// Records an extended journal entry.
+void Database_Logs::log (string subject, string body, int level)
+{
+  string description (subject);
+  description.append ("\n");
+  description.append (body);
+  log (description, level);
 }
 
 
@@ -148,7 +159,7 @@ vector <string> Database_Logs::get (string & lastfilename)
 
 // Gets journal entry more recent than "filename".
 // Updates "filename" to the item it got.
-string Database_Logs::getNext (string &filename)
+string Database_Logs::next (string &filename)
 {
   vector <string> files = filter_url_scandir (folder ());
   for (unsigned int i = 0; i < files.size (); i++) {

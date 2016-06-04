@@ -22,6 +22,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/git.h>
+#include <filter/diff.h>
+#include <filter/usfm.h>
+#include <filter/text.h>
 #include <database/bibles.h>
 #include <database/modifications.h>
 #include <database/bibleactions.h>
@@ -41,7 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/logic.h>
 
 
-void Bible_Logic::storeChapter (const string& bible, int book, int chapter, const string& usfm)
+void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm)
 {
   Database_Bibles database_bibles;
 
@@ -66,7 +69,7 @@ void Bible_Logic::storeChapter (const string& bible, int book, int chapter, cons
 }
 
 
-void Bible_Logic::deleteChapter (const string& bible, int book, int chapter)
+void bible_logic_delete_chapter (const string& bible, int book, int chapter)
 {
   Database_Bibles database_bibles;
 
@@ -91,7 +94,7 @@ void Bible_Logic::deleteChapter (const string& bible, int book, int chapter)
 }
 
 
-void Bible_Logic::deleteBook (const string& bible, int book)
+void bible_logic_delete_book (const string& bible, int book)
 {
   Database_Bibles database_bibles;
 
@@ -119,7 +122,7 @@ void Bible_Logic::deleteBook (const string& bible, int book)
 }
 
 
-void Bible_Logic::deleteBible (const string& bible)
+void bible_logic_delete_bible (const string& bible)
 {
   Database_Bibles database_bibles;
 
@@ -217,9 +220,83 @@ void bible_logic_import_resource (string bible, string resource)
         // Add the verse to the USFM.
         usfm.push_back ("\\v " + convert_to_string (verse) + " " + filter_string_trim (html));
       }
-      Bible_Logic::storeChapter (bible, book, chapter, filter_string_implode (usfm, "\n"));
+      bible_logic_store_chapter (bible, book, chapter, filter_string_implode (usfm, "\n"));
     }
   }
   
   Database_Logs::log ("Completed importing resource " + resource + " into Bible " + bible);
+}
+
+
+// This logs the change in the Bible text.
+void bible_logic_log_change (const string& bible, int book, int chapter, const string& usfm, const string & user, const string & summary) // Todo
+{
+#ifdef CLIENT_PREPARED
+
+  (void) bible;
+  (void) book;
+  (void) chapter;
+  (void) usfm;
+  (void) user;
+  (void) summary;
+  
+#else
+
+  Database_Bibles database_bibles;
+  string existing_usfm = database_bibles.getChapter (bible, book, chapter);
+  
+  int percentage = filter_diff_similarity (existing_usfm, usfm);
+  percentage = 100 - percentage;
+  string percentage_fragment;
+  if (percentage) {
+    percentage_fragment = " - " + convert_to_string (percentage) + "% change";
+  }
+
+  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+
+  vector <int> existing_verse_numbers = usfm_get_verse_numbers (existing_usfm);
+  vector <int> verse_numbers = usfm_get_verse_numbers (usfm);
+  vector <int> verses = existing_verse_numbers;
+  verses.insert (verses.end (), verse_numbers.begin (), verse_numbers.end ());
+  verses = array_unique (verses);
+  sort (verses.begin (), verses.end ());
+
+  vector <string> body;
+  
+  body.push_back ("Changes:");
+  
+  for (auto verse : verses) {
+    string existing_verse_usfm = usfm_get_verse_text (existing_usfm, verse);
+    string verse_usfm = usfm_get_verse_text (usfm, verse);
+    if (existing_verse_usfm != verse_usfm) {
+      Filter_Text filter_text_old = Filter_Text (bible);
+      Filter_Text filter_text_new = Filter_Text (bible);
+      filter_text_old.text_text = new Text_Text ();
+      filter_text_new.text_text = new Text_Text ();
+      filter_text_old.addUsfmCode (existing_verse_usfm);
+      filter_text_new.addUsfmCode (verse_usfm);
+      filter_text_old.run (stylesheet);
+      filter_text_new.run (stylesheet);
+      string old_text = filter_text_old.text_text->get ();
+      string new_text = filter_text_new.text_text->get ();
+      if (old_text != new_text) {
+        body.push_back ("");
+        body.push_back (filter_passage_display (book, chapter, convert_to_string (verse)));
+        body.push_back ("Old: " + old_text);
+        body.push_back ("New: " + new_text);
+      }
+    }
+  }
+
+  body.push_back ("");
+  body.push_back ("Old USFM:");
+  body.push_back (existing_usfm);
+
+  body.push_back ("");
+  body.push_back ("New USFM:");
+  body.push_back (usfm);
+  
+  Database_Logs::log (user + " - " + summary + percentage_fragment, filter_string_implode (body, "\n"));
+
+#endif
 }

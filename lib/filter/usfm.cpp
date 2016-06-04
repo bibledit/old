@@ -787,7 +787,7 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
 // It also is useful in cases where the session is deleted from the server,
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
-string usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm)
+string usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -800,9 +800,13 @@ string usfm_safely_store_chapter (void * webserver_request, string bible, int bo
   // Safety check.
   string message = usfm_save_is_safe (webserver_request, existing, usfm, true);
   if (!message.empty ()) return message;
+
+  // Record the change in the journal.
+  string user = request->session_logic ()->currentUser ();
+  bible_logic_log_change (bible, book, chapter, usfm, user, translate ("Saving chapter"));
   
   // Safety checks have passed: Save chapter.
-  Bible_Logic::storeChapter (bible, book, chapter, usfm);
+  bible_logic_store_chapter (bible, book, chapter, usfm);
   return "";
 }
 
@@ -817,7 +821,7 @@ string usfm_safely_store_chapter (void * webserver_request, string bible, int bo
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
 // It handles combined verses.
-string usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm)
+string usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -880,8 +884,12 @@ string usfm_safely_store_verse (void * webserver_request, string bible, int book
   chapter_usfm.erase (pos, length);
   chapter_usfm.insert (pos, usfm);
   
+  // Record the change in the journal.
+  string user = request->session_logic ()->currentUser ();
+  bible_logic_log_change (bible, book, chapter, chapter_usfm, user, translate ("Saving verse"));
+  
   // Safety checks have passed: Save chapter.
-  Bible_Logic::storeChapter (bible, book, chapter, chapter_usfm);
+  bible_logic_store_chapter (bible, book, chapter, chapter_usfm);
 
   // Done: OK.
   return "";

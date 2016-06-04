@@ -217,7 +217,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
 // The filter focuses on reading the data in the git repository and the database,
 // and only writes to the database if necessary,
 // This speeds up the filter.
-void filter_git_sync_git_to_bible (void * webserver_request, string repository, string bible)
+void filter_git_sync_git_to_bible (void * webserver_request, string repository, string bible) // Todo extended journal
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -245,7 +245,7 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
                 if (!in_array (chapter, chapters)) {
                   // Chapter does not exist in the database: Add it.
                   string usfm = filter_url_file_get_contents (filename);
-                  Bible_Logic::storeChapter (bible, book, chapter, usfm);
+                  bible_logic_store_chapter (bible, book, chapter, usfm);
                   // Log it.
                   string message = translate("A translator added chapter") + " " + bible + " " + bookname + " " + chapterfile;
                   Database_Logs::log (message);
@@ -279,16 +279,16 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
           string contents = filter_url_file_get_contents (datafile);
           string usfm = request->database_bibles()->getChapter (bible, book, chapter);
           if (contents != usfm) {
-            Bible_Logic::storeChapter (bible, book, chapter, contents);
+            bible_logic_store_chapter (bible, book, chapter, contents);
             Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
           }
         } else {
-          Bible_Logic::deleteChapter (bible, book, chapter);
+          bible_logic_delete_chapter (bible, book, chapter);
           Database_Logs::log (translate("A translator deleted chapter") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
         }
       }
     } else {
-      Bible_Logic::deleteBook (bible, book);
+      bible_logic_delete_book (bible, book);
       Database_Logs::log (translate("A translator deleted book") + " " + bible + " " + bookname);
     }
   }
@@ -304,7 +304,7 @@ string filter_git_disabled ()
 // This filter takes one chapter of the Bible data as it is stored in the $git folder,
 // and puts this information into Bibledit's database.
 // The $git is a git repository, and may contain other data as well.
-void filter_git_sync_git_chapter_to_bible (string repository, string bible, int book, int chapter)
+void filter_git_sync_git_chapter_to_bible (string repository, string bible, int book, int chapter) // Todo extended journal
 {
   // Filename for the chapter.
   string bookname = Database_Books::getEnglishFromId (book);
@@ -314,13 +314,13 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
     
     // Store chapter in database.
     string usfm = filter_url_file_get_contents (filename);
-    Bible_Logic::storeChapter (bible, book, chapter, usfm);
+    bible_logic_store_chapter (bible, book, chapter, usfm);
     Database_Logs::log (translate("A collaborator updated") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
     
   } else {
     
     // Delete chapter from database.
-    Bible_Logic::deleteChapter (bible, book, chapter);
+    bible_logic_delete_chapter (bible, book, chapter);
     Database_Logs::log (translate("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
     
   }

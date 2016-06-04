@@ -50,7 +50,7 @@ bool search_replacego_acl (void * webserver_request)
 }
 
 
-string search_replacego (void * webserver_request)
+string search_replacego (void * webserver_request) // Todo extended journal
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -169,7 +169,7 @@ string search_replacego (void * webserver_request)
   
   // Store the new chapter in the database on success.
   if (replacementOkay && write) {
-    Bible_Logic::storeChapter (bible, book, chapter, new_chapter_usfm);
+    bible_logic_store_chapter (bible, book, chapter, new_chapter_usfm);
   }
   
   

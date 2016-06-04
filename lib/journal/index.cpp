@@ -112,7 +112,7 @@ string render_journal_entry (string filename, int userlevel)
 string journal_index_ajax (Webserver_Request * request, string filename)
 {
   int userLevel = request->session_logic()->currentLevel ();
-  string result = Database_Logs::getNext (filename);
+  string result = Database_Logs::next (filename);
   if (!result.empty()) {
     result = render_journal_entry (result, userLevel);
     result.insert (0, filename + "\n");
@@ -142,10 +142,13 @@ string journal_index (void * webserver_request)
     expansion = filter_url_file_get_contents (path);
     // Remove the user's level.
     expansion.erase (0, 2);
-    // Convert \n to <br>
-    expansion = filter_string_str_replace ("\n", "<br>", expansion);
-    // Clean it up.
+    // The only formatting currently allowed in the journal is new lines.
+    // The rest is sanitized.
+    // To do this properly, the order is important:
+    // 1. Clean it up.
     expansion = filter_string_sanitize_html (expansion);
+    // 2. Convert \n to <br>
+    expansion = filter_string_str_replace ("\n", "<br>", expansion);
     // Done.
     return expansion;
   }

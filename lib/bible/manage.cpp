@@ -52,7 +52,7 @@ bool bible_manage_acl (void * webserver_request)
 }
 
 
-string bible_manage (void * webserver_request)
+string bible_manage (void * webserver_request) // Todo extended journal
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -146,7 +146,7 @@ string bible_manage (void * webserver_request)
     if (confirm == "yes") {
       // User needs write access for delete operation.
       if (access_bible_write (request, bible)) {
-        Bible_Logic::deleteBible (bible);
+        bible_logic_delete_bible (bible);
       } else {
         page += Assets_Page::error ("Insufficient privileges to complete action");
       }

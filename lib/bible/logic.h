@@ -24,17 +24,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-class Bible_Logic
-{
-public:
-  static void storeChapter (const string& bible, int book, int chapter, const string& usfm);
-  static void deleteChapter (const string& bible, int book, int chapter);
-  static void deleteBook (const string& bible, int book);
-  static void deleteBible (const string& bible);
-};
-
-
+void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm);
+void bible_logic_delete_chapter (const string& bible, int book, int chapter);
+void bible_logic_delete_book (const string& bible, int book);
+void bible_logic_delete_bible (const string& bible);
 void bible_logic_import_resource (string bible, string resource);
+void bible_logic_log_change (const string& bible, int book, int chapter, const string& usfm, const string & user, const string & summary);
 
 
 #endif

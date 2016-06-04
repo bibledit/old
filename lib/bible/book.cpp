@@ -53,7 +53,7 @@ bool bible_book_acl (void * webserver_request)
 }
 
 
-string bible_book (void * webserver_request)
+string bible_book (void * webserver_request) // Todo extended journal
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -95,7 +95,7 @@ string bible_book (void * webserver_request)
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      if (write_access) Bible_Logic::deleteChapter (bible, book, convert_to_int (deletechapter));
+      if (write_access) bible_logic_delete_chapter (bible, book, convert_to_int (deletechapter));
     }
   }
   

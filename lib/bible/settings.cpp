@@ -56,7 +56,7 @@ bool bible_settings_acl (void * webserver_request)
 }
 
 
-string bible_settings (void * webserver_request)
+string bible_settings (void * webserver_request) // Todo extended journal
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -146,7 +146,7 @@ string bible_settings (void * webserver_request)
   if (deletebook != "") {
     string confirm = request->query["confirm"];
     if (confirm == "yes") {
-      if (write_access) Bible_Logic::deleteBook (bible, convert_to_int (deletebook));
+      if (write_access) bible_logic_delete_book (bible, convert_to_int (deletebook));
     } else if (confirm == "cancel") {
     } else {
       Dialog_Yes dialog_yes = Dialog_Yes ("settings", translate("Would you like to delete this book?"));

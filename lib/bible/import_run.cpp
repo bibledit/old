@@ -84,7 +84,7 @@ void bible_import_usfm (string data, string bible, int book, int chapter)
     int chapter_number = data.chapter;
     string chapter_data = data.data;
     if (book_number > 0) {
-      Bible_Logic::storeChapter (bible, book_number, chapter_number, chapter_data);
+      bible_logic_store_chapter (bible, book_number, chapter_number, chapter_data);
       string book_name = Database_Books::getUsfmFromId (book_number);
       Database_Logs::log ("Imported " + book_name + " " + convert_to_string (chapter_number));
     } else {
@@ -224,7 +224,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
   }
 
   // Import the text as USFM.
-  Bible_Logic::storeChapter (bible, book, chapter, newtext);
+  bible_logic_store_chapter (bible, book, chapter, newtext);
   string book_name = Database_Books::getUsfmFromId (book);
   Database_Logs::log ("Imported " + book_name + " " + convert_to_string (chapter) + ": " + text);
 }

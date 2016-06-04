@@ -2952,9 +2952,9 @@ void test_filter_diff ()
     filter_url_mkdir (temporary_folder);
     
     request.database_bibles()->createBible ("phpunit");
-    Bible_Logic::storeChapter ("phpunit", 1, 2, "old chapter text");
+    bible_logic_store_chapter ("phpunit", 1, 2, "old chapter text");
     database_modifications.truncateTeams ();
-    Bible_Logic::storeChapter ("phpunit", 1, 2, "new chapter text");
+    bible_logic_store_chapter ("phpunit", 1, 2, "new chapter text");
 
     filter_diff_produce_verse_level ("phpunit", temporary_folder);
 

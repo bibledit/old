@@ -261,7 +261,7 @@ void demo_prepare_sample_bible ()
       // Import the USFM into the Bible.
       vector <BookChapterData> book_chapter_data = usfm_import (usfm, styles_logic_standard_sheet ());
       for (auto data : book_chapter_data) {
-        Bible_Logic::storeChapter (demo_sample_bible_name (), data.book, data.chapter, data.data);
+        bible_logic_store_chapter (demo_sample_bible_name (), data.book, data.chapter, data.data);
       }
     }
   }
