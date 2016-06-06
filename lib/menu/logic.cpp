@@ -258,6 +258,8 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 
 string menu_logic_basic_categories (void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   vector <string> html;
   
   if (edit_index_acl (webserver_request)) {
@@ -274,6 +276,11 @@ string menu_logic_basic_categories (void * webserver_request)
 
   if (basic_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (basic_index_url (), "⋮", true));
+  }
+  
+  // When not logged in, display Login menu item.
+  if (request->session_logic ()->currentUser ().empty ()) {
+    html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
   }
 
   return filter_string_implode (html, "\n");
