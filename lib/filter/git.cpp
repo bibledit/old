@@ -217,7 +217,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
 // The filter focuses on reading the data in the git repository and the database,
 // and only writes to the database if necessary,
 // This speeds up the filter.
-void filter_git_sync_git_to_bible (void * webserver_request, string repository, string bible) // Todo extended journal
+void filter_git_sync_git_to_bible (void * webserver_request, string repository, string bible)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -304,7 +304,7 @@ string filter_git_disabled ()
 // This filter takes one chapter of the Bible data as it is stored in the $git folder,
 // and puts this information into Bibledit's database.
 // The $git is a git repository, and may contain other data as well.
-void filter_git_sync_git_chapter_to_bible (string repository, string bible, int book, int chapter) // Todo extended journal
+void filter_git_sync_git_chapter_to_bible (string repository, string bible, int book, int chapter)
 {
   // Filename for the chapter.
   string bookname = Database_Books::getEnglishFromId (book);
@@ -312,10 +312,10 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
   
   if (file_exists (filename)) {
     
-    // Store chapter in database.
+    // Store chapter in database and log it.
     string usfm = filter_url_file_get_contents (filename);
+    bible_logic_log_change (bible, book, chapter, usfm, "collaborator", "Chapter updated from git repository");
     bible_logic_store_chapter (bible, book, chapter, usfm);
-    Database_Logs::log (translate("A collaborator updated") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
     
   } else {
     
