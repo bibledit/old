@@ -52,7 +52,7 @@ bool bible_manage_acl (void * webserver_request)
 }
 
 
-string bible_manage (void * webserver_request) // Todo extended journal
+string bible_manage (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   

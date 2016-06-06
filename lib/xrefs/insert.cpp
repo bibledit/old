@@ -51,7 +51,7 @@ bool xrefs_insert_acl (void * webserver_request)
 }
 
 
-string xrefs_insert (void * webserver_request) // Todo extended journal
+string xrefs_insert (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   

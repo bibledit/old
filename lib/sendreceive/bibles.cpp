@@ -69,7 +69,7 @@ string sendreceive_bibles_up_to_date_text ()
 }
 
 
-void sendreceive_bibles () // Todo extended journal
+void sendreceive_bibles ()
 {
   if (sendreceive_bibles_watchdog) {
     int time = filter_date_seconds_since_epoch ();

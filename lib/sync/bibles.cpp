@@ -47,7 +47,7 @@ string sync_bibles_url ()
 }
 
 
-string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter) // Todo extended journal
+string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter)
 {
   // Convert the tags to plus signs, which the client had converted to tags,
   // for safekeeping the + signs during transit.
@@ -58,9 +58,6 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   
   string username = request->session_logic ()->currentUser ();
   string bookname = Database_Books::getEnglishFromId (book);
-  
-  
-  Database_Logs::log ("Client sent Bible data: " + bible + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::manager ());
   
   
   // Check whether the user has write-access to the Bible book.
@@ -97,6 +94,10 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   string old_text = serverusfm;
   string new_text = newusfm;
   
+  
+  // Server logs the change from the client.
+  bible_logic_log_change (bible, book, chapter, newusfm, username, translate ("Received from client"));
+
   
   if (serverusfm == "") {
     // If the chapter on the server is still empty, then just store the client's version on the server, and that's it.
