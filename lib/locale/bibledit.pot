@@ -2199,6 +2199,9 @@ msgstr ""
 msgid "Text content differs too much"
 msgstr ""
 
+msgid "Saving chapter"
+msgstr ""
+
 msgid "Missing verse number"
 msgstr ""
 
@@ -2206,6 +2209,9 @@ msgid "Verse mismatch"
 msgstr ""
 
 msgid "Cannot overwrite another verse"
+msgstr ""
+
+msgid "Saving verse"
 msgstr ""
 
 msgid "About"

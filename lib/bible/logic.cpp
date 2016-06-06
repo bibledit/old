@@ -252,6 +252,9 @@ void bible_logic_log_change (const string& bible, int book, int chapter, const s
     percentage_fragment = " - " + convert_to_string (percentage) + "% change";
   }
 
+  string bookname = Database_Books::getEnglishFromId (book);
+  string passage = bible + " " + bookname + " " + convert_to_string (chapter);
+  
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
   vector <int> existing_verse_numbers = usfm_get_verse_numbers (existing_usfm);
@@ -296,7 +299,7 @@ void bible_logic_log_change (const string& bible, int book, int chapter, const s
   body.push_back ("New USFM:");
   body.push_back (usfm);
   
-  Database_Logs::log (user + " - " + summary + percentage_fragment, filter_string_implode (body, "\n"));
+  Database_Logs::log (user + " - " + summary + " - " + passage + percentage_fragment, filter_string_implode (body, "\n"));
 
 #endif
 }
