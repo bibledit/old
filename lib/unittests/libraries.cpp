@@ -636,11 +636,11 @@ void test_editor_html2usfm ()
   // Basic note
   {
     string html =
-    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">x</a><span>.</span></p>\n"
-    "<div id=\"notes\">\n"
-    "<hr/>\n"
-    "<p class=\"x\"><a href=\"#citation1\" id=\"note1\">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>\n"
-    "<br/>\n"
+    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">x</a><span>.</span></p>"
+    "<div id=\"notes\">"
+    "<hr/>"
+    "<p class=\"x\"><a href=\"#citation1\" id=\"note1\">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>"
+    "<br/>"
     "</div>";
     Editor_Html2Usfm editor_export;
     editor_export.load (html);
@@ -653,11 +653,11 @@ void test_editor_html2usfm ()
   // Footnote Deleted Body
   {
     string html =
-    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">f</a><span>.</span></p>\n"
-    "<div id=\"notes\">\n"
-    "<hr/>\n"
-    "<p class=\"f\"></p>\n"
-    "<br/>\n"
+    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">f</a><span>.</span></p>"
+    "<div id=\"notes\">"
+    "<hr/>"
+    "<p class=\"f\"></p>"
+    "<br/>"
     "</div>";
     Editor_Html2Usfm editor_export;
     editor_export.load (html);
@@ -672,10 +672,10 @@ void test_editor_html2usfm ()
   // Footnote Deleted Citation
   {
     string html =
-      "<p class=\"p\"><span>The earth brought forth</span><span>.</span></p>\n"
-      "<div id=\"notes\">\n"
-      "<hr/>\n"
-      "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">f</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>\n"
+      "<p class=\"p\"><span>The earth brought forth</span><span>.</span></p>"
+      "<div id=\"notes\">"
+      "<hr/>"
+      "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">f</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>"
       "</div>";
     Editor_Html2Usfm editor_export;
     editor_export.load (html);
@@ -683,6 +683,19 @@ void test_editor_html2usfm ()
     editor_export.run ();
     string usfm = editor_export.get ();
     string standard = "\\p The earth brought forth.";
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
+  // Two words with character markup in sequence.
+  // The converter used to take out the space between the two words.
+  // This tests that it does not do that.
+  {
+    string html = "<p class=\"p\"><span>Praise </span><span class=\"add\">Yahweh</span><span> <span class=\"add\">all</span> you nations!</span></p>";
+    Editor_Html2Usfm editor_export;
+    editor_export.load (html);
+    editor_export.stylesheet (styles_logic_standard_sheet ());
+    editor_export.run ();
+    string usfm = editor_export.get ();
+    string standard = "\\p Praise \\add Yahweh\\add* \\add all\\add* you nations!";
     evaluate (__LINE__, __func__, standard, usfm);
   }
   refresh_sandbox (true);

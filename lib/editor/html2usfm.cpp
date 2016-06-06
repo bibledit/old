@@ -40,11 +40,12 @@ void Editor_Html2Usfm::load (string html)
   html = filter_string_str_replace ("   ", " ", html);
   html = filter_string_str_replace ("  ", " ", html);
   
-  string xml = "<body>\n" + html + "\n</body>";
-  // Parse document with important option, so it parses the white space in the following:
-  //   <node> </node>
-  // This is significant for, for example, the space after verse numbers, among others.
-  xml_parse_result result = document.load_string (xml.c_str(), parse_ws_pcdata_single);
+  string xml = "<body>" + html + "</body>";
+  // Parse document such that all whitespace is put in the DOM tree.
+  // See http://pugixml.org/docs/manual.html for more information.
+  // It is not enough to only parse with parse_ws_pcdata_single, it really needs parse_ws_pcdata.
+  // This is significant for, for example, the space after verse numbers, among other cases.
+  xml_parse_result result = document.load_string (xml.c_str(), parse_ws_pcdata);
   // Log parsing errors.
   pugixml_utils_error_logger (&result, xml);
 }

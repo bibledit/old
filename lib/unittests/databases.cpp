@@ -237,11 +237,11 @@ void test_database_logs ()
     string filename = convert_to_string (second) + "00000000";
     // First time: getNext gets the logged entry.
     string s;
-    s = Database_Logs::getNext (filename);
+    s = Database_Logs::next (filename);
     if (s == "") evaluate (__LINE__, __func__, "...description", s);
     // Since variable "filename" is updated and set to the last filename,
     // next time function getNext gets nothing.
-    s = database_logs.getNext (filename);
+    s = Database_Logs::next (filename);
     evaluate (__LINE__, __func__, "", s);
     refresh_sandbox (false);
   }
