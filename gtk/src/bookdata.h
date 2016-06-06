@@ -31,6 +31,7 @@ typedef struct
   const char *osis; // Osis name.
   const char *paratext; // Paratext ID.
   const char *bibleworks; // BibleWorks name, also Biblegateway and Blue Letter Bible
+  const char *blueletter; // for blue letter bible (similar to bibleworks but Philippians has a weird abbrev)
   const char *onlinebible; // Online Bible name.
   const char *biblestudytools; // For biblestudytools.com
   unsigned int id; // Bibledit's internal id.
