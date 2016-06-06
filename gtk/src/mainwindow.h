@@ -697,11 +697,11 @@ protected:
   void on_view_experimental_togg();
   static void on_view_tile_windows_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_tile_windows();
-  static void on_view_bibleworks_activate(GtkMenuItem *menuitem, gpointer user_data);
 #ifdef WIN32
+  static void on_view_bibleworks_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_bibleworks();
-  static void on_view_biblegateway_activate(GtkMenuItem *menuitem, gpointer user_data);
 #endif
+  static void on_view_biblegateway_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_biblegateway();
   static void on_view_blueletterbible_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_blueletterbible();
