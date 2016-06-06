@@ -3,7 +3,7 @@
 # Run this from the bibledit/gtk build directory like this:
 # windows/installWin.sh [options]
 
-VERSION="4.9.5"
+VERSION="4.9.6"
 
 full=1
 docs=0
