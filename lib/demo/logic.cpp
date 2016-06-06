@@ -89,9 +89,21 @@ string demo_address ()
 }
 
 
+string demo_address_secure ()
+{
+  return "https://bibledit.org";
+}
+
+
 int demo_port ()
 {
   return 8080;
+}
+
+
+int demo_port_secure ()
+{
+  return 8081;
 }
 
 
@@ -101,9 +113,9 @@ string demo_client_warning ()
   string warning;
   if (client_logic_client_enabled ()) {
     string address = Database_Config_General::getServerAddress ();
-    if (address == demo_address ()) {
+    if (address == demo_address () || address == demo_address_secure ()) {
       int port = Database_Config_General::getServerPort ();
-      if (port == demo_port ()) {
+      if (port == demo_port () || port == demo_port_secure ()) {
         warning.append (translate("You are connected to a public demo of Bibledit Cloud."));
         warning.append (" ");
         warning.append (translate("Everybody can modify the data on that server."));

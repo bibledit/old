@@ -26,7 +26,9 @@
 
 bool demo_acl (string user, string pass);
 string demo_address ();
+string demo_address_secure ();
 int demo_port ();
+int demo_port_secure ();
 string demo_client_warning ();
 void demo_clean_data ();
 string demo_sample_bible_name ();
