@@ -737,7 +737,7 @@ endif
 if DARWIN
 endif
 if WIN32
-LIBS += -mwindows -lws2_32
+LIBS += -loleaut32 -luuid -mwindows -lws2_32
 endif
 
 CLEANFILES = *~

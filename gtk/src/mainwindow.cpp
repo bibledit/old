@@ -4901,6 +4901,84 @@ void MainWindow::on_view_bibleworks_activate(GtkMenuItem * menuitem, gpointer us
   ((MainWindow *) user_data)->on_view_bibleworks();
 }
 
+#include <ole2.h> // OLE2 Definitions
+#include <stdio.h> // sprintf is used to create some error messages
+
+// Source code adapted from https://support.microsoft.com/en-us/kb/216686
+// Requires linking with -lole32 -loleaut32 -luuid -mwindows
+// -lole32 is required for CoInitialize, CLSIDFromProgID, CoCreateInstance, and CoUninitialize
+// -loleaut32 is required for SysAllocString, VariantInit and VariantClear
+// -luuid is required for IID_IDispatch and GUID_NULL
+
+// AutoWrap() - Automation helper function...
+HRESULT AutoWrap(int autoType, VARIANT *pvResult, IDispatch *pDisp, const LPOLESTR _ptName, int cArgs...)
+{
+    // Begin variable-argument list...
+    va_list marker;
+    va_start(marker, cArgs);
+
+	// The _ptName passed to us is often a string literal, so copy it to a local string
+    size_t len = wcslen(_ptName);
+	LPOLESTR ptName = (LPOLESTR)malloc((len+1)*sizeof(wchar_t)); // LPOLESTR = wchar_t*
+	wcsncpy(ptName, _ptName, len);
+	ptName[len] = L'\0';
+	
+    if(!pDisp) {
+        MessageBox(NULL, "NULL IDispatch passed to AutoWrap()", "Error", 0x10010);
+        _exit(0);
+    }
+
+    // Variables used...
+    DISPPARAMS dp = { NULL, NULL, 0, 0 };
+    DISPID dispidNamed = DISPID_PROPERTYPUT;
+    DISPID dispID;
+    HRESULT hr;
+    char buf[200];
+    char szName[200];
+
+    // Convert down to ANSI
+    WideCharToMultiByte(CP_ACP, 0, ptName, -1, szName, 256, NULL, NULL);
+    
+    // Get DISPID for name passed...
+    hr = pDisp->GetIDsOfNames(IID_NULL, &ptName, 1, LOCALE_USER_DEFAULT, &dispID);
+    if(FAILED(hr)) {
+        sprintf(buf, "IDispatch::GetIDsOfNames(\"%s\") failed w/err 0x%08lx", szName, hr);
+        MessageBox(NULL, buf, "AutoWrap()", 0x10010);
+        return hr;
+    }
+    
+    // Allocate memory for arguments...
+    VARIANT *pArgs = new VARIANT[cArgs+1];
+    // Extract arguments...
+    for(int i=0; i<cArgs; i++) {
+        pArgs[i] = va_arg(marker, VARIANT);
+    }
+    
+    // Build DISPPARAMS
+    dp.cArgs = cArgs;
+    dp.rgvarg = pArgs;
+    
+    // Handle special-case for property-puts!
+    if(autoType & DISPATCH_PROPERTYPUT) {
+        dp.cNamedArgs = 1;
+        dp.rgdispidNamedArgs = &dispidNamed;
+    }
+    
+    // Make the call!
+    hr = pDisp->Invoke(dispID, IID_NULL, LOCALE_SYSTEM_DEFAULT, autoType, &dp, pvResult, NULL, NULL);
+    if(FAILED(hr)) {
+        sprintf(buf, "IDispatch::Invoke(\"%s\"=%08lx) failed w/err 0x%08lx", szName, dispID, hr);
+        MessageBox(NULL, buf, "AutoWrap()", 0x10010);
+        return hr;
+    }
+    // End variable-argument section...
+    va_end(marker);
+    
+    delete [] pArgs;
+    
+    return hr;
+}
+
 void MainWindow::on_view_bibleworks(void)
 {
   extern book_record books_table[];
@@ -4908,10 +4986,49 @@ void MainWindow::on_view_bibleworks(void)
 
   // For now, we jump to the verse
   ustring book(books_table[current_reference.book_get()].bibleworks);
-  ustring searchstring = book + " " + std::to_string(current_reference.chapter_get()) + current_reference.verse_get();
+  ustring searchstring = book + " " + std::to_string(current_reference.chapter_get()) + ":" + current_reference.verse_get();
+  DEBUG("Sending to Bibleworks via OLE: ->" + searchstring + "<- of " + std::to_string(searchstring.bytes()) + " bytes");
   
-  // OLE connection to Bibleworks
-  
+  // Initialize COM for this thread...
+   CoInitialize(NULL);
+
+   // Get CLSID for our server...
+   CLSID clsid;
+   HRESULT hr = CLSIDFromProgID(L"bibleworks.automation", &clsid);
+
+   if(FAILED(hr)) {
+      ::MessageBox(NULL, "CLSIDFromProgID() failed", "Error", 0x10010);
+      return;
+   }
+
+   // Start server and get IDispatch...
+   IDispatch *pBwApp;
+   hr = CoCreateInstance(clsid, NULL, CLSCTX_LOCAL_SERVER, IID_IDispatch, (void **)&pBwApp);
+   if(FAILED(hr)) {
+      ::MessageBox(NULL, "Bibleworks not registered properly", "Error", 0x10010);
+      return;
+   }
+
+   // Go to verse
+   {
+      VARIANT parm;
+      parm.vt = VT_BSTR;
+	  // The searchstring needs to be converted to wchar_t, a wide character string (16-bit elements?)
+	  std::wstring wide_string( searchstring.begin(), searchstring.end() );
+	  parm.bstrVal = ::SysAllocString(wide_string.c_str()); // this allocates memory, which is freed below
+
+      VARIANT result;
+      VariantInit(&result);
+      AutoWrap(DISPATCH_METHOD, &result, pBwApp, (wchar_t*)L"GoToVerse", 1, parm);
+      VariantClear(&parm); // this will free the memory associated with parm.bstrVal string
+   }
+
+
+   // Release references...
+   pBwApp->Release();
+
+   // Uninitialize COM for this thread...
+   CoUninitialize();
 }
 #endif
 
@@ -4945,7 +5062,7 @@ void MainWindow::on_view_blueletterbible(void)
 
   // For now, we jump to the chapter
   // Example uri: https://www.blueletterbible.org/esv/mat/3/1/
-  ustring book(books_table[current_reference.book_get()].bibleworks);
+  ustring book(books_table[current_reference.book_get()].blueletter);
   ustring uri = "www.blueletterbible.org/esv/" + book + "/" + 
     std::to_string(current_reference.chapter_get()) + "/1/";
   gtkw_show_uri(uri, true);
