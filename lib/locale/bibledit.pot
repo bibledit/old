@@ -2133,9 +2133,6 @@ msgstr ""
 msgid "A translator deleted book"
 msgstr ""
 
-msgid "A collaborator updated"
-msgstr ""
-
 msgid "A collaborator deleted chapter"
 msgstr ""
 
@@ -8868,6 +8865,9 @@ msgid "Addition after word list entry"
 msgstr ""
 
 msgid "Dump endnotes when encountering marker"
+msgstr ""
+
+msgid "Received from client"
 msgstr ""
 
 msgid "ABC"
