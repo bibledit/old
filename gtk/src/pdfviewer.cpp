@@ -28,12 +28,19 @@
 #include "gwrappers.h"
 #include "settings.h"
 #include <glib/gi18n.h>
+#include "directories.h"
+#include <config.h>
+#ifdef WIN32
+#include <windows.h>
+#endif
 
-void pdfviewer_run(const gchar * command, const gchar * argument, const ustring & filename)
+//void pdfviewer_run(const gchar * command, const gchar * argument, const ustring & filename)
+void pdfviewer_run(const ustring &command, const ustring &argument, const ustring & filename)
 {
   GwSpawn spawn(command);
-  if (strlen(argument) > 0)
+  if (argument.size() > 0) {
     spawn.arg(argument);
+  }
   spawn.arg(filename);
   spawn.async();
   spawn.run();
@@ -41,46 +48,41 @@ void pdfviewer_run(const gchar * command, const gchar * argument, const ustring 
 
 void pdfviewer_view(const ustring & filename)
 {
+#if 0	
   // Handle Windows.
   if (uname_get() == untWindows) {
     windowsoutpost_open_url(filename);
     return;
   }
+#endif
   // Handle possible manually set viewer.
   extern Settings *settings;
   if (!settings->genconfig.pdf_viewer_automatic_get()) {
     if (gw_find_program_in_path(settings->genconfig.pdf_viewer_path_get().c_str())) {
-      pdfviewer_run((gchar *) settings->genconfig.pdf_viewer_path_get().c_str(), (gchar *) settings->genconfig.pdf_viewer_arguments_get().c_str(), filename);
+      //pdfviewer_run((gchar *) settings->genconfig.pdf_viewer_path_get().c_str(), (gchar *) settings->genconfig.pdf_viewer_arguments_get().c_str(), filename);
+	  pdfviewer_run(settings->genconfig.pdf_viewer_path_get(), 
+		            settings->genconfig.pdf_viewer_arguments_get(),
+					filename);
       return;
     }
   }
-  // Possible viewers on Linux and Macintosh.
-  struct {
-    const char *command;
-    const char *argument;
-  } pdf_viewers[] = {
-    {
-    "acroread", ""}, {
-    "evince", ""}, {
-    "xpdf", "-paper match"}, {
-    "ghostview", ""}, {
-    "gpdf", ""}, {
-    "kpdf", ""}, {
-    "kghostview", ""}, {
-    "open", ""}
-  };
-
-  // Handle Unix.
-  for (unsigned int i = 0; i < (sizeof(pdf_viewers) / sizeof(*pdf_viewers)); i++) {
-    if (gw_find_program_in_path(pdf_viewers[i].command)) {
-      pdfviewer_run(pdf_viewers[i].command, pdf_viewers[i].argument, filename);
-      return;
-    }
+  // Use directories container that has figured out a PDF viewer in the path
+  if (Directories->get_pdfviewer() != "") {
+	pdfviewer_run(Directories->get_pdfviewer(), Directories->get_pdfviewer_args(), filename);
+	return;
   }
-
-  // If we're here, it shows that no suitable viewer was found.
-  // Inform the user about it, and what to do to solve it.
-  ustring message = _("The file cannot be displayed, because there is no suitable pdf viewer installed.\n");
-  message.append(_("Install a supported pdf viewer, or set up your own under Preferences"));
-  gtkw_dialog_error(NULL, message);
+#ifdef WIN32
+  else {
+	// If we're here, no suitable viewer was found on Windows.
+	ShellExecute(0, 0, filename.c_str(), 0, 0 , SW_SHOW);
+  }
+#else
+  else {
+	// If we're here, no suitable viewer was found on Linux/Macintosh.
+	// Inform the user about it, and what to do to solve it.
+	ustring message = _("The file cannot be displayed, because there is no suitable pdf viewer installed.\n");
+	message.append(_("Install a supported pdf viewer, or set up your own under Preferences | PDF Viewer"));
+	gtkw_dialog_error(NULL, message);
+  }
+#endif
 }

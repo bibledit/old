@@ -342,6 +342,8 @@ void directories::find_utilities(void)
 	else { gw_message(_("Cannot find a suitable zip utility")); }
   }
   }
+
+  find_pdfviewer();
   
   //---------------------------------------------
   // Tar
@@ -489,7 +491,7 @@ void directories::find_utilities(void)
 
   
   //---------------------------------------------
-  // Bibledit Outpost for Windows
+  // Bibledit Outpost for Windows...eventually to be deprecated
   //---------------------------------------------
   bwoutpost = gw_build_filename (rundir, BIBLEDIT_WINDOWS_OUTPOST_EXE);
   bwoutpost_exeonly = BIBLEDIT_WINDOWS_OUTPOST_EXE;
@@ -497,6 +499,41 @@ void directories::find_utilities(void)
 
 directories::~directories()
 {
+}
+
+void directories::find_pdfviewer(void)
+{
+  // Possible viewers on Linux and Macintosh.
+  struct {
+    const char *command;
+    const char *argument;
+  } pdf_viewers[] = {
+    { "acroread", ""}, 
+	{ "evince", ""},
+	{ "xpdf", "-paper match"},
+	{ "ghostview", ""},
+	{ "gpdf", ""},
+	{ "kpdf", ""},
+	{ "kghostview", ""},
+	{ "open", ""}
+  };
+
+  // This is designed to handle Windows (without bw outpost), as well as Unix, Macintosh
+  for (unsigned int i = 0; i < (sizeof(pdf_viewers) / sizeof(*pdf_viewers)); i++) {
+    if (gw_find_program_in_path(pdf_viewers[i].command)) {
+	  pdfviewer = pdf_viewers[i].command;
+	  pdfviewer_args = pdf_viewers[i].argument;
+      return;
+    }
+  }
+  
+  // If we get here, it means we did not find a PDF reader. Oh, bother!
+  // On Windows, this happens because there is no PDF reader in the PATH.
+  // Windows associates file extensions with viewer programs so there is no need
+  // to have them in the PATH. In that case, we need to use "ShellExecute"
+  // to "run" the PDF file and the shell will figure out the file association.
+  // That will have to be done wherever Directories->get_pdfviewer() is called,
+  // in the case that Directories->get_pdfviewer == "".
 }
 
 void directories::print()
@@ -529,6 +566,7 @@ void directories::print()
   gw_message("Zip util:    \t" + zip);
   gw_message("Unzip util:  \t" + unzip);
   gw_message("gzip util:   \t" + gzip);
+  gw_message("pdfviewer:   \t" + pdfviewer + " " + pdfviewer_args);
   gw_message("Any of these that are blank indicate that we have not worked on them yet!!!!!");
   gw_message("Git:         \t" + git);
   gw_message("bibledit_git \t" + bibledit_git);
@@ -596,6 +634,8 @@ ustring directories::get_tar ()               { return tar; }
 ustring directories::get_zip ()               { return zip; }
 ustring directories::get_unzip ()             { return unzip; }
 ustring directories::get_gzip ()              { return gzip; }
+ustring directories::get_pdfviewer ()         { return pdfviewer; }
+ustring directories::get_pdfviewer_args ()    { return pdfviewer_args; }
 ustring directories::get_git ()               { return git; }
 ustring directories::get_bibledit_git ()      { return bibledit_git; }
 ustring directories::get_curl ()              { return curl; }
