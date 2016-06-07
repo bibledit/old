@@ -4140,45 +4140,12 @@ void test_database_bibles ()
     evaluate (__LINE__, __func__, 1, id);
     
     vector <string> bibles = database_bibles.getBibles ();
-    vector <string> standard = {"phpunit"};
-    evaluate (__LINE__, __func__, standard, bibles);
-    
-    id = database_bibles.getID ("phpunit2");
-    evaluate (__LINE__, __func__, 0, id);
+    evaluate (__LINE__, __func__, {"phpunit"}, bibles);
     
     database_bibles.deleteBible ("phpunit");
     
-    id = database_bibles.getID ("phpunit");
-    evaluate (__LINE__, __func__, 0, id);
-  }
-  // Test names / identifiers.
-  {
-    refresh_sandbox (true);
-    Database_Bibles database_bibles;
-    Database_State::create ();
-    
-    int id = database_bibles.getID ("phpunit");
-    evaluate (__LINE__, __func__, 0, id);
-    
-    string bible = database_bibles.getName (0);
-    evaluate (__LINE__, __func__, "Unknown", bible);
-    
-    id = database_bibles.createBible ("phpunit");
-    evaluate (__LINE__, __func__, 1, id);
-    
-    id = database_bibles.getID ("phpunit");
-    evaluate (__LINE__, __func__, 1, id);
-    
-    bible = database_bibles.getName (1);
-    evaluate (__LINE__, __func__, "phpunit", bible);
-    
-    bible = database_bibles.getName (2);
-    evaluate (__LINE__, __func__, "Unknown", bible);
-    
-    database_bibles.setID ("phpunit", 10);
-    
-    id = database_bibles.getID ("phpunit");
-    evaluate (__LINE__, __func__, 10, id);
+    bibles = database_bibles.getBibles ();
+    evaluate (__LINE__, __func__, {}, bibles);
   }
   // Test storeChapter / getChapter
   {

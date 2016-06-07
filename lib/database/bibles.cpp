@@ -64,7 +64,7 @@ vector <string> Database_Bibles::getBibles ()
 
 
 // Returns the ID for a named Bible.
-int Database_Bibles::getID (string name)
+int Database_Bibles::getID (string name) // Todo goes out.
 {
   string file = filter_url_create_path (bibleFolder (name), "id");
   if (file_exists (file)) {
@@ -75,7 +75,7 @@ int Database_Bibles::getID (string name)
 
 
 // Sets the ID for a named Bible.
-void Database_Bibles::setID (string name, int id)
+void Database_Bibles::setID (string name, int id) // Todo goes out.
 {
   string folder = bibleFolder (name);
   filter_url_file_put_contents (filter_url_create_path (folder, "id"), convert_to_string (id));
@@ -83,7 +83,7 @@ void Database_Bibles::setID (string name, int id)
 
 
 // Returns the Bible name for a Bible ID.
-string Database_Bibles::getName (int id)
+string Database_Bibles::getName (int id) // Todo goes out.
 {
   vector <string> bibles = getBibles ();
   for (string bible : bibles) {
