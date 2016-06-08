@@ -64,12 +64,13 @@ string checks_suppress (void * webserver_request)
   
                         
   // Get the Bibles the user has write-access to.
-  vector <int> bibleIDs;
-  vector <string> bibles = request->database_bibles()->getBibles ();
-  for (auto bible : bibles) {
-    if (access_bible_write (webserver_request, bible)) {
-      int id = request->database_bibles()->getID (bible);
-      bibleIDs.push_back (id);
+  vector <string> bibles;
+  {
+    vector <string> all_bibles = request->database_bibles()->getBibles ();
+    for (auto bible : all_bibles) {
+      if (access_bible_write (webserver_request, bible)) {
+        bibles.push_back (bible);
+      }
     }
   }
   
@@ -77,11 +78,11 @@ string checks_suppress (void * webserver_request)
   string block;
   vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
   for (auto suppression : suppressions) {
-    int bibleID = suppression.bible;
+    string bible = suppression.bible;
     // Only display entries for Bibles the user has write access to.
-    if (in_array (bibleID, bibleIDs)) {
+    if (in_array (bible, bibles)) {
       int id = suppression.rowid;
-      string bible = filter_string_sanitize_html (request->database_bibles()->getName (bibleID));
+      bible = filter_string_sanitize_html (bible);
       string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, convert_to_string (suppression.verse))});
       string result = filter_string_sanitize_html (suppression.data);
       result.insert (0, bible + " " + passage + " ");

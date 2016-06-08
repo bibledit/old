@@ -76,12 +76,13 @@ string checks_index (void * webserver_request)
 
   
   // Get the Bibles the user has write-access to.
-  vector <int> bibleIDs;
-  vector <string> bibles = request->database_bibles()->getBibles ();
-  for (auto bible : bibles) {
-    if (access_bible_write (webserver_request, bible)) {
-      int id = request->database_bibles()->getID (bible);
-      bibleIDs.push_back (id);
+  vector <string> bibles;
+  {
+    vector <string> all_bibles = request->database_bibles()->getBibles ();
+    for (auto bible : all_bibles) {
+      if (access_bible_write (webserver_request, bible)) {
+        bibles.push_back (bible);
+      }
     }
   }
   
@@ -89,10 +90,10 @@ string checks_index (void * webserver_request)
   string resultblock;
   vector <Database_Check_Hit> hits = database_check.getHits ();
   for (auto hit : hits) {
-    int bibleID = hit.bible;
-    if (find (bibleIDs.begin(), bibleIDs.end (), bibleID) != bibleIDs.end ()) {
+    string bible = hit.bible;
+    if (find (bibles.begin(), bibles.end (), bible) != bibles.end ()) {
       int id = hit.rowid;
-      string bible = filter_string_sanitize_html (request->database_bibles()->getName (bibleID));
+      bible = filter_string_sanitize_html (bible);
       int book = hit.book;
       int chapter = hit.chapter;
       int verse = hit.verse;

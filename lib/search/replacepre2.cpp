@@ -96,10 +96,9 @@ string search_replacepre2 (void * webserver_request)
   if (replacewith != "") newtext = filter_string_markup_words ({replacewith}, newtext);
   
   
-  // The id sent to the browser contains bible identifier, book, chapter, and verse.
-  int bibleID = request->database_bibles()->getID (bible);
-  vector <string> bits = {convert_to_string (bibleID), convert_to_string (book), convert_to_string (chapter), verse};
-  string s_id = filter_string_implode (bits, "_");
+  // The id sent to the browser contains bible identifier, book, chapter, and verse. // Todo
+  vector <string> bits = {bible, convert_to_string (book), convert_to_string (chapter), verse};
+  string s_id = filter_string_implode (bits, "_"); // Todo handle _ in Bible names.
   
   
   // Check whether the user has write access to the book.

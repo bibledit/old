@@ -92,15 +92,14 @@ string search_replacepre (void * webserver_request)
   if (replacewith != "") newtext = filter_string_markup_words ({replacewith}, newtext);
   
   
-  // The id sent to the browser contains bible, book, chapter, and verse.
-  int bibleID = request->database_bibles()->getID (bible);
+  // The id sent to the browser contains bible, book, chapter, and verse. Todo test it.
   vector <string> bits = {
-    convert_to_string (bibleID),
+    bible,
     convert_to_string (book),
     convert_to_string (chapter),
     verse
   };
-  string s_id = filter_string_implode (bits, "_");
+  string s_id = filter_string_implode (bits, "_"); // Todo handle _ in bible names.
   
   
   // Check whether the user has write access to the book.

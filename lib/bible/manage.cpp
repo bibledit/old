@@ -112,14 +112,10 @@ string bible_manage (void * webserver_request)
       } else {
         // User needs read access to the original.
         if (access_bible_read (request, origin)) {
-          // Create a Bible to get its numeric identifier, then remove that Bible again.
-          int id = request->database_bibles ()->createBible (destination);
-          request->database_bibles ()->deleteBible (destination);
           // Copy the Bible data.
           string origin_folder = request->database_bibles ()->bibleFolder (origin);
           string destination_folder = request->database_bibles ()->bibleFolder (destination);
           filter_url_dir_cp (origin_folder, destination_folder);
-          request->database_bibles ()->setID (destination, id);
           // Copy the Bible search index.
           search_logic_copy_bible (origin, destination);
           // Feedback.

@@ -229,7 +229,7 @@ void sendreceive_settings ()
       sendreceive_settings_done ();
       return;
     }
-    request.database_bibles()->setID (bible, convert_to_int (response));
+    // request.database_bibles()->setID (bible, convert_to_int (response)); // Todo goes out. Test old clients.
     
     // Request the font for the Bible.
     // Note that it requests the font name from the Cloud.

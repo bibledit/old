@@ -163,15 +163,12 @@ void checks_run (string bible)
     }
   }
   
-  // Identifier for this bible.
-  int bibleID = request.database_bibles()->getID (bible);
-  
   
   // Create an email with the checking results for this bible.
   vector <string> emailBody;
   vector <Database_Check_Hit> hits = database_check.getHits ();
   for (auto hit : hits) {
-    if (hit.bible == bibleID) {
+    if (hit.bible == bible) {
       string passage = filter_passage_display_inline ({Passage ("", hit.book, hit.chapter, convert_to_string (hit.verse))});
       string data = filter_string_sanitize_html (hit.data);
       string result = "<p>" + passage + " " + data + "</p>";
@@ -195,7 +192,9 @@ void checks_run (string bible)
     for (auto user : users) {
       if (request.database_config_user()->getUserBibleChecksNotification (user)) {
         if (access_bible_read (&request, bible, user)) {
-          if (!client_logic_client_enabled ()) email_schedule (user, subject, body);
+          if (!client_logic_client_enabled ()) {
+            email_schedule (user, subject, body);
+          }
         }
       }
     }
@@ -204,4 +203,3 @@ void checks_run (string bible)
   
   Database_Logs::log ("Check " + bible + ": Complete", Filter_Roles::translator ());
 }
-

@@ -43,17 +43,30 @@ const char * Database_Check::filename ()
 void Database_Check::create ()
 {
   SqliteDatabase sql (filename ());
-  sql.add ("CREATE TABLE IF NOT EXISTS output ("
-           " bible integer,"
+
+  sql.add ("DROP TABLE IF EXISTS output;");
+  sql.execute ();
+
+  sql.clear ();
+  
+  sql.add ("CREATE TABLE IF NOT EXISTS output2 ("
+           " bible text,"
            " book integer,"
            " chapter integer,"
            " verse integer,"
            " data text"
            ");");
   sql.execute ();
+  
   sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS suppress ("
-           " bible integer,"
+  
+  sql.add ("DROP TABLE IF EXISTS suppress;");
+  sql.execute ();
+  
+  sql.clear ();
+
+  sql.add ("CREATE TABLE IF NOT EXISTS suppress2 ("
+           " bible text,"
            " book integer,"
            " chapter integer,"
            " verse integer,"
@@ -66,10 +79,7 @@ void Database_Check::create ()
 void Database_Check::optimize ()
 {
   SqliteDatabase sql (filename ());
-  sql.add ("VACUUM output;");
-  sql.execute ();
-  sql.clear ();
-  sql.add ("VACUUM suppress;");
+  sql.add ("VACUUM;");
   sql.execute ();
 }
 
@@ -78,12 +88,10 @@ void Database_Check::truncateOutput (string bible)
 {
   SqliteDatabase sql (filename ());
   if (bible == "") {
-    sql.add ("DELETE FROM output;");
+    sql.add ("DELETE FROM output2;");
   } else {
-    Database_Bibles database_bibles;
-    int bible_id = database_bibles.getID (bible);
-    sql.add ("DELETE FROM output WHERE bible =");
-    sql.add (bible_id);
+    sql.add ("DELETE FROM output2 WHERE bible =");
+    sql.add (bible);
     sql.add (";");
   }
   sql.execute ();
@@ -93,14 +101,12 @@ void Database_Check::truncateOutput (string bible)
 void Database_Check::recordOutput (string bible, int book, int chapter, int verse, string data)
 {
   SqliteDatabase sql (filename ());
-  Database_Bibles database_bibles;
-  int bible_id = database_bibles.getID (bible);
   int count = 0;
   // Check whether this is a suppressed item.
   // If it was suppressed, do not record it.
   sql.clear ();
-  sql.add ("SELECT count(*) FROM suppress WHERE bible =");
-  sql.add (bible_id);
+  sql.add ("SELECT count(*) FROM suppress2 WHERE bible =");
+  sql.add (bible);
   sql.add ("AND book = ");
   sql.add (book);
   sql.add ("AND chapter = ");
@@ -117,8 +123,8 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
   if (count == 0) {
     // Check how often $data has been recorded already.
     sql.clear ();
-    sql.add ("SELECT count(*) FROM output WHERE bible =");
-    sql.add (bible_id);
+    sql.add ("SELECT count(*) FROM output2 WHERE bible =");
+    sql.add (bible);
     sql.add ("AND data = ");
     sql.add (data);
     sql.add (";");
@@ -129,8 +135,8 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
     // Record the data no more than so often.
     if (count < 10) {
       sql.clear ();
-      sql.add ("INSERT INTO output VALUES (");
-      sql.add (bible_id);
+      sql.add ("INSERT INTO output2 VALUES (");
+      sql.add (bible);
       sql.add (",");
       sql.add (book);
       sql.add (",");
@@ -150,8 +156,8 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
     if (count == 9) {
       data.append (" (displaying no more of these)");
       sql.clear ();
-      sql.add ("INSERT INTO output VALUES (");
-      sql.add (bible_id);
+      sql.add ("INSERT INTO output2 VALUES (");
+      sql.add (bible);
       sql.add (",");
       sql.add (book);
       sql.add (",");
@@ -171,7 +177,7 @@ vector <Database_Check_Hit> Database_Check::getHits ()
 {
   vector <Database_Check_Hit> hits;
   SqliteDatabase sql (filename ());
-  sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM output;");
+  sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM output2;");
   map <string, vector <string> > result = sql.query ();
   vector <string> rowids = result ["rowid"];
   vector <string> bibles = result ["bible"];
@@ -182,7 +188,7 @@ vector <Database_Check_Hit> Database_Check::getHits ()
   for (unsigned int i = 0; i < rowids.size(); i++) {
     Database_Check_Hit hit = Database_Check_Hit ();
     hit.rowid = convert_to_int (rowids [i]);
-    hit.bible = convert_to_int (bibles [i]);
+    hit.bible = bibles [i];
     hit.book = convert_to_int (books [i]);
     hit.chapter = convert_to_int (chapters [i]);
     hit.verse = convert_to_int (verses [i]);
@@ -197,12 +203,12 @@ void Database_Check::approve (int id)
 {
   // The query moves all values, apart from the auto_increment id.
   SqliteDatabase sql (filename ());
-  sql.add ("INSERT INTO suppress (bible, book, chapter, verse, data) SELECT bible, book, chapter, verse, data FROM output WHERE rowid =");
+  sql.add ("INSERT INTO suppress2 (bible, book, chapter, verse, data) SELECT bible, book, chapter, verse, data FROM output2 WHERE rowid =");
   sql.add (id);
   sql.add (";");
   sql.execute ();
   sql.clear ();
-  sql.add ("DELETE FROM output WHERE rowid =");
+  sql.add ("DELETE FROM output2 WHERE rowid =");
   sql.add (id);
   sql.add (";");
   sql.execute ();
@@ -212,7 +218,7 @@ void Database_Check::approve (int id)
 void Database_Check::erase (int id)
 {
   SqliteDatabase sql (filename ());
-  sql.add ("DELETE FROM output WHERE rowid =");
+  sql.add ("DELETE FROM output2 WHERE rowid =");
   sql.add (id);
   sql.add (";");
   sql.execute ();
@@ -222,7 +228,7 @@ void Database_Check::erase (int id)
 Passage Database_Check::getPassage (int id)
 {
   SqliteDatabase sql (filename ());
-  sql.add ("SELECT book, chapter, verse FROM output WHERE rowid =");
+  sql.add ("SELECT book, chapter, verse FROM output2 WHERE rowid =");
   sql.add (id);
   sql.add (";");
   map <string, vector <string> > result = sql.query ();
@@ -241,7 +247,7 @@ vector <Database_Check_Hit> Database_Check::getSuppressions ()
 {
   SqliteDatabase sql (filename ());
   vector <Database_Check_Hit> hits;
-  sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM suppress;");
+  sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM suppress2;");
   map <string, vector <string> > result = sql.query ();
   vector <string> rowids = result ["rowid"];
   vector <string> bibles = result ["bible"];
@@ -252,7 +258,7 @@ vector <Database_Check_Hit> Database_Check::getSuppressions ()
   for (unsigned int i = 0; i < rowids.size(); i++) {
     Database_Check_Hit hit = Database_Check_Hit ();
     hit.rowid = convert_to_int (rowids [i]);
-    hit.bible = convert_to_int (bibles [i]);
+    hit.bible = bibles [i];
     hit.book = convert_to_int (books [i]);
     hit.chapter = convert_to_int (chapters [i]);
     hit.verse = convert_to_int (verses [i]);
@@ -266,12 +272,12 @@ vector <Database_Check_Hit> Database_Check::getSuppressions ()
 void Database_Check::release (int id)
 {
   SqliteDatabase sql (filename ());
-  sql.add ("INSERT INTO output (bible, book, chapter, verse, data) SELECT bible, book, chapter, verse, data FROM suppress WHERE rowid =");
+  sql.add ("INSERT INTO output2 (bible, book, chapter, verse, data) SELECT bible, book, chapter, verse, data FROM suppress2 WHERE rowid =");
   sql.add (id);
   sql.add (";");
   sql.execute ();
   sql.clear ();
-  sql.add ("DELETE FROM suppress WHERE rowid =");
+  sql.add ("DELETE FROM suppress2 WHERE rowid =");
   sql.add (id);
   sql.add (";");
   sql.execute ();

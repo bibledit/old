@@ -583,7 +583,7 @@ void test_database_check ()
     database_check.recordOutput ("phpunit", 5, 2, 3, "test");
     vector <Database_Check_Hit> hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, (int)hits.size());
-    evaluate (__LINE__, __func__, 1, hits [0].bible);
+    evaluate (__LINE__, __func__, "phpunit", hits [0].bible);
     evaluate (__LINE__, __func__, 5, hits [0].book);
     evaluate (__LINE__, __func__, 2, hits [0].chapter);
     evaluate (__LINE__, __func__, "test", hits [0].data);
@@ -4097,8 +4097,7 @@ void test_database_bibles ()
     refresh_sandbox (true);
     Database_Bibles database_bibles;
     Database_State::create ();
-    int id = database_bibles.createBible ("phpunit");
-    if (id == 0) evaluate (__LINE__, __func__, "non-zero", id);
+    database_bibles.createBible ("phpunit");
     database_bibles.storeChapter ("phpunit", 2, 3, "a");
     database_bibles.storeChapter ("phpunit", 2, 3, "b");
     database_bibles.storeChapter ("phpunit", 2, 3, "c");
@@ -4115,8 +4114,7 @@ void test_database_bibles ()
     refresh_sandbox (true);
     Database_Bibles database_bibles;
     Database_State::create ();
-    int id = database_bibles.createBible ("phpunit");
-    if (id == 0) evaluate (__LINE__, __func__, "non-zero", id);
+    database_bibles.createBible ("phpunit");
     database_bibles.storeChapter ("phpunit", 2, 3, "a");
     database_bibles.storeChapter ("phpunit", 2, 3, "b");
     database_bibles.storeChapter ("phpunit", 2, 3, "c");
@@ -4136,8 +4134,7 @@ void test_database_bibles ()
     Database_Bibles database_bibles;
     Database_State::create ();
     
-    int id = database_bibles.createBible ("phpunit");
-    evaluate (__LINE__, __func__, 1, id);
+    database_bibles.createBible ("phpunit");
     
     vector <string> bibles = database_bibles.getBibles ();
     evaluate (__LINE__, __func__, {"phpunit"}, bibles);

@@ -64,7 +64,8 @@ vector <string> Database_Bibles::getBibles ()
 
 
 // Returns the ID for a named Bible.
-int Database_Bibles::getID (string name) // Todo goes out.
+// (Somewhere in 2017, God willing, this function will have expired and can be removed.)
+int Database_Bibles::getID (string name)
 {
   string file = filter_url_create_path (bibleFolder (name), "id");
   if (file_exists (file)) {
@@ -74,55 +75,14 @@ int Database_Bibles::getID (string name) // Todo goes out.
 }
 
 
-// Sets the ID for a named Bible.
-void Database_Bibles::setID (string name, int id) // Todo goes out.
-{
-  string folder = bibleFolder (name);
-  filter_url_file_put_contents (filter_url_create_path (folder, "id"), convert_to_string (id));
-}
-
-
-// Returns the Bible name for a Bible ID.
-string Database_Bibles::getName (int id) // Todo goes out.
-{
-  vector <string> bibles = getBibles ();
-  for (string bible : bibles) {
-    int bibleID = getID (bible);
-    if (id == bibleID) return bible;
-  }
-  return "Unknown";
-}
-
-
 // Creates a new empty Bible. Returns its ID.
-int Database_Bibles::createBible (string name)
+void Database_Bibles::createBible (string name)
 {
-  // If the Bible already exists, return its ID.
-  int id = getID (name);
-  if (id > 0) return id;
-
-  // Get IDs in use.
-  vector <int> ids;
-  vector <string> bibles = getBibles ();
-  for (auto bible : bibles) {
-    ids.push_back (getID (bible));
-  }
-  
-  // Get the first free ID.
-  id = 1;
-  while (find (ids.begin (), ids.end (), id) != ids.end ()) id++;
-
   // Create the empty system.
   string folder = bibleFolder (name);
   filter_url_mkdir (folder);
   
-  // Store the ID
-  setID (name, id);
-
   Database_State::setExport (name, 0, Export_Logic::export_needed);
-
-  // Return new ID.
-  return id;
 }
 
 

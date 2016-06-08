@@ -29,7 +29,7 @@ class Database_Check_Hit
 {
 public:
   int rowid;
-  int bible;
+  string bible;
   int book;
   int chapter;
   int verse;

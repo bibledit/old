@@ -2239,7 +2239,7 @@ void test_check_versification ()
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "Bible", hit.bible);
       evaluate (__LINE__, __func__, 10, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 1, hit.verse);
@@ -2268,14 +2268,14 @@ void test_check_versification ()
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "Bible", hit.bible);
       evaluate (__LINE__, __func__, 8, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 1, hit.verse);
       evaluate (__LINE__, __func__, "This chapter is missing", hit.data);
       hit = results[1];
       evaluate (__LINE__, __func__, 2, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "Bible", hit.bible);
       evaluate (__LINE__, __func__, 8, hit.book);
       evaluate (__LINE__, __func__, 5, hit.chapter);
       evaluate (__LINE__, __func__, 1, hit.verse);
@@ -2306,28 +2306,28 @@ void test_check_versification ()
     if (results.size () == 4) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "Bible", hit.bible);
       evaluate (__LINE__, __func__, 8, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 1, hit.verse);
       evaluate (__LINE__, __func__, "This verse is missing according to the versification system", hit.data);
       hit = results[1];
       evaluate (__LINE__, __func__, 2, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "Bible", hit.bible);
       evaluate (__LINE__, __func__, 8, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 24, hit.verse);
       evaluate (__LINE__, __func__, "This verse is extra according to the versification system", hit.data);
       hit = results[2];
       evaluate (__LINE__, __func__, 3, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "Bible", hit.bible);
       evaluate (__LINE__, __func__, 8, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 2, hit.verse);
       evaluate (__LINE__, __func__, "The verse is out of sequence", hit.data);
       hit = results[3];
       evaluate (__LINE__, __func__, 4, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "Bible", hit.bible);
       evaluate (__LINE__, __func__, 8, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 24, hit.verse);
@@ -2359,21 +2359,21 @@ void test_check_versification ()
     if (results.size () == 3) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "Bible", hit.bible);
       evaluate (__LINE__, __func__, 8, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 2, hit.verse);
       evaluate (__LINE__, __func__, "The verse is out of sequence", hit.data);
       hit = results[1];
       evaluate (__LINE__, __func__, 2, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "Bible", hit.bible);
       evaluate (__LINE__, __func__, 8, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 1, hit.verse);
       evaluate (__LINE__, __func__, "The verse is out of sequence", hit.data);
       hit = results[2];
       evaluate (__LINE__, __func__, 3, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "Bible", hit.bible);
       evaluate (__LINE__, __func__, 8, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 3, hit.verse);
@@ -2727,7 +2727,7 @@ void test_check_verses ()
   refresh_sandbox (true);
   Database_Check database_check;
   database_check.create ();
-  // Test Missing Punctuation At End1
+  // Test Missing Punctuation At End
   {
     map <int, string> verses = {
       make_pair (2, "He said."),
@@ -2740,7 +2740,7 @@ void test_check_verses ()
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "1", hit.bible);
       evaluate (__LINE__, __func__, 1, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 3, hit.verse);
@@ -2748,7 +2748,7 @@ void test_check_verses ()
     }
   }
   database_check.truncateOutput ("");
-  // Test Pattern1
+  // Test Pattern
   {
     map <int, string> verses = {
       make_pair (2, "He said."),
@@ -2761,7 +2761,7 @@ void test_check_verses ()
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "1", hit.bible);
       evaluate (__LINE__, __func__, 1, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 3, hit.verse);
@@ -2769,7 +2769,7 @@ void test_check_verses ()
     }
   }
   database_check.truncateOutput ("");
-  // Test Pattern2
+  // Test Pattern
   {
     map <int, string> verses = {
       make_pair (2, "He said."),
@@ -2781,7 +2781,7 @@ void test_check_verses ()
     evaluate (__LINE__, __func__, 0, (int)results.size());
   }
   database_check.truncateOutput ("");
-  // Test Pattern3
+  // Test Pattern
   {
     map <int, string> verses = {
       make_pair (2, "He said."),
@@ -2794,14 +2794,14 @@ void test_check_verses ()
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "1", hit.bible);
       evaluate (__LINE__, __func__, 1, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 2, hit.verse);
       evaluate (__LINE__, __func__, "Pattern found in text: said", hit.data);
       hit = results[1];
       evaluate (__LINE__, __func__, 2, hit.rowid);
-      evaluate (__LINE__, __func__, 0, hit.bible);
+      evaluate (__LINE__, __func__, "1", hit.bible);
       evaluate (__LINE__, __func__, 1, hit.book);
       evaluate (__LINE__, __func__, 1, hit.chapter);
       evaluate (__LINE__, __func__, 4, hit.verse);
