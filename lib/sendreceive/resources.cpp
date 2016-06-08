@@ -268,3 +268,30 @@ void sendreceive_resources_clear_all ()
   Database_Config_General::setResourcesToCache ({});
 }
 
+
+/*
+
+ It used to take a very long time on low-power devices, like Android tablets and phones,
+ to install a complete resource.
+ 
+ Some measurements were done to see where the bottle neck was.
+ 
+ 1. Installed Staten Bible Resource on Mac via Cloud.
+    Measured time: 13:46:57 to 14:08:38 = 20 minutes.
+ 
+ 2. Install Staten Bible Resource on Android via Cloud.
+    Measured time: 15:10:52 to 17:06:57 = 116 minutes.
+ 
+ Both devices were on the same network and connected to the same Cloud.
+
+ Before doing the measurements, the Cloud's cache was filled with all data it had to fetch externally, so that external influences were excluded.
+ 
+ There was a big difference between a Mac and an Android phone.
+ Likely this was due to the difference in performance: 
+ The Mac device is fast and powerful and the Android device is a low-power device.
+ 
+ To resolve this, a new faster way to download resources was made available:
+ 1. The Cloud prepares the SQLite database with part of the resource.
+ 2. The Client downloads the entire database in one go.
+
+*/
