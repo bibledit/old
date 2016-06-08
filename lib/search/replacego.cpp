@@ -65,7 +65,7 @@ string search_replacego (void * webserver_request)
   bool casesensitive = (request->query ["c"] == "true");
   
   
-  // Get Bible and passage for this identifier. Todo test it well.
+  // Get Bible and passage for this identifier.
   vector <string> details = filter_string_explode (id, '_');
   string bible;
   if (details.size() > 0) bible = details [0];

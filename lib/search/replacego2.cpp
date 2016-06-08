@@ -69,7 +69,7 @@ string search_replacego2 (void * webserver_request)
   // Get Bible and passage for this identifier.
   vector <string> details = filter_string_explode (id, '_');
   string bible;
-  if (details.size() > 0) bible = details [0]; // Todo test it well.
+  if (details.size() > 0) bible = details [0];
   int book = 0;
   if (details.size () > 1) book = convert_to_int (details [1]);
   int chapter = -1;

@@ -92,14 +92,14 @@ string search_replacepre (void * webserver_request)
   if (replacewith != "") newtext = filter_string_markup_words ({replacewith}, newtext);
   
   
-  // The id sent to the browser contains bible, book, chapter, and verse. Todo test it.
+  // The id sent to the browser contains bible, book, chapter, and verse.
   vector <string> bits = {
     bible,
     convert_to_string (book),
     convert_to_string (chapter),
     verse
   };
-  string s_id = filter_string_implode (bits, "_"); // Todo handle _ in bible names.
+  string s_id = filter_string_implode (bits, "_");
   
   
   // Check whether the user has write access to the book.
