@@ -107,7 +107,8 @@ string sync_settings (void * webserver_request)
     }
     case Sync_Logic::settings_get_bible_id:
     {
-      return convert_to_string (request->database_bibles()->getID (bible_s)); // Todo check on this one how to do it.
+      // No longer in use since June 2016.
+      return "1";
     }
     case Sync_Logic::settings_get_bible_font:
     {

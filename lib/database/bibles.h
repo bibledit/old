@@ -28,7 +28,6 @@ class Database_Bibles
 {
 public:
   vector <string> getBibles ();
-  int getID (string name);
   void createBible (string name);
   void deleteBible (string name);
   void storeChapter (string name, int book, int chapter_number, string chapter_text);

@@ -162,8 +162,7 @@ string Sync_Logic::settings_checksum (const vector <string> & bibles)
   vector <string> resources = request->database_config_user()->getActiveResources ();
   checksum.append (filter_string_implode (resources, "\n"));
   for (auto & bible : bibles) {
-    int id = request->database_bibles ()->getID (bible); // Todo update it and check on it with old and new clients.
-    checksum.append (convert_to_string (id));
+    checksum.append (bible);
     // Download Bible text font name: It is the default name for the clients.
     checksum.append (Database_Config_Bible::getTextFont (bible));
   }

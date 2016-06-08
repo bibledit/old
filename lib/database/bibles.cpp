@@ -63,18 +63,6 @@ vector <string> Database_Bibles::getBibles ()
 }
 
 
-// Returns the ID for a named Bible.
-// (Somewhere in 2017, God willing, this function will have expired and can be removed.)
-int Database_Bibles::getID (string name)
-{
-  string file = filter_url_create_path (bibleFolder (name), "id");
-  if (file_exists (file)) {
-    return convert_to_int (filter_url_file_get_contents (file));
-  }
-  return 0;
-}
-
-
 // Creates a new empty Bible. Returns its ID.
 void Database_Bibles::createBible (string name)
 {
