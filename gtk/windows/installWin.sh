@@ -250,6 +250,7 @@ cp $DLLS/icu-config "$BIN"
 # Above added 3/25/2016
 # Below added 6/9/2016
 cp $DLLS/libpcre-1.dll "$BIN"
+cp $DLLS/libgraphite2.dll "$BIN"
 # Above added 6/9/2016
 
 echo "Copying various executables to $BIN"
