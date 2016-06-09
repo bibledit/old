@@ -223,17 +223,20 @@ cp $DLLS/libgmp-10.dll "$BIN"
 cp $DLLS/libgmpxx-4.dll "$BIN"
 cp $DLLS/libgnutls-30.dll "$BIN"
 cp $DLLS/libgnutlsxx-28.dll "$BIN"
-cp $DLLS/libnettle-6-1.dll "$BIN"
+# Below was /mingw64/bin/libnettle-6-1.dll
+cp $DLLS/libnettle-6-2.dll "$BIN"
 cp $DLLS/libtiff-5.dll "$BIN"
 cp $DLLS/libtiffxx-5.dll "$BIN"
 cp $DLLS/libp11-kit-0.dll "$BIN"
 cp $DLLS/libtasn1-6.dll "$BIN"
 # Above added 3/24/2016.
 # Below added 3/25/2016
-cp $DLLS/libhogweed-4-1.dll "$BIN"
+# Below was libhogweed-4-1.dll
+cp $DLLS/libhogweed-4-2.dll "$BIN"
 cp $DLLS/libjasper-1.dll "$BIN"
 cp $DLLS/libgthread-2.0-0.dll "$BIN"
-cp $DLLS/libhunspell-1.3-0.dll "$BIN"
+# Below was libhunspell-1.3-0.dll
+cp $DLLS/libhunspell-1.4-0.dll "$BIN"
 cp $DLLS/libpng-config "$BIN"
   # The next file is a must have
 cp $DLLS/libpng16-16.dll "$BIN"
@@ -245,6 +248,9 @@ cp $DLLS/libicule56.dll "$BIN"
 cp $DLLS/libicuio56.dll "$BIN"
 cp $DLLS/icu-config "$BIN"
 # Above added 3/25/2016
+# Below added 6/9/2016
+cp $DLLS/libpcre-1.dll "$BIN"
+# Above added 6/9/2016
 
 echo "Copying various executables to $BIN"
 cp $USRBIN/bison.exe "$BIN"
