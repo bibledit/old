@@ -33,7 +33,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Often read from.
 
 
-string Database_Cache::database_resource (string resource, int book)
+string Database_Cache::fragment ()
+{
+  return "cache_resource_";
+}
+
+
+string Database_Cache::path (string resource, int book)
+{
+  return filter_url_create_path ("databases", filename (filter_url_urlencode (resource), book) + database_sqlite_suffix ());
+}
+
+
+string Database_Cache::filename (string resource, int book)
 {
   // Name of the database for this resource.
   resource = filter_url_clean_filename (resource);
@@ -41,20 +53,20 @@ string Database_Cache::database_resource (string resource, int book)
   if (book) {
     book_fragment = "_" + convert_to_string (book);
   }
-  return "cache_resource_" + resource + book_fragment;
+  return fragment () + resource + book_fragment;
 }
 
 
 void Database_Cache::create (string resource, int book)
 {
-  SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
+  SqliteDatabase sql = SqliteDatabase (filename (resource, book));
+
   sql.add ("CREATE TABLE IF NOT EXISTS cache (chapter integer, verse integer, value text);");
   sql.execute ();
+  
   sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS errors (chapter integer, verse integer);");
-  sql.execute ();
-  sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS progress (chapter integer, verse integer);");
+  
+  sql.add ("CREATE TABLE IF NOT EXISTS ready (ready boolean);");
   sql.execute ();
 }
 
@@ -62,10 +74,16 @@ void Database_Cache::create (string resource, int book)
 void Database_Cache::remove (string resource)
 {
   for (int book = 0; book < 100; book++) {
-    string file = database_sqlite_file (database_resource (resource, book));
-    if (file_exists (file)) {
-      filter_url_unlink (file);
-    }
+    remove (resource, book);
+  }
+}
+
+
+void Database_Cache::remove (string resource, int book)
+{
+  string file = database_sqlite_file (filename (resource, book));
+  if (file_exists (file)) {
+    filter_url_unlink (file);
   }
 }
 
@@ -83,7 +101,7 @@ bool Database_Cache::exists (string resource)
 // Returns true if the cache for the $resource $book exists.
 bool Database_Cache::exists (string resource, int book)
 {
-  string file = database_sqlite_file (database_resource (resource, book));
+  string file = database_sqlite_file (filename (resource, book));
   return file_exists (file);
 }
 
@@ -93,7 +111,7 @@ bool Database_Cache::exists (string resource, int book, int chapter, int verse)
 {
   // If the the book-based cache exists, check existence from there.
   if (exists (resource, book)) {
-    SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
+    SqliteDatabase sql = SqliteDatabase (filename (resource, book));
     sql.add ("SELECT count(*) FROM cache WHERE chapter = ");
     sql.add (chapter);
     sql.add ("AND verse = ");
@@ -106,7 +124,7 @@ bool Database_Cache::exists (string resource, int book, int chapter, int verse)
   }
   // Else if the previous cache layout exists, check that.
   if (exists (resource, 0)) {
-    SqliteDatabase sql = SqliteDatabase (database_resource (resource, 0));
+    SqliteDatabase sql = SqliteDatabase (filename (resource, 0));
     sql.add ("SELECT count(*) FROM cache WHERE book =");
     sql.add (book);
     sql.add ("AND chapter = ");
@@ -127,7 +145,7 @@ bool Database_Cache::exists (string resource, int book, int chapter, int verse)
 // Caches a value.
 void Database_Cache::cache (string resource, int book, int chapter, int verse, string value)
 {
-  SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
+  SqliteDatabase sql = SqliteDatabase (filename (resource, book));
 
   sql.clear ();
   sql.add ("DELETE FROM cache WHERE chapter = ");
@@ -154,7 +172,7 @@ string Database_Cache::retrieve (string resource, int book, int chapter, int ver
 {
   // If the the book-based cache exists, retrieve it from there.
   if (exists (resource, book)) {
-    SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
+    SqliteDatabase sql = SqliteDatabase (filename (resource, book));
     sql.add ("SELECT value FROM cache WHERE chapter = ");
     sql.add (chapter);
     sql.add ("AND verse = ");
@@ -166,7 +184,7 @@ string Database_Cache::retrieve (string resource, int book, int chapter, int ver
   }
   // Else if the previous cache layout exists, retrieve it from there.
   if (exists (resource, 0)) {
-    SqliteDatabase sql = SqliteDatabase (database_resource (resource, 0));
+    SqliteDatabase sql = SqliteDatabase (filename (resource, 0));
     sql.add ("SELECT value FROM cache WHERE book =");
     sql.add (book);
     sql.add ("AND chapter = ");
@@ -189,83 +207,47 @@ int Database_Cache::count (string resource)
   // Book 0 is for the old layout. Book 1++ is for the new layout.
   for (int book = 0; book < 100; book++) {
     if (exists (resource, book)) {
-      SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
-      sql.add ("SELECT count(*) FROM cache;");
-      vector <string> result = sql.query () ["count(*)"];
-      if (!result.empty ()) {
-        count += convert_to_int (result [0]);
-      }
+      count ++;
     }
   }
   return count;
 }
 
 
-void Database_Cache::error (string resource, int book, int chapter, int verse, bool error)
+// Return true if the database has loaded all its expected content.
+bool Database_Cache::ready (string resource, int book)
 {
-  SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
-  if (error) {
-    sql.add ("INSERT INTO errors VALUES (");
-    sql.add (chapter);
-    sql.add (",");
-    sql.add (verse);
-    sql.add (");");
-    sql.execute ();
-  } else {
-    sql.add ("DELETE FROM errors WHERE chapter = ");
-    sql.add (chapter);
-    sql.add ("AND verse = ");
-    sql.add (verse);
-    sql.add (";");
-    sql.execute ();
+  SqliteDatabase sql = SqliteDatabase (filename (resource, book));
+  sql.add ("SELECT ready FROM ready;");
+  vector <string> result = sql.query () ["ready"];
+  for (auto ready : result) {
+    return convert_to_bool (ready);
   }
+  return false;
 }
 
 
-vector <pair <int, int> > Database_Cache::errors (string resource, int book)
+// Sets the 'ready' flag in the database.
+void Database_Cache::ready (string resource, int book, bool ready)
 {
-  vector <pair <int, int> > errors;
-  SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
-  sql.add ("SELECT chapter, verse FROM errors;");
-  map <string, vector <string> > result = sql.query ();
-  vector <string> chapters = result ["chapter"];
-  vector <string> verses = result ["verse"];
-  for (unsigned int i = 0; i < chapters.size (); i++) {
-    int chapter = convert_to_int (chapters [i]);
-    int verse = convert_to_int (verses [i]);
-    errors.push_back (make_pair (chapter, verse));
-  }
-  return errors;
-}
-
-
-void Database_Cache::progress (string resource, int book, int chapter, int verse)
-{
-  SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
-  sql.add ("DELETE FROM progress;");
-  sql.execute ();
+  SqliteDatabase sql = SqliteDatabase (filename (resource, book));
+  
   sql.clear ();
-  sql.add ("INSERT INTO progress VALUES (");
-  sql.add (chapter);
-  sql.add (",");
-  sql.add (verse);
+  sql.add ("DELETE FROM ready;");
+  sql.execute ();
+  
+  sql.clear ();
+  sql.add ("INSERT INTO ready VALUES (");
+  sql.add (ready);
   sql.add (");");
   sql.execute ();
 }
 
 
-pair <int, int> Database_Cache::progress (string resource, int book)
+int Database_Cache::size (string resource, int book)
 {
-  pair <int, int> progress = make_pair (0, 0);
-  SqliteDatabase sql = SqliteDatabase (database_resource (resource, book));
-  sql.add ("SELECT chapter, verse FROM progress;");
-  map <string, vector <string> > result = sql.query ();
-  vector <string> chapters = result ["chapter"];
-  vector <string> verses = result ["verse"];
-  if (!chapters.empty ()) {
-    progress = make_pair (convert_to_int (chapters [0]), convert_to_int (verses [0]));
-  }
-  return progress;
+  string file = database_sqlite_file (filename (resource, book));
+  return filter_url_filesize (file);
 }
 
 

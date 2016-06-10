@@ -3969,7 +3969,7 @@ void test_database_cache ()
   
   refresh_sandbox (true);
 
-  // Initially database should not exist.
+  // Initially the database should not exist.
   bool exists = Database_Cache::exists ("");
   evaluate (__LINE__, __func__, false, exists);
   exists = Database_Cache::exists ("unittests");
@@ -3983,7 +3983,7 @@ void test_database_cache ()
   string out_err;
   filter_shell_run ("cp " + testdatapath + " " + databasepath, out_err);
   size_t count = Database_Cache::count ("unittests");
-  evaluate (__LINE__, __func__, 38, count);
+  evaluate (__LINE__, __func__, 1, count);
   exists = Database_Cache::exists ("unittests", 8, 1, 16);
   evaluate (__LINE__, __func__, true, exists);
   string value = Database_Cache::retrieve ("unittests", 8, 1, 16);
@@ -4003,9 +4003,9 @@ void test_database_cache ()
   evaluate (__LINE__, __func__, true, exists);
   exists = Database_Cache::exists ("unittests", 11);
   evaluate (__LINE__, __func__, false, exists);
-  // The cache should have 0 verses.
+  // The cache should have one book.
   count = Database_Cache::count ("unittests");
-  evaluate (__LINE__, __func__, 0, count);
+  evaluate (__LINE__, __func__, 1, count);
   
   // Cache and retrieve value.
   Database_Cache::create ("unittests", 1);
@@ -4013,9 +4013,9 @@ void test_database_cache ()
   value = Database_Cache::retrieve ("unittests", 1, 2, 3);
   evaluate (__LINE__, __func__, "cached", value);
   
-  // Verse count check.
+  // Book count check.
   count = Database_Cache::count ("unittests");
-  evaluate (__LINE__, __func__, 1, count);
+  evaluate (__LINE__, __func__, 2, count);
   
   // Cache does not exist for one passage, but does exist for the other passage.
   exists = Database_Cache::exists ("unittests", 1, 2, 4);
@@ -4028,53 +4028,57 @@ void test_database_cache ()
   exists = Database_Cache::exists ("unittests", 1);
   evaluate (__LINE__, __func__, false, exists);
   
-  // Excercise the errors registry.
-  Database_Cache::create ("unittests", 3);
-  vector <pair <int, int> > errors = Database_Cache::errors ("unittests", 3);
-  evaluate (__LINE__, __func__, 0, errors.size ());
-  Database_Cache::error ("unittests", 3, 5, 6, true);
-  Database_Cache::error ("unittests", 3, 7, 8, true);
-  errors = Database_Cache::errors ("unittests", 3);
-  evaluate (__LINE__, __func__, 2, errors.size ());
-  if (errors.size () == 2) {
-    pair <int, int> error = errors [0];
-    evaluate (__LINE__, __func__, 5, error.first);
-    evaluate (__LINE__, __func__, 6, error.second);
-    error = errors [1];
-    evaluate (__LINE__, __func__, 7, error.first);
-    evaluate (__LINE__, __func__, 8, error.second);
-  }
-  Database_Cache::error ("unittests", 3, 5, 6, false);
-  errors = Database_Cache::errors ("unittests", 3);
-  evaluate (__LINE__, __func__, 1, errors.size ());
-  
-  // Excercise the progress tracker.
-  Database_Cache::create ("unittests", 10);
-  // Default: 0 / 0.
-  pair <int, int> progress = Database_Cache::progress ("unittests", 10);
-  evaluate (__LINE__, __func__, 0, progress.first);
-  evaluate (__LINE__, __func__, 0, progress.second);
-  // Record and check.
-  Database_Cache::progress ("unittests", 10, 99, 999);
-  progress = Database_Cache::progress ("unittests", 10);
-  evaluate (__LINE__, __func__, 99, progress.first);
-  evaluate (__LINE__, __func__, 999, progress.second);
-  // Record again and check.
-  Database_Cache::progress ("unittests", 10, 2, 9);
-  progress = Database_Cache::progress ("unittests", 10);
-  evaluate (__LINE__, __func__, 2, progress.first);
-  evaluate (__LINE__, __func__, 9, progress.second);
-  
   // Excercise the file-based cache.
-  string url = "https://netbible.org/bible/1/2/3";
-  string contents = "Bible contents";
-  evaluate (__LINE__, __func__, false, database_filebased_cache_exists (url));
-  evaluate (__LINE__, __func__, "", database_filebased_cache_get (url));
-  database_filebased_cache_put (url, contents);
-  evaluate (__LINE__, __func__, true, database_filebased_cache_exists (url));
-  evaluate (__LINE__, __func__, contents, database_filebased_cache_get (url));
-  database_filebased_cache_trim ();
+  {
+    string url = "https://netbible.org/bible/1/2/3";
+    string contents = "Bible contents";
+    evaluate (__LINE__, __func__, false, database_filebased_cache_exists (url));
+    evaluate (__LINE__, __func__, "", database_filebased_cache_get (url));
+    database_filebased_cache_put (url, contents);
+    evaluate (__LINE__, __func__, true, database_filebased_cache_exists (url));
+    evaluate (__LINE__, __func__, contents, database_filebased_cache_get (url));
+    database_filebased_cache_trim ();
+  }
 
+  // Excercise the ready-flag.
+  {
+    string bible = "ready";
+    int book = 11;
+    Database_Cache::create (bible, book);
+    
+    bool ready = Database_Cache::ready (bible, book);
+    evaluate (__LINE__, __func__, false, ready);
+    
+    Database_Cache::ready (bible, book, false);
+    ready = Database_Cache::ready (bible, book);
+    evaluate (__LINE__, __func__, false, ready);
+    
+    Database_Cache::ready (bible, book, true);
+    ready = Database_Cache::ready (bible, book);
+    evaluate (__LINE__, __func__, true, ready);
+  }
+
+  // Check the file size function.
+  {
+    string bible = "size";
+    int book = 12;
+    Database_Cache::create (bible, book);
+    
+    int size = Database_Cache::size (bible, book);
+    if ((size < 3072) || (size > 5120)) {
+      evaluate (__LINE__, __func__, "between 3072 and 5120", convert_to_string (size));
+    }
+
+    size = Database_Cache::size (bible, book + 1);
+    evaluate (__LINE__, __func__, 0, size);
+  }
+  
+  // Check file naming for downloading a cache.
+  {
+    evaluate (__LINE__, __func__, "cache_resource_", Database_Cache::fragment ());
+    evaluate (__LINE__, __func__, "databases/cache_resource_download_23.sqlite", Database_Cache::path ("download", 23));
+  }
+  
   refresh_sandbox (true);
 }
 

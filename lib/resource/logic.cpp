@@ -28,12 +28,15 @@
 #include <database/config/general.h>
 #include <database/logs.h>
 #include <database/cache.h>
+#include <database/books.h>
+#include <database/versifications.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <filter/text.h>
 #include <filter/url.h>
 #include <filter/archive.h>
 #include <filter/shell.h>
+#include <filter/roles.h>
 #include <resource/external.h>
 #include <locale/translate.h>
 #include <config/logic.h>
@@ -42,6 +45,7 @@
 #include <sword/logic.h>
 #include <demo/logic.h>
 #include <sync/resources.h>
+#include <tasks/logic.h>
 
 
 /*
@@ -569,4 +573,64 @@ string resource_logic_selector_caller (void * webserver_request)
 string resource_logic_default_user_url ()
 {
   return "http://bibledit.org/resource-[book]-[chapter]-[verse].html";
+}
+
+
+// This creates a resource database cache and runs in the Cloud.
+void resource_logic_create_cache ()
+{
+  // If there's nothing to cache, bail out.
+  vector <string> signatures = Database_Config_General::getResourcesToCache ();
+  if (signatures.empty ()) return;
+
+  // Resource and book to cache.
+  string signature = signatures [0];
+  signatures.erase (signatures.begin ());
+  Database_Config_General::setResourcesToCache (signatures);
+  size_t pos = signature.find_last_of (" ");
+  string resource = signature.substr (0, pos);
+  int book = convert_to_int (signature.substr (pos++));
+  string bookname = Database_Books::getEnglishFromId (book);
+  
+  Database_Logs::log ("Caching " + resource + " " + bookname, Filter_Roles::consultant ());
+  
+  // Database layout is per book: Create a database for this book.
+  Database_Cache::remove (resource, book);
+  Database_Cache::create (resource, book);
+  
+  Database_Versifications database_versifications;
+  vector <int> chapters = database_versifications.getMaximumChapters (book);
+  for (auto & chapter : chapters) {
+
+    Database_Logs::log (resource + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::consultant ());
+
+    vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
+    for (auto & verse : verses) {
+
+      // Fetch the text for the passage.
+      bool server_is_installing_module = false;
+      int wait_iterations = 0;
+      string html, error;
+      do {
+        // Fetch the resource data.
+        html = resource_logic_get_contents_for_client (resource, book, chapter, verse);
+        server_is_installing_module = (html == sword_logic_installing_module_text ());
+        if (server_is_installing_module) {
+          Database_Logs::log ("Waiting while installing the SWORD module");
+          this_thread::sleep_for (chrono::seconds (60));
+          wait_iterations++;
+        }
+      } while (server_is_installing_module && (wait_iterations < 5));
+
+      // Cache the verse data.
+      Database_Cache::cache (resource, book, chapter, verse, html);
+    }
+  }
+
+  // Done.
+  Database_Cache::ready (resource, book, true);
+  Database_Logs::log ("Completed caching " + resource + " " + bookname, Filter_Roles::consultant ());
+  
+  // If there's another resource database waiting to be cached, schedule it for caching.
+  if (!signatures.empty ()) tasks_logic_queue (CACHERESOURCES);
 }

@@ -23,6 +23,9 @@
 #include <filter/string.h>
 #include <webserver/request.h>
 #include <resource/logic.h>
+#include <database/cache.h>
+#include <database/config/general.h>
+#include <tasks/logic.h>
 
 
 string sync_resources_url ()
@@ -51,6 +54,7 @@ string sync_resources (void * webserver_request)
     this_thread::sleep_for (chrono::seconds (5));
   }
 
+  int action = convert_to_int (request->query ["a"]);
   string resource = request->query ["r"];
   int book = convert_to_int (request->query ["b"]);
   int chapter = convert_to_int (request->query ["c"]);
@@ -64,9 +68,43 @@ string sync_resources (void * webserver_request)
   if (verse > 200) request_ok = false;
   
   if (request_ok) {
-    return resource_logic_get_contents_for_client (resource, book, chapter, verse);
+    switch (action) {
+
+      case Sync_Logic::resources_request_text:
+      {
+        return resource_logic_get_contents_for_client (resource, book, chapter, verse);
+      }
+      
+      case Sync_Logic::resources_request_database:
+      {
+        // If the cache is ready, return its file size.
+        if (Database_Cache::exists (resource, book)) {
+          if (Database_Cache::ready (resource, book)) {
+            return convert_to_string (Database_Cache::size (resource, book));
+          }
+        }
+        // Schedule this resource for caching if that's not yet the case.
+        vector <string> signatures = Database_Config_General::getResourcesToCache ();
+        string signature = resource + " " + convert_to_string (book);
+        if (!in_array (signature, signatures)) {
+          signatures.push_back (signature);
+          Database_Config_General::setResourcesToCache (signatures);
+        }
+        if (!tasks_logic_queued (CACHERESOURCES)) {
+          tasks_logic_queue (CACHERESOURCES);
+        }
+        return "0";
+      }
+      
+      case Sync_Logic::resources_request_download:
+      {
+        return Database_Cache::path (resource, book);
+      }
+      
+      default: break;
+    }
   }
-  
+    
   // Bad request. Delay flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
   request->response_code = 400;

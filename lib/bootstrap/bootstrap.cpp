@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/switch.h>
 #include <database/config/general.h>
 #include <database/offlineresources.h>
+#include <database/cache.h>
 #include <setup/index.h>
 #include <journal/index.h>
 #include <config/logic.h>
@@ -246,6 +247,9 @@ void bootstrap_index (void * webserver_request)
   // Serve offline resources.
   // Note: This is no longer needed as of July 28 2015: For security it should be removed.
   else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_cache_file (request);
+  
+  // Serve resource downloads.
+  else if ((request->get.find (Database_Cache::fragment ()) != string::npos) && (extension == "sqlite")) http_serve_cache_file (request);
   
   // Serve initialization notice.
   else if (config_logic_version () != Database_Config_General::getInstalledDatabaseVersion ()) request->reply = setup_initialization_notice ();

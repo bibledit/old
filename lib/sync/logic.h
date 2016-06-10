@@ -109,6 +109,10 @@ public:
   static const int changes_get_checksum = 2;
   static const int changes_get_identifiers = 3;
   static const int changes_get_modification = 4;
+  
+  static const int resources_request_text = 0;
+  static const int resources_request_database = 1;
+  static const int resources_request_download = 2;
 
   bool security_okay ();
   bool credentials_okay ();

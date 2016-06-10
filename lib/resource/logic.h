@@ -51,4 +51,7 @@ string resource_logic_selector_caller (void * webserver_request);
 
 string resource_logic_default_user_url ();
 
+void resource_logic_create_cache ();
+
+
 #endif

@@ -103,8 +103,9 @@ void sendreceive_resources ()
   sendreceive_resources_kick_watchdog ();
   config_globals_syncing_resources = true;
 
-  // Error counter.
+  // Counters.
   int error_count = 0;
+  int wait_count = 0;
   
   // Resource to cache.
   string resource = resources [0];
@@ -112,135 +113,102 @@ void sendreceive_resources ()
   // Erase the two older storage locations that were used to cache resources in earlier versions of Bibledit.
   {
     Database_OfflineResources database_offlineresources;
-    Database_UsfmResources database_usfmresources;
     database_offlineresources.erase (resource);
+    Database_UsfmResources database_usfmresources;
     database_usfmresources.deleteResource (resource);
   }
 
   Database_Logs::log ("Starting to install resource:" " " + resource, Filter_Roles::consultant ());
-  
+
+  // Server address and port.
+  string address = Database_Config_General::getServerAddress ();
+  int port = Database_Config_General::getServerPort ();
+  // If the client has not been connected to a cloud instance,
+  // fetch the resource from the Bibledit Cloud demo.
+  if (!client_logic_client_enabled ()) {
+    address = demo_address ();
+    port = demo_port ();
+  }
+  string cloud_url = client_logic_url (address, port, sync_resources_url ());
+  string resource_url = filter_url_build_http_query (cloud_url, "r", filter_url_urlencode (resource));
+
+  // Go through all Bible books.
   Database_Versifications database_versifications;
-  
   vector <int> books = database_versifications.getMaximumBooks ();
   for (auto & book : books) {
     sendreceive_resources_delay_during_prioritized_tasks ();
     if (sendreceive_resources_interrupt) continue;
-    
-    // Database layout is per book: Create a database for this book.
-    Database_Cache::create (resource, book);
 
-    // Last downloaded passage in a previous download operation.
-    int last_downloaded_passage = 0;
-    {
-      pair <int, int> progress = Database_Cache::progress (resource, book);
-      int chapter = progress.first;
-      int verse = progress.second;
-      Passage passage ("", book, chapter, convert_to_string (verse));
-      last_downloaded_passage = filter_passage_to_integer (passage);
-    }
+    // The URL fragment that contains the current book in its query.
+    string book_url = filter_url_build_http_query (resource_url, "b", convert_to_string (book));
     
-    // List of passages recorded in the database that had errors on a previous download operation.
-    vector <int> previous_errors;
-    {
-      vector <pair <int, int> > errors = Database_Cache::errors (resource, book);
-      for (auto & element : errors) {
-        int chapter = element.first;
-        int verse = element.second;
-        Passage passage ("", book, chapter, convert_to_string (verse));
-        int numeric_error = filter_passage_to_integer (passage);
-        previous_errors.push_back (numeric_error);
-      }
-    }
-    
-    string bookName = Database_Books::getEnglishFromId (book);
-    
-    vector <int> chapters = database_versifications.getMaximumChapters (book);
-    for (auto & chapter : chapters) {
-      sendreceive_resources_delay_during_prioritized_tasks ();
-      if (sendreceive_resources_interrupt) continue;
-      bool downloaded = false;
-      string message = resource + ": " + bookName + " chapter " + convert_to_string (chapter);
-      vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
-      for (auto & verse : verses) {
-        sendreceive_resources_delay_during_prioritized_tasks ();
-        if (sendreceive_resources_interrupt) continue;
-        // Numeric representation of passage to deal with.
-        Passage passage ("", book, chapter, convert_to_string (verse));
-        int numeric_passage = filter_passage_to_integer (passage);
-        // Conditions to download this verse:
-        // 1. The passage is past the last downloaded passage.
-        bool download_verse_past = numeric_passage > last_downloaded_passage;
-        // 2. The passage was recorded as an error in a previous download operation.
-        bool download_verse_error = in_array (numeric_passage, previous_errors);
-        // Whether to download the verse.
-        if (download_verse_past || download_verse_error) {
-          // Fetch the text for the passage.
-          bool server_is_installing_module = false;
-          int wait_iterations = 0;
-          string html, error;
-          do {
-            // Fetch this resource from the server.
-            string address = Database_Config_General::getServerAddress ();
-            int port = Database_Config_General::getServerPort ();
-            // If the client has not been connected to a cloud instance,
-            // fetch the resource from the Bibledit Cloud demo.
-            if (!client_logic_client_enabled ()) {
-              address = demo_address ();
-              port = demo_port ();
-            }
-            string url = client_logic_url (address, port, sync_resources_url ());
-            url = filter_url_build_http_query (url, "r", filter_url_urlencode (resource));
-            url = filter_url_build_http_query (url, "b", convert_to_string (book));
-            url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
-            url = filter_url_build_http_query (url, "v", convert_to_string (verse));
+    // The URL to request the resource database for this book from the Cloud.
+    string url = filter_url_build_http_query (book_url, "a", convert_to_string (Sync_Logic::resources_request_database));
+    string error;
+    string response = filter_url_http_get (url, error, false);
+    if (error.empty ()) {
+      // When the Cloud responds with a "0", it means that the database is not yet ready for distribution.
+      // The Cloud will be working on preparing it.
+      int server_size = convert_to_int (response);
+      if (server_size > 0) {
+        // The Cloud has now responded with the file size of the resource database, in bytes.
+        // Now request the path to download it.
+        url = filter_url_build_http_query (book_url, "a", convert_to_string (Sync_Logic::resources_request_download));
+        error.clear ();
+        string response = filter_url_http_get (url, error, false);
+        if (error.empty ()) {
+          // At this stage the file size is known, plus the fragment of the path in the Cloud.
+          // Check whether the file is already available on the client, fully downloaded.
+          string client_path = filter_url_create_root_path (filter_url_urldecode (response));
+          int client_size = filter_url_filesize (client_path);
+          if (server_size != client_size) {
+            // Download it.
+            string url = client_logic_url (address, port, response);
             error.clear ();
-            html = filter_url_http_get (url, error, false);
-            server_is_installing_module = (html == sword_logic_installing_module_text ());
-            if (server_is_installing_module) {
-              Database_Logs::log ("Waiting while Bibledit Cloud installs the requested SWORD module");
-              this_thread::sleep_for (chrono::seconds (60));
-              wait_iterations++;
+            filter_url_download_file (url, client_path, error, false);
+            if (error.empty ()) {
+              string bookname = Database_Books::getEnglishFromId (book);
+              Database_Logs::log ("Downloaded " + resource + " " + bookname, Filter_Roles::consultant ());
+            } else {
+              Database_Logs::log ("Failed to download resource " + response + " :" + error, Filter_Roles::consultant ());
+              error_count++;
             }
-          } while (server_is_installing_module && (wait_iterations < 5));
-          // Record the passage as having been done in case it was a regular download,
-          // rather than one to retry a previous download error.
-          if (download_verse_past) Database_Cache::progress (resource, book, chapter, verse);
-          // Clear the registered error in case the verse download corrects it.
-          if (download_verse_error) Database_Cache::error (resource, book, chapter, verse, false);
-          if (error.empty ()) {
-            // Cache the verse data.
-            if (!Database_Cache::exists (resource, book)) Database_Cache::create (resource, book);
-            Database_Cache::cache (resource, book, chapter, verse, html);
-          } else {
-            // Record an error.
-            Database_Cache::error (resource, book, chapter, verse, true);
-            if (message.find (error) == string::npos) {
-              message.append ("; " + error);
-            }
-            error_count++;
-            this_thread::sleep_for (chrono::seconds (1));
           }
-          downloaded = true;
+        } else {
+          Database_Logs::log (error, Filter_Roles::consultant ());
+          error_count++;
         }
-        sendreceive_resources_kick_watchdog ();
+      } else {
+        wait_count++;
       }
-      message += "; done";
-      if (downloaded) Database_Logs::log (message, Filter_Roles::manager ());
+    } else {
+      Database_Logs::log (error, Filter_Roles::consultant ());
+      error_count++;
     }
+
+    sendreceive_resources_kick_watchdog ();
+    
   }
   
   // Done.
   if (error_count) {
     string msg = "Error count while downloading resource: " + convert_to_string (error_count);
     Database_Logs::log (msg, Filter_Roles::consultant ());
+  } else if (wait_count) {
+    string msg = "Waiting on Cloud to prepare resource for download. Remaining books: " + convert_to_string (wait_count);
+    Database_Logs::log (msg, Filter_Roles::consultant ());
+  } else {
+    Database_Logs::log ("Completed installing resource:" " " + resource, Filter_Roles::consultant ());
   }
-  Database_Logs::log ("Completed installing resource:" " " + resource, Filter_Roles::consultant ());
-  // In case of too many errors, schedule the resource download again.
+  // In case of errors, of when waiting for the Cloud, schedule the resource download again.
   bool re_schedule_download = false;
-  if (error_count) {
+  if (error_count || wait_count) {
     if (!sendreceive_resources_interrupt) {
+      // Wait a bit so as not to generate too many journal entries
+      // when there were errors of when it had to wait for the Cloud.
+      this_thread::sleep_for (chrono::minutes (1));
       re_schedule_download = true;
-      Database_Logs::log ("Errors: Re-scheduling resource installation", Filter_Roles::consultant ());
+      Database_Logs::log ("Re-scheduling resource installation", Filter_Roles::consultant ());
     }
   }
   // Store new download schedule.

@@ -205,6 +205,8 @@ void tasks_run_one (string filename)
     client_logic_usfm_resources_update ();
   } else if (command == CREATESAMPLEBIBLE) {
     demo_create_sample_bible ();
+  } else if (command == CACHERESOURCES) {
+    resource_logic_create_cache ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

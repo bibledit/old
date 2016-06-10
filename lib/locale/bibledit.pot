@@ -7441,7 +7441,7 @@ msgid ""
 "available from the Cloud."
 msgstr ""
 
-msgid "Number of installed verses for this resource:"
+msgid "Number of installed books for this resource:"
 msgstr ""
 
 msgid "Start installing the resource and view the progress in the Journal."

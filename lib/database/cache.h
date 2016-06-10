@@ -30,18 +30,20 @@ class Database_Cache
 public:
   static void create (string resource, int book);
   static void remove (string resource);
+  static void remove (string resource, int book);
   static bool exists (string resource);
   static bool exists (string resource, int book);
   static bool exists (string resource, int book, int chapter, int verse);
   static void cache (string resource, int book, int chapter, int verse, string value);
   static string retrieve (string resource, int book, int chapter, int verse);
   static int count (string resource);
-  static void error (string resource, int book, int chapter, int verse, bool error);
-  static vector <pair <int, int> > errors (string resource, int book);
-  static void progress (string resource, int book, int chapter, int verse);
-  static pair <int, int> progress (string resource, int book);
+  static bool ready (string resource, int book);
+  static void ready (string resource, int book, bool ready);
+  static int size (string resource, int book);
+  static string fragment ();
+  static string path (string resource, int book);
 private:
-  static string database_resource (string resource, int book);
+  static string filename (string resource, int book);
 };
 
 
