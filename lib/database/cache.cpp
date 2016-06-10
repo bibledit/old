@@ -310,12 +310,22 @@ void database_filebased_cache_remove (string schema)
 
 // Deletes items older than x days from the cache.
 // It uses a Linux shell command. This can be done because it runs on the server only.
-// On some clients, shell commands don't work.
+// On some clients, shell commands won't work.
 void database_filebased_cache_trim ()
 {
+  // The directory that contains the file-based cache files.
   string path = database_cache_full_path ("");
+  
+  // Remove files that have not been modified for x days.
   string output, error;
   filter_shell_run (path, "find", {path, "-atime", "+5", "-delete"}, &output, &error);
+  if (!output.empty ()) Database_Logs::log (output);
+  if (!error.empty ()) Database_Logs::log (error);
+  
+  // Remove empty directories.
+  output.clear ();
+  error.clear ();
+  filter_shell_run (path, "find", {path, "-type", "d", "-empty", "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
 }
