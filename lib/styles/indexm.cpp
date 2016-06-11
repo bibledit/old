@@ -71,6 +71,10 @@ string styles_indexm (void * webserver_request)
   
   if (request->post.count ("new")) {
     string name = request->post["entry"];
+    // Remove spaces at the ends of the name for the new stylesheet.
+    // Because predictive keyboards can add a space to the name,
+    // and the stylesheet system is not built for whitespace at the start / end of the name of the stylesheet.
+    name = filter_string_trim (name);
     vector <string> existing = database_styles.getSheets ();
     if (find (existing.begin(), existing.end (), name) != existing.end ()) {
       page += Assets_Page::error (translate("This stylesheet already exists"));
