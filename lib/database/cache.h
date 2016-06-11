@@ -51,7 +51,9 @@ bool database_filebased_cache_exists (string schema);
 void database_filebased_cache_put (string schema, string contents);
 string database_filebased_cache_get (string schema);
 void database_filebased_cache_remove (string schema);
-void database_filebased_cache_trim ();
+
+
+void database_cache_trim ();
 
 
 #endif

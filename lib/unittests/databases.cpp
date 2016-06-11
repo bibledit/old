@@ -4037,7 +4037,7 @@ void test_database_cache ()
     database_filebased_cache_put (url, contents);
     evaluate (__LINE__, __func__, true, database_filebased_cache_exists (url));
     evaluate (__LINE__, __func__, contents, database_filebased_cache_get (url));
-    database_filebased_cache_trim ();
+    database_cache_trim ();
   }
 
   // Excercise the ready-flag.

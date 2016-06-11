@@ -308,15 +308,14 @@ void database_filebased_cache_remove (string schema)
 }
 
 
-// Deletes items older than x days from the cache.
-// It uses a Linux shell command. This can be done because it runs on the server only.
-// On some clients, shell commands won't work.
-void database_filebased_cache_trim ()
+// Deletes cached items older than x days.
+void database_cache_trim ()
 {
   // The directory that contains the file-based cache files.
   string path = database_cache_full_path ("");
   
   // Remove files that have not been modified for x days.
+  // It uses a Linux shell command. This can be done because it runs on the server only.
   string output, error;
   filter_shell_run (path, "find", {path, "-atime", "+5", "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
@@ -326,6 +325,16 @@ void database_filebased_cache_trim ()
   output.clear ();
   error.clear ();
   filter_shell_run (path, "find", {path, "-type", "d", "-empty", "-delete"}, &output, &error);
+  if (!output.empty ()) Database_Logs::log (output);
+  if (!error.empty ()) Database_Logs::log (error);
+  
+  // The directory that contains the database-based cache files.
+  path = filter_url_create_root_path ("databases");
+  
+  // Remove database-based cached files that have not been modified for x days.
+  output.clear ();
+  error.clear ();
+  filter_shell_run (path, "find", {path, "-name", Database_Cache::fragment () + "*", "-atime", "+5", "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
 }

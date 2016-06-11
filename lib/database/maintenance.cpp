@@ -144,6 +144,6 @@ void database_maintenance ()
   access_logic_create_client_files ();
   
   
-  database_filebased_cache_trim ();
+  database_cache_trim ();
   sword_logic_trim_modules ();
 }
