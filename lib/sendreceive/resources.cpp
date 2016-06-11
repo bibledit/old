@@ -195,7 +195,7 @@ void sendreceive_resources ()
     string msg = "Error count while downloading resource: " + convert_to_string (error_count);
     Database_Logs::log (msg, Filter_Roles::consultant ());
   } else if (wait_count) {
-    string msg = "Waiting on Cloud to prepare resource for download. Remaining books: " + convert_to_string (wait_count);
+    string msg = "Waiting for Cloud to prepare resource for download. Remaining books: " + convert_to_string (wait_count);
     Database_Logs::log (msg, Filter_Roles::consultant ());
   } else {
     Database_Logs::log ("Completed installing resource:" " " + resource, Filter_Roles::consultant ());
