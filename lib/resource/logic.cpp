@@ -592,8 +592,6 @@ void resource_logic_create_cache ()
   int book = convert_to_int (signature.substr (pos++));
   string bookname = Database_Books::getEnglishFromId (book);
   
-  Database_Logs::log ("Caching " + resource + " " + bookname, Filter_Roles::consultant ());
-  
   // Database layout is per book: Create a database for this book.
   Database_Cache::remove (resource, book);
   Database_Cache::create (resource, book);
@@ -602,7 +600,7 @@ void resource_logic_create_cache ()
   vector <int> chapters = database_versifications.getMaximumChapters (book);
   for (auto & chapter : chapters) {
 
-    Database_Logs::log (resource + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::consultant ());
+    Database_Logs::log ("Caching " + resource + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::consultant ());
 
     vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
     for (auto & verse : verses) {
