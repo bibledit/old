@@ -2,6 +2,8 @@
 # Copy all necessary files from git repo to Windows to make a "nice" installation.
 # Run this from the bibledit/gtk build directory like this:
 # windows/installWin.sh [options]
+# Also can create a self-extracting installer (see -g option) to distribute
+# the package to other computers.
 
 VERSION="4.9.6"
 
@@ -9,6 +11,7 @@ full=1
 docs=0
 quick=0
 do_strip=0
+makeinstall=0
 function usage
 {
 	echo "Usage: installWin.sh [options]"
@@ -22,6 +25,7 @@ function usage
 	echo "       --quick | -q  Only install bibledit binaries; not all libraries "
 	echo "                     or other support files."
 	echo "       --strip | -s  Shrink binary size for faster copy/download."
+	echo "       --generateinstall | -g  Generate installer executable. Requires --full to also be specified."
 }
 
 # Process command-line arguments
@@ -34,6 +38,8 @@ while [ "$1" != "" ]; do
         -d | --docs )           docs=1
                                 ;;
         -f | --full )           full=1
+                                ;;
+        -g | --generateinstall )makeinstall=1
                                 ;;
 
         -h | --help )           usage
@@ -370,5 +376,89 @@ echo "Fetching bwoutpost.exe and installing to $BIN"
 rm -f bwoutpost.exe
 wget http://fbcaa.org/bibledit/bwoutpost.exe
 mv -f bwoutpost.exe "$BIN"
+
+# This copies the necessary materials to a place where
+# Windows utilities can access it, then generates an installer.
+# 6/9/16 - snoeberg
+if [ "$makeinstall" = "1" ]; then
+	if [ "$PROGRAMFILES" = "Program Files" ]; then
+		BIT="64"
+	fi
+	TEMPDIR="/c/tempBibleEditFolderForInstall"
+	mkdir "$TEMPDIR"
+	# Change to that directory, download some helpful components, and change back
+	WORKDIR=`pwd`
+	cd "$TEMPDIR"
+	wget http://www.fbcaa.org/bibledit/InstallationBuilder/7z.dll
+	wget http://www.fbcaa.org/bibledit/InstallationBuilder/7z.exe
+	wget http://www.fbcaa.org/bibledit/InstallationBuilder/7z.sfx
+	wget http://www.fbcaa.org/bibledit/InstallationBuilder/7zCon.sfx
+	wget http://www.fbcaa.org/bibledit/InstallationBuilder/7zFM.exe
+	wget http://www.fbcaa.org/bibledit/InstallationBuilder/7zG.exe
+	wget http://www.fbcaa.org/bibledit/InstallationBuilder/7-zip.chm
+	wget http://www.fbcaa.org/bibledit/InstallationBuilder/7-zip.dll
+	cd $WORKDIR
+	WORKDIR=''
+	pwd
+	# Ok, we are back...
+	cp windows/InstallationBuilder/* "$TEMPDIR"
+	echo 'Making icon.'
+	# No native bash for creating windows icon, using powershell
+	PSFILE="C:\\tempBibleEditFolderForInstall\\makeicon.ps1"
+	/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -file $PSFILE -version $VERSION -bit $BIT
+    echo 'Compressing...'
+	"$TEMPDIR/7z.exe" a -sfx "C:\\tempBibleEditFolderForInstall\\Bibledit.exe" "C:\\$PROGRAMFILES\\Bibledit-$VERSION"
+	
+	##Creating the settings file for the install. This gets a little messy.
+	SEDFILE="/c/tempBibleEditFolderForInstall/Install-BiblEdit.SED"
+	rm $SEDFILE -f
+	echo '[Version]' >> "$SEDFILE"
+echo 'Class=IEXPRESS' >> "$SEDFILE"
+echo 'SEDVersion=3' >> "$SEDFILE"
+echo '[Options]' >> "$SEDFILE"
+echo 'PackagePurpose=InstallApp' >> "$SEDFILE"
+echo 'ShowInstallProgramWindow=0' >> "$SEDFILE"
+echo 'HideExtractAnimation=0' >> "$SEDFILE"
+echo 'UseLongFileName=1' >> "$SEDFILE"
+echo 'InsideCompressed=0' >> "$SEDFILE"
+echo 'CAB_FixedSize=0' >> "$SEDFILE"
+echo 'CAB_ResvCodeSigning=0' >> "$SEDFILE"
+echo 'RebootMode=N' >> "$SEDFILE"
+echo 'InstallPrompt=%InstallPrompt%' >> "$SEDFILE"
+echo 'DisplayLicense=%DisplayLicense%' >> "$SEDFILE"
+echo 'FinishMessage=%FinishMessage%' >> "$SEDFILE"
+echo 'TargetName=%TargetName%' >> "$SEDFILE"
+echo 'FriendlyName=%FriendlyName%' >> "$SEDFILE"
+echo 'AppLaunched=%AppLaunched%' >> "$SEDFILE"
+echo 'PostInstallCmd=%PostInstallCmd%' >> "$SEDFILE"
+echo 'AdminQuietInstCmd=%AdminQuietInstCmd%' >> "$SEDFILE"
+echo 'UserQuietInstCmd=%UserQuietInstCmd%' >> "$SEDFILE"
+echo 'SourceFiles=SourceFiles' >> "$SEDFILE"
+echo '[Strings]' >> "$SEDFILE"
+echo 'InstallPrompt=' >> "$SEDFILE"
+echo 'DisplayLicense=' >> "$SEDFILE"
+echo 'FinishMessage=Installation Complete!' >> "$SEDFILE"
+echo "TargetName=C:\\tempBibleEditFolderForInstall\\BiblEdit-$VERSION.exe" >> "$SEDFILE"
+echo 'FriendlyName=BiblEdit' >> "$SEDFILE"
+echo "AppLaunched=cmd /c autoelevate.cmd $VERSION" >> "$SEDFILE"
+echo 'PostInstallCmd=cmd /c pausescript.bat' >> "$SEDFILE"
+echo 'AdminQuietInstCmd=' >> "$SEDFILE"
+echo 'UserQuietInstCmd=' >> "$SEDFILE"
+echo 'FILE0="Bibledit.exe"' >> "$SEDFILE"
+echo 'FILE1="autoelevate.cmd"' >> "$SEDFILE"
+echo 'FILE2="pausescript.bat"' >> "$SEDFILE"
+echo '[SourceFiles]' >> "$SEDFILE"
+echo 'SourceFiles0=C:\tempBibleEditFolderForInstall\' >> "$SEDFILE"
+echo '[SourceFiles0]' >> "$SEDFILE"
+echo '%FILE0%=' >> "$SEDFILE"
+echo '%FILE1%=' >> "$SEDFILE"
+echo '%FILE2%=' >> "$SEDFILE"
+	
+	/c/Windows/System32/iexpress.exe //N "C:\\tempBibleEditFolderForInstall\\Install-BiblEdit.SED"
+	mv "$TEMPDIR/Bibledit-$VERSION.exe" "windows/Bibledit-$VERSION.exe"
+	echo 'BiblEdit install has been created. Output exe is in ~/64bit/bibledit/gtk/windows or ~/32bit/bibledit/gtk/windows'
+	rm "$TEMPDIR" -rf
+	exit 0;
+fi
 
 echo "Done..."
