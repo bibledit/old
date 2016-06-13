@@ -86,7 +86,7 @@ void Session_Logic::Open ()
   string cookie = request->session_identifier;
   bool daily;
   string username = Database_Login::getUsername (cookie, daily);
-  if (!username.empty ()) {
+  if (!username.empty () && !cookie.empty ()) {
     setUsername (username);
     logged_in = true;
     if (daily) request->resend_cookie = true;
