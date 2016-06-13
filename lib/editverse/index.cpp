@@ -34,6 +34,7 @@
 #include <dialog/list.h>
 #include <ipc/focus.h>
 #include <menu/logic.h>
+#include <config/logic.h>
 
 
 string editverse_index_url ()
@@ -109,6 +110,7 @@ string editverse_index (void * webserver_request)
   "var verseEditorVerseSaved = '" + chapterSaved + "';\n"
   "var verseEditorChapterRetrying = '" + chapterRetrying + "';\n"
   "var verseEditorWriteAccess = true;";
+  config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   
   string cls = Filter_Css::getClass (bible);

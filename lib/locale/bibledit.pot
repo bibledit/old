@@ -7272,6 +7272,9 @@ msgstr ""
 msgid "Keep main menu always visible"
 msgstr ""
 
+msgid "Enable swipe navigation actions"
+msgstr ""
+
 msgid "Back to chapter"
 msgstr ""
 

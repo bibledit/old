@@ -82,6 +82,13 @@ string personalize_index (void * webserver_request)
   }
   
   
+  // Swipe actions.
+  if (request->query.count ("swipeactions")) {
+    bool state = request->database_config_user ()->getSwipeActionsAvailable ();
+    request->database_config_user ()->setSwipeActionsAvailable (!state);
+  }
+  
+  
   string page;
   string success;
   string error;
@@ -252,7 +259,12 @@ string personalize_index (void * webserver_request)
   view.set_variable ("menuvisible", on_off);
   
   
-  // Enable the sections with settings relevant to the roles and privileges of the user.
+  // Whether to enable swipe actions.
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getSwipeActionsAvailable ());
+  view.set_variable ("swipeactions", on_off);
+  
+  
+  // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");
   bool bibles = Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
@@ -260,6 +272,9 @@ string personalize_index (void * webserver_request)
   access_a_bible (webserver_request, read, write);
   if (read || write) bibles = true;
   if (bibles) view.enable_zone ("bibles");
+  if (request->session_logic ()->touchEnabled ()) {
+    view.enable_zone ("touch");
+  }
   
 
   view.set_variable ("success", success);

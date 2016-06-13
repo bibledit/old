@@ -33,6 +33,7 @@
 #include <access/logic.h>
 #include <database/userresources.h>
 #include <database/books.h>
+#include <config/logic.h>
 
 
 string resource_user1view_url ()
@@ -77,6 +78,7 @@ string resource_user1view (void * webserver_request)
     }
   }
   string script = filter_string_implode (code, "\n");
+  config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   
   

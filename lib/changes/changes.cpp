@@ -187,6 +187,7 @@ string changes_changes (void * webserver_request)
   
   string loading = "\"" + translate("Loading ...") + "\"";
   string script = "var loading = " + loading + ";";
+  config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 
   

@@ -211,6 +211,8 @@ public:
   void setFlipInterfaceMode (bool value);
   bool getMainMenuAlwaysVisible ();
   void setMainMenuAlwaysVisible (bool value);
+  bool getSwipeActionsAvailable ();
+  void setSwipeActionsAvailable (bool value);
 private:
   void * webserver_request;
   string file (string user);

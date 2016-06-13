@@ -271,3 +271,21 @@ bool config_logic_enforce_https_client ()
 {
   return file_exists (filter_url_create_root_path ("config", "client.https"));
 }
+
+
+void config_logic_swipe_enabled (void * webserver_request, string & script)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  string true_false = "false";
+  if (request->session_logic ()->touchEnabled ()) {
+    if (request->database_config_user ()->getSwipeActionsAvailable ()) {
+      true_false = "true";
+    }
+  }
+  
+  script.append ("\n");
+  script.append ("var swipe_operations = ");
+  script.append (true_false);
+  script.append (";");
+}

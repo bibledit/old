@@ -31,6 +31,7 @@
 #include <resource/external.h>
 #include <menu/logic.h>
 #include <access/logic.h>
+#include <config/logic.h>
 
 
 string resource_index_url ()
@@ -93,6 +94,7 @@ string resource_index (void * webserver_request)
   
   int resource_count = resources.size ();
   string script = "var resourceCount = " + convert_to_string (resource_count) + ";";
+  config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   
   

@@ -1148,3 +1148,13 @@ void Database_Config_User::setMainMenuAlwaysVisible (bool value)
 {
   setBValue ("main-menu-always-visible", value);
 }
+
+
+bool Database_Config_User::getSwipeActionsAvailable ()
+{
+  return getBValue ("swipe-actions-available", true);
+}
+void Database_Config_User::setSwipeActionsAvailable (bool value)
+{
+  setBValue ("swipe-actions-available", value);
+}

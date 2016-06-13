@@ -48,6 +48,7 @@ string config_logic_server_certificate_path ();
 string config_logic_authorities_certificates_path ();
 bool config_logic_enforce_https_browser ();
 bool config_logic_enforce_https_client ();
+void config_logic_swipe_enabled (void * webserver_request, string & script);
 
 
 #endif
