@@ -58,7 +58,7 @@ map <string, string> locale_logic_localizations ()
 {
   string directory = filter_url_create_root_path ("locale");
   vector <string> files = filter_url_scandir (directory);
-  map <string, string> localizations = {make_pair ("", "Default")};
+  map <string, string> localizations = {make_pair ("", "English")};
   for (auto file : files) {
     string suffix = filter_url_get_extension (file);
     if (suffix == "po") {
