@@ -57,6 +57,12 @@ void Assets_View::disable_zone (string zone)
 }
 
 
+void Assets_View::add_iteration (string key, map <string, string> value)
+{
+  iterations[key].push_back (value);
+}
+
+
 // Renders the "tpl" template through the flate template engine.
 // The "tpl" consists of two bits: 
 // 1: Relative folder
@@ -77,7 +83,7 @@ string Assets_View::render (string tpl1, string tpl2)
   // Instantiate and fill the template engine. 
   Flate flate;
 
-  // Copy the variables and zones to the engine.
+  // Copy the variables and zones and iterations to the engine.
   map <string, string>::iterator iter1;
   for (iter1 = variables.begin (); iter1 != variables.end(); ++iter1) {
     flate.set_variable (iter1->first, iter1->second);
@@ -86,6 +92,7 @@ string Assets_View::render (string tpl1, string tpl2)
   for (iter2 = zones.begin (); iter2 != zones.end(); ++iter2) {
     flate.enable_zone (iter2->first);
   }
+  flate.iterations = iterations;
 
   // Get and return the page contents.
   string page = flate.render (tpl);
