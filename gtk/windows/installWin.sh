@@ -405,7 +405,9 @@ if [ "$makeinstall" = "1" ]; then
 	echo 'Making icon.'
 	# No native bash for creating windows icon, using powershell
 	PSFILE="C:\\tempBibleEditFolderForInstall\\makeicon.ps1"
-	/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -file $PSFILE -version $VERSION -bit $BIT
+	# Powershell v 2 does not quit after script is complete...work around by wrapping it with call to cmd
+	#/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -file $PSFILE -version $VERSION -bit $BIT
+    cmd /c "START /WAIT c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -file $PSFILE -version $VERSION -bit $BIT"
     echo 'Compressing...'
 	"$TEMPDIR/7z.exe" a -sfx "C:\\tempBibleEditFolderForInstall\\Bibledit.exe" "C:\\$PROGRAMFILES\\Bibledit-$VERSION"
 	
@@ -456,7 +458,7 @@ echo '%FILE2%=' >> "$SEDFILE"
 	
 	/c/Windows/System32/iexpress.exe //N "C:\\tempBibleEditFolderForInstall\\Install-BiblEdit.SED"
 	mv "$TEMPDIR/Bibledit-$VERSION.exe" "windows/Bibledit-$VERSION.exe"
-	echo 'BiblEdit install has been created. Output exe is in ~/64bit/bibledit/gtk/windows or ~/32bit/bibledit/gtk/windows'
+	echo "Installer Bibledit-$VERSION.exe has been created. Output exe is in ~/64bit/bibledit/gtk/windows or ~/32bit/bibledit/gtk/windows"
 	rm "$TEMPDIR" -rf
 	exit 0;
 fi
