@@ -210,7 +210,7 @@ void test_empty_folders ()
 }
 
 
-void test_flate () // Todo
+void test_flate ()
 {
   trace_unit_tests (__func__);
   

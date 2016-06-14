@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <webserver/request.h>
 #include <database/books.h>
+#include <database/volatile.h>
 #include <locale/translate.h>
 #include <menu/logic.h>
 #include <manage/users.h>
@@ -57,27 +58,43 @@ string manage_write (void * webserver_request)
 
   Assets_View view;
 
-  string user = request->query["user"];
+  int userid = filter_string_user_identifier (webserver_request);
+  
+  string user;
+  if (request->query.count ("user")) {
+    user = request->query["user"];
+    Database_Volatile::setValue (userid, "manage_write_user", user);
+  }
+  user = Database_Volatile::getValue (userid, "manage_write_user");
   view.set_variable ("user", user);
   
-  string bible = request->query["bible"];
+  string bible;
+  if (request->query.count ("bible")) {
+    bible = request->query["bible"];
+    Database_Volatile::setValue (userid, "manage_write_bible", bible);
+  }
+  bible = Database_Volatile::getValue (userid, "manage_write_bible");
   view.set_variable ("bible", bible);
 
-  int book = convert_to_int (request->query["book"]);
-  
   bool bible_read_access, bible_write_access;
   Database_Privileges::getBible (user, bible, bible_read_access, bible_write_access);
 
-  // Toggle write access to Bible.
-  if (request->query.count ("toggle")) {
-    if (bible_read_access) {
-      bool read, write;
-      Database_Privileges::getBibleBook (user, bible, book, read, write);
-      Database_Privileges::setBibleBook (user, bible, book, !write);
-      database_privileges_client_create (user, true);
+  // Toggle write access to Bible book.
+  if (!request->post.empty ()) {
+    string checkbox = request->post["checkbox"];
+    checkbox.erase (0, 4);
+    int book = convert_to_int (checkbox);
+    if (book) {
+      if (bible_read_access) {
+        string checkbox = request->post ["checkbox"];
+        bool checked = convert_to_bool (request->post ["checked"]);
+        Database_Privileges::setBibleBook (user, bible, book, checked);
+        database_privileges_client_create (user, true);
+      }
     }
+    return "";
   }
-  
+
   // Toggle write access to Testament.
   string testament = request->query ["testament"];
   if (!testament.empty ()) {
@@ -106,39 +123,16 @@ string manage_write (void * webserver_request)
   }
   
   // Read or write access to display.
-  vector <string> tbody;
   vector <int> books = request->database_bibles ()->getBooks (bible);
-  
   for (size_t i = 0; i < books.size (); i++) {
     int book = books[i];
-    int row = (i % 4);
-    if (row == 0) tbody.push_back ("<tr>");
-    if (row > 0) tbody.push_back ("<td> | </td>");
-    tbody.push_back ("<td>");
-    tbody.push_back (Database_Books::getEnglishFromId (book));
-    tbody.push_back ("</td>");
-    tbody.push_back ("<td class=\"center\">");
-    tbody.push_back ("<a href=\"?user=" + user + "&bible=" + bible + "&book=" + convert_to_string (book) + "&toggle=\">");
+    string bookname = Database_Books::getEnglishFromId (book);
+    string checkboxname = "book" + convert_to_string (book);
     bool read, write;
     Database_Privileges::getBibleBook (user, bible, book, read, write);
-    if (write) {
-      tbody.push_back (translate ("yes"));
-    } else {
-      tbody.push_back (translate ("no"));
-    }
-    tbody.push_back ("</a>");
-    tbody.push_back ("</td>");
-    if (row == 3) tbody.push_back ("</tr>");
+    string checked = get_checkbox_status (write);
+    view.add_iteration ("write", { make_pair ("bookname", bookname), make_pair ("checkboxname", checkboxname), make_pair ("checked", checked) } );
   }
-  if (books.empty ()) {
-    tbody.push_back ("<tr>");
-    tbody.push_back ("<td>");
-    tbody.push_back (translate ("No books"));
-    tbody.push_back ("</td>");
-    tbody.push_back ("<td>");
-  }
-  
-  view.set_variable ("tbody", filter_string_implode (tbody, "\n"));
   
   page += view.render ("manage", "write");
 

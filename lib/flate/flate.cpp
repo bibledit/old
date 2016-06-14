@@ -39,7 +39,7 @@ void Flate::enable_zone (string zone)
 
 
 // Add $value-s for one iteration to iterator $key.
-void Flate::add_iteration (string key, map <string, string> value) // Todo
+void Flate::add_iteration (string key, map <string, string> value)
 {
   // The $key is the name for the iteration,
   // where to add $value, which is a map of keys and values.
