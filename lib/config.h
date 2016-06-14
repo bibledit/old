@@ -14,10 +14,10 @@
 #define BARE_BROWSER "no"
 
 /* Define whether it is prepared as a client installation */
-#define CLIENT "no"
+#define CLIENT "yes"
 
 /* Define whether it is a client installation */
-/* #undef CLIENT_PREPARED */
+#define CLIENT_PREPARED 1
 
 /* Define whether it is a demo installation */
 #define DEMO "no"
@@ -104,7 +104,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.471"
+#define PACKAGE_STRING "bibledit 1.0.472"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -113,7 +113,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.471"
+#define PACKAGE_VERSION "1.0.472"
 
 /* Define the maximum number of parallel background tasks to run */
 #define PARALLEL_TASKS 10
@@ -137,7 +137,7 @@
 #define URLSETTINGS "no"
 
 /* Version number of package */
-#define VERSION "1.0.471"
+#define VERSION "1.0.472"
 
 /* Define whether to compile on Windows */
 /* #undef WIN32 */

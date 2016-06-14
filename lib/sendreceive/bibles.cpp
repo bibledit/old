@@ -325,8 +325,10 @@ void sendreceive_bibles ()
 
 
     // Any books not on the server, delete them from the client as well.
+    // But for more robustness while connected to a very bad network, the client will remove only one book at a time.
     client_books = filter_string_array_diff (client_books, i_server_books);
-    for (auto & book : client_books) {
+    if (!client_books.empty ()) {
+      int book = client_books [0];
       request.database_bibles()->deleteBook (bible, book);
       string book_name = Database_Books::getEnglishFromId (book);
       Database_Logs::log (sendreceive_bibles_text () + translate("Deleting book because the server does not have it") + ": " + bible + " " + book_name , Filter_Roles::translator ());
@@ -376,9 +378,12 @@ void sendreceive_bibles ()
       for (auto & chapter : v_server_chapters) i_server_chapters.push_back (convert_to_int (chapter));
       
       
-      // The client removes any local chapters not on the server.
+      // The client now should remove any local chapters not on the server.
+      // But for more robustness while connected to a very bad network, the client only removes one local chapter.
+      // If necessary it will delete another one during next sync operation.
       client_chapters = filter_string_array_diff (client_chapters, i_server_chapters);
-      for (auto & chapter : client_chapters) {
+      if (!client_chapters.empty ()) {
+        int chapter = client_chapters [0];
         request.database_bibles()->deleteChapter (bible, book, chapter);
         Database_Logs::log (sendreceive_bibles_text () + translate("Deleting chapter because the server does not have it") + ": " + bible + " " + book_name + " " + convert_to_string (chapter), Filter_Roles::translator ());
       }
