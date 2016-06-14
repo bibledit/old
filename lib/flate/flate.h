@@ -30,9 +30,12 @@ public:
   void set_variable (string key, string value);
   void enable_zone (string zone);
   string render (string html);
+  void add_iteration (string key, map <string, string> value);
 private:
   map <string, string> variables;
   map <string, bool> zones;
+  map <string, vector < map <string, string> > > iterations;
+  void process_iterations (string & rendering);
   void process_zones (string& rendering);
   void process_variables (string& rendering);
   void process_translate (string& rendering);

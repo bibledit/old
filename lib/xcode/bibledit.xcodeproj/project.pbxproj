@@ -1170,6 +1170,7 @@
 		CAF475A91C96D00A00B6C659 /* switch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = switch.cpp; sourceTree = "<group>"; };
 		CAF475AA1C96D00A00B6C659 /* switch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = switch.h; sourceTree = "<group>"; };
 		CAF475AB1C96D00A00B6C659 /* switch.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = switch.html; sourceTree = "<group>"; };
+		CAF54BCC1D100EA70058FABA /* flate3.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = flate3.html; sourceTree = "<group>"; };
 		CAF6DBEA1A72583700E5389F /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAF6DBEB1A72583700E5389F /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAF6DBEC1A72583700E5389F /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -2894,6 +2895,7 @@
 				CA699A101A4EE05800B23E0A /* exports.css */,
 				CAA4D4161A45A648003ABA25 /* flate1.html */,
 				CA0FFD3B1AAF076700A174A5 /* flate2.html */,
+				CAF54BCC1D100EA70058FABA /* flate3.html */,
 				CAA4D41D1A45A648003ABA25 /* notes.sqlite.damaged */,
 				CAA4D41E1A45A648003ABA25 /* onlinebible1.exp */,
 				CAA4D41F1A45A648003ABA25 /* onlinebible2.exp */,

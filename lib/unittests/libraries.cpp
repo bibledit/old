@@ -210,83 +210,95 @@ void test_empty_folders ()
 }
 
 
-void test_flate ()
+void test_flate () // Todo
 {
   trace_unit_tests (__func__);
   
   // Test for the flate2 template engine.
-  string tpl1 = filter_url_create_root_path ("unittests", "tests", "flate1.html");
-  string tpl2 = filter_url_create_root_path ("unittests", "tests", "flate2.html");
-  Flate flate;
-  string desired;
-  string actual;
-
-  flate = Flate ();
-  desired = 
+  string folder = filter_url_create_root_path ("unittests", "tests");
+  string tpl1 = filter_url_create_path (folder, "flate1.html");
+  string tpl2 = filter_url_create_path (folder, "flate2.html");
+  string tpl3 = filter_url_create_path (folder, "flate3.html");
+  
+  {
+    Flate flate;
+    string desired =
     "line 1\n"
-    "\n"
     "line 6\n"
     "LocalizeOne\n"
-    "LocalizeTwo";
-  actual = filter_string_trim (flate.render (tpl1));
-  evaluate (__LINE__, __func__, desired, actual);
+    "LocalizeTwo\n";
+    string actual = flate.render (tpl1);
+    evaluate (__LINE__, __func__, desired, actual);
+    
+  }
 
-  flate = Flate ();
-  flate.enable_zone ("one");
-  flate.enable_zone ("two");
-  desired = 
+  {
+    Flate flate;
+    flate.enable_zone ("one");
+    flate.enable_zone ("two");
+    string desired =
     "line 1\n"
-    "\n"
     "line 2\n"
-    "\n"
-    "\n"
-    "\n"
     "line 3\n"
-    "\n"
     "line 4\n"
-    "\n"
-    "\n"
     "line 6\n"
     "LocalizeOne\n"
-    "LocalizeTwo";
-  actual = filter_string_trim (flate.render (tpl1));
-  evaluate (__LINE__, __func__, desired, actual);
+    "LocalizeTwo\n";
+    string actual = flate.render (tpl1);
+    evaluate (__LINE__, __func__, desired, actual);
+  }
 
-  flate = Flate ();
-  flate.enable_zone ("one");
-  flate.enable_zone ("three");
-  flate.set_variable ("three", "THREE");
-  desired = 
+  {
+    Flate flate;
+    flate.enable_zone ("one");
+    flate.enable_zone ("three");
+    flate.set_variable ("three", "THREE");
+    string desired =
     "line 1\n"
-    "\n"
     "line 2\n"
-    "\n"
-    "\n"
-    "\n"
     "line 4\n"
-    "\n"
     "THREE\n"
     "line 5\n"
-    "\n"
-    "\n"
     "line 6\n"
     "LocalizeOne\n"
-    "LocalizeTwo";
-  actual = filter_string_trim (flate.render (tpl1));
-  evaluate (__LINE__, __func__, desired, actual);
+    "LocalizeTwo\n";
+    string actual = flate.render (tpl1);
+    evaluate (__LINE__, __func__, desired, actual);
+  }
   
-  // Test situation that a variable contains dashes (#).
-  // This should work correctly.
-  flate = Flate ();
-  flate.set_variable ("one", "one##one");
-  flate.set_variable ("two", "two####two");
-  flate.set_variable ("three", "three######three");
-  desired =
-  "one##one\n"
-  "two####two\n"
-  "three######three";
-  actual = filter_string_trim (flate.render (tpl2));
-  evaluate (__LINE__, __func__, desired, actual);
+  // Test that a variable containing dashes (#) works OK.
+  {
+    Flate flate;
+    flate.set_variable ("one", "one##one");
+    flate.set_variable ("two", "two####two");
+    flate.set_variable ("three", "three######three");
+    string desired =
+    "one##one\n"
+    "two####two\n"
+    "three######three\n";
+    string actual = flate.render (tpl2);
+    evaluate (__LINE__, __func__, desired, actual);
+  }
+  
+  // Test iterations.
+  {
+    Flate flate;
+    flate.add_iteration ("users", { make_pair ("one", "RenderingOne"), make_pair ("two", "RenderingTwo") });
+    flate.add_iteration ("users", { make_pair ("one", "Translation1"), make_pair ("two", "Translation2") });
+    string actual = flate.render (tpl3);
+    string desired =
+    "line 1\n"
+    "line 2\n"
+    "RenderingOne\n"
+    "RenderingTwo\n"
+    "line 3\n"
+    "line 2\n"
+    "Translation1\n"
+    "Translation2\n"
+    "line 3\n"
+    "line 4\n";
+    evaluate (__LINE__, __func__, desired, actual);
+  }
 }
 
 

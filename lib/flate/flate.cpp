@@ -38,13 +38,23 @@ void Flate::enable_zone (string zone)
 }
 
 
-// Renders the html template through the flate C++ template engine.
+// Add $value-s for one iteration to iterator $key.
+void Flate::add_iteration (string key, map <string, string> value) // Todo
+{
+  // The $key is the name for the iteration,
+  // where to add $value, which is a map of keys and values.
+  iterations[key].push_back (value);
+}
+
+
+// Renders the html template.
 string Flate::render (string html)
 {
   string rendering;
   try {
     if (file_exists (html)) {
       rendering = filter_url_file_get_contents (html);
+      process_iterations (rendering);
       process_zones (rendering);
       process_variables (rendering);
       process_translate (rendering);
@@ -66,12 +76,65 @@ string Flate::render (string html)
 }
 
 
+void Flate::process_iterations (string & rendering)
+{
+  // Limit iteration count.
+  int iteration_count = 0;
+  // Start processing iterations by locating the first one.
+  string beginiteration ("<!-- #BEGINITERATION");
+  size_t position = rendering.find (beginiteration);
+  // Iterate through the rendering till all have been dealt with.
+  while ((position != string::npos) && (iteration_count < 100)) {
+    iteration_count++;
+    // Position where the opening tag ends.
+    size_t pos = rendering.find ("-->", position);
+    string iteration_start_line = rendering.substr (position, pos - position + 3);
+    // Remove the opening tag for the current iteration.
+    rendering.erase (position, iteration_start_line.length ());
+    // Name for the current iteration.
+    string name = iteration_start_line.substr (21, iteration_start_line.length () - 21 - 4);
+    // Assemble the ending line for the current iteration.
+    string iterationendline = "<!-- #ENDITERATION " + name + " -->";
+    // Locate the ending position.
+    size_t iterationendposition = rendering.find (iterationendline);
+    // Process if it exists.
+    if (iterationendposition != string::npos) {
+      // Take the ending line out.
+      rendering.erase (iterationendposition, iterationendline.length ());
+      // Get and remove the inner contents of this iteration.
+      string iterating_fragment = rendering.substr (position, iterationendposition - position);
+      rendering.erase (position, iterationendposition - position);
+      // The fragment to insert after ready iterating.
+      string iterated_fragment;
+      // Go through the container for the name of the current iteration.
+      vector < map <string, string> > named_iterations = iterations [name];
+      for (auto & named_iteration : named_iterations) {
+        // Process one iteration.
+        string fragment (iterating_fragment);
+        for (auto & element : named_iteration) {
+          fragment = filter_string_str_replace ("##" + element.first + "##", element.second, fragment);
+        }
+        // Add the processed fragment.
+        iterated_fragment.append ("\n");
+        iterated_fragment.append (fragment);
+        iterated_fragment.append ("\n");
+      }
+      // Insert it into the rendering.
+      rendering.insert (position, iterated_fragment);
+    }
+    // Next iteration.
+    position = rendering.find (beginiteration);
+  }
+}
+
+
 void Flate::process_zones (string& rendering)
 {
   // Limit zone iterations.
   int iterations = 0;
   // Start processing zones by locating the first one.
-  size_t position = rendering.find ("<!-- #BEGINZONE");
+  string beginzone ("<!-- #BEGINZONE");
+  size_t position = rendering.find (beginzone);
   // Iterate through the file contents till all zones have been dealt with.
   while ((position != string::npos) && (iterations < 1000)) {
     iterations++;
@@ -96,7 +159,7 @@ void Flate::process_zones (string& rendering)
       }
     }
     // Next zone.
-    position = rendering.find ("<!-- #BEGINZONE");
+    position = rendering.find (beginzone);
   }
 }
 

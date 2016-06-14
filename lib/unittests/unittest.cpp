@@ -58,7 +58,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  test_database_bibles (); test_database_cache (); refresh_sandbox (true); exit (0);
+  test_flate (); refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();
