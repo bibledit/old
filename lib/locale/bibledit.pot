@@ -6368,23 +6368,11 @@ msgid ""
 "access to all Bibles."
 msgstr ""
 
-msgid "yes"
-msgstr ""
-
-msgid "no"
-msgstr ""
-
-msgid "No books"
-msgstr ""
-
 msgid ""
 "On this page you can set whether a user can modify the text of Bible books."
 msgstr ""
 
 msgid "Bible:"
-msgstr ""
-
-msgid "Can modify"
 msgstr ""
 
 msgid "Toggle the modification privileges for entire Testaments"
