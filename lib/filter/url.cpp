@@ -995,7 +995,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   if (connection_healthy && secure) {
     int ret = mbedtls_ssl_config_defaults (&conf, MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
     if (ret != 0) {
-      filter_url_display_mbed_tls_error (ret, &error);
+      filter_url_display_mbed_tls_error (ret, &error, false);
       connection_healthy = false;
     }
     mbedtls_ssl_conf_authmode (&conf, MBEDTLS_SSL_VERIFY_OPTIONAL);
@@ -1003,13 +1003,13 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     mbedtls_ssl_conf_rng (&conf, mbedtls_ctr_drbg_random, &filter_url_mbed_tls_ctr_drbg);
     ret = mbedtls_ssl_setup (&ssl, &conf);
     if (ret != 0) {
-      filter_url_display_mbed_tls_error (ret, &error);
+      filter_url_display_mbed_tls_error (ret, &error, false);
       connection_healthy = false;
     }
     // The hostname it connects to, and verifies the certificate for.
     ret = mbedtls_ssl_set_hostname (&ssl, hostname.c_str ());
     if (ret != 0) {
-      filter_url_display_mbed_tls_error (ret, &error);
+      filter_url_display_mbed_tls_error (ret, &error, false);
       connection_healthy = false;
     }
     mbedtls_ssl_set_bio (&ssl, &fd, mbedtls_net_send, mbedtls_net_recv, NULL);
@@ -1035,7 +1035,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       const char * server_port = convert_to_string (port).c_str ();
       int ret = mbedtls_net_connect (&fd, hostname.c_str(), server_port, MBEDTLS_NET_PROTO_TCP);
       if (ret != 0) {
-        filter_url_display_mbed_tls_error (ret, &error);
+        filter_url_display_mbed_tls_error (ret, &error, false);
         connection_healthy = false;
       }
     } else {
@@ -1054,7 +1054,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     while (connection_healthy && ((ret = mbedtls_ssl_handshake (&ssl)) != 0)) {
       if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
       if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-      filter_url_display_mbed_tls_error (ret, &error);
+      filter_url_display_mbed_tls_error (ret, &error, false);
       connection_healthy = false;
     }
   }
@@ -1130,7 +1130,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
           // until it returns a positive value.
           if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
           if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-          filter_url_display_mbed_tls_error (ret, &error);
+          filter_url_display_mbed_tls_error (ret, &error, false);
           connection_healthy = false;
         }
       }
@@ -1188,7 +1188,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       } else if (secure && (ret == MBEDTLS_ERR_SSL_WANT_WRITE)) {
       } else if (secure && (ret == MBEDTLS_ERR_SSL_PEER_CLOSE_NOTIFY)) {
       } else if (secure && (ret < 0)) {
-        filter_url_display_mbed_tls_error (ret, &error);
+        filter_url_display_mbed_tls_error (ret, &error, false);
         connection_healthy = false;
       } else {
         // Probably EOF.
@@ -1250,11 +1250,11 @@ void filter_url_ssl_tls_initialize ()
   ret = mbedtls_ctr_drbg_seed (&filter_url_mbed_tls_ctr_drbg,
                                mbedtls_entropy_func, &filter_url_mbed_tls_entropy,
                                (const unsigned char *) pers, strlen (pers));
-  if (ret != 0) filter_url_display_mbed_tls_error (ret);
+  filter_url_display_mbed_tls_error (ret, NULL, false);
   // Read the trusted root certificates.
   string path = filter_url_create_root_path ("filter", "cas.crt");
   ret = mbedtls_x509_crt_parse_file (&filter_url_mbed_tls_cacert, path.c_str ());
-  if (ret != 0) filter_url_display_mbed_tls_error (ret);
+  filter_url_display_mbed_tls_error (ret, NULL, false);
 }
 
 
@@ -1269,21 +1269,40 @@ void filter_url_ssl_tls_finalize ()
 
 // This logs the $ret (return) value, converted to readable text, to the journal.
 // If $error is given, it is stored there instead.
-void filter_url_display_mbed_tls_error (int & ret, string * error)
+// It $server is true, it suppresses additional error codes.
+void filter_url_display_mbed_tls_error (int & ret, string * error, bool server)
 {
-  if (ret != 0) {
-    char error_buf [100];
-    mbedtls_strerror (ret, error_buf, 100);
-    string msg = error_buf;
-    msg.append (" (");
-    msg.append (convert_to_string (ret));
-    msg.append (")");
-    if (error) {
-      error->assign (msg);
-    } else {
-      Database_Logs::log (msg);
-    }
-    ret = 0;
+  // Local copy of the return value, and clear the original return value.
+  int local_return = ret;
+  ret = 0;
+  
+  // Everything OK
+  if (local_return == 0) return;
+
+  // The server suppresses a couple of error messages caused by rogue clients or spiders.
+  // The reason for suppressing them is to prevent them from flooding the Journal.
+  if (server) {
+    // SSL - Processing of the ClientHello handshake message failed (-30976)
+    if (local_return == MBEDTLS_ERR_SSL_BAD_HS_CLIENT_HELLO) return;
+    // SSL - The connection indicated an EOF (-29312)
+    if (local_return == MBEDTLS_ERR_SSL_CONN_EOF) return;
+    // NET - Reading information from the socket failed (-76)
+    if (local_return == MBEDTLS_ERR_NET_RECV_FAILED) return;
+    // NET - Connection was reset by peer (-80)
+    if (local_return == MBEDTLS_ERR_NET_CONN_RESET) return;
+  }
+  
+  // There's an error: Display it.
+  char error_buf [100];
+  mbedtls_strerror (local_return, error_buf, 100);
+  string msg = error_buf;
+  msg.append (" (");
+  msg.append (convert_to_string (local_return));
+  msg.append (")");
+  if (error) {
+    error->assign (msg);
+  } else {
+    Database_Logs::log (msg);
   }
 }
 

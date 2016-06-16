@@ -71,7 +71,7 @@ string filter_url_remove_username_password (string url);
 string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate);
 void filter_url_ssl_tls_initialize ();
 void filter_url_ssl_tls_finalize ();
-void filter_url_display_mbed_tls_error (int & ret, string * error = NULL);
+void filter_url_display_mbed_tls_error (int & ret, string * error, bool server);
 string filter_url_set_scheme (string url, bool secure);
 string filter_url_clean_filename (string name);
 string filter_url_filename_clean (string name);
