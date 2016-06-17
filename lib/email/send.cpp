@@ -28,12 +28,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <filter/date.h>
-#ifdef CLIENT_PREPARED
-#else
+#ifndef CLIENT_PREPARED
 #include <curl/curl.h>
 #endif
 #include <config/globals.h>
 #include <tasks/logic.h>
+#include <sync/mail.h>
+#include <sync/logic.h>
+#include <client/logic.h>
 
 
 void email_send ()
@@ -56,20 +58,29 @@ void email_send ()
     string email = database_users.getUserToEmail (username);
     string subject = details.subject;
     string body = details.body;
+    
+#ifdef CLIENT_PREPARED
+    
+    // On a client, set the email to the username before sending the email to the Cloud for further distribution.
+    email = username;
+    
+#else
 
-    // If this username was not found, it could be that the email was addressed to a non-user,
+    // In the Cloud, if this username was not found, it could be that the email was addressed to a non-user,
     // and that the To: address was actually contained in the username.
     if (email == "") {
       email = username;
       username = "";
     }
-
-    // If the email address validates, ok, else remove this mail from the queue and log the action.
+    
+    // In the Cloud, if the email address validates, ok, else remove this mail from the queue and log the action.
     if (!filter_url_email_is_valid (email)) {
       database_mail.erase (id);
       Database_Logs::log ("Email to " + email + " was deleted because of an invalid email address");
       continue;
     }
+
+#endif
   
     // Send the email.
     string result = email_send (email, username, subject, body);
@@ -126,17 +137,42 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // In case of failure, it returns the error message.
 string email_send (string to_mail, string to_name, string subject, string body, bool verbose)
 {
-#ifdef CLIENT_PREPARED
-  if (to_mail.empty ()) {}
-  if (to_name.empty ()) {}
-  if (subject.empty ()) {}
-  if (body.empty ()) {}
-  if (verbose) {}
-  return "Not implemented with embedded http library";
-#else
   // Truncate huge emails because libcurl crashes on it.
   int length = body.length ();
-  if (length > 100000) body = "This email was " + convert_to_string (length) + " bytes long. It could not be sent. The data it refers to will be available from Bibledit online.";
+  if (length > 100000) {
+    body = "This email was " + convert_to_string (length) + " bytes long. It was too long, and could not be sent.";
+  }
+  
+  // Deal with empty subject.
+  if (subject.empty ()) subject = "Bibledit";
+  
+#ifdef CLIENT_PREPARED
+
+  (void) verbose;
+  (void) to_mail;
+
+  Webserver_Request request;
+  Sync_Logic sync_logic = Sync_Logic (&request);
+
+  map <string, string> post;
+  post ["n"] = bin2hex (to_name);
+  post ["s"] = subject;
+  post ["b"] = body;
+
+  string address = Database_Config_General::getServerAddress ();
+  int port = Database_Config_General::getServerPort ();
+  string url = client_logic_url (address, port, sync_mail_url ());
+
+  string error;
+  string response = sync_logic.post (post, url, error);
+
+  if (!error.empty ()) {
+    Database_Logs::log ("Failure sending email: " + error, Filter_Roles::guest ());
+  }
+
+  return error;
+  
+#else
   
   string from_mail = Database_Config_General::getSiteMailAddress ();
   string from_name = Database_Config_General::getSiteMailName ();
@@ -281,17 +317,9 @@ string email_send (string to_mail, string to_name, string subject, string body, 
 
 void email_schedule (string to, string subject, string body, int time)
 {
-#ifdef CLIENT_PREPARED
-  // A Bibledit client cannot send mail.
-  (void) to;
-  (void) subject;
-  (void) body;
-  (void) time;
-#else
-  // In the Cloud, schedule the mail for sending.
-  Database_Mail database_mail = Database_Mail (NULL);
+  // Schedule the mail for sending.
+  Database_Mail database_mail (NULL);
   database_mail.send (to, subject, body, time);
   // Schedule a task to send the scheduled mail right away.
   tasks_logic_queue (SENDEMAIL);
-#endif
 }

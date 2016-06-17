@@ -116,6 +116,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/changes.h>
 #include <sync/files.h>
 #include <sync/resources.h>
+#include <sync/mail.h>
 #include <resource/index.h>
 #include <resource/organize.h>
 #include <resource/get.h>
@@ -539,6 +540,7 @@ void bootstrap_index (void * webserver_request)
   else if (url == sync_changes_url ()) request->reply = sync_changes (request);
   else if (url == sync_files_url ()) request->reply = sync_files (request);
   else if (url == sync_resources_url ()) request->reply = sync_resources (request);
+  else if (url == sync_mail_url ()) request->reply = sync_mail (request);
   
   // AJAX calls.
   else if ((url == navigation_update_url ()) && bootstrap_browser_request_security_okay (request) && navigation_update_acl (request)) request->reply = navigation_update (request);
