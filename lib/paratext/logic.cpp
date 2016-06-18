@@ -343,9 +343,10 @@ void Paratext_Logic::synchronize ()
       map <int, string> ancestor_usfm;
       {
         string usfm = ancestor (bible, book);
-        vector <BookChapterData> import = usfm_import (usfm, stylesheet);
-        for (auto data : import) {
-          ancestor_usfm [data.chapter] = data.data;
+        vector <int> chapters = usfm_get_chapter_numbers (usfm);
+        for (auto chapter : chapters) {
+          string chapter_usfm = usfm_get_chapter_text (usfm, chapter);
+          ancestor_usfm [chapter] = chapter_usfm;
         }
       }
 
@@ -355,9 +356,10 @@ void Paratext_Logic::synchronize ()
       {
         string path = filter_url_create_path (projectFolder (bible), paratext_book);
         string usfm = filter_url_file_get_contents (path);
-        vector <BookChapterData> import = usfm_import (usfm, stylesheet);
-        for (auto data : import) {
-          paratext_usfm [data.chapter] = data.data;
+        vector <int> chapters = usfm_get_chapter_numbers (usfm);
+        for (auto chapter : chapters) {
+          string chapter_usfm = usfm_get_chapter_text (usfm, chapter);
+          paratext_usfm [chapter] = chapter_usfm;
         }
       }
 
