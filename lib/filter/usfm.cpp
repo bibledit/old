@@ -383,6 +383,47 @@ string usfm_get_verse_text (string usfm, int verse_number)
 }
 
 
+// Gets the chapter text given a book of $usfm code, and the $chapter_number.
+string usfm_get_chapter_text (string usfm, int chapter_number)
+{
+  // Empty input: Ready.
+  if (usfm.empty ()) return usfm;
+  
+  // Remove the part of the USFM that precedes the chapter fragment.
+  if (chapter_number) {
+    // Normal chapter marker (new line after the number).
+    bool found = false;
+    string marker = usfm_get_opening_usfm ("c", false) + convert_to_string (chapter_number) + "\n";
+    size_t pos = usfm.find (marker);
+    if (pos != string::npos) {
+      found = true;
+      usfm.erase (0, pos);
+    }
+    // Unusual chapter marker (space after the number).
+    marker = usfm_get_opening_usfm ("c", false) + convert_to_string (chapter_number) + " ";
+    pos = usfm.find (marker);
+    if (pos != string::npos) {
+      found = true;
+      usfm.erase (0, pos);
+    }
+    // Starting chapter markup not found: Non-existing chapter.
+    if (!found) return "";
+  }
+
+  // Look for any next chapter marker, the smallest possible significant fragment of it.
+  size_t pos = usfm.find ("\\c", 1);
+  if (pos != string::npos) {
+    usfm.erase (pos);
+  }
+  
+  // Clean up.
+  usfm = filter_string_trim (usfm);
+  
+  // Done.
+  return usfm;
+}
+
+
 // Returns the USFM text for a range of verses for the input $usfm code.
 // It handles combined verses.
 // It ensures that the $exclude_usfm does not make it to the output of the function.

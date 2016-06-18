@@ -478,6 +478,34 @@ void test_filters_usfm3 ()
     evaluate (__LINE__, __func__, "2b,3,", usfm_peek_verse_number ("2b,3, 4"));
     evaluate (__LINE__, __func__, "2a-3b", usfm_peek_verse_number ("2a-3b And he said"));
   }
+  {
+    string directory = filter_url_create_root_path ("unittests", "tests");
+    string bookusfm = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN.SFM"));
+
+    // Chapter 0.
+    string usfm = usfm_get_chapter_text (bookusfm, 0);
+    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-0.SFM"));
+    evaluate (__LINE__, __func__, standard, usfm);
+
+    // Last chapter.
+    usfm = usfm_get_chapter_text (bookusfm, 50);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-50.SFM"));
+    evaluate (__LINE__, __func__, standard, usfm);
+
+    // Intermediate chapter.
+    usfm = usfm_get_chapter_text (bookusfm, 25);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-25.SFM"));
+    evaluate (__LINE__, __func__, standard, usfm);
+    
+    // Non-existing chapter.
+    usfm = usfm_get_chapter_text (bookusfm, 51);
+    evaluate (__LINE__, __func__, "", usfm);
+
+    // Space after chapter number.
+    usfm = usfm_get_chapter_text (filter_string_str_replace ("\\c 10", "\\c 10 ", bookusfm), 10);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-10.SFM"));
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
 }
 
 
