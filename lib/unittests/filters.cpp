@@ -482,29 +482,51 @@ void test_filters_usfm3 ()
     string directory = filter_url_create_root_path ("unittests", "tests");
     string bookusfm = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN.SFM"));
 
+    // All chapters.
+    vector <int> chapters = usfm_get_chapter_numbers (bookusfm);
+    vector <int> all_chapters;
+    for (int i = 0; i <= 50; i++) all_chapters.push_back (i);
+    evaluate (__LINE__, __func__, all_chapters, chapters);
+    
     // Chapter 0.
     string usfm = usfm_get_chapter_text (bookusfm, 0);
     string standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-0.SFM"));
     evaluate (__LINE__, __func__, standard, usfm);
+
+    chapters = usfm_get_chapter_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0 }, chapters);
 
     // Last chapter.
     usfm = usfm_get_chapter_text (bookusfm, 50);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-50.SFM"));
     evaluate (__LINE__, __func__, standard, usfm);
 
+    chapters = usfm_get_chapter_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0, 50 }, chapters);
+    
     // Intermediate chapter.
     usfm = usfm_get_chapter_text (bookusfm, 25);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-25.SFM"));
     evaluate (__LINE__, __func__, standard, usfm);
-    
+
+    chapters = usfm_get_chapter_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0, 25 }, chapters);
+
     // Non-existing chapter.
     usfm = usfm_get_chapter_text (bookusfm, 51);
     evaluate (__LINE__, __func__, "", usfm);
 
+    chapters = usfm_get_chapter_numbers (usfm);
+    evaluate (__LINE__, __func__, { 0 }, chapters);
+
     // Space after chapter number.
-    usfm = usfm_get_chapter_text (filter_string_str_replace ("\\c 10", "\\c 10 ", bookusfm), 10);
+    string modified_book_usfm = filter_string_str_replace ("\\c 10", "\\c 10 ", bookusfm);
+    usfm = usfm_get_chapter_text (modified_book_usfm, 10);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-10.SFM"));
     evaluate (__LINE__, __func__, standard, usfm);
+    
+    chapters = usfm_get_chapter_numbers (modified_book_usfm);
+    evaluate (__LINE__, __func__, all_chapters, chapters);
   }
 }
 

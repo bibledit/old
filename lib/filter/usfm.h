@@ -48,6 +48,7 @@ vector <string> usfm_get_markers_and_text (string code);
 string usfm_get_marker (string usfm);
 vector <BookChapterData> usfm_import (string input, string stylesheet);
 vector <int> usfm_get_verse_numbers (string usfm);
+vector <int> usfm_get_chapter_numbers (string usfm);
 vector <int> usfm_linenumber_to_versenumber (string usfm, unsigned int line_number);
 vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset);
 int usfm_versenumber_to_offset (string usfm, int verse);

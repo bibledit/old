@@ -293,6 +293,26 @@ vector <int> usfm_get_verse_numbers (string usfm)
 }
 
 
+// Returns the chapter numbers found in $usfm.
+vector <int> usfm_get_chapter_numbers (string usfm)
+{
+  vector <int> chapter_numbers = { 0 };
+  vector <string> markers_and_text = usfm_get_markers_and_text (usfm);
+  bool extract_chapter = false;
+  for (string marker_or_text : markers_and_text) {
+    if (extract_chapter) {
+      string chapter = usfm_peek_verse_number (marker_or_text);
+      chapter_numbers.push_back (convert_to_int (chapter));
+      extract_chapter = false;
+    }
+    if (marker_or_text.substr (0, 2) == "\\c") {
+      extract_chapter = true;
+    }
+  }
+  return chapter_numbers;
+}
+
+
 // Returns the verse numbers in the string of $usfm code at line number $line_number.
 vector <int> usfm_linenumber_to_versenumber (string usfm, unsigned int line_number)
 {
