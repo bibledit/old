@@ -96,7 +96,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   
   
   // Server logs the change from the client.
-  bible_logic_log_change (bible, book, chapter, newusfm, username, translate ("Received from client"));
+  bible_logic_log_change (bible, book, chapter, newusfm, username, translate ("Received from client"), false);
 
   
   if (serverusfm == "") {

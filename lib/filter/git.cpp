@@ -314,7 +314,7 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
     
     // Store chapter in database and log it.
     string usfm = filter_url_file_get_contents (filename);
-    bible_logic_log_change (bible, book, chapter, usfm, "collaborator", "Chapter updated from git repository");
+    bible_logic_log_change (bible, book, chapter, usfm, "collaborator", "Chapter updated from git repository", false);
     bible_logic_store_chapter (bible, book, chapter, usfm);
     
   } else {

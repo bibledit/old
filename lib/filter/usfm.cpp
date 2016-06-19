@@ -430,8 +430,8 @@ string usfm_get_chapter_text (string usfm, int chapter_number)
     if (!found) return "";
   }
 
-  // Look for any next chapter marker, the smallest possible significant fragment of it.
-  size_t pos = usfm.find ("\\c", 1);
+  // Look for any next chapter marker.
+  size_t pos = usfm.find (usfm_get_opening_usfm ("c", false), 1);
   if (pos != string::npos) {
     usfm.erase (pos);
   }
@@ -864,7 +864,7 @@ string usfm_safely_store_chapter (void * webserver_request, string bible, int bo
 
   // Record the change in the journal.
   string user = request->session_logic ()->currentUser ();
-  bible_logic_log_change (bible, book, chapter, usfm, user, translate ("Saving chapter"));
+  bible_logic_log_change (bible, book, chapter, usfm, user, translate ("Saving chapter"), false);
   
   // Safety checks have passed: Save chapter.
   bible_logic_store_chapter (bible, book, chapter, usfm);
@@ -947,7 +947,7 @@ string usfm_safely_store_verse (void * webserver_request, string bible, int book
   
   // Record the change in the journal.
   string user = request->session_logic ()->currentUser ();
-  bible_logic_log_change (bible, book, chapter, chapter_usfm, user, translate ("Saving verse"));
+  bible_logic_log_change (bible, book, chapter, chapter_usfm, user, translate ("Saving verse"), false);
   
   // Safety checks have passed: Save chapter.
   bible_logic_store_chapter (bible, book, chapter, chapter_usfm);
