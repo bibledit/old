@@ -412,14 +412,12 @@ void Paratext_Logic::synchronize ()
           // and perhaps Translators run Bibledit.
           // But this assumption may be wrong.
           // Nevertheless preference must be given to some data anyway.
-          filter_url_file_put_contents ("/tmp/bibledit.txt", bibledit); // Todo
-          filter_url_file_put_contents ("/tmp/paratext.txt", paratext); // Todo
           usfm = filter_merge_run (ancestor, bibledit, paratext);
           Database_Logs::log (journalTag (bible, book, chapter) + "Chapter merged", Filter_Roles::translator ());
           ancestor_usfm [chapter] = usfm;
           paratext_usfm [chapter] = usfm;
           // Log the change.
-          bible_logic_log_change (bible, book, chapter, usfm, "", "Paratext", true); // Todo
+          bible_logic_log_change (bible, book, chapter, usfm, "", "Paratext", true);
         } else {
           Database_Logs::log (journalTag (bible, book, chapter) + "Cannot merge chapter due to missing parent data", Filter_Roles::translator ());
         }

@@ -230,7 +230,7 @@ void bible_logic_import_resource (string bible, string resource)
 
 // This logs the change in the Bible text.
 // When $force is given, it records the change on clients also.
-void bible_logic_log_change (const string& bible, int book, int chapter, const string& usfm, string user, const string & summary, bool force) // Todo test whether it still works in the Cloud, also Paratext test.
+void bible_logic_log_change (const string& bible, int book, int chapter, const string& usfm, string user, const string & summary, bool force)
 {
   bool record = true;
 #ifdef CLIENT_PREPARED
