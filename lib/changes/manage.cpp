@@ -79,19 +79,19 @@ string changes_manage (void * webserver_request)
   }
   
   
-  string datablock;
+  bool notifications = false;
   vector <string> users = access_user_assignees (webserver_request);
   for (auto user : users) {
     vector <int> ids = database_modifications.getNotificationIdentifiers (user);
     if (!ids.empty ()) {
-      datablock.append ("<tr>\n");
-      datablock.append ("<td>" + user + ":</td>\n");
-      datablock.append ("<td>" + convert_to_string (ids.size ()) + "</td>\n");
-      datablock.append ("<td><a href=\"manage?clear=" + user + "\">[" + translate("clear") + "]</a></td>\n");
-      datablock.append ("</tr>\n");
+      notifications = true;
+      map <string, string> values;
+      values ["user"] = user;
+      values ["count"] = convert_to_string (ids.size ());
+      view.add_iteration ("notifications", values);
     }
   }
-  view.set_variable ("datablock", datablock);
+  if (notifications) view.enable_zone ("notifications");
   
   
   page += view.render ("changes", "manage");
