@@ -35,6 +35,7 @@
 #include <notes/logic.h>
 #include <access/bible.h>
 #include <ipc/notes.h>
+#include <locale/logic.h>
 
 
 string changes_change_url ()
@@ -96,13 +97,15 @@ string changes_change (void * webserver_request)
   view.set_variable ("id", convert_to_string (id));
                       
                       
-  // Get old text, modification, new text.
+  // Get old text, modification, new text, date.
   string old_text = database_modifications.getNotificationOldText (id);
   view.set_variable ("old_text", old_text);
   string modification = database_modifications.getNotificationModification (id);
   view.set_variable ("modification", modification);
   string new_text = database_modifications.getNotificationNewText (id);
   view.set_variable ("new_text", new_text);
+  string date = locale_logic_date (database_modifications.getNotificationTimeStamp (id));
+  view.set_variable ("date", date);
   
 
   // Bibles and passage.

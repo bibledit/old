@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/date.h>
 
 
 // Filters out the default language.
@@ -50,6 +51,16 @@ string locale_logic_month (int month)
     case 12: return translate ("December");
   }
   return translate ("Month") + " " + convert_to_string (month);
+}
+
+
+string locale_logic_date (int seconds) // Todo
+{
+  seconds = filter_date_local_seconds (seconds);
+  int day = filter_date_numerical_month_day (seconds);
+  int month = filter_date_numerical_month (seconds);
+  int year = filter_date_numerical_year (seconds);
+  return convert_to_string (day) + " " + locale_logic_month (month) + " " + convert_to_string (year);
 }
 
 
