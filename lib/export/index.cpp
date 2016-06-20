@@ -41,7 +41,7 @@ void export_index ()
   for (auto & file : files) {
     if (in_array (file, bibles)) continue;
     filter_url_rmdir (filter_url_create_path (directory, file));
-    Database_Logs::log ("Removing exported Bible " + file, Filter_Roles::admin ());
+    Database_Logs::log ("Removing exported Bible " + file, Filter_Roles::translator ());
   }
   
   
@@ -60,37 +60,39 @@ void export_index ()
         }
       }
 
+      Database_Logs::log ("Exporting Bible " + bible, Filter_Roles::translator ());
+
       if (Database_Config_Bible::getExportWebDuringNight (bible)) {
-        Export_Logic::scheduleWeb (bible);
-        Export_Logic::scheduleWebIndex (bible);
+        Export_Logic::scheduleWeb (bible, false);
+        Export_Logic::scheduleWebIndex (bible, false);
       }
 
       if (Database_Config_Bible::getExportHtmlDuringNight (bible)) {
-        Export_Logic::scheduleHtml (bible);
+        Export_Logic::scheduleHtml (bible, false);
       }
       
       if (Database_Config_Bible::getExportUsfmDuringNight (bible)) {
-        Export_Logic::scheduleUsfm (bible);
+        Export_Logic::scheduleUsfm (bible, false);
       }
       
       if (Database_Config_Bible::getExportTextDuringNight (bible)) {
-        Export_Logic::scheduleTextAndBasicUsfm (bible);
+        Export_Logic::scheduleTextAndBasicUsfm (bible, false);
       }
       
       if (Database_Config_Bible::getExportOdtDuringNight (bible)) {
-        Export_Logic::scheduleOpenDocument (bible);
+        Export_Logic::scheduleOpenDocument (bible, false);
       }
       
       if (Database_Config_Bible::getGenerateInfoDuringNight (bible)) {
-        Export_Logic::scheduleInfo (bible);
+        Export_Logic::scheduleInfo (bible, false);
       }
       
       if (Database_Config_Bible::getExportESwordDuringNight (bible)) {
-        Export_Logic::scheduleESword (bible);
+        Export_Logic::scheduleESword (bible, false);
       }
 
       if (Database_Config_Bible::getExportOnlineBibleDuringNight (bible)) {
-        Export_Logic::scheduleOnlineBible (bible);
+        Export_Logic::scheduleOnlineBible (bible, false);
       }
       
     }

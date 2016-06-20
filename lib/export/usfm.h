@@ -24,7 +24,7 @@
 #include <config/libraries.h>
 
 
-void export_usfm (string bible);
+void export_usfm (string bible, bool log);
 
 
 #endif

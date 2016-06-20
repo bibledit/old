@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_info (string bible)
+void export_info (string bible, bool log)
 {
   // Create folders for the information.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "info");
@@ -81,5 +81,5 @@ void export_info (string bible)
   Database_State::clearExport (bible, 0, Export_Logic::export_info);
 
   
-  Database_Logs::log (translate("Documents with information and fallout were created") + " " + bible, Filter_Roles::translator ());
+  if (log) Database_Logs::log (translate("Documents with information and fallout were created") + " " + bible, Filter_Roles::translator ());
 }

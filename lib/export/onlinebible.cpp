@@ -36,7 +36,7 @@
 #include <onlinebible/text.h>
 
 
-void export_onlinebible (string bible)
+void export_onlinebible (string bible, bool log)
 {
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "onlinebible");
   if (!file_exists (directory)) filter_url_mkdir (directory);
@@ -69,5 +69,5 @@ void export_onlinebible (string bible)
   Database_State::clearExport (bible, 0, Export_Logic::export_online_bible);
 
   
-  Database_Logs::log (translate("Exported to Online Bible") + " " + bible, Filter_Roles::translator ());
+  if (log) Database_Logs::log (translate("Exported to Online Bible") + " " + bible, Filter_Roles::translator ());
 }

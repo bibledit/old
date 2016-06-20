@@ -24,7 +24,7 @@
 #include <config/libraries.h>
 
 
-void export_info (string bible);
+void export_info (string bible, bool log);
 
 
 #endif

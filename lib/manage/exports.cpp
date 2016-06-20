@@ -103,8 +103,8 @@ string manage_exports (void * webserver_request)
   
   
   if (request->query.count ("webnow")) {
-    Export_Logic::scheduleWeb (bible);
-    Export_Logic::scheduleWebIndex (bible);
+    Export_Logic::scheduleWeb (bible, true);
+    Export_Logic::scheduleWebIndex (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to Web format."));
   }
   
@@ -117,7 +117,7 @@ string manage_exports (void * webserver_request)
   
   
   if (request->query.count ("htmlnow")) {
-    Export_Logic::scheduleHtml (bible);
+    Export_Logic::scheduleHtml (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to Html format."));
   }
   
@@ -130,7 +130,7 @@ string manage_exports (void * webserver_request)
  
   
   if (request->query.count ("usfmnow")) {
-    Export_Logic::scheduleUsfm (bible);
+    Export_Logic::scheduleUsfm (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to USFM format."));
   }
 
@@ -149,7 +149,7 @@ string manage_exports (void * webserver_request)
   
   
   if (request->query.count ("textnow")) {
-    Export_Logic::scheduleTextAndBasicUsfm (bible);
+    Export_Logic::scheduleTextAndBasicUsfm (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to basic USFM format and text."));
   }
                        
@@ -162,7 +162,7 @@ string manage_exports (void * webserver_request)
 
   
   if (request->query.count ("odtnow")) {
-    Export_Logic::scheduleOpenDocument (bible);
+    Export_Logic::scheduleOpenDocument (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to OpenDocument format."));
   }
 
@@ -285,7 +285,7 @@ string manage_exports (void * webserver_request)
                    
   
   if (request->query.count ("infonow")) {
-    Export_Logic::scheduleInfo (bible);
+    Export_Logic::scheduleInfo (bible, true);
     view.set_variable ("success", translate("The info documents are being generated."));
   }
   
@@ -298,7 +298,7 @@ string manage_exports (void * webserver_request)
                      
                                           
   if (request->query.count ("eswordnow")) {
-    Export_Logic::scheduleESword (bible);
+    Export_Logic::scheduleESword (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to e-Sword format."));
   }
   
@@ -311,7 +311,7 @@ string manage_exports (void * webserver_request)
 
                      
   if (request->query.count ("onlinebiblenow")) {
-    Export_Logic::scheduleOnlineBible (bible);
+    Export_Logic::scheduleOnlineBible (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to Online Bible format."));
   }
   

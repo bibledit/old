@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_text_usfm_book (string bible, int book)
+void export_text_usfm_book (string bible, int book, bool log)
 {
   // Create folders for the clear text and the basic USFM exports.
   string usfmDirectory = Export_Logic::USFMdirectory (bible, 1);
@@ -121,5 +121,5 @@ void export_text_usfm_book (string bible, int book)
   Database_State::clearExport (bible, book, Export_Logic::export_text_and_basic_usfm);
 
   
-  Database_Logs::log (translate("Exported to basic USFM and text") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
+  if (log) Database_Logs::log (translate("Exported to basic USFM and text") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
 }

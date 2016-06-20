@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_esword (string bible)
+void export_esword (string bible, bool log)
 {
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "esword");
   if (!file_exists (directory)) filter_url_mkdir (directory);
@@ -72,5 +72,5 @@ void export_esword (string bible)
   Database_State::clearExport (bible, 0, Export_Logic::export_esword);
 
   
-  Database_Logs::log (translate("Exported to e-Sword") + " " + bible, Filter_Roles::translator ());
+  if (log) Database_Logs::log (translate("Exported to e-Sword") + " " + bible, Filter_Roles::translator ());
 }

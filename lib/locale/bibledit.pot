@@ -1580,7 +1580,7 @@ msgid "The repository was linked successfully."
 msgstr ""
 
 msgid ""
-"Regularly choose menu Tools - Sync to synchronize the Bible with the "
+"Regularly choose menu Tools - Send/receive to synchronize the Bible with the "
 "repository."
 msgstr ""
 

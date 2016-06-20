@@ -168,23 +168,23 @@ void tasks_run_one (string filename)
   } else if (command == EXPORTALL) {
     export_index ();
   } else if (command == EXPORTWEBMAIN) {
-    export_web_book (parameter1, convert_to_int (parameter2));
+    export_web_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTWEBINDEX) {
-    export_web_index (parameter1);
+    export_web_index (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTHTML) {
-    export_html_book (parameter1, convert_to_int (parameter2));
+    export_html_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTUSFM) {
-    export_usfm (parameter1);
+    export_usfm (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTTEXTUSFM) {
-    export_text_usfm_book (parameter1, convert_to_int (parameter2));
+    export_text_usfm_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTODT) {
-    export_odt_book (parameter1, convert_to_int (parameter2));
+    export_odt_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
   } else if (command == EXPORTINFO) {
-    export_info (parameter1);
+    export_info (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTESWORD) {
-    export_esword (parameter1);
+    export_esword (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTONLINEBIBLE) {
-    export_onlinebible (parameter1);
+    export_onlinebible (parameter1, convert_to_bool (parameter2));
   } else if (command == HYPHENATE) {
     manage_hyphenate (parameter1, parameter2);
   } else if (command == SETUPPARATEXT) {

@@ -24,8 +24,8 @@
 #include <config/libraries.h>
 
 
-void export_web_book (string bible, int book);
-void export_web_index (string bible);
+void export_web_book (string bible, int book, bool log);
+void export_web_index (string bible, bool log);
 
 
 #endif

@@ -35,7 +35,7 @@
 #include <styles/sheets.h>
 
 
-void export_usfm (string bible)
+void export_usfm (string bible, bool log)
 {
   Database_Bibles database_bibles;
   
@@ -95,7 +95,7 @@ void export_usfm (string bible)
     Database_State::clearExport (bible, book, Export_Logic::export_full_usfm);
     
     
-    Database_Logs::log (translate("Exported to USFM") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
+    if (log) Database_Logs::log (translate("Exported to USFM") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
   }
 
   
@@ -131,5 +131,5 @@ void export_usfm (string bible)
   Database_State::clearExport (bible, 0, Export_Logic::export_full_usfm);
 
   
-  Database_Logs::log (translate("Exported to USFM") + ": " + bible + " " + translate("All books"), Filter_Roles::translator ());
+  if (log) Database_Logs::log (translate("Exported to USFM") + ": " + bible + " " + translate("All books"), Filter_Roles::translator ());
 }

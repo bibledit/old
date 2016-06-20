@@ -37,7 +37,7 @@
 #include <styles/sheets.h>
 
 
-void export_web_book (string bible, int book)
+void export_web_book (string bible, int book, bool log)
 {
   string directory = Export_Logic::webDirectory (bible);
   if (!file_exists (directory)) filter_url_mkdir (directory);
@@ -114,11 +114,11 @@ void export_web_book (string bible, int book)
   Database_State::clearExport (bible, book, Export_Logic::export_web);
   
   
-  Database_Logs::log (translate("Exported to web") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
+  if (log) Database_Logs::log (translate("Exported to web") + ": " + bible + " " + Database_Books::getEnglishFromId (book), Filter_Roles::translator ());
 }
 
 
-void export_web_index (string bible)
+void export_web_index (string bible, bool log)
 {
   // Create folders for the web export.
   string directory = Export_Logic::webDirectory (bible);
@@ -183,5 +183,5 @@ void export_web_index (string bible)
   Database_State::clearExport (bible, 0, Export_Logic::export_web_index);
 
   
-  Database_Logs::log (translate("Exported to web") + ": " + bible + " Index", Filter_Roles::translator ());
+  if (log) Database_Logs::log (translate("Exported to web") + ": " + bible + " Index", Filter_Roles::translator ());
 }
