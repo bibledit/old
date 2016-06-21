@@ -271,7 +271,6 @@ Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
 Admin email (--with-admin-email=email)            : ${ADMIN_EMAIL}
 Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
 Paratext synchronization (--enable-paratext)      : ${PARATEXT}
-Resources cache path (--with-resources-path=path) : ${RESOURCES_PATH}
 Windows (--enable-windows)                        : ${WINDOWS}
 Android (--enable-android)                        : ${ENABLEANDROID}
 iOS (--enable-ios)                                : ${ENABLEIOS}
