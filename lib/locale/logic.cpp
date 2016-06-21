@@ -54,7 +54,7 @@ string locale_logic_month (int month)
 }
 
 
-string locale_logic_date (int seconds) // Todo
+string locale_logic_date (int seconds)
 {
   seconds = filter_date_local_seconds (seconds);
   int day = filter_date_numerical_month_day (seconds);

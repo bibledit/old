@@ -689,6 +689,9 @@ msgstr ""
 msgid "New"
 msgstr ""
 
+msgid "Date"
+msgstr ""
+
 msgid "Create note"
 msgstr ""
 
@@ -810,39 +813,43 @@ msgstr ""
 msgid "Will generate lists of changes"
 msgstr ""
 
-msgid "clear"
-msgstr ""
-
-msgid "Manage Changes"
-msgstr ""
-
 msgid "Bibledit tracks the changes in the text of the Bibles."
 msgstr ""
 
-msgid "It generates details about them during the night."
+msgid "It generates lists of them every day."
 msgstr ""
 
-msgid "generate now"
+msgid "Generate them now."
 msgstr ""
 
 msgid "Lists with changes can be downloaded."
 msgstr ""
 
 msgid ""
-"Bibledit emails lists with the changes to users who have subscribed to them."
+"Bibledit emails lists with the changes to users who have enabled that "
+"notification."
 msgstr ""
 
 msgid ""
-"It generates Change Notifications for users who have enabled that option."
+"It generates change notifications online for users who have enabled that "
+"notification."
 msgstr ""
 
-msgid "Every user makes personal settings."
-msgstr ""
-
-msgid "Your settings are in the notifications."
+msgid "Notifications."
 msgstr ""
 
 msgid "Change notifications per user:"
+msgstr ""
+
+msgid "clear"
+msgstr ""
+
+msgid "Changes are recorded in the journal."
+msgstr ""
+
+msgid ""
+"When the Bible text gets pushed to an external git repository, the changes "
+"will be visible there."
 msgstr ""
 
 msgid "You have entered the changes below in a Bible editor."
