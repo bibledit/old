@@ -62,7 +62,7 @@ string consistency_index (void * webserver_request)
   Assets_View view;
 
   
-  string add = request->query ["add"];
+  string add = request->post ["add"];
   if (!add.empty ()) {
     vector <string> resources = request->database_config_user()->getConsistencyResources ();
     resources.push_back (add);
