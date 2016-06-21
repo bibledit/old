@@ -52,7 +52,6 @@ libbibledit_a_SOURCES = \
 	database/kjv.cpp \
 	database/morphhb.cpp \
 	database/sblgnt.cpp \
-	database/offlineresources.cpp \
 	database/sprint.cpp \
 	database/mail.cpp \
 	database/navigation.cpp \
@@ -251,7 +250,6 @@ libbibledit_a_SOURCES = \
 	sync/settings.cpp \
 	sync/bibles.cpp \
 	sync/usfmresources.cpp \
-	sync/externalresources.cpp \
 	sync/notes.cpp \
 	sync/changes.cpp \
 	sync/files.cpp \

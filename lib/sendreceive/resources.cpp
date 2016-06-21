@@ -29,7 +29,6 @@
 #include <database/config/general.h>
 #include <database/logs.h>
 #include <database/versifications.h>
-#include <database/offlineresources.h>
 #include <database/usfmresources.h>
 #include <database/books.h>
 #include <database/cache.h>
@@ -112,8 +111,6 @@ void sendreceive_resources ()
   
   // Erase the two older storage locations that were used to cache resources in earlier versions of Bibledit.
   {
-    Database_OfflineResources database_offlineresources;
-    database_offlineresources.erase (resource);
     Database_UsfmResources database_usfmresources;
     database_usfmresources.deleteResource (resource);
   }

@@ -626,7 +626,6 @@ am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
 WINDOWS
-RESOURCES_PATH
 PARATEXT
 TINYJOURNAL
 ADMIN_EMAIL
@@ -773,7 +772,6 @@ with_admin_password
 with_admin_email
 enable_tinyjournal
 enable_paratext
-with_resources_path
 enable_windows
 enable_android
 enable_ios
@@ -1445,7 +1443,6 @@ Optional Packages:
   --with-admin-username=username Admin username
   --with-admin-password=password Admin password
   --with-admin-email=email Admin email
-  --with-resources-path=path Resources path
 
 Some influential environment variables:
   CC          C compiler command
@@ -7057,25 +7054,6 @@ $as_echo "#define PARATEXT /**/" >>confdefs.h
 
 cat >>confdefs.h <<_ACEOF
 #define PARATEXT "$PARATEXT"
-_ACEOF
-
-
-
-# Configure resources path.
-
-# Check whether --with-resources-path was given.
-if test "${with_resources_path+set}" = set; then :
-  withval=$with_resources_path;  RESOURCES_PATH=$withval
-else
-   RESOURCES_PATH=
-
-fi
-
-
-$as_echo "#define RESOURCES_PATH /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define RESOURCES_PATH "$RESOURCES_PATH"
 _ACEOF
 
 

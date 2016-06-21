@@ -321,8 +321,6 @@
 		CA5C2F8D1A66EC860077B16C /* search2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = search2.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA5C2F8E1A66EC860077B16C /* search2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = search2.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA5C2F8F1A66EC860077B16C /* search2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = search2.html; sourceTree = "<group>"; };
-		CA5DE2CA1AA5BA3900AE051C /* externalresources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = externalresources.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CA5DE2CB1AA5BA3900AE051C /* externalresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = externalresources.h; sourceTree = "<group>"; };
 		CA5DE2CC1AA5F02100AE051C /* locks.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = locks.c; sourceTree = "<group>"; };
 		CA5DE2CD1AA5F02100AE051C /* locks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = locks.h; sourceTree = "<group>"; };
 		CA5FE4121CF72F7B00D3BE90 /* checkbox.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = checkbox.js; sourceTree = "<group>"; };
@@ -561,8 +559,6 @@
 		CAA4D02E1A45A647003ABA25 /* noteactions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = noteactions.h; sourceTree = "<group>"; };
 		CAA4D02F1A45A647003ABA25 /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = notes.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D0301A45A647003ABA25 /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = notes.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		CAA4D0311A45A647003ABA25 /* offlineresources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = offlineresources.cpp; sourceTree = "<group>"; };
-		CAA4D0321A45A647003ABA25 /* offlineresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = offlineresources.h; sourceTree = "<group>"; };
 		CAA4D0351A45A647003ABA25 /* sblgnt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sblgnt.cpp; sourceTree = "<group>"; };
 		CAA4D0361A45A647003ABA25 /* sblgnt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sblgnt.h; sourceTree = "<group>"; };
 		CAA4D03A1A45A647003ABA25 /* sprint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sprint.cpp; sourceTree = "<group>"; };
@@ -1715,8 +1711,6 @@
 				CA919B3A1B7602E800217649 /* noteassignment.h */,
 				CAA4D02F1A45A647003ABA25 /* notes.cpp */,
 				CAA4D0301A45A647003ABA25 /* notes.h */,
-				CAA4D0311A45A647003ABA25 /* offlineresources.cpp */,
-				CAA4D0321A45A647003ABA25 /* offlineresources.h */,
 				CA6501B41C80746900844364 /* privileges.cpp */,
 				CA6501B51C80746900844364 /* privileges.h */,
 				CAA4D0351A45A647003ABA25 /* sblgnt.cpp */,
@@ -2788,8 +2782,6 @@
 				CA8266331A7FFCCF0049DFD3 /* bibles.h */,
 				CA9FAD8B1B44356A00B43C76 /* changes.cpp */,
 				CA9FAD8C1B44356A00B43C76 /* changes.h */,
-				CA5DE2CA1AA5BA3900AE051C /* externalresources.cpp */,
-				CA5DE2CB1AA5BA3900AE051C /* externalresources.h */,
 				CA815E861B66489B00E2DE26 /* files.cpp */,
 				CA815E871B66489B00E2DE26 /* files.h */,
 				CAA4D37C1A45A648003ABA25 /* logic.cpp */,

@@ -138,10 +138,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/localization.$(OBJEXT) database/confirm.$(OBJEXT) \
 	database/ipc.$(OBJEXT) database/jobs.$(OBJEXT) \
 	database/kjv.$(OBJEXT) database/morphhb.$(OBJEXT) \
-	database/sblgnt.$(OBJEXT) database/offlineresources.$(OBJEXT) \
-	database/sprint.$(OBJEXT) database/mail.$(OBJEXT) \
-	database/navigation.$(OBJEXT) database/usfmresources.$(OBJEXT) \
-	database/mappings.$(OBJEXT) database/noteactions.$(OBJEXT) \
+	database/sblgnt.$(OBJEXT) database/sprint.$(OBJEXT) \
+	database/mail.$(OBJEXT) database/navigation.$(OBJEXT) \
+	database/usfmresources.$(OBJEXT) database/mappings.$(OBJEXT) \
+	database/noteactions.$(OBJEXT) \
 	database/versifications.$(OBJEXT) \
 	database/modifications.$(OBJEXT) database/notes.$(OBJEXT) \
 	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
@@ -239,12 +239,12 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	client/logic.$(OBJEXT) sync/logic.$(OBJEXT) \
 	sync/setup.$(OBJEXT) sync/settings.$(OBJEXT) \
 	sync/bibles.$(OBJEXT) sync/usfmresources.$(OBJEXT) \
-	sync/externalresources.$(OBJEXT) sync/notes.$(OBJEXT) \
-	sync/changes.$(OBJEXT) sync/files.$(OBJEXT) \
-	sync/resources.$(OBJEXT) sync/mail.$(OBJEXT) \
-	resource/index.$(OBJEXT) resource/organize.$(OBJEXT) \
-	resource/logic.$(OBJEXT) resource/get.$(OBJEXT) \
-	resource/external.$(OBJEXT) resource/bible2resource.$(OBJEXT) \
+	sync/notes.$(OBJEXT) sync/changes.$(OBJEXT) \
+	sync/files.$(OBJEXT) sync/resources.$(OBJEXT) \
+	sync/mail.$(OBJEXT) resource/index.$(OBJEXT) \
+	resource/organize.$(OBJEXT) resource/logic.$(OBJEXT) \
+	resource/get.$(OBJEXT) resource/external.$(OBJEXT) \
+	resource/bible2resource.$(OBJEXT) \
 	resource/convert2resource.$(OBJEXT) \
 	resource/convert2bible.$(OBJEXT) resource/manage.$(OBJEXT) \
 	resource/print.$(OBJEXT) resource/download.$(OBJEXT) \
@@ -503,7 +503,6 @@ PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 RANLIB = @RANLIB@
-RESOURCES_PATH = @RESOURCES_PATH@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SQLITE_CFLAGS = @SQLITE_CFLAGS@
@@ -620,7 +619,6 @@ libbibledit_a_SOURCES = \
 	database/kjv.cpp \
 	database/morphhb.cpp \
 	database/sblgnt.cpp \
-	database/offlineresources.cpp \
 	database/sprint.cpp \
 	database/mail.cpp \
 	database/navigation.cpp \
@@ -819,7 +817,6 @@ libbibledit_a_SOURCES = \
 	sync/settings.cpp \
 	sync/bibles.cpp \
 	sync/usfmresources.cpp \
-	sync/externalresources.cpp \
 	sync/notes.cpp \
 	sync/changes.cpp \
 	sync/files.cpp \
@@ -1244,8 +1241,6 @@ database/kjv.$(OBJEXT): database/$(am__dirstamp) \
 database/morphhb.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/sblgnt.$(OBJEXT): database/$(am__dirstamp) \
-	database/$(DEPDIR)/$(am__dirstamp)
-database/offlineresources.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/sprint.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -1902,8 +1897,6 @@ sync/settings.$(OBJEXT): sync/$(am__dirstamp) \
 sync/bibles.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 sync/usfmresources.$(OBJEXT): sync/$(am__dirstamp) \
-	sync/$(DEPDIR)/$(am__dirstamp)
-sync/externalresources.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
 sync/notes.$(OBJEXT): sync/$(am__dirstamp) \
 	sync/$(DEPDIR)/$(am__dirstamp)
@@ -2653,7 +2646,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/noteactions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/noteassignment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/notes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/offlineresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/privileges.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sblgnt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sprint.Po@am__quote@
@@ -2956,7 +2948,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sword/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/changes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/externalresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/files.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/mail.Po@am__quote@

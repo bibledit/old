@@ -28,7 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/signup.h>
 #include <session/switch.h>
 #include <database/config/general.h>
-#include <database/offlineresources.h>
 #include <database/cache.h>
 #include <setup/index.h>
 #include <journal/index.h>
@@ -112,7 +111,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/bibles.h>
 #include <sync/notes.h>
 #include <sync/usfmresources.h>
-#include <sync/externalresources.h>
 #include <sync/changes.h>
 #include <sync/files.h>
 #include <sync/resources.h>
@@ -245,10 +243,6 @@ void bootstrap_index (void * webserver_request)
       ) http_serve_cache_file (request);
   else if ((url == resource_imagefetch_url ()) && resource_imagefetch_acl (request)) request->reply = resource_imagefetch (request);
 
-  // Serve offline resources.
-  // Note: This is no longer needed as of July 28 2015: For security it should be removed.
-  else if ((request->get.find (Database_OfflineResources::offlineresources ()) != string::npos) && (extension == "sqlite")) http_serve_cache_file (request);
-  
   // Serve resource downloads.
   else if ((request->get.find (Database_Cache::fragment ()) != string::npos) && (extension == "sqlite")) http_serve_cache_file (request);
   
@@ -536,7 +530,6 @@ void bootstrap_index (void * webserver_request)
   else if (url == sync_bibles_url ()) request->reply = sync_bibles (request);
   else if (url == sync_notes_url ()) request->reply = sync_notes (request);
   else if (url == sync_usfmresources_url ()) request->reply = sync_usfmresources (request);
-  else if (url == sync_externalresources_url ()) request->reply = sync_externalresources (request);
   else if (url == sync_changes_url ()) request->reply = sync_changes (request);
   else if (url == sync_files_url ()) request->reply = sync_files (request);
   else if (url == sync_resources_url ()) request->reply = sync_resources (request);

@@ -123,20 +123,6 @@ bool config_logic_paratext_enabled ()
 }
 
 
-// Returns whether the external resources cache has been configured.
-bool config_logic_external_resources_cache_configured ()
-{
-  return (strcmp (RESOURCES_PATH, "") != 0);
-}
-
-
-// Define the path to the shared external resources cache.
-string config_logic_external_resources_cache_path ()
-{
-  return RESOURCES_PATH;
-}
-
-
 // Returns whether Windows has been enabled during configure.
 bool config_logic_windows ()
 {

@@ -21,7 +21,6 @@
 #include <webserver/request.h>
 #include <access/bible.h>
 #include <database/usfmresources.h>
-#include <database/offlineresources.h>
 #include <database/imageresources.h>
 #include <database/mappings.h>
 #include <database/config/bible.h>

@@ -36,7 +36,6 @@
 #include <menu/logic.h>
 #include <database/config/general.h>
 #include <database/usfmresources.h>
-#include <database/offlineresources.h>
 #include <sendreceive/resources.h>
 #include <client/logic.h>
 
@@ -111,15 +110,6 @@ string resource_cache (void * webserver_request)
   // Display any old USFM resources still available on the client.
   Database_UsfmResources database_usfmresources;
   resources = database_usfmresources.getResources ();
-  for (auto & resource : resources) {
-    if (in_array (resource, listed_resources)) continue;
-    block.append ("<p>");
-    block.append ("<a href=\"download?name=" + resource + "&old=yes\">" + resource + "</a>");
-    block.append ("</p>\n");
-  }
-  // Display any offline resources still available on the client.
-  Database_OfflineResources database_offlineresources;
-  resources = database_offlineresources.names ();
   for (auto & resource : resources) {
     if (in_array (resource, listed_resources)) continue;
     block.append ("<p>");

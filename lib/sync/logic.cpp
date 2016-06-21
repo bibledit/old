@@ -30,7 +30,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/usfmresources.h>
-#include <database/offlineresources.h>
 #include <database/modifications.h>
 #include <config/logic.h>
 #include <config/globals.h>
@@ -223,44 +222,6 @@ string Sync_Logic::usfm_resource_chapter_checksum (const string& name, int book,
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   int checksum = database_usfmresources.getSize (name, book, chapter);
   return convert_to_string (checksum);
-}
-
-
-// Calculates the checksum of all offline resources.
-string Sync_Logic::offline_resources_checksum ()
-{
-  string checksum;
-  Database_OfflineResources database_offlineresources;
-  vector <string> names = database_offlineresources.names ();
-  for (auto & name : names) {
-    checksum += offline_resource_checksum (name);
-  }
-  checksum = md5 (checksum);
-  return checksum;
-}
-
-
-// Calculates the checksum of offline resource name.
-string Sync_Logic::offline_resource_checksum (const string& name)
-{
-  vector <string> checksum;
-  Database_OfflineResources database_offlineresources;
-  vector <string> files = database_offlineresources.files (name);
-  for (auto & file : files) {
-    checksum.push_back (name);
-    checksum.push_back (offline_resource_file_checksum (name, file));
-  }
-  string schecksum = filter_string_implode (checksum, "");
-  schecksum = md5 (schecksum);
-  return schecksum;
-}
-
-
-// Calculates the checksum of offline resource name the file.
-string Sync_Logic::offline_resource_file_checksum (const string& name, const string& file)
-{
-  Database_OfflineResources database_offlineresources;
-  return convert_to_string (database_offlineresources.size (name, file));
 }
 
 

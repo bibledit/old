@@ -27,7 +27,6 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
-#include <database/offlineresources.h>
 #include <database/usfmresources.h>
 #include <database/logs.h>
 #include <database/cache.h>
@@ -53,7 +52,6 @@ bool resource_download_acl (void * webserver_request)
 string resource_download (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_OfflineResources database_offlineresources;
   Database_UsfmResources database_usfmresources;
   
   
@@ -77,14 +75,12 @@ string resource_download (void * webserver_request)
                       
   if (request->query.count ("clear")) {
     // The client clears the two older storage locations just to be sure they are gone.
-    database_offlineresources.erase (name);
     database_usfmresources.deleteResource (name);
     // The client clears the installed resource.
     Database_Cache::remove (name);
   }
   if (request->query.count ("clearold")) {
     // The client clears the two older storage locations just to be sure they are gone.
-    database_offlineresources.erase (name);
     database_usfmresources.deleteResource (name);
     redirect_browser (request, resource_cache_url ());
     return "";
@@ -106,7 +102,6 @@ string resource_download (void * webserver_request)
   
   
   int count = 0;
-  if (count == 0) count = database_offlineresources.count (name);
   if (count == 0) {
     vector <int> books = database_usfmresources.getBooks (name);
     for (auto book : books) {

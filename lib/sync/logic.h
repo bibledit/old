@@ -97,13 +97,6 @@ public:
   static const int usfmresources_get_chapters = 6;
   static const int usfmresources_get_chapter_checksum = 7;
   static const int usfmresources_get_chapter = 8;
-  static const int offlineresources_get_total_checksum = 1;
-  static const int offlineresources_get_resources = 2;
-  static const int offlineresources_get_resource_checksum = 3;
-  static const int offlineresources_get_files = 4;
-  static const int offlineresources_get_file_checksum = 5;
-  static const int offlineresources_get_file = 6;
-  static const int offlineresources_get_file_filename = 7;
   
   static const int changes_delete_modification = 1;
   static const int changes_get_checksum = 2;
@@ -128,10 +121,6 @@ public:
   static string usfm_resource_checksum (const string& name);
   static string usfm_resource_book_checksum (const string& name, int book);
   static string usfm_resource_chapter_checksum (const string& name, int book, int chapter);
-  
-  static string offline_resources_checksum ();
-  static string offline_resource_checksum (const string& name);
-  static string offline_resource_file_checksum (const string & name, const string & file);
   
   static string changes_checksum (const string & username);
 

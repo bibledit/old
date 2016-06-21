@@ -225,16 +225,6 @@ AC_DEFINE([PARATEXT], [], [Define whether Paratext synchronization is enabled])
 AC_DEFINE_UNQUOTED(PARATEXT, "$PARATEXT")
 AC_SUBST(PARATEXT)
 
-# Configure resources path.
-AC_ARG_WITH(resources-path,
-[  --with-resources-path=path Resources path],
-[ RESOURCES_PATH=$withval ],
-[ RESOURCES_PATH= ]
-)
-AC_DEFINE([RESOURCES_PATH], [], [Define the path to the shared external resources cache])
-AC_DEFINE_UNQUOTED(RESOURCES_PATH, "$RESOURCES_PATH")
-AC_SUBST(RESOURCES_PATH)
-
 # Windows.
 WINDOWS=no
 AC_ARG_ENABLE(windows,
