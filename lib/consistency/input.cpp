@@ -45,7 +45,7 @@ string consistency_input (void * webserver_request)
   string translations = request->post ["translations"];
   Database_Volatile::setValue (id, "passages", passages);
   Database_Volatile::setValue (id, "translations", translations);
-  Consistency_Logic consistency_logic = Consistency_Logic (webserver_request, id);
+  Consistency_Logic consistency_logic (webserver_request, id);
   string response = consistency_logic.response ();
   Database_Volatile::setValue (id, "response", response);
   return response;

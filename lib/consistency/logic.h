@@ -28,7 +28,6 @@ class Consistency_Logic
 {
 public:
   Consistency_Logic (void * webserver_request_in, int id_in);
-  ~Consistency_Logic ();
   string response ();
 private:
   void * webserver_request;

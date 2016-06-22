@@ -36,11 +36,6 @@ Consistency_Logic::Consistency_Logic (void * webserver_request_in, int id_in)
 }
 
 
-Consistency_Logic::~Consistency_Logic ()
-{
-}
-
-
 string Consistency_Logic::response ()
 {
   // The request.
