@@ -271,16 +271,8 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
     data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
   } else if (isExternal) {
 #ifdef CLIENT_PREPARED
-    // A client fetches it from the cache or from the Cloud,
-    // or, for older versions, from the offline resources database.
-    // As of 12 December 2015, the offline resources database is not needed anymore.
-    // It can be removed after a year or so.
-    Database_OfflineResources database_offlineresources;
-    if (database_offlineresources.exists (resource, book, chapter, verse)) {
-      data = database_offlineresources.get (resource, book, chapter, verse);
-    } else {
-      data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
-    }
+    // A client fetches it from the cache or from the Cloud.
+    data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #else
     // The server fetches it from the web, via the http cache.
     data.append (resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse));

@@ -40,7 +40,6 @@ void test_database_jobs ();
 void test_database_kjv ();
 void test_database_morphhb ();
 void test_database_sblgnt ();
-void test_database_offlineresourcese ();
 void test_database_sprint ();
 void test_database_mail ();
 void test_database_navigation ();

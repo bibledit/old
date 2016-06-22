@@ -105,7 +105,6 @@ int main (int argc, char **argv)
   test_database_kjv ();
   test_database_morphhb ();
   test_database_sblgnt ();
-  test_database_offlineresourcese ();
   test_database_sprint ();
   test_database_mail ();
   test_database_navigation ();
