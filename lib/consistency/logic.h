@@ -33,6 +33,7 @@ private:
   void * webserver_request;
   int id;
   string verseText (string resource, int book, int chapter, int verse);
+  string omit_verse_text (string input);
 };
 
 

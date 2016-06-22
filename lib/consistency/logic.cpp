@@ -51,7 +51,7 @@ string Consistency_Logic::response ()
   s_passages = filter_string_trim (s_passages);
   vector <string> passages = filter_string_explode (s_passages, '\n');
   
-  // The translations from the Consistency tool.
+  // The translations entered in the Consistency tool.
   string s_translations = Database_Volatile::getValue (id, "translations");
   s_translations = filter_string_trim (s_translations);
   vector <string> translations = filter_string_explode (s_translations, '\n');
@@ -62,8 +62,16 @@ string Consistency_Logic::response ()
   // Go through the passages interpreting them.
   Passage previousPassage = Passage ("", 1, 1, "1");
   for (auto line : passages) {
+    
+    // Clean line.
     line = filter_string_trim (line);
-    if (line == "") continue;
+    
+    // Skip empty line.
+    if (line.empty ()) continue;
+    
+    // Remove verse text remaining with the passage(s) only.
+    line = omit_verse_text (line);
+    
     vector <string> range_sequence = filter_passage_handle_sequences_ranges (line);
     for (auto line : range_sequence) {
       Passage passage = filter_passage_interpret_passage (previousPassage, line);
@@ -128,3 +136,23 @@ string Consistency_Logic::verseText (string resource, int book, int chapter, int
   return resource_logic_get_html (webserver_request, resource, book, chapter, verse, false);
 }
 
+
+// This function omits the verse text from a line of text from the search results.
+string Consistency_Logic::omit_verse_text (string input)
+{
+  // Imagine the following $input:
+  // 1 Peter 4:17 For the time has come for judgment to begin with the household of God. If it begins first with us, what will happen to those who don’t obey the Good News of God?
+  // The purpose of this function is to extract "1 Peter 4:17" from it, and leave the rest out.
+  // This is done by leaving out everything after the last numeral.
+  size_t length = unicode_string_length (input);
+  size_t last_numeral = 0;
+  for (size_t i = 0; i < length; i++) {
+    string character = unicode_string_substr (input, i, 1);
+    if (filter_string_is_numeric (character)) {
+      last_numeral = i;
+    }
+  }
+  last_numeral++;
+  input = unicode_string_substr (input, 0, last_numeral);
+  return input;
+}
