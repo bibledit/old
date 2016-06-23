@@ -94,7 +94,7 @@ void webserver_process_request (int connfd, string clientaddress)
       // Read the client's request.
       // With the HTTP protocol it is not possible to read the request till EOF,
       // because EOF does never come, because the browser keeps the connection open
-      // for the response.
+      // for receiving the response.
       // The HTTP protocol works per line.
       // Read one line of data from the client.
       // An empty line marks the end of the headers.

@@ -179,7 +179,7 @@ void checks_run (string bible)
   
   // Add a link to the online checking results.
   if (!emailBody.empty ()) {
-    string siteUrl = config_logic_site_url ();
+    string siteUrl = config_logic_site_url (NULL);
     emailBody.push_back ("<p><a href=\"" + siteUrl + checks_index_url () + "\">" + translate("The checking results are also available online.") + "</a></p>");
   }
   

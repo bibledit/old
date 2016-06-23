@@ -172,18 +172,35 @@ bool config_logic_basic_mode (void * webserver_request)
 
 
 // This returns the URL of Bibledit Cloud that faces the user.
-string config_logic_site_url ()
+string config_logic_site_url (void * webserver_request)
 {
-  string url = Database_Config_General::getSiteURL ();
-  string user_url = config_logic_manual_user_facing_url ();
-  if (!user_url.empty ()) url = user_url;
-  url = filter_string_trim (url);
+  // When the administrator has entered a fixed value for the user-facing URL, take that.
+  // It overrides everything.
+  string url = config_logic_manual_user_facing_url ();
+  if (!url.empty ()) return url;
+  
+  // If a webserver request is passed, take the host from there.
+  // The results is that in a situation where 192.168.2.6 is the same as localhost,
+  // uses can connect from localhost and also from 192.168.2.6.
+  // In the past there was a situation that the admin set up a central server for the whole team on his localhost.
+  // Then team members that connected to 192.168.2.6 were forwarded to localhost (which of course failed).
+  // This solution deals with that.
+  if (webserver_request) {
+    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    url = get_base_url (request);
+    return url;
+  }
+  
+  // No URL found yet.
+  // This occurs during scheduled tasks that require the URL to add it to emails sent out.
+  // Take the URL stored on login.
+  url = Database_Config_General::getSiteURL ();
   return url;
 }
 
 
 // This returns the filtered value of file userfacingurl.conf.
-string config_logic_manual_user_facing_url ()
+string config_logic_manual_user_facing_url () // Todo certainly to use for emails.
 {
 #ifdef CLIENT_PREPARED
   return "";

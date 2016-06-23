@@ -1819,9 +1819,6 @@ msgstr ""
 msgid "Examples"
 msgstr ""
 
-msgid "Translation:"
-msgstr ""
-
 msgid "salvation"
 msgstr ""
 
@@ -1834,12 +1831,10 @@ msgstr ""
 msgid "Tips"
 msgstr ""
 
-msgid "Add Resources as extra aids for comparison"
+msgid "Add resources as extra aids for comparison"
 msgstr ""
 
-msgid ""
-"Add the Consistency tool and the Bible editor in a Workbench for easier "
-"checking and editing."
+msgid "Paste the entire text from search results into the passages window."
 msgstr ""
 
 msgid "Unknown passage"

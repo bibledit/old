@@ -86,7 +86,7 @@ string search_all (void * webserver_request)
   Database_Notes database_notes = Database_Notes (request);
 
   
-  string siteUrl = config_logic_site_url ();
+  string siteUrl = config_logic_site_url (webserver_request);
 
   
   vector <string> bibles = access_bible_bibles (request);

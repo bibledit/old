@@ -99,7 +99,7 @@ bool http_parse_header (string header, Webserver_Request * request)
   if (header.substr (0, 4) == "Host") {
     request->host = header.substr (6);
     vector <string> bits = filter_string_explode (request->host, ':');
-    if (!bits.empty ()) request->host = bits [0];
+    if (!bits.empty ()) request->host = filter_string_trim (bits [0]);
   }
   
   // Extract the Content-Type from a header like this:

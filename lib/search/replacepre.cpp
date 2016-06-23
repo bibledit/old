@@ -50,7 +50,7 @@ string search_replacepre (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   
-  string siteUrl = config_logic_site_url ();
+  string siteUrl = config_logic_site_url (webserver_request);
   
   
   // Get search variables from the query.

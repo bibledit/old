@@ -75,11 +75,8 @@ void redirect_browser (Webserver_Request * request, string path)
   // The absolute location contains the user-facing URL, when the administrator entered it.
   // This is needed in case of a proxy server,
   // where Bibledit may not be able to obtain the user-facing URL of the website.
-  string location = config_logic_site_url ();
+  string location = config_logic_site_url (request);
   
-  // In case of no known site location, extract it from the browser's request.
-  if (location.empty ()) location = get_base_url (request);
-
   // If the request was secure, or supposed to be secure,
   // ensure the location contains https rather than plain http,
   // plus the correct secure port.

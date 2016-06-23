@@ -478,7 +478,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
   contents.append ("<br>\n");
   contents.append ("<p>");
   contents.append ("<a href=\"");
-  string notelink = config_logic_site_url () + notes_note_url () + "?id=" + convert_to_string (identifier);
+  string notelink = config_logic_site_url (webserver_request) + notes_note_url () + "?id=" + convert_to_string (identifier); // Todo test it.
   contents.append (notelink);
   contents.append ("\">");
   contents.append (translate ("View or respond online"));
@@ -486,7 +486,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
   contents.append (" " + translate ("or") + " ");
 
   contents.append ("<a href=\"");
-  string desktoplink = config_logic_site_url () + workbench_index_url () + "?note=" + convert_to_string (identifier);
+  string desktoplink = config_logic_site_url (webserver_request) + workbench_index_url () + "?note=" + convert_to_string (identifier); // Todo test it.
   contents.append (desktoplink);
   contents.append ("\">");
   contents.append (translate ("open the desktop online"));

@@ -39,7 +39,7 @@ bool config_logic_windows ();
 bool config_logic_android ();
 bool config_logic_ios ();
 bool config_logic_basic_mode (void * webserver_request);
-string config_logic_site_url ();
+string config_logic_site_url (void * webserver_request);
 string config_logic_manual_user_facing_url ();
 string config_logic_server_key_path ();
 string config_logic_server_certificate_path ();
