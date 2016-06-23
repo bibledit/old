@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <filter/url.h>
 #include <webserver/http.h>
+#include <webserver/request.h>
 #include <config/globals.h>
 #include <filter/UriCodec.cpp>
 #include <filter/string.h>
@@ -49,8 +50,9 @@ mbedtls_x509_crt filter_url_mbed_tls_cacert;
 
 
 // Gets the base URL of current Bibledit installation.
-string get_base_url (Webserver_Request * request)
+string get_base_url (void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   string scheme;
   string port;
   if (request->secure || config_globals_enforce_https_browser) {
@@ -67,15 +69,17 @@ string get_base_url (Webserver_Request * request)
 
 // This function redirects the browser to "path".
 // "path" is an absolute value.
-void redirect_browser (Webserver_Request * request, string path)
+void redirect_browser (void * webserver_request, string path)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   // A location header should contain an absolute url, like http://localhost/some/path.
   // See 14.30 in the specification https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
   
   // The absolute location contains the user-facing URL, when the administrator entered it.
   // This is needed in case of a proxy server,
   // where Bibledit may not be able to obtain the user-facing URL of the website.
-  string location = config_logic_site_url (request);
+  string location = config_logic_site_url (webserver_request);
   
   // If the request was secure, or supposed to be secure,
   // ensure the location contains https rather than plain http,

@@ -27,6 +27,7 @@
 #include <database/strong.h>
 #include <database/hebrewlexicon.h>
 #include <pugixml/pugixml.hpp>
+#include <webserver/request.h>
 
 
 using namespace pugi;

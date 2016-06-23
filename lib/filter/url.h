@@ -22,11 +22,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
-#include <webserver/request.h>
 
 
-string get_base_url (Webserver_Request * request);
-void redirect_browser (Webserver_Request * request, string url);
+string get_base_url (void * webserver_request);
+void redirect_browser (void * webserver_request, string url);
 string filter_url_dirname (string url);
 string filter_url_basename (string url);
 void filter_url_unlink (string filename);
