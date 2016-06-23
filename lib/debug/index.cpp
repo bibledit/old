@@ -103,8 +103,13 @@ string debug_index (void * webserver_request)
 
   if (debug == "crash") {
     // int *foo = (int*)-1; // make a bad pointer
-    // printf ("%d\n", *foo); // cause segfault
+    // printf ("%d\n", *foo); // cause segmentation fault
     view.set_variable ("success", "Task disabled");
+  }
+  
+  if (debug == "receive") {
+    tasks_logic_queue (RECEIVEEMAIL);
+    view.set_variable ("success", "Receiving email and running tasks that send mail");
   }
   
   view.set_variable ("code", code);

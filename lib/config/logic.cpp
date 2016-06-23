@@ -187,8 +187,10 @@ string config_logic_site_url (void * webserver_request)
   // This solution deals with that.
   if (webserver_request) {
     Webserver_Request * request = (Webserver_Request *) webserver_request;
-    url = get_base_url (request);
-    return url;
+    if (!request->host.empty ()) {
+      url = get_base_url (request);
+      return url;
+    }
   }
   
   // No URL found yet.
@@ -200,7 +202,7 @@ string config_logic_site_url (void * webserver_request)
 
 
 // This returns the filtered value of file userfacingurl.conf.
-string config_logic_manual_user_facing_url () // Todo certainly to use for emails.
+string config_logic_manual_user_facing_url ()
 {
 #ifdef CLIENT_PREPARED
   return "";
