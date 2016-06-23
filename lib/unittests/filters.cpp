@@ -841,6 +841,29 @@ void test_filters_usfm5 ()
     position = usfm_get_new_note_position (usfm, 20, 0);
     evaluate (__LINE__, __func__, 21, position);
   }
+  {
+    // Testing on USFM without verse text. Todo
+    string usfm;
+
+    usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.";
+    evaluate (__LINE__, __func__, false, usfm_contains_empty_verses (usfm));
+
+    usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.\n"
+           "\\v 2 Two";
+    evaluate (__LINE__, __func__, false, usfm_contains_empty_verses (usfm));
+
+    usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.\n"
+           "\\v 2";
+    evaluate (__LINE__, __func__, true, usfm_contains_empty_verses (usfm));
+
+    usfm = "\\v 1 \n"
+    "\\v 2 Two";
+    evaluate (__LINE__, __func__, true, usfm_contains_empty_verses (usfm));
+
+    usfm = "\\v 1 \n"
+    "\\v 2 ";
+    evaluate (__LINE__, __func__, true, usfm_contains_empty_verses (usfm));
+}
 }
 
 

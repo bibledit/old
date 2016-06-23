@@ -955,3 +955,24 @@ string usfm_safely_store_verse (void * webserver_request, string bible, int book
   // Done: OK.
   return "";
 }
+
+
+// Returns whether $usfm contains one or more empty verses.
+bool usfm_contains_empty_verses (string usfm)
+{
+  usfm = filter_string_str_replace ("\n", "", usfm);
+  if (usfm.empty ()) return false;
+  for (int i = 0; i <= 9; i++) {
+    usfm = filter_string_str_replace (convert_to_string (i), "", usfm);
+  }
+  if (usfm.empty ()) return false;
+  usfm = filter_string_str_replace (" ", "", usfm);
+  if (usfm.empty ()) return false;
+  size_t pos = usfm.find ("\\v\\v");
+  if (pos != string::npos) return true;
+  pos = usfm.find ("\\v \\v");
+  if (pos != string::npos) return true;
+  pos = usfm.find_last_of ("\\v");
+  if (pos == usfm.length () - 1) return true;
+  return false;
+}
