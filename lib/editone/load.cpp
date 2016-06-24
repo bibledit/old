@@ -163,6 +163,15 @@ string editone_load (void * webserver_request)
   }
 
   
+  // If the verse was empty, ensure that it has a non-breaking space as the last character,
+  // for easier text entry in the verse.
+  if (usfm_contains_empty_verses (focused_verse_usfm)) {
+    string search = "<span> </span></p>";
+    string replace = "<span>" + unicode_non_breaking_space_entity () + "</span></p>";
+    focused_verse_html = filter_string_str_replace (search, replace, focused_verse_html);
+  }
+  
+
   string data;
   data.append (focused_verse_applied_style);
   data.append ("#_be_#");
