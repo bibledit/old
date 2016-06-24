@@ -26,6 +26,8 @@
 #include <editor/usfm2html.h>
 #include <edit/logic.h>
 #include <access/bible.h>
+#include <locale/translate.h>
+#include <database/logs.h>
 
 
 string edit_load_url ()
@@ -57,6 +59,13 @@ string edit_load (void * webserver_request)
   string stylesheet = request->database_config_user()->getStylesheet ();
   
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  
+  // The visual chapter editor does not very well with empty verses.
+  // Detect empty verses, and if found, signal the editor about it.
+  if (usfm_contains_empty_verses (usfm)) {
+    Database_Logs::log (translate ("Empty verse detected: Switching to verse-based editor"), Filter_Roles::translator ());
+    return "switch";
+  }
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
