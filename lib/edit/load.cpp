@@ -60,19 +60,19 @@ string edit_load (void * webserver_request)
   
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   
-  // The visual chapter editor does not very well with empty verses.
-  // Detect empty verses, and if found, signal the editor about it.
-  if (usfm_contains_empty_verses (usfm)) {
-    Database_Logs::log (translate ("Empty verse detected: Switching to verse-based editor"), Filter_Roles::translator ());
-    return "switch";
-  }
-  
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (stylesheet);
   editor_usfm2html.run ();
   
   string html = editor_usfm2html.get ();
+  
+  // To make editing empty verses easier, convert spaces to non-breaking spaces, so they appear in the editor.
+  if (usfm_contains_empty_verses (usfm)) {
+    string search = "<span> </span>";
+    string replace = "<span>" + unicode_non_breaking_space_entity () + "</span>";
+    html = filter_string_str_replace (search, replace, html);
+  }
   
   string user = request->session_logic ()->currentUser ();
   bool write = access_bible_book_write (webserver_request, user, bible, book);
