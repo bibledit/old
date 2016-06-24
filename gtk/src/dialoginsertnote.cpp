@@ -527,8 +527,7 @@ void InsertNoteDialog::vector_remove_content(vector < GtkWidget * >&container, i
 {
   vector < GtkWidget * >::iterator iter;
   iter = container.begin();
-  for (int i = 0; i < offset; i++)
-    iter++;
+  for (int i = 0; i < offset; i++) { iter++; }
   container.erase(iter);
 }
 
@@ -583,14 +582,14 @@ void InsertNoteDialog::on_button_add()
   {
     GtkRequisition sizerequisition;
     gtk_widget_size_request(combobox_style, &sizerequisition);
-    defaultheight = (int)(sizerequisition.height * 0.8);
+    defaultheight = (int)(sizerequisition.height/* * 0.8*/);
   }
 
   label_size = gtk_label_new(_("Size"));
   gtk_widget_show(label_size);
   gtk_box_pack_start(GTK_BOX(hbox8), label_size, FALSE, FALSE, 0);
 
-  spinbutton_size_adj = gtk_adjustment_new(defaultheight, defaultheight, 30 * defaultheight, defaultheight, 3 * defaultheight, 0);
+  spinbutton_size_adj = gtk_adjustment_new(defaultheight*5, defaultheight, 30 * defaultheight, defaultheight, 3 * defaultheight, 0);
   spinbutton_size = gtk_spin_button_new(GTK_ADJUSTMENT(spinbutton_size_adj), 1, 0);
   gtk_widget_show(spinbutton_size);
   gtk_widget_set_size_request(spinbutton_size, defaultheight / 2, -1);
@@ -636,7 +635,7 @@ void InsertNoteDialog::on_button_add()
   scrolledwindow_content = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow_content);
   gtk_box_pack_start(GTK_BOX(vbox2), scrolledwindow_content, FALSE, FALSE, 0);
-  gtk_widget_set_size_request(scrolledwindow_content, -1, defaultheight);
+  gtk_widget_set_size_request(scrolledwindow_content, -1, defaultheight*5);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow_content), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow_content), GTK_SHADOW_IN);
 
@@ -726,8 +725,7 @@ void InsertNoteDialog::on_combobox_templates()
 // On a change of template, reload the values in the gui.
 {
   // Do nothing if we wish the gui not to be updated.
-  if (!updategui)
-    return;
+  if (!updategui) { return; }
   // Load the template.
   ustring template_name = combobox_get_active_string(combobox_templates);
   NoteTemplate notetemplate(gw_build_filename(Directories->get_configuration(), template_filename_get(template_name)), mydialogtype, false);
