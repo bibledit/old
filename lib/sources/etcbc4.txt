@@ -1,9 +1,12 @@
-The ETCBC4 project provides a Hebrew morphology with English glosses
+The ETCBC4 project provides a Hebrew morphology with English glosses.
+The ETCBC4 database is in the public domain.
+It contains a lot of useful information, but it also lacks information useful to Bible translators.
 
 https://shebanq.ancient-data.org/
 https://twitter.com/christof77/status/542306145915138048
 https://github.com/ctslearning/etcbc2wlc
 https://shebanq.ancient-data.org/hebrew/verse?version=4b&book=Genesis&chapter=1&verse=1
+https://easy.dans.knaw.nl/ui/datasets/id/easy-dataset:58245
 
 Download the raw html data through the Debug page.
 The progress will be visible in the Journal.

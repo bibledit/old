@@ -285,31 +285,31 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	lexicon/logic.$(OBJEXT) lexicon/definition.$(OBJEXT) \
 	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT) \
 	sources/morphhb.$(OBJEXT) sources/morphgnt.$(OBJEXT) \
-	sources/hebrewlexicon.$(OBJEXT) sword/logic.$(OBJEXT) \
-	pugixml/pugixml.$(OBJEXT) pugixml/utils.$(OBJEXT) \
-	public/index.$(OBJEXT) public/logic.$(OBJEXT) \
-	public/login.$(OBJEXT) public/chapter.$(OBJEXT) \
-	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
-	public/create.$(OBJEXT) public/note.$(OBJEXT) \
-	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT) \
-	search/logic.$(OBJEXT) basic/index.$(OBJEXT) \
-	mbedtls/aes.$(OBJEXT) mbedtls/aesni.$(OBJEXT) \
-	mbedtls/arc4.$(OBJEXT) mbedtls/asn1parse.$(OBJEXT) \
-	mbedtls/asn1write.$(OBJEXT) mbedtls/base64.$(OBJEXT) \
-	mbedtls/bignum.$(OBJEXT) mbedtls/blowfish.$(OBJEXT) \
-	mbedtls/camellia.$(OBJEXT) mbedtls/ccm.$(OBJEXT) \
-	mbedtls/certs.$(OBJEXT) mbedtls/cipher.$(OBJEXT) \
-	mbedtls/cipher_wrap.$(OBJEXT) mbedtls/ctr_drbg.$(OBJEXT) \
-	mbedtls/debug.$(OBJEXT) mbedtls/des.$(OBJEXT) \
-	mbedtls/dhm.$(OBJEXT) mbedtls/ecdh.$(OBJEXT) \
-	mbedtls/ecdsa.$(OBJEXT) mbedtls/ecjpake.$(OBJEXT) \
-	mbedtls/ecp.$(OBJEXT) mbedtls/ecp_curves.$(OBJEXT) \
-	mbedtls/entropy.$(OBJEXT) mbedtls/entropy_poll.$(OBJEXT) \
-	mbedtls/error.$(OBJEXT) mbedtls/gcm.$(OBJEXT) \
-	mbedtls/havege.$(OBJEXT) mbedtls/hmac_drbg.$(OBJEXT) \
-	mbedtls/md.$(OBJEXT) mbedtls/md2.$(OBJEXT) \
-	mbedtls/md4.$(OBJEXT) mbedtls/md5.$(OBJEXT) \
-	mbedtls/md_wrap.$(OBJEXT) \
+	sources/hebrewlexicon.$(OBJEXT) sources/oshb.$(OBJEXT) \
+	sword/logic.$(OBJEXT) pugixml/pugixml.$(OBJEXT) \
+	pugixml/utils.$(OBJEXT) public/index.$(OBJEXT) \
+	public/logic.$(OBJEXT) public/login.$(OBJEXT) \
+	public/chapter.$(OBJEXT) public/notes.$(OBJEXT) \
+	public/new.$(OBJEXT) public/create.$(OBJEXT) \
+	public/note.$(OBJEXT) public/comment.$(OBJEXT) \
+	utf8proc/utf8proc.$(OBJEXT) search/logic.$(OBJEXT) \
+	basic/index.$(OBJEXT) mbedtls/aes.$(OBJEXT) \
+	mbedtls/aesni.$(OBJEXT) mbedtls/arc4.$(OBJEXT) \
+	mbedtls/asn1parse.$(OBJEXT) mbedtls/asn1write.$(OBJEXT) \
+	mbedtls/base64.$(OBJEXT) mbedtls/bignum.$(OBJEXT) \
+	mbedtls/blowfish.$(OBJEXT) mbedtls/camellia.$(OBJEXT) \
+	mbedtls/ccm.$(OBJEXT) mbedtls/certs.$(OBJEXT) \
+	mbedtls/cipher.$(OBJEXT) mbedtls/cipher_wrap.$(OBJEXT) \
+	mbedtls/ctr_drbg.$(OBJEXT) mbedtls/debug.$(OBJEXT) \
+	mbedtls/des.$(OBJEXT) mbedtls/dhm.$(OBJEXT) \
+	mbedtls/ecdh.$(OBJEXT) mbedtls/ecdsa.$(OBJEXT) \
+	mbedtls/ecjpake.$(OBJEXT) mbedtls/ecp.$(OBJEXT) \
+	mbedtls/ecp_curves.$(OBJEXT) mbedtls/entropy.$(OBJEXT) \
+	mbedtls/entropy_poll.$(OBJEXT) mbedtls/error.$(OBJEXT) \
+	mbedtls/gcm.$(OBJEXT) mbedtls/havege.$(OBJEXT) \
+	mbedtls/hmac_drbg.$(OBJEXT) mbedtls/md.$(OBJEXT) \
+	mbedtls/md2.$(OBJEXT) mbedtls/md4.$(OBJEXT) \
+	mbedtls/md5.$(OBJEXT) mbedtls/md_wrap.$(OBJEXT) \
 	mbedtls/memory_buffer_alloc.$(OBJEXT) mbedtls/net.$(OBJEXT) \
 	mbedtls/oid.$(OBJEXT) mbedtls/padlock.$(OBJEXT) \
 	mbedtls/pem.$(OBJEXT) mbedtls/pk.$(OBJEXT) \
@@ -908,6 +908,7 @@ libbibledit_a_SOURCES = \
 	sources/morphhb.cpp \
 	sources/morphgnt.cpp \
 	sources/hebrewlexicon.cpp \
+	sources/oshb.cpp \
 	sword/logic.cpp \
 	pugixml/pugixml.cpp \
 	pugixml/utils.cpp \
@@ -2182,6 +2183,8 @@ sources/morphgnt.$(OBJEXT): sources/$(am__dirstamp) \
 	sources/$(DEPDIR)/$(am__dirstamp)
 sources/hebrewlexicon.$(OBJEXT): sources/$(am__dirstamp) \
 	sources/$(DEPDIR)/$(am__dirstamp)
+sources/oshb.$(OBJEXT): sources/$(am__dirstamp) \
+	sources/$(DEPDIR)/$(am__dirstamp)
 sword/$(am__dirstamp):
 	@$(MKDIR_P) sword
 	@: > sword/$(am__dirstamp)
@@ -2935,6 +2938,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/kjv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/morphgnt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/morphhb.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/oshb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sprint/$(DEPDIR)/burndown.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sprint/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@statistics/$(DEPDIR)/statistics.Po@am__quote@
