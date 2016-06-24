@@ -842,7 +842,7 @@ void test_filters_usfm5 ()
     evaluate (__LINE__, __func__, 21, position);
   }
   {
-    // Testing on USFM without verse text. Todo
+    // Testing on USFM without verse text.
     string usfm;
 
     usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.";
