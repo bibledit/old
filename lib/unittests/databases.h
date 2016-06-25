@@ -38,7 +38,7 @@ void test_database_confirm ();
 void test_database_ipc ();
 void test_database_jobs ();
 void test_database_kjv ();
-void test_database_morphhb ();
+void test_database_oshb ();
 void test_database_sblgnt ();
 void test_database_sprint ();
 void test_database_mail ();

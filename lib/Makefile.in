@@ -137,7 +137,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/bibleactions.$(OBJEXT) database/check.$(OBJEXT) \
 	database/localization.$(OBJEXT) database/confirm.$(OBJEXT) \
 	database/ipc.$(OBJEXT) database/jobs.$(OBJEXT) \
-	database/kjv.$(OBJEXT) database/morphhb.$(OBJEXT) \
+	database/kjv.$(OBJEXT) database/oshb.$(OBJEXT) \
 	database/sblgnt.$(OBJEXT) database/sprint.$(OBJEXT) \
 	database/mail.$(OBJEXT) database/navigation.$(OBJEXT) \
 	database/usfmresources.$(OBJEXT) database/mappings.$(OBJEXT) \
@@ -617,7 +617,7 @@ libbibledit_a_SOURCES = \
 	database/ipc.cpp \
 	database/jobs.cpp \
 	database/kjv.cpp \
-	database/morphhb.cpp \
+	database/oshb.cpp \
 	database/sblgnt.cpp \
 	database/sprint.cpp \
 	database/mail.cpp \
@@ -1239,7 +1239,7 @@ database/jobs.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/kjv.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
-database/morphhb.$(OBJEXT): database/$(am__dirstamp) \
+database/oshb.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/sblgnt.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -2644,11 +2644,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/mappings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/modifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/morphgnt.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/morphhb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/navigation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/noteactions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/noteassignment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/notes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/oshb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/privileges.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sblgnt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sprint.Po@am__quote@

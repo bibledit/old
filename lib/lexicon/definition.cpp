@@ -24,7 +24,7 @@
 #include <webserver/request.h>
 #include <lexicon/logic.h>
 #include <database/kjv.h>
-#include <database/morphhb.h>
+#include <database/oshb.h>
 #include <database/morphgnt.h>
 #include <database/strong.h>
 
@@ -80,8 +80,8 @@ string lexicon_definition (void * webserver_request)
       
       // Open Scriptures Hebrew with Strong's numbers.
       if (id != request->database_config_user ()->getRequestedMorphHbDefinition ()) {
-        Database_MorphHb database_morphhb;
-        string parsing = database_morphhb.parsing (convert_to_int (id.substr (1)));
+        Database_OsHb database_oshb;
+        string parsing = database_oshb.parsing (convert_to_int (id.substr (1)));
         vector <string> strongs;
         vector <string> bdbs;
         lexicon_logic_convert_morphhb_parsing_to_strong (parsing, strongs, bdbs);

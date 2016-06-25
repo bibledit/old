@@ -27,7 +27,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/bible.h>
-#include <database/morphhb.h>
+#include <database/oshb.h>
 #include <database/sblgnt.h>
 #include <database/books.h>
 #include <ipc/focus.h>
@@ -56,7 +56,7 @@ string search_originals (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
 
-  Database_MorphHb database_morphhb = Database_MorphHb ();
+  Database_OsHb database_oshb = Database_OsHb ();
   Database_Sblgnt database_sblgnt = Database_Sblgnt ();
   
   
@@ -80,7 +80,7 @@ string search_originals (void * webserver_request)
     string searchtext;
     vector <string> details;
     if (type == "ot") {
-      details = database_morphhb.getVerse (book, chapter, verse);
+      details = database_oshb.getVerse (book, chapter, verse);
       classs = "hebrew";
     }
     if (type == "nt") {
@@ -123,7 +123,7 @@ string search_originals (void * webserver_request)
       // Find out how often this word occurs in the Hebrew or Greek Bible. Skip if too often.
       vector <Passage> details;
       if (type == "ot") {
-        details = database_morphhb.searchHebrew (word);
+        details = database_oshb.searchHebrew (word);
       }
       if (type == "nt") {
         details = database_sblgnt.searchGreek (word);

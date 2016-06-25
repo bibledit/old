@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/ipc.h>
 #include <database/jobs.h>
 #include <database/kjv.h>
-#include <database/morphhb.h>
+#include <database/oshb.h>
 #include <database/sblgnt.h>
 #include <database/sprint.h>
 #include <database/mail.h>
@@ -1002,14 +1002,14 @@ void test_database_kjv ()
 }
 
 
-void test_database_morphhb ()
+void test_database_oshb ()
 {
   trace_unit_tests (__func__);
   
-  Database_MorphHb database_morphhb = Database_MorphHb ();
+  Database_OsHb database_oshb = Database_OsHb ();
 
   // Job 3:2.
-  vector <string> data = database_morphhb.getVerse (18, 3, 2);
+  vector <string> data = database_oshb.getVerse (18, 3, 2);
   vector <string> standard = {
     "וַיַּ֥עַן"
     ,
@@ -1027,7 +1027,7 @@ void test_database_morphhb ()
   };
   evaluate (__LINE__, __func__, standard, data);
   
-  vector <Passage> passages = database_morphhb.searchHebrew ("יָדְע֥וּ");
+  vector <Passage> passages = database_oshb.searchHebrew ("יָדְע֥וּ");
   evaluate (__LINE__, __func__, 2, (int)passages.size());
 
   evaluate (__LINE__, __func__, 19,   passages[0].book);
@@ -1039,11 +1039,11 @@ void test_database_morphhb ()
   evaluate (__LINE__, __func__, "10", passages[1].verse);
 
   // Job 3:2.
-  vector <int> items = database_morphhb.rowids (18, 3, 2);
+  vector <int> items = database_oshb.rowids (18, 3, 2);
   evaluate (__LINE__, __func__, 7, (int)items.size());
   
-  evaluate (__LINE__, __func__, "c/6030 b", database_morphhb.parsing (items[0]));
-  evaluate (__LINE__, __func__, "347", database_morphhb.parsing (items[2]));
+  evaluate (__LINE__, __func__, "c/6030 b", database_oshb.parsing (items[0]));
+  evaluate (__LINE__, __func__, "347", database_oshb.parsing (items[2]));
 }
 
 

@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <database/morphhb.h>
+#include <database/oshb.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <config/globals.h>
@@ -29,13 +29,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Chances of corruption are nearly zero.
 
 
-const char * Database_MorphHb::filename ()
+const char * Database_OsHb::filename ()
 {
   return "morphhb";
 }
 
 
-void Database_MorphHb::create ()
+void Database_OsHb::create ()
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("DROP TABLE IF EXISTS morphhb;");
@@ -63,7 +63,7 @@ void Database_MorphHb::create ()
 }
 
 
-void Database_MorphHb::optimize ()
+void Database_OsHb::optimize ()
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("VACUUM;");
@@ -72,7 +72,7 @@ void Database_MorphHb::optimize ()
 
 
 // Get Hebrew words for $book $chapter $verse.
-vector <string> Database_MorphHb::getVerse (int book, int chapter, int verse)
+vector <string> Database_OsHb::getVerse (int book, int chapter, int verse)
 {
   vector <string> words;
   vector <int> rows = rowids (book, chapter, verse);
@@ -84,7 +84,7 @@ vector <string> Database_MorphHb::getVerse (int book, int chapter, int verse)
 
 
 // Get array of book / chapter / verse of all passages that contain a $hebrew word.
-vector <Passage> Database_MorphHb::searchHebrew (string hebrew)
+vector <Passage> Database_OsHb::searchHebrew (string hebrew)
 {
   int word_id = get_id ("word", hebrew);
   SqliteDatabase sql = SqliteDatabase (filename ());
@@ -107,7 +107,7 @@ vector <Passage> Database_MorphHb::searchHebrew (string hebrew)
 }
 
 
-void Database_MorphHb::store (int book, int chapter, int verse, string parsing, string word)
+void Database_OsHb::store (int book, int chapter, int verse, string parsing, string word)
 {
   int parsing_id = get_id ("parsing", parsing);
   int word_id = get_id ("word", word);
@@ -136,7 +136,7 @@ void Database_MorphHb::store (int book, int chapter, int verse, string parsing, 
 }
 
 
-vector <int> Database_MorphHb::rowids (int book, int chapter, int verse)
+vector <int> Database_OsHb::rowids (int book, int chapter, int verse)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT rowid FROM morphhb WHERE book =");
@@ -153,19 +153,19 @@ vector <int> Database_MorphHb::rowids (int book, int chapter, int verse)
 }
 
 
-string Database_MorphHb::parsing (int rowid)
+string Database_OsHb::parsing (int rowid)
 {
   return get_item ("parsing", rowid);
 }
 
 
-string Database_MorphHb::word (int rowid)
+string Database_OsHb::word (int rowid)
 {
   return get_item ("word", rowid);
 }
 
 
-int Database_MorphHb::get_id (const char * table_row, string item)
+int Database_OsHb::get_id (const char * table_row, string item)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   // Two iterations to be sure a rowid can be returned.
@@ -195,7 +195,7 @@ int Database_MorphHb::get_id (const char * table_row, string item)
 }
 
 
-string Database_MorphHb::get_item (const char * item, int rowid)
+string Database_OsHb::get_item (const char * item, int rowid)
 {
   // The $rowid refers to the main table.
   // Update it so it refers to the sub table.

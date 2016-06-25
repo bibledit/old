@@ -22,7 +22,7 @@
 #include <filter/string.h>
 #include <database/etcbc4.h>
 #include <database/kjv.h>
-#include <database/morphhb.h>
+#include <database/oshb.h>
 #include <database/morphgnt.h>
 #include <database/strong.h>
 #include <database/hebrewlexicon.h>
@@ -119,14 +119,14 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
     request->database_config_user ()->setRequestedMorphHbDefinition ("");
     request->database_config_user ()->setRequestedHDefinition ("");
     string prefix = MORPHHB_PREFIX;
-    Database_MorphHb database_morphhb;
-    vector <int> rowids = database_morphhb.rowids (book, chapter, verse);
+    Database_OsHb database_oshb;
+    vector <int> rowids = database_oshb.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
       string id = "lexicontxt" + prefix;
       html.append ("<div id=\"" + id + "\" class=\"hebrew\">\n");
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
-        string word = database_morphhb.word (rowid);
+        string word = database_oshb.word (rowid);
         string link = "<a href=\"" MORPHHB_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
         html.append (link);
       }

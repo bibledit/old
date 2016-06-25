@@ -17,8 +17,8 @@
  */
 
 
-#include <sources/morphhb.h>
-#include <database/morphhb.h>
+#include <sources/oshb.h>
+#include <database/oshb.h>
 #include <filter/string.h>
 #include <filter/passage.h>
 #include <pugixml/pugixml.hpp>
@@ -27,12 +27,12 @@
 using namespace pugi;
 
 
-void sources_morphhb_parse_w_element (Database_MorphHb * database_morphhb, int book, int chapter, int verse, xml_node node)
+void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, int chapter, int verse, xml_node node)
 {
   string lemma = node.attribute ("lemma").value ();
   string word = node.child_value ();
   word = filter_string_str_replace ("/", "", word);
-  database_morphhb->store (book, chapter, verse, lemma, word);
+  database_oshb->store (book, chapter, verse, lemma, word);
 }
 
 
@@ -47,8 +47,8 @@ void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, xml
 void sources_morphhb_parse ()
 {
   cout << "Starting" << endl;
-  Database_MorphHb database_morphhb;
-  database_morphhb.create ();
+  Database_OsHb database_oshb;
+  database_oshb.create ();
 
   vector <string> books = {
     "Gen",
@@ -120,28 +120,28 @@ void sources_morphhb_parse ()
         // Most of the nodes will be "w" but there's more nodes as well, see the source XML file.
         for (xml_node node : verse_node.children ()) {
 
-          if (word_stored) database_morphhb.store (book, chapter, verse, "", " ");
+          if (word_stored) database_oshb.store (book, chapter, verse, "", " ");
 
           string node_name = node.name ();
 
           if (node_name == "w") {
-            sources_morphhb_parse_w_element (&database_morphhb, book, chapter, verse, node);
+            sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, node);
           }
           
           else if (node_name == "seg") {
             string word = node.child_value ();
-            database_morphhb.store (book, chapter, verse, "", word);            
+            database_oshb.store (book, chapter, verse, "", word);            
           }
           
           else if (node_name == "note") {
             for (xml_node variant_node : node.children ()) {
               string node_name = variant_node.name ();
               if (node_name == "catchWord") {
-                sources_morphhb_parse_w_element (&database_morphhb, book, chapter, verse, node);
+                sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, node);
               } else if (node_name == "rdg") {
                 for (xml_node w_node : variant_node.children ()) {
-                  database_morphhb.store (book, chapter, verse, "", "/");
-                  sources_morphhb_parse_w_element (&database_morphhb, book, chapter, verse, w_node);
+                  database_oshb.store (book, chapter, verse, "", "/");
+                  sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, w_node);
                 }
               } else {
                 sources_morphhb_parse_unhandled_node (book, chapter, verse, node);
@@ -160,6 +160,6 @@ void sources_morphhb_parse ()
     }
   }
 
-  database_morphhb.optimize ();
+  database_oshb.optimize ();
   cout << "Completed" << endl;
 }
