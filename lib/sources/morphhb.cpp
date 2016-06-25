@@ -32,7 +32,7 @@ void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, i
   string lemma = node.attribute ("lemma").value ();
   string word = node.child_value ();
   word = filter_string_str_replace ("/", "", word);
-  database_oshb->store (book, chapter, verse, lemma, word);
+  database_oshb->store (book, chapter, verse, lemma, word, "");
 }
 
 
@@ -120,7 +120,7 @@ void sources_morphhb_parse ()
         // Most of the nodes will be "w" but there's more nodes as well, see the source XML file.
         for (xml_node node : verse_node.children ()) {
 
-          if (word_stored) database_oshb.store (book, chapter, verse, "", " ");
+          if (word_stored) database_oshb.store (book, chapter, verse, "", " ", "");
 
           string node_name = node.name ();
 
@@ -130,7 +130,7 @@ void sources_morphhb_parse ()
           
           else if (node_name == "seg") {
             string word = node.child_value ();
-            database_oshb.store (book, chapter, verse, "", word);            
+            database_oshb.store (book, chapter, verse, "", word, "");
           }
           
           else if (node_name == "note") {
@@ -140,7 +140,7 @@ void sources_morphhb_parse ()
                 sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, node);
               } else if (node_name == "rdg") {
                 for (xml_node w_node : variant_node.children ()) {
-                  database_oshb.store (book, chapter, verse, "", "/");
+                  database_oshb.store (book, chapter, verse, "", "/", "");
                   sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, w_node);
                 }
               } else {

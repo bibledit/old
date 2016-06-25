@@ -1042,8 +1042,8 @@ void test_database_oshb ()
   vector <int> items = database_oshb.rowids (18, 3, 2);
   evaluate (__LINE__, __func__, 7, (int)items.size());
   
-  evaluate (__LINE__, __func__, "c/6030 b", database_oshb.parsing (items[0]));
-  evaluate (__LINE__, __func__, "347", database_oshb.parsing (items[2]));
+  evaluate (__LINE__, __func__, "c/6030 b", database_oshb.lemma (items[0]));
+  evaluate (__LINE__, __func__, "347", database_oshb.lemma (items[2]));
 }
 
 

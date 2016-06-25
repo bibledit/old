@@ -18,7 +18,7 @@
 
 
 #include <sources/oshb.h>
-// #include <database/oshb.h>
+#include <database/oshb.h>
 #include <filter/string.h>
 #include <filter/passage.h>
 #include <pugixml/pugixml.hpp>
@@ -48,9 +48,10 @@ void sources_oshb_parse_unhandled_node (int book, int chapter, int verse, xml_no
 void sources_oshb_parse ()
 {
   cout << "Starting" << endl;
-  /*
-  Database_oshb database_oshb;
+
+  Database_OsHb database_oshb;
   database_oshb.create ();
+/*
 
   vector <string> books = {
     "Gen",

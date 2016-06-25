@@ -81,7 +81,7 @@ string lexicon_definition (void * webserver_request)
       // Open Scriptures Hebrew with Strong's numbers.
       if (id != request->database_config_user ()->getRequestedMorphHbDefinition ()) {
         Database_OsHb database_oshb;
-        string parsing = database_oshb.parsing (convert_to_int (id.substr (1)));
+        string parsing = database_oshb.lemma (convert_to_int (id.substr (1)));
         vector <string> strongs;
         vector <string> bdbs;
         lexicon_logic_convert_morphhb_parsing_to_strong (parsing, strongs, bdbs);

@@ -17,8 +17,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_DATABASE_MORPHHB_H
-#define INCLUDED_DATABASE_MORPHHB_H
+#ifndef INCLUDED_DATABASE_OSHB_H
+#define INCLUDED_DATABASE_OSHB_H
 
 
 #include <config/libraries.h>
@@ -33,10 +33,11 @@ public:
   void optimize ();
   vector <string> getVerse (int book, int chapter, int verse);
   vector <Passage> searchHebrew (string hebrew);
-  void store (int book, int chapter, int verse, string parsing, string word);
+  void store (int book, int chapter, int verse, string lemma, string word, string morph);
   vector <int> rowids (int book, int chapter, int verse);
-  string parsing (int rowid);
+  string lemma (int rowid);
   string word (int rowid);
+  string morph (int rowid);
 private:
   const char * filename ();
   int get_id (const char * table_row, string item);

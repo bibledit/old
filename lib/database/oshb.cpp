@@ -24,33 +24,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 
 
-// This is the database for the Hebrew Bible text plus limited parsings.
+// This is the database for the Hebrew Bible text plus lemmas and morphology.
 // Resilience: It is never written to.
 // Chances of corruption are nearly zero.
 
 
 const char * Database_OsHb::filename ()
 {
-  return "morphhb";
+  return "oshb";
 }
 
 
 void Database_OsHb::create ()
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("DROP TABLE IF EXISTS morphhb;");
+  sql.add ("DROP TABLE IF EXISTS oshb;");
   sql.execute ();
   
   sql.clear ();
-  sql.add ("CREATE TABLE morphhb (book int, chapter int, verse int, parsing int, word int);");
+  sql.add ("CREATE TABLE oshb (book int, chapter int, verse int, lemma int, word int, morph int);");
   sql.execute ();
   
   sql.clear ();
-  sql.add ("DROP TABLE IF EXISTS parsing;");
+  sql.add ("DROP TABLE IF EXISTS lemma;");
   sql.execute ();
   
   sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS parsing (parsing text);");
+  sql.add ("CREATE TABLE IF NOT EXISTS lemma (lemma text);");
   sql.execute ();
   
   sql.clear ();
@@ -59,6 +59,14 @@ void Database_OsHb::create ()
   
   sql.clear ();
   sql.add ("CREATE TABLE IF NOT EXISTS word (word text);");
+  sql.execute ();
+
+  sql.clear ();
+  sql.add ("DROP TABLE IF EXISTS morph;");
+  sql.execute ();
+  
+  sql.clear ();
+  sql.add ("CREATE TABLE IF NOT EXISTS morph (morph text);");
   sql.execute ();
 }
 
@@ -88,7 +96,7 @@ vector <Passage> Database_OsHb::searchHebrew (string hebrew)
 {
   int word_id = get_id ("word", hebrew);
   SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("SELECT DISTINCT book, chapter, verse FROM morphhb WHERE word =");
+  sql.add ("SELECT DISTINCT book, chapter, verse FROM oshb WHERE word =");
   sql.add (word_id);
   sql.add ("ORDER BY rowid;");
   vector <Passage> hits;
@@ -107,10 +115,11 @@ vector <Passage> Database_OsHb::searchHebrew (string hebrew)
 }
 
 
-void Database_OsHb::store (int book, int chapter, int verse, string parsing, string word)
+void Database_OsHb::store (int book, int chapter, int verse, string lemma, string word, string morph) // Tood
 {
-  int parsing_id = get_id ("parsing", parsing);
+  int lemma_id = get_id ("lemma", lemma);
   int word_id = get_id ("word", word);
+  int morph_id = get_id ("morph", morph);
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("PRAGMA temp_store = MEMORY;");
   sql.execute ();
@@ -121,16 +130,18 @@ void Database_OsHb::store (int book, int chapter, int verse, string parsing, str
   sql.add ("PRAGMA journal_mode = OFF;");
   sql.execute ();
   sql.clear ();
-  sql.add ("INSERT INTO morphhb VALUES (");
+  sql.add ("INSERT INTO oshb VALUES (");
   sql.add (book);
   sql.add (",");
   sql.add (chapter);
   sql.add (",");
   sql.add (verse);
   sql.add (",");
-  sql.add (parsing_id);
+  sql.add (lemma_id);
   sql.add (",");
   sql.add (word_id);
+  sql.add (",");
+  sql.add (morph_id);
   sql.add (");");
   sql.execute ();
 }
@@ -139,7 +150,7 @@ void Database_OsHb::store (int book, int chapter, int verse, string parsing, str
 vector <int> Database_OsHb::rowids (int book, int chapter, int verse)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("SELECT rowid FROM morphhb WHERE book =");
+  sql.add ("SELECT rowid FROM oshb WHERE book =");
   sql.add (book);
   sql.add ("AND chapter =");
   sql.add (chapter);
@@ -153,15 +164,21 @@ vector <int> Database_OsHb::rowids (int book, int chapter, int verse)
 }
 
 
-string Database_OsHb::parsing (int rowid)
+string Database_OsHb::lemma (int rowid)
 {
-  return get_item ("parsing", rowid);
+  return get_item ("lemma", rowid);
 }
 
 
 string Database_OsHb::word (int rowid)
 {
   return get_item ("word", rowid);
+}
+
+
+string Database_OsHb::morph (int rowid)
+{
+  return get_item ("morph", rowid);
 }
 
 
@@ -202,7 +219,7 @@ string Database_OsHb::get_item (const char * item, int rowid)
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT");
   sql.add (item);
-  sql.add ("FROM morphhb WHERE rowid =");
+  sql.add ("FROM oshb WHERE rowid =");
   sql.add (rowid);
   sql.add (";");
   vector <string> result = sql.query () [item];
