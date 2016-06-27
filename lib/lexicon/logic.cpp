@@ -49,7 +49,7 @@ vector <string> lexicon_logic_resource_names ()
   return {
     HEBREW_ETCBC4_NAME,
     KJV_LEXICON_NAME,
-    MORPHHB_NAME,
+    OSHB_NAME,
     SBLGNT_NAME
   };
 }
@@ -115,10 +115,10 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
     }
   }
 
-  if (lexicon == MORPHHB_NAME) {
+  if (lexicon == OSHB_NAME) {
     request->database_config_user ()->setRequestedMorphHbDefinition ("");
     request->database_config_user ()->setRequestedHDefinition ("");
-    string prefix = MORPHHB_PREFIX;
+    string prefix = OSHB_PREFIX;
     Database_OsHb database_oshb;
     vector <int> rowids = database_oshb.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
@@ -127,7 +127,7 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
         string word = database_oshb.word (rowid);
-        string link = "<a href=\"" MORPHHB_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
+        string link = "<a href=\"" OSHB_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
         html.append (link);
       }
       html.append ("</div>");

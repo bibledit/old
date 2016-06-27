@@ -76,7 +76,7 @@ string lexicon_definition (void * webserver_request)
       }
       request->database_config_user ()->setRequestedKjvDefinition (id);
       
-    } else if (letter == MORPHHB_PREFIX) {
+    } else if (letter == OSHB_PREFIX) {
       
       // Open Scriptures Hebrew with Strong's numbers.
       if (id != request->database_config_user ()->getRequestedMorphHbDefinition ()) {
