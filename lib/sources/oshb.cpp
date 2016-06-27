@@ -43,7 +43,7 @@ void sources_oshb_parse ()
   string command = "gunzip sources/oshb.xml.gz";
   system (command.c_str ());
   
-  map <int, int> mapping = { // Todo once the database is ready, to check each book with Hebrew and English whether the mapping is OK.
+  map <int, int> mapping = {
     
     // Torah
     

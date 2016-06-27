@@ -98,7 +98,7 @@ vector <Passage> Database_OsHb::searchHebrew (string hebrew)
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT DISTINCT book, chapter, verse FROM oshb WHERE word =");
   sql.add (word_id);
-  sql.add ("ORDER BY rowid;");
+  sql.add ("ORDER BY book, chapter, verse ASC;");
   vector <Passage> hits;
   map <string, vector <string> > result = sql.query ();
   vector <string> books = result ["book"];
@@ -115,7 +115,7 @@ vector <Passage> Database_OsHb::searchHebrew (string hebrew)
 }
 
 
-void Database_OsHb::store (int book, int chapter, int verse, string lemma, string word, string morph) // Todo
+void Database_OsHb::store (int book, int chapter, int verse, string lemma, string word, string morph)
 {
   int lemma_id = get_id ("lemma", lemma);
   int word_id = get_id ("word", word);

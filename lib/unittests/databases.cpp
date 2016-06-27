@@ -1021,15 +1021,13 @@ void test_database_oshb ()
     ,
     "וַיֹּאמַֽר"
     ,
-    " "
-    ,
     "׃"
   };
   evaluate (__LINE__, __func__, standard, data);
   
   vector <Passage> passages = database_oshb.searchHebrew ("יָדְע֥וּ");
   evaluate (__LINE__, __func__, 2, (int)passages.size());
-
+  
   evaluate (__LINE__, __func__, 19,   passages[0].book);
   evaluate (__LINE__, __func__, 95,   passages[0].chapter);
   evaluate (__LINE__, __func__, "10", passages[0].verse);
@@ -1040,7 +1038,7 @@ void test_database_oshb ()
 
   // Job 3:2.
   vector <int> items = database_oshb.rowids (18, 3, 2);
-  evaluate (__LINE__, __func__, 7, (int)items.size());
+  evaluate (__LINE__, __func__, 6, (int)items.size());
   
   evaluate (__LINE__, __func__, "c/6030 b", database_oshb.lemma (items[0]));
   evaluate (__LINE__, __func__, "347", database_oshb.lemma (items[2]));

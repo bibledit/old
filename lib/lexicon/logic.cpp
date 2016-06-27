@@ -1068,3 +1068,370 @@ string lexicon_logic_get_text (string & xml)
   }
   return value;
 }
+
+
+string lexicon_logic_hebrew_morphology_render (string value)
+{
+  // No data: bail out.
+  if (value.empty ()) return value;
+
+  // A morphology item in the Open Scriptures Hebrew Bible starts with a language code.
+  // One language code is prefixed to the entire morphological parsing string, including prefixes, main word and suffixes.
+  string language = value.substr (0, 1);
+  bool hebrew = (language == "H");
+  bool aramaic = (language == "A");
+  // At times the parser may have ommitted the language code. Take Hebrew in that case.
+  if (hebrew || aramaic) value.erase (0, 1);
+  if (!hebrew && !aramaic) hebrew = true;
+ 
+  // Description of the Hebrew Morphology Codes:
+  // http://openscriptures.github.io/morphhb/parsing/HebrewMorphologyCodes.html
+  
+  vector <string> renderings;
+  
+  // A slash separates morphology items.
+  vector <string> values = filter_string_explode (value, '/');
+  for (auto value : values) {
+
+    if (value.empty ()) continue;
+    
+    if (!renderings.empty ()) renderings.push_back (" + ");
+    
+    // Part of Speech
+    string part_of_speech = value.substr (0, 1);
+    value.erase (0, 1);
+    if (part_of_speech == "A") {
+      renderings.push_back ("adjective");
+      // type gender number state
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_adjective (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_state (value));
+    }
+    else if (part_of_speech == "C") {
+      renderings.push_back ("conjunction");
+    }
+    else if (part_of_speech == "D") {
+      renderings.push_back ("adverb");
+    }
+    else if (part_of_speech == "N") {
+      renderings.push_back ("noun");
+      // type gender number state
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_noun (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_state (value));
+    }
+    else if (part_of_speech == "P") {
+      renderings.push_back ("pronoun");
+      // type person gender number
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_pronoun (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_person (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value));
+    }
+    else if (part_of_speech == "R") {
+      renderings.push_back ("preposition");
+      // type
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_preposition (value));
+    }
+    else if (part_of_speech == "S") {
+      renderings.push_back ("suffix");
+      // type person gender number
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_suffix (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_person (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value));
+    }
+    else if (part_of_speech == "T") {
+      renderings.push_back ("particle");
+      // type
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_particle (value));
+    }
+    else if (part_of_speech == "V") {
+      renderings.push_back ("verb");
+      // stem type person gender number state
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_stem (hebrew, aramaic, value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_verb_conjugation (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_person (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_state (value));
+    }
+    else {
+      renderings.push_back ("unknown");
+    }
+    
+  }
+  
+  return filter_string_implode (renderings, " ");
+}
+
+
+// Verb conjugation types
+string lexicon_logic_hebrew_morphology_render_type_verb_conjugation (string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if      (code == "p") rendering = "perfect (qatal)";
+    else if (code == "q") rendering = "sequential perfect (weqatal)";
+    else if (code == "i") rendering = "imperfect (yiqtol)";
+    else if (code == "w") rendering = "sequential imperfect (wayyiqtol)";
+    else if (code == "h") rendering = "cohortative";
+    else if (code == "j") rendering = "jussive";
+    else if (code == "v") rendering = "imperative";
+    else if (code == "r") rendering = "participle active";
+    else if (code == "s") rendering = "participle passive";
+    else if (code == "a") rendering = "infinitive absolute";
+    else if (code == "c") rendering = "infinitive construct";
+    else                  rendering = code;
+  }
+  return rendering;
+}
+
+
+// Adjective types
+string lexicon_logic_hebrew_morphology_render_type_adjective (string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if      (code == "a") rendering = "adjective";
+    else if (code == "c") rendering = "cardinal number";
+    else if (code == "g") rendering = "gentilic";
+    else if (code == "o") rendering = "ordinal number";
+    else                  rendering = code;
+  }
+  return rendering;
+}
+
+
+// Noun types
+string lexicon_logic_hebrew_morphology_render_type_noun (string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if      (code == "c") rendering = "common";
+    else if (code == "g") rendering = "gentilic";
+    else if (code == "p") rendering = "proper name";
+    else                  rendering = code;
+  }
+  return rendering;
+}
+
+
+// Pronoun types
+string lexicon_logic_hebrew_morphology_render_type_pronoun (string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if      (code == "d") rendering = "demonstrative";
+    else if (code == "f") rendering = "indefinite";
+    else if (code == "i") rendering = "interrogative";
+    else if (code == "p") rendering = "personal";
+    else if (code == "r") rendering = "relative";
+    else                  rendering = code;
+  }
+  return rendering;
+}
+
+
+// Preposition types
+string lexicon_logic_hebrew_morphology_render_type_preposition (string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if (code == "d") rendering = "definite article";
+    else             rendering = code;
+  }
+  return rendering;
+}
+
+
+// Suffix types
+string lexicon_logic_hebrew_morphology_render_type_suffix (string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if      (code == "d") rendering = "directional he";
+    else if (code == "h") rendering = "paragogic he";
+    else if (code == "n") rendering = "paragogic nun";
+    else if (code == "p") rendering = "pronominal";
+    else                  rendering = code;
+  }
+  return rendering;
+}
+
+
+// Particle types
+string lexicon_logic_hebrew_morphology_render_type_particle (string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if      (code == "a") rendering = "affirmation";
+    else if (code == "d") rendering = "definite article";
+    else if (code == "e") rendering = "exhortation";
+    else if (code == "i") rendering = "interrogative";
+    else if (code == "j") rendering = "interjection";
+    else if (code == "m") rendering = "demonstrative";
+    else if (code == "n") rendering = "negative";
+    else if (code == "o") rendering = "direct object marker";
+    else if (code == "r") rendering = "relative";
+    else                  rendering = code;
+  }
+  return rendering;
+}
+
+
+// Render verb stems.
+string lexicon_logic_hebrew_morphology_render_stem (bool hebrew, bool aramaic, string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if (hebrew) {
+      // Verb stems (Hebrew)
+      if      (code == "q") rendering = "qal";
+      else if (code == "N") rendering = "niphal";
+      else if (code == "p") rendering = "piel";
+      else if (code == "P") rendering = "pual";
+      else if (code == "h") rendering = "hiphil";
+      else if (code == "H") rendering = "hophal";
+      else if (code == "t") rendering = "hithpael";
+      else if (code == "o") rendering = "polel";
+      else if (code == "O") rendering = "polal";
+      else if (code == "r") rendering = "hithpolel";
+      else if (code == "m") rendering = "poel";
+      else if (code == "M") rendering = "poal";
+      else if (code == "k") rendering = "palel";
+      else if (code == "K") rendering = "pulal";
+      else if (code == "Q") rendering = "qal passive";
+      else if (code == "l") rendering = "pilpel";
+      else if (code == "L") rendering = "polpal";
+      else if (code == "f") rendering = "hithpalpel";
+      else if (code == "D") rendering = "nithpael";
+      else if (code == "j") rendering = "pealal";
+      else if (code == "i") rendering = "pilel";
+      else if (code == "u") rendering = "hothpaal";
+      else if (code == "c") rendering = "tiphil";
+      else if (code == "v") rendering = "hishtaphel";
+      else if (code == "w") rendering = "nithpalel";
+      else if (code == "y") rendering = "nithpoel";
+      else if (code == "z") rendering = "hithpoel";
+      else                  rendering = code;
+    }
+    else if (aramaic) {
+      // Verb stems (Aramaic)
+      if      (code == "q") rendering = "peal";
+      else if (code == "Q") rendering = "peil";
+      else if (code == "u") rendering = "hithpeel";
+      else if (code == "p") rendering = "pael";
+      else if (code == "P") rendering = "ithpaal";
+      else if (code == "M") rendering = "hithpaal";
+      else if (code == "a") rendering = "aphel";
+      else if (code == "h") rendering = "haphel";
+      else if (code == "s") rendering = "saphel";
+      else if (code == "e") rendering = "shaphel";
+      else if (code == "H") rendering = "hophal";
+      else if (code == "i") rendering = "ithpeel";
+      else if (code == "t") rendering = "hishtaphel";
+      else if (code == "v") rendering = "ishtaphel";
+      else if (code == "w") rendering = "hithaphel";
+      else if (code == "o") rendering = "polel";
+      else if (code == "z") rendering = "ithpoel";
+      else if (code == "r") rendering = "hithpolel";
+      else if (code == "f") rendering = "hithpalpel";
+      else if (code == "b") rendering = "hephal";
+      else if (code == "c") rendering = "tiphel";
+      else if (code == "m") rendering = "poel";
+      else if (code == "l") rendering = "palpel";
+      else if (code == "L") rendering = "ithpalpel";
+      else if (code == "O") rendering = "ithpolel";
+      else if (code == "G") rendering = "ittaphal";
+      else                  rendering = code;
+    }
+    else {
+      rendering = code;
+    }
+  }
+  return rendering;
+}
+
+
+// Person
+string lexicon_logic_hebrew_morphology_render_person (string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if      (code == "1") rendering = "first person";
+    else if (code == "2") rendering = "second person";
+    else if (code == "3") rendering = "third person";
+    else                  rendering = code;
+  }
+  return rendering;
+}
+
+
+// Gender
+string lexicon_logic_hebrew_morphology_render_gender (string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if      (code == "b") rendering = "both (noun)";
+    else if (code == "c") rendering = "common (verb)";
+    else if (code == "f") rendering = "feminine";
+    else if (code == "m") rendering = "masculine";
+    else                  rendering = code;
+  }
+  return rendering;
+}
+
+
+// Number
+string lexicon_logic_hebrew_morphology_render_number (string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if      (code == "d") rendering = "dual";
+    else if (code == "p") rendering = "plural";
+    else if (code == "s") rendering = "singular";
+    else                  rendering = code;
+  }
+  return rendering;
+}
+
+
+// State
+string lexicon_logic_hebrew_morphology_render_state (string & value)
+{
+  string rendering;
+  if (!value.empty ()) {
+    string code = value.substr (0, 1);
+    value.erase (0, 1);
+    if      (code == "a") rendering = "absolute";
+    else if (code == "c") rendering = "construct";
+    else if (code == "d") rendering = "determined";
+    else                  rendering = code;
+  }
+  return rendering;
+}

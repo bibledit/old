@@ -78,13 +78,16 @@ string lexicon_definition (void * webserver_request)
       
     } else if (letter == OSHB_PREFIX) {
       
-      // Open Scriptures Hebrew with Strong's numbers and morphology. // Todo
+      // Open Scriptures Hebrew with Strong's numbers and morphology.
       if (id != request->database_config_user ()->getRequestedOsHbDefinition ()) {
+        int rowid = convert_to_int (id.substr (1));
         Database_OsHb database_oshb;
-        string parsing = database_oshb.lemma (convert_to_int (id.substr (1)));
+        string morph = database_oshb.morph (rowid);
+        renderings.push_back (lexicon_logic_hebrew_morphology_render (morph));
+        string lemma = database_oshb.lemma (rowid);
         vector <string> strongs;
         vector <string> bdbs;
-        lexicon_logic_convert_morphhb_parsing_to_strong (parsing, strongs, bdbs);
+        lexicon_logic_convert_morphhb_parsing_to_strong (lemma, strongs, bdbs);
         for (size_t i = 0; i < strongs.size (); i++) {
           string rendering = lexicon_logic_render_definition (strongs[i]);
           if (!rendering.empty ()) renderings.push_back (rendering);

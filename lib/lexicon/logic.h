@@ -57,5 +57,19 @@ string lexicon_logic_render_bdb_entry (string code);
 string lexicon_logic_get_remove_attribute (string & xml, const char * key);
 string lexicon_logic_get_text (string & xml);
 
+string lexicon_logic_hebrew_morphology_render (string value);
+string lexicon_logic_hebrew_morphology_render_type_verb_conjugation (string & value);
+string lexicon_logic_hebrew_morphology_render_type_adjective (string & value);
+string lexicon_logic_hebrew_morphology_render_type_noun (string & value);
+string lexicon_logic_hebrew_morphology_render_type_pronoun (string & value);
+string lexicon_logic_hebrew_morphology_render_type_preposition (string & value);
+string lexicon_logic_hebrew_morphology_render_type_suffix (string & value);
+string lexicon_logic_hebrew_morphology_render_type_particle (string & value);
+string lexicon_logic_hebrew_morphology_render_stem (bool hebrew, bool aramaic, string & value);
+string lexicon_logic_hebrew_morphology_render_person (string & value);
+string lexicon_logic_hebrew_morphology_render_gender (string & value);
+string lexicon_logic_hebrew_morphology_render_number (string & value);
+string lexicon_logic_hebrew_morphology_render_state (string & value);
+
 
 #endif
