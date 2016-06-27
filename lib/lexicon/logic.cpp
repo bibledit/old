@@ -116,7 +116,7 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
   }
 
   if (lexicon == OSHB_NAME) {
-    request->database_config_user ()->setRequestedMorphHbDefinition ("");
+    request->database_config_user ()->setRequestedOsHbDefinition ("");
     request->database_config_user ()->setRequestedHDefinition ("");
     string prefix = OSHB_PREFIX;
     Database_OsHb database_oshb;

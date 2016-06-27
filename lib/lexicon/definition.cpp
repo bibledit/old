@@ -78,8 +78,8 @@ string lexicon_definition (void * webserver_request)
       
     } else if (letter == OSHB_PREFIX) {
       
-      // Open Scriptures Hebrew with Strong's numbers.
-      if (id != request->database_config_user ()->getRequestedMorphHbDefinition ()) {
+      // Open Scriptures Hebrew with Strong's numbers and morphology. // Todo
+      if (id != request->database_config_user ()->getRequestedOsHbDefinition ()) {
         Database_OsHb database_oshb;
         string parsing = database_oshb.lemma (convert_to_int (id.substr (1)));
         vector <string> strongs;
@@ -94,7 +94,7 @@ string lexicon_definition (void * webserver_request)
       } else {
         id.clear ();
       }
-      request->database_config_user ()->setRequestedMorphHbDefinition (id);
+      request->database_config_user ()->setRequestedOsHbDefinition (id);
       
     } else if (letter == SBLGNT_PREFIX) {
       
@@ -151,7 +151,7 @@ string lexicon_definition (void * webserver_request)
       // Brown Driver Briggs lexicon.
       string rendering = lexicon_logic_render_bdb_entry (id.substr (1));
       if (!rendering.empty ()) renderings.push_back (rendering);
-      request->database_config_user ()->setRequestedMorphHbDefinition ("");
+      request->database_config_user ()->setRequestedOsHbDefinition ("");
       
     } else {
 

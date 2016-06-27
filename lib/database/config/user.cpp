@@ -1040,13 +1040,13 @@ string Database_Config_User::getRequestedKjvDefinition ()
 }
 
 
-void Database_Config_User::setRequestedMorphHbDefinition (string value)
+void Database_Config_User::setRequestedOsHbDefinition (string value)
 {
-  setValue ("requested-morphhb-def", value);
+  setValue ("requested-oshb-def", value);
 }
-string Database_Config_User::getRequestedMorphHbDefinition ()
+string Database_Config_User::getRequestedOsHbDefinition ()
 {
-  return getValue ("requested-morphhb-def", "");
+  return getValue ("requested-oshb-def", "");
 }
 
 

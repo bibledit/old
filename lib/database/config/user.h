@@ -189,8 +189,8 @@ public:
   string getRequestedEtcbc4Definition ();
   void setRequestedKjvDefinition (string value);
   string getRequestedKjvDefinition ();
-  void setRequestedMorphHbDefinition (string value);
-  string getRequestedMorphHbDefinition ();
+  void setRequestedOsHbDefinition (string value);
+  string getRequestedOsHbDefinition ();
   void setRequestedSblGntDefinition (string value);
   string getRequestedSblGntDefinition ();
   void setRequestedHDefinition (string value);
