@@ -115,7 +115,7 @@ vector <Passage> Database_OsHb::searchHebrew (string hebrew)
 }
 
 
-void Database_OsHb::store (int book, int chapter, int verse, string lemma, string word, string morph) // Tood
+void Database_OsHb::store (int book, int chapter, int verse, string lemma, string word, string morph) // Todo
 {
   int lemma_id = get_id ("lemma", lemma);
   int word_id = get_id ("word", word);
