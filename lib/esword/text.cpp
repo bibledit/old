@@ -36,8 +36,8 @@ Esword_Text::Esword_Text (string bible)
   bible = database_sqlite_no_sql_injection (bible);
   sql.push_back ("PRAGMA foreign_keys=OFF;");
   sql.push_back ("PRAGMA synchronous=OFF;");
-  sql.push_back ("CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);");
-  sql.push_back ("INSERT INTO Details VALUES ('" + bible + "', '" + bible + "', '" + bible + "', 1, 'DEFAULT', 0, 1, 1, 0, 0);");
+  sql.push_back ("CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);");
+  sql.push_back ("INSERT INTO Details VALUES ('" + bible + "', '" + bible + "', '" + bible + "', 1, 'UNICODE', 1, 0, 1, 1, 0, 0);");
   sql.push_back ("CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);");
 }
 
@@ -45,15 +45,22 @@ Esword_Text::Esword_Text (string bible)
 void Esword_Text::flushCache ()
 {
   string text = filter_string_trim (currentText);
-  if (text != "") {
-    text = database_sqlite_no_sql_injection (text);
+  if (!text.empty ()) {
+    // Todo text = database_sqlite_no_sql_injection (text);
+    string unicode;
+    size_t length = unicode_string_length (text);
+    for (size_t pos = 0; pos < length; pos++) {
+      string s = unicode_string_substr (text, pos, 1);
+      int codepoint = unicode_string_convert_to_codepoint (s);
+      unicode.append ("\\u" + convert_to_string (codepoint) + "?");
+    }
     int book = currentBook;
     int chapter = currentChapter;
     int verse = currentVerse;
-    string statement = "INSERT INTO Bible VALUES (" + convert_to_string (book) + ", " + convert_to_string (chapter) + ", " + convert_to_string (verse) + ", '" + text + "');";
+    string statement = "INSERT INTO Bible VALUES (" + convert_to_string (book) + ", " + convert_to_string (chapter) + ", " + convert_to_string (verse) + ", '" + unicode + "');";
     sql.push_back (statement);
   }
-  currentText = "";
+  currentText.clear ();
 }
 
 

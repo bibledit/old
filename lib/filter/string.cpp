@@ -601,6 +601,29 @@ bool unicode_string_is_punctuation (string s)
 }
 
 
+// Converts the string $s to a Unicode codepoint.
+int unicode_string_convert_to_codepoint (string s)
+{
+  int point = 0;
+  if (!s.empty ()) {
+    try {
+      // Be sure to take only one character.
+      s = unicode_string_substr (s, 0, 1);
+      // Convert the string to a Unicode point.
+      const utf8proc_uint8_t *str = (const unsigned char *) (s.c_str ());
+      utf8proc_ssize_t len = s.length ();
+      utf8proc_int32_t codepoint;
+      utf8proc_ssize_t output = utf8proc_iterate (str, len, &codepoint);
+      (void) output;
+      point = codepoint;
+    } catch (...) {
+    }
+    
+  }
+  return point;
+}
+
+
 // C++ equivalent for PHP's rand function
 int filter_string_rand (int floor, int ceiling)
 {

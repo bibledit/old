@@ -4641,6 +4641,11 @@ void test_filter_string ()
     evaluate (__LINE__, __func__, true, convert_to_bool ("true"));
     evaluate (__LINE__, __func__, true, convert_to_bool ("TRUE"));
   }
+  
+  {
+    evaluate (__LINE__, __func__, 21109, unicode_string_convert_to_codepoint ("創"));
+    evaluate (__LINE__, __func__, 97, unicode_string_convert_to_codepoint ("a"));
+  }
 }
 
 
