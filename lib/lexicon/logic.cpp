@@ -1072,6 +1072,7 @@ string lexicon_logic_get_text (string & xml)
 
 string lexicon_logic_hebrew_morphology_render (string value)
 {
+  cout << value << endl; // Todo
   // No data: bail out.
   if (value.empty ()) return value;
 
@@ -1382,7 +1383,9 @@ string lexicon_logic_hebrew_morphology_render_person (string & value)
     if      (code == "1") rendering = "first person";
     else if (code == "2") rendering = "second person";
     else if (code == "3") rendering = "third person";
-    else                  rendering = code;
+    else if (code == "x") ;
+    // No rendering found, probable error in morphology, restore the code, not to interrupt the sequence of codes.
+    else                  value.insert (0, code);
   }
   return rendering;
 }
