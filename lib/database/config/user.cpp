@@ -1158,3 +1158,13 @@ void Database_Config_User::setSwipeActionsAvailable (bool value)
 {
   setBValue ("swipe-actions-available", value);
 }
+
+
+bool Database_Config_User::getFastEditorSwitchingAvailable ()
+{
+  return getBValue ("fast-editor-switching-available", true);
+}
+void Database_Config_User::setFastEditorSwitchingAvailable (bool value)
+{
+  setBValue ("fast-editor-switching-available", value);
+}

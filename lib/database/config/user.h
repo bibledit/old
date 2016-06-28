@@ -213,6 +213,8 @@ public:
   void setMainMenuAlwaysVisible (bool value);
   bool getSwipeActionsAvailable ();
   void setSwipeActionsAvailable (bool value);
+  bool getFastEditorSwitchingAvailable ();
+  void setFastEditorSwitchingAvailable (bool value);
 private:
   void * webserver_request;
   string file (string user);
