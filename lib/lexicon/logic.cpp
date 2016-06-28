@@ -1384,7 +1384,7 @@ string lexicon_logic_hebrew_morphology_render_person (string & value)
     else if (code == "2") rendering = "second person";
     else if (code == "3") rendering = "third person";
     else if (code == "x") ;
-    // No rendering found, probable error in morphology, restore the code, not to interrupt the sequence of codes.
+    // No rendering found, probable error in morphology, restore the code to not interrupt the subsequent codes.
     else                  value.insert (0, code);
   }
   return rendering;
