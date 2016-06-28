@@ -127,6 +127,8 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
         string word = database_oshb.word (rowid);
+        // Give more spacing where needed.
+        if (word == "׀") word = " ׀ ";
         string link = "<a href=\"" OSHB_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
         html.append (link);
       }
