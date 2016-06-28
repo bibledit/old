@@ -1072,7 +1072,6 @@ string lexicon_logic_get_text (string & xml)
 
 string lexicon_logic_hebrew_morphology_render (string value)
 {
-  cout << value << endl; // Todo
   // No data: bail out.
   if (value.empty ()) return value;
 

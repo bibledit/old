@@ -46,7 +46,6 @@ void Esword_Text::flushCache ()
 {
   string text = filter_string_trim (currentText);
   if (!text.empty ()) {
-    // Todo text = database_sqlite_no_sql_injection (text);
     string unicode;
     size_t length = unicode_string_length (text);
     for (size_t pos = 0; pos < length; pos++) {
