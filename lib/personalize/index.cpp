@@ -89,6 +89,13 @@ string personalize_index (void * webserver_request)
   }
   
   
+  // Fast Bible editor switching.
+  if (request->query.count ("fasteditorswitch")) {
+    bool state = request->database_config_user ()->getFastEditorSwitchingAvailable ();
+    request->database_config_user ()->setFastEditorSwitchingAvailable (!state);
+  }
+  
+  
   string page;
   string success;
   string error;
@@ -263,6 +270,11 @@ string personalize_index (void * webserver_request)
   on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getSwipeActionsAvailable ());
   view.set_variable ("swipeactions", on_off);
   
+  
+  // Whether to enable fast Bible editor switching.
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getFastEditorSwitchingAvailable ());
+  view.set_variable ("fasteditorswitch", on_off);
+
   
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
