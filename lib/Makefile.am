@@ -204,6 +204,7 @@ libbibledit_a_SOURCES = \
 	editor/styles.cpp \
 	editor/html2usfm.cpp \
 	editor/usfm2html.cpp \
+	editor/select.cpp \
 	edit/edit.cpp \
 	edit/focus.cpp \
 	edit/id.cpp \

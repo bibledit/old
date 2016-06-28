@@ -202,6 +202,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <public/note.h>
 #include <public/comment.h>
 #include <basic/index.h>
+#include <editor/select.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -520,7 +521,9 @@ void bootstrap_index (void * webserver_request)
   else if ((url == resource_image_url ()) && bootstrap_browser_request_security_okay (request) && resource_image_acl (request)) request->reply = resource_image (request);
   
   else if ((url == resource_img_url ()) && bootstrap_browser_request_security_okay (request) && resource_img_acl (request)) request->reply = resource_img (request);
-
+  
+  else if ((url == editor_select_url ()) && bootstrap_browser_request_security_okay (request) && editor_select_acl (request)) request->reply = editor_select (request);
+  
   // Downloads
   else if ((url == index_listing_url (url)) && bootstrap_browser_request_security_okay (request) && index_listing_acl (request, url)) request->reply = index_listing (request, url);
   

@@ -216,10 +216,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
 	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
 	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
-	editor/usfm2html.$(OBJEXT) edit/edit.$(OBJEXT) \
-	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
-	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
-	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
+	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
+	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
+	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	search/all.$(OBJEXT) search/index.$(OBJEXT) \
 	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
 	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
@@ -771,6 +771,7 @@ libbibledit_a_SOURCES = \
 	editor/styles.cpp \
 	editor/html2usfm.cpp \
 	editor/usfm2html.cpp \
+	editor/select.cpp \
 	edit/edit.cpp \
 	edit/focus.cpp \
 	edit/id.cpp \
@@ -1767,6 +1768,8 @@ editor/html2usfm.$(OBJEXT): editor/$(am__dirstamp) \
 	editor/$(DEPDIR)/$(am__dirstamp)
 editor/usfm2html.$(OBJEXT): editor/$(am__dirstamp) \
 	editor/$(DEPDIR)/$(am__dirstamp)
+editor/select.$(OBJEXT): editor/$(am__dirstamp) \
+	editor/$(DEPDIR)/$(am__dirstamp)
 edit/$(am__dirstamp):
 	@$(MKDIR_P) edit
 	@: > edit/$(am__dirstamp)
@@ -2687,6 +2690,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/verse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/html2usfm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/select.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/styles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/usfm2html.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/focus.Po@am__quote@
