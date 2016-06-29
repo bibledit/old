@@ -27,7 +27,7 @@
 // The purpose of this is not to output a message.
 void bibledit_log_function (const gchar *log_domain, GLogLevelFlags log_level, const gchar *message, gpointer user_data)
 {
-  (void) log_doman;
+  (void) log_domain;
   (void) log_level;
   (void) message;
   (void) user_data;
