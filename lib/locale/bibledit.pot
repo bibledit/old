@@ -1909,6 +1909,9 @@ msgstr ""
 msgid "Select which Bible to open in the editor"
 msgstr ""
 
+msgid "editor"
+msgstr ""
+
 msgid "Insufficient information"
 msgstr ""
 
@@ -1946,6 +1949,15 @@ msgid "Don't know where to save"
 msgstr ""
 
 msgid "Cannot save: Needs Unicode"
+msgstr ""
+
+msgid "Select editor"
+msgstr ""
+
+msgid "Select notes that refer to:"
+msgstr ""
+
+msgid "any passage"
 msgstr ""
 
 msgid "Select style"
@@ -6899,12 +6911,6 @@ msgstr ""
 msgid "Select Notes"
 msgstr ""
 
-msgid "Select notes that refer to:"
-msgstr ""
-
-msgid "any passage"
-msgstr ""
-
 msgid "the current verse"
 msgstr ""
 
@@ -7263,6 +7269,9 @@ msgid "Keep main menu always visible"
 msgstr ""
 
 msgid "Enable swipe navigation actions"
+msgstr ""
+
+msgid "Enable fast Bible editor switching"
 msgstr ""
 
 msgid "Back to chapter"

@@ -137,7 +137,11 @@ string editusfm_index (void * webserver_request)
                                                              lineheight,
                                                              letterspacing));
   
-  
+  // Whether to enable fast Bible editor switching.
+  if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
+    view.enable_zone ("fastswitcheditor");
+  }
+
   page += view.render ("editusfm", "index");
   
   

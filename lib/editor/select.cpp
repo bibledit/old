@@ -24,9 +24,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <webserver/request.h>
 #include <locale/translate.h>
-#include <menu/logic.h>
 #include <access/bible.h>
 
 
@@ -45,24 +43,13 @@ bool editor_select_acl (void * webserver_request)
 }
 
 
-string editor_select (void * webserver_request) // Todo
+string editor_select (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
   string page;
-  
-  Assets_Header header = Assets_Header (translate("Select editor"), request);
+  Assets_Header header = Assets_Header (translate("Select editor"), webserver_request);
   page = header.run();
-  
   Assets_View view;
-
-  
-  // view.set_variable ("success", success);
-  
-  
   page += view.render ("editor", "select");
-  
   page += Assets_Page::footer ();
-  
   return page;
 }
