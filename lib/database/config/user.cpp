@@ -1168,3 +1168,75 @@ void Database_Config_User::setFastEditorSwitchingAvailable (bool value)
 {
   setBValue ("fast-editor-switching-available", value);
 }
+
+
+bool Database_Config_User::getWindowsUpdateNotification ()
+{
+  return getBValue ("windows-update-notification", false);
+}
+void Database_Config_User::setWindowsUpdateNotification (bool value)
+{
+  setBValue ("windows-update-notification", value);
+}
+
+
+bool Database_Config_User::getAndroidUpdateNotification ()
+{
+  return getBValue ("android-update-notification", false);
+}
+void Database_Config_User::setAndroidUpdateNotification (bool value)
+{
+  setBValue ("android-update-notification", value);
+}
+
+
+bool Database_Config_User::getMacUpdateNotification ()
+{
+  return getBValue ("mac-update-notification", false);
+}
+void Database_Config_User::setMacUpdateNotification (bool value)
+{
+  setBValue ("mac-update-notification", value);
+}
+
+
+bool Database_Config_User::getLinuxUpdateNotification ()
+{
+  return getBValue ("linux-update-notification", false);
+}
+void Database_Config_User::setLinuxUpdateNotification (bool value)
+{
+  setBValue ("linux-update-notification", value);
+}
+
+
+bool Database_Config_User::getiOSUpdateNotification ()
+{
+  return getBValue ("ios-update-notification", false);
+}
+void Database_Config_User::setiOSUpdateNotification (bool value)
+{
+  setBValue ("ios-update-notification", value);
+}
+
+
+bool Database_Config_User::getChromeOSUpdateNotification ()
+{
+  return getBValue ("chromeos-update-notification", false);
+}
+void Database_Config_User::setChromeOSUpdateNotification (bool value)
+{
+  setBValue ("chromeos-update-notification", value);
+}
+
+
+bool Database_Config_User::getCloudUpdateNotification ()
+{
+  return getBValue ("cloud-update-notification", false);
+}
+void Database_Config_User::setCloudUpdateNotification (bool value)
+{
+  setBValue ("cloud-update-notification", value);
+}
+
+
