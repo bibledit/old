@@ -193,9 +193,7 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
     chapters = request->database_bibles()->getChapters (bible, book);
   }
   string html;
-  addSelectorLink (html, "previous", "applychapter", "[" + translate ("previous") + "]", false);
-  addSelectorLink (html, "next", "applychapter", "[" + translate ("next") + "]", false);
-  addSelectorLink (html, "cancel", "applychapter", "[" + translate ("cancel") + "]", false);
+  html.append (" ");
   for (auto ch : chapters) {
     bool selected = (ch == chapter);
     addSelectorLink (html, convert_to_string (ch), "applychapter", convert_to_string (ch), selected);
@@ -220,8 +218,7 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
     verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
   }
   string html;
-  addSelectorLink (html, "previous", "applyverse", "[" + translate ("previous") + "]", false);
-  addSelectorLink (html, "next", "applyverse", "[" + translate ("next") + "]", false);
+  html.append (" ");
   for (auto vs : verses) {
     bool selected = (verse == vs);
     addSelectorLink (html, convert_to_string (vs), "applyverse", convert_to_string (vs), selected);
