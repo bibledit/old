@@ -1954,10 +1954,16 @@ msgstr ""
 msgid "Select editor"
 msgstr ""
 
-msgid "Select notes that refer to:"
+msgid "Visual chapter editor"
 msgstr ""
 
-msgid "any passage"
+msgid "Visual verse editor"
+msgstr ""
+
+msgid "USFM chapter editor"
+msgstr ""
+
+msgid "USFM verse editor"
 msgstr ""
 
 msgid "Select style"
@@ -6469,18 +6475,6 @@ msgstr ""
 msgid "Resources"
 msgstr ""
 
-msgid "Visual chapter editor"
-msgstr ""
-
-msgid "Visual verse editor"
-msgstr ""
-
-msgid "USFM chapter editor"
-msgstr ""
-
-msgid "USFM verse editor"
-msgstr ""
-
 msgid "User resources"
 msgstr ""
 
@@ -6611,12 +6605,6 @@ msgid "Select verse"
 msgstr ""
 
 msgid "Go to next verse"
-msgstr ""
-
-msgid "previous"
-msgstr ""
-
-msgid "next"
 msgstr ""
 
 msgid "Note actions"
@@ -6909,6 +6897,12 @@ msgid "Search text saved"
 msgstr ""
 
 msgid "Select Notes"
+msgstr ""
+
+msgid "Select notes that refer to:"
+msgstr ""
+
+msgid "any passage"
 msgstr ""
 
 msgid "the current verse"
@@ -8972,12 +8966,12 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Receive a daily email with the number of consultation notes assigned to you."
+"Receive daily mail with the number of consultation notes assigned to you."
 msgstr ""
 
 msgid ""
-"Receive a daily email with the number of consultation notes you are "
-"subscribed to."
+"Receive daily mail with the number of consultation notes you are subscribed "
+"to."
 msgstr ""
 
 msgid "Receive email about a deleted consultation note."
@@ -9007,10 +9001,10 @@ msgstr ""
 msgid "Tick this setting, and you're done."
 msgstr ""
 
-msgid "Receive a daily email with the changes in the Bible made by you."
+msgid "Receive daily mail with the changes in the Bible made by you."
 msgstr ""
 
-msgid "Receive a daily email with the changes in the Bible made by anyone."
+msgid "Receive daily mail with the changes in the Bible made by anyone."
 msgstr ""
 
 msgid ""
@@ -9029,22 +9023,28 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Receive a daily email with the number of online change notifications "
-"awaiting your attention."
+"Receive daily mail with the number of online change notifications awaiting "
+"your attention."
 msgstr ""
 
 msgid "Text Checks"
 msgstr ""
 
-msgid "Receive a daily email with results of checks on the text of the Bibles."
+msgid "Receive daily mail with results of checks on the text of the Bibles."
 msgstr ""
 
 msgid "Team work"
 msgstr ""
 
 msgid ""
-"Receive a weekly email about the team's progress during the course of the "
+"Receive weekly mail about the team's progress during the course of the "
 "sprint."
+msgstr ""
+
+msgid "Software updates"
+msgstr ""
+
+msgid "Receive mail when updated softare is available for:"
 msgstr ""
 
 msgid "Please enter the name for the new versification system"

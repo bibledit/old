@@ -186,58 +186,17 @@ string user_notifications (void * webserver_request)
   }
   view.set_variable ("sprintprogressnotification", get_checkbox_status (database_config_user.getSprintProgressNotification ()));
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  if (checkbox == "windows") {
-    database_config_user.setWindowsUpdateNotification (checked);
+  if (checkbox == "yoursoftware") {
+    database_config_user.setYourSoftwareUpdatesNotification (checked);
     return "";
   }
-  view.set_variable ("windows", get_checkbox_status (database_config_user.getWindowsUpdateNotification ()));
+  view.set_variable ("yoursoftware", get_checkbox_status (database_config_user.getYourSoftwareUpdatesNotification ()));
   
-  if (checkbox == "android") {
-    database_config_user.setAndroidUpdateNotification (checked);
+  if (checkbox == "allsoftware") {
+    database_config_user.setAllSoftwareUpdatesNotification (checked);
     return "";
   }
-  view.set_variable ("android", get_checkbox_status (database_config_user.getAndroidUpdateNotification ()));
-  
-  if (checkbox == "mac") {
-    database_config_user.setMacUpdateNotification (checked);
-    return "";
-  }
-  view.set_variable ("mac", get_checkbox_status (database_config_user.getMacUpdateNotification ()));
-  
-  if (checkbox == "linux") {
-    database_config_user.setLinuxUpdateNotification (checked);
-    return "";
-  }
-  view.set_variable ("linux", get_checkbox_status (database_config_user.getLinuxUpdateNotification ()));
-  
-  if (checkbox == "ios") {
-    database_config_user.setiOSUpdateNotification (checked);
-    return "";
-  }
-  view.set_variable ("ios", get_checkbox_status (database_config_user.getiOSUpdateNotification ()));
-  
-  if (checkbox == "chromeos") {
-    database_config_user.setChromeOSUpdateNotification (checked);
-    return "";
-  }
-  view.set_variable ("chromeos", get_checkbox_status (database_config_user.getChromeOSUpdateNotification ()));
-  
-  if (checkbox == "cloud") {
-    database_config_user.setCloudUpdateNotification (checked);
-    return "";
-  }
-  view.set_variable ("cloud", get_checkbox_status (database_config_user.getCloudUpdateNotification ()));
+  view.set_variable ("allsoftware", get_checkbox_status (database_config_user.getAllSoftwareUpdatesNotification ()));
   
 #ifdef CLIENT_PREPARED
   view.enable_zone ("client");

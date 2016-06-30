@@ -215,20 +215,10 @@ public:
   void setSwipeActionsAvailable (bool value);
   bool getFastEditorSwitchingAvailable ();
   void setFastEditorSwitchingAvailable (bool value);
-  bool getWindowsUpdateNotification ();
-  void setWindowsUpdateNotification (bool value);
-  bool getAndroidUpdateNotification ();
-  void setAndroidUpdateNotification (bool value);
-  bool getMacUpdateNotification ();
-  void setMacUpdateNotification (bool value);
-  bool getLinuxUpdateNotification ();
-  void setLinuxUpdateNotification (bool value);
-  bool getiOSUpdateNotification ();
-  void setiOSUpdateNotification (bool value);
-  bool getChromeOSUpdateNotification ();
-  void setChromeOSUpdateNotification (bool value);
-  bool getCloudUpdateNotification ();
-  void setCloudUpdateNotification (bool value);
+  bool getAllSoftwareUpdatesNotification ();
+  void setAllSoftwareUpdatesNotification (bool value);
+  bool getYourSoftwareUpdatesNotification ();
+  void setYourSoftwareUpdatesNotification (bool value);
 private:
   void * webserver_request;
   string file (string user);
