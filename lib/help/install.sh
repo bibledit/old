@@ -99,7 +99,7 @@ rm -f /usr/bin/bibledit
 echo #!/bin/bash >> /usr/bin/bibledit
 echo cd  >> /usr/bin/bibledit
 echo cd bibledit >> /usr/bin/bibledit
-echo ./bibledit >> /usr/bin/bibledit
+echo './bibledit 2>&1 | grep -v WARNING | tr -d 012' >> /usr/bin/bibledit
 chmod +x /usr/bin/bibledit
 
 # Act as if the script ran successfully, no matter whether it really did.
