@@ -83,6 +83,7 @@ void timer_index ()
       int fraction = second / 5;
       if (fraction != previous_fraction) {
         previous_fraction = fraction;
+        if (!client) tasks_logic_queue (NOTIFYSOFTWAREUPDATES); // Todo
       }
       
       // Run the part below once per minute.
@@ -153,6 +154,11 @@ void timer_index ()
       // Delete temporal files older than a few days.
       if ((hour == 2) && (minute == 0)) {
         tasks_logic_queue (CLEANTMPFILES);
+      }
+      
+      // Software update notifications.
+      if (!client && hour == 2 && minute == 20) {
+        tasks_logic_queue (NOTIFYSOFTWAREUPDATES);
       }
       
       // Re-index Bibles and notes.

@@ -148,6 +148,7 @@ libbibledit_a_SOURCES = \
 	email/receive.cpp \
 	user/notifications.cpp \
 	user/account.cpp \
+	user/logic.cpp \
 	manage/index.cpp \
 	manage/users.cpp \
 	manage/exports.cpp \

@@ -187,11 +187,11 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
 	email/index.$(OBJEXT) email/send.$(OBJEXT) \
 	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
-	user/account.$(OBJEXT) manage/index.$(OBJEXT) \
-	manage/users.$(OBJEXT) manage/exports.$(OBJEXT) \
-	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
-	manage/write.$(OBJEXT) manage/privileges.$(OBJEXT) \
-	administration/language.$(OBJEXT) \
+	user/account.$(OBJEXT) user/logic.$(OBJEXT) \
+	manage/index.$(OBJEXT) manage/users.$(OBJEXT) \
+	manage/exports.$(OBJEXT) manage/hyphenation.$(OBJEXT) \
+	manage/hyphenate.$(OBJEXT) manage/write.$(OBJEXT) \
+	manage/privileges.$(OBJEXT) administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
 	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
 	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
@@ -715,6 +715,7 @@ libbibledit_a_SOURCES = \
 	email/receive.cpp \
 	user/notifications.cpp \
 	user/account.cpp \
+	user/logic.cpp \
 	manage/index.cpp \
 	manage/users.cpp \
 	manage/exports.cpp \
@@ -1549,6 +1550,8 @@ user/$(DEPDIR)/$(am__dirstamp):
 user/notifications.$(OBJEXT): user/$(am__dirstamp) \
 	user/$(DEPDIR)/$(am__dirstamp)
 user/account.$(OBJEXT): user/$(am__dirstamp) \
+	user/$(DEPDIR)/$(am__dirstamp)
+user/logic.$(OBJEXT): user/$(am__dirstamp) \
 	user/$(DEPDIR)/$(am__dirstamp)
 manage/$(am__dirstamp):
 	@$(MKDIR_P) manage
@@ -2976,6 +2979,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/utilities.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/account.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/notifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utf8proc/$(DEPDIR)/utf8proc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@versification/$(DEPDIR)/index.Po@am__quote@

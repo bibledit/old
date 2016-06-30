@@ -72,6 +72,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define LISTUSFMRESOURCES "listusfmresources"
 #define CREATESAMPLEBIBLE "createsamplebible"
 #define CACHERESOURCES "cacheresources"
+#define NOTIFYSOFTWAREUPDATES "notifysoftwareupdates"
 
 
 string tasks_logic_folder ();

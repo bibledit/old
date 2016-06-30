@@ -66,6 +66,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sword/logic.h>
 #include <bible/logic.h>
 #include <client/logic.h>
+#include <user/logic.h>
 
 
 mutex mutex_tasks; 
@@ -207,6 +208,8 @@ void tasks_run_one (string filename)
     demo_create_sample_bible ();
   } else if (command == CACHERESOURCES) {
     resource_logic_create_cache ();
+  } else if (command == NOTIFYSOFTWAREUPDATES) {
+    user_logic_software_updates_notify ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

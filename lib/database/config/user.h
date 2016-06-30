@@ -216,8 +216,10 @@ public:
   bool getFastEditorSwitchingAvailable ();
   void setFastEditorSwitchingAvailable (bool value);
   bool getAllSoftwareUpdatesNotification ();
+  bool getUserAllSoftwareUpdatesNotification (string username);
   void setAllSoftwareUpdatesNotification (bool value);
   bool getYourSoftwareUpdatesNotification ();
+  bool getUserYourSoftwareUpdatesNotification (string username);
   void setYourSoftwareUpdatesNotification (bool value);
 private:
   void * webserver_request;

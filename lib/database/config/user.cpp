@@ -1174,6 +1174,10 @@ bool Database_Config_User::getAllSoftwareUpdatesNotification ()
 {
   return getBValue ("all-software-updates-notification", false);
 }
+bool Database_Config_User::getUserAllSoftwareUpdatesNotification (string username)
+{
+  return getBValueForUser (username, "all-software-updates-notification", false);
+}
 void Database_Config_User::setAllSoftwareUpdatesNotification (bool value)
 {
   setBValue ("all-software-updates-notification", value);
@@ -1183,6 +1187,10 @@ void Database_Config_User::setAllSoftwareUpdatesNotification (bool value)
 bool Database_Config_User::getYourSoftwareUpdatesNotification ()
 {
   return getBValue ("your-software-updates-notification", false);
+}
+bool Database_Config_User::getUserYourSoftwareUpdatesNotification (string username)
+{
+  return getBValueForUser (username, "your-software-updates-notification", false);
 }
 void Database_Config_User::setYourSoftwareUpdatesNotification (bool value)
 {
