@@ -24,16 +24,6 @@
 #include "library/bibledit.h"
 
 
-// The purpose of this is not to output a message.
-void bibledit_log_function (const gchar *log_domain, GLogLevelFlags log_level, const gchar *message, gpointer user_data)
-{
-  (void) log_domain;
-  (void) log_level;
-  (void) message;
-  (void) user_data;
-}
-
-
 int main (int argc, char *argv[])
 {
   application = gtk_application_new ("org.bibledit.linux", G_APPLICATION_FLAGS_NONE);
@@ -49,9 +39,6 @@ int main (int argc, char *argv[])
   
   bibledit_start_library ();
 
-  // Suppress Gtk-WARNINGs.
-  g_log_set_handler (NULL, G_LOG_LEVEL_WARNING, bibledit_log_function, NULL);
-  
   status = g_application_run (G_APPLICATION (application), argc, argv);
 
   g_object_unref (application);
