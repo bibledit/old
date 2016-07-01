@@ -151,6 +151,12 @@ vector <string> Database_Config_User::getListForUser (string user, const char * 
 void Database_Config_User::setList (const char * key, vector <string> values)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  setListForUser (user, key, values);
+}
+
+
+void Database_Config_User::setListForUser (string user, const char * key, vector <string> values)
+{
   string filename = file (user, key);
   string directory = filter_url_dirname (filename);
   if (!file_exists (directory)) filter_url_mkdir (directory);
@@ -1174,7 +1180,7 @@ bool Database_Config_User::getAllSoftwareUpdatesNotification ()
 {
   return getBValue ("all-software-updates-notification", false);
 }
-bool Database_Config_User::getUserAllSoftwareUpdatesNotification (string username)
+bool Database_Config_User::getAllSoftwareUpdatesNotificationForUser (string username)
 {
   return getBValueForUser (username, "all-software-updates-notification", false);
 }
@@ -1188,7 +1194,7 @@ bool Database_Config_User::getYourSoftwareUpdatesNotification ()
 {
   return getBValue ("your-software-updates-notification", false);
 }
-bool Database_Config_User::getUserYourSoftwareUpdatesNotification (string username)
+bool Database_Config_User::getYourSoftwareUpdatesNotificationForUser (string username)
 {
   return getBValueForUser (username, "your-software-updates-notification", false);
 }
@@ -1198,3 +1204,11 @@ void Database_Config_User::setYourSoftwareUpdatesNotification (bool value)
 }
 
 
+vector <string> Database_Config_User::getLastMailedSoftwareVersionForUser (string username)
+{
+  return getListForUser (username, "last-mailed-software-version");
+}
+void Database_Config_User::setLastMailedSoftwareVersionForUser (string username, vector <string> values)
+{
+  setListForUser (username, "last-mailed-software-version", values);
+}

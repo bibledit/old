@@ -83,7 +83,7 @@ void timer_index ()
       int fraction = second / 5;
       if (fraction != previous_fraction) {
         previous_fraction = fraction;
-        if (!client) tasks_logic_queue (NOTIFYSOFTWAREUPDATES); // Todo
+        // if (!client) tasks_logic_queue (NOTIFYSOFTWAREUPDATES); // Todo
       }
       
       // Run the part below once per minute.

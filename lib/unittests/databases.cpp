@@ -124,6 +124,7 @@ void test_database_config_user ()
     refresh_sandbox (true);
     Webserver_Request request = Webserver_Request ();
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     database_users.addNewUser ("username", "password", 5, "");

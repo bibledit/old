@@ -24,6 +24,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
+#define PLATFORM_WINDOWS 1
+#define PLATFORM_ANDROID 2
+#define PLATFORM_MAC 3
+#define PLATFORM_LINUX 4
+#define PLATFORM_IOS 5
+#define PLATFORM_CHROME_OS 6
+#define PLATFORM_CLOUD 7
+
+
 void user_logic_software_updates_notify ();
 
 

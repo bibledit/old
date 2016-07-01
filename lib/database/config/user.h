@@ -216,11 +216,13 @@ public:
   bool getFastEditorSwitchingAvailable ();
   void setFastEditorSwitchingAvailable (bool value);
   bool getAllSoftwareUpdatesNotification ();
-  bool getUserAllSoftwareUpdatesNotification (string username);
+  bool getAllSoftwareUpdatesNotificationForUser (string username);
   void setAllSoftwareUpdatesNotification (bool value);
   bool getYourSoftwareUpdatesNotification ();
-  bool getUserYourSoftwareUpdatesNotification (string username);
+  bool getYourSoftwareUpdatesNotificationForUser (string username);
   void setYourSoftwareUpdatesNotification (bool value);
+  vector <string> getLastMailedSoftwareVersionForUser (string username);
+  void setLastMailedSoftwareVersionForUser (string username, vector <string> values);
 private:
   void * webserver_request;
   string file (string user);
@@ -238,6 +240,7 @@ private:
   vector <string> getList (const char * key);
   vector <string> getListForUser (string user, const char * key);
   void setList (const char * key, vector <string> values);
+  void setListForUser (string user, const char * key, vector <string> values);
   vector <int> getIList (const char * key);
   void setIList (const char * key, vector <int> values);
   const char * keySprintMonth ();

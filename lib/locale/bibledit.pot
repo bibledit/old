@@ -9044,7 +9044,12 @@ msgstr ""
 msgid "Software updates"
 msgstr ""
 
-msgid "Receive mail when updated softare is available for:"
+msgid ""
+"Receive mail when updated software is available for the platform your client "
+"runs on."
+msgstr ""
+
+msgid "Receive mail when updated software is available for any platform."
 msgstr ""
 
 msgid "Please enter the name for the new versification system"
