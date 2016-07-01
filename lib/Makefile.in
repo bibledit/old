@@ -517,7 +517,6 @@ UNITTESTS = @UNITTESTS@
 UNZIP_PATH = @UNZIP_PATH@
 URLSETTINGS = @URLSETTINGS@
 VERSION = @VERSION@
-WINDOWS = @WINDOWS@
 ZIP_PATH = @ZIP_PATH@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@

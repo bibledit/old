@@ -124,9 +124,12 @@ bool config_logic_paratext_enabled ()
 
 
 // Returns whether Windows has been enabled during configure.
-bool config_logic_windows ()
+bool config_logic_windows () // Todo test it.
 {
-  return (strcmp (WINDOWS, "yes") == 0);
+#ifdef HAVE_WINDOIWS
+  return true;
+#endif
+  return false;
 }
 
 

@@ -28,6 +28,9 @@
 /* Define whether to compile for Android */
 /* #undef HAVE_ANDROID */
 
+/* Define whether to compile for Chrome OS */
+/* #undef HAVE_CHROMEOS */
+
 /* define if the compiler supports basic C++11 syntax */
 #define HAVE_CXX11 1
 
@@ -42,6 +45,12 @@
 
 /* Define whether libproc.h is present */
 #define HAVE_LIBPROC 1
+
+/* Define whether to compile for Linux */
+/* #undef HAVE_LINUX */
+
+/* Define whether to compile for Mac */
+/* #undef HAVE_MAC */
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
@@ -90,6 +99,9 @@
 
 /* Define whether to enable URL settings */
 /* #undef HAVE_URLSETTINGS */
+
+/* Define whether to compile on Windows */
+/* #undef HAVE_WINDOWS */
 
 /* Define the network port number */
 #define NETWORK_PORT "8080"
@@ -140,4 +152,4 @@
 /* #undef WIN32 */
 
 /* Define whether to compile on Windows */
-#define WINDOWS "no"
+/* #undef WINDOWS */

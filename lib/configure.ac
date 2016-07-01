@@ -229,27 +229,62 @@ AC_SUBST(PARATEXT)
 WINDOWS=no
 AC_ARG_ENABLE(windows,
 [  --enable-windows Compile on Windows],
-[AC_DEFINE([WIN32], [1], [Define whether to compile on Windows])]
-WINDOWS=yes
-)
+[
+AC_DEFINE([WIN32], [1], [Define whether to compile on Windows])
 AC_DEFINE([WINDOWS], [], [Define whether to compile on Windows])
-AC_DEFINE_UNQUOTED(WINDOWS, "$WINDOWS")
-AC_SUBST(WINDOWS)
+AC_DEFINE([HAVE_WINDOWS], [], [Define whether to compile on Windows])
+WINDOWS=yes
+]
+)
 
 # Android.
 ENABLEANDROID=no
 AC_ARG_ENABLE(android,
 [  --enable-android Compile for Android],
-[AC_DEFINE([HAVE_ANDROID], [1], [Define whether to compile for Android])]
+[
+AC_DEFINE([HAVE_ANDROID], [1], [Define whether to compile for Android])
 ENABLEANDROID=yes
+]
+)
+
+# Mac.
+ENABLEMAC=no
+AC_ARG_ENABLE(mac,
+[  --enable-mac Compile for Mac],
+[
+AC_DEFINE([HAVE_MAC], [1], [Define whether to compile for Mac])
+ENABLEMAC=yes
+]
+)
+
+# Linux.
+ENABLELINUX=no
+AC_ARG_ENABLE(linux,
+[  --enable-linux Compile for Linux],
+[
+AC_DEFINE([HAVE_LINUX], [1], [Define whether to compile for Linux])
+ENABLELINUX=yes
+]
 )
 
 # iOS.
 ENABLEIOS=no
 AC_ARG_ENABLE(ios,
 [  --enable-ios Compile for iOS],
-[AC_DEFINE([HAVE_IOS], [1], [Define whether to compile for iOS])]
+[
+AC_DEFINE([HAVE_IOS], [1], [Define whether to compile for iOS])
 ENABLEIOS=yes
+]
+)
+
+# Chrome OS.
+ENABLECHROMEOS=no
+AC_ARG_ENABLE(chromeos,
+[  --enable-chromeos Compile for Chrome OS],
+[
+AC_DEFINE([HAVE_CHROMEOS], [1], [Define whether to compile for Chrome OS])
+ENABLECHROMEOS=yes
+]
 )
 
 AC_OUTPUT(Makefile)
@@ -273,6 +308,9 @@ Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
 Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Windows (--enable-windows)                        : ${WINDOWS}
 Android (--enable-android)                        : ${ENABLEANDROID}
+Mac (--enable-mac)                                : ${ENABLEMAC}
+Linux (--enable-linux)                            : ${ENABLELINUX}
 iOS (--enable-ios)                                : ${ENABLEIOS}
+Chrome OS (--enable-chromeos)                     : ${ENABLECHROMEOS}
 SWORD library                                     : ${SWORD_CFLAGS}
 "
