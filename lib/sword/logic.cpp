@@ -24,7 +24,6 @@
 #include <filter/archive.h>
 #include <filter/shell.h>
 #include <locale/translate.h>
-#include <config/logic.h>
 #include <client/logic.h>
 #include <database/logs.h>
 #include <database/books.h>

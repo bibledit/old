@@ -30,7 +30,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <locale/translate.h>
 #include <fonts/logic.h>
-#include <config/logic.h>
 #include <client/logic.h>
 #include <assets/header.h>
 #include <menu/logic.h>

@@ -29,7 +29,6 @@
 #include <locale/translate.h>
 #include <client/logic.h>
 #include <demo/logic.h>
-#include <config/logic.h>
 #include <database/modifications.h>
 #include <database/notes.h>
 #include <trash/handler.h>

@@ -27,7 +27,6 @@
 #include <database/usfmresources.h>
 #include <database/logs.h>
 #include <sync/setup.h>
-#include <config/logic.h>
 #include <client/index.h>
 #include <locale/translate.h>
 

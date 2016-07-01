@@ -31,7 +31,6 @@
 #include <access/bible.h>
 #include <search/logic.h>
 #include <menu/logic.h>
-#include <config/logic.h>
 
 
 string search_replace_url ()

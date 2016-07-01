@@ -29,7 +29,6 @@
 #include <notes/index.h>
 #include <consistency/index.h>
 #include <sync/logic.h>
-#include <config/logic.h>
 #include <locale/translate.h>
 
 

@@ -30,7 +30,6 @@
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <access/bible.h>
-#include <config/logic.h>
 
 
 string editverse_save_url ()

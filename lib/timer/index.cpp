@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <tasks/logic.h>
 #include <tasks/run.h>
-#include <config/logic.h>
 #include <sendreceive/logic.h>
 #include <client/logic.h>
 #include <changes/logic.h>

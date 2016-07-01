@@ -31,7 +31,6 @@
 #include <resource/sword.h>
 #include <sync/logic.h>
 #include <access/bible.h>
-#include <config/logic.h>
 #include <client/logic.h>
 #include <dialog/list.h>
 #include <database/usfmresources.h>

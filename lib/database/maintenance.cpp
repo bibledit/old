@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/maintenance.h>
 #include <filter/roles.h>
 #include <filter/url.h>
-#include <config/logic.h>
 #include <webserver/request.h>
 #include <database/logs.h>
 #include <database/users.h>

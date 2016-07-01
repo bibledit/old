@@ -32,7 +32,6 @@
 #include <tasks/logic.h>
 #include <journal/index.h>
 #include <sword/logic.h>
-#include <config/logic.h>
 #include <menu/logic.h>
 #include <database/config/general.h>
 #include <database/usfmresources.h>

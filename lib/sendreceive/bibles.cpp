@@ -24,7 +24,6 @@
 #include <filter/merge.h>
 #include <filter/date.h>
 #include <tasks/logic.h>
-#include <config/logic.h>
 #include <config/globals.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>

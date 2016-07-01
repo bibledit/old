@@ -30,7 +30,6 @@
 #include <notes/index.h>
 #include <client/logic.h>
 #include <changes/changes.h>
-#include <config/logic.h>
 #include <email/send.h>
 
 

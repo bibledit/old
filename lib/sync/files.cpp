@@ -21,7 +21,6 @@
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/string.h>
-#include <config/logic.h>
 #include <database/logs.h>
 #include <client/logic.h>
 #include <locale/translate.h>

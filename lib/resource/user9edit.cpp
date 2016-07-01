@@ -27,7 +27,6 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
-#include <config/logic.h>
 #include <journal/index.h>
 #include <menu/logic.h>
 #include <dialog/entry.h>

@@ -30,7 +30,6 @@
 #include <locale/translate.h>
 #include <access/bible.h>
 #include <fonts/logic.h>
-#include <config/logic.h>
 #include <menu/logic.h>
 #include <bible/manage.h>
 

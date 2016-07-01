@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <filter/date.h>
 #include <journal/logic.h>
-#include <config/logic.h>
 
 
 // Bibledit no longer uses a database for storing the journal.

@@ -38,7 +38,6 @@
 #include <filter/roles.h>
 #include <resource/external.h>
 #include <locale/translate.h>
-#include <config/logic.h>
 #include <client/logic.h>
 #include <lexicon/logic.h>
 #include <sword/logic.h>

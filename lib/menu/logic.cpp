@@ -30,7 +30,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <collaboration/index.h>
 #include <config/globals.h>
-#include <config/logic.h>
 #include <consistency/index.h>
 #include <database/config/general.h>
 #include <database/userresources.h>

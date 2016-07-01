@@ -38,7 +38,6 @@
 #include <menu/logic.h>
 #include <demo/logic.h>
 #include <search/logic.h>
-#include <config/logic.h>
 
 
 string bible_manage_url ()

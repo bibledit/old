@@ -26,7 +26,6 @@
 #include <locale/translate.h>
 #include <database/notes.h>
 #include <menu/logic.h>
-#include <config/logic.h>
 #include <access/logic.h>
 
 

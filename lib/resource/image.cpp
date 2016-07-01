@@ -30,7 +30,6 @@
 #include <locale/translate.h>
 #include <resource/logic.h>
 #include <database/imageresources.h>
-#include <config/logic.h>
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>

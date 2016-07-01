@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <database/privileges.h>
-#include <config/logic.h>
 
 
 int access_logic_view_resources_role ()

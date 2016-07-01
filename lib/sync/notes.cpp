@@ -23,7 +23,6 @@
 #include <filter/string.h>
 #include <filter/merge.h>
 #include <tasks/logic.h>
-#include <config/logic.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/logs.h>

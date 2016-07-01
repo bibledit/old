@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <config/globals.h>
 #include <locale/translate.h>
-#include <config/logic.h>
 #include <access/bible.h>
 #include <navigation/passage.h>
 #include <menu/logic.h>

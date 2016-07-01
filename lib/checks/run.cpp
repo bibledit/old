@@ -38,7 +38,6 @@
 #include <checks/usfm.h>
 #include <checks/verses.h>
 #include <checks/index.h>
-#include <config/logic.h>
 #include <email/send.h>
 
 

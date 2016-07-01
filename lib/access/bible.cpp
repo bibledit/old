@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <database/config/bible.h>
 #include <database/privileges.h>
-#include <config/logic.h>
 #include <client/logic.h>
 #include <filter/roles.h>
 

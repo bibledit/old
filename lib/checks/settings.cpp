@@ -31,7 +31,6 @@
 #include <client/logic.h>
 #include <demo/logic.h>
 #include <sendreceive/logic.h>
-#include <config/logic.h>
 #include <access/bible.h>
 #include <dialog/list.h>
 #include <checks/logic.h>

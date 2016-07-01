@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <index/index.h>
 #include <demo/logic.h>
-#include <config/logic.h>
 #include <config/globals.h>
 #include <database/config/general.h>
 #include <setup/logic.h>

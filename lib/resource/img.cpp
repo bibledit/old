@@ -31,7 +31,6 @@
 #include <database/imageresources.h>
 #include <database/books.h>
 #include <database/volatile.h>
-#include <config/logic.h>
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>

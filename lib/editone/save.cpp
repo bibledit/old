@@ -31,7 +31,6 @@
 #include <locale/logic.h>
 #include <editor/html2usfm.h>
 #include <access/bible.h>
-#include <config/logic.h>
 
 
 string editone_save_url ()

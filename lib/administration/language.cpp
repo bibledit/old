@@ -27,7 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <dialog/list.h>
-#include <config/logic.h>
 #include <database/config/general.h>
 #include <assets/header.h>
 #include <menu/logic.h>

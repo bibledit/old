@@ -21,7 +21,6 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/config/bible.h>
-#include <config/logic.h>
 
 
 string Fonts_Logic::folder ()

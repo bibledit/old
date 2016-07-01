@@ -31,7 +31,6 @@
 #include <sword/logic.h>
 #include <sync/logic.h>
 #include <dialog/entry.h>
-#include <config/logic.h>
 #include <client/logic.h>
 #include <access/logic.h>
 #include <tasks/logic.h>

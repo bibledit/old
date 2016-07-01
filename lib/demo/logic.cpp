@@ -23,7 +23,6 @@
 #include <filter/usfm.h>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <config/logic.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/logs.h>

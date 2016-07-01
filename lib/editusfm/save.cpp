@@ -32,7 +32,6 @@
 #include <locale/logic.h>
 #include <edit/logic.h>
 #include <access/bible.h>
-#include <config/logic.h>
 
 
 string editusfm_save_url ()

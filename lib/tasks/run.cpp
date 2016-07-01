@@ -41,7 +41,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/files.h>
 #include <sendreceive/resources.h>
 #include <demo/logic.h>
-#include <config/logic.h>
 #include <resource/convert2resource.h>
 #include <resource/convert2bible.h>
 #include <resource/print.h>

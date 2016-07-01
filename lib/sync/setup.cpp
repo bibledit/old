@@ -24,7 +24,6 @@
 #include <database/config/general.h>
 #include <database/users.h>
 #include <sync/logic.h>
-#include <config/logic.h>
 
 
 string sync_setup_url ()

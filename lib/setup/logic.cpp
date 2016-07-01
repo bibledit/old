@@ -19,7 +19,6 @@
 
 #include <setup/logic.h>
 #include <webserver/request.h>
-#include <config/logic.h>
 #include <database/config/general.h>
 #include <database/logs.h>
 #include <database/localization.h>

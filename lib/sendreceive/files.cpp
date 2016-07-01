@@ -25,7 +25,6 @@
 #include <filter/merge.h>
 #include <filter/date.h>
 #include <tasks/logic.h>
-#include <config/logic.h>
 #include <config/globals.h>
 #include <client/logic.h>
 #include <locale/translate.h>

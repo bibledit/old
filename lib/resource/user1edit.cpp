@@ -31,7 +31,6 @@
 #include <resource/logic.h>
 #include <database/userresources.h>
 #include <database/books.h>
-#include <config/logic.h>
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>

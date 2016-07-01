@@ -31,7 +31,6 @@
 #include <resource/external.h>
 #include <menu/logic.h>
 #include <access/logic.h>
-#include <config/logic.h>
 
 
 string resource_index_url ()

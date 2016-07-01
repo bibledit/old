@@ -32,7 +32,6 @@
 #include <export/logic.h>
 #include <database/config/bible.h>
 #include <database/state.h>
-#include <config/logic.h>
 #include <client/logic.h>
 #include <tasks/logic.h>
 #include <menu/logic.h>

@@ -33,7 +33,6 @@
 #include <access/bible.h>
 #include <dialog/list.h>
 #include <sendreceive/logic.h>
-#include <config/logic.h>
 #include <demo/logic.h>
 #include <client/logic.h>
 #include <paratext/logic.h>

@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/shell.h>
 #include <database/sqlite.h>
 #include <database/logs.h>
-#include <config/logic.h>
 
 
 // Databases resilience:

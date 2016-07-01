@@ -32,7 +32,6 @@
 #include <client/logic.h>
 #include <demo/logic.h>
 #include <sendreceive/logic.h>
-#include <config/logic.h>
 
 
 string client_index_url ()

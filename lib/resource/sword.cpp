@@ -31,7 +31,6 @@
 #include <tasks/logic.h>
 #include <journal/index.h>
 #include <sword/logic.h>
-#include <config/logic.h>
 #include <menu/logic.h>
 
 

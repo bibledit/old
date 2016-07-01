@@ -31,7 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/cache.h>
 #include <setup/index.h>
 #include <journal/index.h>
-#include <config/logic.h>
 #include <config/globals.h>
 #include <help/index.h>
 #include <email/index.h>
