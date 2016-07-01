@@ -18,19 +18,27 @@ echo Synchronizing relevant source code to $BIBLEDITCHROMEOS
 mkdir -p $BIBLEDITCHROMEOS
 
 rm $BIBLEDITCHROMEOS/* 2> /dev/null
+rm -rf $BIBLEDITCHROMEOS/chromeos
 rsync --archive --delete ../lib $BIBLEDITCHROMEOS
 rsync --archive --delete ../android $BIBLEDITCHROMEOS
 
+echo Renaming folder from android to chromeos
+mv $BIBLEDITCHROMEOS/android $BIBLEDITCHROMEOS/chromeos
+
 echo Adapting source code for Chrome OS
+
+# ./configure not for android, but for chromeos
+sed -i.bak 's/enable-android/enable-chromeos/' $BIBLEDITCHROMEOS/chromeos/native
+
 
 # When the app is obscured or goes into the background, 
 # it should not stop the library, 
 # but rather the library should continue to work.
 # This is because when opening the app from the Chrome browser,
 # the app goes to the background, and should continue to serve.
-sed -i.bak '/StopLibrary/d' $BIBLEDITCHROMEOS/android/src/org/bibledit/android/MainActivity.java
+sed -i.bak '/StopLibrary/d' $BIBLEDITCHROMEOS/chromeos/src/org/bibledit/android/MainActivity.java
 
 # Enable the code to open the Bibledit server from the system browser.
-sed -i.bak '/FORCHROMEOS/d' $BIBLEDITCHROMEOS/android/src/org/bibledit/android/MainActivity.java
+sed -i.bak '/FORCHROMEOS/d' $BIBLEDITCHROMEOS/chromeos/src/org/bibledit/android/MainActivity.java
 
 echo Done
