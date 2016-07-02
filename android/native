@@ -27,7 +27,7 @@ popd
 # Refresh the Bibledit source code in the jni folder.
 rsync -a --exclude '*.o' --delete ../lib/* jni
 pushd jni
-./configure --enable-client --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal --enable-android
+./configure --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal --enable-android
 rm -f bibledit
 rm -r autom4te.cache
 rm dev

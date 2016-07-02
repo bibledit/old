@@ -28,7 +28,7 @@ make distclean
 
 # Limit the maximum number of parallel background tasks 
 # to make the interface more responsive.
-./configure --enable-client --enable-urlsettings --enable-paratext --with-parallel-tasks=1 --enable-windows --with-network-port=9876
+./configure --enable-urlsettings --enable-paratext --with-parallel-tasks=1 --enable-windows --with-network-port=9876
 
 
 make
