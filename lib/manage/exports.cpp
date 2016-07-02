@@ -359,7 +359,7 @@ string manage_exports (void * webserver_request)
   }
  
   
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   view.enable_zone ("client");
   view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_exports_url (), translate ("Go to Bibledit Cloud to submit the Bible there")));
 #else

@@ -111,7 +111,7 @@ string bible_import (void * webserver_request)
     request->database_config_user()->setBible (bible);
   }
   
-#ifdef CONFIG_ENABLE_FILE_UPLOAD
+#ifdef HAVE_UPLOAD
   view.enable_zone ("enable_upload");
 #else
   view.enable_zone ("disable_upload");

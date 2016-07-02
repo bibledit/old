@@ -113,7 +113,7 @@ string manage_index (void * webserver_request)
   vector <string> fontsblock;
   for (auto & font : fonts) {
     fontsblock.push_back ("<p>");
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
     fontsblock.push_back ("<a href=\"?deletefont=" + font+ "\" title=\"" + translate("Delete font") + "\"> ✗ </a>");
 #endif
     fontsblock.push_back (font);
@@ -122,7 +122,7 @@ string manage_index (void * webserver_request)
   view.set_variable ("fontsblock", filter_string_implode (fontsblock, "\n"));
 
   
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   view.enable_zone ("client");
   view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_index_url (), ""));
 #else

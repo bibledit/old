@@ -86,7 +86,7 @@ void Fonts_Logic::erase (string font)
 string Fonts_Logic::getTextFont (string bible)
 {
   string font = Database_Config_Bible::getTextFont (bible);
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   string client_font = Database_Config_Bible::getTextFontClient (bible);
   if (!client_font.empty ()) {
     font = client_font;

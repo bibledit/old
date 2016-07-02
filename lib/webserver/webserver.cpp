@@ -198,7 +198,7 @@ void http_server ()
   memset (&serveraddr, 0, sizeof (serveraddr));
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr =
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   htonl (INADDR_LOOPBACK);
 #else
   htonl (INADDR_ANY);
@@ -448,7 +448,7 @@ void https_server ()
   // On clients, don't run the secure web server.
   // It is not possible to get a https certificate for https://localhost anyway.
   // Shutting down this secure server saves value system resources on low power devices.
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   return;
 #endif
   // File descriptor for the listener.

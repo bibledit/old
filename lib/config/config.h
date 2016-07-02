@@ -17,5 +17,34 @@
  */
 
 
-#define CONFIG_ENABLE_FILE_UPLOAD true
+#define HAVE_UPLOAD 1
 
+
+#ifdef HAVE_WINDOWS
+#define HAVE_CLIENT 1
+#endif
+
+
+#ifdef HAVE_ANDROID
+#define HAVE_CLIENT 1
+#endif
+
+
+#ifdef HAVE_MAC
+#define HAVE_CLIENT 1
+#endif
+
+
+#ifdef HAVE_LINUX
+#define HAVE_CLIENT 1
+#endif
+
+
+#ifdef HAVE_IOS
+#define HAVE_CLIENT 1
+#endif
+
+
+#ifdef HAVE_CHROMEOS
+#define HAVE_CLIENT 1
+#endif

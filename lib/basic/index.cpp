@@ -85,7 +85,7 @@ string basic_index (void * webserver_request)
   view.set_variable ("bible", bible);
   
   
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   view.enable_zone ("client");
   if (client_logic_client_enabled ()) {
     view.enable_zone ("connected");

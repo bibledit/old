@@ -181,7 +181,7 @@ string resource_organize (void * webserver_request)
   }
 
   
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   view.enable_zone ("client");
 #endif
 

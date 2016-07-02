@@ -206,7 +206,7 @@ string config_logic_site_url (void * webserver_request)
 // This returns the filtered value of file userfacingurl.conf.
 string config_logic_manual_user_facing_url ()
 {
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   return "";
 #else
   // Read the configuration file.

@@ -20,7 +20,7 @@
 // Config.h to be included.
 #include <config.h>
 #include <library/locks.h>
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
 #include <openssl/crypto.h>
 #include <pthread.h>
 
@@ -58,7 +58,7 @@ static unsigned long id_function(void)
 
 void thread_setup ()
 {
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   mutex_buf = malloc (CRYPTO_num_locks () * sizeof(MUTEX_TYPE));
   if (!mutex_buf) return;
   int i;
@@ -72,7 +72,7 @@ void thread_setup ()
 
 void thread_cleanup ()
 {
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   if (!mutex_buf) return;
   CRYPTO_set_id_callback (NULL);
   CRYPTO_set_locking_callback (NULL);

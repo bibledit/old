@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sys/socket.h>
 #include <netdb.h>
 #include <netinet/in.h>
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
 #else
 #include <curl/curl.h>
 #endif
@@ -508,7 +508,7 @@ size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, voi
 string filter_url_http_get (string url, string& error, bool check_certificate)
 {
   string response;
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   response = filter_url_http_request_mbed (url, error, {}, "", check_certificate);
 #else
   (void) check_certificate;
@@ -549,7 +549,7 @@ string filter_url_http_get (string url, string& error, bool check_certificate)
 string filter_url_http_post (string url, map <string, string> values, string& error, bool burst, bool check_certificate)
 {
   string response;
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   (void) burst;
   response = filter_url_http_request_mbed (url, error, values, "", check_certificate);
 #else
@@ -608,7 +608,7 @@ string filter_url_http_upload (string url, map <string, string> values, string f
 {
   string response;
 
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   (void) url;
   (void) values;
   (void) filename;
@@ -732,7 +732,7 @@ string filter_url_http_response_code_text (int code)
 // Downloads the file at $url, and stores it at $filename.
 void filter_url_download_file (string url, string filename, string& error, bool check_certificate)
 {
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   filter_url_http_request_mbed (url, error, {}, filename, check_certificate);
 #else
   (void) check_certificate;
@@ -801,7 +801,7 @@ string filter_url_html_file_name_bible (string path, int book, int chapter)
 
 
 // Callback function for logging cURL debug information.
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
 #else
 int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char *data, size_t size, void *userptr)
 {
@@ -823,7 +823,7 @@ int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char 
 // burst: When true, the server gives a burst response, that is, all data arrives at once after a delay.
 //        When false, the data is supposed to be downloaded gradually.
 // Without these timeouts, the Bibledit client will hang on stalled sync operations.
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
 #else
 void filter_url_curl_set_timeout (void *curl_handle, bool burst)
 {

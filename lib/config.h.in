@@ -12,12 +12,6 @@
 /* Define whether the expected browser is a bare browser without controls */
 #undef BARE_BROWSER
 
-/* Define whether it is prepared as a client installation */
-#undef CLIENT
-
-/* Define whether it is a client installation */
-#undef CLIENT_PREPARED
-
 /* Define whether it is a demo installation */
 #undef DEMO
 

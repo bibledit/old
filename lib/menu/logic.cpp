@@ -210,7 +210,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 
   // When a user is not logged in, or a guest,
   // put the public feedback into the main menu, rather than in a sub menu.
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   if (menu_logic_public_or_guest (webserver_request)) {
     if (!public_logic_bibles (webserver_request).empty ()) {
       html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
@@ -375,7 +375,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
 
   // When a user is logged in, but not a guest,
   // put the public feedback into this sub menu, rather than in the main menu.
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   if (!request->session_logic ()->currentUser ().empty ()) {
     if (!menu_logic_public_or_guest (webserver_request)) {
       if (!public_logic_bibles (webserver_request).empty ()) {
@@ -515,7 +515,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     }
 
     if (label == print) {
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
       if (resource_print_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (resource_print_url (), label, true));
         tiplabels.push_back (label);
@@ -525,7 +525,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     
     if (label == changes) {
       // Downloading revisions only on server, not on client.
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
       if (index_listing_acl (webserver_request, "revisions")) {
         html.push_back (menu_logic_create_item (index_listing_url ("revisions"), menu_logic_changes_text (), true));
         tiplabels.push_back (menu_logic_changes_text ());
@@ -534,7 +534,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     }
     
     if (label == planning) {
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
       if (sprint_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (sprint_index_url (), label, true));
         tiplabels.push_back (label);
@@ -682,7 +682,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
         html.push_back (menu_logic_create_item (menu_logic_settings_resources_menu (), menu_logic_resources_text (), false));
         tiplabels.push_back (menu_logic_resources_text ());
       }
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
       // Only client can cache resources.
       // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
       // Many Cloud instances may run on one server, and if the Cloud were to cache resources,
@@ -695,7 +695,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == changes) {
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
       // Managing change notifications only on server, not on client.
       if (changes_manage_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (changes_manage_url (), menu_logic_changes_text (), true));
@@ -712,7 +712,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == users) {
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
       if (manage_users_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (manage_users_url (), menu_logic_manage_users_text (), true));
         tiplabels.push_back (menu_logic_manage_users_text ());
@@ -748,7 +748,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == mail) {
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
       if (email_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (email_index_url (), label, true));
         tiplabels.push_back (label);
@@ -778,7 +778,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == collaboration) {
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
       if (collaboration_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (collaboration_index_url (), label, true));
         tiplabels.push_back (label);
@@ -790,7 +790,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       // If the installation is not prepared for Client mode, disable the Cloud menu item.
       // But keep the menu item in an open installation.
       bool cloud_menu = client_index_acl (webserver_request);
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
       cloud_menu = false;
 #endif
       if (config_logic_demo_enabled ()) cloud_menu = true;
@@ -864,25 +864,25 @@ string menu_logic_settings_resources_category (void * webserver_request)
 {
   vector <string> html;
   
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   if (resource_manage_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_manage_url (), translate ("USFM resources"), true));
   }
 #endif
   
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   if (resource_images_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_images_url (), menu_logic_resource_images_text (), true));
   }
 #endif
   
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   if (resource_sword_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD resources"), true));
   }
 #endif
 
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   if (resource_user9edit_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_user9edit_url (), translate ("User resources"), true));
   }

@@ -142,7 +142,7 @@ string edit_save (void * webserver_request)
   if (!message.empty ()) return message;
 
   // In server configuration, store details for the user's changes.
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   int newID = request->database_bibles()->getChapterId (bible, book, chapter);
   Database_Modifications database_modifications;
   database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);

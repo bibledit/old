@@ -147,7 +147,7 @@ string workbench_organize (void * webserver_request)
     desktopblock.push_back ("<a href=\"settings?name=" + desktop + "\" title=\"" + translate("Edit desktop") + "\"> ✎ </a>");
     desktopblock.push_back ("|");
     desktopblock.push_back ("<a href=\"?copy=" + desktop + "\" title=\"" + translate("Copy desktop") + "\"> ⎘ </a>");
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
     // In the Cloud, one can send the desktop configuration to other users.
     // On a client, sending a desktop to other users does not work.
     desktopblock.push_back ("|");
@@ -160,7 +160,7 @@ string workbench_organize (void * webserver_request)
   view.set_variable ("desktopblock", filter_string_implode (desktopblock, "\n"));
 
   
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
     view.enable_zone ("cloud");
 #endif
   

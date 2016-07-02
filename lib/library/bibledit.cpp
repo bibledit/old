@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <setup/index.h>
 #include <setup/logic.h>
 #include <library/locks.h>
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
 #else
 #include <curl/curl.h>
 #endif
@@ -62,7 +62,7 @@ const char * bibledit_get_network_port ()
 void bibledit_initialize_library (const char * package, const char * webroot)
 {
   // Must initialize libcurl before any threads are started.
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
 #else
   curl_global_init (CURL_GLOBAL_ALL);
 #endif
@@ -132,7 +132,7 @@ void bibledit_start_library ()
   bibledit_started = true;
 
   // Setup server behaviour.
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   config_globals_client_prepared = true;
 #else
   config_globals_client_prepared = false;

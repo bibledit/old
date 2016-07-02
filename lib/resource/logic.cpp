@@ -138,7 +138,7 @@ string resource_logic_get_html (void * webserver_request,
   // Lists of the various types of resources.
   vector <string> bibles = request->database_bibles()->getBibles ();
   vector <string> usfms;
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   usfms = client_logic_usfm_resources_get ();
   // As from February 2016 a client no longer automatically downloads USFM resources from the server.
   // A client still takes in account existing USFM resources it has downloaded before.
@@ -235,7 +235,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   vector <string> bibles = request->database_bibles()->getBibles ();
   vector <string> local_usfms = database_usfmresources.getResources ();
   vector <string> remote_usfms;
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   remote_usfms = client_logic_usfm_resources_get ();
 #endif
   vector <string> externals = resource_external_names ();
@@ -269,7 +269,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   } else if (isRemoteUsfm) {
     data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
   } else if (isExternal) {
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
     // A client fetches it from the cache or from the Cloud.
     data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #else
@@ -518,7 +518,7 @@ string resource_logic_get_divider (string resource)
 // It fetches existing content from the cache, and caches new content.
 string resource_logic_web_cache_get (string url, string & error)
 {
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   // On the Cloud, check if the URL is in the cache.
   if (database_filebased_cache_exists (url)) {
     return database_filebased_cache_get (url);
@@ -531,7 +531,7 @@ string resource_logic_web_cache_get (string url, string & error)
   if (!error.empty ()) {
     return html;
   }
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   // In the Cloud, cache the response.
   database_filebased_cache_put (url, html);
 #endif

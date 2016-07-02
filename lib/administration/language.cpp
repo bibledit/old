@@ -42,7 +42,7 @@ bool administration_language_acl (void * webserver_request)
 {
   // Cloud: Manager can set the language.
   int role = Filter_Roles::manager ();
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   // Client: Anyone can set the language.
   role = Filter_Roles::member ();
 #endif

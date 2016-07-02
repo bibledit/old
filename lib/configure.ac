@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.489],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.490],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -96,17 +96,6 @@ AC_ARG_ENABLE(demo,
 AC_DEFINE([DEMO], [], [Define whether it is a demo installation])
 AC_DEFINE_UNQUOTED(DEMO, "$DEMO")
 AC_SUBST(DEMO)
-
-# Client installation.
-CLIENT=no
-AC_ARG_ENABLE(client,
-  [  --enable-client Enable client mode],
-  [AC_DEFINE([CLIENT_PREPARED], [1], [Define whether it is a client installation])]
-  CLIENT=yes
-)
-AC_DEFINE([CLIENT], [], [Define whether it is prepared as a client installation])
-AC_DEFINE_UNQUOTED(CLIENT, "$CLIENT")
-AC_SUBST(CLIENT)
 
 # Network port.
 AC_ARG_WITH(network-port,
@@ -294,7 +283,6 @@ Bibledit $VERSION configuration summary:
 
 Installation prefix                               : ${prefix}
 Network port (--with-network-port=n)              : ${NETWORK_PORT}
-Client edition (--enable-client)                  : ${CLIENT}
 Demo edition (--enable-demo)                      : ${DEMO}
 Maximum number of parallel tasks
                        (--with-parallel-tasks=n)  : ${PARALLEL_TASKS}

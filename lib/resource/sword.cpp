@@ -109,7 +109,7 @@ string resource_sword (void * webserver_request)
   view.set_variable ("moduleblock", moduleblock);
 
   
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   view.enable_zone ("client");
 #else
   view.enable_zone ("server");

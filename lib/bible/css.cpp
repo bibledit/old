@@ -68,7 +68,7 @@ string bible_css (void * webserver_request)
     
     string font = request->post ["font"];
     font = filter_string_trim (font);
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
     // Bibledit client storage.
     Database_Config_Bible::setTextFontClient (bible, font);
 #else
@@ -98,7 +98,7 @@ string bible_css (void * webserver_request)
     
   }
 
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   view.enable_zone ("client");
 #endif
   

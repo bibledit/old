@@ -197,7 +197,7 @@ string user_notifications (void * webserver_request)
   }
   view.set_variable ("allsoftware", get_checkbox_status (database_config_user.getAllSoftwareUpdatesNotification ()));
   
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   view.enable_zone ("client");
 #else
   view.enable_zone ("server");

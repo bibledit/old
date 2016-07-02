@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <filter/date.h>
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
 #include <curl/curl.h>
 #endif
 #include <config/globals.h>
@@ -59,7 +59,7 @@ void email_send ()
     string subject = details.subject;
     string body = details.body;
     
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
     
     // On a client, set the email to the username before sending the email to the Cloud for further distribution.
     email = username;
@@ -106,7 +106,7 @@ struct upload_status {
 };
 
 
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
 #else
 static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 {
@@ -146,7 +146,7 @@ string email_send (string to_mail, string to_name, string subject, string body, 
   // Deal with empty subject.
   if (subject.empty ()) subject = "Bibledit";
   
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
 
   (void) verbose;
   (void) to_mail;

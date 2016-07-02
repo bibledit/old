@@ -41,7 +41,7 @@ const char * journal_index_url ()
 bool journal_index_acl (void * webserver_request)
 {
   // In Client mode, anyone can view the journal.
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   return true;
 #endif
   // The role of Consultant or higher can view the journal.
@@ -67,7 +67,7 @@ string render_journal_entry (string filename, int userlevel)
   int entryLevel = convert_to_int (entry);
   // Cloud: Only render journal entries of a sufficiently high level.
   // Client: Render journal entries of any level.
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   if (entryLevel > userlevel) return "";
 #endif
   // Remove the user's level.

@@ -141,7 +141,7 @@ string sendreceive_index (void * webserver_request)
   }
   
   
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   if (client_logic_client_enabled ()) {
     view.enable_zone ("clienton");
   } else {

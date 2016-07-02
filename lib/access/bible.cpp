@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 bool access_bible_read (void * webserver_request, const string & bible, string user)
 {
   // Client: User has access to all Bibles.
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   return true;
 #endif
 
@@ -73,7 +73,7 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
 // Returns true if the user has write access to the $bible.
 bool access_bible_write (void * webserver_request, const string & bible, string user)
 {
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   // Client: When not yet connected to the Cloud, the user has access to all Bibles.
   // When connected to the Cloud, this no longer applies,
   // since the client now receives the privileges from the Cloud.
@@ -124,7 +124,7 @@ bool access_bible_write (void * webserver_request, const string & bible, string 
 // then the user is considered not to have write access to the entire $bible.
 bool access_bible_book_write (void * webserver_request, string user, const string & bible, int book)
 {
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   // Client: When not yet connected to the Cloud, the user has access to the book.
   // When connected to the Cloud, this no longer applies,
   // since the client now receives the privileges from the Cloud.

@@ -493,7 +493,7 @@ void workbench_copy (void * webserver_request, string source, string destination
 // Store updated workbench settings for sending to the cloud.
 void workbench_cache_for_cloud (void * webserver_request, bool urls, bool widths, bool heights)
 {
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
   // For a client, store the setting for sending to the server.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   if (urls)

@@ -355,7 +355,7 @@ vector <string> sword_logic_get_installed ()
 
 string sword_logic_get_text (string source, string module, int book, int chapter, int verse)
 {
-#ifdef CLIENT_PREPARED
+#ifdef HAVE_CLIENT
 
   // Client checks for and optionally creates the cache for this SWORD module.
   if (!Database_Cache::exists (module, book)) {
@@ -501,7 +501,7 @@ void sword_logic_update_installed_modules ()
 // Trims the installed SWORD modules.
 void sword_logic_trim_modules ()
 {
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
   Database_Logs::log ("Trimming the installed SWORD modules");
   vector <string> modules = sword_logic_get_installed ();
   for (auto module : modules) {

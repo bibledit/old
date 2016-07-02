@@ -139,7 +139,7 @@ string editone_save (void * webserver_request)
   string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm);
   if (message.empty ()) {
     // Server: Store details for the user's changes.
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
     int newID = request->database_bibles()->getChapterId (bible, book, chapter);
     string newText = request->database_bibles()->getChapter (bible, book, chapter);
     database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);

@@ -96,7 +96,7 @@ string editusfm_save (void * webserver_request)
                 // Safely store the chapter.
                 string message = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save);
                 if (message.empty()) {
-#ifndef CLIENT_PREPARED
+#ifndef HAVE_CLIENT
                   // Server configuration: Store details for the user's changes.
                   int newID = request->database_bibles()->getChapterId (bible, book, chapter);
                   Database_Modifications database_modifications;
