@@ -166,15 +166,15 @@ string sendreceive_index (void * webserver_request)
   view.set_variable ("demo", demo_client_warning ());
 
   
-  if (config_logic_paratext_enabled ()) {
-    vector <string> bibles = Paratext_Logic::enabledBibles ();
-    if (!bibles.empty ()) {
-      view.enable_zone ("paratexton");
-      view.set_variable ("paratextbibles", filter_string_implode (bibles, ", "));
-    } else {
-      view.enable_zone ("paratextoff");
-    }
+#ifdef HAVE_PARATEXT
+  vector <string> bibles = Paratext_Logic::enabledBibles ();
+  if (!bibles.empty ()) {
+    view.enable_zone ("paratexton");
+    view.set_variable ("paratextbibles", filter_string_implode (bibles, ", "));
+  } else {
+    view.enable_zone ("paratextoff");
   }
+#endif
 
   
   page += view.render ("sendreceive", "index");

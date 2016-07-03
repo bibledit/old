@@ -625,7 +625,6 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
-PARATEXT
 TINYJOURNAL
 ADMIN_EMAIL
 ADMIN_PASSWORD
@@ -768,7 +767,6 @@ with_admin_username
 with_admin_password
 with_admin_email
 enable_tinyjournal
-enable_paratext
 enable_windows
 enable_android
 enable_mac
@@ -1429,7 +1427,6 @@ Optional Features:
   --enable-urlsettings Enable URL settings
   --enable-unittests Enable unit tests
   --enable-tinyjournal Enable tiny journal
-  --enable-paratext Enable Paratext synchronization
   --enable-windows Compile on Windows
   --enable-android Compile for Android
   --enable-mac Compile for Mac
@@ -7020,26 +7017,6 @@ _ACEOF
 
 
 
-# Enable Paratext synchronization.
-PARATEXT=no
-# Check whether --enable-paratext was given.
-if test "${enable_paratext+set}" = set; then :
-  enableval=$enable_paratext;
-$as_echo "#define HAVE_PARATEXT 1" >>confdefs.h
-
-PARATEXT=yes
-
-fi
-
-
-$as_echo "#define PARATEXT /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define PARATEXT "$PARATEXT"
-_ACEOF
-
-
-
 # Windows.
 WINDOWS=no
 # Check whether --enable-windows was given.
@@ -8622,7 +8599,6 @@ Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
 Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
 Admin email (--with-admin-email=email)            : ${ADMIN_EMAIL}
 Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
-Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Windows (--enable-windows)                        : ${WINDOWS}
 Android (--enable-android)                        : ${ENABLEANDROID}
 Mac (--enable-mac)                                : ${ENABLEMAC}

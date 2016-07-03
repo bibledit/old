@@ -203,17 +203,6 @@ AC_DEFINE([TINYJOURNAL], [], [Define whether the tiny journal is enabled])
 AC_DEFINE_UNQUOTED(TINYJOURNAL, "$TINYJOURNAL")
 AC_SUBST(TINYJOURNAL)
 
-# Enable Paratext synchronization.
-PARATEXT=no
-AC_ARG_ENABLE(paratext,
-[  --enable-paratext Enable Paratext synchronization],
-[AC_DEFINE([HAVE_PARATEXT], [1], [Define whether to enable Paratext synchronization])]
-PARATEXT=yes
-)
-AC_DEFINE([PARATEXT], [], [Define whether Paratext synchronization is enabled])
-AC_DEFINE_UNQUOTED(PARATEXT, "$PARATEXT")
-AC_SUBST(PARATEXT)
-
 # Windows.
 WINDOWS=no
 AC_ARG_ENABLE(windows,
@@ -293,7 +282,6 @@ Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
 Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
 Admin email (--with-admin-email=email)            : ${ADMIN_EMAIL}
 Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
-Paratext synchronization (--enable-paratext)      : ${PARATEXT}
 Windows (--enable-windows)                        : ${WINDOWS}
 Android (--enable-android)                        : ${ENABLEANDROID}
 Mac (--enable-mac)                                : ${ENABLEMAC}

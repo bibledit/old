@@ -802,15 +802,14 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       }
     }
     
+#ifdef HAVE_PARATEXT
     if (label == paratext) {
-      // Paratext can be enabled through ./configure --enable-paratext.
-      if (config_logic_paratext_enabled ()) {
-        if (paratext_index_acl (webserver_request)) {
-          html.push_back (menu_logic_create_item (paratext_index_url (), label, true));
-          tiplabels.push_back (paratext_index_url ());
-        }
+      if (paratext_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (paratext_index_url (), label, true));
+        tiplabels.push_back (paratext_index_url ());
       }
     }
+#endif
     
     if (label == logout) {
       if (!(client || demo)) {

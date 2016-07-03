@@ -112,13 +112,13 @@ bool sendreceive_sync_queued ()
 // Queues Paratext sync.
 void sendreceive_queue_paratext ()
 {
-  if (config_logic_paratext_enabled ()) {
-    if (sendreceive_paratext_queued ()) {
-      Database_Logs::log ("Still synchronizing with Paratext");
-    } else {
-      tasks_logic_queue (SYNCPARATEXT);
-    }
+#ifdef HAVE_PARATEXT
+  if (sendreceive_paratext_queued ()) {
+    Database_Logs::log ("Still synchronizing with Paratext");
+  } else {
+    tasks_logic_queue (SYNCPARATEXT);
   }
+#endif
 }
 
 

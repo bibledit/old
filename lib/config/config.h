@@ -22,6 +22,7 @@
 
 #ifdef HAVE_WINDOWS
 #define HAVE_CLIENT 1
+#define HAVE_PARATEXT 1
 #endif
 
 
@@ -37,6 +38,7 @@
 
 #ifdef HAVE_LINUX
 #define HAVE_CLIENT 1
+#define HAVE_PARATEXT 1
 #endif
 
 

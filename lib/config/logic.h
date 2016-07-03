@@ -34,7 +34,6 @@ string config_logic_admin_username ();
 string config_logic_admin_password ();
 string config_logic_admin_email ();
 int my_stoi (const string& str, void * idx = NULL, int base = 10);
-bool config_logic_paratext_enabled ();
 bool config_logic_basic_mode (void * webserver_request);
 string config_logic_site_url (void * webserver_request);
 string config_logic_manual_user_facing_url ();
