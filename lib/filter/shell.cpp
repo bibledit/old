@@ -129,16 +129,15 @@ vector <string> filter_shell_active_processes ()
   string output, error;
   int result;
   
-  if (config_logic_windows ()) {
-    result = filter_shell_run ("tasklist.exe", NULL, output);
-    // Note that the above works on a system which has Cygwin installed,
-    // and fails to run on a system without Cygwin.
-    // Perhaps Bibledit needs to install components from Cygwin into the $PATH for this to run.
-    // Or use the other shell runner, and then copy bash.exe to /Windows/system32 or into the $PATH.
-  }
-  else {
-    result = filter_shell_run ("", "ps", {"ax"}, &output, &error);
-  }
+#ifdef HAVE_WINDOWS
+  result = filter_shell_run ("tasklist.exe", NULL, output);
+  // Note that the above works on a system which has Cygwin installed,
+  // and fails to run on a system without Cygwin.
+  // Perhaps Bibledit needs to install components from Cygwin into the $PATH for this to run.
+  // Or use the other shell runner, and then copy bash.exe to /Windows/system32 or into the $PATH.
+#else
+  result = filter_shell_run ("", "ps", {"ax"}, &output, &error);
+#endif
 
   if (result) {}
   

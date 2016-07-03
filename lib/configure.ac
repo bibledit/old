@@ -220,8 +220,8 @@ AC_ARG_ENABLE(windows,
 [  --enable-windows Compile on Windows],
 [
 AC_DEFINE([WIN32], [1], [Define whether to compile on Windows])
-AC_DEFINE([WINDOWS], [], [Define whether to compile on Windows])
-AC_DEFINE([HAVE_WINDOWS], [], [Define whether to compile on Windows])
+AC_DEFINE([WINDOWS], [1], [Define whether to compile on Windows])
+AC_DEFINE([HAVE_WINDOWS], [1], [Define whether to compile on Windows])
 WINDOWS=yes
 ]
 )

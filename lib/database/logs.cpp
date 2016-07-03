@@ -59,10 +59,10 @@ void Database_Logs::log (string description, int level)
     description.insert (0, convert_to_string (level) + " ");
   }
   filter_url_file_put_contents_append (file, description);
+#ifdef HAVE_WINDOWS
   // Delay to cover for lower usec granularity on Windows.
-  if (config_logic_windows ()) {
-    this_thread::sleep_for (chrono::milliseconds (1));
-  }
+  this_thread::sleep_for (chrono::milliseconds (1));
+#endif
 }
 
 

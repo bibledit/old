@@ -122,16 +122,6 @@ bool config_logic_paratext_enabled ()
 }
 
 
-// Returns whether Windows has been enabled during configure.
-bool config_logic_windows ()
-{
-#ifdef HAVE_WINDOIWS
-  return true;
-#endif
-  return false;
-}
-
-
 // Returns whether Android has been enabled during configure.
 bool config_logic_android ()
 {

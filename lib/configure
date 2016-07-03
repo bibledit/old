@@ -7049,10 +7049,10 @@ if test "${enable_windows+set}" = set; then :
 $as_echo "#define WIN32 1" >>confdefs.h
 
 
-$as_echo "#define WINDOWS /**/" >>confdefs.h
+$as_echo "#define WINDOWS 1" >>confdefs.h
 
 
-$as_echo "#define HAVE_WINDOWS /**/" >>confdefs.h
+$as_echo "#define HAVE_WINDOWS 1" >>confdefs.h
 
 WINDOWS=yes
 
