@@ -122,16 +122,6 @@ bool config_logic_paratext_enabled ()
 }
 
 
-// Returns whether Android has been enabled during configure.
-bool config_logic_android ()
-{
-#ifdef HAVE_ANDROID
-  return true;
-#endif
-  return false;
-}
-
-
 // Returns whether iOS has been enabled during configure.
 bool config_logic_ios ()
 {

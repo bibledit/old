@@ -279,10 +279,12 @@ void setup_complete_gui ()
 // Generate the locale databases.
 void setup_generate_locale_databases (bool progress)
 {
+#ifdef HAVE_ANDROID
   // On Android, do not generate the locale databases.
   // On this low power device, generating them would take quite a while, as experience shows.
   // Instead of generating them, the builder and installer put the pre-generated databases into place.
-  if (config_logic_android ()) return;
+  return;
+#endif
   // Same story for iOS.
   if (config_logic_ios ()) return;
   // Generate databases for all the localizations.
@@ -302,10 +304,12 @@ void setup_generate_locale_databases (bool progress)
 // Generate the verse mapping databases.
 void setup_generate_verse_mapping_databases ()
 {
+#ifdef HAVE_ANDROID
   // On Android, do not generate the verse mapping databases.
   // On this low power device, generating them would take quite a while, as experience shows.
   // Instead of generating them, the builder and installer put the pre-generated databases into place.
-  if (config_logic_android ()) return;
+  return;
+#endif
   // Same story for iOS.
   if (config_logic_ios ()) return;
   // Generate the verse mappings.
@@ -320,10 +324,12 @@ void setup_generate_verse_mapping_databases ()
 // Generate the versification databases.
 void setup_generate_versification_databases ()
 {
+#ifdef HAVE_ANDROID
   // On Android, do not generate the verse mapping databases.
   // On this low power device, generating them would take quite a while, as experience shows.
   // Instead of generating them, the builder and installer put the pre-generated databases into place.
-  if (config_logic_android ()) return;
+  return;
+#endif
   // Same story for iOS.
   if (config_logic_ios ()) return;
   // Generate the versifications.
