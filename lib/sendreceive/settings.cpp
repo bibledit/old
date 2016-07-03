@@ -33,6 +33,7 @@
 #include <webserver/request.h>
 #include <sync/logic.h>
 #include <sync/settings.h>
+#include <user/logic.h>
 
 
 int sendreceive_settings_watchdog = 0;
@@ -149,8 +150,37 @@ void sendreceive_settings ()
       request.database_config_user()->removeUpdatedSetting (id);
     }
   }
-
   // All changed settings have now been sent to the server.
+
+  // Send the platform to the Cloud.
+  {
+    post ["a"] = convert_to_string (Sync_Logic::settings_send_platform);
+    int platform_id = 0;
+#ifdef HAVE_WINDOWS
+    platform_id = PLATFORM_WINDOWS;
+#endif
+#ifdef HAVE_ANDROID
+    platform_id = PLATFORM_ANDROID;
+#endif
+#ifdef HAVE_MAC
+    platform_id = PLATFORM_MAC;
+#endif
+#ifdef HAVE_LINUX
+    platform_id = PLATFORM_LINUX;
+#endif
+#ifdef HAVE_IOS
+    platform_id = PLATFORM_IOS;
+#endif
+#ifdef HAVE_CHROMEOS
+    platform_id = PLATFORM_CHROMEOS;
+#endif
+    post ["v"] = convert_to_string (platform_id);
+    string error;
+    sync_logic.post (post, url, error);
+  }
+  
+  
+  
   // The client will now synchronize its settings with the server's settings.
 
   // The script requests the checksum of all relevant settings from the server.
@@ -221,15 +251,6 @@ void sendreceive_settings ()
 
     post ["b"] = bible;
 
-    // Request the identifiers of the Bible.
-    post ["a"] = convert_to_string (Sync_Logic::settings_get_bible_id);
-    response = sync_logic.post (post, url, error);
-    if (!error.empty ()) {
-      Database_Logs::log ("Failure receiving Bible identifier", Filter_Roles::translator ());
-      sendreceive_settings_done ();
-      return;
-    }
-    
     // Request the font for the Bible.
     // Note that it requests the font name from the Cloud.
     // When the font is set by the client, it will override the font setting from the Cloud.

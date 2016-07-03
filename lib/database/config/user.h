@@ -223,6 +223,10 @@ public:
   void setYourSoftwareUpdatesNotification (bool value);
   vector <string> getLastMailedSoftwareVersionForUser (string username);
   void setLastMailedSoftwareVersionForUser (string username, vector <string> values);
+  vector <string> getConnectedClientsForUser (string username);
+  vector <string> getConnectedClients ();
+  void setConnectedClients (vector <string> values);
+  void setConnectedClientsForUser (string username, vector <string> values);
 private:
   void * webserver_request;
   string file (string user);

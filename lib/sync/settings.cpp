@@ -113,6 +113,15 @@ string sync_settings (void * webserver_request)
     {
       return Database_Config_Bible::getTextFont (bible_s);
     }
+    case Sync_Logic::settings_send_platform:
+    {
+      vector <string> clients = request->database_config_user()->getConnectedClients ();
+      if (!in_array (value, clients)) {
+        clients.push_back (value);
+        request->database_config_user()->setConnectedClients (clients);
+      }
+      return "";
+    }
   }
 
   // Bad request.

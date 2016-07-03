@@ -33,6 +33,7 @@ typedef struct
   const char * url;
   const char * prefix;
   const char * suffix;
+  bool join;
 } platform_record;
 
 
@@ -42,39 +43,45 @@ platform_record platform_table [] =
     PLATFORM_WINDOWS,
     "Windows",
     "http://bibledit.org/windows",
-    "<a href=\"", "\">"
+    "<a href=\"", "\">",
+    true
   },
   {
     PLATFORM_ANDROID,
     "Android",
     "https://play.google.com/store/apps/details?id=org.bibledit.android",
-    "\"softwareVersion\">", "</div>"
+    "\"softwareVersion\">", "</div>",
+    false
   },
   { PLATFORM_MAC,
     "Mac",
     "https://itunes.apple.com/en/app/bibledit/id996639148",
-    "\"softwareVersion\">",
-    "</span>"
+    "\"softwareVersion\">", "</span>",
+    false
   },
   { PLATFORM_LINUX,
     "Linux",
     "http://bibledit.org/linux",
-    "<a href=\"", "\">"
+    "<a href=\"", "\">",
+    true
   },
   { PLATFORM_IOS,
     "iOS",
     "https://itunes.apple.com/en/app/bibledit/id967595683",
-    "\"softwareVersion\">", "</span>"
+    "\"softwareVersion\">", "</span>",
+    false
   },
-  { PLATFORM_CHROME_OS,
+  { PLATFORM_CHROMEOS,
     "Chrome OS",
     "https://chrome.google.com/webstore/detail/bibledit/aiaanakhppdclmabkcnpmnidajanaoda",
-    "\"version\" content=\"", "\""
+    "\"version\" content=\"", "\"",
+    false
   },
   { PLATFORM_CLOUD,
     "Cloud",
     "http://bibledit.org/cloud",
-    "<a href=\"", "\">"
+    "<a href=\"", "\">",
+    true
   }
 };
 
@@ -137,19 +144,25 @@ void user_logic_software_updates_notify ()
     
     // Get the version numbers that were last mailed to this user.
     vector <string> user_version_numbers = database_config_user.getLastMailedSoftwareVersionForUser (user);
-    
     // Expand the container when it's smaller than the number of platforms.
     for (size_t i = user_version_numbers.size (); i < platform_count; i++) {
       user_version_numbers.push_back ("");
     }
+    
+    // Get the platforms this user runs as client(s).
+    vector <string> user_platforms = database_config_user.getConnectedClientsForUser (user);
 
     bool user_versions_updated = false;
     
     for (unsigned int platform = 0; platform < platform_count; platform++) {
       
-      // Whether to check for this platform for this user. Todo do it also for client.
+      // Whether to check for this platform for this user.
       bool check_platform = database_config_user.getAllSoftwareUpdatesNotificationForUser (user);
-
+      if (!check_platform) {
+        string platform_identifier = convert_to_string (platform_table[platform].identifier);
+        if (in_array (platform_identifier, user_platforms)) check_platform = true;
+      }
+      
       if (check_platform) {
         // The current version number.
         string online_version_number = online_version_numbers [platform];
@@ -169,6 +182,8 @@ void user_logic_software_updates_notify ()
             body.push_back ("Updated Bibledit software is available.");
             body.push_back ("Platform: " + name);
             body.push_back ("Version: " + version);
+            bool join = platform_table[platform].join;
+            if (join) url = filter_url_create_path (url, online_version_number);
             body.push_back (url);
             email_schedule (user, "Bibledit " + name + " update", filter_string_implode (body, "<br>"));
             user_version_numbers [platform] = online_version_number;
@@ -181,6 +196,10 @@ void user_logic_software_updates_notify ()
     if (user_versions_updated) {
       // Store the updated version numbers.
       database_config_user.setLastMailedSoftwareVersionForUser (user, user_version_numbers);
+      // Clear the list of clients the user runs.
+      // The purpose of this is that if a user stops running on a certain platform,
+      // the user won't keep getting update notifications for this platform.
+      database_config_user.setConnectedClientsForUser (user, {});
     }
   }
 }

@@ -1212,3 +1212,21 @@ void Database_Config_User::setLastMailedSoftwareVersionForUser (string username,
 {
   setListForUser (username, "last-mailed-software-version", values);
 }
+
+
+vector <string> Database_Config_User::getConnectedClientsForUser (string username)
+{
+  return getListForUser (username, "connected-clients");
+}
+vector <string> Database_Config_User::getConnectedClients ()
+{
+  return getList ("connected-clients");
+}
+void Database_Config_User::setConnectedClients (vector <string> values)
+{
+  setList ("connected-clients", values);
+}
+void Database_Config_User::setConnectedClientsForUser (string username, vector <string> values)
+{
+  setListForUser (username, "connected-clients", values);
+}
