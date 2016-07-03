@@ -122,16 +122,6 @@ bool config_logic_paratext_enabled ()
 }
 
 
-// Returns whether iOS has been enabled during configure.
-bool config_logic_ios ()
-{
-#ifdef HAVE_IOS
-  return true;
-#endif
-  return false;
-}
-
-
 // Returns whether the interface is supposed to be in basic mode.
 // When the mode was flipped, this used to expire after some hours.
 // But there may be people working on a tablet,

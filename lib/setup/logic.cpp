@@ -285,8 +285,10 @@ void setup_generate_locale_databases (bool progress)
   // Instead of generating them, the builder and installer put the pre-generated databases into place.
   return;
 #endif
+#ifdef HAVE_IOS
   // Same story for iOS.
-  if (config_logic_ios ()) return;
+  return;
+#endif
   // Generate databases for all the localizations.
   map <string, string> localizations = locale_logic_localizations ();
   for (auto & element : localizations) {
@@ -310,8 +312,10 @@ void setup_generate_verse_mapping_databases ()
   // Instead of generating them, the builder and installer put the pre-generated databases into place.
   return;
 #endif
+#ifdef HAVE_IOS
   // Same story for iOS.
-  if (config_logic_ios ()) return;
+  return;
+#endif
   // Generate the verse mappings.
   Database_Mappings database_mappings;
   database_mappings.create1 ();
@@ -330,8 +334,10 @@ void setup_generate_versification_databases ()
   // Instead of generating them, the builder and installer put the pre-generated databases into place.
   return;
 #endif
+#ifdef HAVE_IOS
   // Same story for iOS.
-  if (config_logic_ios ()) return;
+  return;
+#endif
   // Generate the versifications.
   Database_Versifications database_versifications;
   database_versifications.create ();
