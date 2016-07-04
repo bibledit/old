@@ -19,6 +19,7 @@
 
 // Config.h to be included.
 #include <config.h>
+#include <config/config.h>
 #include <library/locks.h>
 #ifndef HAVE_CLIENT
 #include <openssl/crypto.h>

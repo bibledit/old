@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.491],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.492],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -204,14 +204,13 @@ AC_DEFINE_UNQUOTED(TINYJOURNAL, "$TINYJOURNAL")
 AC_SUBST(TINYJOURNAL)
 
 # Windows.
-WINDOWS=no
+ENABLEWINDOWS=no
 AC_ARG_ENABLE(windows,
-[  --enable-windows Compile on Windows],
+[  --enable-windows Compile for Windows],
 [
 AC_DEFINE([WIN32], [1], [Define whether to compile on Windows])
-AC_DEFINE([WINDOWS], [1], [Define whether to compile on Windows])
 AC_DEFINE([HAVE_WINDOWS], [1], [Define whether to compile on Windows])
-WINDOWS=yes
+ENABLEWINDOWS=yes
 ]
 )
 
@@ -282,7 +281,7 @@ Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
 Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
 Admin email (--with-admin-email=email)            : ${ADMIN_EMAIL}
 Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
-Windows (--enable-windows)                        : ${WINDOWS}
+Windows (--enable-windows)                        : ${ENABLEWINDOWS}
 Android (--enable-android)                        : ${ENABLEANDROID}
 Mac (--enable-mac)                                : ${ENABLEMAC}
 Linux (--enable-linux)                            : ${ENABLELINUX}

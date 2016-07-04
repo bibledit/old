@@ -137,6 +137,3 @@
 
 /* Define whether to compile on Windows */
 #undef WIN32
-
-/* Define whether to compile on Windows */
-#undef WINDOWS
