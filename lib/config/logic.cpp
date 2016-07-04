@@ -64,13 +64,6 @@ bool config_logic_demo_enabled ()
 }
 
 
-// Returns whether bare browser mode is enable during configure.
-bool config_logic_bare_browser ()
-{
-  return (strcmp (BARE_BROWSER, "yes") == 0);
-}
-
-
 // The configured admin's username.
 string config_logic_admin_username ()
 {

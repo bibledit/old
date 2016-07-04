@@ -39,11 +39,13 @@
 #define HAVE_CLIENT 1
 #undef MAX_PARALLEL_TASKS
 #define MAX_PARALLEL_TASKS 3
+#define HAVE_BARE_BROWSER 1
 #endif
 
 
 #ifdef HAVE_MAC
 #define HAVE_CLIENT 1
+#define HAVE_BARE_BROWSER 1
 #endif
 
 
@@ -57,6 +59,7 @@
 #define HAVE_CLIENT 1
 #undef MAX_PARALLEL_TASKS
 #define MAX_PARALLEL_TASKS 3
+#define HAVE_BARE_BROWSER 1
 #endif
 
 

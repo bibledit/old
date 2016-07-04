@@ -28,7 +28,6 @@ const char * config_logic_version ();
 const char * config_logic_http_network_port ();
 int config_logic_https_network_port ();
 bool config_logic_demo_enabled ();
-bool config_logic_bare_browser ();
 string config_logic_admin_username ();
 string config_logic_admin_password ();
 string config_logic_admin_email ();

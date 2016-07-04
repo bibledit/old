@@ -107,16 +107,6 @@ AC_DEFINE([NETWORK_PORT], [], [Define the network port number])
 AC_DEFINE_UNQUOTED(NETWORK_PORT, "$NETWORK_PORT")
 AC_SUBST(NETWORK_PORT)
 
-# Bare browser mode.
-BARE_BROWSER=no
-AC_ARG_ENABLE(bare-browser,
-[  --enable-bare-browser Enable bare browser mode],
-[BARE_BROWSER=yes]
-)
-AC_DEFINE([BARE_BROWSER], [], [Define whether the expected browser is a bare browser without controls])
-AC_DEFINE_UNQUOTED(BARE_BROWSER, "$BARE_BROWSER")
-AC_SUBST(BARE_BROWSER)
-
 # Check whether function 'stoi' is available
 AC_MSG_CHECKING([whether stoi is available])
 AC_COMPILE_IFELSE(
@@ -262,9 +252,6 @@ Bibledit $VERSION configuration summary:
 Installation prefix                               : ${prefix}
 Network port (--with-network-port=n)              : ${NETWORK_PORT}
 Demo edition (--enable-demo)                      : ${DEMO}
-Maximum number of parallel tasks
-                       (--with-parallel-tasks=n)  : ${PARALLEL_TASKS}
-Bare browser mode (--enable-bare-browser)         : ${BARE_BROWSER}
 URL settings (--enable-urlsettings)               : ${URLSETTINGS}
 Unit tests (--enable-unittests)                   : ${UNITTESTS}
 Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}

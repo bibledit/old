@@ -631,7 +631,6 @@ ADMIN_PASSWORD
 ADMIN_USERNAME
 UNITTESTS
 URLSETTINGS
-BARE_BROWSER
 NETWORK_PORT
 DEMO
 SWORD_LIBS
@@ -758,7 +757,6 @@ enable_silent_rules
 enable_dependency_tracking
 enable_demo
 with_network_port
-enable_bare_browser
 enable_urlsettings
 enable_unittests
 with_admin_username
@@ -1421,7 +1419,6 @@ Optional Features:
   --disable-dependency-tracking
                           speeds up one-time build
   --enable-demo  Enable demo mode
-  --enable-bare-browser Enable bare browser mode
   --enable-urlsettings Enable URL settings
   --enable-unittests Enable unit tests
   --enable-tinyjournal Enable tiny journal
@@ -6837,23 +6834,6 @@ _ACEOF
 
 
 
-# Bare browser mode.
-BARE_BROWSER=no
-# Check whether --enable-bare-browser was given.
-if test "${enable_bare_browser+set}" = set; then :
-  enableval=$enable_bare_browser; BARE_BROWSER=yes
-
-fi
-
-
-$as_echo "#define BARE_BROWSER /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define BARE_BROWSER "$BARE_BROWSER"
-_ACEOF
-
-
-
 # Check whether function 'stoi' is available
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether stoi is available" >&5
 $as_echo_n "checking whether stoi is available... " >&6; }
@@ -8565,9 +8545,6 @@ Bibledit $VERSION configuration summary:
 Installation prefix                               : ${prefix}
 Network port (--with-network-port=n)              : ${NETWORK_PORT}
 Demo edition (--enable-demo)                      : ${DEMO}
-Maximum number of parallel tasks
-                       (--with-parallel-tasks=n)  : ${PARALLEL_TASKS}
-Bare browser mode (--enable-bare-browser)         : ${BARE_BROWSER}
 URL settings (--enable-urlsettings)               : ${URLSETTINGS}
 Unit tests (--enable-unittests)                   : ${UNITTESTS}
 Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}

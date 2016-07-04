@@ -10,9 +10,6 @@
 /* Define the admin username */
 #define ADMIN_USERNAME ""
 
-/* Define whether the expected browser is a bare browser without controls */
-#define BARE_BROWSER "no"
-
 /* Define whether it is a demo installation */
 #define DEMO "no"
 
