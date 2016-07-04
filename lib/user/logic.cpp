@@ -150,7 +150,7 @@ void user_logic_software_updates_notify ()
     }
     
     // Get the platforms this user runs as client(s).
-    vector <string> user_platforms = database_config_user.getConnectedClientsForUser (user);
+    vector <string> client_platforms = database_config_user.getConnectedClientsForUser (user);
 
     bool user_versions_updated = false;
     
@@ -158,9 +158,9 @@ void user_logic_software_updates_notify ()
       
       // Whether to check for this platform for this user.
       bool check_platform = database_config_user.getAllSoftwareUpdatesNotificationForUser (user);
+      string platform_identifier = convert_to_string (platform_table[platform].identifier);
       if (!check_platform) {
-        string platform_identifier = convert_to_string (platform_table[platform].identifier);
-        if (in_array (platform_identifier, user_platforms)) check_platform = true;
+        if (in_array (platform_identifier, client_platforms)) check_platform = true;
       }
       
       if (check_platform) {
@@ -188,6 +188,8 @@ void user_logic_software_updates_notify ()
             email_schedule (user, "Bibledit " + name + " update", filter_string_implode (body, "<br>"));
             user_version_numbers [platform] = online_version_number;
             user_versions_updated = true;
+            // Remove the platform from the list of platforms the user runs clients on.
+            client_platforms = filter_string_array_diff (client_platforms, {platform_identifier});
           }
         }
       }
