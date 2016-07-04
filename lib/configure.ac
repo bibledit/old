@@ -258,11 +258,11 @@ Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
 Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
 Admin email (--with-admin-email=email)            : ${ADMIN_EMAIL}
 Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
-Windows (--enable-windows)                        : ${ENABLEWINDOWS}
-Android (--enable-android)                        : ${ENABLEANDROID}
-Mac (--enable-mac)                                : ${ENABLEMAC}
-Linux (--enable-linux)                            : ${ENABLELINUX}
-iOS (--enable-ios)                                : ${ENABLEIOS}
+Windows   (--enable-windows)                      : ${ENABLEWINDOWS}
+Android   (--enable-android)                      : ${ENABLEANDROID}
+Mac       (--enable-mac)                          : ${ENABLEMAC}
+Linux     (--enable-linux)                        : ${ENABLELINUX}
+iOS       (--enable-ios)                          : ${ENABLEIOS}
 Chrome OS (--enable-chromeos)                     : ${ENABLECHROMEOS}
 SWORD library                                     : ${SWORD_CFLAGS}
 "
