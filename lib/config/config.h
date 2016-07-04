@@ -41,7 +41,7 @@
 #undef MAX_PARALLEL_TASKS
 #define MAX_PARALLEL_TASKS 3
 #define HAVE_BARE_BROWSER 1
-#define HAVE_TINYJOURNAL 1
+#define HAVE_TINY_JOURNAL 1
 #endif
 
 
@@ -62,7 +62,7 @@
 #undef MAX_PARALLEL_TASKS
 #define MAX_PARALLEL_TASKS 3
 #define HAVE_BARE_BROWSER 1
-#define HAVE_TINYJOURNAL 1
+#define HAVE_TINY_JOURNAL 1
 #endif
 
 
@@ -70,7 +70,7 @@
 #define HAVE_CLIENT 1
 #undef MAX_PARALLEL_TASKS
 #define MAX_PARALLEL_TASKS 3
-#define HAVE_TINYJOURNAL 1
+#define HAVE_TINY_JOURNAL 1
 #endif
 
 

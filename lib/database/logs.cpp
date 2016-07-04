@@ -87,7 +87,7 @@ void Database_Logs::rotate ()
 
   
   // Timestamp for removing older records, depending on whether it's a tiny journal.
-#ifdef HAVE_TINYJOURNAL
+#ifdef HAVE_TINY_JOURNAL
   int oldtimestamp = filter_date_seconds_since_epoch () - (14400);
 #else
   int oldtimestamp = filter_date_seconds_since_epoch () - (6 * 86400);
@@ -99,7 +99,7 @@ void Database_Logs::rotate ()
   // In previous versions of Bibledit, there were certain conditions
   // that led to an infinite loop, as had been noticed at times,
   // and this quickly exhausted the available inodes on the filesystem.
-#ifdef HAVE_TINYJOURNAL
+#ifdef HAVE_TINY_JOURNAL
   int limitfilecount = files.size () - 200;
 #else
   int limitfilecount = files.size () - 2000;
