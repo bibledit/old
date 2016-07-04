@@ -120,17 +120,6 @@ int i = stoi ("string");
   [AC_MSG_RESULT([no])]
 )
 
-# Enable URL settings.
-URLSETTINGS=no
-AC_ARG_ENABLE(urlsettings,
-[  --enable-urlsettings Enable URL settings],
-[AC_DEFINE([HAVE_URLSETTINGS], [1], [Define whether to enable URL settings])]
-URLSETTINGS=yes
-)
-AC_DEFINE([URLSETTINGS], [], [Define whether URL settings are enabled])
-AC_DEFINE_UNQUOTED(URLSETTINGS, "$URLSETTINGS")
-AC_SUBST(URLSETTINGS)
-
 # Enable unit tests.
 UNITTESTS=no
 AC_ARG_ENABLE(unittests,
@@ -171,17 +160,6 @@ AC_ARG_WITH(admin-email,
 AC_DEFINE([ADMIN_EMAIL], [], [Define the admin email])
 AC_DEFINE_UNQUOTED(ADMIN_EMAIL, "$ADMIN_EMAIL")
 AC_SUBST(ADMIN_EMAIL)
-
-# Enable tiny journal.
-TINYJOURNAL=no
-AC_ARG_ENABLE(tinyjournal,
-[  --enable-tinyjournal Enable tiny journal],
-[AC_DEFINE([HAVE_TINYJOURNAL], [1], [Define whether to enable tiny journal])]
-TINYJOURNAL=yes
-)
-AC_DEFINE([TINYJOURNAL], [], [Define whether the tiny journal is enabled])
-AC_DEFINE_UNQUOTED(TINYJOURNAL, "$TINYJOURNAL")
-AC_SUBST(TINYJOURNAL)
 
 # Windows.
 ENABLEWINDOWS=no
@@ -252,12 +230,10 @@ Bibledit $VERSION configuration summary:
 Installation prefix                               : ${prefix}
 Network port (--with-network-port=n)              : ${NETWORK_PORT}
 Demo edition (--enable-demo)                      : ${DEMO}
-URL settings (--enable-urlsettings)               : ${URLSETTINGS}
 Unit tests (--enable-unittests)                   : ${UNITTESTS}
 Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
 Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
 Admin email (--with-admin-email=email)            : ${ADMIN_EMAIL}
-Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
 Windows   (--enable-windows)                      : ${ENABLEWINDOWS}
 Android   (--enable-android)                      : ${ENABLEANDROID}
 Mac       (--enable-mac)                          : ${ENABLEMAC}

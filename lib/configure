@@ -625,12 +625,10 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
-TINYJOURNAL
 ADMIN_EMAIL
 ADMIN_PASSWORD
 ADMIN_USERNAME
 UNITTESTS
-URLSETTINGS
 NETWORK_PORT
 DEMO
 SWORD_LIBS
@@ -757,12 +755,10 @@ enable_silent_rules
 enable_dependency_tracking
 enable_demo
 with_network_port
-enable_urlsettings
 enable_unittests
 with_admin_username
 with_admin_password
 with_admin_email
-enable_tinyjournal
 enable_windows
 enable_android
 enable_mac
@@ -1419,9 +1415,7 @@ Optional Features:
   --disable-dependency-tracking
                           speeds up one-time build
   --enable-demo  Enable demo mode
-  --enable-urlsettings Enable URL settings
   --enable-unittests Enable unit tests
-  --enable-tinyjournal Enable tiny journal
   --enable-windows Compile for Windows
   --enable-android Compile for Android
   --enable-mac Compile for Mac
@@ -6858,26 +6852,6 @@ $as_echo "no" >&6; }
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 
-# Enable URL settings.
-URLSETTINGS=no
-# Check whether --enable-urlsettings was given.
-if test "${enable_urlsettings+set}" = set; then :
-  enableval=$enable_urlsettings;
-$as_echo "#define HAVE_URLSETTINGS 1" >>confdefs.h
-
-URLSETTINGS=yes
-
-fi
-
-
-$as_echo "#define URLSETTINGS /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define URLSETTINGS "$URLSETTINGS"
-_ACEOF
-
-
-
 # Enable unit tests.
 UNITTESTS=no
 # Check whether --enable-unittests was given.
@@ -6951,26 +6925,6 @@ $as_echo "#define ADMIN_EMAIL /**/" >>confdefs.h
 
 cat >>confdefs.h <<_ACEOF
 #define ADMIN_EMAIL "$ADMIN_EMAIL"
-_ACEOF
-
-
-
-# Enable tiny journal.
-TINYJOURNAL=no
-# Check whether --enable-tinyjournal was given.
-if test "${enable_tinyjournal+set}" = set; then :
-  enableval=$enable_tinyjournal;
-$as_echo "#define HAVE_TINYJOURNAL 1" >>confdefs.h
-
-TINYJOURNAL=yes
-
-fi
-
-
-$as_echo "#define TINYJOURNAL /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define TINYJOURNAL "$TINYJOURNAL"
 _ACEOF
 
 
@@ -8545,12 +8499,10 @@ Bibledit $VERSION configuration summary:
 Installation prefix                               : ${prefix}
 Network port (--with-network-port=n)              : ${NETWORK_PORT}
 Demo edition (--enable-demo)                      : ${DEMO}
-URL settings (--enable-urlsettings)               : ${URLSETTINGS}
 Unit tests (--enable-unittests)                   : ${UNITTESTS}
 Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
 Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
 Admin email (--with-admin-email=email)            : ${ADMIN_EMAIL}
-Tiny journal (--enable-tinyjournal)               : ${TINYJOURNAL}
 Windows   (--enable-windows)                      : ${ENABLEWINDOWS}
 Android   (--enable-android)                      : ${ENABLEANDROID}
 Mac       (--enable-mac)                          : ${ENABLEMAC}

@@ -76,17 +76,11 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
 
-/* Define whether to enable tiny journal */
-/* #undef HAVE_TINYJOURNAL */
-
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
 /* #undef HAVE_UNITTESTS */
-
-/* Define whether to enable URL settings */
-/* #undef HAVE_URLSETTINGS */
 
 /* Define whether to compile on Windows */
 /* #undef HAVE_WINDOWS */
@@ -118,14 +112,8 @@
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
-/* Define whether the tiny journal is enabled */
-#define TINYJOURNAL "no"
-
 /* Define whether unit tests are enabled */
 #define UNITTESTS "no"
-
-/* Define whether URL settings are enabled */
-#define URLSETTINGS "no"
 
 /* Version number of package */
 #define VERSION "1.0.492"
