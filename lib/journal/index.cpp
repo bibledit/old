@@ -70,6 +70,8 @@ string render_journal_entry (string filename, int userlevel)
 #ifndef HAVE_CLIENT
   if (entryLevel > userlevel) return "";
 #endif
+  (void) userlevel;
+  (void) entryLevel;
   // Remove the user's level.
   entry.erase (0, 2);
   

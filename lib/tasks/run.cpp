@@ -223,7 +223,7 @@ void tasks_run_one (string filename)
 void tasks_run_check ()
 {
   // Don't run more than so many tasks.
-  if (tasks_run_active_count () >= config_logic_max_parallel_tasks ()) return;
+  if (tasks_run_active_count () >= MAX_PARALLEL_TASKS) return;
   // Get and start first available task.
   vector <string> tasks = filter_url_scandir (tasks_logic_folder ());
   if (tasks.empty ()) return;

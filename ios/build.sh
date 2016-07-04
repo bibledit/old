@@ -160,7 +160,7 @@ pushd webroot
 # Configure Bibledit in client mode,
 # Run only only one parallel task so the interface is more responsive.
 # Enable the single-tab browser.
-./configure --with-parallel-tasks=3 --enable-bare-browser --enable-tinyjournal --with-network-port=8765 --enable-ios
+./configure --enable-bare-browser --enable-tinyjournal --with-network-port=8765 --enable-ios
 # Update the Makefile.
 sed -i.bak '/SWORD_CFLAGS =/d' Makefile
 sed -i.bak '/SWORD_LIBS =/d' Makefile

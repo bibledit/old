@@ -17,17 +17,28 @@
  */
 
 
+#ifndef INCLUDED_CONFIG_CONFIG_H
+#define INCLUDED_CONFIG_CONFIG_H
+
+
 #define HAVE_UPLOAD 1
+
+
+#define MAX_PARALLEL_TASKS 10
 
 
 #ifdef HAVE_WINDOWS
 #define HAVE_CLIENT 1
 #define HAVE_PARATEXT 1
+#undef MAX_PARALLEL_TASKS
+#define MAX_PARALLEL_TASKS 1
 #endif
 
 
 #ifdef HAVE_ANDROID
 #define HAVE_CLIENT 1
+#undef MAX_PARALLEL_TASKS
+#define MAX_PARALLEL_TASKS 3
 #endif
 
 
@@ -44,9 +55,16 @@
 
 #ifdef HAVE_IOS
 #define HAVE_CLIENT 1
+#undef MAX_PARALLEL_TASKS
+#define MAX_PARALLEL_TASKS 3
 #endif
 
 
 #ifdef HAVE_CHROMEOS
 #define HAVE_CLIENT 1
+#undef MAX_PARALLEL_TASKS
+#define MAX_PARALLEL_TASKS 3
+#endif
+
+
 #endif

@@ -887,6 +887,8 @@ string menu_logic_settings_resources_category (void * webserver_request)
   }
 #endif
 
+  (void) webserver_request;
+  
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_resources_text () + ": ");
   }

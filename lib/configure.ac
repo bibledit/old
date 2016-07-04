@@ -107,16 +107,6 @@ AC_DEFINE([NETWORK_PORT], [], [Define the network port number])
 AC_DEFINE_UNQUOTED(NETWORK_PORT, "$NETWORK_PORT")
 AC_SUBST(NETWORK_PORT)
 
-# Maximum number of parallel tasks to run.
-AC_ARG_WITH(parallel-tasks,
-[  --with-parallel-tasks=number Maximum number of parallel background tasks],
-[ PARALLEL_TASKS=$withval ],
-[ PARALLEL_TASKS=10 ]
-)
-AC_DEFINE([PARALLEL_TASKS], [], [Define the maximum number of parallel background tasks to run])
-AC_DEFINE_UNQUOTED(PARALLEL_TASKS, $PARALLEL_TASKS)
-AC_SUBST(PARALLEL_TASKS)
-
 # Bare browser mode.
 BARE_BROWSER=no
 AC_ARG_ENABLE(bare-browser,

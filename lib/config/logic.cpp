@@ -64,13 +64,6 @@ bool config_logic_demo_enabled ()
 }
 
 
-// Returns the maximum number of parallel tasks to run.
-int config_logic_max_parallel_tasks ()
-{
-  return PARALLEL_TASKS;
-}
-
-
 // Returns whether bare browser mode is enable during configure.
 bool config_logic_bare_browser ()
 {

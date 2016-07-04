@@ -632,7 +632,6 @@ ADMIN_USERNAME
 UNITTESTS
 URLSETTINGS
 BARE_BROWSER
-PARALLEL_TASKS
 NETWORK_PORT
 DEMO
 SWORD_LIBS
@@ -759,7 +758,6 @@ enable_silent_rules
 enable_dependency_tracking
 enable_demo
 with_network_port
-with_parallel_tasks
 enable_bare_browser
 enable_urlsettings
 enable_unittests
@@ -1438,7 +1436,6 @@ Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-network-port=number Port number for server to listen on
-  --with-parallel-tasks=number Maximum number of parallel background tasks
   --with-admin-username=username Admin username
   --with-admin-password=password Admin password
   --with-admin-email=email Admin email
@@ -6836,25 +6833,6 @@ $as_echo "#define NETWORK_PORT /**/" >>confdefs.h
 
 cat >>confdefs.h <<_ACEOF
 #define NETWORK_PORT "$NETWORK_PORT"
-_ACEOF
-
-
-
-# Maximum number of parallel tasks to run.
-
-# Check whether --with-parallel-tasks was given.
-if test "${with_parallel_tasks+set}" = set; then :
-  withval=$with_parallel_tasks;  PARALLEL_TASKS=$withval
-else
-   PARALLEL_TASKS=10
-
-fi
-
-
-$as_echo "#define PARALLEL_TASKS /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define PARALLEL_TASKS $PARALLEL_TASKS
 _ACEOF
 
 
