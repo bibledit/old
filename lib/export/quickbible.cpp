@@ -37,6 +37,9 @@
 // Info about Quick Bible export format:
 // http://www.bibleforandroid.com/developer
 // https://github.com/yukuku/androidbible
+// It fails to run the .jar file on java versions older than version 8.
+// To install java 8 on Ubuntu 14.04 LTS:
+// http://askubuntu.com/questions/464755/how-to-install-openjdk-8-on-14-04-lts
 
 
 string export_quickbible_tabify (const string & one, const string & two, const string & three, const string & four = "", const string & five = "")
@@ -88,22 +91,30 @@ void export_quickbible (string bible, bool log)
   }
   
   for (auto book : books) {
-    vector <int> chapters = database_bibles.getChapters (bible, book);
-    for (auto chapter : chapters) {
-      if (chapter) {
-        Filter_Text filter_text = Filter_Text (bible);
-        filter_text.initializeHeadingsAndTextPerVerse (true);
-        string usfm = database_bibles.getChapter (bible, book, chapter);
-        filter_text.addUsfmCode (usfm);
-        filter_text.run (stylesheet);
-        map <int, string> text = filter_text.getVersesText ();
-        for (auto & element : text) {
-          string bk = convert_to_string (book);
-          string ch = convert_to_string (chapter);
-          string vs = convert_to_string (element.first);
-          string tx = element.second;
-          if (tx.empty ()) tx = "empty";
-          yet_contents.append (export_quickbible_tabify ("verse", bk, ch, vs, tx));
+    // The .yet to .yes converter only handles books > 0.
+    if (book) {
+      vector <int> chapters = database_bibles.getChapters (bible, book);
+      for (auto chapter : chapters) {
+        // The .yet to .yes converter only handles chapters > 0.
+        if (chapter) {
+          Filter_Text filter_text = Filter_Text (bible);
+          filter_text.initializeHeadingsAndTextPerVerse (true);
+          string usfm = database_bibles.getChapter (bible, book, chapter);
+          filter_text.addUsfmCode (usfm);
+          filter_text.run (stylesheet);
+          map <int, string> text = filter_text.getVersesText ();
+          for (auto & element : text) {
+            int verse = element.first;
+            // The .yet to .yes converter only handles verses > 0.
+            if (verse) {
+              string bk = convert_to_string (book);
+              string ch = convert_to_string (chapter);
+              string vs = convert_to_string (element.first);
+              string tx = element.second;
+              if (tx.empty ()) tx = "empty";
+              yet_contents.append (export_quickbible_tabify ("verse", bk, ch, vs, tx));
+            }
+          }
         }
       }
     }
