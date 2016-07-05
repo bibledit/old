@@ -37,6 +37,7 @@ public:
   static void scheduleWebIndex (string bible, bool log);
   static void scheduleOnlineBible (string bible, bool log);
   static void scheduleESword (string bible, bool log);
+  static void scheduleQuickBible (string bible, bool log);
   static string mainDirectory ();
   static string bibleDirectory (string bible);
   static string USFMdirectory (string bible, int type);
@@ -55,7 +56,8 @@ public:
   static const int export_web_index = 7;
   static const int export_online_bible = 8;
   static const int export_esword = 9;
-  static const int export_end = 10;
+  static const int export_quick_bible = 10;
+  static const int export_end = 11;
 private:
 };
 

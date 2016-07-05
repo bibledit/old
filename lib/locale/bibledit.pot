@@ -2123,6 +2123,9 @@ msgstr ""
 msgid "Exported to Online Bible"
 msgstr ""
 
+msgid "Exported to Quick Bible"
+msgstr ""
+
 msgid "Exported to basic USFM and text"
 msgstr ""
 
@@ -6025,6 +6028,9 @@ msgstr ""
 msgid "The Bible is being exported to Online Bible format."
 msgstr ""
 
+msgid "The Bible is being exported to Quick Bible format."
+msgstr ""
+
 msgid "Would you like to use another stylesheet for the exports?"
 msgstr ""
 
@@ -6130,6 +6136,9 @@ msgstr ""
 msgid ""
 "The help within the Online Bible provides more information about creating a "
 "module."
+msgstr ""
+
+msgid "Quick Bible"
 msgstr ""
 
 msgid "The exports use the following stylesheet:"

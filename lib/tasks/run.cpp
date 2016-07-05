@@ -59,6 +59,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/esword.h>
 #include <export/onlinebible.h>
 #include <export/bibledropbox.h>
+#include <export/quickbible.h>
 #include <manage/hyphenate.h>
 #include <paratext/logic.h>
 #include <resource/logic.h>
@@ -185,6 +186,8 @@ void tasks_run_one (string filename)
     export_esword (parameter1, convert_to_bool (parameter2));
   } else if (command == EXPORTONLINEBIBLE) {
     export_onlinebible (parameter1, convert_to_bool (parameter2));
+  } else if (command == EXPORTQUICKBIBLE) {
+    export_quickbible (parameter1, convert_to_bool (parameter2));
   } else if (command == HYPHENATE) {
     manage_hyphenate (parameter1, parameter2);
   } else if (command == SETUPPARATEXT) {

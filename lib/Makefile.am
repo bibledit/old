@@ -319,6 +319,7 @@ libbibledit_a_SOURCES = \
 	export/usfm.cpp \
 	export/web.cpp \
 	export/bibledropbox.cpp \
+	export/quickbible.cpp \
 	xrefs/clear.cpp \
 	xrefs/extract.cpp \
 	xrefs/help.cpp \

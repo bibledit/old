@@ -329,6 +329,8 @@
 		CA605AD11B876CA400EDDBA4 /* etcbc4.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = etcbc4.txt; sourceTree = "<group>"; };
 		CA605AD21B876D0400EDDBA4 /* etcbc4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = etcbc4.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA605AD31B876D0400EDDBA4 /* etcbc4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = etcbc4.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CA620A291D2ADC4500770F2E /* quickbible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = quickbible.cpp; sourceTree = "<group>"; };
+		CA620A2A1D2ADC4500770F2E /* quickbible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quickbible.h; sourceTree = "<group>"; };
 		CA6339861A655A3A00514F1E /* maintenance.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = maintenance.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA6339871A655A3A00514F1E /* maintenance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = maintenance.h; sourceTree = "<group>"; };
 		CA6339881A65938900514F1E /* tmp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tmp.cpp; sourceTree = "<group>"; };
@@ -2078,6 +2080,8 @@
 				CAD443371AC95BC60005B8F6 /* odt.h */,
 				CAD443391AC95BC60005B8F6 /* onlinebible.cpp */,
 				CAD4433A1AC95BC60005B8F6 /* onlinebible.h */,
+				CA620A291D2ADC4500770F2E /* quickbible.cpp */,
+				CA620A2A1D2ADC4500770F2E /* quickbible.h */,
 				CAD4433C1AC95BC60005B8F6 /* textusfm.cpp */,
 				CAD4433D1AC95BC60005B8F6 /* textusfm.h */,
 				CAD4433F1AC95BC60005B8F6 /* usfm.cpp */,
