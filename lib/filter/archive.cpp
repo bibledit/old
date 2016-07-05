@@ -97,7 +97,8 @@ string filter_archive_unzip (string file)
   } else {
     // Set free permissions after unzipping.
     command = "chmod -R 0777 " + folder;
-    system (command.c_str ());
+    int result = system (command.c_str ());
+    (void) result;
   }
   return folder;
 }

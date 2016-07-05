@@ -145,6 +145,7 @@ string editone_save (void * webserver_request)
     database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
     Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
 #endif
+    (void) database_modifications;
     return locale_logic_text_saved ();
   }
 
