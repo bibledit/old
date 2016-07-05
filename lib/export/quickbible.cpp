@@ -34,6 +34,11 @@
 #include <styles/sheets.h>
 
 
+// Info about Quick Bible export format:
+// http://www.bibleforandroid.com/developer
+// https://github.com/yukukuku/androidbible
+
+
 string export_quickbible_tabify (const string & one, const string & two, const string & three, const string & four = "", const string & five = "")
 {
   string result;
