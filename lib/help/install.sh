@@ -165,6 +165,7 @@ $DRYECHO tar xf $TARBALL -C bibledit --strip-components=1
 if [ $? -ne 0 ]
 then
   echo Failed to unpack Bibledit
+  rm $TARBALL
   exit
 fi
 
