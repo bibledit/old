@@ -1289,6 +1289,30 @@ string unicode_ballot_x ()
 }
 
 
+string emoji_black_right_pointing_triangle () // Todo
+{
+  return "▶️";
+}
+
+
+string emoji_file_folder () // Todo
+{
+  return "📁";
+}
+
+
+string emoji_open_book () // Todo
+{
+  return "📖";
+}
+
+
+string emoji_wastebasket () // Todo
+{
+  return "🗑";
+}
+
+
 // Move the $item $up (towards the beginning), or else down (towards the end).
 void array_move_up_down (vector <string> & container, size_t item, bool up)
 {

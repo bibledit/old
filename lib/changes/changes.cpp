@@ -171,11 +171,11 @@ string changes_changes (void * webserver_request)
     string link = filter_passage_link_for_opening_editor_at (passage.book, passage.chapter, passage.verse);
     string category = database_modifications.getNotificationCategory (id);
     if (category == changes_personal_category ()) category = "😊";
-    if (category == changes_bible_category ()) category = "📖";
+    if (category == changes_bible_category ()) category = emoji_open_book ();
     string modification = database_modifications.getNotificationModification (id);
     textblock.append ("<div id=\"entry" + convert_to_string (id) + "\">\n");
-    textblock.append ("<a href=\"expand\" id=\"expand" + convert_to_string (id) + "\"> ➕ </a>\n");
-    textblock.append ("<a href=\"remove\" id=\"remove" + convert_to_string (id) + "\"> 🗑 </a>\n"); // Todo ✗
+    textblock.append ("<a href=\"expand\" id=\"expand" + convert_to_string (id) + "\">" + emoji_file_folder () + "</a>\n");
+    textblock.append ("<a href=\"remove\" id=\"remove" + convert_to_string (id) + "\">" + emoji_wastebasket () + "</a>\n");
     textblock.append (link + "\n");
     textblock.append (category + "\n");
     textblock.append (modification + "\n");
