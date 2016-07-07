@@ -174,8 +174,8 @@ string changes_changes (void * webserver_request)
     if (category == changes_bible_category ()) category = "📖";
     string modification = database_modifications.getNotificationModification (id);
     textblock.append ("<div id=\"entry" + convert_to_string (id) + "\">\n");
-    textblock.append ("<a href=\"expand\" id=\"expand" + convert_to_string (id) + "\"> ⊞ </a>\n");
-    textblock.append ("<a href=\"remove\" id=\"remove" + convert_to_string (id) + "\"> ✗ </a>\n");
+    textblock.append ("<a href=\"expand\" id=\"expand" + convert_to_string (id) + "\"> ➕ </a>\n");
+    textblock.append ("<a href=\"remove\" id=\"remove" + convert_to_string (id) + "\"> 🗑 </a>\n"); // Todo ✗
     textblock.append (link + "\n");
     textblock.append (category + "\n");
     textblock.append (modification + "\n");
