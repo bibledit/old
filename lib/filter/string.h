@@ -98,7 +98,6 @@ string unicode_black_up_pointing_triangle ();
 string unicode_black_right_pointing_triangle ();
 string unicode_black_down_pointing_triangle ();
 string unicode_black_left_pointing_triangle ();
-string unicode_ballot_x ();
 string emoji_black_right_pointing_triangle ();
 string emoji_file_folder ();
 string emoji_open_book ();

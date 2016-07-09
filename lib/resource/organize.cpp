@@ -105,7 +105,7 @@ string resource_organize (void * webserver_request)
   for (size_t i = 0; i < active_resources.size (); i++) {
     activesblock.append ("<p>");
     activesblock.append ("<a href=\"?remove=" + convert_to_string (i) + "\">");
-    activesblock.append (unicode_ballot_x ());
+    activesblock.append (emoji_wastebasket ());
     activesblock.append ("</a>");
     activesblock.append (" ");
     activesblock.append ("<a href=\"?moveup=" + convert_to_string (i) + "\">");

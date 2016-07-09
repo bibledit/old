@@ -1283,12 +1283,6 @@ string unicode_black_left_pointing_triangle ()
 }
 
 
-string unicode_ballot_x ()
-{
-  return "✗";
-}
-
-
 string emoji_black_right_pointing_triangle () // Todo
 {
   return "▶️";

@@ -716,7 +716,7 @@ msgstr ""
 msgid "Press the delete key to remove the selected entry."
 msgstr ""
 
-msgid "Or click the ✗."
+msgid "Or click 🗑"
 msgstr ""
 
 msgid "Or swipe it away."
@@ -726,7 +726,7 @@ msgid ""
 "Use the left and right arrow keys to expand or collapse the selected entry."
 msgstr ""
 
-msgid "Or click the ⊞."
+msgid "Or click 📁"
 msgstr ""
 
 msgid "Or touch and hold it."
