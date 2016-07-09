@@ -24,16 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <administration/timezone.h>
 
 
-Database_Config_General::Database_Config_General ()
-{
-}
-
-
-Database_Config_General::~Database_Config_General ()
-{
-}
-
-
 // Functions for getting and setting values or lists of values.
 
 
@@ -414,4 +404,14 @@ bool Database_Config_General::getIndexBibles ()
 void Database_Config_General::setIndexBibles (bool value)
 {
   setBValue ("index-bibles", value);
+}
+
+
+bool Database_Config_General::getReadFromGit ()
+{
+  return getBValue ("read-from-git", false);
+}
+void Database_Config_General::setReadFromGit (bool value)
+{
+  setBValue ("read-from-git", value);
 }

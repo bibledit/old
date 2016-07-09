@@ -28,8 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Config_General
 {
 public:
-  Database_Config_General ();
-  ~Database_Config_General ();
   static string getSiteMailName();
   static void setSiteMailName (string value);
   static string getSiteMailAddress();
@@ -88,6 +86,8 @@ public:
   static void setIndexNotes (bool value);
   static bool getIndexBibles ();
   static void setIndexBibles (bool value);
+  static bool getReadFromGit ();
+  static void setReadFromGit (bool value);
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);
