@@ -3279,7 +3279,7 @@ void test_filter_git ()
     "\\h Izihlabelelo\n"
     "\\toc2 Izihlabelelo\n"
     "\\mt2 UGWALO\n"
-    "\\mt LWEZIHLABELELO\n";
+    "\\mt LWEZIHLABELELO";
 
   string psalms_11_data =
   "\\c 11\n"
@@ -3293,7 +3293,7 @@ void test_filter_git ()
   "\\v 4 IN\\sc KOSI\\x + Hab. 2.20.\\x*\\sc* isethempelini layo elingcwele\\x + Hlab. 5.7. Hlab. 150.1.\\x*; iN\\sc KOSI\\sc*, isihlalo sayo sobukhosi sisemazulwini\\x + Hlab. 2.4. 103.19. 115.3. 123.1. Isa. 66.1. Mat. 5.34. 23.22. Seb. 7.49. Isam. 4.2.\\x*; amehlo ayo ayakhangela\\x + Jobe 24.23. Hlab. 33.13. 34.15. 66.7. Hlab. 14.2. 102.19. 113.5,6.\\x*, inkophe zayo ziyahlola, abantwana babantu.\n"
   "\\v 5 IN\\sc KOSI\\sc* iyamhlola olungileyo, kodwa omubi lothanda ubudlwangudlwangu, umphefumulo wayo uyamzonda\\x + Gen. 22.1.\\x*.\n"
   "\\v 6 Uzanisa phezu kwababi imijibila, umlilo, lesolufa*\\x + Jobe 18.15.\\x*, lomoya otshisayo\\x + Hlab. 119.53. Lilo 5.10.\\x*, kuzakuba yisabelo senkezo yabo\\x + Hlab. 75.8. Jobe 21.20. Hlab. 16.5.\\x*.\n"
-  "\\v 7 Ngoba ilungile iN\\sc KOSI\\sc*, iyathanda ukulunga\\x + Hlab. 33.5. 45.7. Hlab. 37.28. 146.8.\\x*; ubuso bayo buyabona oqotho\\x + Hlab. 33.18. Hlab. 17.2.\\x*.\n";
+  "\\v 7 Ngoba ilungile iN\\sc KOSI\\sc*, iyathanda ukulunga\\x + Hlab. 33.5. 45.7. Hlab. 37.28. 146.8.\\x*; ubuso bayo buyabona oqotho\\x + Hlab. 33.18. Hlab. 17.2.\\x*.";
 
   string song_of_solomon_2_data =
   "\\c 2\n"
@@ -3318,7 +3318,7 @@ void test_filter_git ()
   "\\v 14 Juba lami\\x + 5.2. 6.9. 1.15. Mat. 10.16.\\x*, \\add elis\\add*engoxweni yedwala\\x + Jer. 48.28.\\x*\\x + Jer. 49.16. Obad. 3.\\x*, ekusithekeni kweliwa\\x + Hez. 38.20.\\x*, ngitshengisa ubuso bakho, ngizwise ilizwi lakho\\x + 8.13.\\x*, ngoba ilizwi lakho limnandi, lobuso bakho buyabukeka\\x + 1.5.\\x*.\n"
   "\\v 15 Sibambeleni amakhanka, amakhanka amancinyane, ona izivini\\x + Hez. 13.4. Luka 13.32.\\x*, ngoba izivini zethu \\add zile\\add*zimpoko\\x + 2.15. 7.12.\\x*.\n"
   "\\v 16 Isithandwa sami ngesami, lami ngingowaso\\x + 6.3. 7.10.\\x*, eselusa phakathi kwemiduze\\x + 2.1. 4.5. 6.3.\\x*.\n"
-  "\\v 17 Kuze kube semadabukakusa, lamathunzi abaleke\\x + 4.6.\\x*, phenduka, sithandwa sami, ube njengomziki kumbe njengethole lendluzele\\x + 8.14. 2.9.\\x* phezu kwezintaba zeBhetheri\\x + 2 Sam. 2.29.\\x*.\n";
+  "\\v 17 Kuze kube semadabukakusa, lamathunzi abaleke\\x + 4.6.\\x*, phenduka, sithandwa sami, ube njengomziki kumbe njengethole lendluzele\\x + 8.14. 2.9.\\x* phezu kwezintaba zeBhetheri\\x + 2 Sam. 2.29.\\x*.";
 
   // Sync Bible To Git 1
   {
@@ -3774,7 +3774,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
 
-    // Set the stage for a conflict that git itself can merge:
+    // Set the stage for a conflict that git itself cannot merge:
     // Change something in the new repository, push it to the remote.
     string newcontents =
     "\\id PSA\n"
@@ -3791,7 +3791,7 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_push (newrepository, messages, true);
     // Change something in the repository, and pull from remote:
-    // Git merges by itself.
+    // Git fails to merge by itself.
     string contents =
     "\\id PSALM\n"
     "\\h Izihlabelelo\n"
@@ -3807,20 +3807,23 @@ void test_filter_git ()
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     success = filter_git_pull (repository, messages);
-    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, false, success);
     success = find (messages.begin(), messages.end(), "Auto-merging Psalms/0/data") != messages.end();
     evaluate (__LINE__, __func__, true, success);
-    success = find (messages.begin(), messages.end(), "Merge made by the 'recursive' strategy.") != messages.end();
+    success = find (messages.begin(), messages.end(), "CONFLICT (content): Merge conflict in Psalms/0/data") != messages.end();
     evaluate (__LINE__, __func__, true, success);
     success = filter_git_push (repository, messages);
-    evaluate (__LINE__, __func__, true, success);
+    evaluate (__LINE__, __func__, false, success);
+    vector <string> paths = { "Psalms/0/data" };
+    success = filter_git_resolve_conflicts (repository, paths, error); // Todo
+    evaluate (__LINE__, __func__, "", error);
     // Check the merge result.
     string standard =
     "\\id PSALM\n"
     "\\h Izihlabelelo\n"
     "\\toc2 Izihlabelelo\n"
     "\\mt2 THE BOOK\n"
-    "\\mt OF PSALMS\n";
+    "\\mt OF PSALMS";
     contents = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "0", "data"));
     evaluate (__LINE__, __func__, standard, contents);
     
