@@ -411,7 +411,3 @@ bool Database_Config_General::getReadFromGit ()
 {
   return getBValue ("read-from-git", false);
 }
-void Database_Config_General::setReadFromGit (bool value)
-{
-  setBValue ("read-from-git", value);
-}
