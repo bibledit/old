@@ -141,16 +141,11 @@ void sendreceive_sendreceive (string bible)
   
   // Push any local changes to the remote repository.
   // Or changes due to automatic merge and/or conflict resolution.
-  // This is normally off due to some race conditions that came up now and then,
-  // where a change made by a user was committed was reverted by the system.
-  // So having it off by default is the safest thing one can do.
-  if (Database_Config_General::getReadFromGit ()) {
-    if (success) {
-      vector <string> messages;
-      success = filter_git_push (directory, messages);
-      if (!success || messages.size() > 1) {
-        for (auto & msg : messages) Database_Logs::log ("send: " + msg, Filter_Roles::translator ());
-      }
+  if (success) {
+    vector <string> messages;
+    success = filter_git_push (directory, messages);
+    if (!success || messages.size() > 1) {
+      for (auto & msg : messages) Database_Logs::log ("send: " + msg, Filter_Roles::translator ());
     }
   }
   
@@ -158,18 +153,23 @@ void sendreceive_sendreceive (string bible)
   // Record the changes from the collaborators into the Bible database.
   // The changes will be taken from the standard "git pull" messages,
   // plus the paths of the files that have resolved conflicts.
-  if (success) {
-    pull_messages.insert (pull_messages.end (), paths_resolved_conflicts.begin (), paths_resolved_conflicts.end());
-    for (auto & pull_message : pull_messages) {
-      Passage passage = filter_git_get_passage (pull_message);
-      if (passage.book) {
-        int book = passage.book;
-        int chapter = passage.chapter;
-        filter_git_sync_git_chapter_to_bible (directory, bible, book, chapter); // Todo
+  // This is normally off due to some race conditions that came up now and then,
+  // where a change made by a user was committed was reverted by the system.
+  // So having it off by default is the safest thing one can do.
+  if (Database_Config_General::getReadFromGit ()) {
+    if (success) {
+      pull_messages.insert (pull_messages.end (), paths_resolved_conflicts.begin (), paths_resolved_conflicts.end());
+      for (auto & pull_message : pull_messages) {
+        Passage passage = filter_git_get_passage (pull_message);
+        if (passage.book) {
+          int book = passage.book;
+          int chapter = passage.chapter;
+          filter_git_sync_git_chapter_to_bible (directory, bible, book, chapter); // Todo
+        }
       }
     }
   }
-  
+
   
   // Done.
   if (!success) {

@@ -3815,7 +3815,7 @@ void test_filter_git ()
     success = filter_git_push (repository, messages);
     evaluate (__LINE__, __func__, false, success);
     vector <string> paths = { "Psalms/0/data" };
-    success = filter_git_resolve_conflicts (repository, paths, error); // Todo
+    success = filter_git_resolve_conflicts (repository, paths, error);
     evaluate (__LINE__, __func__, "", error);
     // Check the merge result.
     string standard =
