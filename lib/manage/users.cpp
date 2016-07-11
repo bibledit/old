@@ -267,7 +267,7 @@ string manage_users (void * webserver_request)
       // Managers and higher roles have access to all Bibles.
       tbody.push_back ("(" + translate ("all") + ")");
     } else {
-      tbody.push_back ("<a href=\"?user=" + username + "&addbible=\">➕</a>");
+      tbody.push_back ("<a href=\"?user=" + username + "&addbible=\">" + emoji_heavy_plus_sign () + "</a>");
     }
     tbody.push_back ("</td>");
 

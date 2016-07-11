@@ -1313,6 +1313,12 @@ string emoji_smiling_face_with_smiling_eyes ()
 }
 
 
+string emoji_heavy_plus_sign ()
+{
+  return "➕";
+}
+
+
 // Move the $item $up (towards the beginning), or else down (towards the end).
 void array_move_up_down (vector <string> & container, size_t item, bool up)
 {
