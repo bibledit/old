@@ -83,7 +83,7 @@ string search_replace (void * webserver_request)
     
     string output =
     "<div id=\"" + convert_to_string (id) + "\">\n"
-    "<p><a href=\"replace\"> ✔ </a> <a href=\"delete\"> ✗ </a> $link</p>\n"
+    "<p><a href=\"replace\"> ✔ </a> <a href=\"delete\">" + emoji_wastebasket () + "</a> $link</p>\n"
     "<p>" + oldtext + "</p>\n"
     "<p>" + newtext + "</p>\n"
     "</div>\n";

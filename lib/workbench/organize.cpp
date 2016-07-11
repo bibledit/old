@@ -138,7 +138,7 @@ string workbench_organize (void * webserver_request)
   for (size_t i = 0; i < desktops.size (); i++) {
     string desktop = desktops [i];
     desktopblock.push_back ("<p>");
-    desktopblock.push_back ("<a href=\"?remove=" + desktop + "\" title=\"" + translate("Delete desktop") + "\"> ✗ </a>");
+    desktopblock.push_back ("<a href=\"?remove=" + desktop + "\" title=\"" + translate("Delete desktop") + "\">" + emoji_wastebasket () + "</a>");
     desktopblock.push_back ("|");
     desktopblock.push_back ("<a href=\"?up=" + convert_to_string (i) + "\" title=\"" + translate("Move desktop up") + "\"> " + unicode_black_up_pointing_triangle () + " </a>");
     desktopblock.push_back ("|");

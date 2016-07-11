@@ -217,7 +217,7 @@ string sprint_index (void * webserver_request)
     string title = filter_string_sanitize_html (database_sprint.getTitle (id));
     int percentage = database_sprint.getComplete (id);
     tasks.append ("<tr id=\"a" + convert_to_string (id) + "\">\n");
-    tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&remove=\"> ✗ </a></td>\n");
+    tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&remove=\">" + emoji_wastebasket () + "</a></td>\n");
     tasks.append ("<td></td>\n");
     tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&moveback=\"> « </a></td>\n");
     tasks.append ("<td>" + title + "</td>\n");

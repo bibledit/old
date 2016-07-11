@@ -233,7 +233,7 @@ string manage_users (void * webserver_request)
     string email = request->database_users ()->getUserToEmail (username);
     if (email == "") email = "--";
     tbody.push_back ("<tr>");
-    tbody.push_back ("<td><a href=\"?user=" + username + "&delete\">✗</a> " + username + "</td>");
+    tbody.push_back ("<td><a href=\"?user=" + username + "&delete\">" + emoji_wastebasket () + "</a> " + username + "</td>");
     tbody.push_back ("<td>│</td>");
     tbody.push_back ("<td><a href=\"?user=" + username + "&level\">" + namedrole + "</a></td>");
     tbody.push_back ("<td>│</td>");
@@ -248,7 +248,7 @@ string manage_users (void * webserver_request)
           bool read, write;
           Database_Privileges::getBible (username, bible, read, write);
           if  (objectUserLevel >= Filter_Roles::translator ()) write = true;
-          tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">✗</a>");
+          tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">" + emoji_wastebasket () + "</a>");
           tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\">" + bible + "</a>");
           tbody.push_back ("<a href=\"write?user=" + username + "&bible=" + bible + "\">");
           int readwritebooks = 0;

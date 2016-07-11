@@ -114,7 +114,7 @@ string manage_index (void * webserver_request)
   for (auto & font : fonts) {
     fontsblock.push_back ("<p>");
 #ifndef HAVE_CLIENT
-    fontsblock.push_back ("<a href=\"?deletefont=" + font+ "\" title=\"" + translate("Delete font") + "\"> ✗ </a>");
+    fontsblock.push_back ("<a href=\"?deletefont=" + font+ "\" title=\"" + translate("Delete font") + "\">" + emoji_wastebasket () + "</a>");
 #endif
     fontsblock.push_back (font);
     fontsblock.push_back ("</p>");

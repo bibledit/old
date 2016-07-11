@@ -88,7 +88,7 @@ string checks_suppress (void * webserver_request)
       result.insert (0, bible + " " + passage + " ");
       block.append ("<p style=\"color:grey;\">\n");
       block.append ("<a href=\"suppress?release=" + convert_to_string (id) + "\">\n");
-      block.append ("✗\n");
+      block.append (emoji_wastebasket () + "\n");
       block.append ("</a>\n");
       block.append (result + "\n");
       block.append ("</p>\n");

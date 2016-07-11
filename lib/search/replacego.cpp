@@ -161,7 +161,7 @@ string search_replacego (void * webserver_request)
   if (replacementOkay && write) {
     icon = "<span class=\"success\">✔</span>";
   } else {
-    icon = "<span class=\"error\">✗</span>";
+    icon = "<span class=\"error\">" + emoji_wastebasket () + "</span>";
   }
   
   

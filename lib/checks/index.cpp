@@ -100,7 +100,7 @@ string checks_index (void * webserver_request)
       string information = filter_string_sanitize_html (hit.data);
       resultblock.append ("<p>\n");
       resultblock.append ("<a href=\"index?approve=" + convert_to_string (id) + "\"> ✔ </a>\n");
-      resultblock.append ("<a href=\"index?delete=" + convert_to_string (id) + "\"> ✗ </a>\n");
+      resultblock.append ("<a href=\"index?delete=" + convert_to_string (id) + "\">" + emoji_wastebasket () + "</a>\n");
       resultblock.append (bible);
       resultblock.append (" ");
       resultblock.append (link);

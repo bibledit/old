@@ -110,7 +110,7 @@ string search_replacepre (void * webserver_request)
   string output;
   output.append ("<div id=\"" + s_id + "\">\n");
   output.append ("<p>");
-  if (write) output.append ("<a href=\"replace\"> ✔ </a> <a href=\"delete\"> ✗ </a> ");
+  if (write) output.append ("<a href=\"replace\"> ✔ </a> <a href=\"delete\">" + emoji_wastebasket () + "</a> ");
   output.append (link);
   output.append ("</p>\n");
   output.append ("<p>" + oldtext + "</p>\n");
