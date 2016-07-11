@@ -1283,27 +1283,33 @@ string unicode_black_left_pointing_triangle ()
 }
 
 
-string emoji_black_right_pointing_triangle () // Todo
+string emoji_black_right_pointing_triangle ()
 {
   return "▶️";
 }
 
 
-string emoji_file_folder () // Todo
+string emoji_file_folder ()
 {
   return "📁";
 }
 
 
-string emoji_open_book () // Todo
+string emoji_open_book ()
 {
   return "📖";
 }
 
 
-string emoji_wastebasket () // Todo
+string emoji_wastebasket ()
 {
   return "🗑";
+}
+
+
+string emoji_smiling_face_with_smiling_eyes ()
+{
+  return "😊";
 }
 
 

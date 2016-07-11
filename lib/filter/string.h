@@ -102,6 +102,7 @@ string emoji_black_right_pointing_triangle ();
 string emoji_file_folder ();
 string emoji_open_book ();
 string emoji_wastebasket ();
+string emoji_smiling_face_with_smiling_eyes ();
 void array_move_up_down (vector <string> & container, size_t item, bool up);
 
 

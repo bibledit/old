@@ -170,7 +170,7 @@ string changes_changes (void * webserver_request)
     Passage passage = database_modifications.getNotificationPassage (id);
     string link = filter_passage_link_for_opening_editor_at (passage.book, passage.chapter, passage.verse);
     string category = database_modifications.getNotificationCategory (id);
-    if (category == changes_personal_category ()) category = "😊";
+    if (category == changes_personal_category ()) category = emoji_smiling_face_with_smiling_eyes ();
     if (category == changes_bible_category ()) category = emoji_open_book ();
     string modification = database_modifications.getNotificationModification (id);
     textblock.append ("<div id=\"entry" + convert_to_string (id) + "\">\n");
