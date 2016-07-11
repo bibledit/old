@@ -61,10 +61,8 @@ rm missing
 rm NEWS
 rm README
 rm stamp-h1
-rm -rf sources/hebrewlexicon
-rm -rf sources/morphgnt
-rm -rf sources/morphhb
-rm -rf sources/sblgnt
+rm -rf sources
+rm -rf unittests
 popd
 
 

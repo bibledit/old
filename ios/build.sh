@@ -154,6 +154,8 @@ rm -f unittest
 rm valgrind
 rm -r xcode
 rm -r executable
+rm -rf sources
+rm -rf unittests
 popd
 
 pushd webroot

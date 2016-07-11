@@ -34,6 +34,11 @@ make distclean
 make
 
 
+# Remove some data that is not needed.
+rm -rf sources
+rm -rf unittests
+
+
 mkdir -p /cygdrive/c/bibledit 
 cp -r * /cygdrive/c/bibledit
 
