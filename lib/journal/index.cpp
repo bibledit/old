@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <menu/logic.h>
 #include <client/logic.h>
+#include <locale/logic.h>
 
 
 const char * journal_index_url ()
@@ -92,8 +93,11 @@ string render_journal_entry (string filename, int userlevel)
   time_t seconds = convert_to_int (filename.substr (0, 10));
   // Localize the seconds.
   seconds = filter_date_local_seconds (seconds);
-  // Convert the seconds into a human readable time.
-  string timestamp = filter_string_fill (convert_to_string (filter_date_numerical_hour (seconds)), 2, '0');
+  // Convert the seconds into a human readable date and time.
+  string timestamp;
+  timestamp.append (locale_logic_date (seconds));
+  timestamp.append (" ");
+  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_hour (seconds)), 2, '0'));
   timestamp.append (":");
   timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_minute (seconds)), 2, '0'));
   timestamp.append (":");
