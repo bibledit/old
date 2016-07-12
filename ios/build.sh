@@ -154,7 +154,11 @@ rm -f unittest
 rm valgrind
 rm -r xcode
 rm -r executable
-rm -rf sources
+rm -rf sources/hebrewlexicon
+rm -rf sources/morphgnt
+rm -rf sources/morphhb
+rm -rf sources/sblgnt
+rm sources/oshb.xml.gz
 rm -rf unittests
 popd
 

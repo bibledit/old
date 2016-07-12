@@ -897,7 +897,7 @@ msgstr ""
 msgid "Click ✔ to suppress the entry."
 msgstr ""
 
-msgid "Click ✗ to remove the entry for just now."
+msgid "Click 🗑 to remove the entry for just now."
 msgstr ""
 
 msgid "It will be back next day, unless the text of the Bible is corrected."
@@ -1073,7 +1073,7 @@ msgstr ""
 msgid "The page lists the suppressed results of the checks."
 msgstr ""
 
-msgid "Click ✗ to remove the items from the suppressed list."
+msgid "Click 🗑 to remove the items from the suppressed list."
 msgstr ""
 
 msgid "It will be visible again in the list of check results."
@@ -6359,7 +6359,7 @@ msgid ""
 "This lists the accounts of the users who have roles you are responsible for."
 msgstr ""
 
-msgid "Click ✗ before a username to delete the account."
+msgid "Click 🗑 before a username to delete the account."
 msgstr ""
 
 msgid "Click a user's role to change it."
@@ -6377,10 +6377,10 @@ msgstr ""
 msgid "Normally users register their own account."
 msgstr ""
 
-msgid "Click ➕  to give a user access to a Bible."
+msgid "Click ➕ to give a user access to a Bible."
 msgstr ""
 
-msgid "Click ✗ before a Bible to remove the access of a user to that Bible."
+msgid "Click 🗑 before a Bible to remove the access of a user to that Bible."
 msgstr ""
 
 msgid "Two numbers appear after the Bible."
@@ -7835,7 +7835,7 @@ msgstr ""
 msgid "To replace in one passage, click ✔."
 msgstr ""
 
-msgid "To remove a passage, click ✗."
+msgid "To remove a passage, click 🗑"
 msgstr ""
 
 msgid "To open a passage for edit, click that passage."
@@ -9141,7 +9141,7 @@ msgstr ""
 msgid "Drag the list of desktops into the desired order."
 msgstr ""
 
-msgid "Click ✗ to remove the desktop."
+msgid "Click 🗑 to remove the desktop."
 msgstr ""
 
 msgid "Click ✎ to edit the desktop."
