@@ -540,15 +540,21 @@ void Database_Modifications::indexTrimAllNotifications ()
   // Create a new index if it does not exist.
   create ();
 
+  // Get the notification identifiers on disk.
+  vector <string> sidentifiers = filter_url_scandir (notificationsMainFolder ());
+
   // Change notifications expire after 30 days.
-  int expiry_time = filter_date_seconds_since_epoch () - 2592000;
+  // But the more there are, the sooner they expire.
+  int expiry_time = filter_date_seconds_since_epoch () - (30 * 3600 * 24);
+  if (sidentifiers.size () > 10000) expiry_time = filter_date_seconds_since_epoch () - (14 * 3600 * 24);
+  if (sidentifiers.size () > 20000) expiry_time = filter_date_seconds_since_epoch () - (7 * 3600 * 14);
+  if (sidentifiers.size () > 30000) expiry_time = filter_date_seconds_since_epoch () - (4 * 3600 * 14);
 
   // Database: Connect and speed it up.
   sqlite3 * db = connect ();
   database_sqlite_exec (db, "PRAGMA synchronous = OFF;");
 
   // Go through the notifications on disk.
-  vector <string> sidentifiers = filter_url_scandir (notificationsMainFolder ());
   vector <int> identifiers;
   for (auto s : sidentifiers) {
     identifiers.push_back (convert_to_int (s));
