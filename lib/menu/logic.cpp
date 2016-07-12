@@ -616,7 +616,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string styles = menu_logic_styles_text ();
   string versifications = menu_logic_versification_index_text ();
   string mappings = menu_logic_mapping_index_text ();
-  string collaboration = translate ("Collaboration");
+  string repository = translate ("Repository");
   string cloud = translate ("Cloud");
   string paratext = translate ("Paratext");
   string logout = menu_logic_logout_text ();
@@ -638,7 +638,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     styles,
     versifications,
     mappings,
-    collaboration,
+    repository,
     cloud,
     paratext,
     logout,
@@ -777,14 +777,14 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       }
     }
     
-    if (label == collaboration) {
 #ifndef HAVE_CLIENT
+    if (label == repository) {
       if (collaboration_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (collaboration_index_url (), label, true));
         tiplabels.push_back (label);
       }
-#endif
     }
+#endif
     
     if (label == cloud) {
       // If the installation is not prepared for Client mode, disable the Cloud menu item.

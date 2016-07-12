@@ -50,7 +50,7 @@ string collaboration_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   string page;
-  Assets_Header header = Assets_Header (translate("Collaboration"), request);
+  Assets_Header header = Assets_Header (translate("Repository"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
