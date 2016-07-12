@@ -45,10 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <administration/language.h>
 #include <administration/timezone.h>
 #include <collaboration/index.h>
-#include <collaboration/flash.h>
-#include <collaboration/open.h>
-#include <collaboration/password.h>
-#include <collaboration/secure.h>
+#include <collaboration/url.h>
 #include <collaboration/direction.h>
 #include <styles/indext.h>
 #include <styles/indexm.h>
@@ -483,13 +480,7 @@ void bootstrap_index (void * webserver_request)
   
   else if ((url == workbench_settings_url ()) && bootstrap_browser_request_security_okay (request) && workbench_settings_acl (request)) request->reply = workbench_settings (request);
   
-  else if ((url == collaboration_flash_url ()) && bootstrap_browser_request_security_okay (request) && collaboration_flash_acl (request)) request->reply = collaboration_flash (request);
-  
-  else if ((url == collaboration_open_url ()) && bootstrap_browser_request_security_okay (request) && collaboration_open_acl (request)) request->reply = collaboration_open (request);
-  
-  else if ((url == collaboration_password_url ()) && bootstrap_browser_request_security_okay (request) && collaboration_password_acl (request)) request->reply = collaboration_password (request);
-  
-  else if ((url == collaboration_secure_url ()) && bootstrap_browser_request_security_okay (request) && collaboration_secure_acl (request)) request->reply = collaboration_secure (request);
+  else if ((url == collaboration_url_url ()) && bootstrap_browser_request_security_okay (request) && collaboration_url_acl (request)) request->reply = collaboration_url (request);
   
   else if ((url == collaboration_direction_url ()) && bootstrap_browser_request_security_okay (request) && collaboration_direction_acl (request)) request->reply = collaboration_direction (request);
   

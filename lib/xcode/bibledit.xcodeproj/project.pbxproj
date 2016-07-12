@@ -1182,18 +1182,9 @@
 		CAF6DBEA1A72583700E5389F /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAF6DBEB1A72583700E5389F /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAF6DBEC1A72583700E5389F /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		CAF6DBED1A72583700E5389F /* flash.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = flash.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CAF6DBEE1A72583700E5389F /* flash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = flash.h; sourceTree = "<group>"; };
-		CAF6DBEF1A72583700E5389F /* flash.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = flash.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAF6DBF01A72583700E5389F /* open.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = open.cpp; sourceTree = "<group>"; };
-		CAF6DBF11A72583700E5389F /* open.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = open.h; sourceTree = "<group>"; };
-		CAF6DBF21A72583700E5389F /* open.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = open.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAF6DBF31A72583700E5389F /* password.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = password.cpp; sourceTree = "<group>"; };
-		CAF6DBF41A72583700E5389F /* password.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = password.h; sourceTree = "<group>"; };
-		CAF6DBF51A72583700E5389F /* password.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = password.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CAF6DC021A72583700E5389F /* secure.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = secure.cpp; sourceTree = "<group>"; };
-		CAF6DC031A72583700E5389F /* secure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = secure.h; sourceTree = "<group>"; };
-		CAF6DC041A72583700E5389F /* secure.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = secure.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
+		CAF6DBF01A72583700E5389F /* url.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = url.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		CAF6DBF11A72583700E5389F /* url.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = url.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CAF6DBF21A72583700E5389F /* url.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = url.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAF6DC0F1A72B4E000E5389F /* link.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = link.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAF6DC101A72B4E000E5389F /* link.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = link.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAF6DC111A72B4E000E5389F /* link.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = link.html; sourceTree = "<group>"; };
@@ -3473,18 +3464,9 @@
 				CAF6DBEA1A72583700E5389F /* index.cpp */,
 				CAF6DBEB1A72583700E5389F /* index.h */,
 				CAF6DBEC1A72583700E5389F /* index.html */,
-				CAF6DBED1A72583700E5389F /* flash.cpp */,
-				CAF6DBEE1A72583700E5389F /* flash.h */,
-				CAF6DBEF1A72583700E5389F /* flash.html */,
-				CAF6DBF01A72583700E5389F /* open.cpp */,
-				CAF6DBF11A72583700E5389F /* open.h */,
-				CAF6DBF21A72583700E5389F /* open.html */,
-				CAF6DBF31A72583700E5389F /* password.cpp */,
-				CAF6DBF41A72583700E5389F /* password.h */,
-				CAF6DBF51A72583700E5389F /* password.html */,
-				CAF6DC021A72583700E5389F /* secure.cpp */,
-				CAF6DC031A72583700E5389F /* secure.h */,
-				CAF6DC041A72583700E5389F /* secure.html */,
+				CAF6DBF01A72583700E5389F /* url.cpp */,
+				CAF6DBF11A72583700E5389F /* url.h */,
+				CAF6DBF21A72583700E5389F /* url.html */,
 			);
 			name = collaboration;
 			path = ../collaboration;

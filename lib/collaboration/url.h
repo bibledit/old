@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_COLLABORATION_PASSWORD_H
-#define INCLUDED_COLLABORATION_PASSWORD_H
+#ifndef INCLUDED_COLLABORATION_OPEN_H
+#define INCLUDED_COLLABORATION_OPEN_H
 
 
 #include <config/libraries.h>
 
 
-string collaboration_password_url ();
-bool collaboration_password_acl (void * webserver_request);
-string collaboration_password (void * webserver_request);
+string collaboration_url_url ();
+bool collaboration_url_acl (void * webserver_request);
+string collaboration_url (void * webserver_request);
 
 
 #endif

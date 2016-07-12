@@ -193,33 +193,32 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	manage/hyphenate.$(OBJEXT) manage/write.$(OBJEXT) \
 	manage/privileges.$(OBJEXT) administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) \
-	collaboration/index.$(OBJEXT) collaboration/flash.$(OBJEXT) \
-	collaboration/open.$(OBJEXT) collaboration/password.$(OBJEXT) \
-	collaboration/secure.$(OBJEXT) collaboration/link.$(OBJEXT) \
-	collaboration/direction.$(OBJEXT) search/rebibles.$(OBJEXT) \
-	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
-	access/bible.$(OBJEXT) access/logic.$(OBJEXT) \
-	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
-	dialog/yes.$(OBJEXT) dialog/color.$(OBJEXT) \
-	dialog/books.$(OBJEXT) dialog/upload.$(OBJEXT) \
-	fonts/logic.$(OBJEXT) versification/index.$(OBJEXT) \
-	versification/system.$(OBJEXT) versification/logic.$(OBJEXT) \
-	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
-	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
-	editverse/index.$(OBJEXT) editverse/load.$(OBJEXT) \
-	editverse/save.$(OBJEXT) editone/index.$(OBJEXT) \
-	editone/load.$(OBJEXT) editone/save.$(OBJEXT) \
-	editone/verse.$(OBJEXT) navigation/passage.$(OBJEXT) \
-	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
-	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
-	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
-	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
-	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
-	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
-	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
-	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
-	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
-	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	collaboration/index.$(OBJEXT) collaboration/url.$(OBJEXT) \
+	collaboration/link.$(OBJEXT) collaboration/direction.$(OBJEXT) \
+	search/rebibles.$(OBJEXT) search/renotes.$(OBJEXT) \
+	access/user.$(OBJEXT) access/bible.$(OBJEXT) \
+	access/logic.$(OBJEXT) dialog/entry.$(OBJEXT) \
+	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
+	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
+	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
+	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
+	versification/logic.$(OBJEXT) book/create.$(OBJEXT) \
+	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
+	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
+	editverse/load.$(OBJEXT) editverse/save.$(OBJEXT) \
+	editone/index.$(OBJEXT) editone/load.$(OBJEXT) \
+	editone/save.$(OBJEXT) editone/verse.$(OBJEXT) \
+	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
+	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
+	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
+	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
+	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
+	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
+	editor/select.$(OBJEXT) edit/edit.$(OBJEXT) \
+	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
+	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	search/all.$(OBJEXT) search/index.$(OBJEXT) \
 	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
 	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
@@ -720,10 +719,7 @@ libbibledit_a_SOURCES = \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
-	collaboration/flash.cpp \
-	collaboration/open.cpp \
-	collaboration/password.cpp \
-	collaboration/secure.cpp \
+	collaboration/url.cpp \
 	collaboration/link.cpp \
 	collaboration/direction.cpp \
 	search/rebibles.cpp \
@@ -1586,13 +1582,7 @@ collaboration/$(DEPDIR)/$(am__dirstamp):
 	@: > collaboration/$(DEPDIR)/$(am__dirstamp)
 collaboration/index.$(OBJEXT): collaboration/$(am__dirstamp) \
 	collaboration/$(DEPDIR)/$(am__dirstamp)
-collaboration/flash.$(OBJEXT): collaboration/$(am__dirstamp) \
-	collaboration/$(DEPDIR)/$(am__dirstamp)
-collaboration/open.$(OBJEXT): collaboration/$(am__dirstamp) \
-	collaboration/$(DEPDIR)/$(am__dirstamp)
-collaboration/password.$(OBJEXT): collaboration/$(am__dirstamp) \
-	collaboration/$(DEPDIR)/$(am__dirstamp)
-collaboration/secure.$(OBJEXT): collaboration/$(am__dirstamp) \
+collaboration/url.$(OBJEXT): collaboration/$(am__dirstamp) \
 	collaboration/$(DEPDIR)/$(am__dirstamp)
 collaboration/link.$(OBJEXT): collaboration/$(am__dirstamp) \
 	collaboration/$(DEPDIR)/$(am__dirstamp)
@@ -2611,12 +2601,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@client/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/direction.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/flash.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/link.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/open.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/password.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/secure.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@collaboration/$(DEPDIR)/url.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@compare/$(DEPDIR)/compare.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@compare/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/globals.Po@am__quote@

@@ -159,10 +159,7 @@ libbibledit_a_SOURCES = \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	collaboration/index.cpp \
-	collaboration/flash.cpp \
-	collaboration/open.cpp \
-	collaboration/password.cpp \
-	collaboration/secure.cpp \
+	collaboration/url.cpp \
 	collaboration/link.cpp \
 	collaboration/direction.cpp \
 	search/rebibles.cpp \

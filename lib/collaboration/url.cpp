@@ -17,7 +17,7 @@
  */
 
 
-#include <collaboration/open.h>
+#include <collaboration/url.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -32,19 +32,19 @@
 #include <dialog/list.h>
 
 
-string collaboration_open_url ()
+string collaboration_url_url ()
 {
-  return "collaboration/open";
+  return "collaboration/url";
 }
 
 
-bool collaboration_open_acl (void * webserver_request)
+bool collaboration_url_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
 }
 
 
-string collaboration_open (void * webserver_request)
+string collaboration_url (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -66,7 +66,7 @@ string collaboration_open (void * webserver_request)
   view.set_variable ("url", url);
   
   
-  page += view.render ("collaboration", "open");
+  page += view.render ("collaboration", "url");
   page += Assets_Page::footer ();
   return page;
 }
