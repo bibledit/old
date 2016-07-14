@@ -24,10 +24,11 @@
 #include <config/libraries.h>
 
 
-string filter_merge_run (string base, string change, string prioritized_change);
+string filter_merge_run (string base, string change, string prioritized_change, bool clever = true);
 bool filter_merge_irregularity_mail (vector <string> users,
                                      string base, string change, string prioritized_change,
                                      string result);
+string filter_merge_run_clever (string base, string change, string prioritized_change);
 
 
 #endif

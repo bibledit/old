@@ -4039,7 +4039,6 @@ void test_filter_merge () // Todo
 {
   trace_unit_tests (__func__);
   
-  /* Todo
   // Test Line Merge Simple Modifications.
   {
     string mergeBaseData =
@@ -4064,6 +4063,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
+  
   // Test Line Merge Equal Modifications
   {
     string mergeBaseData =
@@ -4088,6 +4088,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
+  
   // Test Line Merge Multiple Modifications
   {
     string mergeBaseData =
@@ -4128,6 +4129,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
+  
   // Test Word Merge Simple Modifications
   {
     string mergeBaseData =
@@ -4148,6 +4150,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
+  
   // Test Word Merge Conflicting Modifications.
   {
     string mergeBaseData =
@@ -4168,6 +4171,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, true, conflict);
   }
+  
   // Test Word Merge Multiple Modifications
   {
     string mergeBaseData =
@@ -4208,6 +4212,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
+  
   // Test Grapheme Merge Simple Modifications
   {
     string mergeBaseData =
@@ -4228,6 +4233,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
+  
   // Test Conflict Take Server.
   {
     string mergeBaseData =
@@ -4248,6 +4254,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, true, conflict);
   }
+
   // Realistic merge example
   {
     string mergeBaseData =
@@ -4288,7 +4295,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
   }
-   */
+  
   // Merge situation taken from real life.
   {
     string path;
@@ -4301,13 +4308,14 @@ void test_filter_merge () // Todo
     path = filter_url_create_root_path ("unittests", "tests", "paula_1_result.usfm");
     string standard = filter_url_file_get_contents (path);
 
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
-    // cout << output << endl; // Todo
+    string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData);
     evaluate (__LINE__, __func__, standard, output);
     
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
-    evaluate (__LINE__, __func__, true, conflict);
+    evaluate (__LINE__, __func__, false, conflict);
   }
+  // Todo test also chapter 0, and verse 0.
+  // Todo test combined verses in various forms, also switching to it.
 }
 
 

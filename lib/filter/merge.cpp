@@ -23,6 +23,7 @@ using dtl::Diff3;
 #include <filter/string.h>
 #include <pugixml/pugixml.hpp>
 #include <email/send.h>
+#include <filter/usfm.h>
 
 
 using namespace pugi;
@@ -97,7 +98,8 @@ string filter_merge_graphemes2lines (string data)
 // If necessary it converts the data into a new format with one character per line for more fine-grained merging.
 // In case of a conflict, it prioritizes changes from $prioritized_change.
 // The filter returns the merged data.
-string filter_merge_run (string base, string change, string prioritized_change)
+// If $clever, it calls a more clever routine when it fails to merge.
+string filter_merge_run (string base, string change, string prioritized_change, bool clever)
 {
   // Trim the input.
   base = filter_string_trim (base);
@@ -139,8 +141,12 @@ string filter_merge_run (string base, string change, string prioritized_change)
     return filter_merge_graphemes2lines (mergedGraphemes);
   }
 
+  if (clever) {
+    // It failed to merge: Call a more clever routine to do the merge.
+    return filter_merge_run_clever (base, change, prioritized_change);
+  }
+  
   // The data could not be merged no matter how hard it tried.
-  // Return the prioritized change.
   return prioritized_change;
 }
 
@@ -246,4 +252,52 @@ bool filter_merge_irregularity_mail (vector <string> users,
   }
   
   return irregularity;
+}
+
+
+// This filter merges USFM data in a clever way.
+// $base: Data for the merge base.
+// $change: Data as modified by one user.
+// $prioritized_change: Data as modified by a user but prioritized.
+// The filter uses a three-way merge algorithm.
+string filter_merge_run_clever (string base, string change, string prioritized_change) // Todo test it. Perhaps to call it when the standard one fails. Watch endless loop, and test that also.
+{
+  // Get the verse numbers in the changed text.
+  vector <int> verses = usfm_get_verse_numbers (change);
+  
+  vector <string> results;
+
+  // Go through the verses.
+  for (auto verse : verses) {
+    
+    // Gets the texts to merge for this verse.
+    string base_text = usfm_get_verse_text (base, verse);
+    string change_text = usfm_get_verse_text (change, verse);
+    string prioritized_change_text = usfm_get_verse_text (prioritized_change, verse);
+    
+    // Check whether any of the three text fragments can be considered to be a verse without content.
+    size_t empty_length = 3 + convert_to_string (verse).length () + 1; // "\v n "
+    bool base_empty = base_text.length () <= empty_length;
+    bool change_empty = change_text.length () <= empty_length;
+    bool prioritized_change_empty = prioritized_change_text.length () <= empty_length;
+
+    // If the prioritized change is empty, and the other two are not,
+    // update the priotitized change to match the change.
+    // Without doing this the merge behaves in an unexpected way:
+    // It woud take the prioritized change instead of the the base/change.
+    if (prioritized_change_empty) {
+      if (!base_empty && !change_empty) {
+        prioritized_change_text = change_text;
+      }
+    }
+    
+    // Run the merge, but clear the "clever" flags else it may enter an infinite loop.
+    string result = filter_merge_run (base_text, change_text, prioritized_change_text, false);
+    
+    // Store it.
+    results.push_back (result);
+  }
+  
+  // Done.
+  return filter_string_implode (results, "\n");
 }
