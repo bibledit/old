@@ -71,9 +71,9 @@ void client_index_enable_client (void * webserver_request, string username, stri
   request->session_logic ()->setUsername (username);
   request->session_logic ()->currentLevel (true);
   
-  // Clear all pending note actions and Bible actions and settings updates.
-  Database_NoteActions database_noteactions = Database_NoteActions ();
-  Database_BibleActions database_bibleactions = Database_BibleActions ();
+  // Clear all pending note actions and Bible actions and settings updates. // Todo
+  Database_NoteActions database_noteactions;
+  Database_BibleActions database_bibleactions;
   database_noteactions.clear ();
   database_noteactions.create ();
   database_bibleactions.clear ();

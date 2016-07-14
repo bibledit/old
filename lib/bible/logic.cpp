@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/diff.h>
 #include <filter/usfm.h>
 #include <filter/text.h>
+#include <filter/date.h>
 #include <database/bibles.h>
 #include <database/modifications.h>
 #include <database/bibleactions.h>
@@ -43,7 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/logic.h>
 
 
-void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm)
+void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm) // Todo
 {
   Database_Bibles database_bibles;
 
@@ -52,8 +53,10 @@ void bible_logic_store_chapter (const string& bible, int book, int chapter, cons
 
     // Client stores Bible action.
     string oldusfm = database_bibles.getChapter (bible, book, chapter);
-    Database_BibleActions database_bibleactions = Database_BibleActions ();
+    Database_BibleActions database_bibleactions;
     database_bibleactions.record (bible, book, chapter, oldusfm);
+    
+    bible_logic_kick_unsent_data_timer ();
 
   } else {
 
@@ -68,7 +71,7 @@ void bible_logic_store_chapter (const string& bible, int book, int chapter, cons
 }
 
 
-void bible_logic_delete_chapter (const string& bible, int book, int chapter)
+void bible_logic_delete_chapter (const string& bible, int book, int chapter) // Todo
 {
   Database_Bibles database_bibles;
 
@@ -77,8 +80,10 @@ void bible_logic_delete_chapter (const string& bible, int book, int chapter)
 
     // Client stores Bible action.
     string usfm = database_bibles.getChapter (bible, book, chapter);
-    Database_BibleActions database_bibleactions = Database_BibleActions ();
+    Database_BibleActions database_bibleactions;
     database_bibleactions.record (bible, book, chapter, usfm);
+
+    bible_logic_kick_unsent_data_timer ();
 
   } else {
 
@@ -93,7 +98,7 @@ void bible_logic_delete_chapter (const string& bible, int book, int chapter)
 }
 
 
-void bible_logic_delete_book (const string& bible, int book)
+void bible_logic_delete_book (const string& bible, int book) // Todo
 {
   Database_Bibles database_bibles;
 
@@ -101,12 +106,14 @@ void bible_logic_delete_book (const string& bible, int book)
   if (client_logic_client_enabled ()) {
 
     // Client stores Bible actions.
-    Database_BibleActions database_bibleactions = Database_BibleActions ();
+    Database_BibleActions database_bibleactions;
     vector <int> chapters = database_bibles.getChapters (bible, book);
     for (auto & chapter : chapters) {
       string usfm = database_bibles.getChapter (bible, book, chapter);
       database_bibleactions.record (bible, book, chapter, usfm);
     }
+
+    bible_logic_kick_unsent_data_timer ();
 
   } else {
 
@@ -121,7 +128,7 @@ void bible_logic_delete_book (const string& bible, int book)
 }
 
 
-void bible_logic_delete_bible (const string& bible)
+void bible_logic_delete_bible (const string& bible) // Todo
 {
   Database_Bibles database_bibles;
 
@@ -129,7 +136,7 @@ void bible_logic_delete_bible (const string& bible)
   if (client_logic_client_enabled ()) {
 
     // Client stores Bible actions.
-    Database_BibleActions database_bibleactions = Database_BibleActions ();
+    Database_BibleActions database_bibleactions;
     vector <int> books = database_bibles.getBooks (bible);
     for (auto book : books) {
       vector <int> chapters = database_bibles.getChapters (bible, book);
@@ -138,6 +145,8 @@ void bible_logic_delete_bible (const string& bible)
         database_bibleactions.record (bible, book, chapter, usfm);
       }
     }
+
+    bible_logic_kick_unsent_data_timer ();
 
   } else {
 
@@ -299,4 +308,15 @@ void bible_logic_log_change (const string& bible, int book, int chapter, const s
   
   if (!user.empty ()) user.append (" - ");
   Database_Logs::log (user + summary + " - " + passage + percentage_fragment, filter_string_implode (body, "\n"));
+}
+
+
+void bible_logic_kick_unsent_data_timer ()
+{
+  // The timer contains the highest age of the Bible data not yet sent to the Cloud.
+  // If the timer has been set already, bail out.
+  if (Database_Config_General::getUnsentBibleDataTime () != 0) return;
+  
+  // Stamp with the current time.
+  Database_Config_General::setUnsentBibleDataTime (filter_date_seconds_since_epoch ());
 }

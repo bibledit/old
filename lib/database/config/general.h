@@ -30,63 +30,95 @@ class Database_Config_General
 public:
   static string getSiteMailName();
   static void setSiteMailName (string value);
+
   static string getSiteMailAddress();
   static void setSiteMailAddress (string value);
+  
   static string getMailStorageHost();
   static void setMailStorageHost (string value);
+  
   static string getMailStorageUsername();
   static void setMailStorageUsername (string value);
+  
   static string getMailStoragePassword();
   static void setMailStoragePassword (string value);
+  
   static string getMailStorageProtocol();
   static void setMailStorageProtocol (string value);
+  
   static string getMailStoragePort();
   static void setMailStoragePort (string value);
+  
   static string getMailSendHost();
   static void setMailSendHost (string value);
+  
   static string getMailSendUsername();
   static void setMailSendUsername (string value);
+  
   static string getMailSendPassword();
   static void setMailSendPassword (string value);
+  
   static string getMailSendPort();
   static void setMailSendPort (string value);
+  
   static string getTimerMinute();
   static void setTimerMinute (string value);
+  
   static int getTimezone();
   static void setTimezone (int value);
+  
   static string getSiteURL();
   static void setSiteURL (string value);
+  
   static string getSiteLanguage ();
   static void setSiteLanguage (string value);
+  
   static bool getClientMode ();
   static void setClientMode (bool value);
+  
   static string getServerAddress ();
   static void setServerAddress (string value);
+  
   static int getServerPort ();
   static void setServerPort (int value);
+  
   static int getRepeatSendReceive ();
   static void setRepeatSendReceive (int value);
+  
   static int getLastSendReceive ();
   static void setLastSendReceive (int value);
+  
   static string getInstalledInterfaceVersion ();
   static void setInstalledInterfaceVersion (string value);
+  
   static string getInstalledDatabaseVersion ();
   static void setInstalledDatabaseVersion (string value);
+  
   static bool getJustStarted ();
   static void setJustStarted (bool value);
+  
   static string getParatextProjectsFolder ();
   static void setParatextProjectsFolder (string value);
+  
   static string getSyncKey ();
   static void setSyncKey (string key);
+  
   static string getLastMenuClick ();
   static void setLastMenuClick (string url);
+  
   static vector <string> getResourcesToCache ();
   static void setResourcesToCache (vector <string> values);
+  
   static bool getIndexNotes ();
   static void setIndexNotes (bool value);
+  
   static bool getIndexBibles ();
   static void setIndexBibles (bool value);
+  
   static bool getReadFromGit ();
+  
+  static int getUnsentBibleDataTime ();
+  static void setUnsentBibleDataTime (int value);
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

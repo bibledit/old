@@ -498,7 +498,7 @@ void test_database_bibleactions ()
   trace_unit_tests (__func__);
   
   refresh_sandbox (true);
-  Database_BibleActions database_bibleactions = Database_BibleActions ();
+  Database_BibleActions database_bibleactions;
   database_bibleactions.create ();
   
   database_bibleactions.optimize ();

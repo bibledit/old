@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.500],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.502],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -230,10 +230,10 @@ Bibledit $VERSION configuration summary:
 Installation prefix                               : ${prefix}
 Network port (--with-network-port=n)              : ${NETWORK_PORT}
 Demo edition (--enable-demo)                      : ${DEMO}
-Unit tests (--enable-unittests)                   : ${UNITTESTS}
+Unit tests   (--enable-unittests)                 : ${UNITTESTS}
 Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
 Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
-Admin email (--with-admin-email=email)            : ${ADMIN_EMAIL}
+Admin email    (--with-admin-email=email)         : ${ADMIN_EMAIL}
 Windows   (--enable-windows)                      : ${ENABLEWINDOWS}
 Android   (--enable-android)                      : ${ENABLEANDROID}
 Mac       (--enable-mac)                          : ${ENABLEMAC}

@@ -30,6 +30,7 @@ void bible_logic_delete_book (const string& bible, int book);
 void bible_logic_delete_bible (const string& bible);
 void bible_logic_import_resource (string bible, string resource);
 void bible_logic_log_change (const string& bible, int book, int chapter, const string& usfm, string user, const string & summary, bool force);
+void bible_logic_kick_unsent_data_timer ();
 
 
 #endif

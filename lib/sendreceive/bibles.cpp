@@ -133,7 +133,7 @@ void sendreceive_bibles ()
 
   
   // Go through the Bibles / books / chapters that have actions recorded for them.
-  Database_BibleActions database_bibleactions = Database_BibleActions ();
+  Database_BibleActions database_bibleactions;
   vector <string> bibles = database_bibleactions.getBibles ();
   for (string bible : bibles) {
     vector <int> books = database_bibleactions.getBooks (bible);

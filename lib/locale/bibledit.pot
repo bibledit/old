@@ -838,7 +838,9 @@ msgstr ""
 msgid "Notifications."
 msgstr ""
 
-msgid "Change notifications per user:"
+msgid ""
+"The users who have enabled change notification are listed below, with the "
+"number of changes waiting for their review."
 msgstr ""
 
 msgid "clear"
@@ -1172,277 +1174,31 @@ msgid ""
 "now."
 msgstr ""
 
-msgid "USB flash drive repository setup"
-msgstr ""
-
-msgid ""
-"In this section you will set up a distributed repository on a USB flash "
-"drive."
-msgstr ""
-
-msgid "Formatting the flash drive"
-msgstr ""
-
-msgid ""
-"Normally a USB flash drive, as it comes out of the box, has been formatted "
-"with a FAT filesystem. Such a filesystem is not supported for collaboration. "
-"The stick needs to formatted to the ext3 or ext4 filesystem for "
-"collaboration to work. How this is done will be described here."
-msgstr ""
-
-msgid ""
-"Insert the flash drive into a computer running GNU/Linux, and wait a little "
-"till it gets mounted. It is supposed to mount automatically. If it does not "
-"mount on its own, then automatic mounting needs to be set up. Setting up "
-"automatic mounting goes beyond the scope of this tutorial."
-msgstr ""
-
-msgid "Open a terminal. In the terminal, give the command:"
-msgstr ""
-
-msgid "The output of this command can be something like:"
-msgstr ""
-
-msgid ""
-"Looking through the list of mounting points, we assume that the USB flash "
-"drive that was inserted mounts at /media/usbdisk. From there we can see that "
-"the device is /dev/sdd1. Once we have that information, we are ready for the "
-"next step."
-msgstr ""
-
-msgid ""
-"Before the stick can be formatted, it must be unmounted first. Issue the "
-"following command to unmount the stick:"
-msgstr ""
-
-msgid ""
-"The 'sudo' in the command means that root privileges are needed to execute "
-"the command."
-msgstr ""
-
-msgid ""
-"To format the USB drive to the ext3 filesystem, issue the following command:"
-msgstr ""
-
-msgid ""
-"The formatting process will be visible and at the end some information about "
-"it will be given. At this point it is important to see if no errors occurred."
-msgstr ""
-
-msgid ""
-"The formatting command is very powerful. One could even format the main "
-"drive of the computer, wiping out all information. Extreme care should be "
-"used to ensure that the USB flash drive is going to be formatted, and "
-"nothing else."
-msgstr ""
-
-msgid "Labelling the flash drive"
-msgstr ""
-
-msgid ""
-"An internal label needs to be written to the USB drive. The reason of this "
-"is so as to make sure that this drive will always mount at the same mounting "
-"point. In this tutorial we write the label 'usbstick' to it."
-msgstr ""
-
-msgid ""
-"We take it that the same device is being used as we used for formatting the "
-"drive. That is device /dev/sdd1. To write the label to the drive, issue the "
-"following two commands:"
-msgstr ""
-
-msgid ""
-"After the label has been written to it, remove the USB flash drive from the "
-"computer, and insert it again. It should now mount to the name of the label. "
-"In this case it should mount under /media/usbstick."
-msgstr ""
-
-msgid "This can be verified with command 'df':"
-msgstr ""
-
-msgid "The output of this command:"
-msgstr ""
-
-msgid "This shows that it now mounts under the new name."
-msgstr ""
-
-msgid "Creating the repository on the flash drive"
-msgstr ""
-
-msgid "The USB flash drive will hold the data repository."
-msgstr ""
-
-msgid ""
-"To make this flash drive fit for collaboration, there are a few steps to be "
-"taken. These steps are:"
-msgstr ""
-
-msgid ""
-"1. The first step will be to create a directory for the repository, and to "
-"make that directory writable. If we assume that the flash drive mounts at /"
-"media/usbstick, then the command to create a directory called 'repository' "
-"is:"
-msgstr ""
-
-msgid ""
-"Notice the ' sudo'  command, which means that this usually needs to be done "
-"by user root. If this is done by an ordinary user, permission would be "
-"denied."
-msgstr ""
-
-msgid ""
-"Once the directory for the repository is there, this directory needs to be "
-"made writable for ordinary users. This is the command:"
-msgstr ""
-
-msgid "Note the 'sudo' again."
-msgstr ""
-
-msgid ""
-"Now it is time to check whether the USB drive is writable. We do this by "
-"trying to create a file in the repository. If this succeeds, then it is "
-"writable. Here's the command:"
-msgstr ""
-
-msgid ""
-"This command should complete without errors. After that the file needs to be "
-"removed again:"
-msgstr ""
-
-msgid ""
-"2. The second step is to make the USB stick the current working directory. "
-"Type:"
-msgstr ""
-
-msgid "3. The next step is to create a repository on the USB stick."
-msgstr ""
-
-msgid "To create a shared repository on the USB stick, type:"
-msgstr ""
-
-msgid ""
-"Git will respond saying that an empty shared Git repository has been created."
-msgstr ""
-
-msgid ""
-"4. The last step is to make the repository accessible to the web server's "
-"user. To do this, type the following two commands:"
-msgstr ""
-
-msgid ""
-"All steps have now been taken. Before removing the flash drive, ensure that "
-"the data gets written to it, by issuing the command:"
-msgstr ""
-
-msgid "This finishes setting up the repository on the USB flash drive."
-msgstr ""
-
-msgid "The repository that was created in this tutorial has the following URL:"
-msgstr ""
-
-msgid ""
-"Your own repository that you have created has a URL too, the one that will "
-"be used from now on. Please enter it below, and press the Submit button to "
-"save it."
-msgstr ""
-
-msgid "Next page"
+msgid "Repository"
 msgstr ""
 
 msgid "Which Bible are you going to use?"
 msgstr ""
 
-msgid "Web collaboration"
+msgid "Git repository"
 msgstr ""
 
 msgid ""
-"With Bibledit several translators can work on one Bible at the same time."
+"Bibledit Cloud can store the Bible text plus all changes in a git repository."
 msgstr ""
 
-msgid "There is nothing special needed to make this happen."
-msgstr ""
-
-msgid "The people log into the site that runs Bibledit, and translate there."
+msgid "This git repository helps with safekeeping the Bible text."
 msgstr ""
 
 msgid ""
-"All the data related to the Bible is saved on that website, and is available "
-"to the relevant people."
+"It keeps track of all changes made to the Bible text, who made those "
+"changes, and when."
 msgstr ""
 
-msgid ""
-"When collaborating in this way, the information given below on the rest of "
-"the page is not relevant."
+msgid "This needs to be set up per Bible."
 msgstr ""
 
-msgid "Distributed collaboration"
-msgstr ""
-
-msgid ""
-"With distributed collaboration there are several copies of the Bible "
-"distributed all over the place or the globe."
-msgstr ""
-
-msgid ""
-"Translators and other people that collaborate in this way do not need to be "
-"connected to the Internet all the time, or even not at all."
-msgstr ""
-
-msgid "They collaborate through the network or a USB drive."
-msgstr ""
-
-msgid ""
-"Once everything has been set up, it all goes automatic. The person working "
-"on the Bible does not notice the mechanics of the collaboration. It all "
-"happens under the hood."
-msgstr ""
-
-msgid ""
-"There are a variety of methods for collaboration. The administrator who will "
-"set it all up needs to have sufficient knowledge of information technology."
-msgstr ""
-
-msgid ""
-"Bibledit stores all data locally. When collaboration is enabled, it also "
-"connects to a central repository. Through that repository the data gets "
-"shared between the various translators and other users."
-msgstr ""
-
-msgid ""
-"Under the hood, Bibledit uses Git for collaboration. Git is a content "
-"manager. The user does not notice that Git is used. He does not operate it "
-"directly. The only thing that the manager needs to do at regular times is to "
-"'Send/Receive' the Bible. After having done that, the changes in the Bible, "
-"made by the other translators or users, appear on his screen too. And the "
-"changes made by himself get stored in the repository, and if the other users "
-"do Send/Receive also, then these changes will reflect on their screens also."
-msgstr ""
-
-msgid "Git uses a "
-msgstr ""
-
-msgid ""
-"The web interface of a modern git repository like github.com makes it easy "
-"to go through the history of the project."
-msgstr ""
-
-msgid ""
-"There are also desktop programs for browsing the history of a local git "
-"repository."
-msgstr ""
-
-msgid ""
-"Bibledit itself does not provide a historic overview of the changes in the "
-"Bible, because there are enough alternatives to obtain that information."
-msgstr ""
-
-msgid "If distributed collaboration is used, it needs to be set up per Bible."
-msgstr ""
-
-msgid "Select which Bible to use."
-msgstr ""
-
-msgid "Setup for Bible"
+msgid "Select Bible."
 msgstr ""
 
 msgid "Distributed collaboration for this is enabled."
@@ -1451,49 +1207,7 @@ msgstr ""
 msgid "Disable it."
 msgstr ""
 
-msgid ""
-"There is a variety of repositories that can be used. They have their own "
-"use, advantages and disadvantages."
-msgstr ""
-
-msgid "USB Flash Drive."
-msgstr ""
-
-msgid ""
-"First of all there is the repository that resides on a file system. A USB "
-"flash drive can be used in this case. This flash drive can be physically "
-"moved from one translator to the other, and so on, updating each translator, "
-"and getting updated by each translator."
-msgstr ""
-
 msgid "Set it up."
-msgstr ""
-
-msgid "Open Network Repository."
-msgstr ""
-
-msgid ""
-"Secondly there is the repository that resides on the network. For internal "
-"networks a simple open network repository can be used. Whoever knows where "
-"the repository resides can write to it."
-msgstr ""
-
-msgid "Password Protected Network Repository."
-msgstr ""
-
-msgid ""
-"For better security is is helpful to use a repository that needs a username "
-"and password for write access."
-msgstr ""
-
-msgid "Secured Network Repository."
-msgstr ""
-
-msgid ""
-"For high security it is recommended to use this type of repository. Only "
-"those who have the secure keys to such a repository can write to it. "
-"Bibledit supports this in case the GNU/Linux server has been set up to "
-"access this repository through passphrase-less private and public keys."
 msgstr ""
 
 msgid "No Bible given"
@@ -1603,140 +1317,30 @@ msgstr ""
 msgid "Retry"
 msgstr ""
 
-msgid "Open network repository setup"
+msgid "Repository setup"
 msgstr ""
 
 msgid ""
-"In this tutorial you are going to set up an open repository on the network."
+"Please enter the URL for your repository below, and press the Submit button "
+"to save it."
 msgstr ""
 
-msgid ""
-"You need a server to run this repository. Any of your GNU/Linux computers "
-"attached to your network will do. In this tutorial we assume that the "
-"computer is accessible from the network through IP address 192.168.0.1. The "
-"user of this computer will be Jim."
+msgid "Next page"
 msgstr ""
 
-msgid ""
-"To create the repository, login as user jim. Then open a terminal. The "
-"repository is going to be in Jim's home directory. In the terminal type the "
-"following:"
+msgid "Example URLs:"
 msgstr ""
 
-msgid ""
-"The repository is now there, but it is not yet accessible from the network."
+msgid "Flash Drive"
 msgstr ""
 
-msgid "To make the repository available to the network, type:"
+msgid "Open Network Repository"
 msgstr ""
 
-msgid ""
-"Each time the server boots, it is necessary to execute the above command "
-"again. It would be easier to put the command in the boot script. Then it "
-"will automatically be started after boot."
+msgid "Password Protected Network Repository"
 msgstr ""
 
-msgid ""
-"To test access to the new repository from another computer on the network, "
-"type:"
-msgstr ""
-
-msgid "If everything is fine, no errors will occur."
-msgstr ""
-
-msgid "Password protected network repository setup"
-msgstr ""
-
-msgid ""
-"In this tutorial you are going to create a password protected git repository "
-"on the Internet."
-msgstr ""
-
-msgid ""
-"You can host the repository on github.com. The tutorial assumes that user "
-"'joe' has an account on github.com. His password is 'pazz'. He has created a "
-"repository with the name 'repo'."
-msgstr ""
-
-msgid "Secure network repository setup"
-msgstr ""
-
-msgid ""
-"In this tutorial you are going to set up an secure repository on the network."
-msgstr ""
-
-msgid "The tutorial uses a git repository on sourceforge.net."
-msgstr ""
-
-msgid ""
-"Open an account on http://sourceforge.net. We will use the username 'joe' in "
-"this tutorial."
-msgstr ""
-
-msgid ""
-"Register a new project on your personal account page on sourceforge.net. "
-"Let's call this project 'repo'."
-msgstr ""
-
-msgid ""
-"Enable project feature Git on this project. This provides the repository "
-"that we need."
-msgstr ""
-
-msgid ""
-"The next thing is to try whether you can read the repository properly. To "
-"try that, open a terminal and issue the following command:"
-msgstr ""
-
-msgid ""
-"This command probably will ask for your password, and the first time it "
-"could ask you whether you want to continue connecting. It should show no "
-"errors. If it completes without errors, then your secure repository works "
-"well."
-msgstr ""
-
-msgid ""
-"Where it says 'joe', you would need to fill in the username that can access "
-"the account on sourceforge.net. And where it has 'repo' you would need to "
-"fill in the name of the project that you created on sourceforge.net."
-msgstr ""
-
-msgid "Secure shell keys"
-msgstr ""
-
-msgid ""
-"Once manual access to the secure repository works, the next step is to set "
-"up secure shell keys. These keys allow Bibledit easy access to the secure "
-"repository, without the need to type the password each time."
-msgstr ""
-
-msgid "Generating the keys"
-msgstr ""
-
-msgid "Keys can be generated with this command:"
-msgstr ""
-
-msgid ""
-"Enter the private key in your authorized_keys file. See the Internet for "
-"more information."
-msgstr ""
-
-msgid "Enter the public key"
-msgstr ""
-
-msgid ""
-"On your personal account page at sourceforge.net, choose Services, then "
-"choose Edit SSH Keys for Shell/CVS. Select all the text of the public key, "
-"see above, and copy it to the clipboard. Be sure it is the public key, not "
-"the private one. In the screen titled 'SSH Keys', there is a place where it "
-"says 'Authorized keys:'. Paste the text of the public key into that space on "
-"the web page. After checking that everything looks fine, press button "
-"'Update'. Make sure to enter only the public key, not the private key. "
-"Synchronizing the keys into the system has a 10 minute delay."
-msgstr ""
-
-msgid ""
-"After the delay of 10 minutes has expired you can continue to the next page."
+msgid "Secured Network Repository"
 msgstr ""
 
 msgid "Comparing Bibles"
@@ -8047,14 +7651,6 @@ msgid "Send and receive it now."
 msgstr ""
 
 msgid "Send and receive it every five minutes."
-msgstr ""
-
-msgid "It receives changes made by others in other instances of Bibledit."
-msgstr ""
-
-msgid ""
-"It sends changes made here to the server for use by other translators who "
-"use Bibledit."
 msgstr ""
 
 msgid ""

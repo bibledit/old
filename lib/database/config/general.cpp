@@ -411,3 +411,13 @@ bool Database_Config_General::getReadFromGit ()
 {
   return getBValue ("read-from-git", false);
 }
+
+
+int Database_Config_General::getUnsentBibleDataTime ()
+{
+  return getIValue ("unsent-bible-data-time", 0);
+}
+void Database_Config_General::setUnsentBibleDataTime (int value)
+{
+  setIValue ("unsent-bible-data-time", value);
+}
