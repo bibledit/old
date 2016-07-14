@@ -4035,10 +4035,11 @@ void test_filter_git ()
 }
 
 
-void test_filter_merge ()
+void test_filter_merge () // Todo
 {
   trace_unit_tests (__func__);
   
+  /* Todo
   // Test Line Merge Simple Modifications.
   {
     string mergeBaseData =
@@ -4247,7 +4248,7 @@ void test_filter_merge ()
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, true, conflict);
   }
-  // Test Practical Merge Example One
+  // Realistic merge example
   {
     string mergeBaseData =
     "\\c 1\n"
@@ -4286,6 +4287,26 @@ void test_filter_merge ()
     
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
+  }
+   */
+  // Merge situation taken from real life.
+  {
+    string path;
+    path = filter_url_create_root_path ("unittests", "tests", "paula_1_base.usfm");
+    string mergeBaseData = filter_url_file_get_contents (path);
+    path = filter_url_create_root_path ("unittests", "tests", "paula_1_modification.usfm");
+    string userModificationData = filter_url_file_get_contents (path);
+    path = filter_url_create_root_path ("unittests", "tests", "paula_1_server.usfm");
+    string serverModificationData = filter_url_file_get_contents (path);
+    path = filter_url_create_root_path ("unittests", "tests", "paula_1_result.usfm");
+    string standard = filter_url_file_get_contents (path);
+
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    // cout << output << endl; // Todo
+    evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, true, conflict);
   }
 }
 
