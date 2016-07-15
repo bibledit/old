@@ -125,17 +125,17 @@ string edit_save (void * webserver_request)
   string change = user_usfm;
   
   // Merge if the ancestor is there and differs from what's in the database.
+  vector <tuple <string, string, string, string, string>> conflicts;
   if (!ancestor_usfm.empty ()) {
     if (server_usfm != ancestor_usfm) {
       // Prioritize the user's USFM.
-      vector <tuple <string, string, string, string, string>> conflicts; // Todo
       user_usfm = filter_merge_run (ancestor_usfm, server_usfm, user_usfm, true, conflicts);
       Database_Logs::log (translate ("Merging chapter."));
     }
   }
   
   // Check on the merge.
-  filter_merge_irregularity_mail ({username}, ancestor_usfm, change, server_usfm, user_usfm);
+  filter_merge_irregularity_mail ({username}, conflicts);
   
   // Safely store the chapter.
   string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm);

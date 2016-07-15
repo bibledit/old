@@ -98,7 +98,6 @@ string filter_merge_graphemes2lines (string data)
 
 void filter_merge_detect_conflict (string base, string change, string prioritized_change, string result,
                                    vector <tuple <string, string, string, string, string>> & conflicts)
-// Todo use for detection.
 {
   // Clean input.
   base = filter_string_trim (base);
@@ -168,7 +167,7 @@ string filter_merge_run (string base, string change, string prioritized_change,
   base = filter_string_trim (base);
   change = filter_string_trim (change);
   prioritized_change = filter_string_trim (prioritized_change);
-  
+
   // Try a standard line-based merge. Should be sufficient for most cases.
   vector <string> baselines = filter_string_explode (base, '\n');
   vector <string> userlines = filter_string_explode (change, '\n');
@@ -282,111 +281,8 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
 }
 
 
-bool filter_merge_irregularity_mail (vector <string> users,
-                                     string base, string change, string prioritized_change,
-                                     string result) // Todo goes out.
-{
-  // Clean input.
-  base = filter_string_trim (base);
-  change = filter_string_trim (change);
-  prioritized_change = filter_string_trim (prioritized_change);
-  result = filter_string_trim (result);
-  
-  bool irregularity = false;
-  string subject;
-  
-  if (!irregularity) {
-    if (base.empty ()) {
-      subject = "There was no text to base the merge upon";
-      irregularity = true;
-    }
-  }
-  
-  if (!irregularity) {
-    if (change.empty ()) {
-      subject = "There was no changed text to merge with";
-      irregularity = true;
-    }
-  }
-  
-  if (!irregularity) {
-    if (prioritized_change.empty ()) {
-      subject = "There was no existing text to merge with";
-      irregularity = true;
-    }
-  }
-  
-  if (!irregularity) {
-    if (result.empty ()) {
-      subject = "The merge resulted in empty text";
-      irregularity = true;
-    }
-  }
-  
-  if (!irregularity) {
-    if ((change != base) && (prioritized_change != change) && (prioritized_change == result)) {
-      subject = "Failed to merge: The existing text was kept";
-      irregularity = true;
-    }
-  }
-  
-  if (irregularity) {
-    
-    // Create the body of the email.
-    xml_document document;
-    xml_node node;
-    node = document.append_child ("h3");
-    node.text ().set (subject.c_str());
-    
-    // Add some information for the user.
-    node = document.append_child ("p");
-    node.text ().set ("While saving Bible text, Bibledit detected something unusual. It may be okay, but Bibledit just was not sure about it.");
-    
-    // Add the base text.
-    document.append_child ("br");
-    node = document.append_child ("p");
-    node.text ().set ("Base text");
-    node = document.append_child ("pre");
-    node.text ().set (base.c_str ());
-    
-    // Add the changed text.
-    document.append_child ("br");
-    node = document.append_child ("p");
-    node.text ().set ("Changed text");
-    node = document.append_child ("pre");
-    node.text ().set (change.c_str ());
-    
-    // Add the existing text.
-    document.append_child ("br");
-    node = document.append_child ("p");
-    node.text ().set ("Existing text");
-    node = document.append_child ("pre");
-    node.text ().set (prioritized_change.c_str ());
-    
-    // Add the merge result.
-    document.append_child ("br");
-    node = document.append_child ("p");
-    node.text ().set ("The text that was actually saved to the chapter");
-    node = document.append_child ("pre");
-    node.text ().set (result.c_str ());
-    
-    // Convert the document to a string.
-    stringstream output;
-    document.print (output, "", format_raw);
-    string html = output.str ();
-    
-    // Schedule the mail for sending to the user(s).
-    for (auto user : users) {
-      email_schedule (user, subject, html);
-    }
-    
-  }
-  
-  return irregularity;
-}
-
-
-void filter_merge_irregularity_mail (vector <string> users, vector <tuple <string, string, string, string, string>> conflicts) // Todo test.
+void filter_merge_irregularity_mail (vector <string> users,
+                                     vector <tuple <string, string, string, string, string>> conflicts)
 {
   if (conflicts.empty ()) return;
   
@@ -395,9 +291,8 @@ void filter_merge_irregularity_mail (vector <string> users, vector <tuple <strin
     string base = get<0>(conflict);
     string change = get<1>(conflict);
     string prioritized_change = get<2>(conflict);
-    string result (prioritized_change);
-
-    string subject ("Failure to properly save Bible text");
+    string result = get<3>(conflict);;
+    string subject = get<4>(conflict);
     
     // Create the body of the email.
     xml_document document;
@@ -407,7 +302,7 @@ void filter_merge_irregularity_mail (vector <string> users, vector <tuple <strin
     
     // Add some information for the user.
     node = document.append_child ("p");
-    node.text ().set ("While saving Bible text, Bibledit detected something unusual. It may be okay, but Bibledit just was not sure about it.");
+    node.text ().set ("While saving Bible text, Bibledit detected something unusual.");
     
     // Add the base text.
     document.append_child ("br");

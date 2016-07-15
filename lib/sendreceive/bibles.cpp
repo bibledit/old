@@ -455,11 +455,11 @@ void sendreceive_bibles ()
         // Store the merged data on the client.
         // It stores through the Bible Logic so the changes are staged to be sent.
         // The changes will be sent to the server during the next synchronize action.
-        vector <tuple <string, string, string, string, string>> conflicts; // Todo
+        vector <tuple <string, string, string, string, string>> conflicts;
         Database_Logs::log (sendreceive_bibles_text () + translate("Merging changes on server and client") + " " + bible + " " + book_name + " " + convert_to_string (chapter), Filter_Roles::translator ());
         string client_usfm = request.database_bibles()->getChapter (bible, book, chapter);
         string merged_usfm = filter_merge_run (old_usfm, client_usfm, server_usfm, true, conflicts);
-        filter_merge_irregularity_mail ( { user }, old_usfm, client_usfm, server_usfm, merged_usfm);
+        filter_merge_irregularity_mail ( { user }, conflicts);
         bible_logic_store_chapter (bible, book, chapter, merged_usfm);
       }
     }

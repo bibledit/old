@@ -164,7 +164,7 @@ void sendreceive_sendreceive (string bible)
         if (passage.book) {
           int book = passage.book;
           int chapter = passage.chapter;
-          filter_git_sync_git_chapter_to_bible (directory, bible, book, chapter); // Todo
+          filter_git_sync_git_chapter_to_bible (directory, bible, book, chapter);
         }
       }
     }

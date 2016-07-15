@@ -29,10 +29,8 @@ string filter_merge_run (string base, string change, string prioritized_change,
                          vector <tuple <string, string, string, string, string>> & conflicts);
 string filter_merge_run_clever (string base, string change, string prioritized_change,
                                 vector <tuple <string, string, string, string, string>> & conflicts);
-bool filter_merge_irregularity_mail (vector <string> users,
-                                     string base, string change, string prioritized_change,
-                                     string result);
-void filter_merge_irregularity_mail (vector <string> users, vector <tuple <string, string, string, string, string>> conflicts);
+void filter_merge_irregularity_mail (vector <string> users,
+                                     vector <tuple <string, string, string, string, string>> conflicts);
 
 
 #endif

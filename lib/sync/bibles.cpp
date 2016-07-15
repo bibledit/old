@@ -103,12 +103,12 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
     bible_logic_store_chapter (bible, book, chapter, newusfm);
   } else if (newusfm != serverusfm) {
     // Do a merge in case the client sends USFM that differs from what's on the server.
-    vector <tuple <string, string, string, string, string>> conflicts; // Todo
+    vector <tuple <string, string, string, string, string>> conflicts;
     string mergedusfm = filter_merge_run (oldusfm, newusfm, serverusfm, true, conflicts);
     // Update the server with the new chapter data.
     bible_logic_store_chapter (bible, book, chapter, mergedusfm);
     // Check on the merge.
-    filter_merge_irregularity_mail ({username}, oldusfm, newusfm, serverusfm, mergedusfm);
+    filter_merge_irregularity_mail ({username}, conflicts);
   }
   
 
