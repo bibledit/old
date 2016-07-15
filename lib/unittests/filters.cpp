@@ -4313,9 +4313,141 @@ void test_filter_merge () // Todo
     
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
+
+    output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    evaluate (__LINE__, __func__, standard, output);
   }
-  // Todo test also chapter 0, and verse 0.
-  // Todo test combined verses in various forms, also switching to it.
+  
+  // Testing the clever merge routine on chapter 0.
+  {
+    string mergeBaseData =
+    "\\id GEN\n"
+    "\\p Some text one.\n";
+    string userModificationData =
+    "\\id GEN\n"
+    "\\p Some text two.\n";
+    string serverModificationData =
+    "\\id GEN\n"
+    "\\p Some text one.\n";
+    string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\id GEN\n"
+    "\\p Some text two.";
+    evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
+    
+    output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  
+  // Testing switching from separate verses into a combined verse.
+  {
+    string mergeBaseData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first (1st) verse.\n"
+    "\\v 2 And this is what the second (2nd) verse contains.\n"
+    "\\v 3 The third (3rd) verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5\n";
+    string userModificationData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1-2 This is really the text of the first (1st) verse. And this is what the second verse contains.\n"
+    "\\v 3 The third verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5\n";
+    string serverModificationData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first (1st) verse.\n"
+    "\\v 2 And this is what the second (2nd) verse contains.\n"
+    "\\v 3 The third (3rd) verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1-2 This is really the text of the first (1st) verse. And this is what the second verse contains.\n"
+    "\\v 3 The third verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5";
+    evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
+    
+    output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData);
+    evaluate (__LINE__, __func__, standard, output);
+  }
+
+  // Testing switching from a combined verse to separate verses.
+  {
+    string mergeBaseData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1-2 This is really the text of the first (1st) verse. And this is what the second verse contains.\n"
+    "\\v 3 The third verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5\n";
+    string userModificationData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first (1st) verse.\n"
+    "\\v 2 And this is what the second (2nd) verse contains.\n"
+    "\\v 3 The third (3rd) verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5\n";
+    string serverModificationData =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1-2 This is really the text of the first (1st) verse. And this is what the second verse contains.\n"
+    "\\v 3 The third verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5\n";
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string standard =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 This is really the text of the first (1st) verse.\n"
+    "\\v 2 And this is what the second (2nd) verse contains.\n"
+    "\\v 3 The third (3rd) verse.\n"
+    "\\v 4 The fourth (4th) verse.\n"
+    "\\v 5";
+    evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
+    
+    output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData);
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  
+  // Merge situation taken from real life.
+  {
+    string path;
+    path = filter_url_create_root_path ("unittests", "tests", "paula_2_base.usfm");
+    string mergeBaseData = filter_url_file_get_contents (path);
+    path = filter_url_create_root_path ("unittests", "tests", "paula_2_modification.usfm");
+    string userModificationData = filter_url_file_get_contents (path);
+    path = filter_url_create_root_path ("unittests", "tests", "paula_2_server.usfm");
+    string serverModificationData = filter_url_file_get_contents (path);
+    path = filter_url_create_root_path ("unittests", "tests", "paula_2_result.usfm");
+    string standard = filter_url_file_get_contents (path);
+    
+    string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData);
+    evaluate (__LINE__, __func__, standard, output);
+    
+    bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
+    evaluate (__LINE__, __func__, false, conflict);
+    
+    output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    evaluate (__LINE__, __func__, standard, output);
+  }
+
 }
 
 

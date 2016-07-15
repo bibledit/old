@@ -29,6 +29,13 @@ using dtl::Diff3;
 using namespace pugi;
 
 
+// This uses the dtl:: library for merge in C++.
+// At times the library failed to merge.
+// It was tried whether the Linux "merge" command was able to successfully merge such cases.
+// But also this command failed to merge in such cases.
+// The conclusion therefore is that the C++ merge library is equivalent in quality.
+
+
 // merge - three-way merge.
 // Merge is useful for combining separate changes to an original.
 // The function normally returns the merged text.
@@ -266,6 +273,8 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
   vector <int> verses = usfm_get_verse_numbers (change);
   
   vector <string> results;
+  
+  string previous_change;
 
   // Go through the verses.
   for (auto verse : verses) {
@@ -274,6 +283,10 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
     string base_text = usfm_get_verse_text (base, verse);
     string change_text = usfm_get_verse_text (change, verse);
     string prioritized_change_text = usfm_get_verse_text (prioritized_change, verse);
+    
+    // Check for combined verses.
+    if (change_text == previous_change) continue;
+    previous_change = change_text;
     
     // Check whether any of the three text fragments can be considered to be a verse without content.
     size_t empty_length = 3 + convert_to_string (verse).length () + 1; // "\v n "
@@ -284,7 +297,7 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
     // If the prioritized change is empty, and the other two are not,
     // update the priotitized change to match the change.
     // Without doing this the merge behaves in an unexpected way:
-    // It woud take the prioritized change instead of the the base/change.
+    // It would take the prioritized change instead of the the base/change.
     if (prioritized_change_empty) {
       if (!base_empty && !change_empty) {
         prioritized_change_text = change_text;
@@ -293,7 +306,7 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
     
     // Run the merge, but clear the "clever" flags else it may enter an infinite loop.
     string result = filter_merge_run (base_text, change_text, prioritized_change_text, false);
-    
+
     // Store it.
     results.push_back (result);
   }
