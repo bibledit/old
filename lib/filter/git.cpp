@@ -547,7 +547,8 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
     string userData (head_version);
     string serverData (merge_head_version);
     
-    string mergedData = filter_merge_run (mergeBase, userData, serverData, true);
+    vector <tuple <string, string, string, string, string>> conflicts; // Todo
+    string mergedData = filter_merge_run (mergeBase, userData, serverData, true, conflicts);
     mergedData = filter_string_trim (mergedData);
     filter_url_file_put_contents (filter_url_create_path (repository, unmerged_path), mergedData);
     

@@ -128,7 +128,8 @@ string edit_save (void * webserver_request)
   if (!ancestor_usfm.empty ()) {
     if (server_usfm != ancestor_usfm) {
       // Prioritize the user's USFM.
-      user_usfm = filter_merge_run (ancestor_usfm, server_usfm, user_usfm, true);
+      vector <tuple <string, string, string, string, string>> conflicts; // Todo
+      user_usfm = filter_merge_run (ancestor_usfm, server_usfm, user_usfm, true, conflicts);
       Database_Logs::log (translate ("Merging chapter."));
     }
   }

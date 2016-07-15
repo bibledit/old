@@ -412,7 +412,8 @@ void Paratext_Logic::synchronize ()
           // and perhaps Translators run Bibledit.
           // But this assumption may be wrong.
           // Nevertheless preference must be given to some data anyway.
-          usfm = filter_merge_run (ancestor, bibledit, paratext, true);
+          vector <tuple <string, string, string, string, string>> conflicts;
+          usfm = filter_merge_run (ancestor, bibledit, paratext, true, conflicts);
           Database_Logs::log (journalTag (bible, book, chapter) + "Chapter merged", Filter_Roles::translator ());
           ancestor_usfm [chapter] = usfm;
           paratext_usfm [chapter] = usfm;
