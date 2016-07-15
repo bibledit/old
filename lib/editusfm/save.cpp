@@ -85,7 +85,7 @@ string editusfm_save (void * webserver_request)
               if (!ancestor_usfm.empty ()) {
                 if (server_usfm != ancestor_usfm) {
                   // Prioritize the USFM to save.
-                  chapter_data_to_save = filter_merge_run (ancestor_usfm, server_usfm, chapter_data_to_save);
+                  chapter_data_to_save = filter_merge_run (ancestor_usfm, server_usfm, chapter_data_to_save, true);
                   Database_Logs::log (translate ("Merging and saving chapter."));
                 }
               }

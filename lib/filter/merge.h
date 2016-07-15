@@ -24,7 +24,7 @@
 #include <config/libraries.h>
 
 
-string filter_merge_run (string base, string change, string prioritized_change, bool clever = true);
+string filter_merge_run (string base, string change, string prioritized_change, bool clever);
 bool filter_merge_irregularity_mail (vector <string> users,
                                      string base, string change, string prioritized_change,
                                      string result);

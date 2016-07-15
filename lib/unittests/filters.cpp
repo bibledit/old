@@ -4053,7 +4053,7 @@ void test_filter_merge () // Todo
     "\\c 29\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false);
     string standard =
     "\\c 29\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
@@ -4078,7 +4078,7 @@ void test_filter_merge () // Todo
     "\\c 28\n"
     "\\s Ukuvuka kukaJesu\n"
     "\\s Ukuvuka kukaJesu\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false);
     string standard =
     "\\c 28\n"
     "\\s Ukuvuka kukaJesu\n"
@@ -4115,7 +4115,7 @@ void test_filter_merge () // Todo
     "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
     "\\v 3 Lokubonakala kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesematho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65-66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false);
     string standard =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
@@ -4141,7 +4141,7 @@ void test_filter_merge () // Todo
     string serverModificationData =
     "\\c 29\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false);
     string standard =
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
@@ -4162,7 +4162,7 @@ void test_filter_merge () // Todo
     string serverModificationData =
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false);
     string standard =
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
@@ -4198,7 +4198,7 @@ void test_filter_merge () // Todo
     "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
     "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, njalo isembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false);
     string standard =
     "\\c 29\n"
     "\\s Ukuvuka lokuzibonakaliswa kwaJesu\n"
@@ -4224,7 +4224,7 @@ void test_filter_merge () // Todo
     string serverModificationData =
     "\\c 29\n"
     "\\v 4 Abalindi basebethuthumela besabe baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false);
     string standard =
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela besabe baba njengabafileyo\\x + 27.65,66.\\x*.";
@@ -4245,7 +4245,7 @@ void test_filter_merge () // Todo
     string serverModificationData =
     "\\c 29\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba; baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false);
     string standard =
     "\\c 29\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba; baba njengabafileyo\\x + 27.65,66.\\x*.";
@@ -4281,7 +4281,7 @@ void test_filter_merge () // Todo
     "\\v 3 The third (3rd) verse.\n"
     "\\v 4 The fourth verse.\n"
     "\\v 5\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false);
     string standard =
     "\\c 1\n"
     "\\p\n"
@@ -4314,7 +4314,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
 
-    output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, true);
     evaluate (__LINE__, __func__, standard, output);
   }
   
@@ -4338,7 +4338,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
     
-    output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, true);
     evaluate (__LINE__, __func__, standard, output);
   }
   
@@ -4367,7 +4367,7 @@ void test_filter_merge () // Todo
     "\\v 3 The third (3rd) verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false);
     string standard =
     "\\c 1\n"
     "\\p\n"
@@ -4408,7 +4408,7 @@ void test_filter_merge () // Todo
     "\\v 3 The third verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false);
     string standard =
     "\\c 1\n"
     "\\p\n"
@@ -4444,7 +4444,7 @@ void test_filter_merge () // Todo
     bool conflict = filter_merge_irregularity_mail ({}, mergeBaseData, userModificationData, serverModificationData, output);
     evaluate (__LINE__, __func__, false, conflict);
     
-    output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData);
+    output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, true);
     evaluate (__LINE__, __func__, standard, output);
   }
 
