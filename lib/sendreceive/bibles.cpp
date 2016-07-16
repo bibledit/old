@@ -245,6 +245,7 @@ void sendreceive_bibles ()
   if (client_checksum == server_checksum) {
     Database_Logs::log (sendreceive_bibles_up_to_date_text (), Filter_Roles::translator ());
     send_receive_bibles_done ();
+    bible_logic_kick_unreceived_data_timer ();
     return;
   }
   
@@ -270,6 +271,7 @@ void sendreceive_bibles ()
   if (server_checksum != message_checksum) {
     Database_Logs::log (sendreceive_bibles_text () + translate("Checksum error while receiving list of Bibles"), Filter_Roles::translator ());
     send_receive_bibles_done ();
+    bible_logic_kick_unreceived_data_timer ();
     return;
   }
   Database_Logs::log (sendreceive_bibles_text () + filter_string_implode (v_server_bibles, ", "), Filter_Roles::translator ());
@@ -474,6 +476,7 @@ void sendreceive_bibles ()
   
   // Done.
   Database_Logs::log (sendreceive_bibles_text () + "Ready", Filter_Roles::translator ());
+  bible_logic_kick_unreceived_data_timer ();
   send_receive_bibles_done ();
 }
 

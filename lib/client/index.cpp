@@ -24,6 +24,7 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/md5.h>
+#include <filter/date.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
@@ -71,7 +72,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
   request->session_logic ()->setUsername (username);
   request->session_logic ()->currentLevel (true);
   
-  // Clear all pending note actions and Bible actions and settings updates. // Todo
+  // Clear all pending note actions and Bible actions and settings updates.
   Database_NoteActions database_noteactions;
   Database_BibleActions database_bibleactions;
   database_noteactions.clear ();
@@ -81,6 +82,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
   request->session_logic ()->setUsername (username);
   request->database_config_user()->setUpdatedSettings ({});
   Database_Config_General::setUnsentBibleDataTime (0);
+  Database_Config_General::setUnreceivedBibleDataTime (filter_date_seconds_since_epoch ());
   
   // Set it to repeat sync every so often.
   if (Database_Config_General::getRepeatSendReceive () == 0) {
@@ -102,6 +104,8 @@ string client_index (void * webserver_request)
     client_logic_enable_client (false);
     client_index_remove_all_users (request);
     Database_Config_General::setRepeatSendReceive (0);
+    Database_Config_General::setUnsentBibleDataTime (0);
+    Database_Config_General::setUnreceivedBibleDataTime (0);
   }
   
   bool connect = request->post.count ("connect");

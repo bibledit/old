@@ -119,6 +119,9 @@ public:
   
   static int getUnsentBibleDataTime ();
   static void setUnsentBibleDataTime (int value);
+
+  static int getUnreceivedBibleDataTime ();
+  static void setUnreceivedBibleDataTime (int value);
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

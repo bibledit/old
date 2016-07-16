@@ -358,13 +358,39 @@ void bible_logic_kick_unsent_data_timer ()
 }
 
 
+void bible_logic_kick_unreceived_data_timer ()
+{
+  Database_Config_General::setUnreceivedBibleDataTime (filter_date_seconds_since_epoch ());
+}
+
+
 // This returns a warning in case there's old Bible data not yet sent to the Cloud.
-string bible_logic_unsent_data_warning (bool extended)
+string bible_logic_unsent_unreceived_data_warning (bool extended)
 {
   string warning;
+
 #ifdef HAVE_CLIENT
+
+  // Time-stamp for oldest unreceived Bible data.
+  int data_time = Database_Config_General::getUnreceivedBibleDataTime ();
+  // A value of 0 means that it is not relevant.
+  if (data_time) {
+    int now = filter_date_seconds_since_epoch ();
+    // Unreceived data warning after four days.
+    data_time += (4 * 24 * 3600);
+    if (now > data_time) {
+      if (extended) {
+        warning.append (translate ("It has been some time ago that changes in the Bible text were received from the Cloud."));
+        warning.append (" ");
+        warning.append (translate ("Please do a Send/receive action to receive them from the Cloud."));
+      } else {
+        warning.append (translate ("Please do a Send/receive to the Cloud"));
+      }
+    }
+  }
+  
   // Time-stamp for oldest unsent Bible data.
-  int data_time = Database_Config_General::getUnsentBibleDataTime ();
+  data_time = Database_Config_General::getUnsentBibleDataTime ();
   // A value of 0 means that there's no pending data.
   if (data_time) {
     int now = filter_date_seconds_since_epoch ();
@@ -380,6 +406,8 @@ string bible_logic_unsent_data_warning (bool extended)
       }
     }
   }
+
 #endif
+
   return warning;
 }

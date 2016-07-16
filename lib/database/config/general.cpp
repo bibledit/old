@@ -421,3 +421,13 @@ void Database_Config_General::setUnsentBibleDataTime (int value)
 {
   setIValue ("unsent-bible-data-time", value);
 }
+
+
+int Database_Config_General::getUnreceivedBibleDataTime ()
+{
+  return getIValue ("unreceived-bible-data-time", 0);
+}
+void Database_Config_General::setUnreceivedBibleDataTime (int value)
+{
+  setIValue ("unreceived-bible-data-time", value);
+}
