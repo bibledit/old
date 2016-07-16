@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/changes.h>
 #include <workbench/index.h>
 #include <session/login.h>
+#include <bible/logic.h>
 
 
 const char * index_index_url ()
@@ -86,6 +87,8 @@ string index_index (void * webserver_request)
   
   Assets_View view;
 
+  view.set_variable ("warning", bible_logic_unsent_data_warning (true));
+  
   page += view.render ("index", "index");
   page += Assets_Page::footer ();
   return page;

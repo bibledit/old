@@ -42,9 +42,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sword/logic.h>
 #include <resource/logic.h>
 #include <search/logic.h>
+#include <locale/translate.h>
 
 
-void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm) // Todo
+void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm)
 {
   Database_Bibles database_bibles;
 
@@ -56,6 +57,7 @@ void bible_logic_store_chapter (const string& bible, int book, int chapter, cons
     Database_BibleActions database_bibleactions;
     database_bibleactions.record (bible, book, chapter, oldusfm);
     
+    // Kick the unsent-data timeout mechanism.
     bible_logic_kick_unsent_data_timer ();
 
   } else {
@@ -71,7 +73,7 @@ void bible_logic_store_chapter (const string& bible, int book, int chapter, cons
 }
 
 
-void bible_logic_delete_chapter (const string& bible, int book, int chapter) // Todo
+void bible_logic_delete_chapter (const string& bible, int book, int chapter)
 {
   Database_Bibles database_bibles;
 
@@ -83,6 +85,7 @@ void bible_logic_delete_chapter (const string& bible, int book, int chapter) // 
     Database_BibleActions database_bibleactions;
     database_bibleactions.record (bible, book, chapter, usfm);
 
+    // Kick the unsent-data timeout mechanism.
     bible_logic_kick_unsent_data_timer ();
 
   } else {
@@ -98,7 +101,7 @@ void bible_logic_delete_chapter (const string& bible, int book, int chapter) // 
 }
 
 
-void bible_logic_delete_book (const string& bible, int book) // Todo
+void bible_logic_delete_book (const string& bible, int book)
 {
   Database_Bibles database_bibles;
 
@@ -113,6 +116,7 @@ void bible_logic_delete_book (const string& bible, int book) // Todo
       database_bibleactions.record (bible, book, chapter, usfm);
     }
 
+    // Kick the unsent-data timeout mechanism.
     bible_logic_kick_unsent_data_timer ();
 
   } else {
@@ -128,7 +132,7 @@ void bible_logic_delete_book (const string& bible, int book) // Todo
 }
 
 
-void bible_logic_delete_bible (const string& bible) // Todo
+void bible_logic_delete_bible (const string& bible)
 {
   Database_Bibles database_bibles;
 
@@ -146,6 +150,7 @@ void bible_logic_delete_bible (const string& bible) // Todo
       }
     }
 
+    // Kick the unsent-data timeout mechanism.
     bible_logic_kick_unsent_data_timer ();
 
   } else {
@@ -344,10 +349,37 @@ void bible_logic_log_merge (string user, string bible, int book, int chapter,
 
 void bible_logic_kick_unsent_data_timer ()
 {
-  // The timer contains the highest age of the Bible data not yet sent to the Cloud.
+  // The timer contains the oldest age of Bible data on a client not yet sent to the Cloud.
   // If the timer has been set already, bail out.
   if (Database_Config_General::getUnsentBibleDataTime () != 0) return;
   
   // Stamp with the current time.
   Database_Config_General::setUnsentBibleDataTime (filter_date_seconds_since_epoch ());
+}
+
+
+// This returns a warning in case there's old Bible data not yet sent to the Cloud.
+string bible_logic_unsent_data_warning (bool extended)
+{
+  string warning;
+#ifdef HAVE_CLIENT
+  // Time-stamp for oldest unsent Bible data.
+  int data_time = Database_Config_General::getUnsentBibleDataTime ();
+  // A value of 0 means that there's no pending data.
+  if (data_time) {
+    int now = filter_date_seconds_since_epoch ();
+    // Unsent data warning after four days.
+    data_time += (4 * 24 * 3600);
+    if (now > data_time) {
+      if (extended) {
+        warning.append (translate ("There are pending changes in the Bible text that have not yet been sent to the Cloud for some time."));
+        warning.append (" ");
+        warning.append (translate ("Please do a Send/receive action to send them to the Cloud."));
+      } else {
+        warning.append (translate ("Please do a Send/receive to the Cloud"));
+      }
+    }
+  }
+#endif
+  return warning;
 }

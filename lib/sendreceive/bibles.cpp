@@ -208,6 +208,12 @@ void sendreceive_bibles ()
   // * Network latency: Test it by adding delays here and there.
   
   
+  // After successfully sending all changes to the Cloud, clear the unsent-data timeout warning data.
+  if (!communication_errors) {
+    Database_Config_General::setUnsentBibleDataTime (0);
+  }
+  
+  
   // After all Bible actions have been sent to the server, and the chapters updated on the client,
   // the client will now sync its Bibles with the server's Bibles.
   // But if there was a communications error during sending a change to the server,

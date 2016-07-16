@@ -80,6 +80,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
   database_bibleactions.create ();
   request->session_logic ()->setUsername (username);
   request->database_config_user()->setUpdatedSettings ({});
+  Database_Config_General::setUnsentBibleDataTime (0);
   
   // Set it to repeat sync every so often.
   if (Database_Config_General::getRepeatSendReceive () == 0) {

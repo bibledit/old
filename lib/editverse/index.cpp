@@ -34,6 +34,7 @@
 #include <dialog/list.h>
 #include <ipc/focus.h>
 #include <menu/logic.h>
+#include <bible/logic.h>
 
 
 string editverse_index_url ()
@@ -108,7 +109,8 @@ string editverse_index (void * webserver_request)
   "var verseEditorVerseSaving = '" + chapterSaving + "';\n"
   "var verseEditorVerseSaved = '" + chapterSaved + "';\n"
   "var verseEditorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var verseEditorWriteAccess = true;";
+  "var verseEditorWriteAccess = true;"
+  "var unsentBibleDataTimeoutWarning = '" + bible_logic_unsent_data_warning (false) + "';\n";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

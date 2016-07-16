@@ -33,6 +33,7 @@ void bible_logic_log_change (const string& bible, int book, int chapter, const s
 void bible_logic_log_merge (string user, string bible, int book, int chapter,
                             string base, string change, string prioritized_change, string result);
 void bible_logic_kick_unsent_data_timer ();
+string bible_logic_unsent_data_warning (bool extended);
 
 
 #endif
