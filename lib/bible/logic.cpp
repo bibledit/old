@@ -311,6 +311,37 @@ void bible_logic_log_change (const string& bible, int book, int chapter, const s
 }
 
 
+// This logs the change in the Bible text as a result of a merge operation.
+// This is mostly for diagnostics as at times there's queries on how the merge was done.
+void bible_logic_log_merge (string user, string bible, int book, int chapter,
+                            string base, string change, string prioritized_change, string result)
+{
+  string bookname = Database_Books::getEnglishFromId (book);
+  string passage = bible + " " + bookname + " " + convert_to_string (chapter);
+  
+  vector <string> body;
+
+  body.push_back ("This is a record of a merge operation after receiving an update on a chapter from a client.");
+  body.push_back ("");
+  body.push_back ("Base:");
+  body.push_back (base);
+  
+  body.push_back ("");
+  body.push_back ("Change:");
+  body.push_back (change);
+  
+  body.push_back ("");
+  body.push_back ("Existing:");
+  body.push_back (prioritized_change);
+  
+  body.push_back ("");
+  body.push_back ("Result:");
+  body.push_back (result);
+  
+  Database_Logs::log (user + " - merge record - " + passage, filter_string_implode (body, "\n"));
+}
+
+
 void bible_logic_kick_unsent_data_timer ()
 {
   // The timer contains the highest age of the Bible data not yet sent to the Cloud.
