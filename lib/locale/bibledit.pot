@@ -338,6 +338,25 @@ msgstr ""
 msgid "The text to be imported should be in Unicode UTF-8 format."
 msgstr ""
 
+msgid ""
+"It has been some time ago that changes in the Bible text were received from "
+"the Cloud."
+msgstr ""
+
+msgid "Please do a Send/receive action to receive them from the Cloud."
+msgstr ""
+
+msgid "Please do a Send/receive to the Cloud"
+msgstr ""
+
+msgid ""
+"There are pending changes in the Bible text that have not yet been sent to "
+"the Cloud for some time."
+msgstr ""
+
+msgid "Please do a Send/receive action to send them to the Cloud."
+msgstr ""
+
 msgid "Bibles"
 msgstr ""
 

@@ -18,11 +18,11 @@ make distclean
 
 
 # Update the source for the configuration.
-sed -i.bak 's/CLIENT=no/CLIENT=yes/g' configure.ac
+sed -i.bak 's/ENABLELINUX=no/ENABLELINUX=yes/g' configure.ac
 sed -i.bak 's/.*Tag1.*/PKG_CHECK_MODULES(GTK, gtk+-3.0,,AC_MSG_ERROR(Gtk3 development version is needed.))/g' configure.ac
 sed -i.bak 's/.*Tag2.*/AC_SUBST(GTK_LIBS)/g' configure.ac
 sed -i.bak 's/.*Tag3.*/AC_SUBST(GTK_CFLAGS)/g' configure.ac
-sed -i.bak 's/.*Tag4.*/AC_DEFINE([CLIENT_PREPARED], [1], [Enable client installation for on Linux])/g' configure.ac
+sed -i.bak 's/.*Tag4.*/AC_DEFINE([HAVE_LINUX], [1], [Enable installation on Linux])/g' configure.ac
 
 
 # Update the source for the Makefile.
