@@ -172,7 +172,7 @@ fi
 $DRYECHO cd bibledit
 # Remove bits from any older build that might cause crashes in the new build.
 find . -name "*.o" -delete
-$DRYECHO ./configure --enable-linux
+$DRYECHO ./configure
 if [ $? -ne 0 ]
 then
   echo Failed to configure Bibledit
