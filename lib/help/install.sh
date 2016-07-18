@@ -1,6 +1,11 @@
 #!/bin/bash
 
 
+pushd `dirname $0` > /dev/null
+SCRIPTPATH=`pwd`
+popd > /dev/null
+
+
 # Some distro's cannot run $ su.
 UNAME=`uname -a`
 echo -n "Installing Bibledit on "
@@ -185,6 +190,10 @@ then
   echo Failed to build Bibledit
   exit
 fi
+
+# Remove the script, so people cannot reuse it.
+# Reusing scripts have given problems in the past as newer scripts were different.
+rm $SCRIPTPATH/install.sh
 
 echo If there were no errors, Bibledit should be working now.
 echo Bibledit works best with the Google Chrome browser.
