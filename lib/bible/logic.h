@@ -35,6 +35,8 @@ void bible_logic_log_merge (string user, string bible, int book, int chapter,
 void bible_logic_kick_unsent_data_timer ();
 void bible_logic_kick_unreceived_data_timer ();
 string bible_logic_unsent_unreceived_data_warning (bool extended);
+void bible_logic_merge_irregularity_mail (vector <string> users,
+                                     vector <tuple <string, string, string, string, string>> conflicts);
 
 
 #endif

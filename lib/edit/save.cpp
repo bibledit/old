@@ -35,6 +35,7 @@
 #include <locale/logic.h>
 #include <edit/logic.h>
 #include <access/bible.h>
+#include <bible/logic.h>
 
 
 string edit_save_url ()
@@ -135,10 +136,10 @@ string edit_save (void * webserver_request)
   }
   
   // Check on the merge.
-  filter_merge_irregularity_mail ({username}, conflicts);
+  bible_logic_merge_irregularity_mail ({username}, conflicts);
   
   // Safely store the chapter.
-  string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm);
+  string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm); // Todo
   
   if (!message.empty ()) return message;
 

@@ -43,6 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/logic.h>
 #include <search/logic.h>
 #include <locale/translate.h>
+#include <email/send.h>
 
 
 void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm)
@@ -408,6 +409,72 @@ string bible_logic_unsent_unreceived_data_warning (bool extended)
   }
 
 #endif
+  
+  (void) extended;
 
   return warning;
+}
+
+
+void bible_logic_merge_irregularity_mail (vector <string> users,
+                                     vector <tuple <string, string, string, string, string>> conflicts)
+{
+  if (conflicts.empty ()) return;
+  
+  for (auto & conflict : conflicts) {
+    
+    string base = get<0>(conflict);
+    string change = get<1>(conflict);
+    string prioritized_change = get<2>(conflict);
+    string result = get<3>(conflict);;
+    string subject = get<4>(conflict);
+    
+    // Create the body of the email.
+    xml_document document;
+    xml_node node;
+    node = document.append_child ("h3");
+    node.text ().set (subject.c_str());
+    
+    // Add some information for the user.
+    node = document.append_child ("p");
+    node.text ().set ("While saving Bible text, Bibledit detected something unusual.");
+    
+    // Add the base text.
+    document.append_child ("br");
+    node = document.append_child ("p");
+    node.text ().set ("Base text");
+    node = document.append_child ("pre");
+    node.text ().set (base.c_str ());
+    
+    // Add the changed text.
+    document.append_child ("br");
+    node = document.append_child ("p");
+    node.text ().set ("Changed text");
+    node = document.append_child ("pre");
+    node.text ().set (change.c_str ());
+    
+    // Add the existing text.
+    document.append_child ("br");
+    node = document.append_child ("p");
+    node.text ().set ("Existing text");
+    node = document.append_child ("pre");
+    node.text ().set (prioritized_change.c_str ());
+    
+    // Add the merge result.
+    document.append_child ("br");
+    node = document.append_child ("p");
+    node.text ().set ("The text that was actually saved to the chapter");
+    node = document.append_child ("pre");
+    node.text ().set (result.c_str ());
+    
+    // Convert the document to a string.
+    stringstream output;
+    document.print (output, "", format_raw);
+    string html = output.str ();
+    
+    // Schedule the mail for sending to the user(s).
+    for (auto user : users) {
+      email_schedule (user, subject, html);
+    }
+  }
 }

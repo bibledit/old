@@ -136,7 +136,7 @@ string editone_save (void * webserver_request)
 
   
   // Safely store the verse.
-  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm);
+  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm); // Todo
   if (message.empty ()) {
     // Server: Store details for the user's changes.
 #ifndef HAVE_CLIENT
