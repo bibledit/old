@@ -417,7 +417,7 @@ string bible_logic_unsent_unreceived_data_warning (bool extended)
 
 
 void bible_logic_merge_irregularity_mail (vector <string> users,
-                                     vector <tuple <string, string, string, string, string>> conflicts)
+                                          vector <tuple <string, string, string, string, string>> conflicts)
 {
   if (conflicts.empty ()) return;
   
@@ -477,4 +477,35 @@ void bible_logic_merge_irregularity_mail (vector <string> users,
       email_schedule (user, subject, html);
     }
   }
+}
+
+
+void bible_logic_unsafe_save_mail (const string & message, const string & explanation, const string & user, const string & usfm)
+{
+  if (message.empty ()) return;
+  
+  // Create the body of the email.
+  xml_document document;
+  xml_node node;
+  node = document.append_child ("h3");
+  node.text ().set (message.c_str());
+  
+  // Add some information for the user.
+  node = document.append_child ("p");
+  node.text ().set (explanation.c_str ());
+  node = document.append_child ("p");
+  node.text ().set ("Bibledit failed to save the Bible text below.");
+  
+  // Add the base text.
+  document.append_child ("br");
+  node = document.append_child ("pre");
+  node.text ().set (usfm.c_str ());
+  
+  // Convert the document to a string.
+  stringstream output;
+  document.print (output, "", format_raw);
+  string html = output.str ();
+  
+  // Schedule the mail for sending to the user.
+  email_schedule (user, message, html);
 }

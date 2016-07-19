@@ -139,7 +139,9 @@ string edit_save (void * webserver_request)
   bible_logic_merge_irregularity_mail ({username}, conflicts);
   
   // Safely store the chapter.
-  string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm); // Todo
+  string explanation;
+  string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm, explanation);
+  bible_logic_unsafe_save_mail (message, explanation, username, user_usfm);
   
   if (!message.empty ()) return message;
 

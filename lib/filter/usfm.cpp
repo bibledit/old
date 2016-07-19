@@ -802,14 +802,18 @@ size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
 
 // This function compares the $newtext with the $oldtext.
 // It returns an empty string if the difference is below the limit set for the Bible.
-// It returns a message specifying the difference if it exceeds that limit.
-string usfm_save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter)
+// It returns a short message specifying the difference if it exceeds that limit.
+// It fills $explanation with a longer message in case saving is not safe.
+string usfm_save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter, string & explanation)
 {
   // Two texts are equal: safe.
   if (newtext == oldtext) return "";
 
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  const char * explanation1 = "The text was not saved for safety reasons.";
+  const char * explanation2 = "Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.";
+  
   // Allowed percentage difference.
   int allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceVerse ();
   if (chapter) allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceChapter ();
@@ -821,16 +825,24 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
   percentage = abs (percentage);
   if (percentage > 100) percentage = 100;
   if (percentage > allowed_percentage) {
-    Database_Logs::log ("The text was not saved for safety reasons. The length differs " + convert_to_string (percentage) + "% from the existing text. Make smaller changes and save more often. Or relax the restriction in the Bible's editing settings.");
-    Database_Logs::log (newtext);
+    explanation.append (explanation1);
+    explanation.append (" ");
+    explanation.append ("The length differs " + convert_to_string (percentage) + "% from the existing text.");
+    explanation.append (" ");
+    explanation.append (explanation2);
+    Database_Logs::log (explanation + "\n" + newtext);
     return translate ("Text length differs too much");
   }
   
   // The new text should be at least a set percentage similar to the old text.
   percentage = filter_diff_similarity (oldtext, newtext);
   if (percentage < (100 - allowed_percentage)) {
-    Database_Logs::log ("The text was not saved for safety reasons. The new text is " + convert_to_string (percentage) + "% similar to the existing text. Make smaller changes and save more often. Or relax the restriction in the Bible's editing settings.");
-    Database_Logs::log (newtext);
+    explanation.append (explanation1);
+    explanation.append (" ");
+    explanation.append ("The new text is " + convert_to_string (percentage) + "% similar to the existing text.");
+    explanation.append (" ");
+    explanation.append (explanation2);
+    Database_Logs::log (explanation + "\n" + newtext);
     return translate ("Text content differs too much");
   }
   
@@ -848,7 +860,8 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
 // It also is useful in cases where the session is deleted from the server,
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
-string usfm_safely_store_chapter (void * webserver_request, string bible, int book, int chapter, string usfm)
+string usfm_safely_store_chapter (void * webserver_request,
+                                  string bible, int book, int chapter, string usfm, string & explanation)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -859,7 +872,7 @@ string usfm_safely_store_chapter (void * webserver_request, string bible, int bo
   if (usfm == existing) return "";
   
   // Safety check.
-  string message = usfm_save_is_safe (webserver_request, existing, usfm, true);
+  string message = usfm_save_is_safe (webserver_request, existing, usfm, true, explanation);
   if (!message.empty ()) return message;
 
   // Record the change in the journal.
@@ -882,7 +895,8 @@ string usfm_safely_store_chapter (void * webserver_request, string bible, int bo
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
 // It handles combined verses.
-string usfm_safely_store_verse (void * webserver_request, string bible, int book, int chapter, int verse, string usfm)
+string usfm_safely_store_verse (void * webserver_request,
+                                string bible, int book, int chapter, int verse, string usfm, string & explanation)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -894,13 +908,15 @@ string usfm_safely_store_verse (void * webserver_request, string bible, int book
     save_verses.erase (save_verses.begin());
   }
   if (save_verses.empty ()) {
-    Database_Logs::log ("The USFM contains no verse information: " + usfm);
+    explanation = "The USFM contains no verse information";
+    Database_Logs::log (explanation + ": " + usfm);
     return translate ("Missing verse number");
   }
   if (!in_array (verse, save_verses)) {
     vector <string> vss;
     for (auto vs : save_verses) vss.push_back (convert_to_string (vs));
-    Database_Logs::log ("The USFM contains verse(s) " + filter_string_implode (vss, " ") + " while it wants to save to verse " + convert_to_string (verse) + ": " + usfm);
+    explanation = "The USFM contains verse(s) " + filter_string_implode (vss, " ") + " while it wants to save to verse " + convert_to_string (verse);
+    Database_Logs::log (explanation + ": " + usfm);
     return translate ("Verse mismatch");
   }
 
@@ -926,7 +942,8 @@ string usfm_safely_store_verse (void * webserver_request, string bible, int book
     vector <string> existing, save;
     for (auto vs : existing_verses) existing.push_back (convert_to_string (vs));
     for (auto vs : save_verses) save.push_back (convert_to_string (vs));
-    Database_Logs::log ("The USFM contains verse(s) " + filter_string_implode (save, " ") + " which would overwrite a fragment that contains verse(s) " + filter_string_implode (existing, " ") + ": " + usfm);
+    explanation = "The USFM contains verse(s) " + filter_string_implode (save, " ") + " which would overwrite a fragment that contains verse(s) " + filter_string_implode (existing, " ");
+    Database_Logs::log (explanation + ": " + usfm);
     return translate ("Cannot overwrite another verse");
   }
 
@@ -936,7 +953,7 @@ string usfm_safely_store_verse (void * webserver_request, string bible, int book
   }
 
   // Check maximum difference between new and existing USFM.
-  string message = usfm_save_is_safe (webserver_request, existing_verse_usfm, usfm, false);
+  string message = usfm_save_is_safe (webserver_request, existing_verse_usfm, usfm, false, explanation);
   if (!message.empty ()) return message;
   
   // Store the new verse USFM in the existing chapter USFM.

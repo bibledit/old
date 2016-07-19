@@ -30,6 +30,7 @@
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <access/bible.h>
+#include <bible/logic.h>
 
 
 string editverse_save_url ()
@@ -111,7 +112,9 @@ string editverse_save (void * webserver_request)
 
   
   // Safely store the verse.
-  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm); // Todo
+  string explanation;
+  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm, explanation);
+  bible_logic_unsafe_save_mail (message, explanation, username, usfm);
   if (message.empty ()) {
     // In server configuration, store details for the user's changes.
 #ifndef HAVE_CLIENT
