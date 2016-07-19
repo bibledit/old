@@ -189,7 +189,7 @@ void setup_initialize_data ()
   request.database_styles ()->create ();
   config_globals_setup_message = "bible actions";
   Database_BibleActions database_bibleactions;
-  database_bibleactions.create (); // Todo test
+  database_bibleactions.create ();
   config_globals_setup_message = "checks";
   request.database_check ()->create ();
   setup_generate_locale_databases (false);

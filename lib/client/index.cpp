@@ -74,7 +74,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
   
   // Clear all pending note actions and Bible actions and settings updates.
   Database_NoteActions database_noteactions;
-  Database_BibleActions database_bibleactions; // Todo
+  Database_BibleActions database_bibleactions;
   database_noteactions.clear ();
   database_noteactions.create ();
   database_bibleactions.clear ();
