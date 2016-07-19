@@ -38,6 +38,8 @@ string bible_logic_unsent_unreceived_data_warning (bool extended);
 void bible_logic_merge_irregularity_mail (vector <string> users,
                                           vector <tuple <string, string, string, string, string>> conflicts);
 void bible_logic_unsafe_save_mail (const string & message, const string & explanation, const string & user, const string & usfm);
+void bible_logic_client_receive_merge_mail (const string & user,
+                                            const string & client_old, const string & client_new, const string & server);
 
 
 #endif

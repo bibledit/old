@@ -108,7 +108,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
     // Update the server with the new chapter data.
     bible_logic_store_chapter (bible, book, chapter, mergedusfm);
     // Check on the merge.
-    bible_logic_merge_irregularity_mail ({username}, conflicts);
+    bible_logic_client_receive_merge_mail (username, oldusfm, newusfm, mergedusfm);
     // Log the merge in the journal, for possible trouble shooting.
     bible_logic_log_merge (username, bible, book, chapter, oldusfm, newusfm, serverusfm, mergedusfm);
   }

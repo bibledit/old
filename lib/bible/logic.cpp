@@ -509,3 +509,69 @@ void bible_logic_unsafe_save_mail (const string & message, const string & explan
   // Schedule the mail for sending to the user.
   email_schedule (user, message, html);
 }
+
+
+// This function is sends an email
+// if the USFM received from the client
+// does not match the USFM that gets stored on the server.
+void bible_logic_client_receive_merge_mail (const string & user,
+                                            const string & client_old, const string & client_new, const string & server)
+{
+  // No difference: Done.
+  if (client_old == server) return;
+  
+  vector <string> client_diff, server_diff;
+  
+  // Go through all verses from the client,
+  // and make a record for each verse,
+  // where the USFM differs between client and server.
+  vector <int> verses = usfm_get_verse_numbers (client_old);
+  for (auto verse : verses) {
+    string client_old_verse = usfm_get_verse_text (client_old, verse);
+    string client_new_verse = usfm_get_verse_text (client_new, verse);
+    // When there's no change in the verse as sent by the client, skip further checks.
+    if (client_old_verse == client_new_verse) continue;
+    // Check whether the client's change made it to the server.
+    string server_verse = usfm_get_verse_text (server, verse);
+    if (client_new_verse == server_verse) continue;
+    // Record the difference.
+    client_diff.push_back (client_new_verse);
+    server_diff.push_back (server_verse);
+  }
+
+  // No differences found: Done.
+  if (client_diff.empty ()) return;
+  
+  string subject = "Saved Bible text was merged";
+  
+  // Create the body of the email.
+  xml_document document;
+  xml_node node;
+  node = document.append_child ("h3");
+  node.text ().set (subject.c_str());
+  
+  // Add some information for the user.
+  node = document.append_child ("p");
+  node.text ().set ("The Bible text you sent to the Cloud was not saved exactly as you sent it. It was merged with changes already avaible in the Cloud. Most likely all your changes were correctly merged. Just to be sure, here are the details:");
+
+  for (unsigned int i = 0; i < client_diff.size(); i++) {
+
+    document.append_child ("br");
+    node = document.append_child ("p");
+    node.text ().set ("You sent:");
+    node = document.append_child ("pre");
+    node.text ().set (client_diff[i].c_str ());
+    node = document.append_child ("p");
+    node.text ().set ("The Cloud now has:");
+    node = document.append_child ("pre");
+    node.text ().set (server_diff[i].c_str ());
+  }
+  
+  // Convert the document to a string.
+  stringstream output;
+  document.print (output, "", format_raw);
+  string html = output.str ();
+  
+  // Schedule the mail for sending to the user.
+  email_schedule (user, subject, html);
+}
