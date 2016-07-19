@@ -29,6 +29,7 @@
 #include <database/navigation.h>
 #include <database/mappings.h>
 #include <database/noteactions.h>
+#include <database/bibleactions.h>
 #include <database/versifications.h>
 #include <database/modifications.h>
 #include <database/notes.h>
@@ -187,7 +188,8 @@ void setup_initialize_data ()
   config_globals_setup_message = "styles";
   request.database_styles ()->create ();
   config_globals_setup_message = "bible actions";
-  request.database_bibleactions ()->create ();
+  Database_BibleActions database_bibleactions;
+  database_bibleactions.create (); // Todo test
   config_globals_setup_message = "checks";
   request.database_check ()->create ();
   setup_generate_locale_databases (false);

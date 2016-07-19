@@ -31,6 +31,7 @@
 #include <database/logs.h>
 #include <database/bibles.h>
 #include <database/privileges.h>
+#include <database/bibleactions.h>
 #include <client/logic.h>
 #include <locale/translate.h>
 #include <webserver/request.h>
@@ -133,7 +134,7 @@ void sendreceive_bibles ()
 
   
   // Go through the Bibles / books / chapters that have actions recorded for them.
-  Database_BibleActions database_bibleactions;
+  Database_BibleActions database_bibleactions; // Todo
   vector <string> bibles = database_bibleactions.getBibles ();
   for (string bible : bibles) {
     vector <int> books = database_bibleactions.getBooks (bible);
