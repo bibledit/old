@@ -426,7 +426,8 @@ libbibledit_a_SOURCES = \
 	mbedtls/x509_csr.c \
 	mbedtls/x509write_crt.c \
 	mbedtls/x509write_csr.c \
-	mbedtls/xtea.c
+	mbedtls/xtea.c \
+	related/logic.cpp
 
 bin_PROGRAMS = server unittest generate
 

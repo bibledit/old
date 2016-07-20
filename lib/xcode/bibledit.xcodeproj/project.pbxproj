@@ -332,6 +332,11 @@
 		CA605AD11B876CA400EDDBA4 /* etcbc4.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = etcbc4.txt; sourceTree = "<group>"; };
 		CA605AD21B876D0400EDDBA4 /* etcbc4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = etcbc4.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA605AD31B876D0400EDDBA4 /* etcbc4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = etcbc4.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CA607B651D3FF41500FC5792 /* parallel-passages-nt.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "parallel-passages-nt.xml"; sourceTree = "<group>"; };
+		CA607B661D3FF41500FC5792 /* parallel-passages-ot.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "parallel-passages-ot.xml"; sourceTree = "<group>"; };
+		CA607B671D3FF41500FC5792 /* ot-quotations-in-nt.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ot-quotations-in-nt.xml"; sourceTree = "<group>"; };
+		CA607B681D4000A700FC5792 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CA607B691D4000A700FC5792 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA620A291D2ADC4500770F2E /* quickbible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = quickbible.cpp; sourceTree = "<group>"; };
 		CA620A2A1D2ADC4500770F2E /* quickbible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quickbible.h; sourceTree = "<group>"; };
 		CA6339861A655A3A00514F1E /* maintenance.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = maintenance.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -1306,6 +1311,19 @@
 			);
 			name = client;
 			path = ../client;
+			sourceTree = "<group>";
+		};
+		CA607B641D3FF41500FC5792 /* related */ = {
+			isa = PBXGroup;
+			children = (
+				CA607B681D4000A700FC5792 /* logic.cpp */,
+				CA607B691D4000A700FC5792 /* logic.h */,
+				CA607B651D3FF41500FC5792 /* parallel-passages-nt.xml */,
+				CA607B661D3FF41500FC5792 /* parallel-passages-ot.xml */,
+				CA607B671D3FF41500FC5792 /* ot-quotations-in-nt.xml */,
+			);
+			name = related;
+			path = ../related;
 			sourceTree = "<group>";
 		};
 		CA80A7091AA0A9A800C7208F /* json */ = {
@@ -3170,6 +3188,7 @@
 				CAC0E03B1BE23B2C00640BFE /* public */,
 				CABE4D0B1BDBC996000547DB /* pugixml */,
 				CAA4D2B71A45A648003ABA25 /* reconfigure */,
+				CA607B641D3FF41500FC5792 /* related */,
 				CAA4D2B91A45A648003ABA25 /* resource */,
 				CAA4D2ED1A45A648003ABA25 /* revisions */,
 				CAA4D2F31A45A648003ABA25 /* search */,
