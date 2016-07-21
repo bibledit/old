@@ -22,7 +22,7 @@ cd $BIBLEDITWINDOWS/windows
 pushd webroot
 
 
-rsync -av --delete ../../lib/ .
+rsync -a --delete ../../lib/ .
 make distclean
 
 
