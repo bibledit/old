@@ -552,7 +552,7 @@ void bible_logic_client_receive_merge_mail (const string & user,
   
   // Add some information for the user.
   node = document.append_child ("p");
-  node.text ().set ("The Bible text you sent to the Cloud was not saved exactly as you sent it. It was merged with changes already avaible in the Cloud. Most likely all your changes were correctly merged. Just to be sure, here are the details:");
+  node.text ().set ("The Bible text you sent to the Cloud was not saved exactly as you sent it. It was merged with changes already avaible in the Cloud. Here are the details:");
 
   for (unsigned int i = 0; i < client_diff.size(); i++) {
 
