@@ -188,7 +188,7 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input)
   }
   
   
-  // If no related passages were found in the XML files, the output will be the input. Todo test it.
+  // If no related passages were found in the XML files, the output will be the input.
   if (output.empty ()) output = input;
   
   

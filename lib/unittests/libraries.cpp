@@ -487,7 +487,7 @@ void test_store_bible_data ()
     test_store_bible_data_safely_setup (&request, usfm);
     string explanation;
     int currentId = request.database_bibles()->getChapterId ("phpunit", 1, 1);
-    string stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, usfm, explanation); // Todo
+    string stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, usfm, explanation);
     evaluate (__LINE__, __func__, "", stored);
     evaluate (__LINE__, __func__, "", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -503,7 +503,7 @@ void test_store_bible_data ()
     "\\c 1\n"
     "\\p\n";
     string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation); // Todo
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation);
     evaluate (__LINE__, __func__, "", stored);
     evaluate (__LINE__, __func__, "", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -517,7 +517,7 @@ void test_store_bible_data ()
     "\\c 1\n"
     "\\p xx\n";
     string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation); // Todo
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation);
     evaluate (__LINE__, __func__, "", stored);
     evaluate (__LINE__, __func__, "", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -530,7 +530,7 @@ void test_store_bible_data ()
     test_store_bible_data_safely_setup (&request, usfm);
     string data = "\\v 2 Verse two.\n";
     string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation); // Todo
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation);
     evaluate (__LINE__, __func__, "", stored);
     evaluate (__LINE__, __func__, "", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -543,7 +543,7 @@ void test_store_bible_data ()
     test_store_bible_data_safely_setup (&request, usfm);
     string data = "\\v 2 Verse 2.\n";
     string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 1, data, explanation); // Todo
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 1, data, explanation);
     evaluate (__LINE__, __func__, "Verse mismatch", stored);
     evaluate (__LINE__, __func__, "The USFM contains verse(s) 2 while it wants to save to verse 1", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -555,7 +555,7 @@ void test_store_bible_data ()
     test_store_bible_data_safely_setup (&request, usfm);
     string data = "\\v 2 Verse two two two.\n";
     string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation); // Todo
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation);
     evaluate (__LINE__, __func__, "Text length differs too much", stored);
     evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The length differs 76% from the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -568,7 +568,7 @@ void test_store_bible_data ()
     request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
     string data = "\\v 2 vERSE 2.\n";
     string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation); // Todo
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation);
     evaluate (__LINE__, __func__, "Text content differs too much", stored);
     evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The new text is 44% similar to the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -581,7 +581,7 @@ void test_store_bible_data ()
     request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
     string data = "\\p Verse 2.\n";
     string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation); // Todo
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation);
     evaluate (__LINE__, __func__, "Missing verse number", stored);
     evaluate (__LINE__, __func__, "The USFM contains no verse information", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -594,7 +594,7 @@ void test_store_bible_data ()
     request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
     string data = "\\v 2 Verse 2.\n\\v 3 3";
     string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation); // Todo
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation);
     evaluate (__LINE__, __func__, "Cannot overwrite another verse", stored);
     evaluate (__LINE__, __func__, "The USFM contains verse(s) 0 2 3 which would overwrite a fragment that contains verse(s) 0 2", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -614,7 +614,7 @@ void test_store_bible_data ()
     test_store_bible_data_safely_setup (&request, usfm);
     string data = "\\v 2-3 Verse 2 and 3.\n";
     string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation); // Todo
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation);
     evaluate (__LINE__, __func__, "", stored);
     evaluate (__LINE__, __func__, "", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -625,7 +625,7 @@ void test_store_bible_data ()
     test_store_bible_data_safely_setup (&request, usfm);
     string data = "\\v 2-3 Verse 2 andx 3.\n";
     string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation); // Todo
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation);
     evaluate (__LINE__, __func__, "", stored);
     evaluate (__LINE__, __func__, "", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -638,7 +638,7 @@ void test_store_bible_data ()
     test_store_bible_data_safely_setup (&request, usfm);
     string data = "\\v 2-4 Verse 2 andx 3.\n";
     string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation); // Todo
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation);
     evaluate (__LINE__, __func__, "Cannot overwrite another verse", stored);
     evaluate (__LINE__, __func__, "The USFM contains verse(s) 0 2 3 4 which would overwrite a fragment that contains verse(s) 0 2 3", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
@@ -3153,9 +3153,16 @@ void test_related ()
     }
   }
   
-
-  // Todo test quotes, and more.
-
+  {
+    // Test that the output takes the input in case there's no related passage.
+    Passage input ("", 100, 101, "1");
+    vector <Passage> output = related_logic_get_verses ({ input });
+    unsigned int size = 1;
+    evaluate (__LINE__, __func__, size, output.size ());
+    if (output.size () == size) {
+      evaluate (__LINE__, __func__, true, input.equal (output[0]));
+    }
+  }
 }
 
 
