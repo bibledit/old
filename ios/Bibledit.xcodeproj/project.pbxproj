@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		CA6B9C191A9906C800FAB064 /* BibleditController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6B9C181A9906C800FAB064 /* BibleditController.m */; };
-		CA8C8A261B92D9BC00E9BA18 /* build.sh in Resources */ = {isa = PBXBuildFile; fileRef = CA8C8A251B92D9BC00E9BA18 /* build.sh */; };
 		CA9ADE021A8A9752000FD430 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CA9ADE011A8A9752000FD430 /* webroot */; };
 		CAB519B41A8A658F00F4ED36 /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B31A8A658F00F4ED36 /* libbibledit.a */; };
 		CAB519B61A8A6A7F00F4ED36 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB519B51A8A6A7F00F4ED36 /* libc++.dylib */; };
@@ -239,7 +238,6 @@
 				CA9ADE021A8A9752000FD430 /* webroot in Resources */,
 				CEA9298319B06C9700DA3766 /* Images.xcassets in Resources */,
 				CEA9297219B06C9600DA3766 /* InfoPlist.strings in Resources */,
-				CA8C8A261B92D9BC00E9BA18 /* build.sh in Resources */,
 				CE02135019E03F9B006EE62F /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
