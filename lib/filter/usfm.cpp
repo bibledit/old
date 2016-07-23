@@ -227,7 +227,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
 // 10-12b
 // 10,11a
 // 10,12
-vector <int> usfm_get_verse_numbers (string usfm)
+vector <int> usfm_get_verse_numbers (string usfm) // Todo
 {
   vector <int> verse_numbers = { 0 };
   vector <string> markers_and_text = usfm_get_markers_and_text (usfm);
@@ -235,54 +235,12 @@ vector <int> usfm_get_verse_numbers (string usfm)
   for (string marker_or_text : markers_and_text) {
     if (extract_verse) {
       string verse = usfm_peek_verse_number (marker_or_text);
-      
-      // If there is a range, take the beginning and the end and fill up in between.
-      if (verse.find("-") != string::npos) {
-        size_t position;
-        position = verse.find("-");
-        string start_range, end_range;
-        start_range = verse.substr (0, position);
-        verse.erase (0, ++position);
-        end_range = verse;
-        unsigned int start_verse_i = convert_to_int(number_in_string(start_range));
-        unsigned int end_verse_i = convert_to_int(number_in_string(end_range));
-        for (unsigned int i = start_verse_i; i <= end_verse_i; i++) {
-          if (i == start_verse_i)
-            verse_numbers.push_back (convert_to_int (start_range));
-          else if (i == end_verse_i)
-            verse_numbers.push_back (convert_to_int (end_range));
-          else
-            verse_numbers.push_back (i);
-        }
-      }
-      
-      // Else if there is a sequence, take each verse in the sequence, and store it.
-      else if (verse.find(",") != string::npos) {
-        int iterations = 0;
-        do {
-          // In case of an unusual range formation, do not hang, but give message.
-          iterations++;
-          if (iterations > 50) {
-            break;
-          }
-          size_t position = verse.find (",");
-          string vs;
-          if (position == string::npos) {
-            vs = verse;
-            verse.clear ();
-          } else {
-            vs = verse.substr (0, position);
-            verse.erase(0, ++position);
-          }
-          verse_numbers.push_back (convert_to_int (vs));
-        } while (!verse.empty());
-      }
-      
-      // No range and no sequence: a single verse.
-      else {
-        verse_numbers.push_back (convert_to_int (verse));
-      }
-      
+      // Range of verses.
+      if (usfm_handle_verse_range (verse, verse_numbers));
+      // Sequence of verses.
+      else if (usfm_handle_verse_sequence (verse, verse_numbers));
+      // Single verse.
+      else verse_numbers.push_back (convert_to_int (verse));
       extract_verse = false;
     }
     if (marker_or_text.substr (0, 2) == "\\v") {
@@ -991,5 +949,61 @@ bool usfm_contains_empty_verses (string usfm)
   if (pos != string::npos) return true;
   pos = usfm.find_last_of ("\\v");
   if (pos == usfm.length () - 1) return true;
+  return false;
+}
+
+
+// This looks at the $fragment, whether it's a range of verses.
+// If so, it puts the all of the verses in $verses, and returns true.
+bool usfm_handle_verse_range (string verse, vector <int> & verses) // Todo test separately.
+{
+  if (verse.find ("-") != string::npos) {
+    size_t position;
+    position = verse.find ("-");
+    string start_range, end_range;
+    start_range = verse.substr (0, position);
+    verse.erase (0, ++position);
+    end_range = verse;
+    unsigned int start_verse_i = convert_to_int(number_in_string(start_range));
+    unsigned int end_verse_i = convert_to_int(number_in_string(end_range));
+    for (unsigned int i = start_verse_i; i <= end_verse_i; i++) {
+      if (i == start_verse_i)
+        verses.push_back (convert_to_int (start_range));
+      else if (i == end_verse_i)
+        verses.push_back (convert_to_int (end_range));
+      else
+        verses.push_back (i);
+    }
+    return true;
+  }
+  return false;
+}
+
+
+// This looks at the $fragment, whether it's a sequence of verses.
+// If so, it puts the all of the verses in $verses, and returns true.
+bool usfm_handle_verse_sequence (string verse, vector <int> & verses) // Todo test separately.
+{
+  if (verse.find (",") != string::npos) {
+    int iterations = 0;
+    do {
+      // In case of an unusual range formation, do not hang.
+      iterations++;
+      if (iterations > 50) {
+        break;
+      }
+      size_t position = verse.find (",");
+      string vs;
+      if (position == string::npos) {
+        vs = verse;
+        verse.clear ();
+      } else {
+        vs = verse.substr (0, position);
+        verse.erase(0, ++position);
+      }
+      verses.push_back (convert_to_int (vs));
+    } while (!verse.empty());
+    return true;
+  }
   return false;
 }

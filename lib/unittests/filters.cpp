@@ -273,7 +273,7 @@ void test_filters_various2 ()
 }
 
 
-void test_filters_usfm2 ()
+void test_filters_usfm1 ()
 {
   trace_unit_tests (__func__);
   
@@ -432,10 +432,11 @@ void test_filters_usfm2 ()
     result = "\\v 4 Four";
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three"));
   }
+  // Todo
 }
 
 
-void test_filters_usfm3 ()
+void test_filters_usfm2 ()
 {
   trace_unit_tests (__func__);
   
@@ -530,7 +531,7 @@ void test_filters_usfm3 ()
 }
 
 
-void test_filters_usfm1 ()
+void test_filters_usfm3 ()
 {
   trace_unit_tests (__func__);
   
@@ -2221,20 +2222,21 @@ void test_filter_string_rand ()
 void test_filter_passage1 ()
 {
   trace_unit_tests (__func__);
-  
-  Passage passage = Passage ();
-  evaluate (__LINE__, __func__, "", passage.bible);
-  evaluate (__LINE__, __func__, 0, passage.book);
-  evaluate (__LINE__, __func__, 0, passage.chapter);
-  evaluate (__LINE__, __func__, "", passage.verse);
-  passage = Passage ("bible", 1, 2, "3");
-  evaluate (__LINE__, __func__, "bible", passage.bible);
-  evaluate (__LINE__, __func__, 1, passage.book);
-  evaluate (__LINE__, __func__, 2, passage.chapter);
-  evaluate (__LINE__, __func__, "3", passage.verse);
-  evaluate (__LINE__, __func__, true, passage.equal (passage));
-  Passage passage2 = Passage ("bible", 1, 2, "4");
-  evaluate (__LINE__, __func__, false, passage.equal (passage2));
+  {
+    Passage passage;
+    evaluate (__LINE__, __func__, "", passage.bible);
+    evaluate (__LINE__, __func__, 0, passage.book);
+    evaluate (__LINE__, __func__, 0, passage.chapter);
+    evaluate (__LINE__, __func__, "", passage.verse);
+    passage = Passage ("bible", 1, 2, "3");
+    evaluate (__LINE__, __func__, "bible", passage.bible);
+    evaluate (__LINE__, __func__, 1, passage.book);
+    evaluate (__LINE__, __func__, 2, passage.chapter);
+    evaluate (__LINE__, __func__, "3", passage.verse);
+    evaluate (__LINE__, __func__, true, passage.equal (passage));
+    Passage passage2 = Passage ("bible", 1, 2, "4");
+    evaluate (__LINE__, __func__, false, passage.equal (passage2));
+  }
 }
 
 

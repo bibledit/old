@@ -18,7 +18,6 @@
 
 
 #include "greekstrong.h"
-// #include < libxml / xmlreader.h > // Move this to pugixml.
 #include <sqlite3.h>
 #include <unicode/ustdio.h>
 #include <unicode/normlzr.h>

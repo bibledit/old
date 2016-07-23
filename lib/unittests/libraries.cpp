@@ -49,6 +49,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/hyphenate.h>
 #include <search/logic.h>
 #include <jsonxx/jsonxx.h>
+#include <related/logic.h>
 
 
 using namespace jsonxx;
@@ -3066,6 +3067,7 @@ void test_libraries_temporal ()
 // Test included JSON libraries.
 void test_json ()
 {
+  trace_unit_tests (__func__);
   string json ("{"
                "  \"foo\" : 1,"
                "  \"bar\" : false,"
@@ -3077,6 +3079,77 @@ void test_json ()
   string path = filter_url_create_root_path ("unittests", "tests", "jsonxx.txt");
   string xml = filter_url_file_get_contents (path);
   evaluate (__LINE__, __func__, xml, object.xml (JSONx));
+}
+
+
+// Test the related verses feature.
+void test_related () // Todo
+{
+  trace_unit_tests (__func__);
+
+  {
+    // Test situation of one input passage that has several output passages.
+    vector <Passage> output = related_logic_get_verses ({ Passage ("", 1, 10, "6") });
+    unsigned int size = 6;
+    evaluate (__LINE__, __func__, size, output.size ());
+    if (output.size () == size) {
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "6").equal (output[0]));
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "7").equal (output[1]));
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "8").equal (output[2]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "8").equal (output[3]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "9").equal (output[4]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "10").equal (output[5]));
+    }
+  }
+
+  {
+    // Test that an input passage that finds no parallel passages in the XML files results in output equal to the input.
+    vector <Passage> output = related_logic_get_verses ({ Passage ("", 2, 3, "4") });
+    unsigned int size = 1;
+    evaluate (__LINE__, __func__, size, output.size ());
+    if (output.size () == size) {
+      evaluate (__LINE__, __func__, true, Passage ("", 2, 3, "4").equal (output[0]));
+    }
+  }
+
+  {
+    // Test input passages that match two entries in the XML files.
+    vector <Passage> output = related_logic_get_verses ({ Passage ("", 1, 10, "29"), Passage ("", 1, 11, "12") });
+    unsigned int size = 12;
+    evaluate (__LINE__, __func__, size, output.size ());
+    if (output.size () == size) {
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "26").equal (output[0]));
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "27").equal (output[1]));
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "28").equal (output[2]));
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "29").equal (output[3]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "20").equal (output[4]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "21").equal (output[5]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "22").equal (output[6]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "23").equal (output[7]));
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 11, "12").equal (output[8]));
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 11, "13").equal (output[9]));
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 11, "14").equal (output[10]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "18").equal (output[11]));
+    }
+  }
+
+  {
+    // Test third passage of synoptic parallels whether it also gets the first two passages, and the fourth.
+    vector <Passage> output = related_logic_get_verses ({ Passage ("", 43, 1, "23") });
+    unsigned int size = 5;
+    evaluate (__LINE__, __func__, size, output.size ());
+    if (output.size () == size) {
+      evaluate (__LINE__, __func__, true, Passage ("", 40, 3, "3").equal (output[0]));
+      evaluate (__LINE__, __func__, true, Passage ("", 41, 1, "2").equal (output[1]));
+      evaluate (__LINE__, __func__, true, Passage ("", 41, 1, "3").equal (output[2]));
+      evaluate (__LINE__, __func__, true, Passage ("", 42, 3, "4").equal (output[3]));
+      evaluate (__LINE__, __func__, true, Passage ("", 43, 1, "23").equal (output[4]));
+    }
+  }
+  
+
+  // Todo test quotes, and more.
+
 }
 
 

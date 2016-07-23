@@ -76,7 +76,7 @@ string Passage::to_text ()
 // The text is in the format as its complementary function, to_text, produces.
 Passage Passage::from_text (const string& text)
 {
-  Passage passage = Passage ();
+  Passage passage;
   vector <string> bits = filter_string_explode (text, '.');
   if (!bits.empty ()) {
     string verse = bits.back ();
@@ -255,7 +255,7 @@ Passage filter_passage_explode_passage (string text)
   // Cut the text in its parts.
   vector <string> bits = filter_string_explode (text, ' ');
   // Defaults to empty passage.
-  Passage passage = Passage ();
+  Passage passage;
   // Take the bits.
   if (!bits.empty ()) {
     string verse = bits.back ();

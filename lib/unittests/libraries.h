@@ -44,6 +44,7 @@ void test_hyphenate ();
 void test_search_logic ();
 void test_libraries_temporal ();
 void test_json ();
+void test_related ();
 
 
 #endif

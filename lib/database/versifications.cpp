@@ -228,7 +228,7 @@ vector <Passage> Database_Versifications::getBooksChaptersVerses (const string& 
   vector <string> chapters = result ["chapter"];
   vector <string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
-    Passage passage = Passage ();
+    Passage passage;
     passage.book = convert_to_int (books [i]);
     passage.chapter = convert_to_int (chapters [i]);
     passage.verse = verses [i];

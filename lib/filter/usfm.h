@@ -75,6 +75,8 @@ string usfm_safely_store_chapter (void * webserver_request,
 string usfm_safely_store_verse (void * webserver_request,
                                 string bible, int book, int chapter, int verse, string usfm, string & explanation);
 bool usfm_contains_empty_verses (string usfm);
+bool usfm_handle_verse_range (string verse, vector <int> & verses);
+bool usfm_handle_verse_sequence (string verse, vector <int> & verses);
 
 
 #endif
