@@ -30,9 +30,11 @@ using namespace pugi;
 
 // This fetches related verses.
 // It takes the passages from $input, and returns them plus their related passages.
-vector <Passage> related_logic_get_verses (const vector <Passage> & input) // Todo
+vector <Passage> related_logic_get_verses (const vector <Passage> & input)
 {
-  vector <Passage> output;
+  vector <int> related_passages;
+  
+  
   if (!input.empty ()) {
 
 
@@ -53,10 +55,13 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input) // To
       path = filter_url_create_root_path ("related", "ot-quotations-in-nt.xml");
       quotation_document.load_file (path.c_str());
     }
-    
+
     
     // Deal with all of the input passages.
     for (auto & input_passage : input) {
+      
+      
+      // Search for parallel passages.
       for (xml_node passages : parallel_document.children ()) {
         for (xml_node section : passages.children ()) {
           for (xml_node set : section.children ()) {
@@ -89,7 +94,6 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input) // To
               
               // Store all related passages.
               if (match) {
-                vector <int> included;
                 for (xml_node reference : set.children ()) {
                   string bookname = reference.attribute ("book").value ();
                   int book = Database_Books::getIdFromEnglish (bookname);
@@ -102,9 +106,8 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input) // To
                     Passage passage ("", book, chapter, convert_to_string (verse));
                     int i = filter_passage_to_integer (passage);
                     // No duplicate passages to be included.
-                    if (!in_array (i, included)) {
-                      included.push_back (i);
-                      output.push_back (passage);
+                    if (!in_array (i, related_passages)) {
+                      related_passages.push_back (i);
                     }
                   }
                 }
@@ -113,11 +116,79 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input) // To
           }
         }
       }
+      
+
+      // Search for quotes. Todo separate function for this, to fold in with the previous checks.
+      for (xml_node passages : quotation_document.children ()) {
+        for (xml_node set : passages.children ()) {
+          bool match = false;
+          for (xml_node reference : set.children ()) {
+            
+            // If a match was found, skip further processing.
+            if (match) continue;
+            
+            // Match on book.
+            string book = reference.attribute ("book").value ();
+            match = (book == bookname);
+            
+            // Match on chapter.
+            if (match) {
+              int chapter = convert_to_int (reference.attribute ("chapter").value ());
+              match = (chapter == input_passage.chapter);
+            }
+            
+            // Match on verse(s).
+            if (match) {
+              string verse = reference.attribute ("verse").value ();
+              vector <int> verses;
+              if (usfm_handle_verse_range (verse, verses)) {
+                match = in_array (convert_to_int (input_passage.verse), verses);
+              } else {
+                match = (verse == input_passage.verse);
+              }
+            }
+            
+            // Store all related passages.
+            if (match) {
+              for (xml_node reference : set.children ()) {
+                string bookname = reference.attribute ("book").value ();
+                int book = Database_Books::getIdFromEnglish (bookname);
+                int chapter = convert_to_int (reference.attribute ("chapter").value ());
+                string verse = reference.attribute ("verse").value ();
+                vector <int> verses;
+                if (usfm_handle_verse_range (verse, verses));
+                else verses.push_back (convert_to_int (verse));
+                for (auto verse : verses) {
+                  if (book && chapter) {
+                    Passage passage ("", book, chapter, convert_to_string (verse));
+                    int i = filter_passage_to_integer (passage);
+                    // No duplicate passages to be included.
+                    if (!in_array (i, related_passages)) {
+                      related_passages.push_back (i);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      
     }
+  }
+
+  
+  // Sort the passages and convert them.
+  vector <Passage> output;
+  sort (related_passages.begin (), related_passages.end ());
+  for (auto & related_passage : related_passages) {
+    Passage passage = filter_integer_to_passage (related_passage);
+    output.push_back (passage);
   }
   
   
-  // If no related passages were found in the XML files, the output will be the input.
+  // If no related passages were found in the XML files, the output will be the input. Todo test it.
   if (output.empty ()) output = input;
   
   

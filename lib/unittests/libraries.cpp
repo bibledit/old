@@ -3083,7 +3083,7 @@ void test_json ()
 
 
 // Test the related verses feature.
-void test_related () // Todo
+void test_related ()
 {
   trace_unit_tests (__func__);
 
@@ -3122,28 +3122,34 @@ void test_related () // Todo
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "27").equal (output[1]));
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "28").equal (output[2]));
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "29").equal (output[3]));
-      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "20").equal (output[4]));
-      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "21").equal (output[5]));
-      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "22").equal (output[6]));
-      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "23").equal (output[7]));
-      evaluate (__LINE__, __func__, true, Passage ("", 1, 11, "12").equal (output[8]));
-      evaluate (__LINE__, __func__, true, Passage ("", 1, 11, "13").equal (output[9]));
-      evaluate (__LINE__, __func__, true, Passage ("", 1, 11, "14").equal (output[10]));
-      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "18").equal (output[11]));
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 11, "12").equal (output[4]));
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 11, "13").equal (output[5]));
+      evaluate (__LINE__, __func__, true, Passage ("", 1, 11, "14").equal (output[6]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "18").equal (output[7]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "20").equal (output[8]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "21").equal (output[9]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "22").equal (output[10]));
+      evaluate (__LINE__, __func__, true, Passage ("", 13, 1, "23").equal (output[11]));
     }
   }
 
   {
     // Test third passage of synoptic parallels whether it also gets the first two passages, and the fourth.
-    vector <Passage> output = related_logic_get_verses ({ Passage ("", 43, 1, "23") });
-    unsigned int size = 5;
+    // At the same time it takes data from the quotations XML.
+    vector <Passage> output = related_logic_get_verses ({ Passage ("", 42, 3, "4") });
+    unsigned int size = 10;
     evaluate (__LINE__, __func__, size, output.size ());
     if (output.size () == size) {
-      evaluate (__LINE__, __func__, true, Passage ("", 40, 3, "3").equal (output[0]));
-      evaluate (__LINE__, __func__, true, Passage ("", 41, 1, "2").equal (output[1]));
-      evaluate (__LINE__, __func__, true, Passage ("", 41, 1, "3").equal (output[2]));
-      evaluate (__LINE__, __func__, true, Passage ("", 42, 3, "4").equal (output[3]));
-      evaluate (__LINE__, __func__, true, Passage ("", 43, 1, "23").equal (output[4]));
+      evaluate (__LINE__, __func__, true, Passage ("", 23, 40, "3").equal (output[0]));
+      evaluate (__LINE__, __func__, true, Passage ("", 23, 40, "4").equal (output[1]));
+      evaluate (__LINE__, __func__, true, Passage ("", 23, 40, "5").equal (output[2]));
+      evaluate (__LINE__, __func__, true, Passage ("", 40, 3, "3").equal (output[3]));
+      evaluate (__LINE__, __func__, true, Passage ("", 41, 1, "2").equal (output[4]));
+      evaluate (__LINE__, __func__, true, Passage ("", 41, 1, "3").equal (output[5]));
+      evaluate (__LINE__, __func__, true, Passage ("", 42, 3, "4").equal (output[6]));
+      evaluate (__LINE__, __func__, true, Passage ("", 42, 3, "5").equal (output[7]));
+      evaluate (__LINE__, __func__, true, Passage ("", 42, 3, "6").equal (output[8]));
+      evaluate (__LINE__, __func__, true, Passage ("", 43, 1, "23").equal (output[9]));
     }
   }
   

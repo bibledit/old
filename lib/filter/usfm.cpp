@@ -227,7 +227,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
 // 10-12b
 // 10,11a
 // 10,12
-vector <int> usfm_get_verse_numbers (string usfm) // Todo
+vector <int> usfm_get_verse_numbers (string usfm)
 {
   vector <int> verse_numbers = { 0 };
   vector <string> markers_and_text = usfm_get_markers_and_text (usfm);
@@ -955,7 +955,7 @@ bool usfm_contains_empty_verses (string usfm)
 
 // This looks at the $fragment, whether it's a range of verses.
 // If so, it puts the all of the verses in $verses, and returns true.
-bool usfm_handle_verse_range (string verse, vector <int> & verses) // Todo test separately.
+bool usfm_handle_verse_range (string verse, vector <int> & verses)
 {
   if (verse.find ("-") != string::npos) {
     size_t position;
@@ -982,7 +982,7 @@ bool usfm_handle_verse_range (string verse, vector <int> & verses) // Todo test 
 
 // This looks at the $fragment, whether it's a sequence of verses.
 // If so, it puts the all of the verses in $verses, and returns true.
-bool usfm_handle_verse_sequence (string verse, vector <int> & verses) // Todo test separately.
+bool usfm_handle_verse_sequence (string verse, vector <int> & verses)
 {
   if (verse.find (",") != string::npos) {
     int iterations = 0;

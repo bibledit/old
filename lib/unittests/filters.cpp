@@ -432,7 +432,6 @@ void test_filters_usfm1 ()
     result = "\\v 4 Four";
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three"));
   }
-  // Todo
 }
 
 
