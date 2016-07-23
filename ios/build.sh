@@ -254,6 +254,10 @@ rm -rf sources
 
 popd
 
+# Remove scripts so they won't get included with the submitted package.
+cd $BIBLEDITIOS/ios
+rm build.sh
+
 # say Compile for iOS is ready
 
 # Build the app.
