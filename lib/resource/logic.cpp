@@ -176,9 +176,9 @@ string resource_logic_get_html (void * webserver_request,
   } else if (isImage) {
   } else if (isLexicon) {
     resource_versification = database_mappings.original ();
-    if (resource == KJV_LEXICON_NAME) resource_versification = "English";
+    if (resource == KJV_LEXICON_NAME) resource_versification = english ();
   } else if (isSword) {
-    resource_versification = "English";
+    resource_versification = english ();
   } else {
   }
 

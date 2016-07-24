@@ -97,13 +97,13 @@ void test_database_config_bible ()
   // Versification / Mapping
   {
     string versification = Database_Config_Bible::getVersificationSystem ("phpunit");
-    evaluate (__LINE__, __func__, "English", versification);
+    evaluate (__LINE__, __func__, english (), versification);
     string mapping = Database_Config_Bible::getVerseMapping ("phpunit");
-    evaluate (__LINE__, __func__, "English", mapping);
+    evaluate (__LINE__, __func__, english (), mapping);
     versification = Database_Config_Bible::getVersificationSystem ("x");
-    evaluate (__LINE__, __func__, "English", versification);
+    evaluate (__LINE__, __func__, english (), versification);
     mapping = Database_Config_Bible::getVerseMapping ("x");
-    evaluate (__LINE__, __func__, "English", mapping);
+    evaluate (__LINE__, __func__, english (), mapping);
     Database_Config_Bible::setVersificationSystem ("phpunit", "VersificatioN");
     versification = Database_Config_Bible::getVersificationSystem ("phpunit");
     evaluate (__LINE__, __func__, "VersificatioN", versification);
@@ -1556,7 +1556,7 @@ void test_database_mappings ()
     database_mappings.create2 ();
     database_mappings.optimize ();
     vector <string> names = database_mappings.names ();
-    evaluate (__LINE__, __func__, {"Dutch Traditional", "English", "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"}, names);
+    evaluate (__LINE__, __func__, {"Dutch Traditional", english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"}, names);
   }
   // Import Export
   {
@@ -1852,37 +1852,37 @@ void test_database_versifications ()
     database_versifications.defaults ();
 
     // GetID
-    int id = database_versifications.getID ("English");
+    int id = database_versifications.getID (english ());
     evaluate (__LINE__, __func__, 2 , id);
 
     // Test books.
-    vector <int> books = database_versifications.getBooks ("English");
+    vector <int> books = database_versifications.getBooks (english ());
     vector <int> standard;
     for (unsigned int i = 1; i <= 66; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, books);
 
     // Test chapters.
-    vector <int> chapters = database_versifications.getChapters ("English", 1);
+    vector <int> chapters = database_versifications.getChapters (english (), 1);
     standard.clear ();
     for (unsigned int i = 1; i <= 50; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, chapters);
-    chapters = database_versifications.getChapters ("English", 1, true);
+    chapters = database_versifications.getChapters (english (), 1, true);
     standard.clear ();
     for (unsigned int i = 0; i <= 50; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, chapters);
 
     // Test verses.
-    vector <int> verses = database_versifications.getVerses ("English", 1, 2);
+    vector <int> verses = database_versifications.getVerses (english (), 1, 2);
     standard.clear ();
     for (unsigned int i = 0; i <= 25; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, verses);
 
     // Verses in chapter 0.
-    verses = database_versifications.getVerses ("English", 1, 0);
+    verses = database_versifications.getVerses (english (), 1, 0);
     evaluate (__LINE__, __func__, {0}, verses);
 
     // Books Chapters Verses.
-    vector <Passage> data = database_versifications.getBooksChaptersVerses ("English");
+    vector <Passage> data = database_versifications.getBooksChaptersVerses (english ());
     evaluate (__LINE__, __func__, 1189, (int)data.size());
     evaluate (__LINE__, __func__, "31", data [0].verse);
     

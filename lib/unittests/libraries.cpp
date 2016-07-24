@@ -2285,7 +2285,7 @@ void test_check_versification ()
     database_versifications.defaults ();
     Database_Check database_check;
     database_check.create ();
-    vector <int> books = database_versifications.getBooks ("English");
+    vector <int> books = database_versifications.getBooks (english ());
     vector <int> fault = filter_string_array_diff (books, {10});
     Checks_Versification::books ("Bible", fault);
     vector <Database_Check_Hit> results = database_check.getHits ();

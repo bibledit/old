@@ -1338,3 +1338,9 @@ void array_move_up_down (vector <string> & container, size_t item, bool up)
     }
   }
 }
+
+
+const char * english ()
+{
+  return "English";
+}

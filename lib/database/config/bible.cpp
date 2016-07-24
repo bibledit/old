@@ -404,7 +404,7 @@ void Database_Config_Bible::setExportStylesheet (string bible, string value)
 
 string Database_Config_Bible::getVersificationSystem (string bible)
 {
-  return getValue (bible, "versification-system", "English");
+  return getValue (bible, "versification-system", english ());
 }
 void Database_Config_Bible::setVersificationSystem (string bible, string value)
 {
@@ -414,7 +414,7 @@ void Database_Config_Bible::setVersificationSystem (string bible, string value)
 
 string Database_Config_Bible::getVerseMapping (string bible)
 {
-  return getValue (bible, "verse-mapping", "English");
+  return getValue (bible, "verse-mapping", english ());
 }
 void Database_Config_Bible::setVerseMapping (string bible, string value)
 {

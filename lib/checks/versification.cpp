@@ -38,7 +38,7 @@ void Checks_Versification::books (string bible, vector <int> books)
 {
   Database_Versifications database_versifications;
   string versification = Database_Config_Bible::getVersificationSystem (bible);
-  if (versification.empty ()) versification = "English";
+  if (versification.empty ()) versification = english ();
   vector <int> standardBooks = database_versifications.getBooks (versification);
   vector <int> absentBooks = filter_string_array_diff (standardBooks, books);
   vector <int> extraBooks = filter_string_array_diff (books, standardBooks);
@@ -56,7 +56,7 @@ void Checks_Versification::chapters (string bible, int book, vector <int> chapte
 {
   Database_Versifications database_versifications;
   string versification = Database_Config_Bible::getVersificationSystem (bible);
-  if (versification.empty ()) versification = "English";
+  if (versification.empty ()) versification = english ();
   vector <int> standardChapters = database_versifications.getChapters (versification, book, true);
   vector <int> absentChapters = filter_string_array_diff (standardChapters, chapters);
   vector <int> extraChapters = filter_string_array_diff (chapters, standardChapters);
@@ -75,7 +75,7 @@ void Checks_Versification::verses (string bible, int book, int chapter, vector <
   // Get verses in this chapter according to the versification system for the Bible.
   Database_Versifications database_versifications;
   string versification = Database_Config_Bible::getVersificationSystem (bible);
-  if (versification.empty ()) versification = "English";
+  if (versification.empty ()) versification = english ();
   vector <int> standardVerses = database_versifications.getVerses (versification, book, chapter);
   // Look for missing and extra verses.
   vector <int> absentVerses = filter_string_array_diff (standardVerses, verses);
