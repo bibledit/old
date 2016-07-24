@@ -88,7 +88,7 @@ void related_logic_search_related (const string & bookname, int input_chapter, c
 
 
 // This fetches related verses.
-// It takes the passages from $input, and returns them plus their related passages.
+// It takes the passages from $input, and returns them plus their related passages, if there's any.
 vector <Passage> related_logic_get_verses (const vector <Passage> & input)
 {
   vector <int> related_passages;
@@ -139,11 +139,7 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input)
     Passage passage = filter_integer_to_passage (related_passage);
     output.push_back (passage);
   }
-  
-  
-  // If no related passages were found in the XML files, the output will be the input.
-  if (output.empty ()) output = input;
-  
+
   
   // Done.
   return output;

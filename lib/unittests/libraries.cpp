@@ -3105,11 +3105,7 @@ void test_related ()
   {
     // Test that an input passage that finds no parallel passages in the XML files results in output equal to the input.
     vector <Passage> output = related_logic_get_verses ({ Passage ("", 2, 3, "4") });
-    unsigned int size = 1;
-    evaluate (__LINE__, __func__, size, output.size ());
-    if (output.size () == size) {
-      evaluate (__LINE__, __func__, true, Passage ("", 2, 3, "4").equal (output[0]));
-    }
+    evaluate (__LINE__, __func__, 0, output.size ());
   }
 
   {
@@ -3150,17 +3146,6 @@ void test_related ()
       evaluate (__LINE__, __func__, true, Passage ("", 42, 3, "5").equal (output[7]));
       evaluate (__LINE__, __func__, true, Passage ("", 42, 3, "6").equal (output[8]));
       evaluate (__LINE__, __func__, true, Passage ("", 43, 1, "23").equal (output[9]));
-    }
-  }
-  
-  {
-    // Test that the output takes the input in case there's no related passage.
-    Passage input ("", 100, 101, "1");
-    vector <Passage> output = related_logic_get_verses ({ input });
-    unsigned int size = 1;
-    evaluate (__LINE__, __func__, size, output.size ());
-    if (output.size () == size) {
-      evaluate (__LINE__, __func__, true, input.equal (output[0]));
     }
   }
 }

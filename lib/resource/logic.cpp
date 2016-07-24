@@ -200,13 +200,29 @@ string resource_logic_get_html (void * webserver_request,
     }
   }
   
+  if (request->database_config_user ()->getIncludeRelatedPassages ()) {
+    
+  }
+  
+  // Todo
+  // Include passage in full.
+  // If mapping of resource given, and if different from original, map to original.
+  // Search related.
+  // If mapping of resource given, and if different from original, map from original back to resource's mapping.
+  
+  
+
+  
+  
+  
+  
   for (auto passage : passages) {
     
     int book = passage.book;
     int chapter = passage.chapter;
     int verse = convert_to_int (passage.verse);
     
-    string possible_included_verse;
+    string possible_included_verse; // Todo seems to not be in use now: Fix that.
     if (add_verse_numbers) possible_included_verse = convert_to_string (verse) + " ";
     if (isImage) possible_included_verse.clear ();
     
