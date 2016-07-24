@@ -125,7 +125,7 @@ vector <string> resource_logic_get_names (void * webserver_request)
 
 string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
-                                bool add_verse_numbers)
+                                bool add_verse_numbers) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 

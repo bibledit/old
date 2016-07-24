@@ -1230,3 +1230,13 @@ void Database_Config_User::setConnectedClientsForUser (string username, vector <
 {
   setListForUser (username, "connected-clients", values);
 }
+
+
+bool Database_Config_User::getIncludeRelatedPassages ()
+{
+  return getBValue ("include-related-passages", false);
+}
+void Database_Config_User::setIncludeRelatedPassages (bool value)
+{
+  setBValue ("include-related-passages", value);
+}

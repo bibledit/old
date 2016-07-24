@@ -7242,6 +7242,9 @@ msgstr ""
 msgid "Number of verses to display after the focused verse:"
 msgstr ""
 
+msgid "Display related passages"
+msgstr ""
+
 msgid "Install all the above resources on the device."
 msgstr ""
 

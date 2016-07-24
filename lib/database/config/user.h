@@ -227,6 +227,8 @@ public:
   vector <string> getConnectedClients ();
   void setConnectedClients (vector <string> values);
   void setConnectedClientsForUser (string username, vector <string> values);
+  bool getIncludeRelatedPassages ();
+  void setIncludeRelatedPassages (bool value);
 private:
   void * webserver_request;
   string file (string user);

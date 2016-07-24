@@ -54,6 +54,10 @@ string resource_organize (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
+  string checkbox = request->post ["checkbox"];
+  bool checked = convert_to_bool (request->post ["checked"]);
+
+  
   if (request->query.count ("add") || request->post.count ("add")) {
     string add = request->query["add"];
     if (add.empty ()) add = request->post ["add"];
@@ -150,7 +154,14 @@ string resource_organize (void * webserver_request)
     }
   }
   view.set_variable ("after", convert_to_string (request->database_config_user ()->getResourceVersesAfter ()));
+
   
+  if (checkbox == "related") {
+    request->database_config_user ()->setIncludeRelatedPassages (checked);
+    return "";
+  }
+  view.set_variable ("related", get_checkbox_status (request->database_config_user ()->getIncludeRelatedPassages ()));
+
   
   if (request->query.count ("install")) {
     vector <string> usfm_resources = client_logic_usfm_resources_get ();
