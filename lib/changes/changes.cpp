@@ -101,7 +101,7 @@ string changes_changes (void * webserver_request)
   }
   
   
-  // Remove personal changes notifications and their matching change notifications in the Bible.
+  // Remove personal changes notifications and their matching change notifications in the Bible. Todo
   if (request->query.count ("match")) {
     vector <int> ids = database_modifications.clearNotificationMatches (username, changes_personal_category (), changes_bible_category ());
 #ifdef HAVE_CLIENT
