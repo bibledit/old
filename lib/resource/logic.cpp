@@ -44,6 +44,7 @@
 #include <demo/logic.h>
 #include <sync/resources.h>
 #include <tasks/logic.h>
+#include <related/logic.h>
 
 
 /*
@@ -125,7 +126,7 @@ vector <string> resource_logic_get_names (void * webserver_request)
 
 string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
-                                bool add_verse_numbers) // Todo
+                                bool add_verse_numbers)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -200,33 +201,41 @@ string resource_logic_get_html (void * webserver_request,
     }
   }
   
+  // Flag for whether to add the full passage (e.g. Matthew 1:1) to the text of that passage.
+  bool add_passages_in_full = false;
+
+  // Deal with user's preference whether to include related passages.
   if (request->database_config_user ()->getIncludeRelatedPassages ()) {
     
+    // Take the Bible's active passage and mapping, and translate that to the original mapping.
+    vector <Passage> related_passages = database_mappings.translate (bible_versification, database_mappings.original (), book, chapter, verse);
+    
+    // Look for related passages.
+    related_passages = related_logic_get_verses (related_passages);
+    
+    add_passages_in_full = !related_passages.empty ();
+    
+    // If there's any related passages, map them to the resource's versification system.
+    if (!related_passages.empty ()) {
+      if (!resource_versification.empty ()) {
+        if (resource_versification != database_mappings.original ()) {
+          passages.clear ();
+          for (auto & related_passage : related_passages) {
+            vector <Passage> mapped_passages = database_mappings.translate (database_mappings.original (), resource_versification, related_passage.book, related_passage.chapter, convert_to_int (related_passage.verse));
+            passages.insert (passages.end (), mapped_passages.begin (), mapped_passages.end ());
+          }
+        }
+      }
+    }
   }
   
-  // Todo
-  // Include passage in full.
-  // If mapping of resource given, and if different from original, map to original.
-  // Search related.
-  // If mapping of resource given, and if different from original, map from original back to resource's mapping.
-  
-  
-
-  
-  
-  
-  
   for (auto passage : passages) {
-    
-    int book = passage.book;
-    int chapter = passage.chapter;
-    int verse = convert_to_int (passage.verse);
-    
-    string possible_included_verse; // Todo seems to not be in use now: Fix that.
-    if (add_verse_numbers) possible_included_verse = convert_to_string (verse) + " ";
-    if (isImage) possible_included_verse.clear ();
-    
-    html.append (resource_logic_get_verse (webserver_request, resource, book, chapter, verse));
+    string possible_included_passage;
+    if (add_verse_numbers) possible_included_passage = passage.verse + " ";
+    if (add_passages_in_full) possible_included_passage = filter_passage_display (passage.book, passage.chapter, passage.verse) + " ";
+    if (isImage) possible_included_passage.clear ();
+    html.append (possible_included_passage);
+    html.append (resource_logic_get_verse (webserver_request, resource, passage.book, passage.chapter, convert_to_int (passage.verse)));
   }
   
   return html;
