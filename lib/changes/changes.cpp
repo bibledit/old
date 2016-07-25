@@ -101,9 +101,10 @@ string changes_changes (void * webserver_request)
   }
   
   
-  // Remove personal changes notifications and their matching change notifications in the Bible. Todo
-  if (request->query.count ("match")) {
-    vector <int> ids = database_modifications.clearNotificationMatches (username, changes_personal_category (), changes_bible_category ());
+  // Remove a user's personal changes notifications and their matching change notifications in the Bible.
+  string matching = request->query ["matching"];
+  if (!matching.empty ()) {
+    vector <int> ids = database_modifications.clearNotificationMatches (username, matching, changes_bible_category ());
 #ifdef HAVE_CLIENT
     // Client records deletions for sending to the Cloud.
     for (auto & id : ids) {
@@ -191,7 +192,6 @@ string changes_changes (void * webserver_request)
 
   
   // Enable links to dismiss categories of notifications depending on whether there's anything to dismiss.
-  if (!personal_ids.empty () && !bible_ids.empty ()) view.enable_zone ("matching");
   if (!personal_ids.empty ()) view.enable_zone ("personal");
   if (!bible_ids.empty ()) view.enable_zone ("bible");
   
@@ -217,6 +217,19 @@ string changes_changes (void * webserver_request)
     }
   }
   view.set_variable ("dismissblock", dismissblock);
+
+  
+  // Add links to clear matching notifications of the various users.
+  for (auto & category : categories) {
+    if (category == changes_bible_category ()) continue;
+    string user = category;
+    vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, user, true);
+    string icon = category;
+    if (category == changes_personal_category ()) icon = emoji_smiling_face_with_smiling_eyes ();
+    if (!personal_ids.empty () && !bible_ids.empty ()) {
+      view.add_iteration ("matching", { make_pair ("user", user), make_pair ("icon", icon) } );
+    }
+  }
   
   
   view.set_variable ("VERSION", config_logic_version ());
