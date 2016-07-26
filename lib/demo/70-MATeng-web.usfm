@@ -8,7 +8,7 @@
 \mt1 Matthew 
 \c 1  
 \p
-\v 1 The book of the genealogy of Jesus Christ,\f + Messiah (Hebrew) and Christ (Greek) both mean “Anointed
+\v 1 The book of the genealogy of Jesus Christ,\f + \fr 1:1  \ft Messiah (Hebrew) and Christ (Greek) both mean “Anointed
 One”\f* the son of David, the son of Abraham. 
 \v 2 Abraham became the father of Isaac. Isaac became the father of Jacob. Jacob became the father of Judah and his brothers.
 \v 3 Judah became the father of Perez and Zerah by Tamar. Perez became the father of Hezron. Hezron became the father of Ram.
@@ -25,7 +25,7 @@ One”\f* the son of David, the son of Abraham.
 \v 14 Azor became the father of Zadok. Zadok became the father of Achim. Achim became the father of Eliud.
 \v 15 Eliud became the father of Eleazar. Eleazar became the father of Matthan. Matthan became the father of Jacob.
 \v 16 Jacob became the father of Joseph, the husband of Mary, from whom was born
-Jesus,\f + “Jesus” means “Salvation”.\f* who is called Christ. 
+Jesus,\f + \fr 1:16  \ft “Jesus” means “Salvation”.\f* who is called Christ.
 \v 17 So all the generations from Abraham to David are fourteen generations; from David to the exile to Babylon fourteen
 generations; and from the carrying away to Babylon to the Christ, fourteen generations.
 \p
@@ -33,27 +33,28 @@ generations; and from the carrying away to Babylon to the Christ, fourteen gener
 she was found pregnant by the Holy Spirit. 
 \v 19 Joseph, her husband, being a righteous man, and not willing to make her a public example, intended to put her away
 secretly. 
-\v 20 But when he thought about these things, behold,\f + “Behold”, from “ἰδοὺ”, means look at, take notice, observe, see, or
-gaze at. It is often used as an interjection.\f* an angel of the Lord appeared to him in a dream, saying, “Joseph, son of
-David, don’t be afraid to take to yourself Mary, your wife, for that which is conceived in her is of the Holy Spirit.
-\v 21 She shall give birth to a son. You shall call his name Jesus,\f + “Jesus” means
-“Salvation”.\f* for it is he who shall save his people from their sins.”
+\v 20 But when he thought about these things, behold,\f + \fr 1:20 
+\ft “Behold”, from “ἰδοὺ”, means look at, take notice, observe, see, or gaze at. It is often used as an
+interjection.\f* an angel of the Lord appeared to him in a dream, saying, “Joseph, son of David, don’t be afraid to take to
+yourself Mary, your wife, for that which is conceived in her is of the Holy Spirit.
+\v 21 She shall give birth to a son. You shall call his name Jesus,\f + \fr 1:21 
+\ft “Jesus” means “Salvation”.\f* for it is he who shall save his people from their sins.”
 \p
-\v 22 Now all this has happened, that it might be fulfilled which was spoken by the Lord through the prophet, saying,
+\v 22 Now all this has happened that it might be fulfilled which was spoken by the Lord through the prophet, saying,
 \q1
 \v 23 “Behold, the virgin shall be with child, 
 \q2 and shall give birth to a son. 
 \q1 They shall call his name Immanuel;” 
-\q2 which is, being interpreted, “God with us.”\x + \+zref \+ztgt ISA.7.14 \+ztgt*\+zref*Isaiah
-7:14\+zrefend \+zrefend*\x* 
+\q2 which is, being interpreted, “God with us.”\x + \xo 1:23  \xt Isaiah
+7:14\x* 
 \p
 \v 24 Joseph arose from his sleep, and did as the angel of the Lord commanded him, and took his wife to himself;
 \v 25 and didn’t know her sexually until she had given birth to her firstborn son. He named him Jesus.
 \c 2  
 \p
 \v 1 Now when Jesus was born in Bethlehem of Judea in the days of King Herod, behold, wise
-men\f + The word for “wise men” (magoi) can also mean teachers, scientists, physicians, astrologers, seers, interpreters of
-dreams, or sorcerers.\f* from the east came to Jerusalem, saying,
+men\f + \fr 2:1  \ft The word for “wise men” (magoi) can also mean teachers, scientists, physicians, astrologers, seers,
+interpreters of dreams, or sorcerers.\f* from the east came to Jerusalem, saying,
 \v 2 “Where is he who is born King of the Jews? For we saw his star in the east, and have come to worship him.”
 \v 3 When King Herod heard it, he was troubled, and all Jerusalem with him.
 \v 4 Gathering together all the chief priests and scribes of the people, he asked them where the Christ would be born.
@@ -62,8 +63,8 @@ dreams, or sorcerers.\f* from the east came to Jerusalem, saying,
 \v 6 ‘You Bethlehem, land of Judah, 
 \q2 are in no way least among the princes of Judah: 
 \q1 for out of you shall come a governor, 
-\q2 who shall shepherd my people, Israel.’”\x + \+zref \+ztgt MIC.5.2 \+ztgt*\+zref*Micah
-5:2\+zrefend \+zrefend*\x* 
+\q2 who shall shepherd my people, Israel.’”\x + \xo 2:6  \xt Micah
+5:2\x* 
 \p
 \v 7 Then Herod secretly called the wise men, and learned from them exactly what time the star appeared.
 \v 8 He sent them to Bethlehem, and said, “Go and search diligently for the young child. When you have found him, bring me
@@ -82,8 +83,7 @@ him.”
 \p
 \v 14 He arose and took the young child and his mother by night, and departed into Egypt,
 \v 15 and was there until the death of Herod; that it might be fulfilled which was spoken by the Lord through the prophet,
-saying, “Out of Egypt I called my son.”\x + \+zref \+ztgt HOS.11.1 \+ztgt*\+zref*Hosea
-11:1\+zrefend \+zrefend*\x* 
+saying, “Out of Egypt I called my son.”\x + \xo 2:15  \xt Hosea 11:1\x*
 \p
 \v 16 Then Herod, when he saw that he was mocked by the wise men, was exceedingly angry, and sent out, and killed all the male
 children who were in Bethlehem and in all the surrounding countryside, from two years old and under, according to the exact
@@ -94,8 +94,7 @@ time which he had learned from the wise men.
 \q2 lamentation, weeping and great mourning, 
 \q1 Rachel weeping for her children; 
 \q2 she wouldn’t be comforted, 
-\q2 because they are no more.”\x + \+zref \+ztgt JER.31.15 \+ztgt*\+zref*Jeremiah
-31:15\+zrefend \+zrefend*\x* 
+\q2 because they are no more.”\x + \xo 2:18  \xt Jeremiah 31:15\x*
 \p
 \v 19 But when Herod was dead, behold, an angel of the Lord appeared in a dream to Joseph in Egypt, saying,
 \v 20 “Arise and take the young child and his mother, and go into the land of Israel, for those who sought the young child’s
@@ -104,17 +103,16 @@ life are dead.”
 \v 21 He arose and took the young child and his mother, and came into the land of Israel.
 \v 22 But when he heard that Archelaus was reigning over Judea in the place of his father, Herod, he was afraid to go there.
 Being warned in a dream, he withdrew into the region of Galilee,
-\v 23 and came and lived in a city called Nazareth; that it might be fulfilled which was spoken through the prophets: “He will
-be called a Nazarene.” 
+\v 23 and came and lived in a city called Nazareth; that it might be fulfilled which was spoken through the prophets that he
+will be called a Nazarene. 
 \c 3  
 \p
 \v 1 In those days, John the Baptizer came, preaching in the wilderness of Judea, saying,
 \v 2 “Repent, for the Kingdom of Heaven is at hand!” 
 \v 3 For this is he who was spoken of by Isaiah the prophet, saying,
 \q1 “The voice of one crying in the wilderness, 
-\q2 make ready the way of the Lord. 
-\q2 Make his paths straight.”\x + \+zref \+ztgt ISA.40.3 \+ztgt*\+zref*Isaiah
-40:3\+zrefend \+zrefend*\x* 
+\q2 make the way of the Lord ready! 
+\q2 Make his paths straight!”\x + \xo 3:3  \xt Isaiah 40:3\x* 
 \p
 \v 4 Now John himself wore clothing made of camel’s hair, with a leather belt around his waist. His food was locusts and wild
 honey. 
@@ -128,13 +126,13 @@ Abraham from these stones.
 \p
 \v 10 “Even now the ax lies at the root of the trees. Therefore every tree that doesn’t produce good fruit is cut down, and
 cast into the fire. 
-\v 11 I indeed baptize you in water for repentance, but he who comes after me is mightier than I, whose shoes I am not worthy
-to carry. He will baptize you in the Holy Spirit.\f + TR and NU add “and with fire”
+\v 11 I indeed baptize you in water for repentance, but he who comes after me is mightier than I, whose sandals I am not worthy
+to carry. He will baptize you in the Holy Spirit.\f + \fr 3:11  \ft TR and NU add “and with fire”
 \f* 
 \v 12 His winnowing fork is in his hand, and he will thoroughly cleanse his threshing floor. He will gather his wheat into the
 barn, but the chaff he will burn up with unquenchable fire.” 
 \p
-\v 13 Then Jesus came from Galilee to the Jordan\f + i.e., the Jordan
+\v 13 Then Jesus came from Galilee to the Jordan\f + \fr 3:13  \ft i.e., the Jordan
 River\f* to John, to be baptized by him. 
 \v 14 But John would have hindered him, saying, “I need to be baptized by you, and you come to me?”
 \p
@@ -150,26 +148,25 @@ Spirit of God descending as a dove, and coming on him.
 \v 3 The tempter came and said to him, “If you are the Son of God, command that these stones become bread.”
 \p
 \v 4 But he answered, \wj “It is written, ‘Man shall not live by bread alone, but by every word that proceeds out of the mouth
-of God.’”\wj*\x + \+zref \+ztgt DEU.8.3 \+ztgt*\+zref*Deuteronomy
-8:3\+zrefend \+zrefend*\x* 
+of God.’”\wj*\x + \xo 4:4  \xt Deuteronomy 8:3\x* 
 \p
 \v 5 Then the devil took him into the holy city. He set him on the pinnacle of the temple,
 \v 6 and said to him, “If you are the Son of God, throw yourself down, for it is written, ‘He will command his angels
 concerning you.’ and, 
 \q1 ‘On their hands they will bear you up, 
-\q2 so that you don’t dash your foot against a stone.’”\x + \+zref \+ztgt PSA.91.11 \+ztgt*\+zref*Psalm
-91:11-12\+zrefend \+zrefend* \x* 
+\q2 so that you don’t dash your foot against a stone.’”\x + \xo 4:6 
+\xt Psalm 91:11-12 \x* 
 \p
 \v 7 Jesus said to him, \wj “Again, it is written, ‘You shall not test the Lord, your
-God.’”\wj*\x + \+zref \+ztgt DEU.6.16 \+ztgt*\+zref*Deuteronomy 6:16\+zrefend \+zrefend*\x*
+God.’”\wj*\x + \xo 4:7  \xt Deuteronomy 6:16\x* 
 \p
 \v 8 Again, the devil took him to an exceedingly high mountain, and showed him all the kingdoms of the world, and their glory.
 \v 9 He said to him, “I will give you all of these things, if you will fall down and worship me.”
 \p
-\v 10 Then Jesus said to him, \wj “Get behind me,\wj*\f + TR and NU read “Go away” instead of “Get behind
-me”\f* \wj Satan! For it is written, ‘You shall worship the Lord your God, and you shall serve him
-only.’”\wj* \x + \+zref \+ztgt DEU.6.13 \+ztgt*\+zref*Deuteronomy
-6:13\+zrefend \+zrefend*\x* 
+\v 10 Then Jesus said to him, \wj “Get behind me,\wj*\f + \fr 4:10 
+\ft TR and NU read “Go away” instead of “Get behind me”\f* \wj Satan! For it is written, ‘You shall worship the Lord your God,
+and you shall serve him only.’”\wj* \x + \xo 4:10  \xt Deuteronomy
+6:13\x* 
 \p
 \v 11 Then the devil left him, and behold, angels came and served him.
 \v 12 Now when Jesus heard that John was delivered up, he withdrew into Galilee.
@@ -182,13 +179,12 @@ only.’”\wj* \x + \+zref \+ztgt DEU.6.13 \+ztgt*\+zref*Deuteronomy
 \q1
 \v 16 the people who sat in darkness saw a great light, 
 \q2 to those who sat in the region and shadow of death, 
-\q2 to them light has dawned.”\x + \+zref \+ztgt ISA.9.1 \+ztgt*\+zref*Isaiah
-9:1-2\+zrefend \+zrefend*\x* 
+\q2 to them light has dawned.”\x + \xo 4:16  \xt Isaiah 9:1-2\x*
 \p
 \v 17 From that time, Jesus began to preach, and to say, \wj “Repent! For the Kingdom of Heaven is at
 hand.”\wj* 
 \p
-\v 18 Walking by the sea of Galilee, he\f + TR reads “Jesus” instead of “he”
+\v 18 Walking by the sea of Galilee, he\f + \fr 4:18  \ft TR reads “Jesus” instead of “he”
 \f* saw two brothers: Simon, who is called Peter, and Andrew, his brother, casting a net into the sea; for they were fishermen.
 \v 19 He said to them, \wj “Come after me, and I will make you fishers for
 men.”\wj* 
@@ -209,17 +205,16 @@ torments, possessed with demons, epileptics, and paralytics; and he healed them.
 \v 2 He opened his mouth and taught them, saying, 
 \q1
 \v 3  \wj “Blessed are the poor in spirit,\wj* 
-\q2 \wj for theirs is the Kingdom of Heaven.\wj*\x + \+zref \+ztgt ISA.57.15 \+ztgt*\+zref*Isaiah
-57:15\+zrefend \+zrefend*; \+zref \+ztgt ISA.66.2 \+ztgt*\+zref*66:2\+zrefend \+zrefend*\x*
+\q2 \wj for theirs is the Kingdom of Heaven.\wj*\x + \xo 5:3  \xt Isaiah 57:15;
+66:2\x* 
 \q1
 \v 4  \wj Blessed are those who mourn,\wj* 
-\q2 \wj for they shall be comforted.\wj*\x + \+zref \+ztgt ISA.61.2 \+ztgt*\+zref*Isaiah
-61:2\+zrefend \+zrefend*; \+zref \+ztgt ISA.66.10 \+ztgt*\+zref*66:10\+zrefend \+zrefend*,\+zref \+ztgt ISA.66.13 \+ztgt*\+zref*13
-\+zrefend \+zrefend*\x* 
+\q2 \wj for they shall be comforted.\wj*\x + \xo 5:4  \xt Isaiah 61:2;
+66:10,13\x* 
 \q1
 \v 5  \wj Blessed are the gentle,\wj* 
-\q2 \wj for they shall inherit the earth.\wj*\f + or, land.\f*\x + \+zref \+ztgt PSA.37.11 \+ztgt*\+zref*Psalm
-37:11\+zrefend \+zrefend*\x* 
+\q2 \wj for they shall inherit the earth.\wj*\f + \fr 5:5  \ft or,
+land.\f*\x + \xo 5:5  \xt Psalm 37:11\x* 
 \q1
 \v 6  \wj Blessed are those who hunger and thirst after righteousness,
 \wj* 
@@ -256,8 +251,8 @@ heaven.\wj*
 \v 17  \wj “Don’t think that I came to destroy the law or the prophets. I didn’t come to destroy, but to fulfill.
 \wj* 
 \v 18  \wj For most certainly, I tell you, until heaven and earth pass away, not even one smallest
-letter\wj*\f + literally, iota\f* \wj or one tiny pen stroke\wj*\f + or,
-serif\f* \wj shall in any way pass away from the law, until all things are accomplished.
+letter\wj*\f + \fr 5:18  \ft literally, iota\f* \wj or one tiny pen
+stroke\wj*\f + \fr 5:18  \ft or, serif\f* \wj shall in any way pass away from the law, until all things are accomplished.
 \wj* 
 \v 19  \wj Whoever, therefore, shall break one of these least commandments, and teach others to do so, shall be called least in
 the Kingdom of Heaven; but whoever shall do and teach them shall be called great in the Kingdom of Heaven.
@@ -266,13 +261,13 @@ the Kingdom of Heaven; but whoever shall do and teach them shall be called great
 enter into the Kingdom of Heaven.\wj* 
 \p
 \v 21  \wj “You have heard that it was said to the ancient ones, ‘You shall not
-murder;’\wj*\x + \+zref \+ztgt EXO.20.13 \+ztgt*\+zref*Exodus 20:13\+zrefend \+zrefend*\x*
-\wj and ‘Whoever murders will be in danger of the judgment.’ \wj*
+murder;’\wj*\x + \xo 5:21  \xt Exodus 20:13\x* \wj and ‘Whoever murders will be in danger of the judgment.’
+\wj* 
 \v 22  \wj But I tell you that everyone who is angry with his brother without a cause
-\wj* \f + NU omits “without a cause”.\f* \wj will be in danger of the judgment. Whoever says to his brother, ‘Raca!’
-\wj*\f + “Raca” is an Aramaic insult, related to the word for “empty” and conveying the idea of
+\wj* \f + \fr 5:22  \ft NU omits “without a cause”.\f* \wj will be in danger of the judgment. Whoever says to his brother,
+‘Raca!’ \wj*\f + \fr 5:22  \ft “Raca” is an Aramaic insult, related to the word for “empty” and conveying the idea of
 empty-headedness.\f* \wj will be in danger of the council. Whoever says, ‘You fool!’ will be in danger of the fire of
-Gehenna.\wj* \f + or, Hell\f* 
+Gehenna.\wj* \f + \fr 5:22  \ft or, Hell\f* 
 \p
 \v 23  \wj “If therefore you are offering your gift at the altar, and there remember that your brother has anything against
 you, \wj* 
@@ -282,32 +277,29 @@ offer your gift. \wj*
 judge, and the judge deliver you to the officer, and you be cast into prison.
 \wj* 
 \v 26  \wj Most certainly I tell you, you shall by no means get out of there, until you have paid the last
-penny.\wj*\f + literally, kodrantes. A kodrantes was a small copper coin worth about 2 lepta (widow’s mites)—not enough to buy
-very much of anything.\f* 
+penny.\wj*\f + \fr 5:26  \ft literally, kodrantes. A kodrantes was a small copper coin worth about 2 lepta (widow’s mites)—not
+enough to buy very much of anything.\f* 
 \p
-\v 27  \wj “You have heard that it was said, \wj*\f + TR adds “to the
-ancients”.\f* \wj ‘You shall not commit adultery;’\wj*\x + \+zref \+ztgt EXO.20.14 \+ztgt*\+zref*Exodus
-20:14\+zrefend \+zrefend*\x* 
+\v 27  \wj “You have heard that it was said, \wj*\f + \fr 5:27  \ft TR adds “to the
+ancients”.\f* \wj ‘You shall not commit adultery;’\wj*\x + \xo 5:27 
+\xt Exodus 20:14\x* 
 \v 28  \wj but I tell you that everyone who gazes at a woman to lust after her has committed adultery with her already in his
 heart. \wj* 
 \v 29  \wj If your right eye causes you to stumble, pluck it out and throw it away from you. For it is more profitable for you
 that one of your members should perish, than for your whole body to be cast into
-Gehenna.\wj*\f + or, Hell\f* 
+Gehenna.\wj*\f + \fr 5:29  \ft or, Hell\f* 
 \v 30  \wj If your right hand causes you to stumble, cut it off, and throw it away from you. For it is more profitable for you
 that one of your members should perish, than for your whole body to be cast into
-Gehenna.\wj*\f + or, Hell\f* 
+Gehenna.\wj*\f + \fr 5:30  \ft or, Hell\f* 
 \p
 \v 31  \wj “It was also said, ‘Whoever shall put away his wife, let him give her a writing of
-divorce,’\wj*\x + \+zref \+ztgt DEU.24.1 \+ztgt*\+zref*Deuteronomy
-24:1\+zrefend \+zrefend*\x* 
+divorce,’\wj*\x + \xo 5:31  \xt Deuteronomy 24:1\x* 
 \v 32  \wj but I tell you that whoever puts away his wife, except for the cause of sexual immorality, makes her an adulteress;
 and whoever marries her when she is put away commits adultery.\wj*
 \p
 \v 33  \wj “Again you have heard that it was said to the ancient ones, ‘You shall not make false vows, but shall perform to the
-Lord your vows,’\wj*\x + \+zref \+ztgt NUM.30.2 \+ztgt*\+zref*Numbers
-30:2\+zrefend \+zrefend*; \+zref \+ztgt DEU.23.21 \+ztgt*\+zref*Deuteronomy
-23:21\+zrefend \+zrefend*; \+zref \+ztgt ECC.5.4 \+ztgt*\+zref*Ecclesiastes
-5:4\+zrefend \+zrefend*\x* 
+Lord your vows,’\wj*\x + \xo 5:33  \xt Numbers 30:2; Deuteronomy 23:21; Ecclesiastes
+5:4\x* 
 \v 34  \wj but I tell you, don’t swear at all: neither by heaven, for it is the throne of God;
 \wj* 
 \v 35  \wj nor by the earth, for it is the footstool of his feet; nor by Jerusalem, for it is the city of the great King.
@@ -318,9 +310,8 @@ Lord your vows,’\wj*\x + \+zref \+ztgt NUM.30.2 \+ztgt*\+zref*Numbers
 one.\wj* 
 \p
 \v 38  \wj “You have heard that it was said, ‘An eye for an eye, and a tooth for a
-tooth.’\wj*\x + \+zref \+ztgt EXO.21.24 \+ztgt*\+zref*Exodus 21:24\+zrefend \+zrefend*;
-\+zref \+ztgt LEV.24.20 \+ztgt*\+zref*Leviticus 24:20\+zrefend \+zrefend*;
-\+zref \+ztgt DEU.19.21 \+ztgt*\+zref*Deuteronomy 19:21\+zrefend \+zrefend*\x*
+tooth.’\wj*\x + \xo 5:38  \xt Exodus 21:24; Leviticus 24:20; Deuteronomy
+19:21\x* 
 \v 39  \wj But I tell you, don’t resist him who is evil; but whoever strikes you on your right cheek, turn to him the other
 also. \wj* 
 \v 40  \wj If anyone sues you to take away your coat, let him have your cloak also.
@@ -330,9 +321,8 @@ also. \wj*
 you.\wj* 
 \p
 \v 43  \wj “You have heard that it was said, ‘You shall love your neighbor
-\wj*\x + \+zref \+ztgt LEV.19.18 \+ztgt*\+zref*Leviticus 19:18\+zrefend \+zrefend*\x*
-\wj and hate your enemy.’\wj*\f + not in the Bible, but see Qumran Manual of Discipline Ix,
-21-26\f* 
+\wj*\x + \xo 5:43  \xt Leviticus 19:18\x* \wj and hate your enemy.’\wj*\f + \fr 5:43 
+\ft not in the Bible, but see Qumran Manual of Discipline Ix, 21-26\f*
 \v 44  \wj But I tell you, love your enemies, bless those who curse you, do good to those who hate you, and pray for those who
 mistreat you and persecute you, \wj* 
 \v 45  \wj that you may be children of your Father who is in heaven. For he makes his sun to rise on the evil and the good, and
@@ -340,14 +330,15 @@ sends rain on the just and the unjust. \wj*
 \v 46  \wj For if you love those who love you, what reward do you have? Don’t even the tax collectors do the same?
 \wj* 
 \v 47  \wj If you only greet your friends, what more do you do than others? Don’t even the tax
-collectors\wj*\f + NU reads “Gentiles” instead of “tax collectors”.\f*
-\wj do the same? \wj* 
+collectors\wj*\f + \fr 5:47  \ft NU reads “Gentiles” instead of “tax
+collectors”.\f* \wj do the same? \wj* 
 \v 48  \wj Therefore you shall be perfect, just as your Father in heaven is
 perfect.\wj* 
 \c 6  
 \p
-\v 1  \wj “Be careful that you don’t do your charitable giving\f + NU reads “acts of righteousness” instead of “charitable
-giving”\f* before men, to be seen by them, or else you have no reward from your Father who is in heaven.
+\v 1  \wj “Be careful that you don’t do your charitable giving\wj*\f + \fr 6:1 
+\ft NU reads “acts of righteousness” instead of “charitable giving”\f*
+\wj before men, to be seen by them, or else you have no reward from your Father who is in heaven.
 \wj* 
 \v 2  \wj Therefore when you do merciful deeds, don’t sound a trumpet before yourself, as the hypocrites do in the synagogues
 and in the streets, that they may get glory from men. Most certainly I tell you, they have received their reward.
@@ -374,7 +365,7 @@ speaking. \wj*
 \v 12  \wj Forgive us our debts, as we also forgive our debtors.
 \wj* 
 \v 13  \wj Bring us not into temptation, but deliver us from the evil one. For yours is the Kingdom, the power, and the glory
-forever. Amen.’\wj*\f + NU omits “For yours is the Kingdom, the power, and the glory forever.
+forever. Amen.’\wj*\f + \fr 6:13  \ft NU omits “For yours is the Kingdom, the power, and the glory forever.
 Amen.”\f* 
 \p
 \v 14  \wj “For if you forgive men their trespasses, your heavenly Father will also forgive you.
@@ -410,8 +401,8 @@ body, what you will wear. Isn’t life more than food, and the body more than cl
 \v 26  \wj See the birds of the sky, that they don’t sow, neither do they reap, nor gather into barns. Your heavenly Father
 feeds them. Aren’t you of much more value than they?\wj* 
 \p
-\v 27  \wj “Which of you, by being anxious, can add one moment\wj*\f + literally,
-cubit\f* \wj to his lifespan? \wj* 
+\v 27  \wj “Which of you, by being anxious, can add one moment\wj*\f + \fr 6:27 
+\ft literally, cubit\f* \wj to his lifespan? \wj* 
 \v 28  \wj Why are you anxious about clothing? Consider the lilies of the field, how they grow. They don’t toil, neither do
 they spin, \wj* 
 \v 29  \wj yet I tell you that even Solomon in all his glory was not dressed like one of these.
@@ -457,8 +448,9 @@ prophets.\wj*
 \p
 \v 13  \wj “Enter in by the narrow gate; for wide is the gate and broad is the way that leads to destruction, and many are
 those who enter in by it. \wj* 
-\v 14  \wj How\wj*\f + TR reads “Because” instead of “How”\f* \wj narrow is the gate, and restricted is the way that leads to
-life! Few are those who find it.\wj* 
+\v 14  \wj How\wj*\f + \fr 7:14  \ft TR reads “Because” instead of
+“How”\f* \wj narrow is the gate, and restricted is the way that leads to life! Few are those who find
+it.\wj* 
 \p
 \v 15  \wj “Beware of false prophets, who come to you in sheep’s clothing, but inwardly are ravening wolves.
 \wj* 
@@ -521,12 +513,11 @@ believed.”\wj* His servant was healed in that hour.
 \p
 \v 14 When Jesus came into Peter’s house, he saw his wife’s mother lying sick with a fever.
 \v 15 He touched her hand, and the fever left her. She got up and served him.
-\f + TR reads “them” instead of “him”\f* 
+\f + \fr 8:15  \ft TR reads “them” instead of “him”\f* 
 \v 16 When evening came, they brought to him many possessed with demons. He cast out the spirits with a word, and healed all
 who were sick; 
 \v 17 that it might be fulfilled which was spoken through Isaiah the prophet, saying, “He took our infirmities, and bore our
-diseases.”\x + \+zref \+ztgt ISA.53.4 \+ztgt*\+zref*Isaiah 53:4\+zrefend \+zrefend*
-\x* 
+diseases.”\x + \xo 8:17  \xt Isaiah 53:4 \x* 
 \v 18 Now when Jesus saw great multitudes around him, he gave the order to depart to the other side.
 \p
 \v 19 A scribe came, and said to him, “Teacher, I will follow you wherever you go.”
@@ -549,8 +540,8 @@ dead.”\wj*
 \v 27 The men marveled, saying, “What kind of man is this, that even the wind and the sea obey him?”
 \p
 \v 28 When he came to the other side, into the country of the Gergesenes,
-\f + NU reads “Gadarenes”\f* two people possessed by demons met him there, coming out of the tombs, exceedingly fierce, so that
-nobody could pass that way. 
+\f + \fr 8:28  \ft NU reads “Gadarenes”\f* two people possessed by demons met him there, coming out of the tombs, exceedingly
+fierce, so that nobody could pass that way. 
 \v 29 Behold, they cried out, saying, “What do we have to do with you, Jesus, Son of God? Have you come here to torment us
 before the time?” 
 \v 30 Now there was a herd of many pigs feeding far away from them.
@@ -589,9 +580,8 @@ house.”\wj*
 \v 12 When Jesus heard it, he said to them, \wj “Those who are healthy have no need for a physician, but those who are sick do.
 \wj* 
 \v 13  \wj But you go and learn what this means: ‘I desire mercy, and not
-sacrifice,’\wj*\x + \+zref \+ztgt HOS.6.6 \+ztgt*\+zref*Hosea 6:6\+zrefend \+zrefend*\x*
-\wj for I came not to call the righteous, but sinners to repentance.”\wj*\f + NU omits “to
-repentance”.\f* 
+sacrifice,’\wj*\x + \xo 9:13  \xt Hosea 6:6\x* \wj for I came not to call the righteous, but sinners to
+repentance.”\wj*\f + \fr 9:13  \ft NU omits “to repentance”.\f* 
 \p
 \v 14 Then John’s disciples came to him, saying, “Why do we and the Pharisees fast often, but your disciples don’t fast?”
 \p
@@ -609,7 +599,7 @@ and lay your hand on her, and she will live.”
 \p
 \v 19 Jesus got up and followed him, as did his disciples. 
 \v 20 Behold, a woman who had a discharge of blood for twelve years came behind him, and touched the
-fringe\f + or, tassel\f* of his garment; 
+fringe\f + \fr 9:20  \ft or, tassel\f* of his garment; 
 \v 21 for she said within herself, “If I just touch his garment, I will be made well.”
 \p
 \v 22 But Jesus, turning around and seeing her, said, \wj “Daughter, cheer up! Your faith has made you
@@ -621,6 +611,7 @@ sleeping.”\wj*
 \p They were ridiculing him. 
 \v 25 But when the crowd was put out, he entered in, took her by the hand, and the girl arose.
 \v 26 The report of this went out into all that land. 
+\p
 \v 27 As Jesus passed by from there, two blind men followed him, calling out and saying, “Have mercy on us, son of David!”
 \p
 \v 28 When he had come into the house, the blind men came to him. Jesus said to them,
@@ -642,7 +633,8 @@ in Israel!”
 \v 35 Jesus went about all the cities and the villages, teaching in their synagogues, and preaching the Good News of the
 Kingdom, and healing every disease and every sickness among the people.
 \v 36 But when he saw the multitudes, he was moved with compassion for them, because they were
-harassed\f + TR reads “weary” instead of “harassed” \f* and scattered, like sheep without a shepherd.
+harassed\f + \fr 9:36  \ft TR reads “weary” instead of “harassed”
+\f* and scattered, like sheep without a shepherd. 
 \v 37 Then he said to his disciples, \wj “The harvest indeed is plentiful, but the laborers are few.
 \wj* 
 \v 38  \wj Pray therefore that the Lord of the harvest will send out laborers into his
@@ -654,7 +646,7 @@ every disease and every sickness.
 \v 2 Now the names of the twelve apostles are these. The first, Simon, who is called Peter; Andrew, his brother; James the son
 of Zebedee; John, his brother; 
 \v 3 Philip; Bartholomew; Thomas; Matthew the tax collector; James the son of Alphaeus; Lebbaeus, who was also
-called\f + NU omits “Lebbaeus, who was also called”\f* Thaddaeus;
+called\f + \fr 10:3  \ft NU omits “Lebbaeus, who was also called”\f* Thaddaeus;
 \v 4 Simon the Canaanite; and Judas Iscariot, who also betrayed him.
 \p
 \v 5 Jesus sent these twelve out, and commanded them, saying, \wj “Don’t go among the Gentiles, and don’t enter into any city
@@ -662,12 +654,12 @@ of the Samaritans. \wj*
 \v 6  \wj Rather, go to the lost sheep of the house of Israel. \wj*
 \v 7  \wj As you go, preach, saying, ‘The Kingdom of Heaven is at hand!’
 \wj* 
-\v 8  \wj Heal the sick, cleanse the lepers,\wj*\f + TR adds “raise the
+\v 8  \wj Heal the sick, cleanse the lepers,\wj*\f + \fr 10:8  \ft TR adds “raise the
 dead,”\f* \wj and cast out demons. Freely you received, so freely give.
 \wj* 
 \v 9  \wj Don’t take any gold, silver, or brass in your money belts.
 \wj* 
-\v 10  \wj Take no bag for your journey, neither two coats, nor shoes, nor staff: for the laborer is worthy of his food.
+\v 10  \wj Take no bag for your journey, neither two coats, nor sandals, nor staff: for the laborer is worthy of his food.
 \wj* 
 \v 11  \wj Into whatever city or village you enter, find out who in it is worthy; and stay there until you go on.
 \wj* 
@@ -695,23 +687,24 @@ cause them to be put to death. \wj*
 \v 22  \wj You will be hated by all men for my name’s sake, but he who endures to the end will be saved.
 \wj* 
 \v 23  \wj But when they persecute you in this city, flee into the next, for most certainly I tell you, you will not have gone
-through the cities of Israel, until the Son of Man has come.\wj*
+through the cities of Israel until the Son of Man has come.\wj* 
 \p
 \v 24  \wj “A disciple is not above his teacher, nor a servant above his lord.
 \wj* 
 \v 25  \wj It is enough for the disciple that he be like his teacher, and the servant like his lord. If they have called the
-master of the house Beelzebul,\wj*\f + Literally, Lord of the Flies, or the
+master of the house Beelzebul,\wj*\f + \fr 10:25  \ft Literally, Lord of the Flies, or the
 devil\f* \wj how much more those of his household! \wj* 
 \v 26  \wj Therefore don’t be afraid of them, for there is nothing covered that will not be revealed; and hidden that will not
 be known. \wj* 
 \v 27  \wj What I tell you in the darkness, speak in the light; and what you hear whispered in the ear, proclaim on the
 housetops. \wj* 
 \v 28  \wj Don’t be afraid of those who kill the body, but are not able to kill the soul. Rather, fear him who is able to
-destroy both soul and body in Gehenna.\wj* \f + or, Hell.\f* 
+destroy both soul and body in Gehenna.\wj* \f + \fr 10:28  \ft or,
+Hell.\f* 
 \p
-\v 29  \wj “Aren’t two sparrows sold for an assarion coin?\wj*\f + An assarion is a small coin worth one tenth of a drachma or
-a sixteenth of a denarius. An assarion is approximately the wages of one half hour of agricultural
-labor.\f* \wj Not one of them falls on the ground apart from your Father’s will,
+\v 29  \wj “Aren’t two sparrows sold for an assarion coin?\wj*\f + \fr 10:29 
+\ft An assarion is a small coin worth one tenth of a drachma or a sixteenth of a denarius. An assarion is approximately the
+wages of one half hour of agricultural labor.\f* \wj Not one of them falls on the ground apart from your Father’s will,
 \wj* 
 \v 30  \wj but the very hairs of your head are all numbered. \wj*
 \v 31  \wj Therefore don’t be afraid. You are of more value than many sparrows.
@@ -725,8 +718,8 @@ heaven.\wj*
 \wj* 
 \v 35  \wj For I came to set a man at odds against his father, and a daughter against her mother, and a daughter-in-law against
 her mother-in-law. \wj* 
-\v 36  \wj A man’s foes will be those of his own household.\wj*\x + \+zref \+ztgt MIC.7.6 \+ztgt*\+zref*Micah
-7:6\+zrefend \+zrefend*\x* 
+\v 36  \wj A man’s foes will be those of his own household.\wj*\x + \xo 10:36 
+\xt Micah 7:6\x* 
 \v 37  \wj He who loves father or mother more than me is not worthy of me; and he who loves son or daughter more than me isn’t
 worthy of me. \wj* 
 \v 38  \wj He who doesn’t take his cross and follow after me, isn’t worthy of me.
@@ -749,9 +742,8 @@ tell you he will in no way lose his reward.”\wj*
 \v 4 Jesus answered them, \wj “Go and tell John the things which you hear and see:
 \wj* 
 \v 5  \wj the blind receive their sight, the lame walk, the lepers are cleansed, the deaf
-hear,\wj*\x + \+zref \+ztgt ISA.35.5 \+ztgt*\+zref*Isaiah 35:5\+zrefend \+zrefend*\x*
-\wj the dead are raised up, and the poor have good news preached to
-them.\wj*\x + \+zref \+ztgt ISA.61.1 \+ztgt*\+zref*Isaiah 61:1-4\+zrefend \+zrefend*\x*
+hear,\wj*\x + \xo 11:5  \xt Isaiah 35:5\x* \wj the dead are raised up, and the poor have good news preached to
+them.\wj*\x + \xo 11:5  \xt Isaiah 61:1-4\x* 
 \v 6  \wj Blessed is he who finds no occasion for stumbling in me.”\wj*
 \p
 \v 7 As these went their way, Jesus began to say to the multitudes concerning John,
@@ -762,13 +754,12 @@ them.\wj*\x + \+zref \+ztgt ISA.61.1 \+ztgt*\+zref*Isaiah 61:1-4\+zrefend \+zref
 \v 9  \wj But why did you go out? To see a prophet? Yes, I tell you, and much more than a prophet.
 \wj* 
 \v 10  \wj For this is he, of whom it is written, ‘Behold, I send my messenger before your face, who will prepare your way
-before you.’\wj*\x + \+zref \+ztgt MAL.3.1 \+ztgt*\+zref*Malachi
-3:1\+zrefend \+zrefend* \x* 
+before you.’\wj*\x + \xo 11:10  \xt Malachi 3:1 \x* 
 \v 11  \wj Most certainly I tell you, among those who are born of women there has not arisen anyone greater than John the
 Baptizer; yet he who is least in the Kingdom of Heaven is greater than he.
 \wj* 
 \v 12  \wj From the days of John the Baptizer until now, the Kingdom of Heaven suffers violence, and the violent take it by
-force.\wj*\f + or, plunder it. \f* 
+force.\wj*\f + \fr 11:12  \ft or, plunder it. \f* 
 \v 13  \wj For all the prophets and the law prophesied until John.
 \wj* 
 \v 14  \wj If you are willing to receive it, this is Elijah, who is to come.
@@ -782,8 +773,8 @@ companions \wj*
 \v 18  \wj For John came neither eating nor drinking, and they say, ‘He has a demon.’
 \wj* 
 \v 19  \wj The Son of Man came eating and drinking, and they say, ‘Behold, a gluttonous man and a drunkard, a friend of tax
-collectors and sinners!’ But wisdom is justified by her children.”\wj*\f + NU reads “actions” instead of
-“children”\f* 
+collectors and sinners!’ But wisdom is justified by her children.”\wj*\f + \fr 11:19 
+\ft NU reads “actions” instead of “children”\f* 
 \p
 \v 20 Then he began to denounce the cities in which most of his mighty works had been done, because they didn’t repent.
 \v 21  \wj “Woe to you, Chorazin! Woe to you, Bethsaida! For if the mighty works had been done in Tyre and Sidon which were
@@ -792,8 +783,8 @@ done in you, they would have repented long ago in sackcloth and ashes.
 \v 22  \wj But I tell you, it will be more tolerable for Tyre and Sidon on the day of judgment than for you.
 \wj* 
 \v 23  \wj You, Capernaum, who are exalted to heaven, you will go down to Hades.
-\wj*\f + or, Hell\f* \wj For if the mighty works had been done in Sodom which were done in you, it would have remained until
-today. \wj* 
+\wj*\f + \fr 11:23  \ft or, Hell\f* \wj For if the mighty works had been done in Sodom which were done in you, it would have
+remained until today. \wj* 
 \v 24  \wj But I tell you that it will be more tolerable for the land of Sodom, on the day of judgment, than for
 you.”\wj* 
 \p
@@ -819,18 +810,18 @@ of grain and to eat.
 \v 3 But he said to them, \wj “Haven’t you read what David did, when he was hungry, and those who were with him;
 \wj* 
 \v 4  \wj how he entered into God’s house, and ate the show bread, which was not lawful for him to eat, neither for those who
-were with him, but only for the priests?\wj*\x + \+zref \+ztgt 1SA.21.3 \+ztgt*\+zref*1 Samuel
-21:3-6\+zrefend \+zrefend*\x* 
+were with him, but only for the priests?\wj*\x + \xo 12:4  \xt 1 Samuel
+21:3-6\x* 
 \v 5  \wj Or have you not read in the law, that on the Sabbath day, the priests in the temple profane the Sabbath, and are
 guiltless? \wj* 
 \v 6  \wj But I tell you that one greater than the temple is here.
 \wj* 
 \v 7  \wj But if you had known what this means, ‘I desire mercy, and not
-sacrifice,’\wj*\x + \+zref \+ztgt HOS.6.6 \+ztgt*\+zref*Hosea 6:6\+zrefend \+zrefend*\x*
-\wj you wouldn’t have condemned the guiltless. \wj* 
+sacrifice,’\wj*\x + \xo 12:7  \xt Hosea 6:6\x* \wj you wouldn’t have condemned the guiltless.
+\wj* 
 \v 8  \wj For the Son of Man is Lord of the Sabbath.”\wj* 
 \p
-\v 9 He departed there, and went into their synagogue. 
+\v 9 He departed from there, and went into their synagogue. 
 \v 10 And behold there was a man with a withered hand. They asked him, “Is it lawful to heal on the Sabbath day?” that they
 might accuse him. 
 \p
@@ -857,8 +848,8 @@ other.
 \q2 He won’t quench a smoking flax, 
 \q1 until he leads justice to victory. 
 \q2
-\v 21 In his name, the nations will hope.”\x + \+zref \+ztgt ISA.42.1 \+ztgt*\+zref*Isaiah
-42:1-4\+zrefend \+zrefend*\x* 
+\v 21 In his name, the nations will hope.”\x + \xo 12:21  \xt Isaiah
+42:1-4\x* 
 \p
 \v 22 Then one possessed by a demon, blind and mute, was brought to him and he healed him, so that the blind and mute man both
 spoke and saw. 
@@ -890,7 +881,7 @@ known by its fruit. \wj*
 \v 34  \wj You offspring of vipers, how can you, being evil, speak good things? For out of the abundance of the heart, the
 mouth speaks. \wj* 
 \v 35  \wj The good man out of his good treasure brings out good things, and the evil man out of his evil
-treasure\wj*\f + TR adds “of the heart”\f* \wj brings out evil things.
+treasure\wj*\f + \fr 12:35  \ft TR adds “of the heart”\f* \wj brings out evil things.
 \wj* 
 \v 36  \wj I tell you that every idle word that men speak, they will give account of it in the day of judgment.
 \wj* 
@@ -923,8 +914,8 @@ generation.”\wj*
 \p
 \v 48 But he answered him who spoke to him, \wj “Who is my mother? Who are my
 brothers?”\wj* 
-\v 49 He stretched out his hand towards his disciples, and said,
-\wj “Behold, my mother and my brothers! \wj* 
+\v 49 He stretched out his hand toward his disciples, and said, \wj “Behold, my mother and my brothers!
+\wj* 
 \v 50  \wj For whoever does the will of my Father who is in heaven, he is my brother, and sister, and
 mother.”\wj* 
 \c 13  
@@ -967,8 +958,7 @@ understand. \wj*
 \q2 \wj hear with their ears,\wj* 
 \q2 \wj understand with their heart,\wj* 
 \q1 \wj and would turn again;\wj* 
-\q2 \wj and I would heal them.’\wj*\x + \+zref \+ztgt ISA.6.9 \+ztgt*\+zref*Isaiah
-6:9-10\+zrefend \+zrefend*\x* 
+\q2 \wj and I would heal them.’\wj*\x + \xo 13:15  \xt Isaiah 6:9-10\x*
 \p
 \v 16  \wj “But blessed are your eyes, for they see; and your ears, for they hear.
 \wj* 
@@ -993,9 +983,9 @@ thirty.”\wj*
 \v 24 He set another parable before them, saying, \wj “The Kingdom of Heaven is like a man who sowed good seed in his field,
 \wj* 
 \v 25  \wj but while people slept, his enemy came and sowed darnel
-weeds\wj*\f + darnel is a weed grass (probably bearded darnel or lolium temulentum) that looks very much like wheat until it is
-mature, when the difference becomes very apparent.\f* \wj also among the wheat, and went away.
-\wj* 
+weeds\wj*\f + \fr 13:25  \ft darnel is a weed grass (probably bearded darnel or lolium temulentum) that looks very much like
+wheat until it is mature, when the difference becomes very apparent.\f*
+\wj also among the wheat, and went away. \wj* 
 \v 26  \wj But when the blade sprang up and produced fruit, then the darnel weeds appeared also.
 \wj* 
 \v 27  \wj The servants of the householder came and said to him, ‘Sir, didn’t you sow good seed in your field? Where did these
@@ -1017,14 +1007,14 @@ and sowed in his field; \wj*
 that the birds of the air come and lodge in its branches.”\wj* 
 \p
 \v 33 He spoke another parable to them. \wj “The Kingdom of Heaven is like yeast, which a woman took, and hid in three
-measures\wj*\f + literally, three sata. 3 sata is about 39 liters or a bit more than a
+measures\wj*\f + \fr 13:33  \ft literally, three sata. Three sata is about 39 liters or a bit more than a
 bushel\f* \wj of meal, until it was all leavened.”\wj* 
 \p
 \v 34 Jesus spoke all these things in parables to the multitudes; and without a parable, he didn’t speak to them,
 \v 35 that it might be fulfilled which was spoken through the prophet, saying,
 \q1 “I will open my mouth in parables; 
-\q2 I will utter things hidden from the foundation of the world.”\x + \+zref \+ztgt PSA.78.2 \+ztgt*\+zref*Psalm
-78:2\+zrefend \+zrefend*\x* 
+\q2 I will utter things hidden from the foundation of the world.”\x + \xo 13:35 
+\xt Psalm 78:2\x* 
 \p
 \v 36 Then Jesus sent the multitudes away, and went into the house. His disciples came to him, saying, “Explain to us the
 parable of the darnel weeds of the field.” 
@@ -1039,7 +1029,7 @@ children of the evil one. \wj*
 \wj* 
 \v 41  \wj The Son of Man will send out his angels, and they will gather out of his Kingdom all things that cause stumbling,
 and those who do iniquity, \wj* 
-\v 42  \wj and will cast them into the furnace of fire. There will be weeping and the gnashing of teeth.
+\v 42  \wj and will cast them into the furnace of fire. There will be the weeping and the gnashing of teeth.
 \wj* 
 \v 43  \wj Then the righteous will shine like the sun in the Kingdom of their Father. He who has ears to hear, let him
 hear.\wj* 
@@ -1056,8 +1046,8 @@ it.\wj*
 \wj* 
 \v 48  \wj which, when it was filled, they drew up on the beach. They sat down, and gathered the good into containers, but the
 bad they threw away. \wj* 
-\v 49  \wj So will it be in the end of the world.\f +  or, end of the
-age.\f* The angels will come and separate the wicked from among the righteous,
+\v 49  \wj So will it be in the end of the world.\wj*\f + \fr 13:49 
+\ft  or, end of the age.\f* \wj The angels will come and separate the wicked from among the righteous,
 \wj* 
 \v 50  \wj and will cast them into the furnace of fire. There will be the weeping and the gnashing of
 teeth.”\wj* 
@@ -1072,7 +1062,7 @@ householder, who brings out of his treasure new and old things.”\wj*
 \v 54 Coming into his own country, he taught them in their synagogue, so that they were astonished, and said, “Where did this
 man get this wisdom, and these mighty works? 
 \v 55 Isn’t this the carpenter’s son? Isn’t his mother called Mary, and his brothers, James, Joses, Simon, and
-Judas?\f + or, Judah\f* 
+Judas?\f + \fr 13:55  \ft or, Judah\f* 
 \v 56 Aren’t all of his sisters with us? Where then did this man get all of these things?”
 \v 57 They were offended by him. 
 \p But Jesus said to them, \wj “A prophet is not without honor, except in his own country, and in his own
@@ -1082,7 +1072,7 @@ house.”\wj*
 \p
 \v 1 At that time, Herod the tetrarch heard the report concerning Jesus,
 \v 2 and said to his servants, “This is John the Baptizer. He is risen from the dead. That is why these powers work in him.”
-\v 3 For Herod had laid hold of John, and bound him, and put him in prison for the sake of Herodias, his brother Philip’s wife.
+\v 3 For Herod had arrested John, and bound him, and put him in prison for the sake of Herodias, his brother Philip’s wife.
 \v 4 For John said to him, “It is not lawful for you to have her.”
 \v 5 When he would have put him to death, he feared the multitude, because they counted him as a prophet.
 \v 6 But when Herod’s birthday came, the daughter of Herodias danced among them and pleased Herod.
@@ -1092,8 +1082,8 @@ house.”\wj*
 \v 9 The king was grieved, but for the sake of his oaths, and of those who sat at the table with him, he commanded it to be
 given, 
 \v 10 and he sent and beheaded John in the prison. 
-\v 11 His head was brought on a platter, and given to the young lady: and she brought it to her mother.
-\v 12 His disciples came, and took the body, and buried it; and they went and told Jesus.
+\v 11 His head was brought on a platter, and given to the young lady; and she brought it to her mother.
+\v 12 His disciples came, and took the body, and buried it. Then they went and told Jesus.
 \v 13 Now when Jesus heard this, he withdrew from there in a boat, to a deserted place apart. When the multitudes heard it,
 they followed him on foot from the cities. 
 \p
@@ -1117,12 +1107,12 @@ multitudes away.
 \v 23 After he had sent the multitudes away, he went up into the mountain by himself to pray. When evening had come, he was
 there alone. 
 \v 24 But the boat was now in the middle of the sea, distressed by the waves, for the wind was contrary.
-\v 25 In the fourth watch of the night,\f + The night was equally divided into four watches, so the fourth watch is
-approximately 3:00 a.m. to sunrise. \f* Jesus came to them, walking on the
-sea.\x + see \+zref \+ztgt JOB.9.8 \+ztgt*\+zref*Job 9:8\+zrefend \+zrefend*\x*
+\v 25 In the fourth watch of the night,\f + \fr 14:25  \ft The night was equally divided into four watches, so the fourth watch
+is approximately 3:00 a.m. to sunrise. \f* Jesus came to them, walking on the
+sea.\x + \xo 14:25  \xt See Job 9:8\x* 
 \v 26 When the disciples saw him walking on the sea, they were troubled, saying, “It’s a ghost!” and they cried out for fear.
 \v 27 But immediately Jesus spoke to them, saying, \wj “Cheer up! It is I!
-\wj*\f + or, I AM!\f* \wj Don’t be afraid.”\wj* 
+\wj*\f + \fr 14:27  \ft or, I AM!\f* \wj Don’t be afraid.”\wj* 
 \p
 \v 28 Peter answered him and said, “Lord, if it is you, command me to come to you on the waters.”
 \p
@@ -1138,8 +1128,8 @@ sea.\x + see \+zref \+ztgt JOB.9.8 \+ztgt*\+zref*Job 9:8\+zrefend \+zrefend*\x*
 \v 34 When they had crossed over, they came to the land of Gennesaret.
 \v 35 When the people of that place recognized him, they sent into all that surrounding region, and brought to him all who were
 sick; 
-\v 36 and they begged him that they might just touch the fringe\f + or,
-tassel\f* of his garment. As many as touched it were made whole.
+\v 36 and they begged him that they might just touch the fringe\f + \fr 14:36 
+\ft or, tassel\f* of his garment. As many as touched it were made whole.
 \c 15  
 \p
 \v 1 Then Pharisees and scribes came to Jesus from Jerusalem, saying,
@@ -1147,11 +1137,9 @@ tassel\f* of his garment. As many as touched it were made whole.
 \p
 \v 3 He answered them, \wj “Why do you also disobey the commandment of God because of your tradition?
 \wj* 
-\v 4  \wj For God commanded, ‘Honor your father and your mother,’\wj*\x + \+zref \+ztgt EXO.20.12 \+ztgt*\+zref*Exodus
-20:12\+zrefend \+zrefend*; \+zref \+ztgt DEU.5.16 \+ztgt*\+zref*Deuteronomy
-5:16\+zrefend \+zrefend*\x* \wj and, ‘He who speaks evil of father or mother, let him be put to
-death.’\wj*\x + \+zref \+ztgt EXO.21.17 \+ztgt*\+zref*Exodus 21:17\+zrefend \+zrefend*;
-\+zref \+ztgt LEV.20.9 \+ztgt*\+zref*Leviticus 20:9\+zrefend \+zrefend*\x*
+\v 4  \wj For God commanded, ‘Honor your father and your mother,’\wj*\x + \xo 15:4 
+\xt Exodus 20:12; Deuteronomy 5:16\x* \wj and, ‘He who speaks evil of father or mother, let him be put to
+death.’\wj*\x + \xo 15:4  \xt Exodus 21:17; Leviticus 20:9\x* 
 \v 5  \wj But you say, ‘Whoever may tell his father or his mother, “Whatever help you might otherwise have gotten from me is a
 gift devoted to God,” \wj* 
 \v 6  \wj he shall not honor his father or mother.’ You have made the commandment of God void because of your tradition.
@@ -1163,15 +1151,15 @@ gift devoted to God,” \wj*
 \q2 \wj but their heart is far from me.\wj* 
 \q1
 \v 9  \wj And in vain do they worship me,\wj* 
-\q2 \wj teaching as doctrine rules made by men.’”\wj*\x + \+zref \+ztgt ISA.29.13 \+ztgt*\+zref*Isaiah
-29:13\+zrefend \+zrefend* \x* 
+\q2 \wj teaching as doctrine rules made by men.’”\wj*\x + \xo 15:9 
+\xt Isaiah 29:13 \x* 
 \p
 \v 10 He summoned the multitude, and said to them, \wj “Hear, and understand.
 \wj* 
 \v 11  \wj That which enters into the mouth doesn’t defile the man; but that which proceeds out of the mouth, this defiles the
 man.”\wj* 
 \p
-\v 12 Then the disciples came, and said to him, “Do you know that the Pharisees were offended, when they heard this saying?”
+\v 12 Then the disciples came, and said to him, “Do you know that the Pharisees were offended when they heard this saying?”
 \p
 \v 13 But he answered, \wj “Every plant which my heavenly Father didn’t plant will be uprooted.
 \wj* 
@@ -1259,6 +1247,7 @@ Pharisees and Sadducees.” \wj*
 \p
 \v 12 Then they understood that he didn’t tell them to beware of the yeast of bread, but of the teaching of the Pharisees and
 Sadducees. 
+\p
 \v 13 Now when Jesus came into the parts of Caesarea Philippi, he asked his disciples, saying,
 \wj “Who do men say that I, the Son of Man, am?”\wj* 
 \p
@@ -1270,10 +1259,11 @@ Sadducees.
 \p
 \v 17 Jesus answered him, \wj “Blessed are you, Simon Bar Jonah, for flesh and blood has not revealed this to you, but my
 Father who is in heaven. \wj* 
-\v 18  \wj I also tell you that you are Peter,\wj*\f + Peter’s name, Petros in Greek, is the word for a specific rock or
-stone.\f* \wj and on this rock \wj*\f + Greek, petra, a rock mass or
-bedrock.\f* \wj I will build my assembly, and the gates of Hades\wj*\f + or,
-Hell\f* \wj will not prevail against it. \wj* 
+\v 18  \wj I also tell you that you are Peter,\wj*\f + \fr 16:18 
+\ft Peter’s name, Petros in Greek, is the word for a specific rock or
+stone.\f* \wj and on this rock \wj*\f + \fr 16:18  \ft Greek, petra, a rock mass or
+bedrock.\f* \wj I will build my assembly, and the gates of Hades\wj*\f + \fr 16:18 
+\ft or, Hell\f* \wj will not prevail against it. \wj* 
 \v 19  \wj I will give to you the keys of the Kingdom of Heaven, and whatever you bind on earth will have been bound in heaven;
 and whatever you release on earth will have been released in heaven.”\wj*
 \v 20 Then he commanded the disciples that they should tell no one that he was Jesus the Christ.
@@ -1298,7 +1288,8 @@ Man coming in his Kingdom.” \wj*
 \p
 \v 1 After six days, Jesus took with him Peter, James, and John his brother, and brought them up into a high mountain by
 themselves. 
-\v 2 He was transfigured before them. His face shone like the sun, and his garments became as white as the light.
+\v 2 He was changed\f + \fr 17:2  \ft or, transfigured\f* before them. His face shone like the sun, and his garments became as
+white as the light. 
 \v 3 Behold, Moses and Elijah appeared to them talking with him.
 \p
 \v 4 Peter answered, and said to Jesus, “Lord, it is good for us to be here. If you want, let’s make three tents here: one for
@@ -1338,17 +1329,18 @@ him here to me.”\wj*
 seed, you will tell this mountain, ‘Move from here to there,’ and it will move; and nothing will be impossible for you.
 \wj* 
 \v 21  \wj But this kind doesn’t go out except by prayer and fasting.”
-\wj*\f + NU omits verse 21.\f* 
+\wj*\f + \fr 17:21  \ft NU omits verse 21.\f* 
 \p
 \v 22 While they were staying in Galilee, Jesus said to them, \wj “The Son of Man is about to be delivered up into the hands of
 men, \wj* 
 \v 23  \wj and they will kill him, and the third day he will be raised up.”
 \wj* 
 \p They were exceedingly sorry. 
+\p
 \v 24 When they had come to Capernaum, those who collected the didrachma
-coins\f + A didrachma is a Greek silver coin worth 2 drachmas, about as much as 2 Roman denarii, or about 2 days’ wages. It was
-commonly used to pay the half-shekel temple tax, because 2 drachmas were worth one half shekel of silver. A shekel is about 10
-grams or about 0.35 ounces.\f* came to Peter, and said, “Doesn’t your teacher pay the didrachma?”
+coins\f + \fr 17:24  \ft A didrachma is a Greek silver coin worth 2 drachmas, about as much as 2 Roman denarii, or about 2
+days’ wages. It was commonly used to pay the half-shekel temple tax, because 2 drachmas were worth one half shekel of silver. A
+shekel is about 10 grams or about 0.35 ounces.\f* came to Peter, and said, “Doesn’t your teacher pay the didrachma?”
 \v 25 He said, “Yes.” 
 \p When he came into the house, Jesus anticipated him, saying, \wj “What do you think, Simon? From whom do the kings of the
 earth receive toll or tribute? From their children, or from strangers?”\wj*
@@ -1356,10 +1348,10 @@ earth receive toll or tribute? From their children, or from strangers?”\wj*
 \v 26 Peter said to him, “From strangers.” 
 \p Jesus said to him, \wj “Therefore the children are exempt. \wj*
 \v 27  \wj But, lest we cause them to stumble, go to the sea, cast a hook, and take up the first fish that comes up. When you
-have opened its mouth, you will find a stater coin.\wj*\f + A stater is a silver coin equivalent to four Attic or two
-Alexandrian drachmas, or a Jewish shekel: just exactly enough to cover the half-shekel temple tax for two people. A shekel is
-about 10 grams or about 0.35 ounces, usually in the form of a silver
-coin.\f* \wj Take that, and give it to them for me and you.”\wj*
+have opened its mouth, you will find a stater coin.\wj*\f + \fr 17:27 
+\ft A stater is a silver coin equivalent to four Attic or two Alexandrian drachmas, or a Jewish shekel: just exactly enough to
+cover the half-shekel temple tax for two people. A shekel is about 10 grams or about 0.35 ounces, usually in the form of a
+silver coin.\f* \wj Take that, and give it to them for me and you.”\wj*
 \c 18  
 \p
 \v 1 In that hour the disciples came to Jesus, saying, “Who then is greatest in the Kingdom of Heaven?”
@@ -1381,12 +1373,12 @@ through whom the occasion comes! \wj*
 life maimed or crippled, rather than having two hands or two feet to be cast into the eternal fire.
 \wj* 
 \v 9  \wj If your eye causes you to stumble, pluck it out, and cast it from you. It is better for you to enter into life with
-one eye, rather than having two eyes to be cast into the Gehenna\wj*\f + or,
-Hell\f* \wj of fire. \wj* 
+one eye, rather than having two eyes to be cast into the Gehenna\wj*\f + \fr 18:9 
+\ft or, Hell\f* \wj of fire. \wj* 
 \v 10  \wj See that you don’t despise one of these little ones, for I tell you that in heaven their angels always see the face
 of my Father who is in heaven. \wj* 
-\v 11  \wj For the Son of Man came to save that which was lost.\wj*\f + NU omits verse
-11.\f* 
+\v 11  \wj For the Son of Man came to save that which was lost.\wj*\f + \fr 18:11 
+\ft NU omits verse 11.\f* 
 \p
 \v 12  \wj “What do you think? If a man has one hundred sheep, and one of them goes astray, doesn’t he leave the ninety-nine,
 go to the mountains, and seek that which has gone astray? \wj* 
@@ -1398,8 +1390,7 @@ perish.\wj*
 \v 15  \wj “If your brother sins against you, go, show him his fault between you and him alone. If he listens to you, you have
 gained back your brother. \wj* 
 \v 16  \wj But if he doesn’t listen, take one or two more with you, that at the mouth of two or three witnesses every word may
-be established.\wj*\x + \+zref \+ztgt DEU.19.15 \+ztgt*\+zref*Deuteronomy
-19:15\+zrefend \+zrefend*\x* 
+be established.\wj*\x + \xo 18:16  \xt Deuteronomy 19:15\x* 
 \v 17  \wj If he refuses to listen to them, tell it to the assembly. If he refuses to hear the assembly also, let him be to you
 as a Gentile or a tax collector. \wj* 
 \v 18  \wj Most certainly I tell you, whatever things you bind on earth will have been bound in heaven, and whatever things you
@@ -1416,8 +1407,8 @@ them.”\wj*
 \v 23  \wj Therefore the Kingdom of Heaven is like a certain king, who wanted to reconcile accounts with his servants.
 \wj* 
 \v 24  \wj When he had begun to reconcile, one was brought to him who owed him ten thousand
-talents.\wj*\f + Ten thousand talents (about 300 metric tons of silver) represents an extremely large sum of money, equivalent
-to about 60,000,000 denarii, where one denarius was typical of one day’s wages for agricultural
+talents.\wj*\f + \fr 18:24  \ft Ten thousand talents (about 300 metric tons of silver) represents an extremely large sum of
+money, equivalent to about 60,000,000 denarii, where one denarius was typical of one day’s wages for agricultural
 labor.\f* 
 \v 25  \wj But because he couldn’t pay, his lord commanded him to be sold, with his wife, his children, and all that he had,
 and payment to be made. \wj* 
@@ -1427,7 +1418,7 @@ all!’ \wj*
 debt.\wj* 
 \p
 \v 28  \wj “But that servant went out, and found one of his fellow servants, who owed him one hundred
-denarii,\wj*\f + 100 denarii was about one sixtieth of a talent, or about 500 grams (1.1 pounds) of
+denarii,\wj*\f + \fr 18:28  \ft 100 denarii was about one sixtieth of a talent, or about 500 grams (1.1 pounds) of
 silver.\f* \wj and he grabbed him, and took him by the throat, saying, ‘Pay me what you
 owe!’\wj* 
 \p
@@ -1452,10 +1443,9 @@ misdeeds.”\wj*
 \v 3 Pharisees came to him, testing him, and saying, “Is it lawful for a man to divorce his wife for any reason?”
 \p
 \v 4 He answered, \wj “Haven’t you read that he who made them from the beginning made them male and
-female,\wj*\x + \+zref \+ztgt GEN.1.27 \+ztgt*\+zref*Genesis 1:27\+zrefend \+zrefend*\x*
+female,\wj*\x + \xo 19:4  \xt Genesis 1:27\x* 
 \v 5  \wj and said, ‘For this cause a man shall leave his father and mother, and shall be joined to his wife; and the two shall
-become one flesh?’\wj*\x + \+zref \+ztgt GEN.2.24 \+ztgt*\+zref*Genesis
-2:24\+zrefend \+zrefend*\x* 
+become one flesh?’\wj*\x + \xo 19:5  \xt Genesis 2:24\x* 
 \v 6  \wj So that they are no more two, but one flesh. What therefore God has joined together, don’t let man tear
 apart.”\wj* 
 \p
@@ -1481,18 +1471,17 @@ ones like these.”\wj*
 \p
 \v 16 Behold, one came to him and said, “Good teacher, what good thing shall I do, that I may have eternal life?”
 \p
-\v 17 He said to him, \wj “Why do you call me good?\wj*\f + So MT and TR. NU reads “Why do you ask me about what is
-good?”\f* \wj No one is good but one, that is, God. But if you want to enter into life, keep the commandments.”
+\v 17 He said to him, \wj “Why do you call me good?\wj*\f + \fr 19:17 
+\ft So MT and TR. NU reads “Why do you ask me about what is good?”\f*
+\wj No one is good but one, that is, God. But if you want to enter into life, keep the commandments.”
 \wj* 
 \p
 \v 18 He said to him, “Which ones?” 
 \p Jesus said, \wj “‘You shall not murder.’ ‘You shall not commit adultery.’ ‘You shall not steal.’ ‘You shall not offer false
 testimony.’ \wj* 
-\v 19  \wj ‘Honor your father and your mother.’\wj*\x + \+zref \+ztgt EXO.20.12 \+ztgt*\+zref*Exodus
-20:12-16\+zrefend \+zrefend*; \+zref \+ztgt DEU.5.16 \+ztgt*\+zref*Deuteronomy
-5:16-20\+zrefend \+zrefend*\x* \wj And, ‘You shall love your neighbor as
-yourself.’”\wj*\x + \+zref \+ztgt LEV.19.18 \+ztgt*\+zref*Leviticus
-19:18\+zrefend \+zrefend*\x* 
+\v 19  \wj ‘Honor your father and your mother.’\wj*\x + \xo 19:19 
+\xt Exodus 20:12-16; Deuteronomy 5:16-20\x* \wj And, ‘You shall love your neighbor as
+yourself.’”\wj*\x + \xo 19:19  \xt Leviticus 19:18\x* 
 \p
 \v 20 The young man said to him, “All these things I have observed from my youth. What do I still lack?”
 \p
@@ -1523,18 +1512,19 @@ name’s sake, will receive one hundred times, and will inherit eternal life.
 \p
 \v 1  \wj “For the Kingdom of Heaven is like a man who was the master of a household, who went out early in the morning to hire
 laborers for his vineyard. \wj* 
-\v 2  \wj When he had agreed with the laborers for a denarius\wj*\f + A denarius is a silver Roman coin worth 1/25th of a Roman
-aureus. This was a common wage for a day of farm labor.\f* \wj a day, he sent them into his vineyard.
-\wj* 
-\v 3  \wj He went out about the third hour,\wj*\f + Time was measured from sunrise to sunset, so the third hour would be about
-9:00 a.m.\f* \wj and saw others standing idle in the marketplace.
+\v 2  \wj When he had agreed with the laborers for a denarius\wj*\f + \fr 20:2 
+\ft A denarius is a silver Roman coin worth 1/25th of a Roman aureus. This was a common wage for a day of farm
+labor.\f* \wj a day, he sent them into his vineyard. \wj* 
+\v 3  \wj He went out about the third hour,\wj*\f + \fr 20:3  \ft Time was measured from sunrise to sunset, so the third hour
+would be about 9:00 a.m.\f* \wj and saw others standing idle in the marketplace.
 \wj* 
 \v 4  \wj He said to them, ‘You also go into the vineyard, and whatever is right I will give you.’ So they went their way.
 \wj* 
-\v 5  \wj Again he went out about the sixth and the ninth hour,\wj*\f + noon and 3:00
-p.m.\f* \wj and did likewise. \wj* 
-\v 6  \wj About the eleventh hour\wj*\f + 5:00 p.m.\f* \wj he went out, and found others standing idle. He said to them, ‘Why
-do you stand here all day idle?’ \wj* 
+\v 5  \wj Again he went out about the sixth and the ninth hour,\wj*\f + \fr 20:5 
+\ft noon and 3:00 p.m.\f* \wj and did likewise. \wj* 
+\v 6  \wj About the eleventh hour\wj*\f + \fr 20:6  \ft 5:00 p.m.\f*
+\wj he went out, and found others standing idle. He said to them, ‘Why do you stand here all day idle?’
+\wj* 
 \p
 \v 7  \wj “They said to him, ‘Because no one has hired us.’\wj* 
 \p \wj “He said to them, ‘You also go into the vineyard, and you will receive whatever is right.’
@@ -1584,8 +1574,8 @@ Father.”\wj*
 \v 25 But Jesus summoned them, and said, \wj “You know that the rulers of the nations lord it over them, and their great ones
 exercise authority over them. \wj* 
 \v 26  \wj It shall not be so among you, but whoever desires to become great among you shall
-be\wj*\f + TR reads “let him be” instead of “shall be” \f* \wj your servant.
-\wj* 
+be\wj*\f + \fr 20:26  \ft TR reads “let him be” instead of “shall be”
+\f* \wj your servant. \wj* 
 \v 27  \wj Whoever desires to be first among you shall be your bondservant,
 \wj* 
 \v 28  \wj even as the Son of Man came not to be served, but to serve, and to give his life as a ransom for
@@ -1606,8 +1596,8 @@ you?”\wj*
 followed him. 
 \c 21  
 \p
-\v 1 When they came near to Jerusalem, and came to Bethsphage,\f + TR & NU read “Bethphage” instead of
-“Bethsphage”\f* to the Mount of Olives, then Jesus sent two disciples,
+\v 1 When they came near to Jerusalem, and came to Bethsphage,\f + \fr 21:1 
+\ft TR & NU read “Bethphage” instead of “Bethsphage”\f* to the Mount of Olives, then Jesus sent two disciples,
 \v 2 saying to them, \wj “Go into the village that is opposite you, and immediately you will find a donkey tied, and a colt
 with her. Untie them, and bring them to me. \wj* 
 \v 3  \wj If anyone says anything to you, you shall say, ‘The Lord needs them,’ and immediately he will send
@@ -1618,16 +1608,15 @@ them.”\wj*
 \v 5 “Tell the daughter of Zion, 
 \q2 behold, your King comes to you, 
 \q2 humble, and riding on a donkey, 
-\q2 on a colt, the foal of a donkey.”\x + \+zref \+ztgt ZEC.9.9 \+ztgt*\+zref*Zechariah
-9:9\+zrefend \+zrefend*\x* 
+\q2 on a colt, the foal of a donkey.”\x + \xo 21:5  \xt Zechariah
+9:9\x* 
 \p
 \v 6 The disciples went, and did just as Jesus commanded them, 
 \v 7 and brought the donkey and the colt, and laid their clothes on them; and he sat on them.
 \v 8 A very great multitude spread their clothes on the road. Others cut branches from the trees, and spread them on the road.
 \v 9 The multitudes who went in front of him, and those who followed, kept shouting, “Hosanna
-\f + “Hosanna” means “save us” or “help us, we pray”.\f* to the son of David! Blessed is he who comes in the name of the Lord!
-Hosanna in the highest!” \x + \+zref \+ztgt PSA.118.26 \+ztgt*\+zref*Psalm
-118:26\+zrefend \+zrefend*\x* 
+\f + \fr 21:9  \ft “Hosanna” means “save us” or “help us, we pray”.\f* to the son of David! Blessed is he who comes in the name
+of the Lord! Hosanna in the highest!” \x + \xo 21:9  \xt Psalm 118:26\x*
 \p
 \v 10 When he had come into Jerusalem, all the city was stirred up, saying, “Who is this?”
 \v 11 The multitudes said, “This is the prophet, Jesus, from Nazareth of Galilee.”
@@ -1635,16 +1624,15 @@ Hosanna in the highest!” \x + \+zref \+ztgt PSA.118.26 \+ztgt*\+zref*Psalm
 \v 12 Jesus entered into the temple of God, and drove out all of those who sold and bought in the temple, and overthrew the
 money changers’ tables and the seats of those who sold the doves.
 \v 13 He said to them, \wj “It is written, ‘My house shall be called a house of
-prayer,’\wj*\x + \+zref \+ztgt ISA.56.7 \+ztgt*\+zref*Isaiah 56:7\+zrefend \+zrefend*\x*
-\wj but you have made it a den of robbers!”\wj*\x + \+zref \+ztgt JER.7.11 \+ztgt*\+zref*Jeremiah
-7:11\+zrefend \+zrefend*\x* 
+prayer,’\wj*\x + \xo 21:13  \xt Isaiah 56:7\x* \wj but you have made it a den of
+robbers!”\wj*\x + \xo 21:13  \xt Jeremiah 7:11\x* 
 \p
 \v 14 The blind and the lame came to him in the temple, and he healed them.
 \v 15 But when the chief priests and the scribes saw the wonderful things that he did, and the children who were crying in the
 temple and saying, “Hosanna to the son of David!” they were indignant,
 \v 16 and said to him, “Do you hear what these are saying?” 
 \p Jesus said to them, \wj “Yes. Did you never read, ‘Out of the mouth of babes and nursing babies you have perfected
-praise?’”\wj*\x + \+zref \+ztgt PSA.8.2 \+ztgt*\+zref*Psalm 8:2\+zrefend \+zrefend*\x*
+praise?’”\wj*\x + \xo 21:16  \xt Psalm 8:2\x* 
 \p
 \v 17 He left them, and went out of the city to Bethany, and camped there.
 \v 18 Now in the morning, as he returned to the city, he was hungry.
@@ -1711,8 +1699,8 @@ give him the fruit in its season.”
 \q1 \wj ‘The stone which the builders rejected\wj* 
 \q2 \wj was made the head of the corner.\wj* 
 \q1 \wj This was from the Lord.\wj* 
-\q2 \wj It is marvelous in our eyes?’\wj*\x + \+zref \+ztgt PSA.118.22 \+ztgt*\+zref*Psalm
-118:22-23\+zrefend \+zrefend*\x* 
+\q2 \wj It is marvelous in our eyes?’\wj*\x + \xo 21:42  \xt Psalm
+118:22-23\x* 
 \p
 \v 43  \wj “Therefore I tell you, God’s Kingdom will be taken away from you, and will be given to a nation producing its fruit.
 \wj* 
@@ -1724,12 +1712,12 @@ dust.”\wj*
 \c 22  
 \p
 \v 1 Jesus answered and spoke to them again in parables, saying,
-\v 2  \wj “The Kingdom of Heaven is like a certain king, who made a marriage feast for his son,
+\v 2  \wj “The Kingdom of Heaven is like a certain king, who made a wedding feast for his son,
 \wj* 
-\v 3  \wj and sent out his servants to call those who were invited to the marriage feast, but they would not come.
+\v 3  \wj and sent out his servants to call those who were invited to the wedding feast, but they would not come.
 \wj* 
 \v 4  \wj Again he sent out other servants, saying, ‘Tell those who are invited, “Behold, I have prepared my dinner. My cattle
-and my fatlings are killed, and all things are ready. Come to the marriage feast!”’
+and my fatlings are killed, and all things are ready. Come to the wedding feast!”’
 \wj* 
 \v 5  \wj But they made light of it, and went their ways, one to his own farm, another to his merchandise,
 \wj* 
@@ -1740,7 +1728,7 @@ city.\wj*
 \p
 \v 8  \wj “Then he said to his servants, ‘The wedding is ready, but those who were invited weren’t worthy.
 \wj* 
-\v 9  \wj Go therefore to the intersections of the highways, and as many as you may find, invite to the marriage feast.’
+\v 9  \wj Go therefore to the intersections of the highways, and as many as you may find, invite to the wedding feast.’
 \wj* 
 \v 10  \wj Those servants went out into the highways, and gathered together as many as they found, both bad and good. The
 wedding was filled with guests. \wj* 
@@ -1772,7 +1760,7 @@ God’s.”\wj*
 \p
 \v 23 On that day Sadducees (those who say that there is no resurrection) came to him. They asked him,
 \v 24 saying, “Teacher, Moses said, ‘If a man dies, having no children, his brother shall marry his wife, and raise up
-offspring\f + or, seed\f* for his brother.’ 
+offspring\f + \fr 22:24  \ft or, seed\f* for his brother.’ 
 \v 25 Now there were with us seven brothers. The first married and died, and having no offspring left his wife to his brother.
 \v 26 In the same way, the second also, and the third, to the seventh.
 \v 27 After them all, the woman died. 
@@ -1785,8 +1773,8 @@ offspring\f + or, seed\f* for his brother.’
 \v 31  \wj But concerning the resurrection of the dead, haven’t you read that which was spoken to you by God, saying,
 \wj* 
 \v 32  \wj ‘I am the God of Abraham, and the God of Isaac, and the God of
-Jacob?’\wj*\x + \+zref \+ztgt EXO.3.6 \+ztgt*\+zref*Exodus 3:6\+zrefend \+zrefend*\x*
-\wj God is not the God of the dead, but of the living.”\wj* 
+Jacob?’\wj*\x + \xo 22:32  \xt Exodus 3:6\x* \wj God is not the God of the dead, but of the
+living.”\wj* 
 \p
 \v 33 When the multitudes heard it, they were astonished at his teaching.
 \v 34 But the Pharisees, when they heard that he had silenced the Sadducees, gathered themselves together.
@@ -1794,12 +1782,10 @@ Jacob?’\wj*\x + \+zref \+ztgt EXO.3.6 \+ztgt*\+zref*Exodus 3:6\+zrefend \+zref
 \v 36 “Teacher, which is the greatest commandment in the law?” 
 \p
 \v 37 Jesus said to him, \wj “‘You shall love the Lord your God with all your heart, with all your soul, and with all your
-mind.’\wj*\x + \+zref \+ztgt DEU.6.5 \+ztgt*\+zref*Deuteronomy 6:5\+zrefend \+zrefend*
-\x* 
+mind.’\wj*\x + \xo 22:37  \xt Deuteronomy 6:5 \x* 
 \v 38  \wj This is the first and great commandment. \wj* 
 \v 39  \wj A second likewise is this, ‘You shall love your neighbor as
-yourself.’\wj*\x + \+zref \+ztgt LEV.19.18 \+ztgt*\+zref*Leviticus
-19:18\+zrefend \+zrefend*\x* 
+yourself.’\wj*\x + \xo 22:39  \xt Leviticus 19:18\x* 
 \v 40  \wj The whole law and the prophets depend on these two commandments.”
 \wj* 
 \p
@@ -1813,8 +1799,8 @@ saying,\wj*
 \q1
 \v 44  \wj ‘The Lord said to my Lord,\wj* 
 \q2 \wj sit on my right hand,\wj* 
-\q2 \wj until I make your enemies a footstool for your feet?’\wj*\x + \+zref \+ztgt PSA.110.1 \+ztgt*\+zref*Psalm
-110:1\+zrefend \+zrefend*\x* 
+\q2 \wj until I make your enemies a footstool for your feet?’\wj*\x + \xo 22:44 
+\xt Psalm 110:1\x* 
 \p
 \v 45  \wj “If then David calls him Lord, how is he his son?”\wj*
 \p
@@ -1828,12 +1814,11 @@ saying,\wj*
 don’t do. \wj* 
 \v 4  \wj For they bind heavy burdens that are grievous to be borne, and lay them on men’s shoulders; but they themselves will
 not lift a finger to help them. \wj* 
-\v 5  \wj But all their works they do to be seen by men. They make their phylacteries
-\wj*\f + phylacteries (tefillin in Hebrew) are small leather pouches that some Jewish men wear on their forehead and arm in
-prayer. They are used to carry a small scroll with some Scripture in it. See
-\+zref \+ztgt DEU.6.8 \+ztgt*\+zref*Deuteronomy 6:8.\+zrefend \+zrefend*\f*
-\wj broad, enlarge the fringes\wj*\f + or, tassels\f* \wj of their garments,
-\wj* 
+\v 5  \wj But they do all their works to be seen by men. They make their phylacteries
+\wj*\f + \fr 23:5  \ft phylacteries (tefillin in Hebrew) are small leather pouches that some Jewish men wear on their forehead
+and arm in prayer. They are used to carry a small scroll with some Scripture in it. See Deuteronomy
+6:8.\f* \wj broad, enlarge the fringes\wj*\f + \fr 23:5  \ft or,
+tassels\f* \wj of their garments, \wj* 
 \v 6  \wj and love the place of honor at feasts, the best seats in the synagogues,
 \wj* 
 \v 7  \wj the salutations in the marketplaces, and to be called ‘Rabbi, Rabbi’ by men.
@@ -1854,11 +1839,11 @@ prayers. Therefore you will receive greater condemnation.\wj*
 \p
 \v 14  \wj “But woe to you, scribes and Pharisees, hypocrites! Because you shut up the Kingdom of Heaven against men; for you
 don’t enter in yourselves, neither do you allow those who are entering in to
-enter.\wj*\f + Some Greek manuscripts reverse the order of verses 13 and 14, and some omit verse 13, numbering verse 14 as 13.
-NU omits verse 14.\f* 
+enter.\wj*\f + \fr 23:14  \ft Some Greek texts reverse the order of verses 13 and 14, and some omit verse 13, numbering verse
+14 as 13. NU omits verse 14.\f* 
 \v 15  \wj Woe to you, scribes and Pharisees, hypocrites! For you travel around by sea and land to make one proselyte; and when
-he becomes one, you make him twice as much a son of Gehenna\wj*\f + or,
-Hell\f* \wj as yourselves. \wj* 
+he becomes one, you make him twice as much a son of Gehenna\wj*\f + \fr 23:15 
+\ft or, Hell\f* \wj as yourselves. \wj* 
 \p
 \v 16  \wj “Woe to you, you blind guides, who say, ‘Whoever swears by the temple, it is nothing; but whoever swears by the gold
 of the temple, he is obligated.’ \wj* 
@@ -1871,20 +1856,20 @@ of the temple, he is obligated.’ \wj*
 \v 20  \wj He therefore who swears by the altar, swears by it, and by everything on it.
 \wj* 
 \v 21  \wj He who swears by the temple, swears by it, and by him who has been
-living\wj*\f + NU reads “lives”\f* \wj in it. \wj* 
+living\wj*\f + \fr 23:21  \ft NU reads “lives”\f* \wj in it. \wj*
 \v 22  \wj He who swears by heaven, swears by the throne of God, and by him who sits on
 it.\wj* 
 \p
 \v 23  \wj “Woe to you, scribes and Pharisees, hypocrites! For you tithe mint, dill, and
-cumin,\wj*\f + cumin is an aromatic seed from Cuminum cyminum, resembling caraway in flavor and appearance. It is used as a
-spice.\f* \wj and have left undone the weightier matters of the law: justice, mercy, and faith. But you ought to have done
-these, and not to have left the other undone. \wj* 
+cumin,\wj*\f + \fr 23:23  \ft cumin is an aromatic seed from Cuminum cyminum, resembling caraway in flavor and appearance. It
+is used as a spice.\f* \wj and have left undone the weightier matters of the law: justice, mercy, and faith. But you ought to
+have done these, and not to have left the other undone. \wj* 
 \v 24  \wj You blind guides, who strain out a gnat, and swallow a camel!
 \wj* 
 \p
 \v 25  \wj “Woe to you, scribes and Pharisees, hypocrites! For you clean the outside of the cup and of the platter, but within
-they are full of extortion and unrighteousness.\wj*\f + TR reads “self-indulgence” instead of
-“unrighteousness”\f* 
+they are full of extortion and unrighteousness.\wj*\f + \fr 23:25 
+\ft TR reads “self-indulgence” instead of “unrighteousness”\f* 
 \v 26  \wj You blind Pharisee, first clean the inside of the cup and of the platter, that its outside may become clean
 also.\wj* 
 \p
@@ -1902,7 +1887,7 @@ prophets.’ \wj*
 \wj* 
 \v 32  \wj Fill up, then, the measure of your fathers. \wj* 
 \v 33  \wj You serpents, you offspring of vipers, how will you escape the judgment of
-Gehenna?\wj*\f + or, Hell\f* 
+Gehenna?\wj*\f + \fr 23:33  \ft or, Hell\f* 
 \v 34  \wj Therefore behold, I send to you prophets, wise men, and scribes. Some of them you will kill and crucify; and some of
 them you will scourge in your synagogues, and persecute from city to city;
 \wj* 
@@ -1917,8 +1902,7 @@ your children together, even as a hen gathers her chicks under her wings, and yo
 \wj* 
 \v 38  \wj Behold, your house is left to you desolate. \wj* 
 \v 39  \wj For I tell you, you will not see me from now on, until you say, ‘Blessed is he who comes in the name of the
-Lord!’”\wj*\x + \+zref \+ztgt PSA.118.26 \+ztgt*\+zref*Psalm 118:26\+zrefend \+zrefend*
-\x* 
+Lord!’”\wj*\x + \xo 23:39  \xt Psalm 118:26 \x* 
 \c 24  
 \p
 \v 1  Jesus went out from the temple, and was going on his way. His disciples came to him to show him the buildings of the
@@ -1952,11 +1936,8 @@ sake. \wj*
 end will come.\wj* 
 \p
 \v 15  \wj “When, therefore, you see the abomination of desolation,\wj*
-\x + \+zref \+ztgt DAN.9.27 \+ztgt*\+zref*Daniel 9:27\+zrefend \+zrefend*;
-\+zref \+ztgt DAN.11.31 \+ztgt*\+zref*11:31\+zrefend \+zrefend*;
-\+zref \+ztgt DAN.12.11 \+ztgt*\+zref*12:11\+zrefend \+zrefend*\x*
-\wj which was spoken of through Daniel the prophet, standing in the holy place (let the reader understand),
-\wj* 
+\x + \xo 24:15  \xt Daniel 9:27; 11:31; 12:11\x* \wj which was spoken of through Daniel the prophet, standing in the holy place
+(let the reader understand), \wj* 
 \v 16  \wj then let those who are in Judea flee to the mountains.
 \wj* 
 \v 17  \wj Let him who is on the housetop not go down to take out the things that are in his house.
@@ -1967,8 +1948,9 @@ end will come.\wj*
 \wj* 
 \v 20  \wj Pray that your flight will not be in the winter, nor on a Sabbath,
 \wj* 
-\v 21  \wj for then there will be great tribulation,\f + or, oppression\f* such as has not been from the beginning of the world
-until now, no, nor ever will be. \wj* 
+\v 21  \wj for then there will be great suffering,\wj*\f + \fr 24:21 
+\ft or, oppression\f* \wj such as has not been from the beginning of the world until now, no, nor ever will be.
+\wj* 
 \v 22  \wj Unless those days had been shortened, no flesh would have been saved. But for the sake of the chosen ones, those
 days will be shortened. \wj* 
 \p
@@ -1978,16 +1960,16 @@ days will be shortened. \wj*
 astray, if possible, even the chosen ones.\wj* 
 \p
 \v 25  \wj “Behold, I have told you beforehand. \wj* 
-\v 26  \wj If therefore they tell you, ‘Behold, he is in the wilderness,’ don’t go out; ‘Behold, he is in the inner rooms,’
+\v 26  \wj If therefore they tell you, ‘Behold, he is in the wilderness,’ don’t go out; or ‘Behold, he is in the inner rooms,’
 don’t believe it. \wj* 
-\v 27  \wj For as the lightning flashes from the east, and is seen even to the west, so will be the coming of the Son of Man.
+\v 27  \wj For as the lightning flashes from the east, and is seen even to the west, so will the coming of the Son of Man be.
 \wj* 
 \v 28  \wj For wherever the carcass is, that is where the vultures\wj*
-\f + or, eagles\f* \wj gather together. \wj* 
-\v 29  \wj But immediately after the tribulation\f + or, oppression\f* of those days, the sun will be darkened, the moon will
-not give its light, the stars will fall from the sky, and the powers of the heavens will be
-shaken;\wj*\x + \+zref \+ztgt ISA.13.10 \+ztgt*\+zref*Isaiah 13:10\+zrefend \+zrefend*;
-\+zref \+ztgt ISA.34.4 \+ztgt*\+zref*34:4\+zrefend \+zrefend* \x*
+\f + \fr 24:28  \ft or, eagles\f* \wj gather together. \wj* 
+\v 29  \wj But immediately after the suffering\wj*\f + \fr 24:29 
+\ft or, oppression\f* \wj of those days, the sun will be darkened, the moon will not give its light, the stars will fall from
+the sky, and the powers of the heavens will be shaken;\wj*\x + \xo 24:29 
+\xt Isaiah 13:10; 34:4 \x* 
 \v 30  \wj and then the sign of the Son of Man will appear in the sky. Then all the tribes of the earth will mourn, and they
 will see the Son of Man coming on the clouds of the sky with power and great glory.
 \wj* 
@@ -1998,19 +1980,21 @@ four winds, from one end of the sky to the other.\wj*
 that the summer is near. \wj* 
 \v 33  \wj Even so you also, when you see all these things, know that it is near, even at the doors.
 \wj* 
-\v 34  \wj Most certainly I tell you, this generation\wj*\f + The word for “generation” (genea) can also be translated as
-“race.”\f* \wj will not pass away, until all these things are accomplished.
+\v 34  \wj Most certainly I tell you, this generation\wj*\f + \fr 24:34 
+\ft The word for “generation” (genea) can also be translated as “race.”\f*
+\wj will not pass away, until all these things are accomplished.
 \wj* 
 \v 35  \wj Heaven and earth will pass away, but my words will not pass away.
 \wj* 
 \v 36  \wj But no one knows of that day and hour, not even the angels of
-heaven,\wj*\f + NU adds “nor the son”\f* \wj but my Father only.\wj*
+heaven,\wj*\f + \fr 24:36  \ft NU adds “nor the son”\f* \wj but my Father
+only.\wj* 
 \p
-\v 37  \wj “As the days of Noah were, so will be the coming of the Son of Man.
+\v 37  \wj “As the days of Noah were, so will the coming of the Son of Man be.
 \wj* 
 \v 38  \wj For as in those days which were before the flood they were eating and drinking, marrying and giving in marriage,
 until the day that Noah entered into the ship, \wj* 
-\v 39  \wj and they didn’t know until the flood came, and took them all away, so will be the coming of the Son of Man.
+\v 39  \wj and they didn’t know until the flood came, and took them all away, so will the coming of the Son of Man be.
 \wj* 
 \v 40  \wj Then two men will be in the field: one will be taken and one will be left.
 \wj* 
@@ -2051,14 +2035,15 @@ teeth will be. \wj*
 \wj* 
 \v 6  \wj But at midnight there was a cry, ‘Behold! The bridegroom is coming! Come out to meet him!’
 \wj* 
-\v 7  \wj Then all those virgins arose, and trimmed their lamps.\wj*\f + The end of the wick of an oil lamp needs to be cut off
-periodically to avoid having it become clogged with carbon deposits. The wick height is also adjusted so that the flame burns
-evenly and gives good light without producing a lot of smoke.\f*
+\v 7  \wj Then all those virgins arose, and trimmed their lamps.\wj*\f + \fr 25:7 
+\ft The end of the wick of an oil lamp needs to be cut off periodically to avoid having it become clogged with carbon deposits.
+The wick height is also adjusted so that the flame burns evenly and gives good light without producing a lot of
+smoke.\f* 
 \v 8  \wj The foolish said to the wise, ‘Give us some of your oil, for our lamps are going out.’
 \wj* 
 \v 9  \wj But the wise answered, saying, ‘What if there isn’t enough for us and you? You go rather to those who sell, and buy
 for yourselves.’ \wj* 
-\v 10  \wj While they went away to buy, the bridegroom came, and those who were ready went in with him to the marriage feast,
+\v 10  \wj While they went away to buy, the bridegroom came, and those who were ready went in with him to the wedding feast,
 and the door was shut. \wj* 
 \v 11  \wj Afterward the other virgins also came, saying, ‘Lord, Lord, open to us.’
 \wj* 
@@ -2069,9 +2054,9 @@ coming.\wj*
 \p
 \v 14  \wj “For it is like a man, going into another country, who called his own servants, and entrusted his goods to them.
 \wj* 
-\v 15  \wj To one he gave five talents,\f + A talent is about 30 kilograms or 66 pounds (usually used to weigh silver unless
-otherwise specified)\f* to another two, to another one; to each according to his own ability. Then he went on his journey.
-\wj* 
+\v 15  \wj To one he gave five talents,\wj*\f + \fr 25:15  \ft A talent is about 30 kilograms or 66 pounds (usually used to
+weigh silver unless otherwise specified)\f* \wj to another two, to another one; to each according to his own ability. Then he
+went on his journey. \wj* 
 \v 16  \wj Immediately he who received the five talents went and traded with them, and made another five talents.
 \wj* 
 \v 17  \wj In the same way, he also who got the two gained another two.
@@ -2130,7 +2115,7 @@ you a drink? \wj*
 \v 39  \wj When did we see you sick, or in prison, and come to you?’\wj*
 \p
 \v 40  \wj “The King will answer them, ‘Most certainly I tell you, because you did it to one of the least of these my
-brothers,\wj*\f + The word for “brothers” here may be also correctly translated “brothers and sisters” or
+brothers,\wj*\f + \fr 25:40  \ft The word for “brothers” here may be also correctly translated “brothers and sisters” or
 “siblings.”\f* \wj  you did it to me.’ \wj* 
 \v 41  \wj Then he will say also to those on the left hand, ‘Depart from me, you cursed, into the eternal fire which is
 prepared for the devil and his angels; \wj* 
@@ -2148,7 +2133,7 @@ these, you didn’t do it to me.’ \wj*
 life.”\wj* 
 \c 26  
 \p
-\v 1 When Jesus had finished all these words, he said to his disciples,
+\v 1  When Jesus had finished all these words, he said to his disciples,
 \v 2  \wj “You know that after two days the Passover is coming, and the Son of Man will be delivered up to be
 crucified.”\wj* 
 \p
@@ -2198,9 +2183,9 @@ would be better for that man if he had not been born.”\wj*
 \v 25 Judas, who betrayed him, answered, “It isn’t me, is it, Rabbi?”
 \p He said to him, \wj “You said it.”\wj* 
 \p
-\v 26 As they were eating, Jesus took bread, gave thanks for\f + TR reads “blessed” instead of “gave thanks
-for”\f* it, and broke it. He gave to the disciples, and said, \wj “Take, eat; this is my
-body.”\wj* 
+\v 26 As they were eating, Jesus took bread, gave thanks for\f + \fr 26:26 
+\ft TR reads “blessed” instead of “gave thanks for”\f* it, and broke it. He gave to the disciples, and said,
+\wj “Take, eat; this is my body.”\wj* 
 \v 27 He took the cup, gave thanks, and gave to them, saying, \wj “All of you drink it,
 \wj* 
 \v 28  \wj for this is my blood of the new covenant, which is poured out for many for the remission of sins.
@@ -2210,8 +2195,8 @@ you in my Father’s Kingdom.” \wj*
 \v 30 When they had sung a hymn, they went out to the Mount of Olives.
 \p
 \v 31 Then Jesus said to them, \wj “All of you will be made to stumble because of me tonight, for it is written, ‘I will strike
-the shepherd, and the sheep of the flock will be scattered.’\wj*\x + \+zref \+ztgt ZEC.13.7 \+ztgt*\+zref*Zechariah
-13:7\+zrefend \+zrefend*\x* 
+the shepherd, and the sheep of the flock will be scattered.’\wj*\x + \xo 26:31 
+\xt Zechariah 13:7\x* 
 \v 32  \wj But after I am raised up, I will go before you into Galilee.”
 \wj* 
 \p
@@ -2270,6 +2255,7 @@ fulfilled.”\wj*
 together. 
 \v 58 But Peter followed him from a distance, to the court of the high priest, and entered in and sat with the officers, to see
 the end. 
+\p
 \v 59 Now the chief priests, the elders, and the whole council sought false testimony against Jesus, that they might put him to
 death; 
 \v 60 and they found none. Even though many false witnesses came forward, they found none. But at last two false witnesses came
@@ -2321,16 +2307,15 @@ silver to the chief priests and elders,
 price of blood.” 
 \v 7 They took counsel, and bought the potter’s field with them, to bury strangers in.
 \v 8 Therefore that field was called “The Field of Blood” to this day.
-\v 9 Then that which was spoken through Jeremiah\f + some manuscripts omit
+\v 9 Then that which was spoken through Jeremiah\f + \fr 27:9  \ft some manuscripts omit
 “Jeremiah”\f* the prophet was fulfilled, saying, 
 \q1 “They took the thirty pieces of silver, 
 \q2 the price of him upon whom a price had been set, 
 \q2 whom some of the children of Israel priced, 
 \q1
 \v 10 and they gave them for the potter’s field, 
-\q2 as the Lord commanded me.”\x + \+zref \+ztgt ZEC.11.12 \+ztgt*\+zref*Zechariah
-11:12-13\+zrefend \+zrefend*; \+zref \+ztgt JER.19.1 \+ztgt*\+zref*Jeremiah
-19:1-13\+zrefend \+zrefend*; \+zref \+ztgt JER.32.6 \+ztgt*\+zref*32:6-9\+zrefend \+zrefend*\x*
+\q2 as the Lord commanded me.”\x + \xo 27:10  \xt Zechariah 11:12-13; Jeremiah 19:1-13;
+32:6-9\x* 
 \p
 \v 11 Now Jesus stood before the governor: and the governor asked him, saying, “Are you the King of the Jews?”
 \p Jesus said to him, \wj “So you say.”\wj* 
@@ -2339,6 +2324,7 @@ price of blood.”
 \v 13 Then Pilate said to him, “Don’t you hear how many things they testify against you?”
 \p
 \v 14 He gave him no answer, not even one word, so that the governor marveled greatly.
+\p
 \v 15 Now at the feast the governor was accustomed to release to the multitude one prisoner, whom they desired.
 \v 16 They had then a notable prisoner, called Barabbas. 
 \v 17 When therefore they were gathered together, Pilate said to them, “Whom do you want me to release to you? Barabbas, or
@@ -2347,6 +2333,7 @@ Jesus, who is called Christ?”
 \p
 \v 19 While he was sitting on the judgment seat, his wife sent to him, saying, “Have nothing to do with that righteous man, for
 I have suffered many things today in a dream because of him.” 
+\p
 \v 20 Now the chief priests and the elders persuaded the multitudes to ask for Barabbas, and destroy Jesus.
 \v 21 But the governor answered them, “Which of the two do you want me to release to you?”
 \p They said, “Barabbas!” 
@@ -2373,12 +2360,13 @@ and mocked him, saying, “Hail, King of the Jews!”
 \v 32 As they came out, they found a man of Cyrene, Simon by name, and they compelled him to go with them, that he might carry
 his cross. 
 \v 33 When they came to a place called “Golgotha”, that is to say, “The place of a skull,”
-\v 34 they gave him sour wine\f + or, vinegar\f* to drink mixed with gall. When he had tasted it, he would not drink.
+\v 34 they gave him sour wine\f + \fr 27:34  \ft or, vinegar\f* to drink mixed with
+gall.\f + \fr 27:34  \ft Gall is a bitter-tasting, dark green oil from a wormwood plant that is alcoholic in its
+effect.\f* When he had tasted it, he would not drink. 
 \v 35 When they had crucified him, they divided his clothing among them, casting
-lots,\f + TR adds “that it might be fulfilled which was spoken by the prophet: ‘They divided my garments among them, and for my
-clothing they cast lots;’” [see \+zref \+ztgt PSA.22.18 \+ztgt*\+zref*Psalm
-22:18\+zrefend \+zrefend* and \+zref \+ztgt JHN.19.24 \+ztgt*\+zref*John
-19:24\+zrefend \+zrefend*]\f* 
+lots,\f + \fr 27:35  \ft TR adds “that it might be fulfilled which was spoken by the prophet: ‘They divided my garments among
+them, and for my clothing they cast lots;’” [see Psalm 22:18 and John
+19:24]\f* 
 \v 36 and they sat and watched him there. 
 \v 37 They set up over his head the accusation against him written, “THIS IS JESUS, THE KING OF THE JEWS.”
 \p
@@ -2388,18 +2376,18 @@ clothing they cast lots;’” [see \+zref \+ztgt PSA.22.18 \+ztgt*\+zref*Psalm
 from the cross!” 
 \p
 \v 41 Likewise the chief priests also mocking, with the scribes, the
-Pharisees,\f + TR omits “the Pharisees”\f* and the elders, said,
+Pharisees,\f + \fr 27:41  \ft TR omits “the Pharisees”\f* and the elders, said,
 \v 42 “He saved others, but he can’t save himself. If he is the King of Israel, let him come down from the cross now, and we
 will believe in him. 
 \v 43 He trusts in God. Let God deliver him now, if he wants him; for he said, ‘I am the Son of God.’”
 \v 44 The robbers also who were crucified with him cast on him the same reproach.
 \p
-\v 45 Now from the sixth hour\f + noon\f* there was darkness over all the land until the ninth
-hour.\f + 3:00 p.m.\f* 
+\v 45 Now from the sixth hour\f + \fr 27:45  \ft noon\f* there was darkness over all the land until the ninth
+hour.\f + \fr 27:45  \ft 3:00 p.m.\f* 
 \v 46 About the ninth hour Jesus cried with a loud voice, saying,
-\wj “Eli, Eli, lima\wj*\f + TR reads “lama” instead of “lima”\f*
-\wj sabachthani?” \wj* That is, \wj “My God, my God, why have you forsaken
-me?”\wj*\x + \+zref \+ztgt PSA.22.1 \+ztgt*\+zref*Psalm 22:1\+zrefend \+zrefend*\x*
+\wj “Eli, Eli, lima\wj*\f + \fr 27:46  \ft TR reads “lama” instead of
+“lima”\f* \wj sabachthani?” \wj* That is, \wj “My God, my God, why have you forsaken
+me?”\wj*\x + \xo 27:46  \xt Psalm 22:1\x* 
 \p
 \v 47 Some of them who stood there, when they heard it, said, “This man is calling Elijah.”
 \p
@@ -2448,7 +2436,7 @@ will see him.’ Behold, I have told you.”
 \p They came and took hold of his feet, and worshiped him. 
 \p
 \v 10 Then Jesus said to them, \wj “Don’t be afraid. Go tell my brothers
-\wj*\f + The word for “brothers” here may be also correctly translated “brothers and sisters” or
+\wj*\f + \fr 28:10  \ft The word for “brothers” here may be also correctly translated “brothers and sisters” or
 “siblings.”\f* \wj that they should go into Galilee, and there they will see
 me.”\wj* 
 \p
@@ -2464,7 +2452,8 @@ today.
 \v 17 When they saw him, they bowed down to him, but some doubted.
 \v 18 Jesus came to them and spoke to them, saying, \wj “All authority has been given to me in heaven and on earth.
 \wj* 
-\v 19  \wj Go\wj*\f + TR and NU add “therefore”\f* \wj and make disciples of all nations, baptizing them in the name of the
-Father and of the Son and of the Holy Spirit, \wj* 
+\v 19  \wj Go\wj*\f + \fr 28:19  \ft TR and NU add “therefore”\f*
+\wj and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit,
+\wj* 
 \v 20  \wj teaching them to observe all things that I commanded you. Behold, I am with you always, even to the end of the
 age.”\wj* Amen. 

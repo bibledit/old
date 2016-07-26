@@ -9,8 +9,8 @@
 \c 1  
 \p
 \v 1 The words of Jeremiah the son of Hilkiah, one of the priests who were in Anathoth in the land of Benjamin.
-\v 2 Yahweh’s word\f + “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
-translations.\f* came to him in the days of Josiah the son of Amon, king of Judah, in the thirteenth year of his reign.
+\v 2 Yahweh’s\f + \fr 1:2  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
+translations.\f* word came to him in the days of Josiah the son of Amon, king of Judah, in the thirteenth year of his reign.
 \v 3 It came also in the days of Jehoiakim the son of Josiah, king of Judah, to the end of the eleventh year of Zedekiah, the
 son of Josiah, king of Judah, to the carrying away of Jerusalem captive in the fifth month.
 \v 4 Now Yahweh’s word came to me, saying, 
@@ -19,9 +19,9 @@ son of Josiah, king of Judah, to the carrying away of Jerusalem captive in the f
 \q2 Before you were born, I sanctified you. 
 \q2 I have appointed you a prophet to the nations.” 
 \p
-\v 6 Then I said, “Ah, Lord\f + The word translated “Lord” is “Adonai.”
-\f* Yahweh! Behold,\f + “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often used as an
-interjection.\f* I don’t know how to speak; for I am a child.” 
+\v 6 Then I said, “Ah, Lord\f + \fr 1:6  \ft The word translated “Lord” is “Adonai.”
+\f* Yahweh! Behold,\f + \fr 1:6  \ft “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often
+used as an interjection.\f* I don’t know how to speak; for I am a child.”
 \p
 \v 7 But Yahweh said to me, “Don’t say, ‘I am a child;’ for you must go to whomever I send you, and you must say whatever I
 command you. 
@@ -52,13 +52,13 @@ overthrow, to build and to plant.”
 \p
 \v 17 “You therefore put your belt on your waist, arise, and say to them all that I command you. Don’t be dismayed at them,
 lest I dismay you before them. 
-\v 18 For, behold, I have made you today a fortified city, an iron pillar, and bronze walls, against the whole land, against
-the kings of Judah, against its princes, against its priests, and against the people of the land.
+\v 18 For, behold, I have made you today a fortified city, an iron pillar, and bronze walls against the whole land, against the
+kings of Judah, against its princes, against its priests, and against the people of the land.
 \v 19 They will fight against you, but they will not prevail against you; for I am with you”, says Yahweh, “to rescue you.”
 \c 2  
 \p
 \v 1 Yahweh’s word came to me, saying, 
-\v 2 “Go, and proclaim in the ears of Jerusalem, saying, ‘Yahweh says,
+\v 2 “Go and proclaim in the ears of Jerusalem, saying, ‘Yahweh says,
 \q1 “I remember for you the kindness of your youth, 
 \q2 the love of your weddings; 
 \q1 how you went after me in the wilderness, 
@@ -83,7 +83,7 @@ the kings of Judah, against its princes, against its priests, and against the pe
 \q2 through a land that no one passed through, 
 \q2 and where no man lived?’ 
 \q1
-\v 7 I brought you into a plentiful land, 
+\v 7 I brought you into a plentiful land 
 \q2 to eat its fruit and its goodness; 
 \q1 but when you entered, you defiled my land, 
 \q2 and made my heritage an abomination. 
@@ -91,21 +91,21 @@ the kings of Judah, against its princes, against its priests, and against the pe
 \v 8 The priests didn’t say, ‘Where is Yahweh?’ 
 \q2 and those who handle the law didn’t know me. 
 \q1 The rulers also transgressed against me, 
-\q2 and the prophets prophesied by Baal, 
+\q2 and the prophets prophesied by Baal 
 \q2 and followed things that do not profit. 
 \q1
 \v 9 “Therefore I will yet contend with you,” says Yahweh, 
 \q2 “and I will contend with your children’s children. 
 \q1
-\v 10 For pass over to the islands of Kittim, and see; 
-\q2 and send to Kedar, and consider diligently; 
+\v 10 For pass over to the islands of Kittim, and see. 
+\q2 Send to Kedar, and consider diligently, 
 \q2 and see if there has been such a thing. 
 \q1
 \v 11 Has a nation changed its gods, 
 \q2 which really are no gods? 
 \q2 But my people have changed their glory for that which doesn’t profit.
 \q1
-\v 12 “Be astonished, you heavens, at this, 
+\v 12 “Be astonished, you heavens, at this 
 \q2 and be horribly afraid. 
 \q2 Be very desolate,” says Yahweh. 
 \q1
@@ -117,19 +117,19 @@ the kings of Judah, against its princes, against its priests, and against the pe
 \q2 Is he born into slavery? 
 \q2 Why has he become a captive? 
 \q1
-\v 15 The young lions have roared at him, and yelled. 
+\v 15 The young lions have roared at him and yelled. 
 \q2 They have made his land waste. 
 \q2 His cities are burned up, without inhabitant. 
 \q2
 \v 16 The children also of Memphis and Tahpanhes have broken the crown of your head.
 \q1
 \v 17 “Haven’t you brought this on yourself, 
-\q2 in that you have forsaken Yahweh your God,\f + The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
+\q2 in that you have forsaken Yahweh your God,\f + \fr 2:17  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
 (Elohim).\f* when he led you by the way? 
 \q1
 \v 18 Now what do you gain by going to Egypt, to drink the waters of the Shihor?
 \q2 Or why do you to go on the way to Assyria, to drink the waters of the
-River?\f + i.e., the Euphrates River\f* 
+River?\f + \fr 2:18  \ft i.e., the Euphrates River\f* 
 \q1
 \v 19 “Your own wickedness will correct you, 
 \q2 and your backsliding will rebuke you. 
@@ -155,7 +155,7 @@ River?\f + i.e., the Euphrates River\f*
 \q2 I have not gone after the Baals’? 
 \q1 See your way in the valley. 
 \q2 Know what you have done. 
-\q1 You are a swift dromedary traversing her ways; 
+\q1 You are a swift dromedary traversing her ways, 
 \v 24 a wild donkey used to the wilderness, that sniffs the wind in her craving.
 \q2 When she is in heat, who can turn her away? 
 \q2 All those who seek her will not weary themselves. In her month, they will find her.
@@ -168,16 +168,16 @@ River?\f + i.e., the Euphrates River\f*
 \q1
 \v 26 As the thief is ashamed when he is found, 
 \q2 so the house of Israel is ashamed: 
-\q2 they, their kings, their princes, their priests, and their prophets;
+\q2 they, their kings, their princes, their priests, and their prophets,
 \q1
-\v 27 who tell wood, ‘You are my father;’ 
-\q2 and a stone, ‘You have given birth to me:’ 
+\v 27 who tell wood, ‘You are my father,’ 
+\q2 and a stone, ‘You have given birth to me,’ 
 \q1 for they have turned their back to me, 
 \q2 and not their face; 
-\q2 but in the time of their trouble they will say, ‘Arise, and save us.’
+\q2 but in the time of their trouble they will say, ‘Arise, and save us!’
 \q1
 \v 28 “But where are your gods that you have made for yourselves?
-\q2 Let them arise, if they can save you in the time of your trouble:
+\q2 Let them arise, if they can save you in the time of your trouble;
 \q2 for you have as many gods as you have towns, O Judah. 
 \q1
 \v 29 “Why will you contend with me? 
@@ -202,7 +202,7 @@ River?\f + i.e., the Euphrates River\f*
 \q2 Therefore you have even taught the wicked women your ways. 
 \q1
 \v 34 Also the blood of the souls of the innocent poor is found in your skirts.
-\q2 You didn’t find them breaking in; 
+\q2 You didn’t find them breaking in, 
 \q2 but it is because of all these things. 
 \q1
 \v 35 “Yet you said, ‘I am innocent. 
@@ -234,7 +234,7 @@ have had your way.”
 \p
 \v 6 Moreover, Yahweh said to me in the days of Josiah the king, “Have you seen that which backsliding Israel has done? She has
 gone up on every high mountain and under every green tree, and has played the prostitute there.
-\v 7 I said after she had done all these things, ‘She will return to me;’ but she didn’t return; and her treacherous sister
+\v 7 I said after she had done all these things, ‘She will return to me;’ but she didn’t return, and her treacherous sister
 Judah saw it. 
 \v 8 I saw when, for this very cause, that backsliding Israel had committed adultery, I had put her away and given her a
 certificate of divorce, yet treacherous Judah, her sister, had no fear; but she also went and played the prostitute.
@@ -267,7 +267,7 @@ Yahweh.
 perverted their way, they have forgotten Yahweh their God. 
 \v 22 Return, you backsliding children, and I will heal your backsliding.
 \p “Behold, we have come to you; for you are Yahweh our God. 
-\v 23 Truly in vain is help from the hills, the tumult on the mountains. Truly the salvation of Israel is in Yahweh our God.
+\v 23 Truly help from the hills, the tumult on the mountains, is in vain. Truly the salvation of Israel is in Yahweh our God.
 \v 24 But the shameful thing has devoured the labor of our fathers from our youth, their flocks and their herds, their sons and
 their daughters. 
 \v 25 Let us lie down in our shame, and let our confusion cover us; for we have sinned against Yahweh our God, we and our
@@ -304,7 +304,7 @@ the daughter of my people, not to winnow, nor to cleanse;
 us! For we are ruined. 
 \v 14 Jerusalem, wash your heart from wickedness, that you may be saved. How long will your evil thoughts lodge within you?
 \v 15 For a voice declares from Dan, and publishes evil from the hills of Ephraim:
-\v 16 “Tell the nations; behold, publish against Jerusalem, ‘Watchers come from a far country, and raise their voice against
+\v 16 “Tell the nations, behold, publish against Jerusalem, ‘Watchers come from a far country, and raise their voice against
 the cities of Judah. 
 \v 17 As keepers of a field, they are against her all around, because she has been rebellious against me,’” says Yahweh.
 \v 18 “Your way and your doings have brought these things to you. This is your wickedness; for it is bitter, for it reaches to
@@ -318,13 +318,13 @@ gone in a moment.
 \p
 \v 22 “For my people are foolish. They don’t know me. They are foolish children, and they have no understanding. They are
 skillful in doing evil, but they don’t know how to do good.” 
-\v 23 I saw the earth, and, behold, it was waste and void; and the heavens, and they had no light.
+\v 23 I saw the earth, and, behold, it was waste and void, and the heavens, and they had no light.
 \v 24 I saw the mountains, and behold, they trembled, and all the hills moved back and forth.
 \v 25 I saw, and behold, there was no man, and all the birds of the sky had fled.
 \v 26 I saw, and behold, the fruitful field was a wilderness, and all its cities were broken down at the presence of Yahweh,
 before his fierce anger. 
 \v 27 For Yahweh says, “The whole land will be a desolation; yet I will not make a full end.
-\v 28 For this the earth will mourn, and the heavens above be black; because I have spoken it. I have planned it, and I have
+\v 28 For this the earth will mourn, and the heavens above be black, because I have spoken it. I have planned it, and I have
 not repented, neither will I turn back from it.” 
 \p
 \v 29 Every city flees for the noise of the horsemen and archers. They go into the thickets, and climb up on the rocks. Every
@@ -344,11 +344,11 @@ a man, if there is anyone who does justly, who seeks truth, then I will pardon h
 \v 3 O Yahweh, don’t your eyes look on truth? You have stricken them, but they were not grieved. You have consumed them, but
 they have refused to receive correction. They have made their faces harder than a rock. They have refused to return.
 \p
-\v 4 Then I said, “Surely these are poor. They are foolish; for they don’t know the way of Yahweh, nor the law of their God.
-\v 5 I will go to the great men, and will speak to them; for they know the way of Yahweh, and the law of their God.” But these
+\v 4 Then I said, “Surely these are poor. They are foolish; for they don’t know the Yahweh’s way, nor the law of their God.
+\v 5 I will go to the great men and will speak to them, for they know the way of Yahweh, and the law of their God.” But these
 with one accord have broken the yoke, and burst the bonds. 
-\v 6 Therefore a lion out of the forest will kill them, a wolf of the evenings will destroy them, a leopard will watch against
-their cities. Everyone who goes out there will be torn in pieces, because their transgressions are many, and their backsliding
+\v 6 Therefore a lion out of the forest will kill them. A wolf of the evenings will destroy them. A leopard will watch against
+their cities. Everyone who goes out there will be torn in pieces, because their transgressions are many and their backsliding
 has increased. 
 \p
 \v 7 “How can I pardon you? Your children have forsaken me, and sworn by what are no gods. When I had fed them to the full,
@@ -372,24 +372,24 @@ and your herds. They will eat up your vines and your fig trees. They will beat d
 with the sword. 
 \p
 \v 18 “But even in those days,” says Yahweh, “I will not make a full end of you.
-\v 19 It will happen, when you say, ‘Why has Yahweh our God done all these things to us?’ Then you shall say to them, ‘Just as
-you have forsaken me, and served foreign gods in your land, so you will serve strangers in a land that is not yours.’
+\v 19 It will happen when you say, ‘Why has Yahweh our God done all these things to us?’ Then you shall say to them, ‘Just as
+you have forsaken me and served foreign gods in your land, so you will serve strangers in a land that is not yours.’
 \p
 \v 20 “Declare this in the house of Jacob, and publish it in Judah, saying,
-\v 21 ‘Hear this now, foolish people without understanding; who have eyes, and don’t see; who have ears, and don’t hear:
+\v 21 ‘Hear this now, foolish people without understanding, who have eyes, and don’t see, who have ears, and don’t hear:
 \v 22 Don’t you fear me?’ says Yahweh ‘Won’t you tremble at my presence, who have placed the sand for the bound of the sea, by
 a perpetual decree, that it can’t pass it? Though its waves toss themselves, yet they can’t prevail. Though they roar, they
 still can’t pass over it.’ 
 \p
 \v 23 “But this people has a revolting and a rebellious heart. They have revolted and gone.
 \v 24 They don’t say in their heart, ‘Let’s now fear Yahweh our God, who gives rain, both the former and the latter, in its
-season; who preserves to us the appointed weeks of the harvest.’
+season, who preserves to us the appointed weeks of the harvest.’
 \p
 \v 25 “Your iniquities have turned away these things, and your sins have withheld good from you.
-\v 26 For among my people are found wicked men. They watch, as fowlers lie in wait. They set a trap. They catch men.
+\v 26 For wicked men are found among my people. They watch, as fowlers lie in wait. They set a trap. They catch men.
 \v 27 As a cage is full of birds, so are their houses full of deceit. Therefore they have become great, and grew rich.
 \v 28 They have grown fat. They shine; yes, they excel in deeds of wickedness. They don’t plead the cause, the cause of the
-fatherless, that they may prosper; and they don’t judge the right of the needy.
+fatherless, that they may prosper; and they don’t defend the rights of the needy.
 \p
 \v 29 “Shouldn’t I punish for these things?” says Yahweh. “Shouldn’t my soul be avenged on such a nation as this?
 \p
@@ -411,7 +411,7 @@ stretched out.
 wholly oppression within herself. 
 \v 7 As a well produces its waters, so she produces her wickedness. Violence and destruction is heard in her. Sickness and
 wounds are continually before me. 
-\v 8 Be instructed, Jerusalem, lest my soul be alienated from you; lest I make you a desolation, an uninhabited land.”
+\v 8 Be instructed, Jerusalem, lest my soul be alienated from you, lest I make you a desolation, an uninhabited land.”
 \p
 \v 9 Yahweh of Armies says, “They will thoroughly glean the remnant of Israel like a vine. Turn again your hand as a grape
 gatherer into the baskets.” 
@@ -456,7 +456,7 @@ of the earth.
 horses, everyone set in array, as a man to the battle, against you, daughter of Zion.”
 \p
 \v 24 We have heard its report. Our hands become feeble. Anguish has taken hold of us, and pains as of a woman in labor.
-\v 25 Don’t go out into the field, nor walk by the way; for the sword of the enemy and terror are on every side.
+\v 25 Don’t go out into the field or walk by the way; for the sword of the enemy and terror are on every side.
 \v 26 Daughter of my people, clothe yourself with sackcloth, and wallow in ashes! Mourn, as for an only son, most bitter
 lamentation, for the destroyer will suddenly come on us. 
 \p
@@ -480,7 +480,7 @@ walk after other gods to your own hurt;
 \v 8 Behold, you trust in lying words that can’t profit. 
 \v 9 Will you steal, murder, commit adultery, swear falsely, burn incense to Baal, and walk after other gods that you have not
 known, 
-\v 10 then come and stand before me in this house, which is called by my name, and say, ‘We are delivered;’ that you may do all
+\v 10 then come and stand before me in this house, which is called by my name, and say, ‘We are delivered,’ that you may do all
 these abominations? 
 \v 11 Has this house, which is called by my name, become a den of robbers in your eyes? Behold, I myself have seen it,” says
 Yahweh. 
@@ -492,7 +492,7 @@ didn’t hear; and I called you, but you didn’t answer;
 \v 14 therefore I will do to the house which is called by my name, in which you trust, and to the place which I gave to you and
 to your fathers, as I did to Shiloh. 
 \v 15 I will cast you out of my sight, as I have cast out all your brothers, even the whole
-offspring\f + or, seed\f* of Ephraim. 
+offspring\f + \fr 7:15  \ft or, seed\f* of Ephraim. 
 \p
 \v 16 “Therefore don’t pray for this people. Don’t lift up a cry or prayer for them or make intercession to me; for I will not
 hear you. 
@@ -501,14 +501,14 @@ hear you.
 the sky, and to pour out drink offerings to other gods, that they may provoke me to anger.
 \v 19 Do they provoke me to anger?” says Yahweh. “Don’t they provoke themselves, to the confusion of their own faces?”
 \p
-\v 20 Therefore thus says the Lord Yahweh: “Behold, my anger and my wrath will be poured out on this place, on man, on animal,
-on the trees of the field, and on the fruit of the ground; and it will burn and will not be quenched.”
+\v 20 Therefore the Lord Yahweh says: “Behold, my anger and my wrath will be poured out on this place, on man, on animal, on
+the trees of the field, and on the fruit of the ground; and it will burn and will not be quenched.”
 \p
 \v 21 Yahweh of Armies, the God of Israel says: “Add your burnt offerings to your sacrifices and eat meat.
 \v 22 For I didn’t speak to your fathers or command them in the day that I brought them out of the land of Egypt concerning
 burnt offerings or sacrifices; 
-\v 23 but this thing I commanded them, saying, ‘Listen to my voice, and I will be your God, and you shall be my people; and
-walk in all the way that I command you, that it may be well with you.’
+\v 23 but this thing I commanded them, saying, ‘Listen to my voice, and I will be your God, and you shall be my people. Walk in
+all the way that I command you, that it may be well with you.’ 
 \v 24 But they didn’t listen or turn their ear, but walked in their own counsels and in the stubbornness of their evil heart,
 and went backward, and not forward. 
 \v 25 Since the day that your fathers came out of the land of Egypt to this day, I have sent to you all my servants the
@@ -534,11 +534,11 @@ frighten them away.
 of gladness, the voice of the bridegroom and the voice of the bride; for the land will become a waste.”
 \c 8  
 \p
-\v 1 “At that time,” says Yahweh, “they will bring out the bones of the kings of Judah, the bones of his princes, the bones of
-the priests, the bones of the prophets, and the bones of the inhabitants of Jerusalem, out of their graves.
+\v 1 “At that time,” says Yahweh, “they will bring the bones of the kings of Judah, the bones of his princes, the bones of the
+priests, the bones of the prophets, and the bones of the inhabitants of Jerusalem, out of their graves.
 \v 2 They will spread them before the sun, the moon, and all the army of the sky, which they have loved, which they have
 served, after which they have walked, which they have sought, and which they have worshiped. They will not be gathered or be
-buried. They will be for dung on the surface of the earth. 
+buried. They will be like dung on the surface of the earth. 
 \v 3 Death will be chosen rather than life by all the residue that remain of this evil family, that remain in all the places
 where I have driven them,” says Yahweh of Armies. 
 \v 4 “Moreover you shall tell them, ‘Yahweh says: 
@@ -560,14 +560,14 @@ where I have driven them,” says Yahweh of Armies.
 \b
 \q1
 \v 8 “‘How do you say, “We are wise, and Yahweh’s law is with us?”
-\q2 But, behold, the false pen of the scribes has worked falsely.
+\q2 But, behold, the false pen of the scribes has made that a lie.
 \q1
 \v 9 The wise men are disappointed. 
 \q2 They are dismayed and trapped. 
 \q1 Behold, they have rejected Yahweh’s word. 
 \q2 What kind of wisdom is in them? 
 \q1
-\v 10 Therefore I will give their wives to others, 
+\v 10 Therefore I will give their wives to others 
 \q2 and their fields to those who will possess them. 
 \q1 For everyone from the least even to the greatest is given to covetousness;
 \q2 from the prophet even to the priest everyone deals falsely. 
@@ -595,7 +595,7 @@ where I have driven them,” says Yahweh of Armies.
 \q2 Let’s enter into the fortified cities, 
 \q2 and let’s be silent there; 
 \q1 for Yahweh our God has put us to silence, 
-\q2 and given us water of gall to drink, 
+\q2 and given us poisoned water to drink, 
 \q2 because we have sinned against Yahweh. 
 \q1
 \v 15 We looked for peace, but no good came; 
@@ -603,7 +603,7 @@ where I have driven them,” says Yahweh of Armies.
 \q1
 \v 16 The snorting of his horses is heard from Dan. 
 \q2 The whole land trembles at the sound of the neighing of his strong ones;
-\q1 for they have come, and have devoured the land and all that is in it;
+\q1 for they have come, and have devoured the land and all that is in it,
 \q2 the city and those who dwell therein.” 
 \q1
 \v 17 “For, behold, I will send serpents, 
@@ -658,9 +658,9 @@ where I have driven them,” says Yahweh of Armies.
 \v 4 “Everyone beware of his neighbor, 
 \q2 and don’t trust in any brother; 
 \q1 for every brother will utterly supplant, 
-\q2 and every neighbor will go around with slanders. 
+\q2 and every neighbor will go around like a slanderer. 
 \q1
-\v 5 Everyone will deceive their neighbors, 
+\v 5 Friends deceive each other, 
 \q2 and will not speak the truth. 
 \q1 They have taught their tongue to speak lies. 
 \q2 They weary themselves commiting iniquity. 
@@ -696,34 +696,34 @@ where I have driven them,” says Yahweh of Armies.
 \v 12 Who is wise enough to understand this? Who is he to whom the mouth of Yahweh has spoken, that he may declare it? Why has
 the land perished and burned up like a wilderness, so that no one passes through?
 \p
-\v 13 Yahweh says, “Because they have forsaken my law which I set before them, and have not obeyed my voice, neither walked
-therein, 
-\v 14 but have walked after the stubbornness of their own heart, and after the Baals, which their fathers taught them.”
-\v 15 Therefore Yahweh of Armies, the God of Israel, says, “Behold, I will feed them, even this people, with wormwood, and give
-them water of gall to drink. 
-\v 16 I will scatter them also among the nations, whom neither they nor their fathers have known; and I will send the sword
-after them, until I have consumed them.” 
+\v 13 Yahweh says, “Because they have forsaken my law which I set before them, and have not obeyed my voice or walked in my
+ways, 
+\v 14 but have walked after the stubbornness of their own heart and after the Baals, which their fathers taught them.”
+\v 15 Therefore Yahweh of Armies, the God of Israel, says, “Behold, I will feed them, even this people, with wormwood and give
+them poisoned water to drink. 
+\v 16 I will scatter them also among the nations, whom neither they nor their fathers have known. I will send the sword after
+them, until I have consumed them.” 
 \p
 \v 17 Yahweh of Armies says, 
-\q1 “Consider, and call for the mourning women, that they may come;
-\q2 and send for the skillful women, that they may come. 
+\q1 “Consider, and call for the mourning women, that they may come.
+\q2 Send for the skillful women, that they may come. 
 \q1
-\v 18 Let them make haste, 
+\v 18 Let them make haste 
 \q2 and take up a wailing for us, 
-\q1 that our eyes may run down with tears, 
+\q1 that our eyes may run down with tears 
 \q2 and our eyelids gush out with waters. 
 \q1
 \v 19 For a voice of wailing is heard out of Zion, 
 \q2 ‘How we are ruined! 
-\q1 We are greatly confounded, 
+\q1 We are greatly confounded 
 \q2 because we have forsaken the land, 
 \q2 because they have cast down our dwellings.’” 
 \b
 \q1
 \v 20 Yet hear Yahweh’s word, you women. 
 \q2 Let your ear receive the word of his mouth. 
-\q1 Teach your daughters wailing, 
-\q2 and everyone her neighbor lamentation. 
+\q1 Teach your daughters wailing. 
+\q2 Everyone teach her neighbor a lamentation. 
 \q1
 \v 21 For death has come up into our windows. 
 \q2 It has entered into our palaces 
@@ -732,8 +732,8 @@ after them, until I have consumed them.”
 \p
 \v 22 Speak, “Yahweh says, 
 \q1 “‘The dead bodies of men will fall as dung on the open field,
-\q2 and as the handful after the harvester; 
-\q2 and no one will gather them.’” 
+\q2 and as the handful after the harvester. 
+\q2 No one will gather them.’” 
 \p
 \v 23 Yahweh says, 
 \q1 “Don’t let the wise man glory in his wisdom. 
@@ -742,12 +742,12 @@ after them, until I have consumed them.”
 \q1
 \v 24 But let him who glories glory in this, 
 \q2 that he has understanding, and knows me, 
-\q1 that I am Yahweh who exercises loving kindness, justice, and righteousness, in the earth;
+\q1 that I am Yahweh who exercises loving kindness, justice, and righteousness in the earth,
 \q2 for I delight in these things,” says Yahweh. 
 \p
 \v 25 “Behold, the days come,” says Yahweh, “that I will punish all those who are circumcised only in their flesh:
 \v 26 Egypt, Judah, Edom, the children of Ammon, Moab, and all who have the corners of their hair cut off, who dwell in the
-wilderness; for all the nations are uncircumcised, and all the house of Israel are uncircumcised in heart.”
+wilderness, for all the nations are uncircumcised, and all the house of Israel are uncircumcised in heart.”
 \c 10  
 \p
 \v 1 Hear the word which Yahweh speaks to you, house of Israel! 
@@ -1204,9 +1204,9 @@ will have no one to bury them—them, their wives, their sons, or their daughter
 \q2 for you have made all these things. 
 \c 15  
 \p
-\v 1 Then Yahweh said to me, “Though Moses and Samuel stood before me, yet my mind would not be toward this people. Cast them
+\v 1 Then Yahweh said to me, “Though Moses and Samuel stood before me, yet my mind would not turn toward this people. Cast them
 out of my sight, and let them go out! 
-\v 2 It will happen, when they tell you, ‘Where shall we go out?’ Then you shall tell them, ‘Yahweh says:
+\v 2 It will happen, when they ask you, ‘Where shall we go out?’ then you shall tell them, ‘Yahweh says:
 \q1 “Such as are for death, to death; 
 \q1 such as are for the sword, to the sword; 
 \q1 such as are for the famine, to the famine; 
@@ -1223,7 +1223,7 @@ Hezekiah, king of Judah, for that which he did in Jerusalem.
 \q1
 \v 6 You have rejected me,” says Yahweh. 
 \q2 “You have gone backward. 
-\q1 Therefore I have stretched out my hand against you, 
+\q1 Therefore I have stretched out my hand against you 
 \q2 and destroyed you. 
 \q2 I am weary of showing compassion. 
 \q1
@@ -1232,7 +1232,7 @@ Hezekiah, king of Judah, for that which he did in Jerusalem.
 \q1 I have destroyed my people. 
 \q2 They didn’t return from their ways. 
 \q1
-\v 8 Their widows are increased more than the sand of the seas; 
+\v 8 Their widows are increased more than the sand of the seas. 
 \q2 I have brought on them against the mother of the young men a destroyer at noonday.
 \q2 I have caused anguish and terrors to fall on her suddenly. 
 \q1
@@ -1308,7 +1308,7 @@ Hezekiah, king of Judah, for that which he did in Jerusalem.
 \v 2 “You shall not take a wife, neither shall you have sons or daughters, in this place.”
 \v 3 For Yahweh says concerning the sons and concerning the daughters who are born in this place, and concerning their mothers
 who bore them, and concerning their fathers who became their father in this land:
-\v 4 “They will die grievous deaths: they will not be lamented, neither will they be buried. They will be as dung on the
+\v 4 “They will die grievous deaths. They will not be lamented, neither will they be buried. They will be as dung on the
 surface of the ground. They will be consumed by the sword and by famine. Their dead bodies will be food for the birds of the
 sky and for the animals of the earth.” 
 \p
@@ -1350,7 +1350,7 @@ their detestable things, and have filled my inheritance with their abominations.
 \q1 “Our fathers have inherited nothing but lies, 
 \q2 vanity and things in which there is no profit. 
 \q1
-\v 20 Should a man make to himself gods, 
+\v 20 Should a man make to himself gods 
 \q2 which yet are no gods?” 
 \b
 \q1
@@ -1392,7 +1392,7 @@ their detestable things, and have filled my inheritance with their abominations.
 \v 8 For he will be as a tree planted by the waters, 
 \q2 who spreads out its roots by the river, 
 \q1 and will not fear when heat comes, 
-\q2 but its leaf will be green; 
+\q2 but its leaf will be green, 
 \q1 and will not be concerned in the year of drought. 
 \q2 It won’t cease from yielding fruit. 
 \q1
@@ -1425,7 +1425,7 @@ their detestable things, and have filled my inheritance with their abominations.
 \q2 Save me, and I will be saved; 
 \q2 for you are my praise. 
 \q1
-\v 15 Behold, they tell me, 
+\v 15 Behold, they ask me, 
 \q2 “Where is Yahweh’s word? 
 \q2 Let it be fulfilled now.” 
 \q1
@@ -1443,9 +1443,9 @@ their detestable things, and have filled my inheritance with their abominations.
 \q1 Bring on them the day of evil, 
 \q2 and destroy them with double destruction. 
 \p
-\v 19 Yahweh said this to me: “Go, and stand in the gate of the children of the people, through which the kings of Judah come
-in and by which they go out, and in all the gates of Jerusalem. 
-\v 20 Tell them, ‘Hear Yahweh’s word, you kings of Judah, and all Judah, and all the inhabitants of Jerusalem, that enter in by
+\v 19 Yahweh said this to me: “Go and stand in the gate of the children of the people, through which the kings of Judah come in
+and by which they go out, and in all the gates of Jerusalem. 
+\v 20 Tell them, ‘Hear Yahweh’s word, you kings of Judah, all Judah, and all the inhabitants of Jerusalem, that enter in by
 these gates: 
 \v 21 Yahweh says, “Be careful, and bear no burden on the Sabbath day, nor bring it in by the gates of Jerusalem.
 \v 22 Don’t carry a burden out of your houses on the Sabbath day. Don’t do any work, but make the Sabbath day holy, as I
@@ -1498,7 +1498,7 @@ heart.’”
 \q2 They have burned incense to false gods. 
 \q1 They have been made to stumble in their ways, 
 \q2 in the ancient paths, 
-\q2 to walk in byways, in a way not built up; 
+\q2 to walk in byways, in a way not built up, 
 \q1
 \v 16 to make their land an astonishment, 
 \q2 and a perpetual hissing. 
@@ -1523,13 +1523,13 @@ words.”
 \q1
 \v 21 Therefore deliver up their children to the famine, 
 \q2 and give them over to the power of the sword. 
-\q1 Let their wives become childless, and widows. 
-\q2 Let their men be killed, 
+\q1 Let their wives become childless and widows. 
+\q2 Let their men be killed 
 \q2 and their young men struck by the sword in battle. 
 \q1
-\v 22 Let a cry be heard from their houses, 
+\v 22 Let a cry be heard from their houses 
 \q2 when you bring a troop suddenly on them; 
-\q1 for they have dug a pit to take me, 
+\q1 for they have dug a pit to take me 
 \q2 and hidden snares for my feet. 
 \q1
 \v 23 Yet, Yahweh, you know all their counsel against me to kill me.
@@ -1545,11 +1545,11 @@ of the priests;
 that I will tell you. 
 \v 3 Say, ‘Hear Yahweh’s word, kings of Judah, and inhabitants of Jerusalem: Yahweh of Armies, the God of Israel says, “Behold,
 I will bring evil on this place, which whoever hears, his ears will tingle.
-\v 4 Because they have forsaken me, and have defiled this place, and have burned incense in it to other gods, that they didn’t
-know, they and their fathers and the kings of Judah, and have filled this place with the blood of innocents,
-\v 5 and have built the high places of Baal, to burn their sons in the fire for burnt offerings to Baal; which I didn’t
-command, nor speak, which didn’t even enter into my mind: 
-\v 6 therefore, behold, the days come,” says Yahweh, “that this place will no more be called ‘Topheth’, nor ‘The Valley of the
+\v 4 Because they have forsaken me, and have defiled this place, and have burned incense in it to other gods that they didn’t
+know, they, their fathers, and the kings of Judah, and have filled this place with the blood of innocents,
+\v 5 and have built the high places of Baal, to burn their children in the fire for burnt offerings to Baal, which I didn’t
+command, nor speak, which didn’t even enter into my mind. 
+\v 6 Therefore, behold, the days come,” says Yahweh, “that this place will no more be called ‘Topheth’, nor ‘The Valley of the
 son of Hinnom’, but ‘The valley of Slaughter’. 
 \p
 \v 7 “‘“I will make the counsel of Judah and Jerusalem void in this place. I will cause them to fall by the sword before their
@@ -1563,12 +1563,12 @@ friend in the siege and in the distress, with which their enemies, and those who
 \v 10 “Then you shall break the container in the sight of the men who go with you,
 \v 11 and shall tell them, ‘Yahweh of Armies says: “Even so I will break this people and this city, as one breaks a potter’s
 vessel, that can’t be made whole again. They will bury in Topheth, until there is no place to bury.
-\v 12 Thus I will do to this place,” says Yahweh, “and to its inhabitants, even making this city as Topheth.
+\v 12 This is what I will do to this place,” says Yahweh, “and to its inhabitants, even making this city as Topheth.
 \v 13 The houses of Jerusalem, and the houses of the kings of Judah, which are defiled, will be as the place of Topheth, even
-all the houses on whose roofs they have burned incense to all the army of the sky, and have poured out drink offerings to other
+all the houses on whose roofs they have burned incense to all the army of the sky and have poured out drink offerings to other
 gods.”’” 
 \p
-\v 14 Then Jeremiah came from Topheth, where Yahweh had sent him to prophesy; and he stood in the court of Yahweh’s house, and
+\v 14 Then Jeremiah came from Topheth, where Yahweh had sent him to prophesy, and he stood in the court of Yahweh’s house, and
 said to all the people: 
 \v 15 “Yahweh of Armies, the God of Israel says, ‘Behold, I will bring on this city and on all its towns all the evil that I
 have pronounced against it, because they have made their neck stiff, that they may not hear my words.’”
@@ -1576,10 +1576,10 @@ have pronounced against it, because they have made their neck stiff, that they m
 \p
 \v 1 Now Pashhur, the son of Immer the priest, who was chief officer in Yahweh’s house, heard Jeremiah prophesying these
 things. 
-\v 2 Then Pashhur struck Jeremiah the prophet, and put him in the stocks that were in the upper gate of Benjamin, which was in
+\v 2 Then Pashhur struck Jeremiah the prophet and put him in the stocks that were in the upper gate of Benjamin, which was in
 Yahweh’s house. 
 \v 3 On the next day, Pashhur released Jeremiah out of the stocks. Then Jeremiah said to him, “Yahweh has not called your name
-Pashhur, but Magormissabib.\f + “Magormissabib” means “surrounded by
+Pashhur, but Magormissabib.\f + \fr 20:3  \ft “Magormissabib” means “surrounded by
 terror”\f* 
 \v 4 For Yahweh says, ‘Behold, I will make you a terror to yourself and to all your friends. They will fall by the sword of
 their enemies, and your eyes will see it. I will give all Judah into the hand of the king of Babylon, and he will carry them
@@ -1593,7 +1593,7 @@ and there you will be buried, you, and all your friends, to whom you have prophe
 \q1
 \v 7 Yahweh, you have persuaded me, and I was persuaded. 
 \q2 You are stronger than I, and have prevailed. 
-\q1 I have become a laughing-stock all day. 
+\q1 I have become a laughingstock all day. 
 \q2 Everyone mocks me. 
 \q1
 \v 8 For as often as I speak, I cry out; 
@@ -1603,9 +1603,9 @@ and there you will be buried, you, and all your friends, to whom you have prophe
 \q1
 \v 9 If I say, I will not make mention of him, 
 \q2 or speak any more in his name, 
-\q1 then there is in my heart as it were a burning fire shut up in my bones,
-\q2 and I am weary with holding it in, 
-\q2 and I can’t. 
+\q1 then there is in my heart as it were a burning fire shut up in my bones.
+\q2 I am weary with holding it in. 
+\q2 I can’t. 
 \q1
 \v 10 For I have heard the defaming of many, 
 \q2 “Terror on every side! 
@@ -1623,10 +1623,10 @@ and there you will be buried, you, and all your friends, to whom you have prophe
 \q2 because they have not dealt wisely, 
 \q2 even with an everlasting dishonor which will never be forgotten.
 \q1
-\v 12 But, Yahweh of Armies, who tests the righteous, 
+\v 12 But Yahweh of Armies, who tests the righteous, 
 \q2 who sees the heart and the mind, 
-\q1 let me see your vengeance on them; 
-\q2 for to you I have revealed my cause. 
+\q1 let me see your vengeance on them, 
+\q2 for I have revealed my cause to you. 
 \q1
 \v 13 Sing to Yahweh! 
 \q2 Praise Yahweh, 
@@ -1669,7 +1669,7 @@ the hand of their enemies, and into the hand of those who seek their life. He wi
 will not spare them, have pity, or have mercy.”’ 
 \p
 \v 8 “You shall say to this people, ‘Yahweh says: “Behold, I set before you the way of life and the way of death.
-\v 9 He who remains in this city will die by the sword, by the famine, and by the pestilence; but he who goes out, and passes
+\v 9 He who remains in this city will die by the sword, by the famine, and by the pestilence; but he who goes out and passes
 over to the Chaldeans who besiege you, he will live, and he will escape with his life.
 \v 10 For I have set my face on this city for evil, and not for good,” says Yahweh. “It will be given into the hand of the king
 of Babylon, and he will burn it with fire.”’ 
@@ -1863,7 +1863,7 @@ all the countries where I had driven them.’ Then they will dwell in their own 
 \p
 \v 15 Therefore Yahweh of Armies says concerning the prophets: 
 \q1 “Behold, I will feed them with wormwood, 
-\q2 and make them drink the water of gall; 
+\q2 and make them drink poisoned water; 
 \q2 for from the prophets of Jerusalem ungodliness has gone out into all the land.”
 \p
 \v 16 Yahweh of Armies says, 
@@ -1995,7 +1995,7 @@ deeds, and according to the work of their hands.”
 whom I send you to drink it. 
 \v 16 They will drink, and reel back and forth, and be insane, because of the sword that I will send among them.”
 \p
-\v 17 Then took I the cup at Yahweh’s hand, and made all the nations to drink, to whom Yahweh had sent me:
+\v 17 Then I took the cup at Yahweh’s hand, and made all the nations to drink, to whom Yahweh had sent me:
 \v 18 Jerusalem, and the cities of Judah, with its kings and its princes, to make them a desolation, an astonishment, a
 hissing, and a curse, as it is today; 
 \v 19 Pharaoh king of Egypt, with his servants, his princes, and all his people;
@@ -2512,7 +2512,7 @@ the land of Egypt;
 \q1
 \v 33 “But this is the covenant that I will make with the house of Israel after those days,”
 \q2 says Yahweh: 
-\q1 I will put my law in their inward parts, 
+\q1 “I will put my law in their inward parts, 
 \q2 and I will write it in their heart. 
 \q1 I will be their God, 
 \q2 and they shall be my people. 
@@ -2564,13 +2564,14 @@ field that is in Anathoth, which is in the land of Benjamin; for the right of in
 yours. Buy it for yourself.’ 
 \p “Then I knew that this was Yahweh’s word. 
 \v 9 I bought the field that was in Anathoth of Hanamel my uncle’s son, and weighed him the money, even seventeen
-shekels\f + A shekel is about 10 grams or about 0.35 ounces.\f* of silver.
+shekels\f + \fr 32:9  \ft A shekel is about 10 grams or about 0.35
+ounces.\f* of silver. 
 \v 10 I signed the deed, sealed it, called witnesses, and weighed the money in the balances to him.
 \v 11 So I took the deed of the purchase, both that which was sealed, containing the terms and conditions, and that which was
 open; 
 \v 12 and I delivered the deed of the purchase to Baruch the son of Neriah, the son of Mahseiah, in the presence of Hanamel my
-uncle’s son, and in the presence of the witnesses who subscribed the deed of the purchase, before all the Jews who sat in the
-court of the guard. 
+uncle’s son, and in the presence of the witnesses who signed the deed of the purchase, before all the Jews who sat in the court
+of the guard. 
 \p
 \v 13 “I commanded Baruch before them, saying, 
 \v 14 Yahweh of Armies, the God of Israel says: ‘Take these deeds, this deed of the purchase which is sealed, and this deed
@@ -2581,9 +2582,9 @@ which is open, and put them in an earthen vessel, that they may last many days.�
 \b
 \mi
 \v 17 “Ah Lord Yahweh! Behold, you have made the heavens and the earth by your great power and by your outstretched arm. There
-is nothing too hard for you, 
-\v 18 who show loving kindness to thousands, and repay the iniquity of the fathers into the bosom of their children after them;
-the great, the mighty God, Yahweh of Armies is his name; 
+is nothing too hard for you. 
+\v 18 You show loving kindness to thousands, and repay the iniquity of the fathers into the bosom of their children after them.
+The great, the mighty God, Yahweh of Armies is your name: 
 \v 19 great in counsel, and mighty in work; whose eyes are open to all the ways of the children of men, to give everyone
 according to his ways, and according to the fruit of his doings;
 \v 20 who performed signs and wonders in the land of Egypt, even to this day, both in Israel and among other men; and made
@@ -2616,7 +2617,7 @@ anger: they, their kings, their princes, their priests, their prophets, the men 
 they have not listened to receive instruction. 
 \v 34 But they set their abominations in the house which is called by my name, to defile it.
 \v 35 They built the high places of Baal, which are in the valley of the son of Hinnom, to cause their sons and their daughters
-to pass through fire to Molech; which I didn’t command them. It didn’t even come into my mind, that they should do this
+to pass through fire to Molech, which I didn’t command them. It didn’t even come into my mind, that they should do this
 abomination, to cause Judah to sin.” 
 \p
 \v 36 Now therefore Yahweh, the God of Israel, says concerning this city, about which you say, “It is given into the hand of
@@ -2680,7 +2681,7 @@ Israel and concerning the house of Judah.
 \q2 Yahweh our righteousness.” 
 \p
 \v 17 For Yahweh says: “David will never lack a man to sit on the throne of the house of Israel.
-\v 18 The priests the Levites won’t lack a man before me to offer burnt offerings, to burn meal offerings, and to do sacrifice
+\v 18 The Levitical priests won’t lack a man before me to offer burnt offerings, to burn meal offerings, and to do sacrifice
 continually.” 
 \p
 \v 19 Yahweh’s word came to Jeremiah, saying, 
@@ -2892,7 +2893,7 @@ people.
 Hananiah; and he seized Jeremiah the prophet, saying, “You are defecting to the Chaldeans!”
 \p
 \v 14 Then Jeremiah said, “That is false! I am not defecting to the Chaldeans.”
-\p But he didn’t listen to him; so Irijah siezed Jeremiah, and brought him to the princes.
+\p But he didn’t listen to him; so Irijah seized Jeremiah, and brought him to the princes.
 \v 15 The princes were angry with Jeremiah, and struck him, and put him in prison in the house of Jonathan the scribe; for they
 had made that the prison. 
 \p
@@ -2924,7 +2925,7 @@ of this people, but harm.”
 \p
 \v 5 Zedekiah the king said, “Behold, he is in your hand; for the king can’t do anything to oppose you.”
 \p
-\v 6 Then took they Jeremiah and threw him into the dungeon of Malchijah the king’s son, that was in the court of the guard.
+\v 6 Then they took Jeremiah and threw him into the dungeon of Malchijah the king’s son, that was in the court of the guard.
 They let down Jeremiah with cords. In the dungeon there was no water, but mire; and Jeremiah sank in the mire.
 \p
 \v 7 Now when Ebedmelech the Ethiopian, a eunuch, who was in the king’s house, heard that they had put Jeremiah in the dungeon
@@ -3088,7 +3089,7 @@ and of barley, and of oil, and of honey.”
 that which Asa the king had made for fear of Baasha king of Israel), Ishmael the son of Nethaniah filled it with those who were
 killed. 
 \p
-\v 10 Then Ishmael carried away captive all the of the people who were left in Mizpah, even the king’s daughters, and all the
+\v 10 Then Ishmael carried away captive all of the people who were left in Mizpah, even the king’s daughters, and all the
 people who remained in Mizpah, whom Nebuzaradan the captain of the guard had committed to Gedaliah the son of Ahikam. Ishmael
 the son of Nethaniah carried them away captive, and departed to go over to the children of Ammon.
 \p
@@ -3380,7 +3381,7 @@ land of Egypt.
 \q2 for the day of their calamity has come on them, 
 \q2 the time of their visitation. 
 \q1
-\v 22 It’s sound will go like the serpent; 
+\v 22 Its sound will go like the serpent; 
 \q2 for they will march with an army, 
 \q2 and come against her with axes, as wood cutters. 
 \q1
@@ -3456,7 +3457,7 @@ into the hand of his servants. Afterwards it will be inhabited, as in the days o
 \q2 For it is laid waste. 
 \q1 Kiriathaim is disappointed. 
 \q2 It is taken. 
-\q1 Misgab\f +  \ft or, The stronghold\f* is put to shame 
+\q1 Misgab\f + \fr 48:1  \ft or, The stronghold\f* is put to shame
 \q2 and broken down. 
 \q1
 \v 2 The praise of Moab is no more. 
@@ -4464,12 +4465,12 @@ bowls; that which was of gold, in gold, and that which was of silver, in silver.
 \v 20 They took the two pillars, the one sea, and the twelve bronze bulls that were under the bases, which king Solomon had
 made for Yahweh’s house. The bronze of all these vessels was without weight.
 \v 21 As for the pillars, the height of the one pillar was eighteen
-cubits;\f + A cubit is the length from the tip of the middle finger to the elbow on a man’s arm, or about 18 inches or 46
-centimeters.\f* and a line of twelve cubits encircled it; and its thickness was four fingers. It was hollow.
+cubits;\f + \fr 52:21  \ft A cubit is the length from the tip of the middle finger to the elbow on a man’s arm, or about 18
+inches or 46 centimeters.\f* and a line of twelve cubits encircled it; and its thickness was four fingers. It was hollow.
 \v 22 A capital of bronze was on it; and the height of the one capital was five
-cubits,\f + A cubit is the length from the tip of the middle finger to the elbow on a man’s arm, or about 18 inches or 46
-centimeters.\f* with network and pomegranates on the capital all around, all of bronze: and the second pillar also had like
-these, and pomegranates. 
+cubits,\f + \fr 52:22  \ft A cubit is the length from the tip of the middle finger to the elbow on a man’s arm, or about 18
+inches or 46 centimeters.\f* with network and pomegranates on the capital all around, all of bronze: and the second pillar also
+had like these, and pomegranates. 
 \v 23 There were ninety-six pomegranates on the sides; all the pomegranates were one hundred on the network all around.
 \p
 \v 24 The captain of the guard took Seraiah the chief priest, and Zephaniah the second priest, and the three keepers of the

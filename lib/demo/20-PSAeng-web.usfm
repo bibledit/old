@@ -3,8 +3,7 @@
 \h Psalms 
 \toc1 The Psalms 
 \toc2 Psalms 
-\toc3 Psa 
-\ztoc4 Psalm 
+\toc3 Psalm 
 \mt1 The Psalms 
 \cl Psalm 
 \c 1  
@@ -14,8 +13,8 @@
 \q2 nor stand on the path of sinners, 
 \q2 nor sit in the seat of scoffers; 
 \q1
-\v 2 but his delight is in Yahweh’s\f + “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
-translations.\f* law. 
+\v 2 but his delight is in Yahweh’s\f + \fr 1:2  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in
+other translations.\f* law. 
 \q2 On his law he meditates day and night. 
 \q1
 \v 3 He will be like a tree planted by the streams of water, 
@@ -38,21 +37,21 @@ translations.\f* law.
 \q1
 \v 2 The kings of the earth take a stand, 
 \q2 and the rulers take counsel together, 
-\q2 against Yahweh, and against his Anointed,\f + The word “Anointed” is the same as the word for “Messiah” or
+\q2 against Yahweh, and against his Anointed,\f + \fr 2:2  \ft The word “Anointed” is the same as the word for “Messiah” or
 “Christ”\f* saying, 
 \q1
 \v 3 “Let’s break their bonds apart, 
 \q2 and cast their cords from us.” 
 \q1
 \v 4 He who sits in the heavens will laugh. 
-\q2 The Lord\f + The word translated “Lord” is “Adonai.”\f* will have them in derision.
+\q2 The Lord\f + \fr 2:4  \ft The word translated “Lord” is “Adonai.”\f* will have them in derision.
 \q1
 \v 5 Then he will speak to them in his anger, 
 \q2 and terrify them in his wrath: 
 \q1
 \v 6 “Yet I have set my King on my holy hill of Zion.” 
 \q2
-\v 7 I will tell of the decree. 
+\v 7 I will tell of the decree: 
 \q1 Yahweh said to me, “You are my son. 
 \q2 Today I have become your father. 
 \q1
@@ -68,7 +67,8 @@ translations.\f* law.
 \v 11 Serve Yahweh with fear, 
 \q2 and rejoice with trembling. 
 \q1
-\v 12 Give sincere homage to the Son,\f + or, Kiss the son\f* lest he be angry, and you perish on the way,
+\v 12 Give sincere homage to the Son,\f + \fr 2:12  \ft or, Kiss the
+son\f* lest he be angry, and you perish on the way, 
 \q2 for his wrath will soon be kindled. 
 \q2 Blessed are all those who take refuge in him. 
 \c 3  
@@ -78,7 +78,7 @@ translations.\f* law.
 \q2 Many are those who rise up against me. 
 \q1
 \v 2 Many there are who say of my soul, 
-\q2 “There is no help for him in God.”\f + The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
+\q2 “There is no help for him in God.”\f + \fr 3:2  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
 (Elohim).\f* \qs Selah.\qs* 
 \q1
 \v 3 But you, Yahweh, are a shield around me, 
@@ -99,7 +99,7 @@ translations.\f* law.
 \q2 You have broken the teeth of the wicked. 
 \q1
 \v 8 Salvation belongs to Yahweh. 
-\q2 Your blessing be on your people. \qs Selah.\qs* 
+\q2 May your blessing be on your people. \qs Selah.\qs* 
 \c 4  
 \d For the Chief Musician; on stringed instruments. A Psalm by David.
 \q1
@@ -108,7 +108,7 @@ translations.\f* law.
 \q2 Have mercy on me, and hear my prayer. 
 \q1
 \v 2 You sons of men, how long shall my glory be turned into dishonor?
-\q2 Will you love vanity, and seek after falsehood? \qs Selah.\qs*
+\q2 Will you love vanity and seek after falsehood? \qs Selah.\qs*
 \q1
 \v 3 But know that Yahweh has set apart for himself him who is godly:
 \q2 Yahweh will hear when I call to him. 
@@ -134,15 +134,15 @@ translations.\f* law.
 \q2 Consider my meditation. 
 \q1
 \v 2 Listen to the voice of my cry, my King and my God; 
-\q2 for to you do I pray. 
+\q2 for I pray to you. 
 \q1
-\v 3 Yahweh, in the morning you shall hear my voice. 
+\v 3 Yahweh, in the morning you will hear my voice. 
 \q2 In the morning I will lay my requests before you, and will watch expectantly.
 \q1
 \v 4 For you are not a God who has pleasure in wickedness. 
 \q2 Evil can’t live with you. 
 \q1
-\v 5 The arrogant shall not stand in your sight. 
+\v 5 The arrogant will not stand in your sight. 
 \q2 You hate all workers of iniquity. 
 \q1
 \v 6 You will destroy those who speak lies. 
@@ -160,11 +160,11 @@ translations.\f* law.
 \q2 They flatter with their tongue. 
 \q1
 \v 10 Hold them guilty, God. 
-\q2 Let them fall by their own counsels; 
+\q2 Let them fall by their own counsels. 
 \q1 Thrust them out in the multitude of their transgressions, 
 \q2 for they have rebelled against you. 
 \q1
-\v 11 But let all those who take refuge in you rejoice, 
+\v 11 But let all those who take refuge in you rejoice. 
 \q2 Let them always shout for joy, because you defend them. 
 \q1 Let them also who love your name be joyful in you. 
 \q2
@@ -186,7 +186,7 @@ translations.\f* law.
 \q2 and save me for your loving kindness’ sake. 
 \q1
 \v 5 For in death there is no memory of you. 
-\q2 In Sheol,\f + Sheol is the place of the dead.\f* who shall give you thanks?
+\q2 In Sheol,\f + \fr 6:5  \ft Sheol is the place of the dead.\f* who shall give you thanks?
 \q1
 \v 6 I am weary with my groaning. 
 \q2 Every night I flood my bed. 
@@ -249,8 +249,8 @@ translations.\f* law.
 \v 13 He has also prepared for himself the instruments of death.
 \q2 He makes ready his flaming arrows. 
 \q1
-\v 14 Behold,\f + “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often used as an
-interjection.\f* he travails with iniquity. 
+\v 14 Behold,\f + \fr 7:14  \ft “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often used
+as an interjection.\f* he travails with iniquity. 
 \q2 Yes, he has conceived mischief, 
 \q2 and brought out falsehood. 
 \q1
@@ -265,8 +265,8 @@ interjection.\f* he travails with iniquity.
 \c 8  
 \d For the Chief Musician; on an instrument of Gath. A Psalm by David.
 \q1
-\v 1 Yahweh, our Lord, how majestic is your name in all the earth,
-\q2 who has set your glory above the heavens! 
+\v 1 Yahweh, our Lord, how majestic is your name in all the earth!
+\q2 You have set your glory above the heavens! 
 \q1
 \v 2 From the lips of babes and infants you have established strength,
 \q2 because of your adversaries, that you might silence the enemy and the avenger.
@@ -277,9 +277,10 @@ interjection.\f* he travails with iniquity.
 \v 4 what is man, that you think of him? 
 \q2 What is the son of man, that you care for him? 
 \q1
-\v 5 For you have made him a little lower than the angels,\f + Hebrew: Elohim. The word Elohim, used here, usually means “God”,
-but can also mean “gods”, “princes”, or “angels”. The Septuagint reads “angels” here. See also the quote from the Septuagint in
-\+zref \+ztgt HEB.2.7 \+ztgt*\+zref*Hebrews 2:7.\+zrefend \+zrefend*\f*
+\v 5 For you have made him a little lower than the angels,\f + \fr 8:5 
+\ft Hebrew: Elohim. The word Elohim, used here, usually means “God”, but can also mean “gods”, “princes”, or “angels”. The
+Septuagint reads “angels” here. See also the quote from the Septuagint in Hebrews
+2:7.\f* 
 \q2 and crowned him with glory and honor. 
 \q1
 \v 6 You make him ruler over the works of your hands. 
@@ -335,10 +336,10 @@ but can also mean “gods”, “princes”, or “angels”. The Septuagint rea
 \q1
 \v 13 Have mercy on me, Yahweh. 
 \q2 See my affliction by those who hate me, 
-\q1 and lift me up from the gates of death; 
+\q1 and lift me up from the gates of death, 
 \q2
 \v 14 that I may show all of your praise. 
-\q2 In the gates of the daughter of Zion, I will rejoice in your salvation.
+\q2 I will rejoice in your salvation in the gates of the daughter of Zion.
 \q1
 \v 15 The nations have sunk down in the pit that they made. 
 \q2 In the net which they hid, their own foot is taken. 
@@ -348,7 +349,7 @@ but can also mean “gods”, “princes”, or “angels”. The Septuagint rea
 \q2 The wicked is snared by the work of his own hands. \qs Meditation.
 Selah.\qs* 
 \q1
-\v 17 The wicked shall be turned back to Sheol,\f + Sheol is the place of the
+\v 17 The wicked shall be turned back to Sheol,\f + \fr 9:17  \ft Sheol is the place of the
 dead.\f* 
 \q2 even all the nations that forget God. 
 \q1
@@ -369,7 +370,7 @@ dead.\f*
 \q2 They are caught in the schemes that they devise. 
 \q1
 \v 3 For the wicked boasts of his heart’s cravings. 
-\q2 He blesses the greedy, and condemns Yahweh. 
+\q2 He blesses the greedy and condemns Yahweh. 
 \q1
 \v 4 The wicked, in the pride of his face, 
 \q2 has no room in his thoughts for God. 
@@ -390,7 +391,7 @@ dead.\f*
 \q1
 \v 9 He lurks in secret as a lion in his ambush. 
 \q2 He lies in wait to catch the helpless. 
-\q2 He catches the helpless, when he draws him in his net. 
+\q2 He catches the helpless when he draws him in his net. 
 \q1
 \v 10 The helpless are crushed. 
 \q2 They collapse. 
@@ -428,7 +429,7 @@ dead.\f*
 \d For the Chief Musician. By David. 
 \q1
 \v 1 In Yahweh, I take refuge. 
-\q2 How can you say to my soul, “Flee as a bird to your mountain!”
+\q2 How can you say to my soul, “Flee as a bird to your mountain”?
 \q1
 \v 2 For, behold, the wicked bend their bows. 
 \q2 They set their arrows on the strings, 
@@ -443,7 +444,7 @@ dead.\f*
 \q2 His eyes examine the children of men. 
 \q1
 \v 5 Yahweh examines the righteous, 
-\q2 but the wicked and him who loves violence his soul hates. 
+\q2 but his soul hates the wicked and him who loves violence. 
 \q1
 \v 6 On the wicked he will rain blazing coals; 
 \q2 fire, sulfur, and scorching wind shall be the portion of their cup.
@@ -537,14 +538,14 @@ dead.\f*
 \v 1 Yahweh, who shall dwell in your sanctuary? 
 \q2 Who shall live on your holy hill? 
 \q1
-\v 2 He who walks blamelessly does what is right, 
+\v 2 He who walks blamelessly and does what is right, 
 \q2 and speaks truth in his heart; 
 \q1
-\v 3 He who doesn’t slander with his tongue, 
+\v 3 he who doesn’t slander with his tongue, 
 \q2 nor does evil to his friend, 
 \q2 nor casts slurs against his fellow man; 
 \q1
-\v 4 In whose eyes a vile man is despised, 
+\v 4 in whose eyes a vile man is despised, 
 \q2 but who honors those who fear Yahweh; 
 \q2 he who keeps an oath even when it hurts, and doesn’t change;
 \q1
@@ -584,7 +585,7 @@ dead.\f*
 \v 9 Therefore my heart is glad, and my tongue rejoices. 
 \q2 My body shall also dwell in safety. 
 \q1
-\v 10 For you will not leave my soul in Sheol,\f + Sheol is the place of the
+\v 10 For you will not leave my soul in Sheol,\f + \fr 16:10  \ft Sheol is the place of the
 dead.\f* 
 \q2 neither will you allow your holy one to see corruption. 
 \q1
@@ -661,7 +662,8 @@ delivered him from the hand of all his enemies, and from the hand of Saul. He sa
 \v 4 The cords of death surrounded me. 
 \q2 The floods of ungodliness made me afraid. 
 \q1
-\v 5 The cords of Sheol\f + Sheol is the place of the dead.\f* were around me.
+\v 5 The cords of Sheol\f + \fr 18:5  \ft Sheol is the place of the
+dead.\f* were around me. 
 \q2 The snares of death came on me. 
 \q1
 \v 6 In my distress I called on Yahweh, 
@@ -714,7 +716,7 @@ delivered him from the hand of all his enemies, and from the hand of Saul. He sa
 \q2 He delivered me, because he delighted in me. 
 \q1
 \v 20 Yahweh has rewarded me according to my righteousness. 
-\q2 According to the cleanness of my hands has he recompensed me.
+\q2 According to the cleanness of my hands, he has recompensed me.
 \q1
 \v 21 For I have kept the ways of Yahweh, 
 \q2 and have not wickedly departed from my God. 
@@ -793,7 +795,7 @@ delivered him from the hand of all his enemies, and from the hand of Saul. He sa
 \v 45 The foreigners shall fade away, 
 \q2 and shall come trembling out of their strongholds. 
 \q1
-\v 46 Yahweh lives; and blessed be my rock. 
+\v 46 Yahweh lives! Blessed be my rock. 
 \q2 Exalted be the God of my salvation, 
 \q1
 \v 47 even the God who executes vengeance for me, 
@@ -808,7 +810,7 @@ delivered him from the hand of all his enemies, and from the hand of Saul. He sa
 \q1
 \v 50 He gives great deliverance to his king, 
 \q2 and shows loving kindness to his anointed, 
-\q2 to David and to his offspring,\f + or, seed\f* forever more.
+\q2 to David and to his offspring,\f + \fr 18:50  \ft or, seed\f* forever more.
 \c 19  
 \d For the Chief Musician. A Psalm by David. 
 \q1
@@ -829,7 +831,7 @@ delivered him from the hand of all his enemies, and from the hand of Saul. He sa
 \q2 like a strong man rejoicing to run his course. 
 \q1
 \v 6 His going out is from the end of the heavens, 
-\q2 his circuit to its ends; 
+\q2 his circuit to its ends. 
 \q2 There is nothing hidden from its heat. 
 \b
 \q1
@@ -842,10 +844,10 @@ delivered him from the hand of all his enemies, and from the hand of Saul. He sa
 \v 9 The fear of Yahweh is clean, enduring forever. 
 \q2 Yahweh’s ordinances are true, and righteous altogether. 
 \q1
-\v 10 More to be desired are they than gold, yes, than much fine gold;
+\v 10 They are more to be desired than gold, yes, than much fine gold,
 \q2 sweeter also than honey and the extract of the honeycomb. 
 \q1
-\v 11 Moreover by them is your servant warned. 
+\v 11 Moreover your servant is warned by them. 
 \q2 In keeping them there is great reward. 
 \q1
 \v 12 Who can discern his errors? 
@@ -872,7 +874,7 @@ delivered him from the hand of all his enemies, and from the hand of Saul. He sa
 \v 3 remember all your offerings, 
 \q2 and accept your burned sacrifice. \qs Selah.\qs* 
 \q1
-\v 4 May He grant you your heart’s desire, 
+\v 4 May he grant you your heart’s desire, 
 \q2 and fulfill all your counsel. 
 \q1
 \v 5 We will triumph in your salvation. 
@@ -884,7 +886,7 @@ delivered him from the hand of all his enemies, and from the hand of Saul. He sa
 \q2 with the saving strength of his right hand. 
 \q1
 \v 7 Some trust in chariots, and some in horses, 
-\q2 but we trust the name of Yahweh our God. 
+\q2 but we trust in the name of Yahweh our God. 
 \q1
 \v 8 They are bowed down and fallen, 
 \q2 but we rise up, and stand upright. 
@@ -903,7 +905,7 @@ delivered him from the hand of all his enemies, and from the hand of Saul. He sa
 \v 3 For you meet him with the blessings of goodness. 
 \q2 You set a crown of fine gold on his head. 
 \q1
-\v 4 He asked life of you, you gave it to him, 
+\v 4 He asked life of you and you gave it to him, 
 \q2 even length of days forever and ever. 
 \q1
 \v 5 His glory is great in your salvation. 
@@ -978,8 +980,8 @@ delivered him from the hand of all his enemies, and from the hand of Saul. He sa
 \q1
 \v 14 I am poured out like water. 
 \q2 All my bones are out of joint. 
-\q1 My heart is like wax; 
-\q2 it is melted within me. 
+\q1 My heart is like wax. 
+\q2 It is melted within me. 
 \q1
 \v 15 My strength is dried up like a potsherd. 
 \q2 My tongue sticks to the roof of my mouth. 
@@ -987,8 +989,8 @@ delivered him from the hand of all his enemies, and from the hand of Saul. He sa
 \q1
 \v 16 For dogs have surrounded me. 
 \q2 A company of evildoers have enclosed me. 
-\q2 They have pierced my hands and feet.\f + So Dead Sea Scrolls. Masoretic Text reads, “Like a lion, they pin my hands and
-feet.”\f* 
+\q2 They have pierced my hands and feet.\f + \fr 22:16  \ft So Dead Sea Scrolls. Masoretic Text reads, “Like a lion, they pin
+my hands and feet.”\f* 
 \q1
 \v 17 I can count all of my bones. 
 \q1 They look and stare at me. 
@@ -998,13 +1000,13 @@ feet.”\f*
 \b
 \q1
 \v 19 But don’t be far off, Yahweh. 
-\q2 You are my help: hurry to help me. 
+\q2 You are my help. Hurry to help me! 
 \q1
 \v 20 Deliver my soul from the sword, 
 \q2 my precious life from the power of the dog. 
 \q1
 \v 21 Save me from the lion’s mouth! 
-\q2 Yes, from the horns of the wild oxen, you have answered me. 
+\q2 Yes, you have rescued me from the horns of the wild oxen. 
 \b
 \q1
 \v 22 I will declare your name to my brothers. 
@@ -1019,7 +1021,7 @@ feet.”\f*
 \q2 but when he cried to him, he heard. 
 \b
 \q1
-\v 25 Of you comes my praise in the great assembly. 
+\v 25 My praise of you comes in the great assembly. 
 \q2 I will pay my vows before those who fear him. 
 \q1
 \v 26 The humble shall eat and be satisfied. 
@@ -1069,7 +1071,7 @@ feet.”\f*
 \d A Psalm by David. 
 \q1
 \v 1 The earth is Yahweh’s, with its fullness; 
-\q2 the world, and those who dwell therein. 
+\q2 the world, and those who dwell in it. 
 \q1
 \v 2 For he has founded it on the seas, 
 \q2 and established it on the floods. 
@@ -1106,14 +1108,14 @@ feet.”\f*
 \c 25  
 \d By David. 
 \q1
-\v 1 To you, Yahweh, do I lift up my soul. 
+\v 1 To you, Yahweh, I lift up my soul. 
 \q1
 \v 2 My God, I have trusted in you. 
 \q2 Don’t let me be shamed. 
 \q2 Don’t let my enemies triumph over me. 
 \q1
-\v 3 Yes, no one who waits for you shall be shamed. 
-\q2 They shall be shamed who deal treacherously without cause. 
+\v 3 Yes, no one who waits for you will be shamed. 
+\q2 They will be shamed who deal treacherously without cause. 
 \b
 \q1
 \v 4 Show me your ways, Yahweh. 
@@ -1145,8 +1147,8 @@ feet.”\f*
 \v 12 What man is he who fears Yahweh? 
 \q2 He shall instruct him in the way that he shall choose. 
 \q1
-\v 13 His soul shall dwell at ease. 
-\q2 His offspring shall inherit the land. 
+\v 13 His soul will dwell at ease. 
+\q2 His offspring will inherit the land. 
 \q1
 \v 14 The friendship of Yahweh is with those who fear him. 
 \q2 He will show them his covenant. 
@@ -1194,9 +1196,9 @@ feet.”\f*
 \q2 and will not sit with the wicked. 
 \q1
 \v 6 I will wash my hands in innocence, 
-\q2 so I will go about your altar, Yahweh; 
+\q2 so I will go about your altar, Yahweh, 
 \q2
-\v 7 that I may make the voice of thanksgiving to be heard, 
+\v 7 that I may make the voice of thanksgiving to be heard 
 \q2 and tell of all your wondrous deeds. 
 \q1
 \v 8 Yahweh, I love the habitation of your house, 
@@ -1239,7 +1241,7 @@ feet.”\f*
 \q2 In the secret place of his tabernacle, he will hide me. 
 \q2 He will lift me up on a rock. 
 \q1
-\v 6 Now my head will be lifted up above my enemies around me; 
+\v 6 Now my head will be lifted up above my enemies around me. 
 \q1 I will offer sacrifices of joy in his tent. 
 \q2 I will sing, yes, I will sing praises to Yahweh. 
 \b
@@ -1276,7 +1278,7 @@ feet.”\f*
 \d By David. 
 \q1
 \v 1 To you, Yahweh, I call. 
-\q2 My rock, don’t be deaf to me; 
+\q2 My rock, don’t be deaf to me, 
 \q2 lest, if you are silent to me, 
 \q2 I would become like those who go down into the pit. 
 \q1
@@ -1357,8 +1359,8 @@ feet.”\f*
 \v 2 Yahweh my God, I cried to you, 
 \q2 and you have healed me. 
 \q1
-\v 3 Yahweh, you have brought up my soul from Sheol.\f + Sheol is the place of the
-dead.\f* 
+\v 3 Yahweh, you have brought up my soul from Sheol.\f + \fr 30:3 
+\ft Sheol is the place of the dead.\f* 
 \q2 You have kept me alive, that I should not go down to the pit.
 \q1
 \v 4 Sing praise to Yahweh, you saints of his. 
@@ -1451,7 +1453,8 @@ dead.\f*
 \q1
 \v 17 Let me not be disappointed, Yahweh, for I have called on you.
 \q2 Let the wicked be disappointed. 
-\q2 Let them be silent in Sheol.\f + Sheol is the place of the dead.\f*
+\q2 Let them be silent in Sheol.\f + \fr 31:17  \ft Sheol is the place of the
+dead.\f* 
 \q1
 \v 18 Let the lying lips be mute, 
 \q2 which speak against the righteous insolently, with pride and contempt.
@@ -1530,7 +1533,7 @@ dead.\f*
 \v 5 He loves righteousness and justice. 
 \q2 The earth is full of the loving kindness of Yahweh. 
 \q1
-\v 6 By Yahweh’s word, the heavens were made; 
+\v 6 By Yahweh’s word, the heavens were made: 
 \q2 all their army by the breath of his mouth. 
 \q1
 \v 7 He gathers the waters of the sea together as a heap. 
@@ -1566,7 +1569,7 @@ dead.\f*
 \q2 neither does he deliver any by his great power. 
 \q1
 \v 18 Behold, Yahweh’s eye is on those who fear him, 
-\q2 on those who hope in his loving kindness; 
+\q2 on those who hope in his loving kindness, 
 \q2
 \v 19 to deliver their soul from death, 
 \q2 to keep them alive in famine. 
@@ -1582,12 +1585,12 @@ dead.\f*
 \c 34  
 \d By David; when he pretended to be insane before Abimelech, who drove him away, and he departed.
 \q1
-\v 1  \f + \+zref \+ztgt PSA.34.1 \+ztgt*\+zref*Psalm 34\+zrefend \+zrefend* is an acrostic poem, with each verse starting with
-a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at all times.
+\v 1  \f + \fr 34:1  \ft Psalm 34 is an acrostic poem, with each verse starting with a letter of the alphabet (ordered from
+Alef to Tav).\f* I will bless Yahweh at all times. 
 \q2 His praise will always be in my mouth. 
 \q1
 \v 2 My soul shall boast in Yahweh. 
-\q2 The humble shall hear of it, and be glad. 
+\q2 The humble shall hear of it and be glad. 
 \q1
 \v 3 Oh magnify Yahweh with me. 
 \q2 Let’s exalt his name together. 
@@ -1738,8 +1741,8 @@ a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at a
 \q2 Let them be clothed with shame and dishonor who magnify themselves against me.
 \b
 \q1
-\v 27 Let them shout for joy and be glad, who favor my righteous cause.
-\q2 Yes, let them say continually, “Yahweh be magnified, 
+\v 27 Let those who favor my righteous cause shout for joy and be glad.
+\q2 Yes, let them say continually, “May Yahweh be magnified, 
 \q2 who has pleasure in the prosperity of his servant!” 
 \q1
 \v 28 My tongue shall talk about your righteousness and about your praise all day long.
@@ -1802,7 +1805,7 @@ a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at a
 \v 5 Commit your way to Yahweh. 
 \q2 Trust also in him, and he will do this: 
 \q1
-\v 6 he will make your righteousness go out as the light, 
+\v 6 he will make your righteousness shine out like light, 
 \q2 and your justice as the noon day sun. 
 \q1
 \v 7 Rest in Yahweh, and wait patiently for him. 
@@ -1810,7 +1813,7 @@ a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at a
 \q2 because of the man who makes wicked plots happen. 
 \q1
 \v 8 Cease from anger, and forsake wrath. 
-\q2 Don’t fret, it leads only to evildoing. 
+\q2 Don’t fret; it leads only to evildoing. 
 \q1
 \v 9 For evildoers shall be cut off, 
 \q2 but those who wait for Yahweh shall inherit the land. 
@@ -1858,7 +1861,7 @@ a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at a
 \v 22 For such as are blessed by him shall inherit the land. 
 \q2 Those who are cursed by him shall be cut off. 
 \q1
-\v 23 A man’s goings are established by Yahweh. 
+\v 23 A man’s steps are established by Yahweh. 
 \q2 He delights in his way. 
 \q1
 \v 24 Though he stumble, he shall not fall, 
@@ -1889,8 +1892,8 @@ a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at a
 \v 31 The law of his God is in his heart. 
 \q2 None of his steps shall slide. 
 \q1
-\v 32 The wicked watches the righteous, 
-\q2 and seeks to kill him. 
+\v 32 The wicked watch the righteous, 
+\q2 and seek to kill him. 
 \q1
 \v 33 Yahweh will not leave him in his hand, 
 \q2 nor condemn him when he is judged. 
@@ -1915,8 +1918,8 @@ a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at a
 \v 39 But the salvation of the righteous is from Yahweh. 
 \q2 He is their stronghold in the time of trouble. 
 \q1
-\v 40 Yahweh helps them, and rescues them. 
-\q2 He rescues them from the wicked, and saves them, 
+\v 40 Yahweh helps them and rescues them. 
+\q2 He rescues them from the wicked and saves them, 
 \q2 because they have taken refuge in him. 
 \c 38  
 \d A Psalm by David, for a memorial. 
@@ -1933,10 +1936,10 @@ a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at a
 \v 4 For my iniquities have gone over my head. 
 \q2 As a heavy burden, they are too heavy for me. 
 \q1
-\v 5 My wounds are loathsome and corrupt, 
+\v 5 My wounds are loathsome and corrupt 
 \q2 because of my foolishness. 
 \q1
-\v 6 I am pained and bowed down greatly. 
+\v 6 I am in pain and bowed down greatly. 
 \q2 I go mourning all day long. 
 \q1
 \v 7 For my waist is filled with burning. 
@@ -1965,7 +1968,7 @@ a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at a
 \v 14 Yes, I am as a man who doesn’t hear, 
 \q2 in whose mouth are no reproofs. 
 \q1
-\v 15 For in you, Yahweh, do I hope. 
+\v 15 For I hope in you, Yahweh. 
 \q2 You will answer, Lord my God. 
 \q1
 \v 16 For I said, “Don’t let them gloat over me, 
@@ -2037,7 +2040,7 @@ a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at a
 \q2 a foreigner, as all my fathers were. 
 \q1
 \v 13 Oh spare me, that I may recover strength, 
-\q2 before I go away, and exist no more.” 
+\q2 before I go away and exist no more.” 
 \c 40  
 \d For the Chief Musician. A Psalm by David. 
 \q1
@@ -2152,7 +2155,7 @@ a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at a
 \d For the Chief Musician. A contemplation by the sons of Korah.
 \q1
 \v 1 As the deer pants for the water brooks, 
-\q2 so my soul pants after you, God.\f + The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
+\q2 so my soul pants after you, God.\f + \fr 42:1  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
 (Elohim).\f* 
 \q1
 \v 2 My soul thirsts for God, for the living God. 
@@ -2178,7 +2181,7 @@ a letter of the alphabet (ordered from Alef to Tav).\f* I will bless Yahweh at a
 \q2 All your waves and your billows have swept over me. 
 \b
 \q1
-\v 8 Yahweh\f + “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
+\v 8 Yahweh\f + \fr 42:8  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
 translations.\f* will command his loving kindness in the daytime.
 \q2 In the night his song shall be with me: 
 \q2 a prayer to the God of my life. 
@@ -2204,7 +2207,7 @@ translations.\f* will command his loving kindness in the daytime.
 \v 3 Oh, send out your light and your truth. 
 \q2 Let them lead me. 
 \q2 Let them bring me to your holy hill, 
-\q2 To your tents. 
+\q2 to your tents. 
 \q1
 \v 4 Then I will go to the altar of God, 
 \q2 to God, my exceeding joy. 
@@ -2219,8 +2222,7 @@ translations.\f* will command his loving kindness in the daytime.
 \d For the Chief Musician. By the sons of Korah. A contemplative psalm.
 \q1
 \v 1 We have heard with our ears, God; 
-\q2 our fathers have told us, 
-\q2 what work you did in their days, 
+\q2 our fathers have told us what work you did in their days, 
 \q2 in the days of old. 
 \q1
 \v 2 You drove out the nations with your hand, 
@@ -2230,14 +2232,14 @@ translations.\f* will command his loving kindness in the daytime.
 \q1
 \v 3 For they didn’t get the land in possession by their own sword,
 \q2 neither did their own arm save them; 
-\q1 but your right hand, and your arm, and the light of your face,
+\q1 but your right hand, your arm, and the light of your face, 
 \q2 because you were favorable to them. 
 \q1
 \v 4 You are my King, God. 
 \q2 Command victories for Jacob! 
 \q1
 \v 5 Through you, will we push down our adversaries. 
-\q2 Through your name, we will tread them under who rise up against us.
+\q2 Through your name, we will tread down those who rise up against us.
 \q1
 \v 6 For I will not trust in my bow, 
 \q2 neither shall my sword save me. 
@@ -2270,7 +2272,7 @@ translations.\f* will command his loving kindness in the daytime.
 \v 15 All day long my dishonor is before me, 
 \q2 and shame covers my face, 
 \q2
-\v 16 At the taunt of one who reproaches and verbally abuses, 
+\v 16 at the taunt of one who reproaches and verbally abuses, 
 \q2 because of the enemy and the avenger. 
 \q1
 \v 17 All this has come on us, 
@@ -2280,11 +2282,11 @@ translations.\f* will command his loving kindness in the daytime.
 \v 18 Our heart has not turned back, 
 \q2 neither have our steps strayed from your path, 
 \q2
-\v 19 Though you have crushed us in the haunt of jackals, 
+\v 19 though you have crushed us in the haunt of jackals, 
 \q2 and covered us with the shadow of death. 
 \q1
 \v 20 If we have forgotten the name of our God, 
-\q2 or spread out our hands to a strange god; 
+\q2 or spread out our hands to a strange god, 
 \q2
 \v 21 won’t God search this out? 
 \q2 For he knows the secrets of the heart. 
@@ -2293,7 +2295,7 @@ translations.\f* will command his loving kindness in the daytime.
 \q2 We are regarded as sheep for the slaughter. 
 \q1
 \v 23 Wake up! 
-\q2 Why do you sleep, Lord?\f + The word translated “Lord” is “Adonai.”
+\q2 Why do you sleep, Lord?\f + \fr 44:23  \ft The word translated “Lord” is “Adonai.”
 \f* 
 \q1 Arise! 
 \q2 Don’t reject us forever. 
@@ -2363,7 +2365,7 @@ translations.\f* will command his loving kindness in the daytime.
 \q2 Therefore the peoples shall give you thanks forever and ever.
 \c 46  
 \d For the Chief Musician. By the sons of Korah. According to Alamoth.
-\f + Alamoth is a musical term.\f* 
+\f + \fr 46:0  \ft Alamoth is a musical term.\f* 
 \q1
 \v 1 God is our refuge and strength, 
 \q2 a very present help in trouble. 
@@ -2382,7 +2384,7 @@ translations.\f* will command his loving kindness in the daytime.
 \q2 God will help her at dawn. 
 \q1
 \v 6 The nations raged. The kingdoms were moved. 
-\q2 He lifted his voice, and the earth melted. 
+\q2 He lifted his voice and the earth melted. 
 \q1
 \v 7 Yahweh of Armies is with us. 
 \q2 The God of Jacob is our refuge. \qs Selah.\qs* 
@@ -2420,8 +2422,8 @@ translations.\f* will command his loving kindness in the daytime.
 \v 5 God has gone up with a shout, 
 \q2 Yahweh with the sound of a trumpet. 
 \q1
-\v 6 Sing praises to God, sing praises. 
-\q2 Sing praises to our King, sing praises. 
+\v 6 Sing praises to God! Sing praises! 
+\q2 Sing praises to our King! Sing praises! 
 \q1
 \v 7 For God is the King of all the earth. 
 \q2 Sing praises with understanding. 
@@ -2469,13 +2471,12 @@ translations.\f* will command his loving kindness in the daytime.
 \q2 Your right hand is full of righteousness. 
 \q1
 \v 11 Let Mount Zion be glad! 
-\q2 Let the daughters of Judah rejoice, 
-\q2 Because of your judgments. 
+\q2 Let the daughters of Judah rejoice because of your judgments.
 \q1
 \v 12 Walk about Zion, and go around her. 
 \q2 Number its towers. 
 \q1
-\v 13 Mark well her bulwarks. 
+\v 13 Notice her bulwarks. 
 \q2 Consider her palaces, 
 \q2 that you may tell it to the next generation. 
 \q1
@@ -2491,10 +2492,10 @@ translations.\f* will command his loving kindness in the daytime.
 \q2 rich and poor together. 
 \q1
 \v 3 My mouth will speak words of wisdom. 
-\q2 My heart shall utter understanding. 
+\q2 My heart will utter understanding. 
 \q1
 \v 4 I will incline my ear to a proverb. 
-\q2 I will open my riddle on the harp. 
+\q2 I will solve my riddle on the harp. 
 \q1
 \v 5 Why should I fear in the days of evil, 
 \q2 when iniquity at my heels surrounds me? 
@@ -2526,16 +2527,16 @@ translations.\f* will command his loving kindness in the daytime.
 \v 13 This is the destiny of those who are foolish, 
 \q2 and of those who approve their sayings. \qs Selah.\qs* 
 \q1
-\v 14 They are appointed as a flock for Sheol.\f + Sheol is the place of the
+\v 14 They are appointed as a flock for Sheol.\f + \fr 49:14  \ft Sheol is the place of the
 dead.\f* 
 \q2 Death shall be their shepherd. 
 \q1 The upright shall have dominion over them in the morning. 
-\q2 Their beauty shall decay in Sheol,\f + Sheol is the place of the dead.
+\q2 Their beauty shall decay in Sheol,\f + \fr 49:14  \ft Sheol is the place of the dead.
 \f* 
 \q2 far from their mansion. 
 \q1
-\v 15 But God will redeem my soul from the power of Sheol,\f + Sheol is the place of the
-dead.\f* 
+\v 15 But God will redeem my soul from the power of Sheol,\f + \fr 49:15 
+\ft Sheol is the place of the dead.\f* 
 \q2 for he will receive me. \qs Selah.\qs* 
 \q1
 \v 16 Don’t be afraid when a man is made rich, 
@@ -2574,8 +2575,8 @@ dead.\f*
 \v 6 The heavens shall declare his righteousness, 
 \q2 for God himself is judge. \qs Selah.\qs* 
 \q1
-\v 7 “Hear, my people, and I will speak; 
-\q2 Israel, and I will testify against you. 
+\v 7 “Hear, my people, and I will speak. 
+\q2 Israel, I will testify against you. 
 \q1 I am God, your God. 
 \q1
 \v 8 I don’t rebuke you for your sacrifices. 
@@ -2643,12 +2644,12 @@ dead.\f*
 \q2 My sin is constantly before me. 
 \q1
 \v 4 Against you, and you only, I have sinned, 
-\q2 and done that which is evil in your sight; 
-\q1 that you may be proved right when you speak, 
+\q2 and done that which is evil in your sight, 
+\q1 so you may be proved right when you speak, 
 \q2 and justified when you judge. 
 \q1
 \v 5 Behold, I was born in iniquity. 
-\q2 In sin my mother conceived me. 
+\q2 My mother conceived me in sin. 
 \q1
 \v 6 Behold, you desire truth in the inward parts. 
 \q2 You teach me wisdom in the inmost place. 
@@ -2657,7 +2658,7 @@ dead.\f*
 \q2 Wash me, and I will be whiter than snow. 
 \q1
 \v 8 Let me hear joy and gladness, 
-\q2 That the bones which you have broken may rejoice. 
+\q2 that the bones which you have broken may rejoice. 
 \q1
 \v 9 Hide your face from my sins, 
 \q2 and blot out all of my iniquities. 
@@ -2666,25 +2667,25 @@ dead.\f*
 \q2 Renew a right spirit within me. 
 \q1
 \v 11 Don’t throw me from your presence, 
-\q2 and don’t take your holy Spirit from me. 
+\q2 and don’t take your Holy Spirit from me. 
 \q1
 \v 12 Restore to me the joy of your salvation. 
 \q2 Uphold me with a willing spirit. 
 \q1
 \v 13 Then I will teach transgressors your ways. 
-\q2 Sinners shall be converted to you. 
+\q2 Sinners will be converted to you. 
 \q1
 \v 14 Deliver me from the guilt of bloodshed, O God, the God of my salvation.
-\q2 My tongue shall sing aloud of your righteousness. 
+\q2 My tongue will sing aloud of your righteousness. 
 \q1
 \v 15 Lord, open my lips. 
-\q2 My mouth shall declare your praise. 
+\q2 My mouth will declare your praise. 
 \q1
 \v 16 For you don’t delight in sacrifice, or else I would give it.
 \q2 You have no pleasure in burnt offering. 
 \q1
 \v 17 The sacrifices of God are a broken spirit. 
-\q2 A broken and contrite heart, O God, you will not despise. 
+\q2 O God, you will not despise a broken and contrite heart. 
 \b
 \q1
 \v 18 Do well in your good pleasure to Zion. 
@@ -2786,10 +2787,10 @@ David hiding himself among us?”
 \q2 Don’t hide yourself from my supplication. 
 \q1
 \v 2 Attend to me, and answer me. 
-\q2 I am restless in my complaint, and moan, 
-\q2
-\v 3 Because of the voice of the enemy, 
-\q2 Because of the oppression of the wicked. 
+\q2 I am restless in my complaint, 
+\q2 and moan 
+\v 3 because of the voice of the enemy, 
+\q2 because of the oppression of the wicked. 
 \q1 For they bring suffering on me. 
 \q2 In anger they hold a grudge against me. 
 \q1
@@ -2828,7 +2829,7 @@ David hiding himself among us?”
 \q2 We walked in God’s house with company. 
 \q1
 \v 15 Let death come suddenly on them. 
-\q2 Let them go down alive into Sheol.\f + Sheol is the place of the dead.
+\q2 Let them go down alive into Sheol.\f + \fr 55:15  \ft Sheol is the place of the dead.
 \f* 
 \q2 For wickedness is among them, in their dwelling. 
 \q1
@@ -2842,7 +2843,7 @@ David hiding himself among us?”
 \q2 although there are many who oppose me. 
 \q1
 \v 19 God, who is enthroned forever, 
-\q2 will hear, and answer them. \qs Selah.\qs* 
+\q2 will hear and answer them. \qs Selah.\qs* 
 \b
 \q1 They never change, 
 \q2 who don’t fear God. 
@@ -2856,7 +2857,7 @@ David hiding himself among us?”
 \q2 yet they were drawn swords. 
 \b
 \q1
-\v 22 Cast your burden on Yahweh, and he will sustain you. 
+\v 22 Cast your burden on Yahweh and he will sustain you. 
 \q2 He will never allow the righteous to be moved. 
 \q1
 \v 23 But you, God, will bring them down into the pit of destruction.
@@ -2884,7 +2885,8 @@ Gath.
 \q2 All their thoughts are against me for evil. 
 \q1
 \v 6 They conspire and lurk, 
-\q2 watching my steps, they are eager to take my life. 
+\q2 watching my steps. 
+\q2 They are eager to take my life. 
 \q1
 \v 7 Shall they escape by iniquity? 
 \q2 In anger cast down the peoples, God. 
@@ -2894,7 +2896,7 @@ Gath.
 \q2 Aren’t they in your book? 
 \q1
 \v 9 Then my enemies shall turn back in the day that I call. 
-\q2 I know this, that God is for me. 
+\q2 I know this: that God is for me. 
 \q1
 \v 10 In God, I will praise his word. 
 \q2 In Yahweh, I will praise his word. 
@@ -2938,7 +2940,8 @@ Gath.
 \q1 They dig a pit before me. 
 \q2 They fall into the middle of it themselves. \qs Selah.\qs* 
 \q1
-\v 7 My heart is steadfast, God, my heart is steadfast. 
+\v 7 My heart is steadfast, God. 
+\q2 My heart is steadfast. 
 \q2 I will sing, yes, I will sing praises. 
 \q1
 \v 8 Wake up, my glory! Wake up, lute and harp! 
@@ -2964,7 +2967,7 @@ Gath.
 \v 3 The wicked go astray from the womb. 
 \q2 They are wayward as soon as they are born, speaking lies. 
 \q1
-\v 4 Their poison is like the poison of a snake; 
+\v 4 Their poison is like the poison of a snake, 
 \q2 like a deaf cobra that stops its ear, 
 \q2
 \v 5 which doesn’t listen to the voice of charmers, 
@@ -2983,7 +2986,7 @@ Gath.
 \q2 he will sweep away the green and the burning alike. 
 \q1
 \v 10 The righteous shall rejoice when he sees the vengeance. 
-\q2 He shall wash his feet in the blood of the wicked; 
+\q2 He shall wash his feet in the blood of the wicked, 
 \q1
 \v 11 so that men shall say, “Most certainly there is a reward for the righteous.
 \q2 Most certainly there is a God who judges the earth.” 
@@ -3084,7 +3087,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q2 Judah is my scepter. 
 \q1
 \v 8 Moab is my wash basin. 
-\q2 I will throw my shoe on Edom. 
+\q2 I will throw my sandal on Edom. 
 \q2 I shout in triumph over Philistia.” 
 \b
 \q1
@@ -3097,7 +3100,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \v 11 Give us help against the adversary, 
 \q2 for the help of man is vain. 
 \q1
-\v 12 Through God we shall do valiantly, 
+\v 12 Through God we will do valiantly, 
 \q2 for it is he who will tread down our adversaries. 
 \c 61  
 \d For the Chief Musician. For a stringed instrument. By David. 
@@ -3105,7 +3108,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \v 1 Hear my cry, God. 
 \q2 Listen to my prayer. 
 \q1
-\v 2 From the end of the earth, I will call to you, when my heart is overwhelmed.
+\v 2 From the end of the earth, I will call to you when my heart is overwhelmed.
 \q2 Lead me to the rock that is higher than I. 
 \q1
 \v 3 For you have been a refuge for me, 
@@ -3117,8 +3120,8 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \v 5 For you, God, have heard my vows. 
 \q2 You have given me the heritage of those who fear your name. 
 \q1
-\v 6 You will prolong the king’s life; 
-\q2 his years shall be for generations. 
+\v 6 You will prolong the king’s life. 
+\q2 His years will be for generations. 
 \q1
 \v 7 He shall be enthroned in God’s presence forever. 
 \q2 Appoint your loving kindness and truth, that they may preserve him.
@@ -3131,12 +3134,12 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \v 1 My soul rests in God alone. 
 \q2 My salvation is from him. 
 \q1
-\v 2 He alone is my rock and my salvation, my fortress— 
+\v 2 He alone is my rock, my salvation, and my fortress. 
 \q2 I will never be greatly shaken. 
 \q1
-\v 3 How long will you assault a man, 
-\q2 would all of you throw him down, 
-\q2 Like a leaning wall, like a tottering fence? 
+\v 3 How long will you assault a man? 
+\q2 Would all of you throw him down, 
+\q2 like a leaning wall, like a tottering fence? 
 \q1
 \v 4 They fully intend to throw him down from his lofty place. 
 \q2 They delight in lies. 
@@ -3148,7 +3151,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \v 6 He alone is my rock and my salvation, my fortress. 
 \q2 I will not be shaken. 
 \q1
-\v 7 With God is my salvation and my honor. 
+\v 7 My salvation and my honor is with God. 
 \q2 The rock of my strength, and my refuge, is in God. 
 \q1
 \v 8 Trust in him at all times, you people. 
@@ -3201,7 +3204,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \v 8 My soul stays close to you. 
 \q2 Your right hand holds me up. 
 \q1
-\v 9 But those who seek my soul, to destroy it, 
+\v 9 But those who seek my soul to destroy it 
 \q2 shall go into the lower parts of the earth. 
 \q1
 \v 10 They shall be given over to the power of the sword. 
@@ -3249,15 +3252,15 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \d For the Chief Musician. A Psalm by David. A song. 
 \q1
 \v 1 Praise waits for you, God, in Zion. 
-\q2 To you shall vows be performed. 
+\q2 Vows shall be performed to you. 
 \q1
 \v 2 You who hear prayer, 
-\q2 to you all men will come. 
+\q2 all men will come to you. 
 \q1
 \v 3 Sins overwhelmed me, 
 \q2 but you atoned for our transgressions. 
 \q1
-\v 4 Blessed is the one whom you choose, and cause to come near,
+\v 4 Blessed is the one whom you choose and cause to come near, 
 \q2 that he may live in your courts. 
 \q2 We will be filled with the goodness of your house, 
 \q2 your holy temple. 
@@ -3265,12 +3268,12 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \v 5 By awesome deeds of righteousness, you answer us, 
 \q2 God of our salvation. 
 \q1 You who are the hope of all the ends of the earth, 
-\q2 of those who are far away on the sea; 
+\q2 of those who are far away on the sea. 
 \q1
-\v 6 Who by his power forms the mountains, 
-\q2 having armed yourself with strength; 
+\v 6 By your power, you form the mountains, 
+\q2 having armed yourself with strength. 
 \q1
-\v 7 who stills the roaring of the seas, 
+\v 7 You still the roaring of the seas, 
 \q2 the roaring of their waves, 
 \q2 and the turmoil of the nations. 
 \q1
@@ -3348,7 +3351,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q2 with the offering of rams, 
 \q2 I will offer bulls with goats. \qs Selah.\qs* 
 \q1
-\v 16 Come, and hear, all you who fear God. 
+\v 16 Come and hear, all you who fear God. 
 \q2 I will declare what he has done for my soul. 
 \q1
 \v 17 I cried to him with my mouth. 
@@ -3423,7 +3426,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q2 at the presence of God, the God of Israel. 
 \q1
 \v 9 You, God, sent a plentiful rain. 
-\q2 You confirmed your inheritance, when it was weary. 
+\q2 You confirmed your inheritance when it was weary. 
 \q1
 \v 10 Your congregation lived therein. 
 \q2 You, God, prepared your goodness for the poor. 
@@ -3467,9 +3470,9 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q2 the hairy scalp of such a one as still continues in his guiltiness.
 \q1
 \v 22 The Lord said, “I will bring you again from Bashan, 
-\q2 I will bring you again from the depths of the sea; 
+\q2 I will bring you again from the depths of the sea, 
 \q1
-\v 23 That you may crush them, dipping your foot in blood, 
+\v 23 that you may crush them, dipping your foot in blood, 
 \q2 that the tongues of your dogs may have their portion from your enemies.”
 \q1
 \v 24 They have seen your processions, God, 
@@ -3524,7 +3527,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q1
 \v 3 I am weary with my crying. 
 \q2 My throat is dry. 
-\q2 My eyes fail, looking for my God. 
+\q2 My eyes fail looking for my God. 
 \q1
 \v 4 Those who hate me without a cause are more than the hairs of my head.
 \q2 Those who want to cut me off, being my enemies wrongfully, are mighty.
@@ -3571,7 +3574,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q2 for I am in distress. 
 \q2 Answer me speedily! 
 \q1
-\v 18 Draw near to my soul, and redeem it. 
+\v 18 Draw near to my soul and redeem it. 
 \q2 Ransom me because of my enemies. 
 \q1
 \v 19 You know my reproach, my shame, and my dishonor. 
@@ -3581,7 +3584,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q2 I looked for some to take pity, but there was none; 
 \q2 for comforters, but I found none. 
 \q1
-\v 21 They also gave me gall for my food. 
+\v 21 They also gave me poison for my food. 
 \q2 In my thirst, they gave me vinegar to drink. 
 \q1
 \v 22 Let their table before them become a snare. 
@@ -3638,7 +3641,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q2 Let those who desire my ruin be turned back in disgrace. 
 \q1
 \v 3 Let them be turned because of their shame 
-\q2 Who say, “Aha! Aha!” 
+\q2 who say, “Aha! Aha!” 
 \q1
 \v 4 Let all those who seek you rejoice and be glad in you. 
 \q2 Let those who love your salvation continually say, 
@@ -3664,7 +3667,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \v 4 Rescue me, my God, from the hand of the wicked, 
 \q2 from the hand of the unrighteous and cruel man. 
 \q1
-\v 5 For you are my hope, Lord Yahweh; 
+\v 5 For you are my hope, Lord Yahweh, 
 \q2 my confidence from my youth. 
 \q1
 \v 6 I have relied on you from the womb. 
@@ -3717,7 +3720,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q2 you will let me live. 
 \q2 You will bring us up again from the depths of the earth. 
 \q1
-\v 21 Increase my honor, 
+\v 21 Increase my honor 
 \q2 and comfort me again. 
 \q1
 \v 22 I will also praise you with the harp for your faithfulness, my God.
@@ -3802,7 +3805,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \ms1 BOOK 3 
 \d A Psalm by Asaph. 
 \q1
-\v 1 Surely God\f + The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
+\v 1 Surely God\f + \fr 73:1  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
 (Elohim).\f* is good to Israel, 
 \q2 to those who are pure in heart. 
 \q1
@@ -3849,9 +3852,9 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q2 behold, I would have betrayed the generation of your children.
 \q1
 \v 16 When I tried to understand this, 
-\q2 it was too painful for me; 
+\q2 it was too painful for me, 
 \q1
-\v 17 Until I entered God’s sanctuary, 
+\v 17 until I entered God’s sanctuary, 
 \q2 and considered their latter end. 
 \q1
 \v 18 Surely you set them in slippery places. 
@@ -3861,7 +3864,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q2 They are completely swept away with terrors. 
 \q1
 \v 20 As a dream when one wakes up, 
-\q2 so, Lord,\f + The word translated “Lord” is “Adonai.”\f* when you awake, you will despise their fantasies.
+\q2 so, Lord,\f + \fr 73:20  \ft The word translated “Lord” is “Adonai.”\f* when you awake, you will despise their fantasies.
 \q1
 \v 21 For my soul was grieved. 
 \q2 I was embittered in my heart. 
@@ -3885,7 +3888,7 @@ Naharaim and with Aram Zobah, and Joab returned, and killed twelve thousand of E
 \q2 You have destroyed all those who are unfaithful to you. 
 \q1
 \v 28 But it is good for me to come close to God. 
-\q2 I have made the Lord Yahweh\f + “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
+\q2 I have made the Lord Yahweh\f + \fr 73:28  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
 translations.\f* my refuge, 
 \q2 that I may tell of all your works. 
 \b
@@ -3896,7 +3899,7 @@ translations.\f* my refuge,
 \q2 Why does your anger smolder against the sheep of your pasture?
 \q1
 \v 2 Remember your congregation, which you purchased of old, 
-\q2 which you have redeemed to be the tribe of your inheritance;
+\q2 which you have redeemed to be the tribe of your inheritance:
 \q2 Mount Zion, in which you have lived. 
 \q1
 \v 3 Lift up your feet to the perpetual ruins, 
@@ -4203,7 +4206,7 @@ translations.\f* my refuge,
 \v 26 He caused the east wind to blow in the sky. 
 \q2 By his power he guided the south wind. 
 \q1
-\v 27 He rained also meat on them as the dust; 
+\v 27 He also rained meat on them as the dust, 
 \q2 winged birds as the sand of the seas. 
 \q1
 \v 28 He let them fall in the middle of their camp, 
@@ -4296,7 +4299,7 @@ translations.\f* my refuge,
 \q2 and made the tribes of Israel to dwell in their tents. 
 \q1
 \v 56 Yet they tempted and rebelled against the Most High God, 
-\q2 and didn’t keep his testimonies; 
+\q2 and didn’t keep his testimonies, 
 \q1
 \v 57 but turned back, and dealt treacherously like their fathers.
 \q2 They were twisted like a deceitful bow. 
@@ -4305,10 +4308,10 @@ translations.\f* my refuge,
 \q2 and moved him to jealousy with their engraved images. 
 \q1
 \v 59 When God heard this, he was angry, 
-\q2 and greatly abhorred Israel; 
+\q2 and greatly abhorred Israel, 
 \q1
-\v 60 So that he abandoned the tent of Shiloh, 
-\q2 the tent which he placed among men; 
+\v 60 so that he abandoned the tent of Shiloh, 
+\q2 the tent which he placed among men, 
 \q1
 \v 61 and delivered his strength into captivity, 
 \q2 his glory into the adversary’s hand. 
@@ -4357,7 +4360,7 @@ translations.\f* my refuge,
 \v 2 They have given the dead bodies of your servants to be food for the birds of the sky,
 \q2 the flesh of your saints to the animals of the earth. 
 \q1
-\v 3 Their blood they have shed like water around Jerusalem. 
+\v 3 They have shed their blood like water around Jerusalem. 
 \q2 There was no one to bury them. 
 \q1
 \v 4 We have become a reproach to our neighbors, 
@@ -4367,10 +4370,10 @@ translations.\f* my refuge,
 \q2 Will you be angry forever? 
 \q2 Will your jealousy burn like fire? 
 \q1
-\v 6 Pour out your wrath on the nations that don’t know you; 
+\v 6 Pour out your wrath on the nations that don’t know you, 
 \q2 on the kingdoms that don’t call on your name; 
 \q1
-\v 7 For they have devoured Jacob, 
+\v 7 for they have devoured Jacob, 
 \q2 and destroyed his homeland. 
 \q1
 \v 8 Don’t hold the iniquities of our forefathers against us. 
@@ -4410,7 +4413,7 @@ translations.\f* my refuge,
 \b
 \q1
 \v 4 Yahweh God of Armies, 
-\q2 How long will you be angry against the prayer of your people?
+\q2 how long will you be angry against the prayer of your people?
 \q1
 \v 5 You have fed them with the bread of tears, 
 \q2 and given them tears to drink in large measure. 
@@ -4433,7 +4436,7 @@ translations.\f* my refuge,
 \q2 Its boughs were like God’s cedars. 
 \q1
 \v 11 It sent out its branches to the sea, 
-\q2 Its shoots to the River. 
+\q2 its shoots to the River. 
 \q1
 \v 12 Why have you broken down its walls, 
 \q2 so that all those who pass by the way pluck it? 
@@ -4575,12 +4578,12 @@ translations.\f* my refuge,
 \v 10 who perished at Endor, 
 \q2 who became as dung for the earth. 
 \q1
-\v 11 Make their nobles like Oreb and Zeeb; 
-\q2 yes, all their princes like Zebah and Zalmunna; 
+\v 11 Make their nobles like Oreb and Zeeb, 
+\q2 yes, all their princes like Zebah and Zalmunna, 
 \q2
 \v 12 who said, “Let’s take possession of God’s pasture lands.” 
 \q1
-\v 13 My God, make them like tumbleweed; 
+\v 13 My God, make them like tumbleweed, 
 \q2 like chaff before the wind. 
 \q1
 \v 14 As the fire that burns the forest, 
@@ -4613,14 +4616,14 @@ translations.\f* my refuge,
 \v 4 Blessed are those who dwell in your house. 
 \q2 They are always praising you. \qs Selah.\qs* 
 \q1
-\v 5 Blessed are those whose strength is in you; 
+\v 5 Blessed are those whose strength is in you, 
 \q2 who have set their hearts on a pilgrimage. 
 \q1
 \v 6 Passing through the valley of Weeping, they make it a place of springs.
 \q2 Yes, the autumn rain covers it with blessings. 
 \q1
 \v 7 They go from strength to strength. 
-\q2 Everyone of them appears before God in Zion. 
+\q2 Every one of them appears before God in Zion. 
 \q1
 \v 8 Yahweh, God of Armies, hear my prayer. 
 \q2 Listen, God of Jacob. \qs Selah.\qs* 
@@ -4695,7 +4698,7 @@ translations.\f* my refuge,
 \v 4 Bring joy to the soul of your servant, 
 \q2 for to you, Lord, do I lift up my soul. 
 \q1
-\v 5 For you, Lord, are good, and ready to forgive; 
+\v 5 For you, Lord, are good, and ready to forgive, 
 \q2 abundant in loving kindness to all those who call on you. 
 \q1
 \v 6 Hear, Yahweh, my prayer. 
@@ -4721,8 +4724,8 @@ translations.\f* my refuge,
 \q2 I will glorify your name forever more. 
 \q1
 \v 13 For your loving kindness is great toward me. 
-\q2 You have delivered my soul from the lowest Sheol.\f + Sheol is the place of the
-dead.\f* 
+\q2 You have delivered my soul from the lowest Sheol.\f + \fr 86:13 
+\ft Sheol is the place of the dead.\f* 
 \q1
 \v 14 God, the proud have risen up against me. 
 \q2 A company of violent men have sought after my soul, 
@@ -4747,7 +4750,8 @@ dead.\f*
 \q1
 \v 3 Glorious things are spoken about you, city of God. \qs Selah.\qs*
 \q1
-\v 4 I will record Rahab\f + Rahab is a reference to Egypt.\f* and Babylon among those who acknowledge me.
+\v 4 I will record Rahab\f + \fr 87:4  \ft Rahab is a reference to
+Egypt.\f* and Babylon among those who acknowledge me. 
 \q2 Behold, Philistia, Tyre, and also Ethiopia: 
 \q2 “This one was born there.” 
 \q1
@@ -4770,7 +4774,8 @@ by Heman, the Ezrahite.
 \q2 Turn your ear to my cry. 
 \q1
 \v 3 For my soul is full of troubles. 
-\q2 My life draws near to Sheol.\f + Sheol is the place of the dead.\f*
+\q2 My life draws near to Sheol.\f + \fr 88:3  \ft Sheol is the place of the
+dead.\f* 
 \q1
 \v 4 I am counted among those who go down into the pit. 
 \q2 I am like a man who has no help, 
@@ -4837,7 +4842,7 @@ by Heman, the Ezrahite.
 \v 4 ‘I will establish your offspring forever, 
 \q2 and build up your throne to all generations.’” \qs Selah.\qs*
 \q1
-\v 5 The heavens will praise your wonders, Yahweh; 
+\v 5 The heavens will praise your wonders, Yahweh, 
 \q2 your faithfulness also in the assembly of the holy ones. 
 \q1
 \v 6 For who in the skies can be compared to Yahweh? 
@@ -4856,11 +4861,11 @@ by Heman, the Ezrahite.
 \q2 You have scattered your enemies with your mighty arm. 
 \q1
 \v 11 The heavens are yours. 
-\q2 The earth also is yours; 
+\q2 The earth also is yours, 
 \q2 the world and its fullness. 
 \q2 You have founded them. 
 \q1
-\v 12 The north and the south, you have created them. 
+\v 12 You have created the north and the south. 
 \q2 Tabor and Hermon rejoice in your name. 
 \q1
 \v 13 You have a mighty arm. 
@@ -4878,7 +4883,7 @@ by Heman, the Ezrahite.
 \v 17 For you are the glory of their strength. 
 \q2 In your favor, our horn will be exalted. 
 \q1
-\v 18 For our shield belongs to Yahweh; 
+\v 18 For our shield belongs to Yahweh, 
 \q2 our king to the Holy One of Israel. 
 \b
 \q1
@@ -4969,12 +4974,12 @@ by Heman, the Ezrahite.
 \q2 Will you hide yourself forever? 
 \q2 Will your wrath burn like fire? 
 \q1
-\v 47 Remember how short my time is! 
-\q2 For what vanity have you created all the children of men! 
+\v 47 Remember how short my time is, 
+\q2 for what vanity you have created all the children of men! 
 \q1
 \v 48 What man is he who shall live and not see death, 
-\q2 who shall deliver his soul from the power of Sheol?\f + Sheol is the place of the
-dead.\f* \qs Selah.\qs* 
+\q2 who shall deliver his soul from the power of Sheol?\f + \fr 89:48 
+\ft Sheol is the place of the dead.\f* \qs Selah.\qs* 
 \q1
 \v 49 Lord, where are your former loving kindnesses, 
 \q2 which you swore to David in your faithfulness? 
@@ -4990,10 +4995,10 @@ dead.\f* \qs Selah.\qs*
 \q1 Amen, and Amen. 
 \c 90  
 \ms1 BOOK 4 
-\d A Prayer by Moses, the man of God.\f + The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
+\d A Prayer by Moses, the man of God.\f + \fr 90:0  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
 (Elohim).\f* 
 \q1
-\v 1 Lord,\f + The word translated “Lord” is “Adonai.”\f* you have been our dwelling place for all generations.
+\v 1 Lord,\f + \fr 90:1  \ft The word translated “Lord” is “Adonai.”\f* you have been our dwelling place for all generations.
 \q2
 \v 2 Before the mountains were born, 
 \q2 before you had formed the earth and the world, 
@@ -5031,7 +5036,7 @@ dead.\f* \qs Selah.\qs*
 \v 12 So teach us to count our days, 
 \q2 that we may gain a heart of wisdom. 
 \q1
-\v 13 Relent, Yahweh!\f + “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
+\v 13 Relent, Yahweh!\f + \fr 90:13  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
 translations.\f* 
 \q2 How long? 
 \q2 Have compassion on your servants! 
@@ -5042,12 +5047,12 @@ translations.\f*
 \v 15 Make us glad for as many days as you have afflicted us, 
 \q2 for as many years as we have seen evil. 
 \q1
-\v 16 Let your work appear to your servants; 
+\v 16 Let your work appear to your servants, 
 \q2 your glory to their children. 
 \q1
-\v 17 Let the favor of the Lord our God be on us; 
-\q2 establish the work of our hands for us; 
-\q2 yes, establish the work of our hands. 
+\v 17 Let the favor of the Lord our God be on us. 
+\q2 Establish the work of our hands for us. 
+\q2 Yes, establish the work of our hands. 
 \c 91  
 \q1
 \v 1 He who dwells in the secret place of the Most High 
@@ -5064,7 +5069,7 @@ translations.\f*
 \q2 His faithfulness is your shield and rampart. 
 \q1
 \v 5 You shall not be afraid of the terror by night, 
-\q2 nor of the arrow that flies by day; 
+\q2 nor of the arrow that flies by day, 
 \q2
 \v 6 nor of the pestilence that walks in darkness, 
 \q2 nor of the destruction that wastes at noonday. 
@@ -5104,7 +5109,7 @@ translations.\f*
 \d A Psalm. A song for the Sabbath day. 
 \q1
 \v 1 It is a good thing to give thanks to Yahweh, 
-\q2 to sing praises to your name, Most High; 
+\q2 to sing praises to your name, Most High, 
 \q1
 \v 2 to proclaim your loving kindness in the morning, 
 \q2 and your faithfulness every night, 
@@ -5207,7 +5212,7 @@ translations.\f*
 \q2 that they are futile. 
 \q1
 \v 12 Blessed is the man whom you discipline, Yah, 
-\q2 and teach out of your law; 
+\q2 and teach out of your law, 
 \q1
 \v 13 that you may give him rest from the days of adversity, 
 \q2 until the pit is dug for the wicked. 
@@ -5347,17 +5352,17 @@ translations.\f*
 \q1
 \v 7 Let all them be shamed who serve engraved images, 
 \q2 who boast in their idols. 
-\q2 Worship him, all you gods!\f + LXX reads “angels” instead of
+\q2 Worship him, all you gods!\f + \fr 97:7  \ft LXX reads “angels” instead of
 “gods”.\f* 
 \q1
 \v 8 Zion heard and was glad. 
-\q2 The daughters of Judah rejoiced, 
+\q2 The daughters of Judah rejoiced 
 \q2 because of your judgments, Yahweh. 
 \q1
 \v 9 For you, Yahweh, are most high above all the earth. 
 \q2 You are exalted far above all gods. 
 \q1
-\v 10 You who love Yahweh, hate evil. 
+\v 10 You who love Yahweh, hate evil! 
 \q2 He preserves the souls of his saints. 
 \q2 He delivers them out of the hand of the wicked. 
 \q1
@@ -5531,7 +5536,7 @@ translations.\f*
 \v 14 For your servants take pleasure in her stones, 
 \q2 and have pity on her dust. 
 \q1
-\v 15 So the nations will fear Yahweh’s name; 
+\v 15 So the nations will fear Yahweh’s name, 
 \q2 all the kings of the earth your glory. 
 \q1
 \v 16 For Yahweh has built up Zion. 
@@ -5581,13 +5586,13 @@ translations.\f*
 \q2 All that is within me, praise his holy name! 
 \q1
 \v 2 Praise Yahweh, my soul, 
-\q2 and don’t forget all his benefits; 
+\q2 and don’t forget all his benefits, 
 \q1
-\v 3 who forgives all your sins; 
-\q2 who heals all your diseases; 
+\v 3 who forgives all your sins, 
+\q2 who heals all your diseases, 
 \q1
-\v 4 who redeems your life from destruction; 
-\q2 who crowns you with loving kindness and tender mercies; 
+\v 4 who redeems your life from destruction, 
+\q2 who crowns you with loving kindness and tender mercies, 
 \q1
 \v 5 who satisfies your desire with good things, 
 \q2 so that your youth is renewed like the eagle’s. 
@@ -5626,7 +5631,7 @@ translations.\f*
 \q2 Its place remembers it no more. 
 \q1
 \v 17 But Yahweh’s loving kindness is from everlasting to everlasting with those who fear him,
-\q2 his righteousness to children’s children; 
+\q2 his righteousness to children’s children, 
 \q1
 \v 18 to those who keep his covenant, 
 \q2 to those who remember to obey his precepts. 
@@ -5657,7 +5662,7 @@ translations.\f*
 \q2 He makes the clouds his chariot. 
 \q2 He walks on the wings of the wind. 
 \q1
-\v 4 He makes his messengers\f + or, angels\f* winds, 
+\v 4 He makes his messengers\f + \fr 104:4  \ft or, angels\f* winds,
 \q2 and his servants flames of fire. 
 \q1
 \v 5 He laid the foundations of the earth, 
@@ -5715,13 +5720,13 @@ translations.\f*
 \q2 and seek their food from God. 
 \q1
 \v 22 The sun rises, and they steal away, 
-\q2 and lay down in their dens. 
+\q2 and lie down in their dens. 
 \q1
 \v 23 Man goes out to his work, 
 \q2 to his labor until the evening. 
 \q1
 \v 24 Yahweh, how many are your works! 
-\q2 In wisdom have you made them all. 
+\q2 In wisdom, you have made them all. 
 \q2 The earth is full of your riches. 
 \q1
 \v 25 There is the sea, great and wide, 
@@ -5737,8 +5742,8 @@ translations.\f*
 \v 28 You give to them; they gather. 
 \q2 You open your hand; they are satisfied with good. 
 \q1
-\v 29 You hide your face: they are troubled; 
-\q2 you take away their breath: they die, and return to the dust.
+\v 29 You hide your face; they are troubled. 
+\q2 You take away their breath; they die and return to the dust.
 \q1
 \v 30 You send out your Spirit and they are created. 
 \q2 You renew the face of the ground. 
@@ -5773,7 +5778,7 @@ translations.\f*
 \v 4 Seek Yahweh and his strength. 
 \q2 Seek his face forever more. 
 \q1
-\v 5 Remember his marvelous works that he has done; 
+\v 5 Remember his marvelous works that he has done: 
 \q2 his wonders, and the judgments of his mouth, 
 \q1
 \v 6 you offspring of Abraham, his servant, 
@@ -5792,7 +5797,7 @@ translations.\f*
 \q2 to Israel for an everlasting covenant, 
 \q1
 \v 11 saying, “To you I will give the land of Canaan, 
-\q2 the lot of your inheritance;” 
+\q2 the lot of your inheritance,” 
 \q1
 \v 12 when they were but a few men in number, 
 \q2 yes, very few, and foreigners in it. 
@@ -5818,11 +5823,11 @@ translations.\f*
 \v 19 until the time that his word happened, 
 \q2 and Yahweh’s word proved him true. 
 \q1
-\v 20 The king sent and freed him; 
+\v 20 The king sent and freed him, 
 \q2 even the ruler of peoples, and let him go free. 
 \q1
 \v 21 He made him lord of his house, 
-\q2 and ruler of all of his possessions; 
+\q2 and ruler of all of his possessions, 
 \q1
 \v 22 to discipline his princes at his pleasure, 
 \q2 and to teach his elders wisdom. 
@@ -5860,10 +5865,10 @@ translations.\f*
 \v 33 He struck their vines and also their fig trees, 
 \q2 and shattered the trees of their country. 
 \q1
-\v 34 He spoke, and the locusts came, 
-\q2 and the grasshoppers, without number, 
+\v 34 He spoke, and the locusts came 
+\q2 with the grasshoppers, without number, 
 \q1
-\v 35 ate up every plant in their land; 
+\v 35 ate up every plant in their land, 
 \q2 and ate up the fruit of their ground. 
 \q1
 \v 36 He struck also all the firstborn in their land, 
@@ -5992,7 +5997,7 @@ translations.\f*
 \v 29 Thus they provoked him to anger with their deeds. 
 \q2 The plague broke in on them. 
 \q1
-\v 30 Then Phinehas stood up, and executed judgment, 
+\v 30 Then Phinehas stood up and executed judgment, 
 \q2 so the plague was stopped. 
 \q1
 \v 31 That was credited to him for righteousness, 
@@ -6020,7 +6025,7 @@ translations.\f*
 \q2 whom they sacrificed to the idols of Canaan. 
 \q2 The land was polluted with blood. 
 \q1
-\v 39 Thus were they defiled with their works, 
+\v 39 Thus they were defiled with their works, 
 \q2 and prostituted themselves in their deeds. 
 \q1
 \v 40 Therefore Yahweh burned with anger against his people. 
@@ -6059,7 +6064,7 @@ translations.\f*
 \c 107  
 \ms1 BOOK 5 
 \q1
-\v 1 Give thanks to Yahweh,\f + “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
+\v 1 Give thanks to Yahweh,\f + \fr 107:1  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
 translations.\f* for he is good, 
 \q2 for his loving kindness endures forever. 
 \q1
@@ -6094,8 +6099,8 @@ translations.\f* for he is good,
 \v 10 Some sat in darkness and in the shadow of death, 
 \q2 being bound in affliction and iron, 
 \q2
-\v 11 because they rebelled against the words of God,\f + The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
-(Elohim).\f* 
+\v 11 because they rebelled against the words of God,\f + \fr 107:11 
+\ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים” (Elohim).\f* 
 \q2 and condemned the counsel of the Most High. 
 \q1
 \v 12 Therefore he brought down their heart with labor. 
@@ -6307,7 +6312,7 @@ translations.\f* for he is good,
 \q2 of those who speak evil against my soul. 
 \b
 \q1
-\v 21 But deal with me, Yahweh the Lord,\f + The word translated “Lord” is
+\v 21 But deal with me, Yahweh the Lord,\f + \fr 109:21  \ft The word translated “Lord” is
 “Adonai.”\f* for your name’s sake, 
 \q2 because your loving kindness is good, deliver me; 
 \q2
@@ -6367,9 +6372,8 @@ translations.\f* for he is good,
 \q2 therefore he will lift up his head. 
 \c 111  
 \q1
-\v 1 Praise Yah!\f + \+zref \+ztgt PSA.111.1 \+ztgt*\+zref*Psalm
-111\+zrefend \+zrefend* is an acrostic poem, with each verse after the initial “Praise Yah!” starting with a letter of the
-alphabet (ordered from Alef to Tav).\f* 
+\v 1 Praise Yah!\f + \fr 111:1  \ft Psalm 111 is an acrostic poem, with each verse after the initial “Praise Yah!” starting
+with a letter of the alphabet (ordered from Alef to Tav).\f* 
 \q2 I will give thanks to Yahweh with my whole heart, 
 \q2 in the council of the upright, and in the congregation. 
 \q1
@@ -6403,9 +6407,8 @@ alphabet (ordered from Alef to Tav).\f*
 \q1 His praise endures forever! 
 \c 112  
 \q1
-\v 1 Praise Yah!\f + \+zref \+ztgt PSA.112.1 \+ztgt*\+zref*Psalm
-112\+zrefend \+zrefend* is an acrostic poem, with each verse after the initial “Praise Yah!” starting with a letter of the
-alphabet (ordered from Alef to Tav).\f* 
+\v 1 Praise Yah!\f + \fr 112:1  \ft Psalm 112 is an acrostic poem, with each verse after the initial “Praise Yah!” starting
+with a letter of the alphabet (ordered from Alef to Tav).\f* 
 \q2 Blessed is the man who fears Yahweh, 
 \q2 who delights greatly in his commandments. 
 \q1
@@ -6458,18 +6461,18 @@ alphabet (ordered from Alef to Tav).\f*
 \v 6 Who stoops down to see in heaven and in the earth? 
 \q1
 \v 7 He raises up the poor out of the dust. 
-\q2 Lifts up the needy from the ash heap; 
+\q2 Lifts up the needy from the ash heap, 
 \q1
 \v 8 that he may set him with princes, 
 \q2 even with the princes of his people. 
 \q1
-\v 9 He settles the barren woman in her home, 
+\v 9 He settles the barren woman in her home 
 \q2 as a joyful mother of children. 
 \q1 Praise Yah! 
 \c 114  
 \q1
 \v 1 When Israel went out of Egypt, 
-\q2 the house of Jacob from a people of foreign language; 
+\q2 the house of Jacob from a people of foreign language, 
 \q1
 \v 2 Judah became his sanctuary, 
 \q2 Israel his dominion. 
@@ -6541,13 +6544,13 @@ alphabet (ordered from Alef to Tav).\f*
 \v 15 Blessed are you by Yahweh, 
 \q2 who made heaven and earth. 
 \q1
-\v 16 The heavens are the heavens of Yahweh; 
-\q2 but the earth has he given to the children of men. 
+\v 16 The heavens are Yahweh’s heavens, 
+\q2 but he has given the earth to the children of men. 
 \q1
 \v 17 The dead don’t praise Yah, 
 \q2 neither any who go down into silence; 
 \q1
-\v 18 But we will bless Yah, 
+\v 18 but we will bless Yah, 
 \q2 from this time forward and forever more. 
 \q1 Praise Yah! 
 \c 116  
@@ -6559,7 +6562,8 @@ alphabet (ordered from Alef to Tav).\f*
 \q2 therefore I will call on him as long as I live. 
 \q1
 \v 3 The cords of death surrounded me, 
-\q2 the pains of Sheol\f + Sheol is the place of the dead.\f* got a hold of me.
+\q2 the pains of Sheol\f + \fr 116:3  \ft Sheol is the place of the
+dead.\f* got a hold of me. 
 \q2 I found trouble and sorrow. 
 \q1
 \v 4 Then I called on Yahweh’s name: 
@@ -6684,7 +6688,8 @@ alphabet (ordered from Alef to Tav).\f*
 \q2 and have become my salvation. 
 \q1
 \v 22 The stone which the builders rejected 
-\q2 has become the cornerstone.\f + Literally, \fqa head of the corner\f*
+\q2 has become the cornerstone.\f + \fr 118:22  \ft Literally, \fqa head of the
+corner\f* 
 \q1
 \v 23 This is Yahweh’s doing. 
 \q2 It is marvelous in our eyes. 
@@ -6873,7 +6878,7 @@ alphabet (ordered from Alef to Tav).\f*
 \v 53 Indignation has taken hold on me, 
 \q2 because of the wicked who forsake your law. 
 \q1
-\v 54 Your statutes have been my songs, 
+\v 54 Your statutes have been my songs 
 \q2 in the house where I live. 
 \q1
 \v 55 I have remembered your name, Yahweh, in the night, 
@@ -7312,9 +7317,9 @@ alphabet (ordered from Alef to Tav).\f*
 \v 1 I was glad when they said to me, 
 \q2 “Let’s go to Yahweh’s house!” 
 \q1
-\v 2 Our feet are standing within your gates, Jerusalem; 
+\v 2 Our feet are standing within your gates, Jerusalem, 
 \q2
-\v 3 Jerusalem, that is built as a city that is compact together;
+\v 3 Jerusalem, that is built as a city that is compact together,
 \q1
 \v 4 where the tribes go up, even Yah’s tribes, 
 \q2 according to an ordinance for Israel, 
@@ -7337,7 +7342,7 @@ alphabet (ordered from Alef to Tav).\f*
 \c 123  
 \d A Song of Ascents. 
 \q1
-\v 1 To you I do lift up my eyes, 
+\v 1 I lift up my eyes to you, 
 \q2 you who sit in the heavens. 
 \q1
 \v 2 Behold, as the eyes of servants look to the hand of their master,
@@ -7424,7 +7429,7 @@ alphabet (ordered from Alef to Tav).\f*
 \q1
 \v 2 It is vain for you to rise up early, 
 \q2 to stay up late, 
-\q2 eating the bread of toil; 
+\q2 eating the bread of toil, 
 \q2 for he gives sleep to his loved ones. 
 \q1
 \v 3 Behold, children are a heritage of Yahweh. 
@@ -7444,10 +7449,8 @@ alphabet (ordered from Alef to Tav).\f*
 \v 2 For you will eat the labor of your hands. 
 \q2 You will be happy, and it will be well with you. 
 \q1
-\v 3 Your wife will be as a fruitful vine, 
-\q2 in the innermost parts of your house; 
-\q2 your children like olive plants, 
-\q2 around your table. 
+\v 3 Your wife will be as a fruitful vine in the innermost parts of your house,
+\q2 your children like olive plants around your table. 
 \q1
 \v 4 Behold, thus is the man blessed who fears Yahweh. 
 \q2
@@ -7475,7 +7478,7 @@ alphabet (ordered from Alef to Tav).\f*
 \q2 all those who hate Zion. 
 \q1
 \v 6 Let them be as the grass on the housetops, 
-\q2 which withers before it grows up; 
+\q2 which withers before it grows up, 
 \q1
 \v 7 with which the reaper doesn’t fill his hand, 
 \q2 nor he who binds sheaves, his bosom. 
@@ -7501,12 +7504,12 @@ alphabet (ordered from Alef to Tav).\f*
 \q2 My soul waits. 
 \q2 I hope in his word. 
 \q1
-\v 6 My soul longs for the Lord more than watchmen long for the morning;
+\v 6 My soul longs for the Lord more than watchmen long for the morning,
 \q2 more than watchmen for the morning. 
 \q1
 \v 7 Israel, hope in Yahweh, 
-\q2 for with Yahweh there is loving kindness. 
-\q2 With him is abundant redemption. 
+\q2 for there is loving kindness with Yahweh. 
+\q2 Abundant redemption is with him. 
 \q1
 \v 8 He will redeem Israel from all their sins. 
 \c 131  
@@ -7545,7 +7548,7 @@ alphabet (ordered from Alef to Tav).\f*
 \v 7 “We will go into his dwelling place. 
 \q2 We will worship at his footstool. 
 \q1
-\v 8 Arise, Yahweh, into your resting place; 
+\v 8 Arise, Yahweh, into your resting place, 
 \q2 you, and the ark of your strength. 
 \q1
 \v 9 Let your priests be clothed with righteousness. 
@@ -7571,14 +7574,14 @@ alphabet (ordered from Alef to Tav).\f*
 \v 15 I will abundantly bless her provision. 
 \q2 I will satisfy her poor with bread. 
 \q1
-\v 16 Her priests I will also clothe with salvation. 
+\v 16 I will also clothe her priests with salvation. 
 \q2 Her saints will shout aloud for joy. 
 \q1
-\v 17 There I will make the horn of David to bud. 
+\v 17 I will make the horn of David to bud there. 
 \q2 I have ordained a lamp for my anointed. 
 \q1
 \v 18 I will clothe his enemies with shame, 
-\q2 but on himself, his crown will be resplendent.” 
+\q2 but on himself, his crown will shine.” 
 \c 133  
 \d A Song of Ascents. By David. 
 \q1
@@ -7587,11 +7590,11 @@ alphabet (ordered from Alef to Tav).\f*
 \q1
 \v 2 It is like the precious oil on the head, 
 \q2 that ran down on the beard, 
-\q2 even Aaron’s beard; 
-\q2 that came down on the edge of his robes; 
+\q2 even Aaron’s beard, 
+\q2 that came down on the edge of his robes, 
 \q1
 \v 3 like the dew of Hermon, 
-\q2 that comes down on the hills of Zion: 
+\q2 that comes down on the hills of Zion; 
 \q2 for there Yahweh gives the blessing, 
 \q2 even life forever more. 
 \c 134  
@@ -7603,7 +7606,7 @@ alphabet (ordered from Alef to Tav).\f*
 \v 2 Lift up your hands in the sanctuary. 
 \q2 Praise Yahweh! 
 \q1
-\v 3 May Yahweh bless you from Zion; 
+\v 3 May Yahweh bless you from Zion, 
 \q2 even he who made heaven and earth. 
 \c 135  
 \q1
@@ -7617,26 +7620,26 @@ alphabet (ordered from Alef to Tav).\f*
 \v 3 Praise Yah, for Yahweh is good. 
 \q2 Sing praises to his name, for that is pleasant. 
 \q1
-\v 4 For Yah has chosen Jacob for himself; 
+\v 4 For Yah has chosen Jacob for himself, 
 \q2 Israel for his own possession. 
 \q1
 \v 5 For I know that Yahweh is great, 
 \q2 that our Lord is above all gods. 
 \q1
 \v 6 Whatever Yahweh pleased, that he has done, 
-\q2 in heaven and in earth, in the seas and in all deeps; 
+\q2 in heaven and in earth, in the seas and in all deeps. 
 \q1
-\v 7 who causes the clouds to rise from the ends of the earth; 
-\q2 who makes lightnings with the rain; 
-\q2 who brings the wind out of his treasuries; 
+\v 7 He causes the clouds to rise from the ends of the earth. 
+\q2 He makes lightnings with the rain. 
+\q2 He brings the wind out of his treasuries. 
 \q1
-\v 8 Who struck the firstborn of Egypt, 
-\q2 both of man and animal; 
+\v 8 He struck the firstborn of Egypt, 
+\q2 both of man and animal. 
 \q1
-\v 9 Who sent signs and wonders into the middle of you, Egypt, 
-\q2 on Pharaoh, and on all his servants; 
+\v 9 He sent signs and wonders into the middle of you, Egypt, 
+\q2 on Pharaoh, and on all his servants. 
 \q1
-\v 10 who struck many nations, 
+\v 10 He struck many nations, 
 \q2 and killed mighty kings, 
 \q1
 \v 11 Sihon king of the Amorites, 
@@ -7649,7 +7652,7 @@ alphabet (ordered from Alef to Tav).\f*
 \v 13 Your name, Yahweh, endures forever; 
 \q2 your renown, Yahweh, throughout all generations. 
 \q1
-\v 14 For Yahweh will judge his people, 
+\v 14 For Yahweh will judge his people 
 \q2 and have compassion on his servants. 
 \b
 \q1
@@ -7659,10 +7662,10 @@ alphabet (ordered from Alef to Tav).\f*
 \v 16 They have mouths, but they can’t speak. 
 \q2 They have eyes, but they can’t see. 
 \q1
-\v 17 They have ears, but they can’t hear; 
+\v 17 They have ears, but they can’t hear, 
 \q2 neither is there any breath in their mouths. 
 \q1
-\v 18 Those who make them will be like them; 
+\v 18 Those who make them will be like them, 
 \q2 yes, everyone who trusts in them. 
 \q1
 \v 19 House of Israel, praise Yahweh! 
@@ -7672,7 +7675,7 @@ alphabet (ordered from Alef to Tav).\f*
 \q2 You who fear Yahweh, praise Yahweh! 
 \q1
 \v 21 Blessed be Yahweh from Zion, 
-\q2 Who dwells at Jerusalem. 
+\q2 who dwells at Jerusalem. 
 \q1 Praise Yah! 
 \c 136  
 \q1
@@ -7685,49 +7688,49 @@ alphabet (ordered from Alef to Tav).\f*
 \v 3 Give thanks to the Lord of lords; 
 \q2 for his loving kindness endures forever: 
 \q1
-\v 4 To him who alone does great wonders; 
+\v 4 to him who alone does great wonders; 
 \q2 for his loving kindness endures forever: 
 \q1
-\v 5 To him who by understanding made the heavens; 
+\v 5 to him who by understanding made the heavens; 
 \q2 for his loving kindness endures forever: 
 \q1
-\v 6 To him who spread out the earth above the waters; 
+\v 6 to him who spread out the earth above the waters; 
 \q2 for his loving kindness endures forever: 
 \q1
-\v 7 To him who made the great lights; 
+\v 7 to him who made the great lights; 
 \q2 for his loving kindness endures forever: 
 \q1
-\v 8 The sun to rule by day; 
+\v 8 the sun to rule by day; 
 \q2 for his loving kindness endures forever; 
 \q1
-\v 9 The moon and stars to rule by night; 
+\v 9 the moon and stars to rule by night; 
 \q2 for his loving kindness endures forever: 
 \q1
-\v 10 To him who struck down the Egyptian firstborn; 
+\v 10 to him who struck down the Egyptian firstborn; 
 \q2 for his loving kindness endures forever; 
 \q1
-\v 11 And brought out Israel from among them; 
+\v 11 and brought out Israel from among them; 
 \q2 for his loving kindness endures forever; 
 \q1
-\v 12 With a strong hand, and with an outstretched arm; 
+\v 12 with a strong hand, and with an outstretched arm; 
 \q2 for his loving kindness endures forever: 
 \q1
-\v 13 To him who divided the Red Sea apart; 
+\v 13 to him who divided the Red Sea apart; 
 \q2 for his loving kindness endures forever; 
 \q1
-\v 14 And made Israel to pass through the middle of it; 
+\v 14 and made Israel to pass through the middle of it; 
 \q2 for his loving kindness endures forever; 
 \q1
-\v 15 But overthrew Pharaoh and his army in the Red Sea; 
+\v 15 but overthrew Pharaoh and his army in the Red Sea; 
 \q2 for his loving kindness endures forever: 
 \q1
-\v 16 To him who led his people through the wilderness; 
+\v 16 to him who led his people through the wilderness; 
 \q2 for his loving kindness endures forever: 
 \q1
-\v 17 To him who struck great kings; 
+\v 17 to him who struck great kings; 
 \q2 for his loving kindness endures forever; 
 \q1
-\v 18 And killed mighty kings; 
+\v 18 and killed mighty kings; 
 \q2 for his loving kindness endures forever: 
 \q1
 \v 19 Sihon king of the Amorites; 
@@ -7736,19 +7739,19 @@ alphabet (ordered from Alef to Tav).\f*
 \v 20 Og king of Bashan; 
 \q2 for his loving kindness endures forever; 
 \q1
-\v 21 And gave their land as an inheritance; 
+\v 21 and gave their land as an inheritance; 
 \q2 for his loving kindness endures forever; 
 \q1
-\v 22 Even a heritage to Israel his servant; 
+\v 22 even a heritage to Israel his servant; 
 \q2 for his loving kindness endures forever: 
 \q1
-\v 23 Who remembered us in our low estate; 
+\v 23 who remembered us in our low estate; 
 \q2 for his loving kindness endures forever; 
 \q1
-\v 24 And has delivered us from our adversaries; 
+\v 24 and has delivered us from our adversaries; 
 \q2 for his loving kindness endures forever: 
 \q1
-\v 25 Who gives food to every creature; 
+\v 25 who gives food to every creature; 
 \q2 for his loving kindness endures forever. 
 \q1
 \v 26 Oh give thanks to the God of heaven; 
@@ -7770,7 +7773,7 @@ alphabet (ordered from Alef to Tav).\f*
 \v 5 If I forget you, Jerusalem, 
 \q2 let my right hand forget its skill. 
 \q1
-\v 6 Let my tongue stick to the roof of my mouth if I don’t remember you;
+\v 6 Let my tongue stick to the roof of my mouth if I don’t remember you,
 \q2 if I don’t prefer Jerusalem above my chief joy. 
 \q1
 \v 7 Remember, Yahweh, against the children of Edom in the day of Jerusalem,
@@ -7778,8 +7781,8 @@ alphabet (ordered from Alef to Tav).\f*
 \q2 Raze it even to its foundation!” 
 \q1
 \v 8 Daughter of Babylon, doomed to destruction, 
-\q2 he will be happy who rewards you, 
-\q2 as you have served us. 
+\q2 he will be happy who repays you, 
+\q2 as you have done to us. 
 \q1
 \v 9 Happy shall he be, 
 \q2 who takes and dashes your little ones against the rock. 
@@ -7787,7 +7790,7 @@ alphabet (ordered from Alef to Tav).\f*
 \d By David. 
 \q1
 \v 1 I will give you thanks with my whole heart. 
-\q2 Before the gods,\f + The word elohim, used here, usually means “God” but can also mean “gods”, “princes”, or
+\q2 Before the gods,\f + \fr 138:1  \ft The word elohim, used here, usually means “God” but can also mean “gods”, “princes”, or
 “angels”.\f* I will sing praises to you. 
 \q1
 \v 2 I will bow down toward your holy temple, 
@@ -7800,18 +7803,18 @@ alphabet (ordered from Alef to Tav).\f*
 \v 4 All the kings of the earth will give you thanks, Yahweh, 
 \q2 for they have heard the words of your mouth. 
 \q1
-\v 5 Yes, they will sing of the ways of Yahweh; 
-\q2 for great is Yahweh’s glory. 
+\v 5 Yes, they will sing of the ways of Yahweh, 
+\q2 for Yahweh’s glory is great! 
 \q1
 \v 6 For though Yahweh is high, yet he looks after the lowly; 
-\q2 but the proud, he knows from afar. 
+\q2 but he knows the proud from afar. 
 \q1
 \v 7 Though I walk in the middle of trouble, you will revive me.
 \q2 You will stretch out your hand against the wrath of my enemies.
 \q2 Your right hand will save me. 
 \q1
-\v 8 Yahweh will fulfill that which concerns me; 
-\q2 your loving kindness, Yahweh, endures forever. 
+\v 8 Yahweh will fulfill that which concerns me. 
+\q2 Your loving kindness, Yahweh, endures forever. 
 \q2 Don’t forsake the works of your own hands. 
 \c 139  
 \d For the Chief Musician. A Psalm by David. 
@@ -7839,16 +7842,17 @@ alphabet (ordered from Alef to Tav).\f*
 \q2 Or where could I flee from your presence? 
 \q1
 \v 8 If I ascend up into heaven, you are there. 
-\q2 If I make my bed in Sheol,\f + Sheol is the place of the dead.\f* behold, you are there!
+\q2 If I make my bed in Sheol,\f + \fr 139:8  \ft Sheol is the place of the
+dead.\f* behold, you are there! 
 \q1
 \v 9 If I take the wings of the dawn, 
-\q2 and settle in the uttermost parts of the sea; 
+\q2 and settle in the uttermost parts of the sea, 
 \q1
-\v 10 Even there your hand will lead me, 
+\v 10 even there your hand will lead me, 
 \q2 and your right hand will hold me. 
 \q1
-\v 11 If I say, “Surely the darkness will overwhelm me; 
-\q2 the light around me will be night;” 
+\v 11 If I say, “Surely the darkness will overwhelm me. 
+\q2 The light around me will be night,” 
 \q1
 \v 12 even the darkness doesn’t hide from you, 
 \q2 but the night shines as the day. 
@@ -7964,8 +7968,8 @@ alphabet (ordered from Alef to Tav).\f*
 \q2 They will hear my words, for they are well spoken. 
 \q1
 \v 7 “As when one plows and breaks up the earth, 
-\q2 our bones are scattered at the mouth of Sheol.”\f + Sheol is the place of the
-dead.\f* 
+\q2 our bones are scattered at the mouth of Sheol.”\f + \fr 141:7 
+\ft Sheol is the place of the dead.\f* 
 \q1
 \v 8 For my eyes are on you, Yahweh, the Lord. 
 \q2 In you, I take refuge. 
@@ -7974,7 +7978,7 @@ dead.\f*
 \v 9 Keep me from the snare which they have laid for me, 
 \q2 from the traps of the workers of iniquity. 
 \q1
-\v 10 Let the wicked fall together into their own nets, 
+\v 10 Let the wicked fall together into their own nets 
 \q2 while I pass by. 
 \c 142  
 \d A contemplation by David, when he was in the cave. A Prayer. 
@@ -8065,7 +8069,7 @@ dead.\f*
 \q1
 \v 2 my loving kindness, my fortress, 
 \q2 my high tower, my deliverer, 
-\q2 my shield, and he in whom I take refuge; 
+\q2 my shield, and he in whom I take refuge, 
 \q2 who subdues my people under me. 
 \q1
 \v 3 Yahweh, what is man, that you care for him? 
@@ -8082,7 +8086,7 @@ dead.\f*
 \q1
 \v 7 Stretch out your hand from above, 
 \q2 rescue me, and deliver me out of great waters, 
-\q2 out of the hands of foreigners; 
+\q2 out of the hands of foreigners, 
 \q2
 \v 8 whose mouths speak deceit, 
 \q2 whose right hand is a right hand of falsehood. 
@@ -8111,8 +8115,8 @@ dead.\f*
 \v 15 Happy are the people who are in such a situation. 
 \q2 Happy are the people whose God is Yahweh. 
 \c 145  
-\d A praise psalm by David.\f + This is an acrostic psalm, with every verse (including the second half of verse 13) starting
-with a consecutive letter of the Hebrew alphabet.\f* 
+\d A praise psalm by David.\f + \fr 145:0  \ft This is an acrostic psalm, with every verse (including the second half of verse
+13) starting with a consecutive letter of the Hebrew alphabet.\f*
 \q1
 \v 1 I will exalt you, my God, the King. 
 \q2 I will praise your name forever and ever. 
@@ -8126,8 +8130,8 @@ with a consecutive letter of the Hebrew alphabet.\f*
 \v 4 One generation will commend your works to another, 
 \q2 and will declare your mighty acts. 
 \q1
-\v 5 Of the glorious majesty of your honor, 
-\q2 of your wondrous works, I will meditate. 
+\v 5 I will meditate on the glorious majesty of your honor, 
+\q2 on your wondrous works. 
 \q1
 \v 6 Men will speak of the might of your awesome acts. 
 \q2 I will declare your greatness. 
@@ -8145,7 +8149,7 @@ with a consecutive letter of the Hebrew alphabet.\f*
 \q2 Your saints will extol you. 
 \q1
 \v 11 They will speak of the glory of your kingdom, 
-\q2 and talk about your power; 
+\q2 and talk about your power, 
 \q1
 \v 12 to make known to the sons of men his mighty acts, 
 \q2 the glory of the majesty of his kingdom. 
@@ -8153,7 +8157,7 @@ with a consecutive letter of the Hebrew alphabet.\f*
 \v 13 Your kingdom is an everlasting kingdom. 
 \q2 Your dominion endures throughout all generations. 
 \q1 Yahweh is faithful in all his words, 
-\q2 and loving in all his deeds.\f + Some manuscripts omit these last two
+\q2 and loving in all his deeds.\f + \fr 145:13  \ft Some manuscripts omit these last two
 lines.\f* 
 \q1
 \v 14 Yahweh upholds all who fall, 
@@ -8175,7 +8179,7 @@ lines.\f*
 \q2 He also will hear their cry, and will save them. 
 \q1
 \v 20 Yahweh preserves all those who love him, 
-\q2 but all the wicked he will destroy. 
+\q2 but he will destroy all the wicked. 
 \q1
 \v 21 My mouth will speak the praise of Yahweh. 
 \q2 Let all flesh bless his holy name forever and ever. 
@@ -8211,7 +8215,7 @@ lines.\f*
 \q1
 \v 9 Yahweh preserves the foreigners. 
 \q2 He upholds the fatherless and widow, 
-\q2 but the way of the wicked he turns upside down. 
+\q2 but he turns the way of the wicked upside down. 
 \q1
 \v 10 Yahweh will reign forever; 
 \q2 your God, O Zion, to all generations. 
@@ -8275,7 +8279,7 @@ lines.\f*
 \v 18 He sends out his word, and melts them. 
 \q2 He causes his wind to blow, and the waters flow. 
 \q1
-\v 19 He shows his word to Jacob; 
+\v 19 He shows his word to Jacob, 
 \q2 his statutes and his ordinances to Israel. 
 \q1
 \v 20 He has not done this for just any nation. 
@@ -8295,10 +8299,10 @@ lines.\f*
 \q2 Praise him, all you shining stars! 
 \q1
 \v 4 Praise him, you heavens of heavens, 
-\q2 You waters that are above the heavens. 
+\q2 you waters that are above the heavens. 
 \q1
 \v 5 Let them praise Yahweh’s name, 
-\q2 For he commanded, and they were created. 
+\q2 for he commanded, and they were created. 
 \q1
 \v 6 He has also established them forever and ever. 
 \q2 He has made a decree which will not pass away. 
@@ -8326,7 +8330,7 @@ lines.\f*
 \q2 His glory is above the earth and the heavens. 
 \q1
 \v 14 He has lifted up the horn of his people, 
-\q2 the praise of all his saints; 
+\q2 the praise of all his saints, 
 \q2 even of the children of Israel, a people near to him. 
 \q1 Praise Yah! 
 \b
@@ -8349,12 +8353,12 @@ lines.\f*
 \q2 Let them sing for joy on their beds. 
 \q1
 \v 6 May the high praises of God be in their mouths, 
-\q2 and a two-edged sword in their hand; 
+\q2 and a two-edged sword in their hand, 
 \q1
-\v 7 To execute vengeance on the nations, 
+\v 7 to execute vengeance on the nations, 
 \q2 and punishments on the peoples; 
 \q1
-\v 8 To bind their kings with chains, 
+\v 8 to bind their kings with chains, 
 \q2 and their nobles with fetters of iron; 
 \q1
 \v 9 to execute on them the written judgment. 

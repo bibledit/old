@@ -8,8 +8,8 @@
 \c 1  
 \p
 \v 1 Solomon the son of David was firmly established in his kingdom, and Yahweh
-\f + “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
-translations.\f* his God\f + The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
+\f + \fr 1:1  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
+translations.\f* his God\f + \fr 1:1  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
 (Elohim).\f* was with him, and made him exceedingly great. 
 \v 2 Solomon spoke to all Israel, to the captains of thousands and of hundreds, to the judges, and to every prince in all
 Israel, the heads of the fathers’ households. 
@@ -45,9 +45,9 @@ placed in the chariot cities, and with the king at Jerusalem.
 trees that are in the lowland. 
 \v 16 The horses which Solomon had were brought out of Egypt and from Kue. The king’s merchants purchased them from Kue.
 \v 17 They brought up and brought out of Egypt a chariot for six hundred pieces of silver, and a horse for one hundred
-fifty.\f + The pieces of silver were probably shekels, so 600 pieces would be about 13.2 lbs. or 6 kg. of silver, and 150 would
-be about 3.3 lbs. or 1.5 kg. of silver.\f* They also exported them to the Hittite kings and the
-Syrian\f + or, Aramean\f* kings. 
+fifty.\f + \fr 1:17  \ft The pieces of silver were probably shekels, so 600 pieces would be about 13.2 pounds or 6 kilograms of
+silver, and 150 would be about 3.3 pounds or 1.5 kilograms of silver.\f* They also exported them to the Hittite kings and the
+Syrian\f + \fr 1:17  \ft or, Aramean\f* kings. 
 \c 2  
 \p
 \v 1 Now Solomon decided to build a house for Yahweh’s name, and a house for his kingdom.
@@ -55,10 +55,10 @@ Syrian\f + or, Aramean\f* kings.
 three thousand six hundred to oversee them. 
 \v 3 Solomon sent to Huram the king of Tyre, saying, “As you dealt with David my father, and sent him cedars to build him a
 house in which to dwell, so deal with me. 
-\v 4 Behold,\f + “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often used as an
-interjection.\f* I am about to build a house for the name of Yahweh my God, to dedicate it to him, to burn before him incense
-of sweet spices, for the continual show bread, and for the burnt offerings morning and evening, on the Sabbaths, on the new
-moons, and on the set feasts of Yahweh our God. This is an ordinance forever to Israel.
+\v 4 Behold,\f + \fr 2:4  \ft “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often used
+as an interjection.\f* I am about to build a house for the name of Yahweh my God, to dedicate it to him, to burn before him
+incense of sweet spices, for the continual show bread, and for the burnt offerings morning and evening, on the Sabbaths, on the
+new moons, and on the set feasts of Yahweh our God. This is an ordinance forever to Israel.
 \p
 \v 5 “The house which I am building will be great; for our God is greater than all gods.
 \v 6 But who is able to build him a house, since heaven and the heaven of heavens can’t contain him? Who am I then, that I
@@ -72,10 +72,10 @@ father provided.
 timber in Lebanon. Behold, my servants will be with your servants,
 \v 9 even to prepare me timber in abundance; for the house which I am about to build will be great and wonderful.
 \v 10 Behold, I will give to your servants, the cutters who cut timber, twenty thousand
-cors\f + 1 cor is the same as a homer, or about 55.9 U. S. gallons (liquid) or 211 liters or 6 bushels, so 20,000 cors of wheat
-would weigh about 545 metric tons\f* of beaten wheat, twenty thousand
-baths\f + 1 bath is one tenth of a cor, or about 5.6 U. S. gallons or 21 liters or 2.4 pecks. 20,000 baths of barley would
-weigh about 262 metric tons.\f* of barley, twenty thousand baths of wine, and twenty thousand baths of oil.”
+cors\f + \fr 2:10  \ft 1 cor is the same as a homer, or about 55.9 U. S. gallons (liquid) or 211 liters or 6 bushels, so 20,000
+cors of wheat would weigh about 545 metric tons\f* of beaten wheat, twenty thousand
+baths\f + \fr 2:10  \ft 1 bath is one tenth of a cor, or about 5.6 U. S. gallons or 21 liters or 2.4 pecks. 20,000 baths of
+barley would weigh about 262 metric tons.\f* of barley, twenty thousand baths of wine, and twenty thousand baths of oil.”
 \p
 \v 11 Then Huram the king of Tyre answered in writing, which he sent to Solomon, “Because Yahweh loves his people, he has made
 you king over them.” 
@@ -87,8 +87,8 @@ bronze, in iron, in stone, in timber, and in purple, in blue, in fine linen, and
 engraving and to devise any device; that there may be a place appointed to him with your skillful men, and with the skillful
 men of my lord David your father. 
 \p
-\v 15 “Now therefore the wheat the barley, the oil and the wine, which my lord has spoken of, let him send to his servants;
-\v 16 and we will cut wood out of Lebanon, as much as you need. We will bring it to you in floats by sea to Joppa; and you
+\v 15 “Now therefore the wheat, the barley, the oil, and the wine, which my lord has spoken of, let him send to his servants;
+\v 16 and we will cut wood out of Lebanon, as much as you need. We will bring it to you in rafts by sea to Joppa; then you
 shall carry it up to Jerusalem.” 
 \p
 \v 17 Solomon counted all the foreigners who were in the land of Israel, after the census with which David his father had
@@ -101,8 +101,8 @@ thousand six hundred overseers to assign the people their work.
 he prepared in the place that David had appointed, on the threshing floor of Ornan the Jebusite.
 \v 2 He began to build in the second day of the second month, in the fourth year of his reign.
 \v 3 Now these are the foundations which Solomon laid for the building of God’s house. The length by
-cubits\f + A cubit is the length from the tip of the middle finger to the elbow on a man’s arm, or about 18 inches or 46
-centimeters.\f* after the first measure was sixty cubits, and the width twenty cubits.
+cubits\f + \fr 3:3  \ft A cubit is the length from the tip of the middle finger to the elbow on a man’s arm, or about 18 inches
+or 46 centimeters.\f* after the first measure was sixty cubits, and the width twenty cubits.
 \v 4 The porch that was in front, its length, according to the width of the house, was twenty cubits, and the height one
 hundred twenty; and he overlaid it within with pure gold. 
 \v 5 He made the larger room with a ceiling of cypress wood, which he overlaid with fine gold, and ornamented it with palm
@@ -113,10 +113,10 @@ walls.
 \p
 \v 8 He made the most holy place. Its length, according to the width of the house, was twenty cubits, and its width twenty
 cubits; and he overlaid it with fine gold, amounting to six hundred
-talents.\f + A talent is about 30 kilograms or 66 pounds or 965 Troy ounces, so 600 talents is about 18 metric
+talents.\f + \fr 3:8  \ft A talent is about 30 kilograms or 66 pounds or 965 Troy ounces, so 600 talents is about 18 metric
 tons\f* 
-\v 9 The weight of the nails was fifty shekels\f + A shekel is about 10 grams or about 0.32 Troy ounces, so 50 shekels was
-about 0.5 kilograms or about 16 Troy ounces.\f* of gold. He overlaid the upper rooms with gold.
+\v 9 The weight of the nails was fifty shekels\f + \fr 3:9  \ft A shekel is about 10 grams or about 0.32 Troy ounces, so 50
+shekels was about 0.5 kilograms or about 16 Troy ounces.\f* of gold. He overlaid the upper rooms with gold.
 \p
 \v 10 In the most holy place he made two cherubim by carving; and they overlaid them with gold.
 \v 11 The wings of the cherubim were twenty cubits long: the wing of the one was five cubits, reaching to the wall of the
@@ -135,17 +135,18 @@ put them on the chains.
 the right hand Jachin, and the name of that on the left Boaz. 
 \c 4  
 \p
-\v 1 Then he made an altar of bronze, twenty cubits\f + A cubit is the length from the tip of the middle finger to the elbow on
-a man’s arm, or about 18 inches or 46 centimeters.\f* long, twenty cubits wide, and ten cubits high.
-\v 2 Also he made the molten sea\f + or, pool, or, reservoir\f* of ten cubits from brim to brim. It was round, five cubits
-high, and thirty cubits in circumference. 
+\v 1 Then he made an altar of bronze, twenty cubits\f + \fr 4:1 
+\ft A cubit is the length from the tip of the middle finger to the elbow on a man’s arm, or about 18 inches or 46
+centimeters.\f* long, twenty cubits wide, and ten cubits high. 
+\v 2 Also he made the molten sea\f + \fr 4:2  \ft or, pool, or, reservoir\f* of ten cubits from brim to brim. It was round,
+five cubits high, and thirty cubits in circumference. 
 \v 3 Under it was the likeness of oxen, which encircled it, for ten cubits, encircling the sea. The oxen were in two rows, cast
 when it was cast. 
 \v 4 It stood on twelve oxen, three looking toward the north, and three looking toward the west, and three looking toward the
 south, and three looking toward the east; and the sea was set on them above, and all their hindquarters were inward.
 \v 5 It was a handbreadth thick; and its brim was made like the brim of a cup, like the flower of a lily. It received and held
-three thousand baths.\f + A bath is about 5.6 U. S. gallons or 21.1 liters, so 3,000 baths is about 16,800 gallons or 63.3
-kiloliters.\f* 
+three thousand baths.\f + \fr 4:5  \ft A bath is about 5.6 U. S. gallons or 21.1 liters, so 3,000 baths is about 16,800 gallons
+or 63.3 kiloliters.\f* 
 \v 6 He also made ten basins, and put five on the right hand, and five on the left, to wash in them. The things that belonged
 to the burnt offering were washed in them; but the sea was for the priests to wash in.
 \p
@@ -184,8 +185,8 @@ had dedicated, even the silver, the gold, and all the vessels, and put them in t
 the children of Israel, to Jerusalem, to bring up the ark of Yahweh’s covenant out of David’s city, which is Zion.
 \v 3 So all the men of Israel assembled themselves to the king at the feast, which was in the seventh month.
 \v 4 All the elders of Israel came. The Levites took up the ark;
-\v 5 and they brought up the ark, the Tent of Meeting, and all the holy vessels that were in the Tent; these the priests the
-Levites brought up. 
+\v 5 and they brought up the ark, the Tent of Meeting, and all the holy vessels that were in the Tent; these the Levitical
+priests brought up. 
 \v 6 King Solomon and all the congregation of Israel, who were assembled to him, were before the ark, sacrificing sheep and
 cattle that could not be counted or numbered for multitude. 
 \v 7 The priests brought in the ark of Yahweh’s covenant to its place, into the inner sanctuary of the house, to the most holy
@@ -205,7 +206,7 @@ hundred twenty priests sounding with trumpets);
 lifted up their voice with the trumpets and cymbals and instruments of music, and praised Yahweh, saying,
 \q1 “For he is good; 
 \q2 for his loving kindness endures forever!” 
-\p then the house was filled with a cloud, even Yahweh’s house, 
+\m then the house was filled with a cloud, even Yahweh’s house, 
 \v 14 so that the priests could not stand to minister by reason of the cloud; for Yahweh’s glory filled God’s house.
 \c 6  
 \p
@@ -230,10 +231,10 @@ of Israel, as Yahweh promised, and have built the house for the name of Yahweh, 
 \v 11 There I have set the ark, in which is Yahweh’s covenant, which he made with the children of Israel.”
 \p
 \v 12 He stood before Yahweh’s altar in the presence of all the assembly of Israel, and spread out his hands
-\v 13 (for Solomon had made a bronze scaffold, five cubits\f + A cubit is the length from the tip of the middle finger to the
-elbow on a man’s arm, or about 18 inches or 46 centimeters.\f* long, and five cubits wide, and three cubits high, and had set
-it in the middle of the court; and he stood on it, and knelt down on his knees before all the assembly of Israel, and spread
-out his hands toward heaven) 
+\v 13 (for Solomon had made a bronze platform, five cubits\f + \fr 6:13 
+\ft A cubit is the length from the tip of the middle finger to the elbow on a man’s arm, or about 18 inches or 46
+centimeters.\f* long, and five cubits wide, and three cubits high, and had set it in the middle of the court; and he stood on
+it, and knelt down on his knees before all the assembly of Israel, and spread out his hands toward heaven)
 \v 14 and he said, “Yahweh, the God of Israel, there is no God like you in heaven or on earth; you who keep covenant and loving
 kindness with your servants who walk before you with all their heart;
 \v 15 who have kept with your servant David my father that which you promised him. Yes, you spoke with your mouth, and have
@@ -384,7 +385,7 @@ shall not dwell in the house of David king of Israel, because the places where Y
 \v 12 Then Solomon offered burnt offerings to Yahweh on Yahweh’s altar, which he had built before the porch,
 \v 13 even as the duty of every day required, offering according to the commandment of Moses, on the Sabbaths, on the new
 moons, and on the set feasts, three times per year, during the feast of unleavened bread, during the feast of weeks, and during
-the feast of booths.\f + or, feast of tents (sukkot)\f* 
+the feast of booths.\f + \fr 8:13  \ft or, feast of tents (Sukkot)\f*
 \p
 \v 14 He appointed, according to the ordinance of David his father, the divisions of the priests to their service, and the
 Levites to their offices, to praise and to minister before the priests, as the duty of every day required; the doorkeepers also
@@ -398,7 +399,7 @@ Yahweh’s house was completed.
 \v 17 Then Solomon went to Ezion Geber and to Eloth, on the seashore in the land of Edom.
 \v 18 Huram sent him ships and servants who had knowledge of the sea by the hands of his servants; and they came with the
 servants of Solomon to Ophir, and brought from there four hundred fifty
-talents\f + A talent is about 30 kilograms or 66 pounds or 965 Troy ounces, so 450 talents is about 13.5 metric
+talents\f + \fr 8:18  \ft A talent is about 30 kilograms or 66 pounds or 965 Troy ounces, so 450 talents is about 13.5 metric
 tons\f* of gold, and brought them to king Solomon. 
 \c 9  
 \p
@@ -409,20 +410,21 @@ she talked with him about all that was in her heart.
 \v 3 When the queen of Sheba had seen the wisdom of Solomon, the house that he had built,
 \v 4 the food of his table, the seating of his servants, the attendance of his ministers, their clothing, his cup bearers also,
 their clothing, and his ascent by which he went up to Yahweh’s house; there was no more spirit in
-her.\f + or, she was breathless.\f* 
+her.\f + \fr 9:4  \ft or, she was breathless.\f* 
 \p
 \v 5 She said to the king, “It was a true report that I heard in my own land of your acts and of your wisdom.
-\v 6 However I didn’t believe their words until I came, and my eyes had seen it; and behold, the half of the greatness of your
+\v 6 However I didn’t believe their words until I came, and my eyes had seen it; and behold half of the greatness of your
 wisdom wasn’t told me. You exceed the fame that I heard! 
 \v 7 Happy are your men, and happy are these your servants, who stand continually before you, and hear your wisdom.
 \v 8 Blessed be Yahweh your God, who delighted in you, to set you on his throne, to be king for Yahweh your God; because your
 God loved Israel, to establish them forever. Therefore he made you king over them, to do justice and righteousness.”
 \p
-\v 9 She gave the king one hundred and twenty talents\f + A talent is about 30 kilograms or 66 pounds or 965 Troy ounces, so
-120 talents is about 3.6 metric tons\f* of gold, spices in great abundance, and precious stones. There was never before such
-spice as the queen of Sheba gave to king Solomon. 
+\v 9 She gave the king one hundred and twenty talents\f + \fr 9:9 
+\ft A talent is about 30 kilograms or 66 pounds or 965 Troy ounces, so 120 talents is about 3.6 metric
+tons\f* of gold, spices in great abundance, and precious stones. There was never before such spice as the queen of Sheba gave
+to king Solomon. 
 \v 10 The servants of Huram and the servants of Solomon, who brought gold from Ophir, also brought algum
-trees\f + possibly Indian sandalwood, which has nice grain and a pleasant scent and is good for
+trees\f + \fr 9:10  \ft possibly Indian sandalwood, which has nice grain and a pleasant scent and is good for
 woodworking\f* and precious stones. 
 \v 11 The king used algum tree wood to make terraces for Yahweh’s house and for the king’s house, and harps and stringed
 instruments for the singers. There were none like these seen before in the land of Judah.
@@ -430,16 +432,16 @@ instruments for the singers. There were none like these seen before in the land 
 the king. So she turned, and went to her own land, she and her servants.
 \p
 \v 13 Now the weight of gold that came to Solomon in one year was six hundred sixty-six
-talents\f + A talent is about 30 kilograms or 66 pounds or 965 Troy ounces, so 666 talents is about 20 metric
+talents\f + \fr 9:13  \ft A talent is about 30 kilograms or 66 pounds or 965 Troy ounces, so 666 talents is about 20 metric
 tons\f* of gold, 
 \v 14 in addition to that which the traders and merchants brought. All the kings of Arabia and the governors of the country
 brought gold and silver to Solomon. 
 \v 15 King Solomon made two hundred bucklers of beaten gold. Six hundred
-shekels\f + A shekel is about 10 grams or about 0.32 Troy ounces, so 600 shekels was about 6 kilograms or about 192 Troy
-ounces.\f* of beaten gold went to one buckler. 
+shekels\f + \fr 9:15  \ft A shekel is about 10 grams or about 0.32 Troy ounces, so 600 shekels was about 6 kilograms or about
+192 Troy ounces.\f* of beaten gold went to one buckler. 
 \v 16 He made three hundred shields of beaten gold. Three hundred
-shekels\f + A shekel is about 10 grams or about 0.32 Troy ounces, so 300 shekels was about 3 kilograms or about 96 Troy
-ounces.\f* of gold went to one shield. The king put them in the House of the Forest of Lebanon.
+shekels\f + \fr 9:16  \ft A shekel is about 10 grams or about 0.32 Troy ounces, so 300 shekels was about 3 kilograms or about
+96 Troy ounces.\f* of gold went to one shield. The king put them in the House of the Forest of Lebanon.
 \v 17 Moreover the king made a great throne of ivory, and overlaid it with pure gold.
 \v 18 There were six steps to the throne, with a footstool of gold, which were fastened to the throne, and armrests on either
 side by the place of the seat, and two lions standing beside the armrests.
@@ -500,9 +502,9 @@ father chastised you with whips, but I will chastise you with scorpions.”
 \p
 \v 15 So the king didn’t listen to the people; for it was brought about by God, that Yahweh might establish his word, which he
 spoke by Ahijah the Shilonite to Jeroboam the son of Nebat. 
-\v 16 When all Israel saw that the king didn’t listen to them, the people answered the king, saying, “What portion have we in
-David? We don’t have an inheritance in the son of Jesse! Every man to your tents, Israel! Now see to your own house, David.” So
-all Israel departed to their tents. 
+\v 16 When all Israel saw that the king didn’t listen to them, the people answered the king, saying, “What portion do we have
+in David? We don’t have an inheritance in the son of Jesse! Every man to your tents, Israel! Now see to your own house, David.”
+So all Israel departed to their tents. 
 \p
 \v 17 But as for the children of Israel who lived in the cities of Judah, Rehoboam reigned over them.
 \v 18 Then king Rehoboam sent Hadoram, who was over the men subject to forced labor; and the children of Israel stoned him to
@@ -813,7 +815,7 @@ go from me to speak to you?”
 \v 24 Micaiah said, “Behold, you shall see on that day, when you go into an inner room to hide yourself.”
 \p
 \v 25 The king of Israel said, “Take Micaiah, and carry him back to Amon the governor of the city, and to Joash the king’s son;
-\v 26 and say, ‘Thus says the king, “Put this fellow in the prison, and feed him with bread of affliction and with water of
+\v 26 and say, ‘The king says, “Put this fellow in the prison, and feed him with bread of affliction and with water of
 affliction, until I return in peace.”’” 
 \p
 \v 27 Micaiah said, “If you return at all in peace, Yahweh has not spoken by me.” He said, “Listen, you people, all of you!”
@@ -851,7 +853,7 @@ respect of persons, nor taking of bribes.”
 for the judgment of Yahweh, and for controversies. They returned to Jerusalem.
 \v 9 He commanded them, saying, “You shall do this in the fear of Yahweh, faithfully, and with a perfect heart.
 \v 10 Whenever any controversy comes to you from your brothers who dwell in their cities, between blood and blood, between law
-and commandment, statutes and ordinances, you must warn them, that they not be guilty towards Yahweh, and so wrath come on you
+and commandment, statutes and ordinances, you must warn them, that they not be guilty toward Yahweh, and so wrath come on you
 and on your brothers. Do this, and you will not be guilty. 
 \v 11 Behold, Amariah the chief priest is over you in all matters of Yahweh; and Zebadiah the son of Ishmael, the ruler of the
 house of Judah, in all the king’s matters. Also the Levites shall be officers before you. Deal courageously, and may Yahweh be
@@ -869,7 +871,7 @@ Behold, they are in Hazazon Tamar” (that is, En Gedi).
 \v 6 and he said, “Yahweh, the God of our fathers, aren’t you God in heaven? Aren’t you ruler over all the kingdoms of the
 nations? Power and might are in your hand, so that no one is able to withstand you.
 \v 7 Didn’t you, our God, drive out the inhabitants of this land before your people Israel, and give it to the
-offspring\f + or, seed\f* of Abraham your friend forever? 
+offspring\f + \fr 20:7  \ft or, seed\f* of Abraham your friend forever?
 \v 8 They lived in it, and have built you a sanctuary in it for your name, saying,
 \v 9 ‘If evil comes on us—the sword, judgment, pestilence, or famine—we will stand before this house, and before you (for your
 name is in this house), and cry to you in our affliction, and you will hear and save.’
@@ -903,16 +905,17 @@ prophets, so you will prosper.”
 as they go out before the army, and say, “Give thanks to Yahweh; for his loving kindness endures forever.”
 \v 22 When they began to sing and to praise, Yahweh set ambushers against the children of Ammon, Moab, and Mount Seir, who had
 come against Judah; and they were struck. 
-\v 23 For the children of Ammon and Moab stood up against the inhabitants of Mount Seir to utterly kill and destroy them: and
-when they had finished the inhabitants of Seir, everyone helped to destroy another.
+\v 23 For the children of Ammon and Moab stood up against the inhabitants of Mount Seir to utterly kill and destroy them. When
+they had finished the inhabitants of Seir, everyone helped to destroy each other.
 \p
 \v 24 When Judah came to the place overlooking the wilderness, they looked at the multitude; and behold, they were dead bodies
 fallen to the earth, and there were none who escaped. 
 \v 25 When Jehoshaphat and his people came to take their plunder, they found among them in abundance both riches and dead
 bodies, and precious jewels, which they stripped off for themselves, more than they could carry away. They took plunder for
 three days, it was so much. 
-\v 26 On the fourth day, they assembled themselves in Beracah Valley, for there they blessed Yahweh. Therefore the name of that
-place was called “Beracah Valley” to this day. 
+\v 26 On the fourth day, they assembled themselves in Beracah\f + \fr 20:26 
+\ft “Beracah” means “blessing”.\f* Valley, for there they blessed Yahweh. Therefore the name of that place was called “Beracah
+Valley” to this day. 
 \v 27 Then they returned, every man of Judah and Jerusalem, with Jehoshaphat in front of them, to go again to Jerusalem with
 joy; for Yahweh had made them to rejoice over their enemies. 
 \v 28 They came to Jerusalem with stringed instruments, harps, and trumpets to Yahweh’s house.
@@ -1041,9 +1044,9 @@ house.”
 \v 16 Jehoiada made a covenant between himself, all the people, and the king, that they should be Yahweh’s people.
 \v 17 All the people went to the house of Baal, broke it down, broke his altars and his images in pieces, and killed Mattan the
 priest of Baal before the altars. 
-\v 18 Jehoiada appointed the officers of Yahweh’s house under the hand of the priests the Levites, whom David had distributed
-in Yahweh’s house, to offer the burnt offerings of Yahweh, as it is written in the law of Moses, with rejoicing and with
-singing, as David had ordered. 
+\v 18 Jehoiada appointed the officers of Yahweh’s house under the hand of the Levitical priests, whom David had distributed in
+Yahweh’s house, to offer the burnt offerings of Yahweh, as it is written in the law of Moses, with rejoicing and with singing,
+as David had ordered. 
 \v 19 He set the gatekeepers at the gates of Yahweh’s house, that no one who was unclean in anything should enter in.
 \v 20 He took the captains of hundreds, the nobles, the governors of the people, and all the people of the land, and brought
 the king down from Yahweh’s house. They came through the upper gate to the king’s house, and set the king on the throne of the
@@ -1088,9 +1091,9 @@ burnt offerings in Yahweh’s house continually all the days of Jehoiada.
 on Judah and Jerusalem for this their guiltiness. 
 \v 19 Yet he sent prophets to them, to bring them again to Yahweh, and they testified against them; but they would not listen.
 \p
-\v 20 The Spirit of God came on Zechariah the son of Jehoiada the priest; and he stood above the people, and said to them,
-“Thus says God, ‘Why do you disobey Yahweh’s commandments, so that you can’t prosper? Because you have forsaken Yahweh, he has
-also forsaken you.’” 
+\v 20 The Spirit of God came on Zechariah the son of Jehoiada the priest; and he stood above the people, and said to them, “God
+says, ‘Why do you disobey Yahweh’s commandments, so that you can’t prosper? Because you have forsaken Yahweh, he has also
+forsaken you.’” 
 \p
 \v 21 They conspired against him, and stoned him with stones at the commandment of the king in the court of Yahweh’s house.
 \v 22 Thus Joash the king didn’t remember the kindness which Jehoiada his father had done to him, but killed his son. When he
@@ -1122,14 +1125,14 @@ every man shall die for his own sin.”
 and captains of hundreds, even all Judah and Benjamin. He counted them from twenty years old and upward, and found that there
 were three hundred thousand chosen men, able to go out to war, who could handle spear and shield.
 \v 6 He also hired one hundred thousand mighty men of valor out of Israel for one hundred
-talents\f + A talent is about 30 kilograms or 66 pounds\f* of silver.
+talents\f + \fr 25:6  \ft A talent is about 30 kilograms or 66 pounds\f* of silver.
 \v 7 A man of God came to him, saying, “O king, don’t let the army of Israel go with you, for Yahweh is not with Israel, with
 all the children of Ephraim. 
 \v 8 But if you will go, take action, and be strong for the battle. God will overthrow you before the enemy; for God has power
 to help, and to overthrow.” 
 \p
 \v 9 Amaziah said to the man of God, “But what shall we do for the hundred
-talents\f + A talent is about 30 kilograms or 66 pounds\f* which I have given to the army of Israel?”
+talents\f + \fr 25:9  \ft A talent is about 30 kilograms or 66 pounds\f* which I have given to the army of Israel?”
 \p The man of God answered, “Yahweh is able to give you much more than this.”
 \p
 \v 10 Then Amaziah separated them, the army that had come to him out of Ephraim, to go home again. Therefore their anger was
@@ -1164,12 +1167,13 @@ meddle with trouble, that you should fall, even you, and Judah with you?’”
 had sought after the gods of Edom. 
 \v 21 So Joash king of Israel went up, and he and Amaziah king of Judah looked one another in the face at Beth Shemesh, which
 belongs to Judah. 
-\v 22 Judah was defeated by Israel; and they every man fled to his tent.
+\v 22 Judah was defeated by Israel; so every man fled to his tent.
 \p
 \v 23 Joash king of Israel took Amaziah king of Judah, the son of Joash the son of Jehoahaz, at Beth Shemesh, and brought him
 to Jerusalem, and broke down the wall of Jerusalem from the gate of Ephraim to the corner gate, four hundred
-cubits.\f + A cubit is the length from the tip of the middle finger to the elbow on a man’s arm, or about 18 inches or 46
-centimeters, so 400 cubits is about 200 yards or 184 meters.\f* 
+cubits.\f + \fr 25:23  \ft A cubit is the length from the tip of the middle finger to the elbow on a man’s arm, or about 18
+inches or 46 centimeters, so 400 cubits is about 200 yards or 184
+meters.\f* 
 \v 24 He took all the gold and silver, and all the vessels that were found in God’s house with Obed-Edom, and the treasures of
 the king’s house, the hostages also, and returned to Samaria. 
 \p
@@ -1232,11 +1236,12 @@ into Yahweh’s temple. The people still acted corruptly.
 \v 3 He built the upper gate of Yahweh’s house, and he built much on the wall of Ophel.
 \v 4 Moreover he built cities in the hill country of Judah, and in the forests he built fortresses and towers.
 \v 5 He also fought with the king of the children of Ammon, and prevailed against them. The children of Ammon gave him the same
-year one hundred talents\f + A talent is about 30 kilograms or 66
-pounds\f* of silver, ten thousand cors\f + 1 cor is the same as a homer, or about 55.9 U. S. gallons (liquid) or 211 liters or
-6 bushels. 10,000 cors of wheat would weigh about 1,640 metric tons.\f* of wheat, and ten thousand cors of
-barley.\f + 10,000 cors of barley would weigh about 1,310 metric
-tons.\f* The children of Ammon also gave that much to him in the second year, and in the third.
+year one hundred talents\f + \fr 27:5  \ft A talent is about 30 kilograms or 66
+pounds\f* of silver, ten thousand cors\f + \fr 27:5  \ft 1 cor is the same as a homer, or about 55.9 U. S. gallons (liquid) or
+211 liters or 6 bushels. 10,000 cors of wheat would weigh about 1,640 metric
+tons.\f* of wheat, and ten thousand cors of barley.\f + \fr 27:5 
+\ft 10,000 cors of barley would weigh about 1,310 metric tons.\f* The children of Ammon also gave that much to him in the
+second year, and in the third. 
 \v 6 So Jotham became mighty, because he ordered his ways before Yahweh his God.
 \v 7 Now the rest of the acts of Jotham, and all his wars, and his ways, behold, they are written in the book of the kings of
 Israel and Judah. 
@@ -1258,8 +1263,8 @@ struck him with a great slaughter.
 they had forsaken Yahweh, the God of their fathers. 
 \v 7 Zichri, a mighty man of Ephraim, killed Maaseiah the king’s son, Azrikam the ruler of the house, and Elkanah who was next
 to the king. 
-\v 8 The children of Israel carried away captive of their brothers two hundred thousand, women, sons, and daughters, and took
-also away much plunder from them, and brought the plunder to Samaria.
+\v 8 The children of Israel carried away captive of their brothers two hundred thousand women, sons, and daughters, and also
+took away much plunder from them, and brought the plunder to Samaria.
 \v 9 But a prophet of Yahweh was there, whose name was Oded; and he went out to meet the army that came to Samaria, and said to
 them, “Behold, because Yahweh, the God of your fathers, was angry with Judah, he has delivered them into your hand, and you
 have slain them in a rage which has reached up to heaven. 
@@ -1396,7 +1401,7 @@ if you return to him.”
 \p
 \v 10 So the couriers passed from city to city through the country of Ephraim and Manasseh, even to Zebulun, but people
 ridiculed them and mocked them. 
-\v 11 Nevertheless some men of Asher and Manasseh and of Zebulun humbled themselves, and came to Jerusalem.
+\v 11 Nevertheless some men of Asher, Manasseh, and Zebulun humbled themselves, and came to Jerusalem.
 \v 12 Also the hand of God came on Judah to give them one heart, to do the commandment of the king and of the princes by
 Yahweh’s word. 
 \p
@@ -1429,7 +1434,7 @@ princes gave to the assembly a thousand bulls and ten thousand sheep: and a grea
 foreigners who came out of the land of Israel, and who lived in Judah, rejoiced.
 \v 26 So there was great joy in Jerusalem; for since the time of Solomon the son of David king of Israel there was nothing like
 this in Jerusalem. 
-\v 27 Then the priests the Levites arose and blessed the people. Their voice was heard, and their prayer came up to his holy
+\v 27 Then the Levitical priests arose and blessed the people. Their voice was heard, and their prayer came up to his holy
 habitation, even to heaven. 
 \c 31  
 \p
@@ -1463,7 +1468,7 @@ left is this great store.”
 and Shimei his brother was second. 
 \v 13 Jehiel, Azaziah, Nahath, Asahel, Jerimoth, Jozabad, Eliel, Ismachiah, Mahath, and Benaiah were overseers under the hand
 of Conaniah and Shimei his brother, by the appointment of Hezekiah the king and Azariah the ruler of God’s house.
-\v 14 Kore the son of Imnah the Levite, the gatekeeper at the east gate, was over the freewill offerings of God, to distribute
+\v 14 Kore the son of Imnah the Levite, the gatekeeper at the east gate, was over the free will offerings of God, to distribute
 Yahweh’s offerings and the most holy things. 
 \v 15 Under him were Eden, Miniamin, Jeshua, Shemaiah, Amariah, and Shecaniah, in the cities of the priests, in their office of
 trust, to give to their brothers by divisions, to the great as well as to the small;
@@ -1501,7 +1506,7 @@ themselves on the words of Hezekiah king of Judah.
 \p
 \v 9 After this, Sennacherib king of Assyria sent his servants to Jerusalem, (now he was before Lachish, and all his power with
 him), to Hezekiah king of Judah, and to all Judah who were at Jerusalem, saying,
-\v 10 Thus says Sennacherib king of Assyria, “In whom do you trust, that you remain under siege in Jerusalem?
+\v 10 Sennacherib king of Assyria says, “In whom do you trust, that you remain under siege in Jerusalem?
 \v 11 Doesn’t Hezekiah persuade you, to give you over to die by famine and by thirst, saying, ‘Yahweh our God will deliver us
 out of the hand of the king of Assyria?’ 
 \v 12 Hasn’t the same Hezekiah taken away his high places and his altars, and commanded Judah and Jerusalem, saying, ‘You shall
@@ -1526,7 +1531,7 @@ them, and to trouble them; that they might take the city.
 \p
 \v 21 Yahweh sent an angel, who cut off all the mighty men of valor, and the leaders and captains, in the camp of the king of
 Assyria. So he returned with shame of face to his own land. When he had come into the house of his god, those who came out of
-his own bowels\f + i.e., his own sons\f* killed him there with the sword.
+his own body\f + \fr 32:21  \ft i.e., his own sons\f* killed him there with the sword.
 \v 22 Thus Yahweh saved Hezekiah and the inhabitants of Jerusalem from the hand of Sennacherib the king of Assyria and from the
 hand of all others, and guided them on every side. 
 \v 23 Many brought gifts to Yahweh to Jerusalem, and precious things to Hezekiah king of Judah; so that he was exalted in the
@@ -1563,7 +1568,7 @@ Asheroth, and worshiped all the army of the sky, and served them.
 \v 4 He built altars in Yahweh’s house, of which Yahweh said, “My name shall be in Jerusalem forever.”
 \v 5 He built altars for all the army of the sky in the two courts of Yahweh’s house.
 \v 6 He also made his children to pass through the fire in the valley of the son of Hinnom. He practiced sorcery, divination,
-and witchcraft, and dealt with those who had familiar spirits, and with wizards. He did much evil in Yahweh’s sight, to provoke
+and witchcraft, and dealt with those who had familiar spirits and with wizards. He did much evil in Yahweh’s sight, to provoke
 him to anger. 
 \v 7 He set the engraved image of the idol, which he had made, in God’s house, of which God said to David and to Solomon his
 son, “In this house, and in Jerusalem, which I have chosen out of all the tribes of Israel, I will put my name forever.
@@ -1593,7 +1598,7 @@ serve Yahweh, the God of Israel.
 of Yahweh, the God of Israel, behold, they are written among the acts of the kings of Israel.
 \v 19 His prayer also, and how God was entreated of him, and all his sin and his trespass, and the places in which he built
 high places, and set up the Asherah poles and the engraved images, before he humbled himself: behold, they are written in the
-history of Hozai.\f + or, the seers\f* 
+history of Hozai.\f + \fr 33:19  \ft or, the seers\f* 
 \v 20 So Manasseh slept with his fathers, and they buried him in his own house; and Amon his son reigned in his place.
 \p
 \v 21 Amon was twenty-two years old when he began to reign; and he reigned two years in Jerusalem.
@@ -1698,7 +1703,7 @@ let there be for each a portion of a fathers’ house of the Levites.
 \p
 \v 7 Josiah gave to the children of the people, of the flock, lambs and young goats, all of them for the Passover offerings, to
 all who were present, to the number of thirty thousand, and three thousand bulls. These were of the king’s substance.
-\v 8 His princes gave for a freewill offering to the people, to the priests, and to the Levites. Hilkiah, Zechariah, and
+\v 8 His princes gave for a free will offering to the people, to the priests, and to the Levites. Hilkiah, Zechariah, and
 Jehiel, the rulers of God’s house, gave to the priests for the Passover offerings two thousand six hundred small livestock, and
 three hundred head of cattle. 
 \v 9 Conaniah also, and Shemaiah and Nethanel, his brothers, and Hashabiah, Jeiel, and Jozabad, the chiefs of the Levites, gave
@@ -1725,7 +1730,7 @@ altar, according to the commandment of king Josiah.
 \v 18 There was no Passover like that kept in Israel from the days of Samuel the prophet, nor did any of the kings of Israel
 keep such a Passover as Josiah kept, with the priests, the Levites, and all Judah and Israel who were present, and the
 inhabitants of Jerusalem. 
-\v 19 This passover was kept in the eighteenth year of the reign of Josiah.
+\v 19 This Passover was kept in the eighteenth year of the reign of Josiah.
 \p
 \v 20 After all this, when Josiah had prepared the temple, Neco king of Egypt went up to fight against Carchemish by the
 Euphrates, and Josiah went out against him. 
@@ -1748,7 +1753,7 @@ day; and they made them an ordinance in Israel. Behold, they are written in the 
 \v 1 Then the people of the land took Jehoahaz the son of Josiah, and made him king in his father’s place in Jerusalem.
 \v 2 Joahaz was twenty-three years old when he began to reign; and he reigned three months in Jerusalem.
 \v 3 The king of Egypt removed him from office at Jerusalem, and fined the land one hundred talents of silver and a
-talent\f + A talent is about 30 kilograms or 66 pounds or 965 Troy
+talent\f + \fr 36:3  \ft A talent is about 30 kilograms or 66 pounds or 965 Troy
 ounces\f* of gold. 
 \v 4 The king of Egypt made Eliakim his brother king over Judah and Jerusalem, and changed his name to Jehoiakim. Neco took
 Joahaz his brother, and carried him to Egypt. 
@@ -1791,6 +1796,6 @@ kept Sabbath, to fulfill seventy years.
 \v 22 Now in the first year of Cyrus king of Persia, that Yahweh’s word by the mouth of Jeremiah might be accomplished, Yahweh
 stirred up the spirit of Cyrus king of Persia, so that he made a proclamation throughout all his kingdom, and put it also in
 writing, saying, 
-\v 23 “Thus says Cyrus king of Persia, ‘Yahweh, the God of heaven, has given all the kingdoms of the earth to me; and he has
+\v 23 “Cyrus king of Persia says, ‘Yahweh, the God of heaven, has given all the kingdoms of the earth to me; and he has
 commanded me to build him a house in Jerusalem, which is in Judah. Whoever there is among you of all his people, Yahweh his God
 be with him, and let him go up.’” 
