@@ -31,7 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 Assets_Header::Assets_Header (string title, void * webserver_request_in)
 {
-  includeJQueryUI = false;
   includeJQueryMobileTouch = false;
   includeTouchCSS = false;
   includeNotifIt = false;
@@ -45,12 +44,6 @@ Assets_Header::Assets_Header (string title, void * webserver_request_in)
 Assets_Header::~Assets_Header ()
 {
   delete view;
-}
-
-
-void Assets_Header::jQueryUIOn () // Todo in/out?
-{
-  includeJQueryUI = true;
 }
 
 
@@ -144,10 +137,6 @@ string Assets_Header::run ()
   // Include the software version number in the stylesheet and javascript URL
   // to refresh the browser's cache after a software upgrade.
   view->set_variable("VERSION", config_logic_version ());
-
-  if (includeJQueryUI) {
-    view->enable_zone ("include_jquery_ui");
-  }
 
   if (includeJQueryMobileTouch) {
     view->enable_zone ("include_jquery_mobile_touch");
