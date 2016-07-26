@@ -2,18 +2,18 @@ v#e#r#s#e#s#e#p#a#r#a#t#o#r
 0
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 \c 145
-\d A praise psalm by David.\f + This is an acrostic psalm, with every verse (including the second half of verse 13) starting with a consecutive letter of the Hebrew alphabet.\f*
+\d A praise psalm by David.\f + \fr 145:0  \ft This is an acrostic psalm, with every verse (including the second half of verse 13) starting with a consecutive letter of the Hebrew alphabet.\f*
 \q1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 \c 145
-\d a praise psalm by david.\f + this is an acrostic psalm, with every verse (including the second half of verse 13) starting with a consecutive letter of the hebrew alphabet.\f*
+\d a praise psalm by david.\f + \fr 145:0  \ft this is an acrostic psalm, with every verse (including the second half of verse 13) starting with a consecutive letter of the hebrew alphabet.\f*
 \q1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 A praise psalm by David.
-This is an acrostic psalm, with every verse (including the second half of verse 13) starting with a consecutive letter of the Hebrew alphabet.
+145:0  This is an acrostic psalm, with every verse (including the second half of verse 13) starting with a consecutive letter of the Hebrew alphabet.
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 a praise psalm by david.
-this is an acrostic psalm, with every verse (including the second half of verse 13) starting with a consecutive letter of the hebrew alphabet.
+145:0  this is an acrostic psalm, with every verse (including the second half of verse 13) starting with a consecutive letter of the hebrew alphabet.
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
@@ -73,17 +73,17 @@ one generation will commend your works to another, and will declare your mighty 
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 5
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-\v 5 Of the glorious majesty of your honor,
-\q2 of your wondrous works, I will meditate.
+\v 5 I will meditate on the glorious majesty of your honor,
+\q2 on your wondrous works.
 \q1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-\v 5 of the glorious majesty of your honor,
-\q2 of your wondrous works, i will meditate.
+\v 5 i will meditate on the glorious majesty of your honor,
+\q2 on your wondrous works.
 \q1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-Of the glorious majesty of your honor, of your wondrous works, I will meditate.
+I will meditate on the glorious majesty of your honor, on your wondrous works.
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-of the glorious majesty of your honor, of your wondrous works, i will meditate.
+i will meditate on the glorious majesty of your honor, on your wondrous works.
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 6
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
@@ -158,16 +158,16 @@ v#e#r#s#e#s#e#p#a#r#a#t#o#r
 11
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 \v 11 They will speak of the glory of your kingdom,
-\q2 and talk about your power;
+\q2 and talk about your power,
 \q1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 \v 11 they will speak of the glory of your kingdom,
-\q2 and talk about your power;
+\q2 and talk about your power,
 \q1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-They will speak of the glory of your kingdom, and talk about your power;
+They will speak of the glory of your kingdom, and talk about your power,
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-they will speak of the glory of your kingdom, and talk about your power;
+they will speak of the glory of your kingdom, and talk about your power,
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 12
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
@@ -188,20 +188,20 @@ i#n#d#e#x#s#e#p#a#r#a#t#o#r
 \v 13 Your kingdom is an everlasting kingdom.
 \q2 Your dominion endures throughout all generations.
 \q1 Yahweh is faithful in all his words,
-\q2 and loving in all his deeds.\f + Some manuscripts omit these last two lines.\f*
+\q2 and loving in all his deeds.\f + \fr 145:13  \ft Some manuscripts omit these last two lines.\f*
 \q1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 \v 13 your kingdom is an everlasting kingdom.
 \q2 your dominion endures throughout all generations.
 \q1 yahweh is faithful in all his words,
-\q2 and loving in all his deeds.\f + some manuscripts omit these last two lines.\f*
+\q2 and loving in all his deeds.\f + \fr 145:13  \ft some manuscripts omit these last two lines.\f*
 \q1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 Your kingdom is an everlasting kingdom. Your dominion endures throughout all generations. Yahweh is faithful in all his words, and loving in all his deeds.
-Some manuscripts omit these last two lines.
+145:13  Some manuscripts omit these last two lines.
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 your kingdom is an everlasting kingdom. your dominion endures throughout all generations. yahweh is faithful in all his words, and loving in all his deeds.
-some manuscripts omit these last two lines.
+145:13  some manuscripts omit these last two lines.
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 14
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
@@ -290,16 +290,16 @@ v#e#r#s#e#s#e#p#a#r#a#t#o#r
 20
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 \v 20 Yahweh preserves all those who love him,
-\q2 but all the wicked he will destroy.
+\q2 but he will destroy all the wicked.
 \q1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 \v 20 yahweh preserves all those who love him,
-\q2 but all the wicked he will destroy.
+\q2 but he will destroy all the wicked.
 \q1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-Yahweh preserves all those who love him, but all the wicked he will destroy.
+Yahweh preserves all those who love him, but he will destroy all the wicked.
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-yahweh preserves all those who love him, but all the wicked he will destroy.
+yahweh preserves all those who love him, but he will destroy all the wicked.
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 21
 i#n#d#e#x#s#e#p#a#r#a#t#o#r

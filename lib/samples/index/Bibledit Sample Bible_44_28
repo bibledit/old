@@ -13,15 +13,15 @@ i#n#d#e#x#s#e#p#a#r#a#t#o#r
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 1
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-\v 1 When we had escaped, then they\f + NU reads “we”\f* learned that the island was called Malta.
+\v 1 When we had escaped, then they\f + \fr 28:1  \ft NU reads “we”\f* learned that the island was called Malta.
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-\v 1 when we had escaped, then they\f + nu reads “we”\f* learned that the island was called malta.
+\v 1 when we had escaped, then they\f + \fr 28:1  \ft nu reads “we”\f* learned that the island was called malta.
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 When we had escaped, then they learned that the island was called Malta.
-NU reads “we”
+28:1  NU reads “we”
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 when we had escaped, then they learned that the island was called malta.
-nu reads “we”
+28:1  nu reads “we”
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 2
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
@@ -149,15 +149,15 @@ from there we circled around and arrived at rhegium. after one day, a south wind
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 14
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-\v 14 where we found brothers,\f + The word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”\f* and were entreated to stay with them for seven days. So we came to Rome.
+\v 14 where we found brothers,\f + \fr 28:14  \ft The word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”\f* and were entreated to stay with them for seven days. So we came to Rome.
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-\v 14 where we found brothers,\f + the word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”\f* and were entreated to stay with them for seven days. so we came to rome.
+\v 14 where we found brothers,\f + \fr 28:14  \ft the word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”\f* and were entreated to stay with them for seven days. so we came to rome.
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 where we found brothers, and were entreated to stay with them for seven days. So we came to Rome.
-The word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”
+28:14  The word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 where we found brothers, and were entreated to stay with them for seven days. so we came to rome.
-the word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”
+28:14  the word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 15
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
@@ -306,13 +306,7 @@ i#n#d#e#x#s#e#p#a#r#a#t#o#r
 \q2 hear with their ears,
 \q2 understand with their heart,
 \q2 and would turn again,
-\q2 then I would heal them.’\x + 
-\+zref 
-\+ztgt ISA.6.9 
-\+ztgt*
-\+zref*Isaiah 6:9-10
-\+zrefend 
-\+zrefend*\x*
+\q2 then I would heal them.’\x + \xo 28:27  \xt Isaiah 6:9-10\x*
 \p
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 \v 27 for this people’s heart has grown callous.
@@ -322,20 +316,14 @@ i#n#d#e#x#s#e#p#a#r#a#t#o#r
 \q2 hear with their ears,
 \q2 understand with their heart,
 \q2 and would turn again,
-\q2 then i would heal them.’\x + 
-\+zref 
-\+ztgt isa.6.9 
-\+ztgt*
-\+zref*isaiah 6:9-10
-\+zrefend 
-\+zrefend*\x*
+\q2 then i would heal them.’\x + \xo 28:27  \xt isaiah 6:9-10\x*
 \p
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 For this people’s heart has grown callous. Their ears are dull of hearing. Their eyes they have closed. Lest they should see with their eyes, hear with their ears, understand with their heart, and would turn again, then I would heal them.’
-ISA.6.9 Isaiah 6:9-10
+28:27  Isaiah 6:9-10
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 for this people’s heart has grown callous. their ears are dull of hearing. their eyes they have closed. lest they should see with their eyes, hear with their ears, understand with their heart, and would turn again, then i would heal them.’
-isa.6.9 isaiah 6:9-10
+28:27  isaiah 6:9-10
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 28
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
@@ -351,17 +339,17 @@ i#n#d#e#x#s#e#p#a#r#a#t#o#r
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 29
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-\v 29 When he had said these words, the Jews departed, having a great dispute among themselves.\f + NU omits verse 29.\f*
+\v 29 When he had said these words, the Jews departed, having a great dispute among themselves.\f + \fr 28:29  \ft NU omits verse 29.\f*
 \p
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
-\v 29 when he had said these words, the jews departed, having a great dispute among themselves.\f + nu omits verse 29.\f*
+\v 29 when he had said these words, the jews departed, having a great dispute among themselves.\f + \fr 28:29  \ft nu omits verse 29.\f*
 \p
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 When he had said these words, the Jews departed, having a great dispute among themselves.
-NU omits verse 29.
+28:29  NU omits verse 29.
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
 when he had said these words, the jews departed, having a great dispute among themselves.
-nu omits verse 29.
+28:29  nu omits verse 29.
 v#e#r#s#e#s#e#p#a#r#a#t#o#r
 30
 i#n#d#e#x#s#e#p#a#r#a#t#o#r
