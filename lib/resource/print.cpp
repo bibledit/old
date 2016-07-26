@@ -68,8 +68,9 @@ string resource_print (void * webserver_request) // Todo
   string bible = request->database_config_user()->getBible ();
   
 
-  string add = request->query["add"];
-  if (!add.empty ()) {
+  if (request->query.count ("add") || request->post.count ("add")) {
+    string add = request->query["add"];
+    if (add.empty ()) add = request->post ["add"];
     vector <string> resources = request->database_config_user()->getPrintResources ();
     resources.push_back (add);
     request->database_config_user()->setPrintResources (resources);
