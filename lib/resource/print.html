@@ -1,14 +1,15 @@
 <h3>translate("Print Resources")</h3>
-<ol>
-<li>
+<p>translate("Resources to print:") <a href="select?page=print">➕</a></p>
+<br>
+<!-- #BEGINITERATION resources -->
 <p>
-translate("Resources to print:")
-<a href="../resource/select?page=print">➕</a>
+<a href="?remove=##offset##">##trash##</a>
+<a href="?moveup=##offset##">##uparrow##</a>
+<a href="?movedown=##offset##">##downarrow##</a>
+##name##
 </p>
-<div id="sortable">##resourceblock##</div>
-</li>
-<br>  
-<li>
+<!-- #ENDITERATION resources -->
+<br>
 <p>
   translate("Set range: ")
   translate("From")
@@ -18,10 +19,6 @@ translate("Resources to print:")
   <a href="?tobook=">##to_book##</a>
   <a href="?tochapter=">##to_chapter##</a>:<a href="?toverse=">##to_verse##</a>
 </p>
-</li>
-<br>  
-<li>
+<br>
 <p><a href="?generate=">translate("Generate the document.")</a></p>
-</li>
-</ol>
 <script type="text/javascript" src="print.js?##VERSION##"></script>

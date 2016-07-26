@@ -50,7 +50,7 @@ bool resource_print_acl (void * webserver_request)
 }
 
 
-string resource_print (void * webserver_request) // Todo
+string resource_print (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -77,13 +77,6 @@ string resource_print (void * webserver_request) // Todo
   }
   
   
-  if (request->post.count ("resources")) {
-    string resources = request->post ["resources"];
-    vector <string> v_resources = filter_string_explode (resources, ',');
-    request->database_config_user()->setPrintResources (v_resources);
-  }
-  
-  
   if (request->query.count ("generate")) {
     int jobId = database_jobs.getNewId ();
     database_jobs.setLevel (jobId, Filter_Roles::consultant ());
@@ -95,9 +88,22 @@ string resource_print (void * webserver_request) // Todo
   
   
   if (request->query.count ("remove")) {
-    string remove = request->query["remove"];
+    size_t offset = abs (convert_to_int (request->query["remove"]));
     vector <string> resources = request->database_config_user()->getPrintResources ();
-    resources = filter_string_array_diff (resources, {remove});
+    if (!resources.empty () && (offset < resources.size ())) {
+      string remove = resources [offset];
+      resources = filter_string_array_diff (resources, {remove});
+      request->database_config_user()->setPrintResources (resources);
+    }
+  }
+  
+  
+  string moveup = request->query ["moveup"];
+  string movedown = request->query ["movedown"];
+  if (!moveup.empty () || !movedown.empty ()) {
+    size_t move = convert_to_int (moveup + movedown);
+    vector <string> resources = request->database_config_user()->getPrintResources ();
+    array_move_up_down (resources, move, !moveup.empty ());
     request->database_config_user()->setPrintResources (resources);
   }
   
@@ -288,11 +294,15 @@ string resource_print (void * webserver_request) // Todo
   
   
   vector <string> resources = request->database_config_user()->getPrintResources ();
-  string resourceblock;
-  for (auto & resource : resources) {
-    resourceblock.append ("<p class=\"ui-state-default\"><a href=\"?remove=" + resource + "\">" + emoji_wastebasket () + "</a> ⇕ <span class=\"drag\">" + resource + "</span> ⇕ </p>\n");
+  for (size_t i = 0; i < resources.size (); i++) {
+    string offset = convert_to_string (i);
+    string name = resources[i];
+    view.add_iteration ("resources", { make_pair ("offset", offset), make_pair ("name", name) } );
   }
-  view.set_variable ("resourceblock", resourceblock);
+  view.set_variable ("trash", emoji_wastebasket ());
+  view.set_variable ("uparrow", unicode_black_up_pointing_triangle ());
+  view.set_variable ("downarrow", unicode_black_down_pointing_triangle ());
+
 
 
   Passage passage = request->database_config_user()->getPrintPassageFrom ();
