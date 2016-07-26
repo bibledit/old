@@ -51,15 +51,11 @@ string bible_order (void * webserver_request)
   string page;
 
   Assets_Header header = Assets_Header (translate("Order"), request);
-  header.jQueryUIOn (); // Todo
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
   Assets_View view;
-  
-  string success_message;
-  string error_message;
   
   // The name of the Bible.
   string bible = access_bible_clamp (request, request->query ["bible"]);
@@ -69,33 +65,27 @@ string bible_order (void * webserver_request)
     Database_Config_Bible::setBookOrder (bible, "");
   }
 
-  if (request->post.count ("order")) {
-    string order = request->post ["order"];
-    vector <string> v_order = filter_string_explode (order, ',');
-    vector <string> ids;
-    for (auto english : v_order) {
-      int id = Database_Books::getIdFromEnglish (english);
-      ids.push_back (convert_to_string (id));
-    }
-    order = filter_string_implode (ids, " ");
+  string moveup = request->query ["moveup"];
+  string movedown = request->query ["movedown"];
+  if (!moveup.empty () || !movedown.empty ()) {
+    size_t move = convert_to_int (moveup + movedown);
+    vector <int> books = filter_passage_get_ordered_books (bible);
+    vector <string> s_books;
+    for (auto & book : books) s_books.push_back (convert_to_string (book));
+    array_move_up_down (s_books, move, !moveup.empty ());
+    string order = filter_string_implode (s_books, " ");
     Database_Config_Bible::setBookOrder (bible, order);
-    return "";
   }
   
-  string namesblock;
   vector <int> books = filter_passage_get_ordered_books (bible);
-  for (auto book : books) {
-    string name = Database_Books::getEnglishFromId (book);
-    namesblock.append ("<p class=\"ui-state-default\"> ⇕ <span class=\"drag\">" + name + "</span> ⇕ </p>\n");
+  for (size_t i = 0; i < books.size (); i++) {
+    string bookname = Database_Books::getEnglishFromId (books[i]);
+    view.add_iteration ("order", { make_pair ("offset", convert_to_string (i)), make_pair ("bookname", bookname) } );
   }
-  view.set_variable ("namesblock", namesblock);
-  
-  string script = "var orderBible = '" + bible + "'";
-  view.set_variable ("script", script);
 
-  view.set_variable ("success_message", success_message);
-  view.set_variable ("error_message", error_message);
-  
+  view.set_variable ("uparrow", unicode_black_up_pointing_triangle ());
+  view.set_variable ("downarrow", unicode_black_down_pointing_triangle ());
+
   page += view.render ("bible", "order");
   
   page += Assets_Page::footer ();

@@ -508,7 +508,6 @@
 		CAA4CF491A45A647003ABA25 /* xhtml_start.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = xhtml_start.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA4CF641A45A647003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4CF651A45A647003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CAA4CF671A45A647003ABA25 /* order.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = order.js; sourceTree = "<group>"; };
 		CAA4CF751A45A647003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4CF771A45A647003ABA25 /* books.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = books.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4CF781A45A647003ABA25 /* create.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = create.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
@@ -1486,7 +1485,6 @@
 				CA3925411A51D63A009302B8 /* manage.cpp */,
 				CA3925421A51D63A009302B8 /* manage.h */,
 				CA3925431A51D63A009302B8 /* manage.html */,
-				CAA4CF671A45A647003ABA25 /* order.js */,
 				CA06BDD41A56AFE600A051FF /* order.cpp */,
 				CA06BDD51A56AFE600A051FF /* order.h */,
 				CA06BDD61A56AFE600A051FF /* order.html */,
