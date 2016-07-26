@@ -776,6 +776,12 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
   int allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceVerse ();
   if (chapter) allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceChapter ();
 
+  // When the verse editor has an empty verse, it should allow for 100% change.
+  // This is useful for filling in empty verses.
+  if (!chapter) {
+    if (oldtext.length () < 10) allowed_percentage = 100;
+  }
+  
   // The length of the new text should not differ more than a set percentage from the old text.
   float existingLength = oldtext.length();
   float newLength = newtext.length ();
