@@ -1,12 +1,6 @@
 \c 112
 \q1
-\v 1 Praise Yah!\f + 
-\+zref 
-\+ztgt PSA.112.1 
-\+ztgt*
-\+zref*Psalm 112
-\+zrefend 
-\+zrefend* is an acrostic poem, with each verse after the initial “Praise Yah!” starting with a letter of the alphabet (ordered from Alef to Tav).\f*
+\v 1 Praise Yah!\f + \fr 112:1  \ft Psalm 112 is an acrostic poem, with each verse after the initial “Praise Yah!” starting with a letter of the alphabet (ordered from Alef to Tav).\f*
 \q2 Blessed is the man who fears Yahweh,
 \q2 who delights greatly in his commandments.
 \q1

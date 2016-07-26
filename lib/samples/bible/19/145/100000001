@@ -1,5 +1,5 @@
 \c 145
-\d A praise psalm by David.\f + This is an acrostic psalm, with every verse (including the second half of verse 13) starting with a consecutive letter of the Hebrew alphabet.\f*
+\d A praise psalm by David.\f + \fr 145:0  \ft This is an acrostic psalm, with every verse (including the second half of verse 13) starting with a consecutive letter of the Hebrew alphabet.\f*
 \q1
 \v 1 I will exalt you, my God, the King.
 \q2 I will praise your name forever and ever.
@@ -13,8 +13,8 @@
 \v 4 One generation will commend your works to another,
 \q2 and will declare your mighty acts.
 \q1
-\v 5 Of the glorious majesty of your honor,
-\q2 of your wondrous works, I will meditate.
+\v 5 I will meditate on the glorious majesty of your honor,
+\q2 on your wondrous works.
 \q1
 \v 6 Men will speak of the might of your awesome acts.
 \q2 I will declare your greatness.
@@ -32,7 +32,7 @@
 \q2 Your saints will extol you.
 \q1
 \v 11 They will speak of the glory of your kingdom,
-\q2 and talk about your power;
+\q2 and talk about your power,
 \q1
 \v 12 to make known to the sons of men his mighty acts,
 \q2 the glory of the majesty of his kingdom.
@@ -40,7 +40,7 @@
 \v 13 Your kingdom is an everlasting kingdom.
 \q2 Your dominion endures throughout all generations.
 \q1 Yahweh is faithful in all his words,
-\q2 and loving in all his deeds.\f + Some manuscripts omit these last two lines.\f*
+\q2 and loving in all his deeds.\f + \fr 145:13  \ft Some manuscripts omit these last two lines.\f*
 \q1
 \v 14 Yahweh upholds all who fall,
 \q2 and raises up all those who are bowed down.
@@ -61,7 +61,7 @@
 \q2 He also will hear their cry, and will save them.
 \q1
 \v 20 Yahweh preserves all those who love him,
-\q2 but all the wicked he will destroy.
+\q2 but he will destroy all the wicked.
 \q1
 \v 21 My mouth will speak the praise of Yahweh.
 \q2 Let all flesh bless his holy name forever and ever.

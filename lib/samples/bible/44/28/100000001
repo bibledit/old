@@ -1,6 +1,6 @@
 \c 28
 \p
-\v 1 When we had escaped, then they\f + NU reads “we”\f* learned that the island was called Malta.
+\v 1 When we had escaped, then they\f + \fr 28:1  \ft NU reads “we”\f* learned that the island was called Malta.
 \v 2 The natives showed us uncommon kindness; for they kindled a fire and received us all, because of the present rain and because of the cold.
 \v 3 But when Paul had gathered a bundle of sticks and laid them on the fire, a viper came out because of the heat, and fastened on his hand.
 \v 4 When the natives saw the creature hanging from his hand, they said to one another, “No doubt this man is a murderer, whom, though he has escaped from the sea, yet Justice has not allowed to live.”
@@ -15,7 +15,7 @@
 \v 11 After three months, we set sail in a ship of Alexandria which had wintered in the island, whose sign was “The Twin Brothers.”
 \v 12 Touching at Syracuse, we stayed there three days.
 \v 13 From there we circled around and arrived at Rhegium. After one day, a south wind sprang up, and on the second day we came to Puteoli,
-\v 14 where we found brothers,\f + The word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”\f* and were entreated to stay with them for seven days. So we came to Rome.
+\v 14 where we found brothers,\f + \fr 28:14  \ft The word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”\f* and were entreated to stay with them for seven days. So we came to Rome.
 \v 15 From there the brothers, when they heard of us, came to meet us as far as The Market of Appius and The Three Taverns. When Paul saw them, he thanked God and took courage.
 \v 16 When we entered into Rome, the centurion delivered the prisoners to the captain of the guard, but Paul was allowed to stay by himself with the soldier who guarded him.
 \p
@@ -44,17 +44,11 @@
 \q2 hear with their ears,
 \q2 understand with their heart,
 \q2 and would turn again,
-\q2 then I would heal them.’\x + 
-\+zref 
-\+ztgt ISA.6.9 
-\+ztgt*
-\+zref*Isaiah 6:9-10
-\+zrefend 
-\+zrefend*\x*
+\q2 then I would heal them.’\x + \xo 28:27  \xt Isaiah 6:9-10\x*
 \p
 \v 28 “Be it known therefore to you, that the salvation of God is sent to the nations, and they will listen.”
 \p
-\v 29 When he had said these words, the Jews departed, having a great dispute among themselves.\f + NU omits verse 29.\f*
+\v 29 When he had said these words, the Jews departed, having a great dispute among themselves.\f + \fr 28:29  \ft NU omits verse 29.\f*
 \p
 \v 30 Paul stayed two whole years in his own rented house and received all who were coming to him,
 \v 31 preaching God’s Kingdom, and teaching the things concerning the Lord Jesus Christ with all boldness, without hindrance.

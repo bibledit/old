@@ -1,12 +1,6 @@
 \c 111
 \q1
-\v 1 Praise Yah!\f + 
-\+zref 
-\+ztgt PSA.111.1 
-\+ztgt*
-\+zref*Psalm 111
-\+zrefend 
-\+zrefend* is an acrostic poem, with each verse after the initial “Praise Yah!” starting with a letter of the alphabet (ordered from Alef to Tav).\f*
+\v 1 Praise Yah!\f + \fr 111:1  \ft Psalm 111 is an acrostic poem, with each verse after the initial “Praise Yah!” starting with a letter of the alphabet (ordered from Alef to Tav).\f*
 \q2 I will give thanks to Yahweh with my whole heart,
 \q2 in the council of the upright, and in the congregation.
 \q1

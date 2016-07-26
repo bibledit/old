@@ -2,7 +2,7 @@
 \p
 \v 1 Paul, a servant of Jesus Christ, called to be an apostle, set apart for the Good News of God,
 \v 2 which he promised before through his prophets in the holy Scriptures,
-\v 3 concerning his Son, who was born of the offspring\f + or, seed\f* of David according to the flesh,
+\v 3 concerning his Son, who was born of the offspring\f + \fr 1:3\ft or, seed\f* of David according to the flesh,
 \v 4 who was declared to be the Son of God with power, according to the Spirit of holiness, by the resurrection from the dead, Jesus Christ our Lord,
 \v 5 through whom we received grace and apostleship for obedience of faith among all the nations for his name’s sake;
 \v 6 among whom you are also called to belong to Jesus Christ;
@@ -18,13 +18,7 @@
 \v 14 I am debtor both to Greeks and to foreigners, both to the wise and to the foolish.
 \v 15 So as much as is in me, I am eager to preach the Good News to you also who are in Rome.
 \v 16 For I am not ashamed of the Good News of Christ, because it is the power of God for salvation for everyone who believes, for the Jew first, and also for the Greek.
-\v 17 For in it is revealed God’s righteousness from faith to faith. As it is written, “But the righteous shall live by faith.”\x + 
-\+zref 
-\+ztgt HAB.2.4 
-\+ztgt*
-\+zref*Habakkuk 2:4
-\+zrefend 
-\+zrefend*\x*
+\v 17 For in it is revealed God’s righteousness from faith to faith. As it is written, “But the righteous shall live by faith.”\x + \xo 1:17  \xt Habakkuk 2:4\x*
 \v 18 For the wrath of God is revealed from heaven against all ungodliness and unrighteousness of men who suppress the truth in unrighteousness,
 \v 19 because that which is known of God is revealed in them, for God revealed it to them.
 \v 20 For the invisible things of him since the creation of the world are clearly seen, being perceived through the things that are made, even his everlasting power and divinity, that they may be without excuse.

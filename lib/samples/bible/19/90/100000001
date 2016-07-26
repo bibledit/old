@@ -1,8 +1,8 @@
 \c 90
 \ms1 BOOK 4
-\d A Prayer by Moses, the man of God.\f + The Hebrew word rendered “God” is “אֱלֹהִ֑ים” (Elohim).\f*
+\d A Prayer by Moses, the man of God.\f + \fr 90:0  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים” (Elohim).\f*
 \q1
-\v 1 Lord,\f + The word translated “Lord” is “Adonai.”\f* you have been our dwelling place for all generations.
+\v 1 Lord,\f + \fr 90:1  \ft The word translated “Lord” is “Adonai.”\f* you have been our dwelling place for all generations.
 \q2
 \v 2 Before the mountains were born,
 \q2 before you had formed the earth and the world,
@@ -40,7 +40,7 @@
 \v 12 So teach us to count our days,
 \q2 that we may gain a heart of wisdom.
 \q1
-\v 13 Relent, Yahweh!\f + “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other translations.\f*
+\v 13 Relent, Yahweh!\f + \fr 90:13  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other translations.\f*
 \q2 How long?
 \q2 Have compassion on your servants!
 \q1
@@ -50,9 +50,9 @@
 \v 15 Make us glad for as many days as you have afflicted us,
 \q2 for as many years as we have seen evil.
 \q1
-\v 16 Let your work appear to your servants;
+\v 16 Let your work appear to your servants,
 \q2 your glory to their children.
 \q1
-\v 17 Let the favor of the Lord our God be on us;
-\q2 establish the work of our hands for us;
-\q2 yes, establish the work of our hands.
+\v 17 Let the favor of the Lord our God be on us.
+\q2 Establish the work of our hands for us.
+\q2 Yes, establish the work of our hands.

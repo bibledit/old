@@ -1,10 +1,10 @@
 \c 16
 \p
-\v 1 I commend to you Phoebe, our sister, who is a servant\f + or, deacon\f* of the assembly that is at Cenchreae,
+\v 1 I commend to you Phoebe, our sister, who is a servant\f + \fr 16:1\ft or, deacon \f* of the assembly that is at Cenchreae,
 \v 2 that you receive her in the Lord, in a way worthy of the saints, and that you assist her in whatever matter she may need from you, for she herself also has been a helper of many, and of my own self.
 \p
 \v 3 Greet Prisca and Aquila, my fellow workers in Christ Jesus,
-\v 4 who for my life, laid down their own necks; to whom not only I give thanks, but also all the assemblies of the Gentiles.
+\v 4 who risked their own necks for my life, to whom not only I give thanks, but also all the assemblies of the Gentiles.
 \v 5 Greet the assembly that is in their house. Greet Epaenetus, my beloved, who is the first fruits of Achaia to Christ.
 \v 6 Greet Mary, who labored much for us.
 \v 7 Greet Andronicus and Junia, my relatives and my fellow prisoners, who are notable among the apostles, who were also in Christ before me.
@@ -14,7 +14,7 @@
 \v 11 Greet Herodion, my kinsman. Greet them of the household of Narcissus, who are in the Lord.
 \v 12 Greet Tryphaena and Tryphosa, who labor in the Lord. Greet Persis, the beloved, who labored much in the Lord.
 \v 13 Greet Rufus, the chosen in the Lord, and his mother and mine.
-\v 14 Greet Asyncritus, Phlegon, Hermes, Patrobas, Hermas, and the brothers\f + The word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”\f* who are with them.
+\v 14 Greet Asyncritus, Phlegon, Hermes, Patrobas, Hermas, and the brothers\f + \fr 16:14  \ft The word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”\f* who are with them.
 \v 15 Greet Philologus and Julia, Nereus and his sister, and Olympas, and all the saints who are with them.
 \v 16 Greet one another with a holy kiss. The assemblies of Christ greet you.
 \p
@@ -28,10 +28,4 @@
 \v 22 I, Tertius, who write the letter, greet you in the Lord.
 \v 23 Gaius, my host and host of the whole assembly, greets you. Erastus, the treasurer of the city, greets you, as does Quartus, the brother.
 \v 24 The grace of our Lord Jesus Christ be with you all! Amen.
-\v 25 \f + TR places 
-\+zref 
-\+ztgt ROM.14.24 
-\+ztgt*
-\+zref*Romans 14:24-26
-\+zrefend 
-\+zrefend* at the end of Romans instead of at the end of chapter 14, and numbers these verses 16:25-27.\f*
+\v 25  \f + \fr 16:25  \ft TR places Romans 14:24-26 at the end of Romans instead of at the end of chapter 14, and numbers these verses 16:25-27.\f*

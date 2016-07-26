@@ -1,12 +1,12 @@
 \c 8
 \p
-\v 1 There is therefore now no condemnation to those who are in Christ Jesus, who don’t walk according to the flesh, but according to the Spirit.\f + NU omits “who don’t walk according to the flesh, but according to the Spirit”\f*
+\v 1 There is therefore now no condemnation to those who are in Christ Jesus, who don’t walk according to the flesh, but according to the Spirit.\f + \fr 8:1  \ft NU omits “who don’t walk according to the flesh, but according to the Spirit”\f*
 \v 2 For the law of the Spirit of life in Christ Jesus made me free from the law of sin and of death.
 \v 3 For what the law couldn’t do, in that it was weak through the flesh, God did, sending his own Son in the likeness of sinful flesh and for sin, he condemned sin in the flesh;
 \v 4 that the ordinance of the law might be fulfilled in us, who walk not after the flesh, but after the Spirit.
 \v 5 For those who live according to the flesh set their minds on the things of the flesh, but those who live according to the Spirit, the things of the Spirit.
 \v 6 For the mind of the flesh is death, but the mind of the Spirit is life and peace;
-\v 7 because the mind of the flesh is hostile towards God; for it is not subject to God’s law, neither indeed can it be.
+\v 7 because the mind of the flesh is hostile toward God; for it is not subject to God’s law, neither indeed can it be.
 \v 8 Those who are in the flesh can’t please God.
 \v 9 But you are not in the flesh but in the Spirit, if it is so that the Spirit of God dwells in you. But if any man doesn’t have the Spirit of Christ, he is not his.
 \v 10 If Christ is in you, the body is dead because of sin, but the spirit is alive because of righteousness.
@@ -15,7 +15,7 @@
 \v 12 So then, brothers, we are debtors, not to the flesh, to live after the flesh.
 \v 13 For if you live after the flesh, you must die; but if by the Spirit you put to death the deeds of the body, you will live.
 \v 14 For as many as are led by the Spirit of God, these are children of God.
-\v 15 For you didn’t receive the spirit of bondage again to fear, but you received the Spirit of adoption, by whom we cry, “Abba!\f + Abba is an Aramaic word for “Father” or “Daddy”, which can be used affectionately and respectfully in prayer to our Father in heaven.\f* Father!”
+\v 15 For you didn’t receive the spirit of bondage again to fear, but you received the Spirit of adoption, by whom we cry, “Abba!\f + \fr 8:15  \ft Abba is an Aramaic word for “Father” or “Daddy”, which can be used affectionately and respectfully in prayer to our Father in heaven.\f* Father!”
 \p
 \v 16 The Spirit himself testifies with our spirit that we are children of God;
 \v 17 and if children, then heirs: heirs of God and joint heirs with Christ, if indeed we suffer with him, that we may also be glorified with him.
@@ -33,7 +33,7 @@
 \v 27 He who searches the hearts knows what is on the Spirit’s mind, because he makes intercession for the saints according to God.
 \p
 \v 28 We know that all things work together for good for those who love God, for those who are called according to his purpose.
-\v 29 For whom he foreknew, he also predestined to be conformed to the image of his Son, that he might be the firstborn among many brothers.\f + The word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”\f*
+\v 29 For whom he foreknew, he also predestined to be conformed to the image of his Son, that he might be the firstborn among many brothers.\f + \fr 8:29  \ft The word for “brothers” here and where context allows may also be correctly translated “brothers and sisters” or “siblings.”\f*
 \v 30 Whom he predestined, those he also called. Whom he called, those he also justified. Whom he justified, those he also glorified.
 \p
 \v 31 What then shall we say about these things? If God is for us, who can be against us?
@@ -44,13 +44,7 @@
 \v 35 Who shall separate us from the love of Christ? Could oppression, or anguish, or persecution, or famine, or nakedness, or peril, or sword?
 \v 36 Even as it is written,
 \q1 “For your sake we are killed all day long.
-\q2 We were accounted as sheep for the slaughter.”\x + 
-\+zref 
-\+ztgt PSA.44.22 
-\+ztgt*
-\+zref*Psalm 44:22
-\+zrefend 
-\+zrefend*\x*
+\q2 We were accounted as sheep for the slaughter.”\x + \xo 8:36\xt Psalm 44:22\x*
 \m
 \v 37 No, in all these things, we are more than conquerors through him who loved us.
 \v 38 For I am persuaded that neither death, nor life, nor angels, nor principalities, nor things present, nor things to come, nor powers,

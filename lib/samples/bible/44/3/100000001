@@ -1,6 +1,6 @@
 \c 3
 \p
-\v 1 Peter and John were going up into the temple at the hour of prayer, the ninth hour.\f + 3:00 p.m.\f*
+\v 1 Peter and John were going up into the temple at the hour of prayer, the ninth hour.\f + \fr 3:1  \ft 3:00 p.m.\f*
 \v 2 A certain man who was lame from his mother’s womb was being carried, whom they laid daily at the door of the temple which is called Beautiful, to ask gifts for the needy of those who entered into the temple.
 \v 3 Seeing Peter and John about to go into the temple, he asked to receive gifts for the needy.
 \v 4 Peter, fastening his eyes on him, with John, said, “Look at us.”
@@ -18,38 +18,14 @@
 \v 15 and killed the Prince of life, whom God raised from the dead, to which we are witnesses.
 \v 16 By faith in his name, his name has made this man strong, whom you see and know. Yes, the faith which is through him has given him this perfect soundness in the presence of you all.
 \p
-\v 17 “Now, brothers,\f + The word for “brothers” here may be also correctly translated “brothers and sisters” or “siblings.”\f* I know that you did this in ignorance, as did also your rulers.
+\v 17 “Now, brothers,\f + \fr 3:17  \ft The word for “brothers” here may be also correctly translated “brothers and sisters” or “siblings.”\f* I know that you did this in ignorance, as did also your rulers.
 \v 18 But the things which God announced by the mouth of all his prophets, that Christ should suffer, he thus fulfilled.
 \p
 \v 19 “Repent therefore, and turn again, that your sins may be blotted out, so that there may come times of refreshing from the presence of the Lord,
 \v 20 and that he may send Christ Jesus, who was ordained for you before,
 \v 21 whom heaven must receive until the times of restoration of all things, which God spoke long ago by the mouth of his holy prophets.
 \v 22 For Moses indeed said to the fathers, ‘The Lord God will raise up a prophet for you from among your brothers, like me. You shall listen to him in all things whatever he says to you.
-\v 23 It will be that every soul that will not listen to that prophet will be utterly destroyed from among the people.’\x + 
-\+zref 
-\+ztgt DEU.18.15 
-\+ztgt*
-\+zref*Deuteronomy 18:15
-\+zrefend 
-\+zrefend*,
-\+zref 
-\+ztgt DEU.18.18 
-\+ztgt*
-\+zref*18-19
-\+zrefend 
-\+zrefend* \x*
+\v 23 It will be that every soul that will not listen to that prophet will be utterly destroyed from among the people.’\x + \xo 3:23  \xt Deuteronomy 18:15,18-19 \x*
 \v 24 Yes, and all the prophets from Samuel and those who followed after, as many as have spoken, they also told of these days.
-\v 25 You are the children of the prophets, and of the covenant which God made with our fathers, saying to Abraham, ‘All the families of the earth will be blessed through your offspring.\f + or, seed\f* .’\x + 
-\+zref 
-\+ztgt GEN.22.18 
-\+ztgt*
-\+zref*Genesis 22:18
-\+zrefend 
-\+zrefend*;
-\+zref 
-\+ztgt GEN.26.4 
-\+ztgt*
-\+zref*26:4
-\+zrefend 
-\+zrefend*\x*
+\v 25 You are the children of the prophets, and of the covenant which God made with our fathers, saying to Abraham, ‘All the families of the earth will be blessed through your offspring.’\f + \fr 3:25\ft or, seed\f*\x + \xo 3:25  \xt Genesis 22:18; 26:4\x*
 \v 26 God, having raised up his servant Jesus, sent him to you first to bless you, in turning away every one of you from your wickedness.”
