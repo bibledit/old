@@ -368,7 +368,7 @@ void bible_logic_kick_unreceived_data_timer ()
 // This returns a warning in case there's old Bible data not yet sent to the Cloud,
 // or in case it has not received data from the Cloud for some days.
 // $extended: Whether to give an extended warning.
-string bible_logic_unsent_unreceived_data_warning (bool extended) // Todo
+string bible_logic_unsent_unreceived_data_warning (bool extended)
 {
   string warning;
 
