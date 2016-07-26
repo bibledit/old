@@ -735,7 +735,7 @@ msgstr ""
 msgid "Press the delete key to remove the selected entry."
 msgstr ""
 
-msgid "Or click 🗑"
+msgid "Or click the 🗑."
 msgstr ""
 
 msgid "Or swipe it away."
@@ -745,7 +745,7 @@ msgid ""
 "Use the left and right arrow keys to expand or collapse the selected entry."
 msgstr ""
 
-msgid "Or click 📁"
+msgid "Or click the 📁."
 msgstr ""
 
 msgid "Or touch and hold it."
@@ -789,10 +789,13 @@ msgstr ""
 msgid "Changes marked with a smiley face are changes made by you."
 msgstr ""
 
-msgid "This works if enabled in your notifications."
+msgid "user"
 msgstr ""
 
-msgid "Changes marked with a book symbol are changes in the Bible text."
+msgid "Changes marked with the name of a user are changes made by this user."
+msgstr ""
+
+msgid "Changes marked with a book symbol are the changes in the Bible text."
 msgstr ""
 
 msgid ""
@@ -800,21 +803,20 @@ msgid ""
 "Bible."
 msgstr ""
 
-msgid "user"
-msgstr ""
-
-msgid "Changes marked with the name of a user are changes made by him or her."
+msgid ""
+"Each category can be enabled or disabled separately in your notifications."
 msgstr ""
 
 msgid "Bible translation is a collaborative effort."
 msgstr ""
 
-msgid "Changes you enter may subsequently be updated by other team members."
+msgid ""
+"Changes you enter may be updated by others or merged with their changes."
 msgstr ""
 
 msgid ""
-"The two categories of change notifications enable you to find out if your "
-"change is now in the Bible text, or was subsequently updated by someone else."
+"The two categories of change notifications enable you to find out whether "
+"your change is now in the Bible text."
 msgstr ""
 
 msgid "Dismiss the notifications of the changes of the following categories:"
@@ -1115,7 +1117,7 @@ msgstr ""
 msgid "Connected to Bibledit Cloud."
 msgstr ""
 
-msgid "Disconnect."
+msgid "Disconnect and log out."
 msgstr ""
 
 msgid "Internet address"

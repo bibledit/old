@@ -365,8 +365,10 @@ void bible_logic_kick_unreceived_data_timer ()
 }
 
 
-// This returns a warning in case there's old Bible data not yet sent to the Cloud.
-string bible_logic_unsent_unreceived_data_warning (bool extended)
+// This returns a warning in case there's old Bible data not yet sent to the Cloud,
+// or in case it has not received data from the Cloud for some days.
+// $extended: Whether to give an extended warning.
+string bible_logic_unsent_unreceived_data_warning (bool extended) // Todo
 {
   string warning;
 
@@ -380,6 +382,7 @@ string bible_logic_unsent_unreceived_data_warning (bool extended)
     // Unreceived data warning after four days.
     data_time += (4 * 24 * 3600);
     if (now > data_time) {
+      warning.clear ();
       if (extended) {
         warning.append (translate ("It has been some time ago that changes in the Bible text were received from the Cloud."));
         warning.append (" ");
@@ -398,6 +401,7 @@ string bible_logic_unsent_unreceived_data_warning (bool extended)
     // Unsent data warning after four days.
     data_time += (4 * 24 * 3600);
     if (now > data_time) {
+      warning.clear ();
       if (extended) {
         warning.append (translate ("There are pending changes in the Bible text that have not yet been sent to the Cloud for some time."));
         warning.append (" ");
