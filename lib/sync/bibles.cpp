@@ -123,8 +123,12 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   }
 
 
-  // Done: No response to client.
-  return "";
+  // Done: Return the checksum to client.
+  // Returning the checksum serves as a confirmation to the client that the Cloud properly received the chapter.
+  // When the client works through a sub-standard network, this checksumming is getting very important.
+  // Back in the time that the Cloud didn't return a checksum, there were cases of data loss on clients,
+  // due to a poor network connection.
+  return checksum;
 }
 
 
