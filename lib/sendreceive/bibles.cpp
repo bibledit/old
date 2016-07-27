@@ -186,12 +186,19 @@ void sendreceive_bibles ()
             database_bibleactions.erase (bible, book, chapter);
             database_bibleactions.record (bible, book, chapter, oldusfm);
             
+          } else if (response == checksum) {
+            
+            // Cloud has confirmed receipt: OK.
+          
           } else {
             
-            // The Cloud may send a response to the client in case of an error.
-            if (!response.empty ()) {
-              Database_Logs::log (sendreceive_bibles_text () + "Bibledit Cloud says: " + response, Filter_Roles::translator ());
-            }
+            // The Cloud sends a response to the client in case of an error.
+            communication_errors = true;
+            Database_Logs::log (sendreceive_bibles_text () + "Failure sending chapter, Bibledit Cloud says: " + response, Filter_Roles::translator ());
+            // Restore the Bible action for this chapter.
+            database_bibleactions.erase (bible, book, chapter);
+            database_bibleactions.record (bible, book, chapter, oldusfm);
+            
           }
         }
       }
@@ -222,7 +229,7 @@ void sendreceive_bibles ()
   // because downloading them would overwrite the changes on the client.
   // The client only downloads changes from the server after it has sent all local edits successfully.
   if (communication_errors) {
-    Database_Logs::log (sendreceive_bibles_text () + "Not downloading changes from the server due to communication errors", Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_bibles_text () + "Not downloading changes from the server because of communication errors", Filter_Roles::translator ());
     send_receive_bibles_done ();
     return;
   }
