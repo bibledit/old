@@ -49,7 +49,7 @@ bool search_replacego2_acl (void * webserver_request)
 }
 
 
-string search_replacego2 (void * webserver_request) // Todo
+string search_replacego2 (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -66,15 +66,11 @@ string search_replacego2 (void * webserver_request) // Todo
   
   
   // Get Bible and passage for this identifier.
-  vector <string> details = filter_string_explode (id, '_');
-  string bible;
-  if (details.size() > 0) bible = details [0];
-  int book = 0;
-  if (details.size () > 1) book = convert_to_int (details [1]);
-  int chapter = -1;
-  if (details.size () > 2) chapter = convert_to_int (details [2]);
-  int verse = -1;
-  if (details.size () > 3) verse = convert_to_int (details [3]);
+  Passage passage = Passage::decode (id);
+  string bible = passage.bible;
+  int book = passage.book;
+  int chapter = passage.chapter;
+  int verse = convert_to_int (passage.verse);
   
   
   // Check whether the user has write access to the book.

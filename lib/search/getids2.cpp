@@ -34,7 +34,7 @@ string search_getids2_url ()
 }
 
 
-bool search_getids2_acl (void * webserver_request) // Todo
+bool search_getids2_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
@@ -76,7 +76,7 @@ string search_getids2 (void * webserver_request)
   string output;
   for (auto & passage : passages) {
     if (!output.empty ()) output.append ("\n");
-    output.append (passage.to_text ());
+    output.append (passage.encode ());
   }
   return output;
 }

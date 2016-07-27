@@ -39,7 +39,7 @@ string search_replace2_url ()
 }
 
 
-bool search_replace2_acl (void * webserver_request) // Todo
+bool search_replace2_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
@@ -56,6 +56,7 @@ string search_replace2 (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Replace"), request);
   header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
+  header.jQuery3On ();
   page = header.run ();
   Assets_View view;
   view.set_variable ("bible", bible);
