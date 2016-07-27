@@ -2218,7 +2218,7 @@ void test_filter_string_rand ()
 }
 
 
-void test_filter_passage1 ()
+void test_filter_passage ()
 {
   trace_unit_tests (__func__);
   {
@@ -2236,13 +2236,6 @@ void test_filter_passage1 ()
     Passage passage2 = Passage ("bible", 1, 2, "4");
     evaluate (__LINE__, __func__, false, passage.equal (passage2));
   }
-}
-
-
-void test_filter_passage2 ()
-{
-  trace_unit_tests (__func__);
-  
   // Convert Passage to/from text.
   {
     Passage input = Passage ("עברית", 1, 2, "3");
@@ -2252,6 +2245,23 @@ void test_filter_passage2 ()
     input = Passage ("ελληνικά", 5, 4, "0");
     text = input.to_text ();
     output = Passage::from_text (text);
+    evaluate (__LINE__, __func__, true, input.equal (output));
+  }
+  // Encoding and decoding passages.
+  {
+    Passage input = Passage ("עברית", 1, 2, "3");
+    string encoded = input.encode ();
+    Passage output = Passage::decode (encoded);
+    evaluate (__LINE__, __func__, true, input.equal (output));
+
+    input = Passage ("ελληνικά", 5, 4, "0");
+    encoded = input.encode ();
+    output = Passage::decode (encoded);
+    evaluate (__LINE__, __func__, true, input.equal (output));
+    
+    input = Passage ("Sample .!_ Bible", 99, 999, "9999");
+    encoded = input.encode ();
+    output = Passage::decode (encoded);
     evaluate (__LINE__, __func__, true, input.equal (output));
   }
   // PassageDisplay
@@ -2372,13 +2382,6 @@ void test_filter_passage2 ()
     evaluate (__LINE__, __func__, 65, filter_passage_interpret_book ("Jude"));
     evaluate (__LINE__, __func__, 66, filter_passage_interpret_book ("Rev"));
   }
-}
-
-
-void test_filter_passage3 ()
-{
-  trace_unit_tests (__func__);
-  
   // InterpretBookOnlineBibleAbbreviations.
   {
     evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("Ge"));
@@ -2462,13 +2465,6 @@ void test_filter_passage3 ()
     output = filter_passage_interpret_passage (currentPassage, "Song of Solomon 2");
     evaluate (__LINE__, __func__, true, standard.equal (output));
   }
-}
-
-
-void test_filter_passage4 ()
-{
-  trace_unit_tests (__func__);
-  
   // Sequence And Range None.
   {
     vector <string> standard = {"Exod. 30:4"};
