@@ -40,7 +40,7 @@ string search_search2_url ()
 }
 
 
-bool search_search2_acl (void * webserver_request) // Todo
+bool search_search2_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
   bool read, write;
@@ -79,7 +79,7 @@ string search_search2 (void * webserver_request)
     
     
     // Get the Bible and passage for this identifier.
-    Passage details = Passage::from_text (hit);
+    Passage details = Passage::decode (hit);
     string bible = details.bible;
     int book = details.book;
     int chapter = details.chapter;
@@ -155,7 +155,7 @@ string search_search2 (void * webserver_request)
     // Deal with how to share the results.
     vector <string> hits;
     for (auto & passage : passages) {
-      hits.push_back (passage.to_text ());
+      hits.push_back (passage.encode ());
     }
     if (sharing != "load") {
       vector <string> loaded_hits = filter_string_explode (Database_Volatile::getValue (identifier, "hits"), '\n');
@@ -190,6 +190,7 @@ string search_search2 (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Search"), request);
   header.setNavigator ();
   header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
+  header.jQuery3On ();
   page = header.run ();
   Assets_View view;
   view.set_variable ("bible", bible);
