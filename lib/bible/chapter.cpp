@@ -57,7 +57,7 @@ string bible_chapter (void * webserver_request)
   
   page = Assets_Page::header (translate ("Chapter"), webserver_request);
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
   string success_message;
   string error_message;
