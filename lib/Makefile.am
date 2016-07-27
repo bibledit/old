@@ -117,11 +117,9 @@ libbibledit_a_SOURCES = \
 	bible/editing.cpp \
 	notes/logic.cpp \
 	notes/actions.cpp \
-	notes/clean.cpp \
 	notes/note.cpp \
 	notes/status-1.cpp \
 	notes/assign-1.cpp \
-	notes/cleancli.cpp \
 	notes/notes.cpp \
 	notes/status-n.cpp \
 	notes/assign-n.cpp \

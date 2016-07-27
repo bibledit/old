@@ -59,7 +59,7 @@ string public_note (void * webserver_request)
   }
 
   
-  page += header.run();
+  page += header.run ();
   Assets_View view; // TodojQuery
   string success;
 

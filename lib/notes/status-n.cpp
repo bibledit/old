@@ -55,8 +55,8 @@ string notes_status_n (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Notes status"), request);
-  page += header.run();
-  Assets_View view; // TodojQuery
+  page += header.run ();
+  Assets_View view;
   
   
   string statusblock;

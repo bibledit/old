@@ -56,8 +56,9 @@ string notes_comment (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Comment"), request);
-  page += header.run();
-  Assets_View view; // TodojQuery
+  header.jQuery3On ();
+  page += header.run ();
+  Assets_View view;
   string success;
   
   

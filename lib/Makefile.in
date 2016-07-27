@@ -172,9 +172,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	bible/abbreviations.$(OBJEXT) bible/order.$(OBJEXT) \
 	bible/css.$(OBJEXT) bible/editing.$(OBJEXT) \
 	notes/logic.$(OBJEXT) notes/actions.$(OBJEXT) \
-	notes/clean.$(OBJEXT) notes/note.$(OBJEXT) \
-	notes/status-1.$(OBJEXT) notes/assign-1.$(OBJEXT) \
-	notes/cleancli.$(OBJEXT) notes/notes.$(OBJEXT) \
+	notes/note.$(OBJEXT) notes/status-1.$(OBJEXT) \
+	notes/assign-1.$(OBJEXT) notes/notes.$(OBJEXT) \
 	notes/status-n.$(OBJEXT) notes/assign-n.$(OBJEXT) \
 	notes/click.$(OBJEXT) notes/poll.$(OBJEXT) \
 	notes/summary.$(OBJEXT) notes/bible-1.$(OBJEXT) \
@@ -678,11 +677,9 @@ libbibledit_a_SOURCES = \
 	bible/editing.cpp \
 	notes/logic.cpp \
 	notes/actions.cpp \
-	notes/clean.cpp \
 	notes/note.cpp \
 	notes/status-1.cpp \
 	notes/assign-1.cpp \
-	notes/cleancli.cpp \
 	notes/notes.cpp \
 	notes/status-n.cpp \
 	notes/assign-n.cpp \
@@ -1452,15 +1449,11 @@ notes/logic.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
 notes/actions.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
-notes/clean.$(OBJEXT): notes/$(am__dirstamp) \
-	notes/$(DEPDIR)/$(am__dirstamp)
 notes/note.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
 notes/status-1.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
 notes/assign-1.$(OBJEXT): notes/$(am__dirstamp) \
-	notes/$(DEPDIR)/$(am__dirstamp)
-notes/cleancli.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
 notes/notes.$(OBJEXT): notes/$(am__dirstamp) \
 	notes/$(DEPDIR)/$(am__dirstamp)
@@ -2842,8 +2835,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/bible-1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/bible-n.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/bulk.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/clean.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/cleancli.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/click.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/comment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/create.Po@am__quote@

@@ -57,8 +57,8 @@ string notes_assign_1 (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Assign note"), request);
-  page += header.run();
-  Assets_View view; // TodojQuery
+  page += header.run ();
+  Assets_View view;
   string success, error;
 
   

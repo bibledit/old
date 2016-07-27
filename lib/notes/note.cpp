@@ -57,6 +57,7 @@ string notes_note (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Note"), request);
   header.setNavigator ();
+  header.jQuery3On ();
 
   
   // After adding a comment to a note, when doing nothing for several seconds,
@@ -66,8 +67,8 @@ string notes_note (void * webserver_request)
   }
 
   
-  page += header.run();
-  Assets_View view; // TodojQuery
+  page += header.run ();
+  Assets_View view;
   string success;
 
   

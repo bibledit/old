@@ -55,8 +55,8 @@ string notes_bible_1 (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Bibles"), request);
-  page += header.run();
-  Assets_View view; // TodojQuery
+  page += header.run ();
+  Assets_View view;
   string success, error;
   
   
