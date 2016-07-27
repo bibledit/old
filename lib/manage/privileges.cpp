@@ -55,7 +55,7 @@ string manage_privileges (void * webserver_request)
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (manage_users_url (), menu_logic_manage_users_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   
   // Get the user and his/her level.

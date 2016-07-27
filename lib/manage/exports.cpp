@@ -58,7 +58,7 @@ string manage_exports (void * webserver_request)
   Assets_Header header = Assets_Header (translate ("Export"), webserver_request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   if (request->query.count ("bible")) {

@@ -56,7 +56,7 @@ string notes_verses (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Note passages"), request);
   page += header.run();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   string success, error;
   
   

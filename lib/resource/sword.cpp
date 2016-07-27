@@ -77,7 +77,7 @@ string resource_sword (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Resources"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   
   map <string, string> installed_modules;

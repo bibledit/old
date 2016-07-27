@@ -60,7 +60,7 @@ string search_all (void * webserver_request)
   page = header.run ();
 
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   // The query: The word or string to search for.

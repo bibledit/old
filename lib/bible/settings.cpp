@@ -65,7 +65,7 @@ string bible_settings (void * webserver_request)
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   
   string success_message;

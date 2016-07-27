@@ -35,7 +35,7 @@ string Assets_Page::header (string title, void * webserver_request)
 
 string Assets_Page::success (string message)
 {
-  Assets_View view;
+  Assets_View view; // TodojQuery
   view.set_variable ("message", message);
   return view.render ("assets", "success");
 }
@@ -43,7 +43,7 @@ string Assets_Page::success (string message)
 
 string Assets_Page::error (string message)
 {
-  Assets_View view;
+  Assets_View view; // TodojQuery
   view.set_variable ("message", message);
   return view.render ("assets", "error");
 }
@@ -51,7 +51,7 @@ string Assets_Page::error (string message)
 
 string Assets_Page::message (string message)
 {
-  Assets_View view;
+  Assets_View view; // TodojQuery
   view.set_variable ("message", message);
   return view.render ("assets", "message");
 }
@@ -60,7 +60,7 @@ string Assets_Page::message (string message)
 string Assets_Page::footer ()
 {
   string page;
-  Assets_View view;
+  Assets_View view; // TodojQuery
   page += view.render ("assets", "workspacewrapper_finish");
   page += view.render ("assets", "footer");
   page += view.render ("assets", "xhtml_finish");

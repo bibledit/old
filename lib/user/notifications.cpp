@@ -66,7 +66,7 @@ string user_notifications (void * webserver_request)
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   string checkbox = request->post ["checkbox"];
   bool checked = convert_to_bool (request->post ["checked"]);

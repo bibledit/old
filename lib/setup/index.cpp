@@ -108,7 +108,7 @@ string setup_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   // Get the existing Administrators.
   vector <string> admins = request->database_users ()->getAdministrators ();

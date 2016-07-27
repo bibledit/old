@@ -63,7 +63,7 @@ string resource_cache (void * webserver_request)
   Assets_Header header = Assets_Header (menu_logic_resources_text (), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   
   if (request->query.count ("clear")) {

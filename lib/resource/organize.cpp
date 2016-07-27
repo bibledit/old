@@ -100,7 +100,7 @@ string resource_organize (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   
   // Active resources.

@@ -106,7 +106,7 @@ string edit_index (void * webserver_request)
   }
   
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   // Active Bible, and check access.

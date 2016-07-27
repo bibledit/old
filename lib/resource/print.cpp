@@ -59,7 +59,7 @@ string resource_print (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Print"), request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   
   Database_Jobs database_jobs = Database_Jobs ();

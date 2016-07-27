@@ -93,7 +93,7 @@ string xrefs_clear (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Cross references"), webserver_request);
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   view.set_variable ("count", convert_to_string (xrefs.size ()));

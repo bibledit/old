@@ -43,7 +43,7 @@ string xrefs_help (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Cross references"), webserver_request);
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   page += view.render ("xrefs", "help");
   page += Assets_Page::footer ();
   return page;

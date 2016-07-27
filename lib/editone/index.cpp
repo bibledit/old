@@ -75,7 +75,7 @@ string editone_index (void * webserver_request)
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   if (request->query.count ("changebible")) {
     string changebible = request->query ["changebible"];

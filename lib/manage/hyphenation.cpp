@@ -52,7 +52,7 @@ string manage_hyphenation (void * webserver_request)
   Assets_Header header = Assets_Header (translate ("Hyphenation"), webserver_request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());

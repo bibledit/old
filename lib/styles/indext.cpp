@@ -59,7 +59,7 @@ string styles_indext (void * webserver_request)
   header.addBreadCrumb (menu_logic_settings_styles_menu (), menu_logic_styles_text ());
   page = header.run ();
 
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   Database_Config_User database_config_user = Database_Config_User (webserver_request);
    

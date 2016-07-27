@@ -57,7 +57,7 @@ string notes_edit (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Edit Note Source"), request);
   page += header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   string myusername = request->session_logic ()->currentUser ();

@@ -165,7 +165,7 @@ string journal_index (void * webserver_request)
   string page = header.run ();
 
 
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
 
   if (request->query.count ("clear")) {

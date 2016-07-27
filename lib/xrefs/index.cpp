@@ -58,7 +58,7 @@ string xrefs_index (void * webserver_request)
   header.setEditorStylesheet ();
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   string success;

@@ -93,7 +93,7 @@ string workbench_settings (void * webserver_request)
   header.addBreadCrumb (workbench_organize_url (), menu_logic_desktop_organize_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   map <int, string> urls = workbench_get_urls (request, false);
   map <int, string> widths = workbench_get_widths (request);

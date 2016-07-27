@@ -192,7 +192,7 @@ string search_search2 (void * webserver_request)
   header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
   header.jQuery3On ();
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   view.set_variable ("bible", bible);
   string script = "var searchBible = \"" + bible + "\";";
   view.set_variable ("script", script);

@@ -56,7 +56,7 @@ string mapping_map (void * webserver_request)
 
   page = header.run ();
 
-  Assets_View view;
+  Assets_View view; // TodojQuery
   string success;
   
   string name = request->query["name"];

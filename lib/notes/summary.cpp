@@ -55,7 +55,7 @@ string notes_summary (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Note summary"), request);
   page += header.run();
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
 
   int id = convert_to_int (request->query ["id"]);

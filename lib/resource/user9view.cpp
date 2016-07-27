@@ -53,7 +53,7 @@ string resource_user9view (void * webserver_request)
   Assets_Header header = Assets_Header (translate("User resources"), request);
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
 
   vector <string> resources = Database_UserResources::names ();

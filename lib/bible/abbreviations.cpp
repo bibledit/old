@@ -55,7 +55,7 @@ string bible_abbreviations (void * webserver_request)
   header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   string success_message;
   string error_message;

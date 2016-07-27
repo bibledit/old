@@ -59,7 +59,7 @@ string debug_index (void * webserver_request)
   header.notifItOn ();
   page = header.run ();
 
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   string code;
   

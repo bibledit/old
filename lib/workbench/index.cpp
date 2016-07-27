@@ -100,7 +100,7 @@ string workbench_index (void * webserver_request)
   header.setNavigator ();
   header.setFadingMenu (menu_logic_desktop_category (webserver_request));
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   
   map <int, string> urls = workbench_get_urls (request, true);

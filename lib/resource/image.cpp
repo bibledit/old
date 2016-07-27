@@ -61,7 +61,7 @@ string resource_image (void * webserver_request)
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (resource_images_url (), menu_logic_resource_images_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   string error, success;
   
   

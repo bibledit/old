@@ -58,7 +58,7 @@ string help_index (void * webserver_request, const string& url)
   Assets_Header header = Assets_Header (translate("Help"), webserver_request);
   page = header.run ();
 
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   view.set_variable ("version", config_logic_version ());
   

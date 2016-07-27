@@ -44,7 +44,7 @@ string webbible_search (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   // Get the URL and the text for the backlink.

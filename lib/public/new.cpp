@@ -70,7 +70,7 @@ string public_new (void * webserver_request)
   header.setNavigator ();
   header.setStylesheet ();
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   page += view.render ("public", "new");
   page += Assets_Page::footer ();
   return page;

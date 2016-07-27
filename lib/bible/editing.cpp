@@ -54,7 +54,7 @@ string bible_editing (void * webserver_request)
   header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   // The name of the Bible.
   string bible = access_bible_clamp (request, request->query ["bible"]);

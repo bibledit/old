@@ -60,7 +60,7 @@ string notes_select (void * webserver_request)
   header.addBreadCrumb (notes_index_url (), menu_logic_consultation_notes_text ());
   page = header.run();
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
   string success;
   
   

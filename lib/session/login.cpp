@@ -62,7 +62,7 @@ string session_login (void * webserver_request)
 
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   // Form submission handler.
   if (request->post["submit"] != "") {

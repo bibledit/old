@@ -95,7 +95,7 @@ string editusfm_index (void * webserver_request)
   }
 
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
 
   // Get active Bible, and check read access to it.

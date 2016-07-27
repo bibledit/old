@@ -56,7 +56,7 @@ string notes_unassign_n (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Unassign notes"), request);
   page += header.run();
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
 
   // Notes can be unassigned from users who have access to the Bibles

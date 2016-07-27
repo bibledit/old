@@ -193,7 +193,7 @@ string search_originals (void * webserver_request)
   header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   view.set_variable ("bible", bible);
   

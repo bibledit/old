@@ -95,7 +95,7 @@ string public_index (void * webserver_request)
   header.setNavigator ();
   header.setStylesheet ();
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
 
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);

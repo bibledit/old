@@ -60,7 +60,7 @@ string resource_download (void * webserver_request)
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (resource_cache_url (), menu_logic_resources_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   
   string name = request->query["name"];

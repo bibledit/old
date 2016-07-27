@@ -58,7 +58,7 @@ string consistency_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Consistency"), webserver_request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   
   string add = request->post ["add"];

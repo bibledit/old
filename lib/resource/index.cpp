@@ -60,7 +60,7 @@ string resource_index (void * webserver_request)
   if (touch) header.jQueryMobileTouchOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   vector <string> resources = request->database_config_user()->getActiveResources ();

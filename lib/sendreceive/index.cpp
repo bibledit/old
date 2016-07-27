@@ -69,7 +69,7 @@ string sendreceive_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Send/Receive"), request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   string starting_to_sync = translate ("Starting to send and receive now.");

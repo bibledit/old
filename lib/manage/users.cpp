@@ -68,7 +68,7 @@ string manage_users (void * webserver_request)
   page = header.run ();
 
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
 
   int myLevel = request->session_logic ()->currentLevel ();

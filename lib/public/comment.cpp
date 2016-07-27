@@ -56,7 +56,7 @@ string public_comment (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Feedback"), request);
   page += header.run();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   int id = convert_to_int (request->query ["id"]);

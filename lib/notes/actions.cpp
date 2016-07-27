@@ -60,7 +60,7 @@ string notes_actions (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Note actions"), request);
   header.setNavigator ();
   page += header.run();
-  Assets_View view;
+  Assets_View view; // TodojQuery
   string success, error;
 
   

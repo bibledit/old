@@ -53,7 +53,7 @@ string checks_suppress (void * webserver_request)
   
   string page;
   page = Assets_Page::header (translate ("Suppressed check results"), webserver_request);
-  Assets_View view;
+  Assets_View view; // TodojQuery
   
   
   if (request->query.count ("release")) {

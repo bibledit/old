@@ -61,7 +61,7 @@ string notes_create (void * webserver_request)
   header.addBreadCrumb (notes_index_url (), menu_logic_consultation_notes_text ());
   page = header.run();
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   
   // Is is possible to pass a Bible to this script.

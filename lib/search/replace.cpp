@@ -99,7 +99,7 @@ string search_replace (void * webserver_request)
   header.jQuery3On ();
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view; // TodojQuery
 
   view.set_variable ("bible", bible);
   

@@ -86,7 +86,7 @@ string changes_change (void * webserver_request)
   
   
   // From here on the script will produce output.
-  Assets_View view;
+  Assets_View view; // TodojQuery
   string username = request->session_logic()->currentUser ();
   int level = request->session_logic ()->currentLevel ();
   
