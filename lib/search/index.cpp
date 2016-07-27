@@ -65,7 +65,7 @@ string search_index (void * webserver_request)
     string id = request->query ["id"];
 
     // Get the Bible and passage for this identifier.
-    Passage passage = Passage::from_text (id);
+    Passage passage = Passage::decode (id);
     string bible = passage.bible;
     int book = passage.book;
     int chapter = passage.chapter;
@@ -91,7 +91,7 @@ string search_index (void * webserver_request)
     string output;
     for (auto & passage : passages) {
       if (!output.empty ()) output.append ("\n");
-      output.append (passage.to_text ());
+      output.append (passage.encode ());
     }
     return output;
   }
@@ -101,6 +101,7 @@ string search_index (void * webserver_request)
 
   Assets_Header header = Assets_Header (translate("Search"), request);
   header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
+  header.jQuery3On ();
   page = header.run ();
   
   Assets_View view;

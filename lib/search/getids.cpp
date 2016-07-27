@@ -64,7 +64,7 @@ string search_getids (void * webserver_request)
   string output;
   for (auto & passage : passages) {
     if (!output.empty ()) output.append ("\n");
-    output.append (passage.to_text ());
+    output.append (passage.encode ());
   }
   return output;
 }

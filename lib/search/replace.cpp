@@ -66,7 +66,7 @@ string search_replace (void * webserver_request)
   if (!id.empty ()) {
     
     // Get the Bible and passage for this identifier.
-    Passage passage = Passage::from_text (id);
+    Passage passage = Passage::decode (id);
     string bible = passage.bible;
     int book = passage.book;
     int chapter = passage.chapter;
@@ -96,6 +96,7 @@ string search_replace (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Replace"), request);
   header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
+  header.jQuery3On ();
   page = header.run ();
   
   Assets_View view;

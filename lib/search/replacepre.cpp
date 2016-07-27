@@ -60,7 +60,7 @@ string search_replacepre (void * webserver_request)
   
   
   // Get the Bible and passage for this identifier.
-  Passage passage = Passage::from_text (id);
+  Passage passage = Passage::decode (id);
   string bible = passage.bible;
   int book = passage.book;
   int chapter = passage.chapter;
@@ -91,16 +91,6 @@ string search_replacepre (void * webserver_request)
   if (replacewith != "") newtext = filter_string_markup_words ({replacewith}, newtext);
   
   
-  // The id sent to the browser contains bible, book, chapter, and verse.
-  vector <string> bits = {
-    bible,
-    convert_to_string (book),
-    convert_to_string (chapter),
-    verse
-  };
-  string s_id = filter_string_implode (bits, "_");
-  
-  
   // Check whether the user has write access to the book.
   string user = request->session_logic ()->currentUser ();
   bool write = access_bible_book_write (webserver_request, user, bible, book);
@@ -108,7 +98,7 @@ string search_replacepre (void * webserver_request)
   
   // Create output.
   string output;
-  output.append ("<div id=\"" + s_id + "\">\n");
+  output.append ("<div id=\"" + id + "\">\n");
   output.append ("<p>");
   if (write) output.append ("<a href=\"replace\"> ✔ </a> <a href=\"delete\">" + emoji_wastebasket () + "</a> ");
   output.append (link);
