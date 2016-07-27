@@ -2236,16 +2236,6 @@ void test_filter_passage ()
     Passage passage2 = Passage ("bible", 1, 2, "4");
     evaluate (__LINE__, __func__, false, passage.equal (passage2));
   }
-  // Convert Passage to/from text.
-  {
-    Passage input = Passage ("עברית", 1, 2, "3");
-    string text = input.to_text ();
-    Passage output = Passage::from_text (text);
-    evaluate (__LINE__, __func__, true, input.equal (output));
-    input = Passage ("ελληνικά", 5, 4, "0");
-    text = input.to_text ();
-    output = Passage::from_text (text);
-    evaluate (__LINE__, __func__, true, input.equal (output));
   }
   // Encoding and decoding passages.
   {

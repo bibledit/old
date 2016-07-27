@@ -55,56 +55,9 @@ bool Passage::equal (Passage & passage)
 
 
 // This method converts the passage of the object into text, like e.g. so:
-// "Bible.1.2.3".
-// First the Bible comes, then the book identifier, then the chapter number, and finally the verse number.
-string Passage::to_text () // Todo goes out.
-{
-  string text;
-  text.append (bible);
-  text.append (".");
-  text.append (convert_to_string (book));
-  text.append (".");
-  text.append (convert_to_string (chapter));
-  text.append (".");
-  text.append (verse);
-  if (verse.empty()) text.append ("0");
-  return text;
-}
-
-
-// This method converts text into a passage.
-// The text is in the format as its complementary function, to_text, produces.
-Passage Passage::from_text (const string& text) // Todo goes out.
-{
-  Passage passage;
-  vector <string> bits = filter_string_explode (text, '.');
-  if (!bits.empty ()) {
-    string verse = bits.back ();
-    if (!verse.empty ()) passage.verse = verse;
-    bits.pop_back ();
-  }
-  if (!bits.empty ()) {
-    string chapter = bits.back ();    
-    if (!chapter.empty()) passage.chapter = convert_to_int (chapter);
-    bits.pop_back ();
-  }
-  if (!bits.empty ()) {
-    string book = bits.back ();
-    if (!book.empty()) passage.book = convert_to_int (book);
-    bits.pop_back ();
-  }
-  if (!bits.empty ()) {
-    passage.bible = bits.back ();
-    bits.pop_back ();
-  }
-  return passage;
-}
-
-
-// This method converts the passage of the object into text, like e.g. so:
 // "hexadecimal Bible _1_2_3".
 // First the hexadecimal Bible comes, then the book identifier, then the chapter number, and finally the verse number.
-string Passage::encode () // Todo use and test.
+string Passage::encode ()
 {
   string text;
   // The encoded passage can be used as an attribute in the HTML DOM.
@@ -123,7 +76,7 @@ string Passage::encode () // Todo use and test.
 
 // This method converts encoded text into a passage.
 // The text is in the format as its complementary function, "encode", produces.
-Passage Passage::decode (const string& encoded) // Todo use and test.
+Passage Passage::decode (const string& encoded)
 {
   Passage passage;
   vector <string> bits = filter_string_explode (encoded, '_');

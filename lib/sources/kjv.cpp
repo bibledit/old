@@ -120,8 +120,8 @@ void sources_kjv_parse_loop (xml_node element,
     if (within_verse) {
       xml_node textnode = element.first_child ();
       string english = textnode.text ().get ();
-      Passage passage ("", book, chapter, convert_to_string (verse));
-      Database_Logs::log (passage.to_text () + ": Failed to parse element " + element_name + " with value " + english);
+      string location = filter_passage_display (book, chapter, convert_to_string (verse));
+      Database_Logs::log (location + ": Failed to parse element " + element_name + " with value " + english);
     }
   }
 }
