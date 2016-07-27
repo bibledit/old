@@ -42,7 +42,7 @@ string search_originals_url ()
 }
 
 
-bool search_originals_acl (void * webserver_request) // Todo
+bool search_originals_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
   bool read, write;
