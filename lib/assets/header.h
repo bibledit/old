@@ -30,6 +30,7 @@ class Assets_Header
 public:
   Assets_Header (string title, void * webserver_request_in);
   ~Assets_Header ();
+  void jQuery3On ();
   void jQueryMobileTouchOn ();
   void touchCSSOn ();
   void notifItOn ();
@@ -54,6 +55,8 @@ private:
   string loginrequest;
   string fadingmenu;
   vector <pair <string, string> > breadcrumbs;
+  bool include_jquery_1;
+  bool include_jquery_3;
 };
 
 

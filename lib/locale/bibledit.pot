@@ -394,8 +394,8 @@ msgid "Book order"
 msgstr ""
 
 msgid ""
-"Drag books to another location to update the order of the books in this "
-"Bible."
+"Click to move books to another location to update the order of the books in "
+"this Bible."
 msgstr ""
 
 msgid "Reset order."
