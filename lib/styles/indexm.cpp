@@ -62,7 +62,7 @@ string styles_indexm (void * webserver_request)
   header.addBreadCrumb (menu_logic_settings_styles_menu (), menu_logic_styles_text ());
   page = header.run ();
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
   Database_Styles database_styles;
   

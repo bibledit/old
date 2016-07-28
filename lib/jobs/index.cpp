@@ -51,7 +51,7 @@ string jobs_index (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate ("Job"), request);
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
 
   int id = convert_to_int (request->query ["id"]);
 

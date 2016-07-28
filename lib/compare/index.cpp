@@ -58,7 +58,7 @@ string compare_index (void * webserver_request)
   header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
   string bible = request->query ["bible"];
   view.set_variable ("bible", bible);

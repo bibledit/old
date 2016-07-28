@@ -56,7 +56,7 @@ string basic_index (void * webserver_request)
   
   Assets_Header header = Assets_Header ("Settings", webserver_request);
   string page = header.run ();
-  Assets_View view; // TodojQuery
+  Assets_View view;
 
   
   if (request->query.count ("changebible")) {

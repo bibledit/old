@@ -72,9 +72,10 @@ string editverse_index (void * webserver_request)
   if (touch) header.jQueryMobileTouchOn ();
   header.notifItOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  header.jQuery3On ();
   page = header.run ();
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
   if (request->query.count ("changebible")) {
     string changebible = request->query ["changebible"];

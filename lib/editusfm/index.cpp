@@ -77,6 +77,7 @@ string editusfm_index (void * webserver_request)
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   if (touch) header.jQueryMobileTouchOn ();
   header.notifItOn ();
+  header.jQuery3On ();
   page = header.run ();
   
   if (request->query.count("changebible")) {
@@ -95,7 +96,7 @@ string editusfm_index (void * webserver_request)
   }
 
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
 
 
   // Get active Bible, and check read access to it.

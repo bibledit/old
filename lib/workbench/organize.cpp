@@ -130,7 +130,7 @@ string workbench_organize (void * webserver_request)
   }
 
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
   
   vector <string> desktopblock;

@@ -51,7 +51,7 @@ string session_password (void * webserver_request)
   header.touchCSSOn ();
   page += header.run ();
 
-  Assets_View view; // TodojQuery
+  Assets_View view;
 
   // Form submission handler.
   if (request->post["submit"] != "") {

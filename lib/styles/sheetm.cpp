@@ -61,7 +61,7 @@ string styles_sheetm (void * webserver_request)
   header.addBreadCrumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
   page = header.run ();
 
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
   string name = request->query["name"];
   view.set_variable ("name", filter_string_sanitize_html (name));

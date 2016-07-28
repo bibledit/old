@@ -48,7 +48,7 @@ string editor_select (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Select editor"), webserver_request);
   page = header.run();
-  Assets_View view; // TodojQuery
+  Assets_View view;
   page += view.render ("editor", "select");
   page += Assets_Page::footer ();
   return page;

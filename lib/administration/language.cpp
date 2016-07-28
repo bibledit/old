@@ -77,7 +77,7 @@ string administration_language (void * webserver_request)
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
 
   string language = locale_logic_filter_default_language (Database_Config_General::getSiteLanguage ());
   language = localizations [language];

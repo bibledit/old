@@ -49,7 +49,7 @@ string session_switch (void * webserver_request)
   Assets_Header header = Assets_Header (translate ("Switch user"), webserver_request);
   page += header.run ();
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
   string user = request->session_logic ()->currentUser ();
   view.set_variable ("user", user);

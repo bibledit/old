@@ -60,7 +60,7 @@ string session_signup (void * webserver_request)
   header.touchCSSOn ();
   page += header.run ();
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
 
   // Some security questions.
   vector <Verification> verifications;
