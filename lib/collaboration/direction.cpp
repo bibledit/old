@@ -54,7 +54,7 @@ string collaboration_direction (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Collaboration"), request);
   page = header.run ();
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
   string object = request->query ["object"];
   view.set_variable ("object", object);

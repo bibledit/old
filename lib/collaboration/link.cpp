@@ -48,7 +48,7 @@ void collaboration_link (string object, int jobid, string direction)
 
   // Generate the initial page.
   string page = collaboration_link_header ();
-  Assets_View view; // TodojQuery
+  Assets_View view;
   view.set_variable ("object", object);
   view.set_variable ("url", url);
   if (direction == "me") view.enable_zone ("takeme");
