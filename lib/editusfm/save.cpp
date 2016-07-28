@@ -66,7 +66,7 @@ string editusfm_save (void * webserver_request)
     if (Checksum_Logic::get (usfm) == checksum) {
       usfm = filter_url_tag_to_plus (usfm);
       usfm = filter_string_trim (usfm);
-      if (usfm != "") {
+      if (!usfm.empty ()) {
         if (unicode_string_is_valid (usfm)) {
           string stylesheet = request->database_config_user()->getStylesheet();
           vector <BookChapterData> book_chapter_text = usfm_import (usfm, stylesheet);
