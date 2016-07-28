@@ -401,7 +401,6 @@
 		CA80A6FE1AA069FE00C7208F /* download.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = download.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA80A6FF1AA069FE00C7208F /* download.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = download.h; sourceTree = "<group>"; };
 		CA80A7001AA069FE00C7208F /* download.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = download.html; sourceTree = "<group>"; };
-		CA80A70A1AA0A9A800C7208F /* documentation */ = {isa = PBXFileReference; lastKnownFileType = text; path = documentation; sourceTree = "<group>"; };
 		CA80A70B1AA0A9A800C7208F /* json.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = json.c; sourceTree = "<group>"; };
 		CA80A70C1AA0A9A800C7208F /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
 		CA80A70D1AA0A9A800C7208F /* jsonlint.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jsonlint.c; sourceTree = "<group>"; };
@@ -1133,6 +1132,7 @@
 		CAD443441AC95BC60005B8F6 /* web.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = web.h; sourceTree = "<group>"; };
 		CAD443491AC9650B0005B8F6 /* exports.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = exports.html; sourceTree = "<group>"; };
 		CAD4434A1AC965130005B8F6 /* hyphenation.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = hyphenation.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
+		CADDF2B51D4A29E40036C3EF /* documentation.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = documentation.txt; sourceTree = "<group>"; };
 		CADE4D7A1A9DE2FD00F16E49 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE4D7B1A9DE2FD00F16E49 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE4D7C1A9DE99200F16E49 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -1322,7 +1322,7 @@
 		CA80A7091AA0A9A800C7208F /* json */ = {
 			isa = PBXGroup;
 			children = (
-				CA80A70A1AA0A9A800C7208F /* documentation */,
+				CADDF2B51D4A29E40036C3EF /* documentation.txt */,
 				CA80A70B1AA0A9A800C7208F /* json.c */,
 				CA80A70C1AA0A9A800C7208F /* json.h */,
 				CA80A70D1AA0A9A800C7208F /* jsonlint.c */,
