@@ -276,11 +276,32 @@ string menu_logic_basic_categories (void * webserver_request)
   if (basic_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (basic_index_url (), "⋮", true));
   }
-  
+
+  // When a user is not logged in, or a guest,
+  // put the public feedback into the main menu, rather than in a sub menu.
+#ifndef HAVE_CLIENT
+  if (menu_logic_public_or_guest (webserver_request)) {
+    if (!public_logic_bibles (webserver_request).empty ()) {
+      html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true));
+    }
+  }
+#endif
+
   // When not logged in, display Login menu item.
   if (request->session_logic ()->currentUser ().empty ()) {
     html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true));
   }
+
+  // When a user is logged in, and is a guest, put the Logout into the main menu, rather than in a sub menu.
+#ifndef HAVE_CLIENT
+  if (request->session_logic ()->loggedIn ()) {
+    if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) {
+      if (session_logout_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true));
+      }
+    }
+  }
+#endif
 
   return filter_string_implode (html, "\n");
 }
