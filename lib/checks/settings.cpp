@@ -58,8 +58,9 @@ string checks_settings (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Manage Checks"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.jQuery3On ();
   page = header.run ();
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
   
   if (request->query.count ("bible")) {

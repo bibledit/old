@@ -59,7 +59,7 @@ string checks_settingssentences (void * webserver_request)
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (checks_settings_url (), menu_logic_checks_settings_text ());
   page = header.run ();
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
   
   string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());

@@ -85,7 +85,7 @@ string index_index (void * webserver_request)
 
   string page = header.run ();
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
 
   view.set_variable ("warning", bible_logic_unsent_unreceived_data_warning (true));
   
