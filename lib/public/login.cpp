@@ -51,8 +51,9 @@ string public_login (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate ("Public login"), request);
   header.touchCSSOn ();
+  header.jQuery3On ();
   page = header.run ();
-  Assets_View view; // TodojQuery
+  Assets_View view;
 
   
   // Form submission handler.

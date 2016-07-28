@@ -69,8 +69,9 @@ string public_new (void * webserver_request)
   Assets_Header header = Assets_Header (translate ("New feedback"), request);
   header.setNavigator ();
   header.setStylesheet ();
+  header.jQuery3On ();
   page = header.run ();
-  Assets_View view; // TodojQuery
+  Assets_View view;
   page += view.render ("public", "new");
   page += Assets_Page::footer ();
   return page;

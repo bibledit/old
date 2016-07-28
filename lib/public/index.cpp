@@ -94,8 +94,9 @@ string public_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate ("Public feedback"), request);
   header.setNavigator ();
   header.setStylesheet ();
+  header.jQuery3On ();
   page = header.run ();
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
 
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
