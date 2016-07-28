@@ -58,7 +58,6 @@ string resource_print (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Print"), request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
-  header.jQuery3On ();
   page = header.run ();
   Assets_View view;
 

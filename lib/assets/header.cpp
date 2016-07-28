@@ -38,21 +38,12 @@ Assets_Header::Assets_Header (string title, void * webserver_request_in)
   webserver_request = webserver_request_in;
   view = new Assets_View ();
   view->set_variable ("title", title);
-  include_jquery_1 = true;
-  include_jquery_3 = false;
 }
 
 
 Assets_Header::~Assets_Header ()
 {
   delete view;
-}
-
-
-void Assets_Header::jQuery3On ()
-{
-  include_jquery_1 = false;
-  include_jquery_3 = true;
 }
 
 
@@ -166,9 +157,6 @@ string Assets_Header::run ()
   if (includeNotifIt) {
     view->enable_zone ("include_notif_it");
   }
-  
-  if (include_jquery_1) view->enable_zone ("jquery1");
-  if (include_jquery_3) view->enable_zone ("jquery3");
   
   string headlines;
   for (auto & headline : headLines) {

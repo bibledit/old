@@ -57,7 +57,6 @@ string search_all (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Search"), request);
   header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
-  header.jQuery3On ();
   page = header.run ();
 
   

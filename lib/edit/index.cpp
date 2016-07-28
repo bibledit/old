@@ -79,7 +79,6 @@ string edit_index (void * webserver_request)
   if (touch) header.jQueryMobileTouchOn ();
   header.notifItOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
-  header.jQuery3On ();
   page = header.run ();
   
   

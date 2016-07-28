@@ -50,7 +50,6 @@ string public_note (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Note"), request);
-  header.jQuery3On ();
 
   
   // After adding a comment to a note, when doing nothing for several seconds,

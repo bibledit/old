@@ -59,7 +59,6 @@ string notes_create (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Create note"), request);
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   header.addBreadCrumb (notes_index_url (), menu_logic_consultation_notes_text ());
-  header.jQuery3On ();
   page = header.run();
   
   Assets_View view;

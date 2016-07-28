@@ -123,7 +123,6 @@ string personalize_index (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Personalize"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
-  header.jQuery3On ();
   page = header.run ();
 
   

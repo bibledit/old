@@ -57,7 +57,6 @@ string resource_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Resources"), request);
   header.setNavigator ();
   header.setStylesheet ();
-  header.jQuery3On ();
   if (touch) header.jQueryMobileTouchOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();

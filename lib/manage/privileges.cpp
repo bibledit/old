@@ -54,7 +54,6 @@ string manage_privileges (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Read/write"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (manage_users_url (), menu_logic_manage_users_text ());
-  header.jQuery3On ();
   page = header.run ();
   Assets_View view;
 

@@ -59,7 +59,6 @@ string notes_actions (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Note actions"), request);
   header.setNavigator ();
-  header.jQuery3On ();
   page += header.run ();
   Assets_View view;
   string success, error;

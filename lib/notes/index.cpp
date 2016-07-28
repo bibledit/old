@@ -51,7 +51,6 @@ string notes_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Consultation Notes"), request);
   header.setNavigator ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
-  header.jQuery3On ();
   page = header.run();
   
   Assets_View view;

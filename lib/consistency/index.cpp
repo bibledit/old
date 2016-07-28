@@ -57,7 +57,6 @@ string consistency_index (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Consistency"), webserver_request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
-  header.jQuery3On ();
   page = header.run ();
   Assets_View view;
 

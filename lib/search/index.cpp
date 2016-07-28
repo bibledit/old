@@ -101,7 +101,6 @@ string search_index (void * webserver_request)
 
   Assets_Header header = Assets_Header (translate("Search"), request);
   header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
-  header.jQuery3On ();
   page = header.run ();
   
   Assets_View view;
