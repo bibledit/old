@@ -56,7 +56,7 @@ string manage_write (void * webserver_request)
   header.addBreadCrumb (manage_users_url (), menu_logic_manage_users_text ());
   page = header.run ();
 
-  Assets_View view; // TodojQuery
+  Assets_View view;
 
   int userid = filter_string_user_identifier (webserver_request);
   
