@@ -162,10 +162,11 @@ string journal_index (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate ("Journal"), webserver_request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
+  header.jQuery3On ();
   string page = header.run ();
 
 
-  Assets_View view; // TodojQuery
+  Assets_View view;
 
 
   if (request->query.count ("clear")) {

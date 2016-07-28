@@ -56,7 +56,7 @@ string versification_system (void * webserver_request)
   header.addBreadCrumb (versification_index_url (), menu_logic_versification_index_text ());
   page = header.run ();
   
-  Assets_View view; // TodojQuery
+  Assets_View view;
   
   Database_Versifications database_versifications = Database_Versifications();
 
