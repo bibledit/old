@@ -720,7 +720,6 @@
 		CAA4D2A81A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4D2B71A45A648003ABA25 /* reconfigure */ = {isa = PBXFileReference; lastKnownFileType = text; name = reconfigure; path = ../reconfigure; sourceTree = "<group>"; };
 		CAA4D2C41A45A648003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
-		CAA4D2CB1A45A648003ABA25 /* print.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = print.js; sourceTree = "<group>"; };
 		CAA4D2EE1A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4D2FB1A45A648003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CAA4D2FD1A45A648003ABA25 /* originals.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = originals.js; sourceTree = "<group>"; };
@@ -2591,7 +2590,6 @@
 				CA35A1401A9F518900221B89 /* print.cpp */,
 				CA35A1411A9F518900221B89 /* print.h */,
 				CA35A1421A9F518900221B89 /* print.html */,
-				CAA4D2CB1A45A648003ABA25 /* print.js */,
 				CAC74C281BB0937C00301C0D /* select.cpp */,
 				CAC74C291BB0937C00301C0D /* select.h */,
 				CAC74C2A1BB0937C00301C0D /* select.html */,

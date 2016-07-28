@@ -59,8 +59,9 @@ string resource_select (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
+  header.jQuery3On ();
   page = header.run ();
-  Assets_View view; // TodojQuery
+  Assets_View view;
 
   
   view.set_variable ("page", resource_logic_selector_page (webserver_request));

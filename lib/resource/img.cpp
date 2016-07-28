@@ -57,7 +57,7 @@ string resource_img (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Image resources"), request);
   page = header.run ();
-  Assets_View view; // TodojQuery
+  Assets_View view;
   string error, success;
   int book1, chapter1, verse1, book2, chapter2, verse2;
   

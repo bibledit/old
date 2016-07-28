@@ -6394,34 +6394,6 @@ msgstr ""
 msgid "Back to notes list"
 msgstr ""
 
-msgid "Clean Consultation Notes"
-msgstr ""
-
-msgid "The process for cleaning consultation notes has started."
-msgstr ""
-
-msgid "The progress is visible in the Journal."
-msgstr ""
-
-msgid "View journal."
-msgstr ""
-
-msgid "It can take time, depending on the amount of consultation notes."
-msgstr ""
-
-msgid "It removes duplicate consultation notes."
-msgstr ""
-
-msgid ""
-"Notes are duplicates when their summary, contents, and verses are the same."
-msgstr ""
-
-msgid "Duplicates may occur for various reasons."
-msgstr ""
-
-msgid "One reason could be that some notes have been imported more than once."
-msgstr ""
-
 msgid "Query about a change in the text"
 msgstr ""
 
