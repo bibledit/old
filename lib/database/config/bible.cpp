@@ -104,7 +104,13 @@ void Database_Config_Bible::setRemoteRepositoryUrl (string bible, string url)
 
 bool Database_Config_Bible::getCheckDoubleSpacesUsfm (string bible)
 {
-  return getBValue (bible, "double-spaces-usfm", false);
+  // Check is on by default in the Cloud, and off on a client.
+#ifdef HAVE_CLIENT
+  bool standard = false;
+#else
+  bool standard = true;
+#endif
+  return getBValue (bible, "double-spaces-usfm", standard);
 }
 void Database_Config_Bible::setCheckDoubleSpacesUsfm (string bible, bool value)
 {
@@ -174,7 +180,13 @@ void Database_Config_Bible::setCheckChaptesVersesVersification (string bible, bo
 
 bool Database_Config_Bible::getCheckWellFormedUsfm (string bible)
 {
-  return getBValue (bible, "check-well-formed-usfm", false);
+  // Check is on by default in the Cloud, and off on a client.
+#ifdef HAVE_CLIENT
+  bool standard = false;
+#else
+  bool standard = true;
+#endif
+  return getBValue (bible, "check-well-formed-usfm", standard);
 }
 void Database_Config_Bible::setCheckWellFormedUsfm (string bible, bool value)
 {

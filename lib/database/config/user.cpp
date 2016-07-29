@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/user.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/roles.h>
 #include <session/logic.h>
 #include <database/users.h>
 #include <database/styles.h>
@@ -500,13 +501,22 @@ void Database_Config_User::setDeletedConsultationNoteNotification (bool value)
 }
 
 
-bool Database_Config_User::getBibleChecksNotification ()
+bool Database_Config_User::defaultBibleChecksNotification ()
 {
-  return getBValue ("bible-checks-notification", false);
+#ifdef HAVE_CLIENT
+  return false;
+#else
+  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
+  return (level >= Filter_Roles::translator () && level <= Filter_Roles::manager ());
+#endif
 }
-bool Database_Config_User::getUserBibleChecksNotification (string username)
+bool Database_Config_User::getBibleChecksNotification () // Todo
 {
-  return getBValueForUser (username, "bible-checks-notification", false);
+  return getBValue ("bible-checks-notification", defaultBibleChecksNotification ());
+}
+bool Database_Config_User::getUserBibleChecksNotification (string username) // Todo
+{
+  return getBValueForUser (username, "bible-checks-notification", defaultBibleChecksNotification ());
 }
 void Database_Config_User::setBibleChecksNotification (bool value)
 {

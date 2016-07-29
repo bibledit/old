@@ -251,6 +251,7 @@ private:
   void setIList (const char * key, vector <int> values);
   const char * keySprintMonth ();
   const char * keySprintYear ();
+  bool defaultBibleChecksNotification ();
 };
 
 
