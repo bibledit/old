@@ -45,7 +45,11 @@ string checks_settingssentences_url ()
 
 bool checks_settingssentences_acl (void * webserver_request)
 {
+#ifdef HAVE_CLIENT
+  return true;
+#else
   return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+#endif
 }
 
 

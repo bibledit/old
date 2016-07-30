@@ -33,6 +33,7 @@
 #include <sendreceive/logic.h>
 #include <access/bible.h>
 #include <menu/logic.h>
+#include <checks/settings.h>
 
 
 string checks_index_url ()
@@ -110,6 +111,13 @@ string checks_index (void * webserver_request)
     }
   }
   view.set_variable ("resultblock", resultblock);
+
+  
+  if (checks_settings_acl (webserver_request)) {
+    view.enable_zone ("can_enable");
+  } else {
+    view.enable_zone ("cannot_enable");
+  }
 
 
   page += view.render ("checks", "index");
