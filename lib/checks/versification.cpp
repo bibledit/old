@@ -24,16 +24,6 @@
 #include <database/config/bible.h>
 
 
-Checks_Versification::Checks_Versification ()
-{
-}
-
-
-Checks_Versification::~Checks_Versification ()
-{
-}
-
-
 void Checks_Versification::books (string bible, vector <int> books)
 {
   Database_Versifications database_versifications;

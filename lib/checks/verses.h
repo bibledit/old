@@ -27,8 +27,6 @@
 class Checks_Verses
 {
 public:
-  Checks_Verses ();
-  ~Checks_Verses ();
   static void missingPunctuationAtEnd (string bible, int book, int chapter, map <int, string> verses,
                                        string center_marks, string end_marks);
   static void patterns (string bible, int book, int chapter, map <int, string> verses, vector <string> patterns);

@@ -22,16 +22,6 @@
 #include <database/check.h>
 
 
-Checks_Headers::Checks_Headers ()
-{
-}
-
-
-Checks_Headers::~Checks_Headers ()
-{
-}
-
-
 void Checks_Headers::noPunctuationAtEnd (string bible, int book, int chapter,
                                          map <int, string> headings,
                                          string centermarks, string endmarks)

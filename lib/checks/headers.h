@@ -27,8 +27,6 @@
 class Checks_Headers
 {
 public:
-  Checks_Headers ();
-  ~Checks_Headers ();
   static void noPunctuationAtEnd (string bible, int book, int chapter,
                                   map <int, string> headings,
                                   string centermarks, string endmarks);

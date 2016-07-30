@@ -27,8 +27,6 @@
 class Checks_Space
 {
 public:
-  Checks_Space ();
-  ~Checks_Space ();
   static void doubleSpaceUsfm (string bible, int book, int chapter, int verse, string data);
   static void spaceBeforePunctuation (string bible, int book, int chapter, map <int, string> texts);
 private:

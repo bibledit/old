@@ -27,16 +27,6 @@
 #include <styles/logic.h>
 
 
-Checks_Verses::Checks_Verses ()
-{
-}
-
-
-Checks_Verses::~Checks_Verses ()
-{
-}
-
-
 void Checks_Verses::missingPunctuationAtEnd (string bible, int book, int chapter, map <int, string> verses,
                                              string center_marks, string end_marks)
 {

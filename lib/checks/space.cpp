@@ -22,16 +22,6 @@
 #include <database/check.h>
 
 
-Checks_Space::Checks_Space ()
-{
-}
-
-
-Checks_Space::~Checks_Space ()
-{
-}
-
-
 void Checks_Space::doubleSpaceUsfm (string bible, int book, int chapter, int verse, string data)
 {
   size_t pos = data.find ("  ");

@@ -27,8 +27,6 @@
 class Checks_Versification
 {
 public:
-  Checks_Versification ();
-  ~Checks_Versification ();
   static void books (string bible, vector <int> books);
   static void chapters (string bible, int book, vector <int> chapters);
   static void verses (string bible, int book, int chapter, vector <int> verses);
