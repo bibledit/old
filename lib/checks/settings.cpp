@@ -155,7 +155,12 @@ string checks_settings (void * webserver_request)
                       
   view.set_variable ("bible", bible);
 
-                      
+  
+#ifndef HAVE_CLIENT
+  view.enable_zone ("cloud");
+#endif
+
+  
   page += view.render ("checks", "settings");
   page += Assets_Page::footer ();
   return page;
