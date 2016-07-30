@@ -156,7 +156,9 @@ string checks_settings (void * webserver_request)
   view.set_variable ("bible", bible);
 
   
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLIENT
+  view.enable_zone ("client");
+#else
   view.enable_zone ("cloud");
 #endif
 
