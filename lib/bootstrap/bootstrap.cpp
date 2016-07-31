@@ -162,6 +162,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/settings.h>
 #include <checks/settingspatterns.h>
 #include <checks/settingssentences.h>
+#include <checks/settingspairs.h>
 #include <consistency/index.h>
 #include <checks/suppress.h>
 #include <consistency/poll.h>
@@ -487,7 +488,9 @@ void bootstrap_index (void * webserver_request)
   else if ((url == checks_settingspatterns_url ()) && bootstrap_browser_request_security_okay (request) && checks_settingspatterns_acl (request)) request->reply = checks_settingspatterns (request);
   
   else if ((url == checks_settingssentences_url ()) && bootstrap_browser_request_security_okay (request) && checks_settingssentences_acl (request)) request->reply = checks_settingssentences (request);
-  
+
+  else if ((url == checks_settingspairs_url ()) && bootstrap_browser_request_security_okay (request) && checks_settingspairs_acl (request)) request->reply = checks_settingspairs (request);
+
   else if ((url == checks_suppress_url ()) && bootstrap_browser_request_security_okay (request) && checks_suppress_acl (request)) request->reply = checks_suppress (request);
   
   else if ((url == xrefs_help_url ()) && bootstrap_browser_request_security_okay (request) && xrefs_help_acl (request)) request->reply = xrefs_help (request);

@@ -300,6 +300,7 @@ libbibledit_a_SOURCES = \
 	checks/verses.cpp \
 	checks/versification.cpp \
 	checks/pairs.cpp \
+	checks/settingspairs.cpp \
 	consistency/index.cpp \
 	consistency/input.cpp \
 	consistency/logic.cpp \

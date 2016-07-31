@@ -479,6 +479,9 @@
 		CAA0BC841B9A00A300115B42 /* import.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = import.h; sourceTree = "<group>"; };
 		CAA0BC851B9A00A300115B42 /* import.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = import.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAA0BC861B9A00A300115B42 /* import.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = import.js; sourceTree = "<group>"; };
+		CAA276411D4E562E0097717E /* settingspairs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = settingspairs.cpp; sourceTree = "<group>"; };
+		CAA276421D4E562E0097717E /* settingspairs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = settingspairs.h; sourceTree = "<group>"; };
+		CAA276431D4E562E0097717E /* settingspairs.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = settingspairs.html; sourceTree = "<group>"; };
 		CAA4CEFB1A45A647003ABA25 /* bible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bible.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4CEFC1A45A647003ABA25 /* bible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = bible.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4CEFD1A45A647003ABA25 /* user.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user.cpp; sourceTree = "<group>"; };
@@ -1565,6 +1568,9 @@
 				CA05B0091AC448FE00488ECE /* settings.cpp */,
 				CA05B00A1AC448FE00488ECE /* settings.h */,
 				CA05B00B1AC448FE00488ECE /* settings.html */,
+				CAA276411D4E562E0097717E /* settingspairs.cpp */,
+				CAA276421D4E562E0097717E /* settingspairs.h */,
+				CAA276431D4E562E0097717E /* settingspairs.html */,
 				CA05B00D1AC448FE00488ECE /* settingspatterns.cpp */,
 				CA05B00E1AC448FE00488ECE /* settingspatterns.h */,
 				CA05B00F1AC448FE00488ECE /* settingspatterns.html */,

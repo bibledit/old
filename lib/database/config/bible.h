@@ -64,6 +64,10 @@ public:
   static void setSentenceStructureDisregards (string bible, string value);
   static string getSentenceStructureNames (string bible);
   static void setSentenceStructureNames (string bible, string value);
+  static bool getCheckMatchingPairs (string bible);
+  static void setCheckMatchingPairs (string bible, bool value);
+  static string getMatchingPairs (string bible);
+  static void setMatchingPairs (string bible, string value);
   static string getSprintTaskCompletionCategories (string bible);
   static void setSprintTaskCompletionCategories (string bible, string value);
   static int getRepeatSendReceive (string bible);

@@ -284,7 +284,27 @@ void Database_Config_Bible::setSentenceStructureNames (string bible, string valu
 }
 
 
-string Database_Config_Bible::getSprintTaskCompletionCategories (string bible) 
+bool Database_Config_Bible::getCheckMatchingPairs (string bible)
+{
+  return getBValue (bible, "check-matching-pairs", false);
+}
+void Database_Config_Bible::setCheckMatchingPairs (string bible, bool value)
+{
+  setBValue (bible, "check-matching-pairs", value);
+}
+
+
+string Database_Config_Bible::getMatchingPairs (string bible)
+{
+  return getValue (bible, "matching-pairs", "[] () {} “” ‘’ «» ‹›");
+}
+void Database_Config_Bible::setMatchingPairs (string bible, string value)
+{
+  setValue (bible, "matching-pairs", value);
+}
+
+
+string Database_Config_Bible::getSprintTaskCompletionCategories (string bible)
 {
   return getValue (bible, "sprint-task-completion-categories", "Translate\nCheck\nHebrew/Greek\nDiscussions");
 }
