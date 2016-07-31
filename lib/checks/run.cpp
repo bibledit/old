@@ -37,6 +37,7 @@
 #include <checks/space.h>
 #include <checks/usfm.h>
 #include <checks/verses.h>
+#include <checks/pairs.h>
 #include <checks/index.h>
 #include <email/send.h>
 
@@ -81,6 +82,21 @@ void checks_run (string bible)
   bool check_patterns = Database_Config_Bible::getCheckPatterns (bible);
   string s_checking_patterns = Database_Config_Bible::getCheckingPatterns (bible);
   vector <string> checking_patterns = filter_string_explode (s_checking_patterns, '\n');
+  bool check_matching_pairs = Database_Config_Bible::getCheckMatchingPairs (bible);
+  vector <pair <string, string> > matching_pairs;
+  {
+    string fragment = Database_Config_Bible::getMatchingPairs (bible);
+    vector <string> pairs = filter_string_explode (fragment, ' ');
+    for (auto & pair : pairs) {
+      pair = filter_string_trim (pair);
+      size_t length = unicode_string_length (pair);
+      if (length == 2) {
+        string opener = unicode_string_substr (pair, 0, 1);
+        string closer = unicode_string_substr (pair, 1, 1);
+        matching_pairs.push_back (make_pair (opener, closer));
+      }
+    }
+  }
 
   
   vector <int> books = request.database_bibles()->getBooks (bible);
@@ -158,9 +174,11 @@ void checks_run (string bible)
       if (check_patterns) {
         Checks_Verses::patterns (bible, book, chapter, verses_text, checking_patterns);
       }
+
       
-      // Todo check on matching pairs.
-      
+      if (check_matching_pairs) {
+        Checks_Pairs::run (bible, book, chapter, verses_text, matching_pairs);
+      }
     }
   }
   
