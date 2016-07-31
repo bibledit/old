@@ -58,7 +58,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  test_filter_passage (); refresh_sandbox (true); exit (0);
+  test_check_pairs (); refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -139,6 +139,7 @@ int main (int argc, char **argv)
   test_check_sentences ();
   test_check_versification ();
   test_check_usfm ();
+  test_check_pairs ();
   test_filter_url2  ();
   test_hyphenate ();
   test_filter_string ();

@@ -510,11 +510,11 @@ bool Database_Config_User::defaultBibleChecksNotification ()
   return (level >= Filter_Roles::translator () && level <= Filter_Roles::manager ());
 #endif
 }
-bool Database_Config_User::getBibleChecksNotification () // Todo
+bool Database_Config_User::getBibleChecksNotification ()
 {
   return getBValue ("bible-checks-notification", defaultBibleChecksNotification ());
 }
-bool Database_Config_User::getUserBibleChecksNotification (string username) // Todo
+bool Database_Config_User::getUserBibleChecksNotification (string username)
 {
   return getBValueForUser (username, "bible-checks-notification", defaultBibleChecksNotification ());
 }

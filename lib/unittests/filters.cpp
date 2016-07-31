@@ -2236,7 +2236,6 @@ void test_filter_passage ()
     Passage passage2 = Passage ("bible", 1, 2, "4");
     evaluate (__LINE__, __func__, false, passage.equal (passage2));
   }
-  }
   // Encoding and decoding passages.
   {
     Passage input = Passage ("עברית", 1, 2, "3");

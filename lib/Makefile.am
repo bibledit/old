@@ -299,6 +299,7 @@ libbibledit_a_SOURCES = \
 	checks/usfm.cpp \
 	checks/verses.cpp \
 	checks/versification.cpp \
+	checks/pairs.cpp \
 	consistency/index.cpp \
 	consistency/input.cpp \
 	consistency/logic.cpp \

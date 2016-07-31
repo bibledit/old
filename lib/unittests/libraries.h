@@ -40,6 +40,7 @@ void test_check_sentences ();
 void test_check_versification ();
 void test_check_usfm ();
 void test_check_verses ();
+void test_check_pairs ();
 void test_hyphenate ();
 void test_search_logic ();
 void test_libraries_temporal ();

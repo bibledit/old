@@ -1132,6 +1132,8 @@
 		CAD443441AC95BC60005B8F6 /* web.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = web.h; sourceTree = "<group>"; };
 		CAD443491AC9650B0005B8F6 /* exports.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = exports.html; sourceTree = "<group>"; };
 		CAD4434A1AC965130005B8F6 /* hyphenation.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = hyphenation.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
+		CADCC7CC1D4D1AF50076FF17 /* pairs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pairs.cpp; sourceTree = "<group>"; };
+		CADCC7CD1D4D1AF50076FF17 /* pairs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pairs.h; sourceTree = "<group>"; };
 		CADDF2B51D4A29E40036C3EF /* documentation.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = documentation.txt; sourceTree = "<group>"; };
 		CADE4D7A1A9DE2FD00F16E49 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE4D7B1A9DE2FD00F16E49 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
@@ -1556,6 +1558,8 @@
 				CA05B0011AC448FE00488ECE /* index.js */,
 				CA05B0031AC448FE00488ECE /* logic.cpp */,
 				CA05B0041AC448FE00488ECE /* logic.h */,
+				CADCC7CC1D4D1AF50076FF17 /* pairs.cpp */,
+				CADCC7CD1D4D1AF50076FF17 /* pairs.h */,
 				CA05B0061AC448FE00488ECE /* sentences.cpp */,
 				CA05B0071AC448FE00488ECE /* sentences.h */,
 				CA05B0091AC448FE00488ECE /* settings.cpp */,

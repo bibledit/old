@@ -46,6 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/versification.h>
 #include <checks/usfm.h>
 #include <checks/verses.h>
+#include <checks/pairs.h>
 #include <manage/hyphenate.h>
 #include <search/logic.h>
 #include <jsonxx/jsonxx.h>
@@ -2863,6 +2864,98 @@ void test_check_verses ()
     }
   }
   database_check.truncateOutput ("");
+}
+
+
+void test_check_pairs ()
+{
+  trace_unit_tests (__func__);
+  
+  refresh_sandbox (true);
+  Database_Check database_check;
+  database_check.create ();
+  
+  string bible = "bible";
+  int book = 2;
+  int chapter = 3;
+  map <int, string> verses;
+  vector <pair <string, string> > pairs = {
+    make_pair ("[", "]"),
+    make_pair ("(", ")"),
+    make_pair ("“", "”"),
+  };
+  vector <Database_Check_Hit> results;
+  
+  {
+    verses = {
+      make_pair (2, "Verse two."),
+      make_pair (3, "Verse three."),
+      make_pair (4, "Verse four.")
+    };
+    Checks_Pairs::run (bible, book, chapter, verses, pairs);
+    results = database_check.getHits ();
+    evaluate (__LINE__, __func__, 0, results.size());
+    database_check.truncateOutput ("");
+  }
+
+  {
+    verses = {
+      make_pair (2, "Verse [two."),
+      make_pair (3, "Verse three]."),
+      make_pair (4, "Verse four.")
+    };
+    Checks_Pairs::run (bible, book, chapter, verses, pairs);
+    results = database_check.getHits ();
+    evaluate (__LINE__, __func__, 0, results.size());
+    database_check.truncateOutput ("");
+  }
+
+  {
+    verses = {
+      make_pair (2, "Verse [two."),
+      make_pair (3, "Verse (three."),
+      make_pair (4, "Verse four.")
+    };
+    Checks_Pairs::run (bible, book, chapter, verses, pairs);
+    results = database_check.getHits ();
+    evaluate (__LINE__, __func__, 2, results.size());
+    if (results.size () == 2) {
+      Database_Check_Hit hit = results[0];
+      evaluate (__LINE__, __func__, 1, hit.rowid);
+      evaluate (__LINE__, __func__, bible, hit.bible);
+      evaluate (__LINE__, __func__, book, hit.book);
+      evaluate (__LINE__, __func__, chapter, hit.chapter);
+      evaluate (__LINE__, __func__, 2, hit.verse);
+      evaluate (__LINE__, __func__, "Opening character \"[\" without its matching closing character \"]\"", hit.data);
+      hit = results[1];
+      evaluate (__LINE__, __func__, "Opening character \"(\" without its matching closing character \")\"", hit.data);
+    }
+    database_check.truncateOutput ("");
+  }
+
+  {
+    verses = {
+      make_pair (2, "Verse [two."),
+      make_pair (3, "Verse three."),
+      make_pair (4, "Verse four).")
+    };
+    Checks_Pairs::run (bible, book, chapter, verses, pairs);
+    results = database_check.getHits ();
+    evaluate (__LINE__, __func__, 2, results.size());
+    if (results.size () == 2) {
+      Database_Check_Hit hit = results[0];
+      evaluate (__LINE__, __func__, 1, hit.rowid);
+      evaluate (__LINE__, __func__, bible, hit.bible);
+      evaluate (__LINE__, __func__, book, hit.book);
+      evaluate (__LINE__, __func__, chapter, hit.chapter);
+      evaluate (__LINE__, __func__, 4, hit.verse);
+      evaluate (__LINE__, __func__, "Closing character \")\" without its matching opening character \"(\"", hit.data);
+      hit = results[1];
+      evaluate (__LINE__, __func__, 2, hit.verse);
+      evaluate (__LINE__, __func__, "Opening character \"[\" without its matching closing character \"]\"", hit.data);
+    }
+    database_check.truncateOutput ("");
+  }
 }
 
 

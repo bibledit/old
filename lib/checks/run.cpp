@@ -159,6 +159,8 @@ void checks_run (string bible)
         Checks_Verses::patterns (bible, book, chapter, verses_text, checking_patterns);
       }
       
+      // Todo check on matching pairs.
+      
     }
   }
   
