@@ -1001,6 +1001,9 @@ msgstr ""
 msgid "settings"
 msgstr ""
 
+msgid "matching pairs"
+msgstr ""
+
 msgid "Settings for the sentence structure"
 msgstr ""
 
@@ -1015,6 +1018,27 @@ msgstr ""
 msgid ""
 "The results will also be emailed to all users who have enabled this "
 "notification."
+msgstr ""
+
+msgid "Matching pairs"
+msgstr ""
+
+msgid "A pair should consist of two characters:"
+msgstr ""
+
+msgid "The pairs were stored"
+msgstr ""
+
+msgid "Enter all possible matching pairs in the text of the Bible."
+msgstr ""
+
+msgid "Separate each pair by a space."
+msgstr ""
+
+msgid "For example:"
+msgstr ""
+
+msgid "Go back"
 msgstr ""
 
 msgid "Patterns"
@@ -1032,9 +1056,6 @@ msgstr ""
 msgid ""
 "It will search the plain text of the Bible, without verse numbers, heading, "
 "and other additions."
-msgstr ""
-
-msgid "Go back"
 msgstr ""
 
 msgid "Sentence Structure"
@@ -1069,9 +1090,6 @@ msgid "Enter all possible capitals in the text of the Bible."
 msgstr ""
 
 msgid "Separate them by a space."
-msgstr ""
-
-msgid "For example:"
 msgstr ""
 
 msgid "Enter all possible small letters in the text of the Bible."
