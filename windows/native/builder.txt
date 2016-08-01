@@ -1,0 +1,15 @@
+Setting up a build environment in Windows.
+
+Follow the instructions at http://msys2.github.io. 
+Pick the 32 bits version. 
+Use the default installation folder.
+After installation and starting it, it runs the msys2 shell.
+When it says to close the shell and restart it, rather reboot Windows instead.
+
+Start a mingw32 shell.
+
+$ pacman -S --noconfirm mingw-w64-i686-toolchain
+$ pacman -S --noconfirm base-devel
+$ pacman -S --noconfirm msys/git
+$ pacman -S --noconfirm autoconf-archive
+
