@@ -205,7 +205,12 @@ void http_server ()
 #endif
   serveraddr.sin_port = htons (convert_to_int (config_logic_http_network_port ()));
   result = mybind (listenfd, (SA *) &serveraddr, sizeof (serveraddr));
-  if (result != 0) cerr << "Error binding server to socket" << endl;
+#ifdef HAVE_MSYS
+  if (result == SOCKET_ERROR)
+#else
+  if (result != 0)
+#endif
+    cerr << "Error binding server to socket" << endl;
 
   // Make it a listening socket ready to accept many connection requests.
   result = listen (listenfd, 100);
@@ -221,16 +226,23 @@ void http_server ()
     int connfd = accept (listenfd, (SA *)&clientaddr, &clientlen);
     if (connfd > 0) {
 
-      // Socket receive timeout.
+      // Socket receive timeout, plain http.
+#ifndef HAVE_MSYS
       struct timeval tv;
       tv.tv_sec = 60;
       tv.tv_usec = 0;
       setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+#endif
       
       // The client's remote IPv4 address in dotted notation.
+      string clientaddress;
+#ifndef HAVE_MSYS
       char remote_address[256];
       inet_ntop (AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof (remote_address));
-      string clientaddress = remote_address;
+      clientaddress = remote_address;
+#else
+      clientaddress = "127.0.0.1";
+#endif
       
       // Handle this request in a thread, enabling parallel requests.
       thread request_thread = thread (webserver_process_request, connfd, clientaddress);
@@ -250,11 +262,13 @@ void http_server ()
 // Processes a single request from a web client.
 void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd)
 {
-  // Socket receive timeout.
+  // Socket receive timeout, secure https.
+#ifndef HAVE_MSYS
   struct timeval tv;
   tv.tv_sec = 60;
   tv.tv_usec = 0;
   setsockopt (client_fd.fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+#endif
   
   // The environment for this request.
   // It gets passed around from function to function during the entire request.
@@ -272,14 +286,17 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
 
     if (config_globals_https_running) {
 
-      // The client's remote IPv4 address in dotted notation.
+      // Get client's remote IPv4 address in dotted notation and put it in the webserver request object.
+#ifndef HAVE_MSYS
       struct sockaddr_in addr;
       socklen_t addr_size = sizeof(struct sockaddr_in);
       getpeername (client_fd.fd, (struct sockaddr *)&addr, &addr_size);
       char remote_address [256];
       inet_ntop (AF_INET, &addr.sin_addr.s_addr, remote_address, sizeof (remote_address));
-      // Store it in the webserver request object.
       request.remote_address = remote_address;
+#else
+      request.remote_address = "127.0.0.1";
+#endif
       
       // This flag indicates a healthy connection: One that can proceed.
       bool connection_healthy = true;

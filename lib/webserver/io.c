@@ -17,6 +17,7 @@
  */
 
 
+#include <config.h>
 #include <webserver/io.h>
 
 
@@ -28,8 +29,7 @@
  This .c file will be compiled through the C compiler, not the C++ compiler.
  The linker then knows not to link to the C++ "bind" function but to the Unix "bind" function.
  */
-int mybind (int socket, const struct sockaddr *address, socklen_t address_len)
+int mybind (int socket, const struct sockaddr *address, unsigned int address_len)
 {
   return bind (socket, address, address_len);
 }
-

@@ -21,14 +21,19 @@
 #define INCLUDED_WEBSERVER_IO_H
 
 
+#include <config.h>
+#ifdef HAVE_MSYS
+#include <ws2tcpip.h>
+#else
 #include <sys/socket.h>
+#endif
 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int mybind (int socket, const struct sockaddr *address, socklen_t address_len);
+int mybind (int socket, const struct sockaddr *address, unsigned int address_len);
 
 #ifdef __cplusplus
 }

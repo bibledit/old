@@ -45,6 +45,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Define whether to compile on Windows */
+#undef HAVE_MSYS
+
 /* Define whether pthread.h is present */
 #undef HAVE_PTHREAD
 

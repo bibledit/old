@@ -141,9 +141,12 @@ void bibledit_start_library ()
     config_globals_open_installation = true;
   }
   
-  // Ignore SIGPIPE signal: When the browser cancels the request, it won't kill Bibledit.
+  // Ignore SIGPIPE signal on Linux: When the browser cancels the request, it won't kill Bibledit.
+  // On Windows, this is not needed.
+#ifndef HAVE_MSYS
   signal (SIGPIPE, SIG_IGN);
-
+#endif
+  
   // Set running flag.
   config_globals_http_running = true;
   config_globals_https_running = true;
@@ -215,6 +218,7 @@ void bibledit_stop_library ()
   config_globals_https_running = false;
   
   // Connect to localhost to initiate the shutdown mechanism in the running server.
+#ifndef HAVE_MSYS
   {
     struct sockaddr_in sa;
     sa.sin_family = AF_INET;
@@ -226,8 +230,10 @@ void bibledit_stop_library ()
     int mysocket = socket (PF_INET, SOCK_STREAM, 0);
     connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
   }
+#endif
   
   // Connect to the secure server to initiate its shutdown mechanism.
+#ifndef HAVE_MSYS
   {
     struct sockaddr_in sa;
     sa.sin_family = AF_INET;
@@ -243,6 +249,7 @@ void bibledit_stop_library ()
     this_thread::sleep_for (chrono::milliseconds (1));
     close (mysocket);
   }
+#endif
   
   // Wait till the servers and the timers shut down.
   config_globals_http_worker->join ();

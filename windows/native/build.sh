@@ -14,7 +14,7 @@ TEMPDIR=/tmp/bibledit-windows
 echo Synchronizing relevant source code to the temporal directory.
 mkdir -p $TEMPDIR
 rsync --archive --delete --exclude '.deps' --exclude '*.o' --exclude '*.a' --exclude '.dirstamp' --exclude 'server' --exclude 'unittest' --exclude '.DS_Store' ../../lib $TEMPDIR/
-rsync --archive --delete --exclude '.DS_Store'. $TEMPDIR/windows
+# rsync --archive --delete --exclude '.DS_Store'../native $TEMPDIR/
 
 
 cd $TEMPDIR/lib
@@ -22,7 +22,7 @@ cd $TEMPDIR/lib
 
 # Limit the maximum number of parallel background tasks 
 # to make the interface more responsive.
-./configure --enable-windows --with-network-port=9876
+./configure --enable-windows --with-network-port=9876 --enable-msys
 EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
   exit

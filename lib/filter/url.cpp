@@ -26,9 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/books.h>
 #include <database/logs.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <netinet/in.h>
 #ifdef HAVE_CLIENT
 #else
 #include <curl/curl.h>
@@ -203,7 +200,11 @@ bool file_exists (string url)
 void filter_url_mkdir (string directory)
 {
   int status;
-  status = mkdir(directory.c_str(), 0777);
+#ifdef HAVE_MSYS
+  status = mkdir (directory.c_str());
+#else
+  status = mkdir (directory.c_str(), 0777);
+#endif
   if (status != 0) {
     vector <string> paths;
     paths.push_back (directory);
@@ -214,7 +215,11 @@ void filter_url_mkdir (string directory)
     }
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {
-		  mkdir (paths[i].c_str (), 0777);
+#ifdef HAVE_MSYS
+      mkdir (paths[i].c_str ());
+#else
+      mkdir (paths[i].c_str (), 0777);
+#endif
     }
   }
 }
