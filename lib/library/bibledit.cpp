@@ -217,7 +217,7 @@ void bibledit_stop_library ()
   config_globals_http_running = false;
   config_globals_https_running = false;
   
-  // Connect to localhost to initiate the shutdown mechanism in the running server.
+  // Connect to localhost to initiate the shutdown mechanism in the running server. CheckWindows
 #ifndef HAVE_MSYS
   {
     struct sockaddr_in sa;
@@ -232,7 +232,7 @@ void bibledit_stop_library ()
   }
 #endif
   
-  // Connect to the secure server to initiate its shutdown mechanism.
+  // Connect to the secure server to initiate its shutdown mechanism. CheckWindows
 #ifndef HAVE_MSYS
   {
     struct sockaddr_in sa;

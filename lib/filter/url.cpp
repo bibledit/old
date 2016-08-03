@@ -195,7 +195,7 @@ bool file_exists (string url)
 }
 
 
-// Wrapper for the mkdir function: make a directory.
+// Wrapper for the mkdir function: make a directory. CheckWindows
 // Creates parents where needed.
 void filter_url_mkdir (string directory)
 {
