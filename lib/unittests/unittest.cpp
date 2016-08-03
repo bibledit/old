@@ -58,7 +58,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  test_check_pairs (); refresh_sandbox (true); exit (0);
+  test_filter_url (); refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -80,7 +80,7 @@ int main (int argc, char **argv)
   test_odf_text ();
   test_filter_text1 ();
   test_filter_text2 ();
-  test_filter_url1 ();
+  test_filter_url ();
   test_filter_string_rand ();
   test_filter_passage ();
   test_email ();
@@ -140,7 +140,6 @@ int main (int argc, char **argv)
   test_check_versification ();
   test_check_usfm ();
   test_check_pairs ();
-  test_filter_url2  ();
   test_hyphenate ();
   test_filter_string ();
   test_database_noteassignment ();
@@ -157,7 +156,6 @@ int main (int argc, char **argv)
   test_database_privileges ();
   test_json ();
   test_database_git ();
-  test_filter_url3 ();
   test_database_userresources ();
   test_related ();
 
