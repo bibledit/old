@@ -236,7 +236,12 @@ void filter_url_rmdir (string directory)
   while ((entry = readdir (dir)) != NULL) {
     if (strcmp (entry->d_name, ".") && strcmp (entry->d_name, "..")) {
       snprintf (path, (size_t) PATH_MAX, "%s/%s", directory.c_str(), entry->d_name);
-      if (entry->d_type == DT_DIR) {
+      // It used to test on entry->d_type == DT_DIR but this did not work within Mingw:
+      // error: 'struct dirent' has no member named 'd_type'; did you mean 'd_name'?
+      // if (entry->d_type == DT_DIR)
+      // error: 'DT_DIR' was not declared in this scope
+      // if (entry->d_type == DT_DIR)
+      if (filter_url_is_dir (path)) {
         filter_url_rmdir (path);
       }
       remove (path);

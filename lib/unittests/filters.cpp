@@ -2215,13 +2215,21 @@ void test_filter_url () // Todo
   }
 
   {
-    // mkdir including parents.
+    // mkdir and rmdir including parents.
     string directory = filter_url_create_path (testing_directory, "a", "b");
     filter_url_mkdir (directory);
     string path = filter_url_create_path (directory, "c");
     string contents = "unittest";
     filter_url_file_put_contents (path, contents);
     evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (path));
+    
+    path = filter_url_create_path (testing_directory, "a");
+    evaluate (__LINE__, __func__, true, file_exists (path));
+    evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
+    
+    filter_url_rmdir (path);
+    evaluate (__LINE__, __func__, false, file_exists (path));
+    evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
   }
 
   {
