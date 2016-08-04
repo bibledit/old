@@ -968,25 +968,91 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   
   
   // Resolve the host.
-  struct hostent * host = NULL;
+  struct hostent * host = NULL; // Todo out.
+  struct addrinfo address_hints;
+  struct addrinfo * address_results;
   if (!secure) {
+    memset (&address_hints, 0, sizeof (struct addrinfo));
+    // Allow IPv4 and IPv6.
+    address_hints.ai_family = AF_UNSPEC;
+    // TCP/IP socket.
+    address_hints.ai_socktype = SOCK_STREAM;
+    address_hints.ai_flags = 0;
+    // Select protocol that matches with the socket type.
+    address_hints.ai_protocol = 0;
+    // The 'service' is actually the port number.
+    string service = convert_to_string (port);
+    // Get a list of address structures. There can be several of them.
+    int res = getaddrinfo (hostname.c_str(), service.c_str (), &address_hints, &address_results);
+    if (res != 0) {
+      error = hostname + ": ";
+      error.append (gai_strerror (res));
+      connection_healthy = false;
+    }
+    // Todo out (begin)
     host = gethostbyname (hostname.c_str());
     if ((host == NULL) || (host->h_addr == NULL)) {
       error = hostname + ": ";
       error.append (hstrerror (h_errno));
       connection_healthy = false;
     }
+    // Todo out (end)
   }
   
   
-  // Socket setup.
-  int sock = 0;
-  struct sockaddr_in client;
+  // Secure connection setup.
   mbedtls_net_context fd;
-  if (connection_healthy) {
-    if (secure) {
+  if (secure) {
+
+    // Secure socket setup.
+    if (connection_healthy) {
       mbedtls_net_init (&fd);
-    } else {
+    }
+
+    // SSL/TLS connection configuration.
+    if (connection_healthy) {
+      int ret = mbedtls_ssl_config_defaults (&conf, MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
+      if (ret != 0) {
+        filter_url_display_mbed_tls_error (ret, &error, false);
+        connection_healthy = false;
+      }
+      mbedtls_ssl_conf_authmode (&conf, MBEDTLS_SSL_VERIFY_OPTIONAL);
+      mbedtls_ssl_conf_ca_chain (&conf, &filter_url_mbed_tls_cacert, NULL);
+      mbedtls_ssl_conf_rng (&conf, mbedtls_ctr_drbg_random, &filter_url_mbed_tls_ctr_drbg);
+      ret = mbedtls_ssl_setup (&ssl, &conf);
+      if (ret != 0) {
+        filter_url_display_mbed_tls_error (ret, &error, false);
+        connection_healthy = false;
+      }
+      // The hostname it connects to, and verifies the certificate for.
+      ret = mbedtls_ssl_set_hostname (&ssl, hostname.c_str ());
+      if (ret != 0) {
+        filter_url_display_mbed_tls_error (ret, &error, false);
+        connection_healthy = false;
+      }
+      mbedtls_ssl_set_bio (&ssl, &fd, mbedtls_net_send, mbedtls_net_recv, NULL);
+    }
+    
+    // Secure connect to host.
+    if (connection_healthy) {
+      const char * server_port = convert_to_string (port).c_str ();
+      int ret = mbedtls_net_connect (&fd, hostname.c_str(), server_port, MBEDTLS_NET_PROTO_TCP);
+      if (ret != 0) {
+        filter_url_display_mbed_tls_error (ret, &error, false);
+        connection_healthy = false;
+      }
+    }
+  }
+  
+  
+  // Plain connection setup.
+  int sock = 0;
+  if (!secure) {
+    
+    // Todo out - start.
+    // Socket setup.
+    struct sockaddr_in client;
+    if (connection_healthy) {
       bzero (&client, sizeof (client));
       client.sin_family = AF_INET;
       client.sin_port = htons (port);
@@ -998,63 +1064,63 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         connection_healthy = false;
       }
     }
-  }
-  
-  
-  // SSL/TLS connection configuration.
-  if (connection_healthy && secure) {
-    int ret = mbedtls_ssl_config_defaults (&conf, MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
-    if (ret != 0) {
-      filter_url_display_mbed_tls_error (ret, &error, false);
-      connection_healthy = false;
-    }
-    mbedtls_ssl_conf_authmode (&conf, MBEDTLS_SSL_VERIFY_OPTIONAL);
-    mbedtls_ssl_conf_ca_chain (&conf, &filter_url_mbed_tls_cacert, NULL);
-    mbedtls_ssl_conf_rng (&conf, mbedtls_ctr_drbg_random, &filter_url_mbed_tls_ctr_drbg);
-    ret = mbedtls_ssl_setup (&ssl, &conf);
-    if (ret != 0) {
-      filter_url_display_mbed_tls_error (ret, &error, false);
-      connection_healthy = false;
-    }
-    // The hostname it connects to, and verifies the certificate for.
-    ret = mbedtls_ssl_set_hostname (&ssl, hostname.c_str ());
-    if (ret != 0) {
-      filter_url_display_mbed_tls_error (ret, &error, false);
-      connection_healthy = false;
-    }
-    mbedtls_ssl_set_bio (&ssl, &fd, mbedtls_net_send, mbedtls_net_recv, NULL);
-  }
-
-  
-  // A Bibledit client should work even over very bad networks,
-  // so set a timeout on the network connection.
-  if (connection_healthy) {
-    int comm_sock = 0;
-    if (secure) comm_sock = fd.fd;
-    else comm_sock = sock;
-    struct timeval tv;
-    tv.tv_sec = 30;  // Timeout in seconds.
-    setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
-    setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
-  }
-  
-  
-  // Connect to the host.
-  if (connection_healthy) {
-    if (secure) {
-      const char * server_port = convert_to_string (port).c_str ();
-      int ret = mbedtls_net_connect (&fd, hostname.c_str(), server_port, MBEDTLS_NET_PROTO_TCP);
-      if (ret != 0) {
-        filter_url_display_mbed_tls_error (ret, &error, false);
-        connection_healthy = false;
-      }
-    } else {
+    // Plain connect to host.
+    if (connection_healthy) {
       if (connect (sock, (struct sockaddr *)&client, sizeof (client)) < 0 ) {
         error = "Connecting to " + hostname + ": ";
         error.append (strerror (errno));
         connection_healthy = false;
       }
     }
+    // Todo out - end.
+    
+    /* Todo new
+    struct addrinfo * rp;
+    // Function getaddrinfo() returns a list of address structures.
+    // Try each address until it successfully connects.
+    // If the socket fails, try the next address.
+    // And if connect fails close the socket and also try the next address.
+    for (rp = address_results; rp != NULL; rp = rp->ai_next) {
+      sock = socket (rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+      if (sock == -1) continue;
+      
+      if (connect (sock, rp->ai_addr, rp->ai_addrlen) != -1) {
+        // Success.
+        break;
+      }
+      
+      close (sock); // Todo check on this.
+    }
+    
+    // Check whether no address succeeded.
+    if (rp == NULL) {
+      error = "Could not connect";
+      connection_healthy = false;
+    }
+    
+    // No longer needed.
+    freeaddrinfo (address_results);
+     */
+  }
+  
+  
+  // A Bibledit client should work even over very bad networks,
+  // so set a timeout on the network connection.
+  if (connection_healthy) {
+    int comm_sock = sock;
+    if (secure) comm_sock = fd.fd;
+    struct timeval tv;
+    // Timeout in seconds.
+    tv.tv_sec = 30;
+    tv.tv_usec = 0;
+    // Check on setting the socket options.
+    // If it cannot be set, record it in the journal,
+    // but still proceed with the connection, because this is not fatal.
+    int ret;
+    ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
+    if (ret != 0) Database_Logs::log (strerror (errno));
+    ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
+    if (ret != 0) Database_Logs::log (strerror (errno));
   }
   
   
@@ -1217,7 +1283,8 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     mbedtls_ssl_config_free (&conf);
   } else {
     // Only close the socket if it was open.
-    // It used to close (0), and on Android, when this was done a couple of times, it would crash the app.
+    // It used to close (0) in error,
+    // and on Android and iOS, when this was done a couple of times, it would crash the app.
     if (sock > 0) close (sock);
   }
 

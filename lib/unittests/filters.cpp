@@ -2281,6 +2281,25 @@ void test_filter_url () // Todo
 #endif
     evaluate (__LINE__, __func__, "", result);
   }
+  
+  {
+    // Test low-level http(s) client error.
+    string result, error;
+    result = filter_url_http_request_mbed ("http://unknownhost", error, {}, "", false);
+    evaluate (__LINE__, __func__, "", result);
+    evaluate (__LINE__, __func__, "unknownhost: Unknown host", error);
+  }
+
+  {
+    // Test low-level http(s) client result.
+    string result, error;
+    result = filter_url_http_request_mbed ("http://bibledit.org", error, {}, "", false);
+    evaluate (__LINE__, __func__, true, result.find ("Bibledit") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("Cloud") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("Install") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("Demo") != string::npos);
+    evaluate (__LINE__, __func__, "", error);
+  }
 
   {
     // Test removing credentials from a URL.
@@ -2305,7 +2324,7 @@ void test_filter_url () // Todo
     
     string url;
     string error;
-    string html;
+    string result;
     
     url = filter_url_set_scheme (" localhost ", false);
     evaluate (__LINE__, __func__, "http://localhost", url);
@@ -2314,19 +2333,21 @@ void test_filter_url () // Todo
     url = filter_url_set_scheme ("http://localhost", true);
     evaluate (__LINE__, __func__, "https://localhost", url);
     
-    html = filter_url_http_request_mbed ("http://www.google.nl", error, {}, "", false);
+    result = filter_url_http_request_mbed ("http://www.google.nl", error, {}, "", false);
+    evaluate (__LINE__, __func__, true, result.find ("google") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("search") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("background") != string::npos);
     evaluate (__LINE__, __func__, "", error);
-    if (html.length () < 40000) evaluate (__LINE__, __func__, "html shorter than 40000 bytes", "");
-    if (html.length () < 80000) evaluate (__LINE__, __func__, "html longr than 80000 bytes", "");
     
-    html = filter_url_http_request_mbed ("https://www.google.nl", error, {}, "", false);
+    result = filter_url_http_request_mbed ("https://www.google.nl", error, {}, "", false);
+    evaluate (__LINE__, __func__, true, result.find ("google") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("search") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("background") != string::npos);
     evaluate (__LINE__, __func__, "", error);
-    if (html.length () < 40000) evaluate (__LINE__, __func__, "html shorter than 40000 bytes", "");
-    if (html.length () < 80000) evaluate (__LINE__, __func__, "html longr than 80000 bytes", "");
     
-    html = filter_url_http_request_mbed ("https://bibledit.org:8081", error, {}, "", false);
+    result = filter_url_http_request_mbed ("https://bibledit.org:8081", error, {}, "", false);
+    evaluate (__LINE__, __func__, "", result);
     evaluate (__LINE__, __func__, "Response code: 302 Found", error);
-    evaluate (__LINE__, __func__, "", html);
     
     filter_url_ssl_tls_finalize ();
   }
