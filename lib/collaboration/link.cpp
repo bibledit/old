@@ -231,7 +231,9 @@ void collaboration_link (string object, int jobid, string direction)
   }
   
   // Just in case it uses a removable flash disk for the repository, flush any pending writes to disk.
+#ifndef HAVE_MSYS
   sync ();
+#endif
  
   // Ready linking the repository.
   page = collaboration_link_header ();
