@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <database/logs.h>
-#include <sys/wait.h>
 
 
 string filter_shell_escape_argument (string argument)
