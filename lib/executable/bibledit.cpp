@@ -118,7 +118,7 @@ int main (int argc, char **argv)
     // The following works on Windows.
     char buf[1024] = {0};
     DWORD ret = GetModuleFileNameA (NULL, buf, sizeof(buf));
-    webroot = filter_url_dirname (buf);
+    if (ret != 0) webroot = filter_url_dirname (buf);
   }
 #endif
   bibledit_initialize_library (webroot.c_str(), webroot.c_str());
