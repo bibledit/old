@@ -907,7 +907,7 @@ string filter_url_remove_username_password (string url)
 // $post: Value pairs for a POST request.
 // $filename: The filename to save the data to.
 // $check_certificate: Whether the check the server certificate in case of secure http.
-string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate)
+string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate) // CheckWindows
 {
   // The "http" scheme is used to locate network resources via the HTTP protocol.
   // $url = "http(s):" "//" host [ ":" port ] [ abs_path [ "?" query ]]
@@ -1087,7 +1087,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     // Socket, whether plain or secure http.
     int comm_sock = sock;
     if (secure) comm_sock = fd.fd;
-    // Make the timeout not too short, so it can support very slow networks.
+    // Make the timeout not too short, so it can support very slow networks. CheckWindows
 #ifdef HAVE_MSYS
     // Windows: Timeout value is a DWORD in milliseconds, address passed to setsockopt() is const char *
     const char * tv = "600000";
