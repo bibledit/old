@@ -1,0 +1,3 @@
+rm -f test
+g++ -o test test.cpp
+./test

@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/logs.h>
 #include <utf8proc/utf8proc.h>
+#include <config/globals.h>
 
 
 // A C++ equivalent for PHP's explode function.
@@ -1248,7 +1249,7 @@ string get_new_random_string ()
 {
   string u = convert_to_string (filter_date_numerical_microseconds ());
   string s = convert_to_string (filter_date_seconds_since_epoch ());
-  string r = convert_to_string ((float)random ());
+  string r = convert_to_string (config_globals_int_distribution (config_globals_random_engine));
   return md5 (u + s + r);
 }
 

@@ -67,6 +67,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <cmath>
 #include <mutex>
 #include <numeric>
+#include <random>
+#include <limits>
 
 
 // Headers dependencies.

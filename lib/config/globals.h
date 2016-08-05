@@ -47,3 +47,5 @@ extern bool config_globals_syncing_resources;
 extern map <string, int> config_globals_prioritized_ip_addresses;
 extern bool config_globals_enforce_https_browser;
 extern bool config_globals_enforce_https_client;
+extern default_random_engine config_globals_random_engine;
+extern uniform_int_distribution <int> config_globals_int_distribution;

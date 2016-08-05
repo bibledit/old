@@ -235,7 +235,6 @@ int filter_archive_is_archive (string file)
 #include <ios>
 #include <iostream>
 #include <istream>
-#include <limits>
 #include <memory>
 #include <ostream>
 #include <stdexcept>
