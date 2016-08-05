@@ -1084,19 +1084,34 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   // A Bibledit client should work even over very bad networks,
   // so set a timeout on the network connection.
   if (connection_healthy) {
+    // Socket, whether plain or secure http.
     int comm_sock = sock;
     if (secure) comm_sock = fd.fd;
+    // Make the timeout not too short, so it can support very slow networks.
+#ifdef HAVE_MSYS
+    // Windows: Timeout value is a DWORD in milliseconds, address passed to setsockopt() is const char *
+    const char * tv = "600000";
+#else
+    // Linux: Timeout value is a struct timeval, address passed to setsockopt() is const void *
     struct timeval tv;
-    // Timeout in seconds: Not too short, to support very slow networks.
     tv.tv_sec = 600;
     tv.tv_usec = 0;
-    // Check on setting the socket options.
+#endif
+    // Check on the result of setting the socket options.
     // If it cannot be set, record it in the journal,
     // but still proceed with the connection, because this is not fatal.
     int ret;
+#ifdef HAVE_MSYS
+    ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
+#else
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
+#endif
     if (ret != 0) Database_Logs::log (strerror (errno));
+#ifdef HAVE_MSYS
+    ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, tv, sizeof (tv));
+#else
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
+#endif
     if (ret != 0) Database_Logs::log (strerror (errno));
   }
   
