@@ -20,6 +20,11 @@ rsync --archive --delete --exclude '.deps' --exclude '*.o' --exclude '*.a' --exc
 cd $TEMPDIR/lib
 
 
+# Fix g++.exe: error: unrecognized command line option '-rdynamic'
+sed -i 's/-rdynamic//' Makefile.am
+
+
+
 # Limit the maximum number of parallel background tasks 
 # to make the interface more responsive.
 ./configure --enable-windows --with-network-port=9876 --enable-msys
