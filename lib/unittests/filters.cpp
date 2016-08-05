@@ -2183,7 +2183,7 @@ void test_filter_text2 ()
 }
 
 
-void test_filter_url () // Todo
+void test_filter_url ()
 {
   trace_unit_tests (__func__);
   
@@ -2283,11 +2283,19 @@ void test_filter_url () // Todo
   }
   
   {
-    // Test low-level http(s) client error.
+    // Test low-level http(s) client error for unknown host.
     string result, error;
     result = filter_url_http_request_mbed ("http://unknownhost", error, {}, "", false);
     evaluate (__LINE__, __func__, "", result);
-    evaluate (__LINE__, __func__, "unknownhost: Unknown host", error);
+    evaluate (__LINE__, __func__, "unknownhost: nodename nor servname provided, or not known", error);
+  }
+
+  {
+    // Test low-level http(s) client error for closed port.
+    string result, error;
+    result = filter_url_http_request_mbed ("http://bibledit.org:8082/non-existing", error, {}, "", false);
+    evaluate (__LINE__, __func__, "", result);
+    evaluate (__LINE__, __func__, "bibledit.org:8082: Connection refused | bibledit.org:8082: No route to host", error);
   }
 
   {

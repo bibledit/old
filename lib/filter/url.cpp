@@ -968,35 +968,26 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   
   
   // Resolve the host.
-  struct hostent * host = NULL; // Todo out.
-  struct addrinfo address_hints;
+  struct addrinfo hints;
   struct addrinfo * address_results;
   if (!secure) {
-    memset (&address_hints, 0, sizeof (struct addrinfo));
+    memset (&hints, 0, sizeof (struct addrinfo));
     // Allow IPv4 and IPv6.
-    address_hints.ai_family = AF_UNSPEC;
+    hints.ai_family = AF_UNSPEC;
     // TCP/IP socket.
-    address_hints.ai_socktype = SOCK_STREAM;
-    address_hints.ai_flags = 0;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = 0;
     // Select protocol that matches with the socket type.
-    address_hints.ai_protocol = 0;
+    hints.ai_protocol = 0;
     // The 'service' is actually the port number.
     string service = convert_to_string (port);
     // Get a list of address structures. There can be several of them.
-    int res = getaddrinfo (hostname.c_str(), service.c_str (), &address_hints, &address_results);
+    int res = getaddrinfo (hostname.c_str(), service.c_str (), &hints, &address_results);
     if (res != 0) {
       error = hostname + ": ";
       error.append (gai_strerror (res));
       connection_healthy = false;
     }
-    // Todo out (begin)
-    host = gethostbyname (hostname.c_str());
-    if ((host == NULL) || (host->h_addr == NULL)) {
-      error = hostname + ": ";
-      error.append (hstrerror (h_errno));
-      connection_healthy = false;
-    }
-    // Todo out (end)
   }
   
   
@@ -1049,58 +1040,44 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   int sock = 0;
   if (!secure) {
     
-    // Todo out - start.
-    // Socket setup.
-    struct sockaddr_in client;
+    // Iterate over the list of address structures.
+    vector <string> errors;
+    struct addrinfo * rp = NULL;
     if (connection_healthy) {
-      bzero (&client, sizeof (client));
-      client.sin_family = AF_INET;
-      client.sin_port = htons (port);
-      memcpy (&client.sin_addr, host->h_addr, host->h_length);
-      sock = socket (AF_INET, SOCK_STREAM, 0);
-      if (sock < 0) {
-        error = "Creating socket: ";
-        error.append (strerror (errno));
-        connection_healthy = false;
+      for (rp = address_results; rp != NULL; rp = rp->ai_next) {
+        // Try to get a socket for this address structure.
+        sock = socket (rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+        // If it fails, try the next one.
+        if (sock < 0) {
+          string err = "Creating socket: ";
+          err.append (strerror (errno));
+          errors.push_back (err);
+          continue;
+        }
+        // Try to connect.
+        int res = connect (sock, rp->ai_addr, rp->ai_addrlen);
+        // Test and record error.
+        if (res < 0) {
+          string err = hostname + ":" + convert_to_string (port) + ": ";
+          err.append (strerror (errno));
+          errors.push_back (err);
+        }
+        // If success: Done.
+        if (res != -1) break;
+        // Failure: Socket should be closed: This is done in the code below.
       }
-    }
-    // Plain connect to host.
-    if (connection_healthy) {
-      if (connect (sock, (struct sockaddr *)&client, sizeof (client)) < 0 ) {
-        error = "Connecting to " + hostname + ": ";
-        error.append (strerror (errno));
-        connection_healthy = false;
-      }
-    }
-    // Todo out - end.
-    
-    /* Todo new
-    struct addrinfo * rp;
-    // Function getaddrinfo() returns a list of address structures.
-    // Try each address until it successfully connects.
-    // If the socket fails, try the next address.
-    // And if connect fails close the socket and also try the next address.
-    for (rp = address_results; rp != NULL; rp = rp->ai_next) {
-      sock = socket (rp->ai_family, rp->ai_socktype, rp->ai_protocol);
-      if (sock == -1) continue;
-      
-      if (connect (sock, rp->ai_addr, rp->ai_addrlen) != -1) {
-        // Success.
-        break;
-      }
-      
-      close (sock); // Todo check on this.
     }
     
     // Check whether no address succeeded.
-    if (rp == NULL) {
-      error = "Could not connect";
-      connection_healthy = false;
+    if (connection_healthy) {
+      if (rp == NULL) {
+        error = filter_string_implode (errors, " | ");
+        connection_healthy = false;
+      }
     }
     
     // No longer needed.
     freeaddrinfo (address_results);
-     */
   }
   
   
@@ -1110,8 +1087,8 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     int comm_sock = sock;
     if (secure) comm_sock = fd.fd;
     struct timeval tv;
-    // Timeout in seconds.
-    tv.tv_sec = 30;
+    // Timeout in seconds: Not too short, to support very slow networks.
+    tv.tv_sec = 600;
     tv.tv_usec = 0;
     // Check on setting the socket options.
     // If it cannot be set, record it in the journal,
