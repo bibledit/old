@@ -28,7 +28,6 @@ int filter_shell_run (string directory, string command, const vector <string> pa
                       string * output, string * error);
 int filter_shell_run (string command, const char * parameter, string & output);
 int filter_shell_run (string command, string & out_err);
-vector <string> filter_shell_active_processes ();
 bool filter_shell_is_present (string program);
 
 
