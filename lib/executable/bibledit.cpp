@@ -29,6 +29,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <execinfo.h>
 #endif
 #include <database/logs.h>
+#ifdef HAVE_MSYS
+#include <Windows.h>
+#endif
 
 
 void sigint_handler (int s)
@@ -85,7 +88,8 @@ int main (int argc, char **argv)
 #endif
 
   // Get the executable path and base the document root on it.
-  string webroot;
+  string webroot; // CheckWindows
+#ifndef HAVE_MSYS
   {
     // The following works on Linux but not on Mac OS X:
     char *linkname = (char *) malloc (256);
@@ -95,9 +99,10 @@ int main (int argc, char **argv)
     webroot = filter_url_dirname (linkname);
     free (linkname);
   }
+#endif
   {
 #ifdef HAVE_LIBPROC
-    // The following works on Linux plus on Mac OS X:
+    // The following works on Linux and on Mac OS X:
     int ret;
     pid_t pid;
     char pathbuf [2048];
@@ -108,6 +113,14 @@ int main (int argc, char **argv)
     }
 #endif
   }
+#ifdef HAVE_MSYS
+  {
+    // The following works on Windows.
+    char buf[1024] = {0};
+    DWORD ret = GetModuleFileNameA (NULL, buf, sizeof(buf));
+    webroot = filter_url_dirname (buf);
+  }
+#endif
   bibledit_initialize_library (webroot.c_str(), webroot.c_str());
   
   // Start the Bibledit library.
