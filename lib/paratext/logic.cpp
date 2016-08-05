@@ -24,7 +24,9 @@
 #include <filter/usfm.h>
 #include <filter/merge.h>
 #include <filter/shell.h>
+#ifndef HAVE_MSYS
 #include <pwd.h>
+#endif
 #include <database/books.h>
 #include <database/logs.h>
 #include <database/config/bible.h>
@@ -41,7 +43,9 @@ string Paratext_Logic::searchProjectsFolder ()
 
   // Try Linux.
   if ((homedir = getenv("HOME")) == NULL) {
+#ifndef HAVE_MSYS
     homedir = getpwuid(getuid())->pw_dir;
+#endif
   }
   if (homedir) {
     vector <string> files = filter_url_scandir (homedir);
