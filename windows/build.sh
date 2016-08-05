@@ -19,6 +19,7 @@ rsync --archive --delete ../windows $BIBLEDITWINDOWS/
 cd $BIBLEDITWINDOWS/windows
 
 
+mkdir -p webroot
 pushd webroot
 
 
