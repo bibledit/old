@@ -518,8 +518,8 @@ void bible_logic_unsafe_save_mail (const string & message, const string & explan
 // This function is sends an email
 // if the USFM received from the client
 // does not match the USFM that gets stored on the server.
-void bible_logic_client_receive_merge_mail (const string & user,
-                                            const string & client_old, const string & client_new, const string & server)
+void bible_logic_client_receive_merge_mail (const string & bible, int book, int chapter, const string & user,
+                                            const string & client_old, const string & client_new, const string & server) // Todo
 {
   // No difference: Done.
   if (client_old == server) return;
@@ -556,19 +556,27 @@ void bible_logic_client_receive_merge_mail (const string & user,
   
   // Add some information for the user.
   node = document.append_child ("p");
-  node.text ().set ("The Bible text you sent to the Cloud was not saved exactly as you sent it. It was merged with changes already avaible in the Cloud. Here are the details:");
+  node.text ().set ("The Bible text you sent to the Cloud was not saved exactly as you sent it. It was merged with changes already avaible in the Cloud.");
+  node = document.append_child ("p");
+  string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
+  node.text ().set (location.c_str ());
 
   for (unsigned int i = 0; i < client_diff.size(); i++) {
 
     document.append_child ("br");
     node = document.append_child ("p");
     node.text ().set ("You sent:");
-    node = document.append_child ("pre");
+    node = document.append_child ("p");
     node.text ().set (client_diff[i].c_str ());
     node = document.append_child ("p");
     node.text ().set ("The Cloud now has:");
-    node = document.append_child ("pre");
+    node = document.append_child ("p");
     node.text ().set (server_diff[i].c_str ());
+    node = document.append_child ("p");
+    node.text ().set ("The difference is:");
+    node = document.append_child ("p");
+    string difference = filter_diff_diff (client_diff[i], server_diff[i]);
+    node.append_buffer (difference.c_str (), difference.size ());
   }
   
   // Convert the document to a string.
