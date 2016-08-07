@@ -18,7 +18,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <libraries.h>
-#include <curl/curl.h>
+#ifdef HAVE_MSYS
+#include <ws2tcpip.h>
+#else
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <netdb.h>
+#endif
+#include <sys/types.h>
 
 
 void bibledit_set_web_root (const char * directory)
@@ -29,8 +38,6 @@ void bibledit_set_web_root (const char * directory)
 
 void bibledit_initialize_library ()
 {
-  curl_global_init (CURL_GLOBAL_ALL);
-  cout << curl_version () << endl;
 }
 
 
