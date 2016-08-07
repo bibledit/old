@@ -21,9 +21,8 @@ cd $TEMPDIR/lib
 
 
 # Fix g++.exe: error: unrecognized command line option '-rdynamic'
-sed -i 's/-rdynamic//' Makefile.am
-
-
+# Fix undefined reference to `_imp__*'
+sed -i 's/-rdynamic/-lws2_32/' Makefile.am
 
 # Limit the maximum number of parallel background tasks 
 # to make the interface more responsive.
