@@ -30,7 +30,7 @@ class Assets_Header
 public:
   Assets_Header (string title, void * webserver_request_in);
   ~Assets_Header ();
-  void jQueryMobileTouchOn ();
+  void jQueryTouchOn ();
   void touchCSSOn ();
   void notifItOn ();
   void setNavigator ();
@@ -43,7 +43,7 @@ public:
   string run ();
 private:
   Assets_View * view;
-  bool includeJQueryMobileTouch;
+  bool includeJQueryTouch;
   bool includeTouchCSS;
   bool includeNotifIt;
   vector <string> headLines;

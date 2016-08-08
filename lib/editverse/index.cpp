@@ -69,7 +69,7 @@ string editverse_index (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Edit USFM"), request);
   header.setNavigator ();
-  if (touch) header.jQueryMobileTouchOn ();
+  if (touch) header.jQueryTouchOn ();
   header.notifItOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();

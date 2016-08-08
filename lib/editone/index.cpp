@@ -70,7 +70,7 @@ string editone_index (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Edit verse"), request);
   header.setNavigator ();
   header.setEditorStylesheet ();
-  if (touch) header.jQueryMobileTouchOn ();
+  if (touch) header.jQueryTouchOn ();
   header.notifItOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();

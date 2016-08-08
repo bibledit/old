@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 Assets_Header::Assets_Header (string title, void * webserver_request_in)
 {
-  includeJQueryMobileTouch = false;
+  includeJQueryTouch = false;
   includeTouchCSS = false;
   includeNotifIt = false;
   displayNavigator = false;
@@ -47,9 +47,9 @@ Assets_Header::~Assets_Header ()
 }
 
 
-void Assets_Header::jQueryMobileTouchOn ()
+void Assets_Header::jQueryTouchOn ()
 {
-  includeJQueryMobileTouch = true;
+  includeJQueryTouch = true;
 }
 
 
@@ -138,8 +138,8 @@ string Assets_Header::run ()
   // to refresh the browser's cache after a software upgrade.
   view->set_variable("VERSION", config_logic_version ());
 
-  if (includeJQueryMobileTouch) {
-    view->enable_zone ("include_jquery_mobile_touch");
+  if (includeJQueryTouch) {
+    view->enable_zone ("include_jquery_touch");
   }
 
   if (request->session_logic ()->touchEnabled ()) {
