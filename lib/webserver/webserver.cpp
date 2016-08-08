@@ -205,7 +205,7 @@ void http_server ()
 #endif
   serveraddr.sin_port = htons (convert_to_int (config_logic_http_network_port ()));
   result = mybind (listenfd, (SA *) &serveraddr, sizeof (serveraddr));
-#ifdef HAVE_MSYS
+#ifdef HAVE_MINGW
   if (result == SOCKET_ERROR) // CheckWindows
 #else
   if (result != 0)
@@ -227,7 +227,7 @@ void http_server ()
     if (connfd > 0) {
 
       // Socket receive timeout, plain http. CheckWindows
-#ifndef HAVE_MSYS
+#ifndef HAVE_MINGW
       struct timeval tv;
       tv.tv_sec = 60;
       tv.tv_usec = 0;
@@ -236,7 +236,7 @@ void http_server ()
       
       // The client's remote IPv4 address in dotted notation. CheckWindows
       string clientaddress;
-#ifndef HAVE_MSYS
+#ifndef HAVE_MINGW
       char remote_address[256];
       inet_ntop (AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof (remote_address));
       clientaddress = remote_address;
@@ -263,7 +263,7 @@ void http_server ()
 void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd)
 {
   // Socket receive timeout, secure https. CheckWindows
-#ifndef HAVE_MSYS
+#ifndef HAVE_MINGW
   struct timeval tv;
   tv.tv_sec = 60;
   tv.tv_usec = 0;
@@ -287,7 +287,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
     if (config_globals_https_running) {
 
       // Get client's remote IPv4 address in dotted notation and put it in the webserver request object. CheckWindows
-#ifndef HAVE_MSYS
+#ifndef HAVE_MINGW
       struct sockaddr_in addr;
       socklen_t addr_size = sizeof(struct sockaddr_in);
       getpeername (client_fd.fd, (struct sockaddr *)&addr, &addr_size);

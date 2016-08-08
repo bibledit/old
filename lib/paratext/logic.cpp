@@ -24,7 +24,7 @@
 #include <filter/usfm.h>
 #include <filter/merge.h>
 #include <filter/shell.h>
-#ifndef HAVE_MSYS
+#ifndef HAVE_MINGW
 #include <pwd.h>
 #endif
 #include <database/books.h>
@@ -43,7 +43,7 @@ string Paratext_Logic::searchProjectsFolder () // CheckWindows
 
   // Try Linux.
   if ((homedir = getenv("HOME")) == NULL) {
-#ifndef HAVE_MSYS
+#ifndef HAVE_MINGW
     homedir = getpwuid(getuid())->pw_dir;
 #endif
   }

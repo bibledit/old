@@ -47,7 +47,7 @@
 #define HAVE_MEMORY_H 1
 
 /* Define whether to compile on Windows */
-/* #undef HAVE_MSYS */
+/* #undef HAVE_MINGW */
 
 /* Define whether pthread.h is present */
 #define HAVE_PTHREAD 1

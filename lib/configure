@@ -760,7 +760,7 @@ with_admin_username
 with_admin_password
 with_admin_email
 enable_windows
-enable_msys
+enable_mingw
 enable_android
 enable_mac
 enable_linux
@@ -1418,7 +1418,7 @@ Optional Features:
   --enable-demo  Enable demo mode
   --enable-unittests Enable unit tests
   --enable-windows Compile for Windows
-  --enable-msys Compile for Windows on MSYS2
+  --enable-mingw Compile for Windows on MinGW
   --enable-android Compile for Android
   --enable-mac Compile for Mac
   --enable-linux Compile for Linux
@@ -6948,12 +6948,10 @@ ENABLEWINDOWS=yes
 fi
 
 
-# Check whether --enable-msys was given.
-if test "${enable_msys+set}" = set; then :
-  enableval=$enable_msys;
-
-$as_echo "#define HAVE_MSYS 1" >>confdefs.h
-
+# Check whether --enable-mingw was given.
+if test "${enable_mingw+set}" = set; then :
+  enableval=$enable_mingw;
+$as_echo "#define HAVE_MINGW 1" >>confdefs.h
 
 
 fi

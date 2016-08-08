@@ -172,11 +172,9 @@ ENABLEWINDOWS=yes
 ]
 )
 
-AC_ARG_ENABLE(msys,
-[  --enable-msys Compile for Windows on MSYS2],
-[
-AC_DEFINE([HAVE_MSYS], [1], [Define whether to compile on Windows])
-]
+AC_ARG_ENABLE(mingw,
+[  --enable-mingw Compile for Windows on MinGW],
+[AC_DEFINE([HAVE_MINGW], [1], [Define whether to compile on Windows])]
 )
 
 # Android.

@@ -22,7 +22,7 @@
 
 
 #include <config.h>
-#ifdef HAVE_MSYS
+#ifdef HAVE_MINGW
 #include <ws2tcpip.h>
 #else
 #include <sys/socket.h>
