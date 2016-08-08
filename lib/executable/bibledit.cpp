@@ -76,8 +76,8 @@ void sigsegv_handler (int sig)
 
 int main (int argc, char **argv) 
 {
-  if (argc) {};
-  if (argv[0]) {};
+  (void) argc;
+  (void) argv[0];
   
   // Ctrl-C initiates a clean shutdown sequence, so there's no memory leak.
   signal (SIGINT, sigint_handler);
