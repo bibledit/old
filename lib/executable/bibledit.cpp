@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void sigint_handler (int s)
 {
-  if (s) {};
+  (void) s;
   bibledit_stop_library ();
 }
 
@@ -53,7 +53,7 @@ string backtrace_path ()
 // To add linker flag -rdynamic is essential.
 void sigsegv_handler (int sig)
 {
-  if (sig) {};
+  (void) sig;
 
   // Information.
   cout << "Segmentation fault, writing backtrace to " << backtrace_path () << endl;
@@ -74,7 +74,7 @@ void sigsegv_handler (int sig)
 #endif
 
 
-int main (int argc, char **argv) 
+int main (int argc, char **argv)
 {
   (void) argc;
   (void) argv[0];
