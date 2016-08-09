@@ -58,7 +58,7 @@ string changes_changes (void * webserver_request)
   
 
   bool touch = request->session_logic ()->touchEnabled ();
-
+  
   
   string page;
   Assets_Header header = Assets_Header (translate("Changes"), request);
