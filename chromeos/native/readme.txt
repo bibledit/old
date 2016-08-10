@@ -9,7 +9,7 @@ A Chrome extension or app can access the network through defined and limited API
 * https://developer.chrome.com/native-client/pepper_stable/c/struct_p_p_b___t_c_p_socket__1__2
 * https://developer.chrome.com/apps/sockets_tcpServer
 * https://developer.chrome.com/apps/app_network
-This means that for secure communications tlsmbed would need to be updated to use these APIs.
+This means that for secure communications mbedtls would need to be updated to use these APIs.
 
 For just now it probably is not worth the effort to create a "native" Bibledit for Chrome or Chrome OS. Google will soon support Android apps on Chrome OS. This is quicker and easier to get Bibledit to Chrome OS natively.
 
