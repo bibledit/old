@@ -1,4 +1,4 @@
-Porting Bibledit to Chrome OS.
+Bibledit for Chrome OS.
 
 Bibledit is supported on Chrome OS.
 
