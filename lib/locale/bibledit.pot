@@ -738,7 +738,7 @@ msgstr ""
 msgid "Or click the 🗑."
 msgstr ""
 
-msgid "Or swipe it away."
+msgid "Or swipe it to the left."
 msgstr ""
 
 msgid ""
@@ -748,7 +748,7 @@ msgstr ""
 msgid "Or click the 📁."
 msgstr ""
 
-msgid "Or touch and hold it."
+msgid "Or swipe it to the right."
 msgstr ""
 
 msgid "The expanded entry provides more information and options."
