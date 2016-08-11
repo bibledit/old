@@ -970,6 +970,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   // Resolve the host.
   struct addrinfo hints;
   struct addrinfo * address_results;
+  bool address_info_resolved = false;
   if (!secure) {
     memset (&hints, 0, sizeof (struct addrinfo));
     // Allow IPv4 and IPv6.
@@ -987,6 +988,8 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       error = hostname + ": ";
       error.append (gai_strerror (res));
       connection_healthy = false;
+    } else {
+      address_info_resolved = true;
     }
   }
   
@@ -1076,8 +1079,8 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       }
     }
     
-    // No longer needed.
-    freeaddrinfo (address_results);
+    // No longer needed: Only to be freed when the address was resolved.
+    if (address_info_resolved) freeaddrinfo (address_results);
   }
   
   
