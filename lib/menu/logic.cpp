@@ -91,6 +91,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <public/logic.h>
 #include <filter/url.h>
 #include <basic/index.h>
+#include <bible/logic.h>
 
 
 string menu_logic_href (string href)
@@ -262,7 +263,7 @@ string menu_logic_basic_categories (void * webserver_request)
   vector <string> html;
   
   if (edit_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (editone_index_url (), translate ("Translation"), true)); // Todo
+    html.push_back (menu_logic_create_item (editone_index_url (), translate ("Translation"), true));
   }
   
   if (notes_index_acl (webserver_request)) {
@@ -336,27 +337,35 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   vector <string> labels;
   
   if (edit_index_acl (webserver_request)) {
-    string label = translate ("Visual chapter editor");
-    html.push_back (menu_logic_create_item (edit_index_url (), label, true)); // Todo
-    labels.push_back (label);
+    if (bible_logic_editor_enabled (webserver_request, true, true)) {
+      string label = translate ("Visual chapter editor");
+      html.push_back (menu_logic_create_item (edit_index_url (), label, true));
+      labels.push_back (label);
+    }
   }
   
   if (editone_index_acl (webserver_request)) {
-    string label = translate ("Visual verse editor");
-    html.push_back (menu_logic_create_item (editone_index_url (), label, true)); // Todo
-    labels.push_back (label);
+    if (bible_logic_editor_enabled (webserver_request, true, false)) {
+      string label = translate ("Visual verse editor");
+      html.push_back (menu_logic_create_item (editone_index_url (), label, true));
+      labels.push_back (label);
+    }
   }
 
   if (editusfm_index_acl (webserver_request)) {
-    string label = translate ("USFM chapter editor");
-    html.push_back (menu_logic_create_item (editusfm_index_url (), label, true)); // Todo
-    labels.push_back (label);
+    if (bible_logic_editor_enabled (webserver_request, false, true)) {
+      string label = translate ("USFM chapter editor");
+      html.push_back (menu_logic_create_item (editusfm_index_url (), label, true));
+      labels.push_back (label);
+    }
   }
     
   if (editverse_index_acl (webserver_request)) {
-    string label = translate ("USFM verse editor");
-    html.push_back (menu_logic_create_item (editverse_index_url (), label, true)); // Todo
-    labels.push_back (label);
+    if (bible_logic_editor_enabled (webserver_request, false, false)) {
+      string label = translate ("USFM verse editor");
+      html.push_back (menu_logic_create_item (editverse_index_url (), label, true));
+      labels.push_back (label);
+    }
   }
   
   if (notes_index_acl (webserver_request)) {

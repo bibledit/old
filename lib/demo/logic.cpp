@@ -33,7 +33,7 @@
 #include <styles/sheets.h>
 #include <locale/logic.h>
 #include <bible/logic.h>
-#include <edit/index.h>
+#include <editone/index.h>
 #include <editusfm/index.h>
 #include <resource/index.h>
 #include <resource/external.h>
@@ -329,7 +329,7 @@ void demo_create_sample_workbenches (void * webserver_request)
     string url;
     string width;
     if (i == 0) {
-      url = editusfm_index_url (); // Todo
+      url = editusfm_index_url ();
       width = "45%";
     }
     if (i == 1) {
@@ -350,7 +350,7 @@ void demo_create_sample_workbenches (void * webserver_request)
   workbench_set_widths (request, widths);
   workbench_set_heights (request, row_heights);
 
-  urls[0] = edit_index_url (); // Todo
+  urls[0] = editone_index_url ();
   urls[1] = resource_index_url ();
 
   request->database_config_user()->setActiveWorkbench (demo_workbench ());

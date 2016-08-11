@@ -587,3 +587,37 @@ void bible_logic_client_receive_merge_mail (const string & bible, int book, int 
   // Schedule the mail for sending to the user.
   email_schedule (user, subject, html);
 }
+
+
+string bible_logic_editor_human_readable (bool visual, int selection)
+{
+  if (visual) {
+    if (selection == 0) return translate ("Both the visual chapter and visual verse editors");
+    if (selection == 1) return translate ("Only the visual chapter editor");
+    if (selection == 2) return translate ("Only the visual verse editor");
+  } else {
+    if (selection == 0) return translate ("Both the USFM chapter and USFM verse editors");
+    if (selection == 1) return translate ("Only the USFM chapter editor");
+    if (selection == 2) return translate ("Only the USFM verse editor");
+  }
+  return "";
+}
+
+
+bool bible_logic_editor_enabled (void * webserver_request, bool visual, bool chapter)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  // Get the user's preference for the visual or USFM editors.
+  int selection = 0;
+  if (visual) selection = request->database_config_user ()->getEnabledVisualEditors ();
+  else selection = request->database_config_user ()->getEnabledUsfmEditors ();
+  
+  // Check whether the visual or USFM chapter/verse editor is active.
+  if (selection == 0) return true;
+  if ((selection == 1) && chapter) return true;
+  if ((selection == 2) && !chapter) return true;
+  
+  // The requested editor is inactive.
+  return false;
+}
