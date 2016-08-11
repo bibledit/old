@@ -262,7 +262,7 @@ string menu_logic_basic_categories (void * webserver_request)
   vector <string> html;
   
   if (edit_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (editone_index_url (), translate ("Translation"), true));
+    html.push_back (menu_logic_create_item (editone_index_url (), translate ("Translation"), true)); // Todo
   }
   
   if (notes_index_acl (webserver_request)) {
@@ -337,25 +337,25 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   
   if (edit_index_acl (webserver_request)) {
     string label = translate ("Visual chapter editor");
-    html.push_back (menu_logic_create_item (edit_index_url (), label, true));
+    html.push_back (menu_logic_create_item (edit_index_url (), label, true)); // Todo
     labels.push_back (label);
   }
   
   if (editone_index_acl (webserver_request)) {
     string label = translate ("Visual verse editor");
-    html.push_back (menu_logic_create_item (editone_index_url (), label, true));
+    html.push_back (menu_logic_create_item (editone_index_url (), label, true)); // Todo
     labels.push_back (label);
   }
 
   if (editusfm_index_acl (webserver_request)) {
     string label = translate ("USFM chapter editor");
-    html.push_back (menu_logic_create_item (editusfm_index_url (), label, true));
+    html.push_back (menu_logic_create_item (editusfm_index_url (), label, true)); // Todo
     labels.push_back (label);
   }
     
   if (editverse_index_acl (webserver_request)) {
     string label = translate ("USFM verse editor");
-    html.push_back (menu_logic_create_item (editverse_index_url (), label, true));
+    html.push_back (menu_logic_create_item (editverse_index_url (), label, true)); // Todo
     labels.push_back (label);
   }
   
