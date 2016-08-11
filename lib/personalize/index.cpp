@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <access/logic.h>
 #include <access/bible.h>
+#include <dialog/list.h>
 
 
 string personalize_index_url ()
@@ -275,6 +276,25 @@ string personalize_index (void * webserver_request)
   view.set_variable ("fasteditorswitch", on_off);
 
   
+  // Active visual editors.
+  string editors;
+  if (request->query.count ("activevisualeditors")) {
+    editors = request->query["activevisualeditors"];
+    if (editors.empty ()) {
+      Dialog_List dialog_list = Dialog_List ("index", translate("Which visual Bible editors to enable?"), "", "");
+      for (int i = 0; i < 3; i++) {
+        dialog_list.add_row (personalize_human_readable_editors (true, i), "activevisualeditors", convert_to_string (i));
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      request->database_config_user ()->setEnabledVisualEditors (convert_to_int (editors));
+    }
+  }
+  editors = personalize_human_readable_editors (true, request->database_config_user ()->getEnabledVisualEditors ());
+  view.set_variable ("activevisualeditors", editors);
+
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");
@@ -295,4 +315,19 @@ string personalize_index (void * webserver_request)
   page += Assets_Page::footer ();
   
   return page;
+}
+
+
+string personalize_human_readable_editors (bool visual, int selection)
+{
+  if (visual) {
+    if (selection == 0) return translate ("Both the visual chapter and visual verse editors");
+    if (selection == 1) return translate ("Only the visual chapter editor");
+    if (selection == 2) return translate ("Only the visual verse editor");
+  } else {
+    if (selection == 0) return translate ("Both the USFM chapter and USFM verse editors");
+    if (selection == 1) return translate ("Only the USFM chapter editor");
+    if (selection == 2) return translate ("Only the USFM verse editor");
+  }
+  return "";
 }

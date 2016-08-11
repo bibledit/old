@@ -6820,6 +6820,27 @@ msgstr ""
 msgid "Incorrect fade out delay in seconds"
 msgstr ""
 
+msgid "Which visual Bible editors to enable?"
+msgstr ""
+
+msgid "Both the visual chapter and visual verse editors"
+msgstr ""
+
+msgid "Only the visual chapter editor"
+msgstr ""
+
+msgid "Only the visual verse editor"
+msgstr ""
+
+msgid "Both the USFM chapter and USFM verse editors"
+msgstr ""
+
+msgid "Only the USFM chapter editor"
+msgstr ""
+
+msgid "Only the USFM verse editor"
+msgstr ""
+
 msgid "General font size for the interface"
 msgstr ""
 
@@ -6908,6 +6929,15 @@ msgid "Enable swipe navigation actions"
 msgstr ""
 
 msgid "Enable fast Bible editor switching"
+msgstr ""
+
+msgid "Active Bible editors:"
+msgstr ""
+
+msgid "Visual editors:"
+msgstr ""
+
+msgid "USFM editors:"
 msgstr ""
 
 msgid "Back to chapter"

@@ -1250,3 +1250,23 @@ void Database_Config_User::setIncludeRelatedPassages (bool value)
 {
   setBValue ("include-related-passages", value);
 }
+
+
+int Database_Config_User::getEnabledVisualEditors ()
+{
+  return getIValue ("enabled-visual-editors", 0);
+}
+void Database_Config_User::setEnabledVisualEditors (int value)
+{
+  setIValue ("enabled-visual-editors", value);
+}
+
+
+int Database_Config_User::getEnabledUsfmEditors ()
+{
+  return getIValue ("enabled-usfm-editors", 0);
+}
+void Database_Config_User::setEnabledUsfmEditors (int value)
+{
+  setIValue ("enabled-usfm-editors", value);
+}

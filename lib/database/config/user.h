@@ -229,6 +229,10 @@ public:
   void setConnectedClientsForUser (string username, vector <string> values);
   bool getIncludeRelatedPassages ();
   void setIncludeRelatedPassages (bool value);
+  int getEnabledVisualEditors ();
+  void setEnabledVisualEditors (int value);
+  int getEnabledUsfmEditors ();
+  void setEnabledUsfmEditors (int value);
 private:
   void * webserver_request;
   string file (string user);
