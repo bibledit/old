@@ -278,12 +278,13 @@ string personalize_index (void * webserver_request)
   
   // Active visual editors.
   string editors;
-  if (request->query.count ("activevisualeditors")) {
-    editors = request->query["activevisualeditors"];
+  const char * activevisualeditors = "activevisualeditors";
+  if (request->query.count (activevisualeditors)) {
+    editors = request->query[activevisualeditors];
     if (editors.empty ()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which visual Bible editors to enable?"), "", "");
       for (int i = 0; i < 3; i++) {
-        dialog_list.add_row (personalize_human_readable_editors (true, i), "activevisualeditors", convert_to_string (i));
+        dialog_list.add_row (personalize_human_readable_editors (true, i), activevisualeditors, convert_to_string (i));
       }
       page += dialog_list.run ();
       return page;
@@ -292,7 +293,26 @@ string personalize_index (void * webserver_request)
     }
   }
   editors = personalize_human_readable_editors (true, request->database_config_user ()->getEnabledVisualEditors ());
-  view.set_variable ("activevisualeditors", editors);
+  view.set_variable (activevisualeditors, editors);
+
+  
+  // Active USFM editors.
+  const char * activeusfmeditors = "activeusfmeditors";
+  if (request->query.count (activeusfmeditors)) {
+    editors = request->query[activeusfmeditors];
+    if (editors.empty ()) {
+      Dialog_List dialog_list = Dialog_List ("index", translate("Which visual Bible editors to enable?"), "", "");
+      for (int i = 0; i < 3; i++) {
+        dialog_list.add_row (personalize_human_readable_editors (false, i), activeusfmeditors, convert_to_string (i));
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      request->database_config_user ()->setEnabledUsfmEditors (convert_to_int (editors));
+    }
+  }
+  editors = personalize_human_readable_editors (false, request->database_config_user ()->getEnabledUsfmEditors ());
+  view.set_variable (activeusfmeditors, editors);
 
   
   // Enable the sections with settings relevant to the user and device.
