@@ -32,6 +32,7 @@
 #include <editor/html2usfm.h>
 #include <access/bible.h>
 #include <bible/logic.h>
+#include <editone/logic.h>
 
 
 string editone_save_url ()
@@ -102,32 +103,10 @@ string editone_save (void * webserver_request)
   }
 
   
-  // If an initial style was added to the first paragraph, remove it again.
-  if (!added_style.empty ()) {
-    // First do a html to xml conversion to avoid a mismatched tag error later in the save chain.
-    html = html2xml (html);
-    xml_document document;
-    document.load_string (html.c_str(), parse_ws_pcdata_single);
-    xml_node p_node = document.first_child ();
-    string p_style = p_node.attribute ("class").value ();
-    if (added_style == p_style) {
-      p_node.remove_attribute ("class");
-    }
-    stringstream output;
-    document.print (output, "", format_raw);
-    html = output.str ();
-  }
-  
-  
   string stylesheet = request->database_config_user()->getStylesheet();
+ 
   
-  
-  // Convert xml entities to normal characters.
-  html = filter_string_desanitize_html (html);
-  
-  
-  // Convert the html back to USFM in the special way for editing one verse.
-  string usfm = editor_export_verse (stylesheet, html);
+  string usfm = editone_logic_html_to_usfm (stylesheet, html, added_style);
 
   
   // Collect some data about the changes for this user.

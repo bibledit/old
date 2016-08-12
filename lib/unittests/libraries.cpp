@@ -51,6 +51,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/logic.h>
 #include <jsonxx/jsonxx.h>
 #include <related/logic.h>
+#include <editone/logic.h>
 
 
 using namespace jsonxx;
@@ -3240,6 +3241,60 @@ void test_related ()
       evaluate (__LINE__, __func__, true, Passage ("", 42, 3, "6").equal (output[8]));
       evaluate (__LINE__, __func__, true, Passage ("", 43, 1, "23").equal (output[9]));
     }
+  }
+}
+
+
+// Test the logic used in the visual verse editor.
+void test_editone_logic () // Todo
+{
+  trace_unit_tests (__func__);
+
+  string stylesheet = styles_logic_standard_sheet ();
+  string directory = filter_url_create_root_path ("unittests", "tests");
+  string path;
+
+  // Prefix.
+  {
+    path = filter_url_create_path (directory, "edit_one_1_usfm.txt");
+    string usfm = filter_url_file_get_contents (path);
+    string html;
+    string last_paragraph_style;
+    editone_logic_prefix_html_stage_one (usfm, stylesheet, html, last_paragraph_style);
+    path = filter_url_create_path (directory, "edit_one_1_html.txt");
+    evaluate (__LINE__, __func__, filter_url_file_get_contents (path), html);
+    evaluate (__LINE__, __func__, "p", last_paragraph_style);
+  }
+  
+  // Editable verse text.
+  {
+    // Convert USFM to html.
+    path = filter_url_create_path (directory, "edit_one_2_usfm.txt");
+    string usfm = filter_url_file_get_contents (path);
+    string html;
+    string last_paragraph_style;
+    string focused_verse_applied_p_style;
+    editone_logic_editable_html ("p", usfm, stylesheet, html, last_paragraph_style, focused_verse_applied_p_style);
+    path = filter_url_create_path (directory, "edit_one_2_html.txt");
+    evaluate (__LINE__, __func__, filter_url_file_get_contents (path), html);
+    evaluate (__LINE__, __func__, "p", last_paragraph_style);
+    evaluate (__LINE__, __func__, "p", focused_verse_applied_p_style);
+    
+    // Convert the html back to USFM again.
+    string round_tripped_usfm = editone_logic_html_to_usfm (stylesheet, html, focused_verse_applied_p_style);
+    evaluate (__LINE__, __func__, usfm, round_tripped_usfm);
+  }
+
+  // Suffix.
+  {
+    path = filter_url_create_path (directory, "edit_one_3_usfm.txt");
+    string usfm = filter_url_file_get_contents (path);
+    string html;
+    string last_paragraph_style;
+    editone_logic_suffix_html ("q1", usfm, stylesheet, html);
+    path = filter_url_create_path (directory, "edit_one_3_html.txt");
+    evaluate (__LINE__, __func__, filter_url_file_get_contents (path), html);
+    evaluate (__LINE__, __func__, "", last_paragraph_style);
   }
 }
 
