@@ -357,6 +357,24 @@ msgstr ""
 msgid "Please do a Send/receive action to send them to the Cloud."
 msgstr ""
 
+msgid "Both the visual chapter and visual verse editors"
+msgstr ""
+
+msgid "Only the visual chapter editor"
+msgstr ""
+
+msgid "Only the visual verse editor"
+msgstr ""
+
+msgid "Both the USFM chapter and USFM verse editors"
+msgstr ""
+
+msgid "Only the USFM chapter editor"
+msgstr ""
+
+msgid "Only the USFM verse editor"
+msgstr ""
+
 msgid "Bibles"
 msgstr ""
 
@@ -6821,24 +6839,6 @@ msgid "Incorrect fade out delay in seconds"
 msgstr ""
 
 msgid "Which visual Bible editors to enable?"
-msgstr ""
-
-msgid "Both the visual chapter and visual verse editors"
-msgstr ""
-
-msgid "Only the visual chapter editor"
-msgstr ""
-
-msgid "Only the visual verse editor"
-msgstr ""
-
-msgid "Both the USFM chapter and USFM verse editors"
-msgstr ""
-
-msgid "Only the USFM chapter editor"
-msgstr ""
-
-msgid "Only the USFM verse editor"
 msgstr ""
 
 msgid "General font size for the interface"
