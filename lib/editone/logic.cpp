@@ -23,12 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-string editone_logic_remove_id_notes (string html)
-{
-  return filter_string_str_replace (" id=\"notes\"", "", html);
-}
-
-
 void editone_logic_prefix_html_stage_one (string usfm, string stylesheet, string & html, string & last_p_style)
 {
   if (!usfm.empty ()) {
@@ -37,6 +31,8 @@ void editone_logic_prefix_html_stage_one (string usfm, string stylesheet, string
     editor_usfm2html.stylesheet (stylesheet);
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
+    // No identical id in the same DOM.
+    html = filter_string_str_replace (" id=\"notes\"", " id=\"prefixnotes\"", html);
     last_p_style = editor_usfm2html.currentParagraphStyle;
   }
 }
@@ -50,7 +46,6 @@ void editone_logic_editable_html (string prefix_last_p_style, string usfm, strin
     editor_usfm2html.stylesheet (stylesheet);
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
-    html = editone_logic_remove_id_notes (html);
     editable_last_p_style = editor_usfm2html.currentParagraphStyle;
   }
   
@@ -88,7 +83,8 @@ void editone_logic_suffix_html (string editable_last_p_style, string usfm, strin
     editor_usfm2html.stylesheet (stylesheet);
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
-    html = editone_logic_remove_id_notes (html);
+    // No identical id in the same DOM.
+    html = filter_string_str_replace (" id=\"notes\"", " id=\"suffixnotes\"", html);
   }
   
   // If the first paragraph of the suffix does not have a paragraph style applied,
@@ -139,4 +135,80 @@ string editone_logic_html_to_usfm (string stylesheet, string html, string applie
   string usfm = editor_export_verse (stylesheet, html);
   
   return usfm;
+}
+
+
+// Move the notes from the $prefix to the $suffix.
+void editone_logic_move_notes (string & prefix, string & suffix)
+{
+  // No input: Ready.
+  if (prefix.empty ()) return;
+  
+  // Do a html to xml conversion to avoid a mismatched tag error.
+  prefix = html2xml (prefix);
+
+  // Load the prefix.
+  xml_document document;
+  document.load_string (prefix.c_str(), parse_ws_pcdata_single);
+  
+  // If there's any notes, it should be at the end.
+  xml_node div_node = document.last_child ();
+  string id = div_node.attribute ("id").value ();
+  
+  // No note(s): Ready.
+  if (id != "prefixnotes") return;
+
+  // Get the note(s) leaving out the surrounding data.
+  string notes_text;
+  for (xml_node child : div_node.children ()) {
+    if (strcmp (child.name (), "p") != 0) continue;
+    stringstream ss;
+    child.print (ss, "", format_raw);
+    string note = ss.str ();
+    notes_text.append (note);
+  }
+  
+  // Remove the note(s) from the prefix.
+  document.remove_child (div_node);
+  {
+    stringstream ss;
+    document.print (ss, "", format_raw);
+    prefix = ss.str ();
+  }
+
+  // Do a html to xml conversion to avoid a mismatched tag error.
+  suffix = html2xml (suffix);
+  
+  // Load the suffix.
+  document.load_string (suffix.c_str(), parse_ws_pcdata_single);
+
+  // If there's any notes, it should be at the end.
+  div_node = document.last_child ();
+  id = div_node.attribute ("id").value ();
+  
+  // If there's no notes container, add it.
+  if (id.empty ()) {
+    div_node = document.append_child ("div");
+    div_node.append_attribute ("id") = "suffixnotes";
+    div_node.append_child ("hr");
+  }
+  
+  // Contain the prefix's notes and add them to the suffix's notes container.
+  notes_text.insert (0, "<div>");
+  notes_text.append ("</div>");
+  div_node.append_buffer (notes_text.c_str (), notes_text.size ());
+
+  // Put the notes in the correct order, if needed.
+  if (!id.empty ()) {
+    xml_node hr_node = div_node.first_child ();
+    xml_node new_node = div_node.last_child ();
+    div_node.insert_move_after (new_node, hr_node);
+  }
+  
+  // Convert the DOM to suffix text.
+  {
+    stringstream ss;
+    document.print (ss, "", format_raw);
+    suffix = ss.str ();
+  }
 }

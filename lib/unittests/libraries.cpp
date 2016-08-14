@@ -3246,37 +3246,34 @@ void test_related ()
 
 
 // Test the logic used in the visual verse editor.
-void test_editone_logic () // Todo
+void test_editone_logic ()
 {
   trace_unit_tests (__func__);
 
   string stylesheet = styles_logic_standard_sheet ();
   string directory = filter_url_create_root_path ("unittests", "tests");
-  string path;
 
   // Prefix.
   {
-    path = filter_url_create_path (directory, "edit_one_1_usfm.txt");
-    string usfm = filter_url_file_get_contents (path);
+    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_1.usfm"));
     string html;
     string last_paragraph_style;
     editone_logic_prefix_html_stage_one (usfm, stylesheet, html, last_paragraph_style);
-    path = filter_url_create_path (directory, "edit_one_1_html.txt");
-    evaluate (__LINE__, __func__, filter_url_file_get_contents (path), html);
+    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_1.html"));
+    evaluate (__LINE__, __func__, standard, html);
     evaluate (__LINE__, __func__, "p", last_paragraph_style);
   }
   
   // Editable verse text.
   {
     // Convert USFM to html.
-    path = filter_url_create_path (directory, "edit_one_2_usfm.txt");
-    string usfm = filter_url_file_get_contents (path);
+    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_2.usfm"));
     string html;
     string last_paragraph_style;
     string focused_verse_applied_p_style;
     editone_logic_editable_html ("p", usfm, stylesheet, html, last_paragraph_style, focused_verse_applied_p_style);
-    path = filter_url_create_path (directory, "edit_one_2_html.txt");
-    evaluate (__LINE__, __func__, filter_url_file_get_contents (path), html);
+    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_2.html"));
+    evaluate (__LINE__, __func__, standard, html);
     evaluate (__LINE__, __func__, "p", last_paragraph_style);
     evaluate (__LINE__, __func__, "p", focused_verse_applied_p_style);
     
@@ -3287,14 +3284,83 @@ void test_editone_logic () // Todo
 
   // Suffix.
   {
-    path = filter_url_create_path (directory, "edit_one_3_usfm.txt");
-    string usfm = filter_url_file_get_contents (path);
+    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_3.usfm"));
     string html;
     string last_paragraph_style;
     editone_logic_suffix_html ("q1", usfm, stylesheet, html);
-    path = filter_url_create_path (directory, "edit_one_3_html.txt");
-    evaluate (__LINE__, __func__, filter_url_file_get_contents (path), html);
+    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_3.html"));
+    evaluate (__LINE__, __func__, standard, html);
     evaluate (__LINE__, __func__, "", last_paragraph_style);
+  }
+  
+  // Removing notes from the prefix and appending them to the notes in the suffix.
+  {
+    string prefix;
+    string suffix;
+    string standard;
+    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone1prefix1.html"));
+    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone1suffix1.html"));
+    editone_logic_move_notes (prefix, suffix);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone1prefix2.html"));
+    evaluate (__LINE__, __func__, standard, prefix);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone1suffix2.html"));
+    evaluate (__LINE__, __func__, standard, suffix);
+  }
+
+  // Prefix without notes, so moving nothing to the notes in the suffix.
+  {
+    string prefix;
+    string suffix;
+    string standard;
+    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone2prefix1.html"));
+    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone2suffix1.html"));
+    editone_logic_move_notes (prefix, suffix);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone2prefix2.html"));
+    evaluate (__LINE__, __func__, standard, prefix);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone2suffix2.html"));
+    evaluate (__LINE__, __func__, standard, suffix);
+  }
+  
+  // Move notes from the prefix to a suffix that does not have notes of its own.
+  {
+    string prefix;
+    string suffix;
+    string standard;
+    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone3prefix1.html"));
+    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone3suffix1.html"));
+    editone_logic_move_notes (prefix, suffix);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone3prefix2.html"));
+    evaluate (__LINE__, __func__, standard, prefix);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone3suffix2.html"));
+    evaluate (__LINE__, __func__, standard, suffix);
+  }
+  
+  // Test that a empty prefix works fine when trying to move notes from prefix to suffix.
+  {
+    string prefix;
+    string suffix;
+    string standard;
+    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone4prefix1.html"));
+    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone4suffix1.html"));
+    editone_logic_move_notes (prefix, suffix);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone4prefix2.html"));
+    evaluate (__LINE__, __func__, standard, prefix);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone4suffix2.html"));
+    evaluate (__LINE__, __func__, standard, suffix);
+  }
+  
+  // Test that notes from the prefix get moved even to an empty suffix.
+  {
+    string prefix;
+    string suffix;
+    string standard;
+    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone5prefix1.html"));
+    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone5suffix1.html"));
+    editone_logic_move_notes (prefix, suffix);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone5prefix2.html"));
+    evaluate (__LINE__, __func__, standard, prefix);
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone5suffix2.html"));
+    evaluate (__LINE__, __func__, standard, suffix);
   }
 }
 

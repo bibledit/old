@@ -93,6 +93,9 @@ string editone_load (void * webserver_request)
     focused_verse_html = filter_string_str_replace (search, replace, focused_verse_html);
   }
 
+  // Moves any notes from the prefix to the suffix.
+  editone_logic_move_notes (prefix_html, suffix_html);
+  
   string data;
   data.append (focused_verse_applied_p_style);
   data.append ("#_be_#");
