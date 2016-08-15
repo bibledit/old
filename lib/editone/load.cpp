@@ -78,6 +78,9 @@ string editone_load (void * webserver_request)
   // Last paragraph style of the focused verse: For the starting visual style of the suffix.
   string focused_verse_last_p_style;
   
+  // The focused editable verse also has any footnotes contained in that verse.
+  // It is convenient to have the footnote as near as possible to the verse text.
+  // This is helpful for editing the verse and note.
   string focused_verse_html;
   string focused_verse_applied_p_style;
   editone_logic_editable_html (prefix_last_p_style, editable_usfm, stylesheet, focused_verse_html, focused_verse_last_p_style, focused_verse_applied_p_style);
