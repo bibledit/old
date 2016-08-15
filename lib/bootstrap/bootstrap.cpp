@@ -183,6 +183,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/load.h>
 #include <editone/save.h>
 #include <editone/verse.h>
+#include <editone/preview.h>
 #include <debug/index.h>
 #include <paratext/index.h>
 #include <personalize/index.h>
@@ -545,6 +546,8 @@ void bootstrap_index (void * webserver_request)
   else if ((url == editone_save_url ()) && bootstrap_browser_request_security_okay (request) && editone_save_acl (request)) request->reply = editone_save (request);
   
   else if ((url == editone_verse_url ()) && bootstrap_browser_request_security_okay (request) && editone_verse_acl (request)) request->reply = editone_verse (request);
+  
+  else if ((url == editone_preview_url ()) && bootstrap_browser_request_security_okay (request) && editone_preview_acl (request)) request->reply = editone_preview (request);
   
   else if ((url == editusfm_focus_url ()) && bootstrap_browser_request_security_okay (request) && editusfm_focus_acl (request)) request->reply = editusfm_focus (request);
   

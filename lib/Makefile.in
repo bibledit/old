@@ -207,17 +207,18 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	editverse/load.$(OBJEXT) editverse/save.$(OBJEXT) \
 	editone/index.$(OBJEXT) editone/load.$(OBJEXT) \
 	editone/save.$(OBJEXT) editone/verse.$(OBJEXT) \
-	editone/logic.$(OBJEXT) navigation/passage.$(OBJEXT) \
-	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
-	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
-	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
-	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
-	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
-	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
-	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
-	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
-	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
-	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	editone/logic.$(OBJEXT) editone/preview.$(OBJEXT) \
+	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
+	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
+	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
+	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
+	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
+	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
+	editor/select.$(OBJEXT) edit/edit.$(OBJEXT) \
+	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
+	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	search/all.$(OBJEXT) search/index.$(OBJEXT) \
 	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
 	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
@@ -748,6 +749,7 @@ libbibledit_a_SOURCES = \
 	editone/save.cpp \
 	editone/verse.cpp \
 	editone/logic.cpp \
+	editone/preview.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
@@ -1700,6 +1702,8 @@ editone/save.$(OBJEXT): editone/$(am__dirstamp) \
 editone/verse.$(OBJEXT): editone/$(am__dirstamp) \
 	editone/$(DEPDIR)/$(am__dirstamp)
 editone/logic.$(OBJEXT): editone/$(am__dirstamp) \
+	editone/$(DEPDIR)/$(am__dirstamp)
+editone/preview.$(OBJEXT): editone/$(am__dirstamp) \
 	editone/$(DEPDIR)/$(am__dirstamp)
 navigation/$(am__dirstamp):
 	@$(MKDIR_P) navigation
@@ -2691,6 +2695,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/preview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/verse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/html2usfm.Po@am__quote@
