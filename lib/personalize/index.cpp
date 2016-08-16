@@ -285,7 +285,7 @@ string personalize_index (void * webserver_request)
     if (editors.empty ()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which visual Bible editors to enable?"), "", "");
       for (int i = 0; i < 3; i++) {
-        dialog_list.add_row (bible_logic_editor_human_readable (true, i), activevisualeditors, convert_to_string (i));
+        dialog_list.add_row (bible_logic_editor_selector_text (true, i), activevisualeditors, convert_to_string (i));
       }
       page += dialog_list.run ();
       return page;
@@ -293,7 +293,7 @@ string personalize_index (void * webserver_request)
       request->database_config_user ()->setEnabledVisualEditors (convert_to_int (editors));
     }
   }
-  editors = bible_logic_editor_human_readable (true, request->database_config_user ()->getEnabledVisualEditors ());
+  editors = bible_logic_editor_selector_text (true, request->database_config_user ()->getEnabledVisualEditors ());
   view.set_variable (activevisualeditors, editors);
 
   
@@ -304,7 +304,7 @@ string personalize_index (void * webserver_request)
     if (editors.empty ()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which visual Bible editors to enable?"), "", "");
       for (int i = 0; i < 3; i++) {
-        dialog_list.add_row (bible_logic_editor_human_readable (false, i), activeusfmeditors, convert_to_string (i));
+        dialog_list.add_row (bible_logic_editor_selector_text (false, i), activeusfmeditors, convert_to_string (i));
       }
       page += dialog_list.run ();
       return page;
@@ -312,7 +312,7 @@ string personalize_index (void * webserver_request)
       request->database_config_user ()->setEnabledUsfmEditors (convert_to_int (editors));
     }
   }
-  editors = bible_logic_editor_human_readable (false, request->database_config_user ()->getEnabledUsfmEditors ());
+  editors = bible_logic_editor_selector_text (false, request->database_config_user ()->getEnabledUsfmEditors ());
   view.set_variable (activeusfmeditors, editors);
 
   

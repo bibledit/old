@@ -589,7 +589,7 @@ void bible_logic_client_receive_merge_mail (const string & bible, int book, int 
 }
 
 
-string bible_logic_editor_human_readable (bool visual, int selection)
+string bible_logic_editor_selector_text (bool visual, int selection)
 {
   if (visual) {
     if (selection == 0) return translate ("Both the visual chapter and visual verse editors");
