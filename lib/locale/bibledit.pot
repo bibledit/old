@@ -1624,6 +1624,12 @@ msgstr ""
 msgid "Edit verse"
 msgstr ""
 
+msgid "preview"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
 msgid "Don't know where to save"
 msgstr ""
 

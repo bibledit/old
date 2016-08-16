@@ -67,7 +67,7 @@ string editone_preview (void * webserver_request)
   if (touch) header.jQueryTouchOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   header.refresh (5, "index");
-    page = header.run ();
+  page = header.run ();
   
   Assets_View view;
   
