@@ -48,7 +48,6 @@ string menu_logic_settings_resources_category (void * webserver_request);
 string menu_logic_settings_styles_category (void * webserver_request);
 string menu_logic_help_category (void * webserver_request);
 
-
 bool menu_logic_public_or_guest (void * webserver_request);
 
 string menu_logic_menu_text (string menu_item);
@@ -74,6 +73,10 @@ string menu_logic_styles_indext_text ();
 string menu_logic_styles_indexm_text ();
 string menu_logic_changes_text ();
 string menu_logic_styles_text ();
+
+string menu_logic_editor_settings_text (bool visual, int selection);
+bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chapter);
+string menu_logic_editor_menu_text (void * webserver_request, bool visual, bool chapter);
 
 
 #endif

@@ -337,32 +337,32 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   vector <string> labels;
   
   if (edit_index_acl (webserver_request)) {
-    if (bible_logic_editor_enabled (webserver_request, true, true)) {
-      string label = bible_logic_editor_menu_text (webserver_request, true, true);
+    if (menu_logic_editor_enabled (webserver_request, true, true)) {
+      string label = menu_logic_editor_menu_text (webserver_request, true, true);
       html.push_back (menu_logic_create_item (edit_index_url (), label, true));
       labels.push_back (label);
     }
   }
   
   if (editone_index_acl (webserver_request)) {
-    if (bible_logic_editor_enabled (webserver_request, true, false)) {
-      string label = bible_logic_editor_menu_text (webserver_request, true, false);
+    if (menu_logic_editor_enabled (webserver_request, true, false)) {
+      string label = menu_logic_editor_menu_text (webserver_request, true, false);
       html.push_back (menu_logic_create_item (editone_index_url (), label, true));
       labels.push_back (label);
     }
   }
 
   if (editusfm_index_acl (webserver_request)) {
-    if (bible_logic_editor_enabled (webserver_request, false, true)) {
-      string label = bible_logic_editor_menu_text (webserver_request, false, true);
+    if (menu_logic_editor_enabled (webserver_request, false, true)) {
+      string label = menu_logic_editor_menu_text (webserver_request, false, true);
       html.push_back (menu_logic_create_item (editusfm_index_url (), label, true));
       labels.push_back (label);
     }
   }
     
   if (editverse_index_acl (webserver_request)) {
-    if (bible_logic_editor_enabled (webserver_request, false, false)) {
-      string label = bible_logic_editor_menu_text (webserver_request, false, false);
+    if (menu_logic_editor_enabled (webserver_request, false, false)) {
+      string label = menu_logic_editor_menu_text (webserver_request, false, false);
       html.push_back (menu_logic_create_item (editverse_index_url (), label, true));
       labels.push_back (label);
     }
@@ -1136,4 +1136,61 @@ string menu_logic_changes_text ()
 string menu_logic_styles_text ()
 {
   return translate ("Styles");
+}
+
+
+string menu_logic_editor_settings_text (bool visual, int selection)
+{
+  if (visual) {
+    if (selection == 0) return translate ("Both the visual chapter and visual verse editors");
+    if (selection == 1) return translate ("Only the visual chapter editor");
+    if (selection == 2) return translate ("Only the visual verse editor");
+  } else {
+    if (selection == 0) return translate ("Both the USFM chapter and USFM verse editors");
+    if (selection == 1) return translate ("Only the USFM chapter editor");
+    if (selection == 2) return translate ("Only the USFM verse editor");
+  }
+  return "";
+}
+
+
+bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chapter)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  // Get the user's preference for the visual or USFM editors.
+  int selection = 0;
+  if (visual) selection = request->database_config_user ()->getEnabledVisualEditors ();
+  else selection = request->database_config_user ()->getEnabledUsfmEditors ();
+  
+  // Check whether the visual or USFM chapter/verse editor is active.
+  if (selection == 0) return true;
+  if ((selection == 1) && chapter) return true;
+  if ((selection == 2) && !chapter) return true;
+  
+  // The requested editor is inactive.
+  return false;
+}
+
+
+string menu_logic_editor_menu_text (void * webserver_request, bool visual, bool chapter)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  // Get the user's preference for the visual or USFM editors.
+  int selection = 0;
+  if (visual) selection = request->database_config_user ()->getEnabledVisualEditors ();
+  else selection = request->database_config_user ()->getEnabledUsfmEditors ();
+  
+  // Get the correct menu text.
+  bool both = (selection == 0);
+  if (visual && chapter && both) return translate ("Visual chapter editor");
+  if (visual && !chapter && both) return translate ("Visual verse editor");
+  if (visual && !both) return translate ("Text");
+  
+  if (!visual && chapter && both) return translate ("USFM chapter editor");
+  if (!visual && !chapter && both) return translate ("USFM verse editor");
+  if (!visual && !both) return translate ("USFM");
+  
+  return translate ("Bible");
 }
