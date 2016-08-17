@@ -42,6 +42,7 @@ void bible_logic_client_receive_merge_mail (const string & bible, int book, int 
                                             const string & client_old, const string & client_new, const string & server);
 string bible_logic_editor_settings_text (bool visual, int selection);
 bool bible_logic_editor_enabled (void * webserver_request, bool visual, bool chapter);
+string bible_logic_editor_menu_text (void * webserver_request, bool visual, bool chapter);
 
 
 #endif

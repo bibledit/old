@@ -338,7 +338,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   
   if (edit_index_acl (webserver_request)) {
     if (bible_logic_editor_enabled (webserver_request, true, true)) {
-      string label = translate ("Visual chapter editor");
+      string label = bible_logic_editor_menu_text (webserver_request, true, true);
       html.push_back (menu_logic_create_item (edit_index_url (), label, true));
       labels.push_back (label);
     }
@@ -346,7 +346,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   
   if (editone_index_acl (webserver_request)) {
     if (bible_logic_editor_enabled (webserver_request, true, false)) {
-      string label = translate ("Visual verse editor");
+      string label = bible_logic_editor_menu_text (webserver_request, true, false);
       html.push_back (menu_logic_create_item (editone_index_url (), label, true));
       labels.push_back (label);
     }
@@ -354,7 +354,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
 
   if (editusfm_index_acl (webserver_request)) {
     if (bible_logic_editor_enabled (webserver_request, false, true)) {
-      string label = translate ("USFM chapter editor");
+      string label = bible_logic_editor_menu_text (webserver_request, false, true);
       html.push_back (menu_logic_create_item (editusfm_index_url (), label, true));
       labels.push_back (label);
     }
@@ -362,7 +362,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
     
   if (editverse_index_acl (webserver_request)) {
     if (bible_logic_editor_enabled (webserver_request, false, false)) {
-      string label = translate ("USFM verse editor");
+      string label = bible_logic_editor_menu_text (webserver_request, false, false);
       html.push_back (menu_logic_create_item (editverse_index_url (), label, true));
       labels.push_back (label);
     }

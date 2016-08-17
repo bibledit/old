@@ -621,3 +621,26 @@ bool bible_logic_editor_enabled (void * webserver_request, bool visual, bool cha
   // The requested editor is inactive.
   return false;
 }
+
+
+string bible_logic_editor_menu_text (void * webserver_request, bool visual, bool chapter)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  // Get the user's preference for the visual or USFM editors.
+  int selection = 0;
+  if (visual) selection = request->database_config_user ()->getEnabledVisualEditors ();
+  else selection = request->database_config_user ()->getEnabledUsfmEditors ();
+  
+  // Get the correct menu text.
+  bool both = (selection == 0);
+  if (visual && chapter && both) return translate ("Visual chapter editor");
+  if (visual && !chapter && both) return translate ("Visual verse editor");
+  if (visual && !both) return translate ("Text");
+
+  if (!visual && chapter && both) return translate ("USFM chapter editor");
+  if (!visual && !chapter && both) return translate ("USFM verse editor");
+  if (!visual && !both) return translate ("USFM");
+  
+  return translate ("Bible");
+}
