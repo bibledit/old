@@ -26,6 +26,11 @@
 #include <filter/url.h>
 #include <locale/translate.h>
 #include <access/bible.h>
+#include <bible/logic.h>
+#include <edit/index.h>
+#include <editone/index.h>
+#include <editusfm/index.h>
+#include <editverse/index.h>
 
 
 string editor_select_url ()
@@ -49,6 +54,39 @@ string editor_select (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Select editor"), webserver_request);
   page = header.run();
   Assets_View view;
+  
+  if (edit_index_acl (webserver_request)) {
+    if (bible_logic_editor_enabled (webserver_request, true, true)) {
+      string label = bible_logic_editor_menu_text (webserver_request, true, true);
+      string url = edit_index_url ();
+      view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
+    }
+  }
+  
+  if (editone_index_acl (webserver_request)) {
+    if (bible_logic_editor_enabled (webserver_request, true, false)) {
+      string label = bible_logic_editor_menu_text (webserver_request, true, false);
+      string url = editone_index_url ();
+      view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
+    }
+  }
+  
+  if (editusfm_index_acl (webserver_request)) {
+    if (bible_logic_editor_enabled (webserver_request, false, true)) {
+      string label = bible_logic_editor_menu_text (webserver_request, false, true);
+      string url = editusfm_index_url ();
+      view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
+    }
+  }
+  
+  if (editverse_index_acl (webserver_request)) {
+    if (bible_logic_editor_enabled (webserver_request, false, false)) {
+      string label = bible_logic_editor_menu_text (webserver_request, false, false);
+      string url = editverse_index_url ();
+      view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
+    }
+  }
+  
   page += view.render ("editor", "select");
   page += Assets_Page::footer ();
   return page;
