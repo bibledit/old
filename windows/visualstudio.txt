@@ -1,0 +1,2 @@
+Building Bibledit for Windows through Visual Studio Community 2015.
+
