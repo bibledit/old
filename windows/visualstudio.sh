@@ -1,19 +1,23 @@
 #!/bin/bash
 
 
+# This script runs on Unix.
+# It populates a folder with files for Visual Studio.
+# Visual Studio can then build Bibledit for Windows.
 
 
+# Work in a directory separate from the source tree.
+SCRIPTDIR=`dirname $0`
+cd $SCRIPTDIR
+WORKDIR=~/dev/visualstudio
+
+
+ls $WORKDIR
 
 exit
 
-# Build Bibledit for Windows.
-# Run this script from within a Mingw shell.
 
 
-# Work in a temporal directory separate from the source tree.
-SCRIPTDIR=`dirname $0`
-cd $SCRIPTDIR
-TEMPDIR=/tmp/bibledit-windows
 
 
 echo Synchronizing relevant source code to the temporal directory.
