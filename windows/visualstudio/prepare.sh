@@ -29,18 +29,6 @@ if [ $EXIT_CODE != 0 ]; then
 fi
 
 
-
-
-
-exit
-
-
-
-
-
 # Fix g++.exe: error: unrecognized command line option '-rdynamic'
 # Fix undefined reference to `_imp__*' by adding required library to the linker.
-sed -i 's/-rdynamic/-lws2_32/' Makefile.am
-
-
-
+# sed -i 's/-rdynamic/-lws2_32/' Makefile.am
