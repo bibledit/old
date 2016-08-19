@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <execinfo.h>
 #endif
 #include <database/logs.h>
-#ifdef HAVE_MINGW
+#ifdef HAVE_VISUALSTUDIO
 #include <Windows.h>
 #endif
 
@@ -89,7 +89,7 @@ int main (int argc, char **argv)
 
   // Get the executable path and base the document root on it.
   string webroot; // CheckWindows
-#ifndef HAVE_MINGW
+#ifndef HAVE_VISUALSTUDIO
   {
     // The following works on Linux but not on Mac OS X:
     char *linkname = (char *) malloc (256);
@@ -113,7 +113,7 @@ int main (int argc, char **argv)
     }
 #endif
   }
-#ifdef HAVE_MINGW
+#ifdef HAVE_VISUALSTUDIO
   {
     // The following works on Windows.
     char buf[1024] = {0};

@@ -22,7 +22,7 @@
 
 
 #include <config.h>
-#ifdef HAVE_MINGW
+#ifdef HAVE_VISUALSTUDIO
 #include <ws2tcpip.h>
 #else
 #include <sys/socket.h>

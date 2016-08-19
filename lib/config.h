@@ -46,9 +46,6 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
-/* Define whether to compile on Windows */
-/* #undef HAVE_MINGW */
-
 /* Define whether pthread.h is present */
 #define HAVE_PTHREAD 1
 
@@ -84,6 +81,9 @@
 
 /* Define whether to enable unit tests */
 /* #undef HAVE_UNITTESTS */
+
+/* Define whether to compile on Visual Studio */
+/* #undef HAVE_VISUALSTUDIO */
 
 /* Define whether to compile on Windows */
 /* #undef HAVE_WINDOWS */

@@ -760,7 +760,7 @@ with_admin_username
 with_admin_password
 with_admin_email
 enable_windows
-enable_mingw
+enable_visualstudio
 enable_android
 enable_mac
 enable_linux
@@ -1418,7 +1418,7 @@ Optional Features:
   --enable-demo  Enable demo mode
   --enable-unittests Enable unit tests
   --enable-windows Compile for Windows
-  --enable-mingw Compile for Windows on MinGW
+  --enable-visualstudio Compile for Windows on Visual Studio
   --enable-android Compile for Android
   --enable-mac Compile for Mac
   --enable-linux Compile for Linux
@@ -6948,10 +6948,10 @@ ENABLEWINDOWS=yes
 fi
 
 
-# Check whether --enable-mingw was given.
-if test "${enable_mingw+set}" = set; then :
-  enableval=$enable_mingw;
-$as_echo "#define HAVE_MINGW 1" >>confdefs.h
+# Check whether --enable-visualstudio was given.
+if test "${enable_visualstudio+set}" = set; then :
+  enableval=$enable_visualstudio;
+$as_echo "#define HAVE_VISUALSTUDIO 1" >>confdefs.h
 
 
 fi

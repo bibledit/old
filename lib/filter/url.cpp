@@ -200,7 +200,7 @@ bool file_exists (string url)
 void filter_url_mkdir (string directory)
 {
   int status;
-#ifdef HAVE_MINGW
+#ifdef HAVE_VISUALSTUDIO
   status = mkdir (directory.c_str());
 #else
   status = mkdir (directory.c_str(), 0777);
@@ -215,7 +215,7 @@ void filter_url_mkdir (string directory)
     }
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {
-#ifdef HAVE_MINGW
+#ifdef HAVE_VISUALSTUDIO
       mkdir (paths[i].c_str ());
 #else
       mkdir (paths[i].c_str (), 0777);
@@ -1091,7 +1091,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     int comm_sock = sock;
     if (secure) comm_sock = fd.fd;
     // Make the timeout not too short, so it can support very slow networks. CheckWindows
-#ifdef HAVE_MINGW
+#ifdef HAVE_VISUALSTUDIO
     // Windows: Timeout value is a DWORD in milliseconds, address passed to setsockopt() is const char *
     const char * tv = "600000";
 #else
@@ -1104,13 +1104,13 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     // If it cannot be set, record it in the journal,
     // but still proceed with the connection, because this is not fatal.
     int ret;
-#ifdef HAVE_MINGW
+#ifdef HAVE_VISUALSTUDIO
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
 #else
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
 #endif
     if (ret != 0) Database_Logs::log (strerror (errno));
-#ifdef HAVE_MINGW
+#ifdef HAVE_VISUALSTUDIO
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, tv, sizeof (tv));
 #else
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *)&tv, sizeof(struct timeval));

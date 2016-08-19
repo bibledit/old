@@ -172,9 +172,9 @@ ENABLEWINDOWS=yes
 ]
 )
 
-AC_ARG_ENABLE(mingw,
-[  --enable-mingw Compile for Windows on MinGW],
-[AC_DEFINE([HAVE_MINGW], [1], [Define whether to compile on Windows])]
+AC_ARG_ENABLE(visualstudio,
+[  --enable-visualstudio Compile for Windows on Visual Studio],
+[AC_DEFINE([HAVE_VISUALSTUDIO], [1], [Define whether to compile on Visual Studio])]
 )
 
 # Android.

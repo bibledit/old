@@ -38,7 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // C headers in sub folders.
 #include <sys/stat.h>
 #include <sys/time.h>
-#ifdef HAVE_MINGW
+#ifdef HAVE_VISUALSTUDIO
 #include <ws2tcpip.h>
 #else
 #include <sys/socket.h>
