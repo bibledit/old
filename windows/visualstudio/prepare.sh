@@ -14,8 +14,8 @@ mkdir -p $WORKDIR
 
 
 echo Synchronizing relevant source code to the temporal directory.
-rsync --archive --delete --exclude '.DS_Store' . $WORKDIR/
-rsync --archive --delete --exclude '.deps' --exclude '*.o' --exclude '*.a' --exclude '.dirstamp' --exclude 'server' --exclude 'unittest' --exclude '.DS_Store' --exclude 'autom4te.cache' --exclude 'bibledit' --exclude '*~' --exclude 'dev' --exclude 'generate' --exclude 'valgrind' ../../lib/* $WORKDIR/server
+rsync --archive --exclude '.DS_Store' . $WORKDIR/
+rsync --archive --exclude '.deps' --exclude '*.o' --exclude '*.a' --exclude '.dirstamp' --exclude 'server' --exclude 'unittest' --exclude '.DS_Store' --exclude 'autom4te.cache' --exclude 'bibledit' --exclude '*~' --exclude 'dev' --exclude 'generate' --exclude 'valgrind' ../../lib/* $WORKDIR/server
 
 
 cd $WORKDIR/server
@@ -27,6 +27,10 @@ EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
   exit
 fi
+
+
+# Remove the .deps folders.
+find . -name ".deps" -type d -prune -exec rm -rf '{}' '+'
 
 
 # Fix g++.exe: error: unrecognized command line option '-rdynamic'

@@ -23,9 +23,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Basic C headers.
 #include <cstdlib>
+#ifndef HAVE_VISUALSTUDIO
 #include <unistd.h>
 #include <utime.h>
 #include <dirent.h>
+#endif
 #include <stdio.h>
 #include <signal.h>
 #include <errno.h>
@@ -37,7 +39,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // C headers in sub folders.
 #include <sys/stat.h>
+#ifndef HAVE_VISUALSTUDIO
 #include <sys/time.h>
+#endif
 #ifdef HAVE_VISUALSTUDIO
 #include <ws2tcpip.h>
 #else
