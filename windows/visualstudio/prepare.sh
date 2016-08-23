@@ -29,6 +29,9 @@ EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
   exit
 fi
+# Remove some Linux related definitions as they don't work on Windows.
+sed -i.bak '/HAVE_LIBPROC/d' config.h
+sed -i.bak '/HAVE_EXECINFO/d' config.h
 
 
 # Remove the .deps folders.
