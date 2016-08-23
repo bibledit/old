@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <unistd.h>
 #ifdef HAVE_LIBPROC
 #include <libproc.h>
 #endif
