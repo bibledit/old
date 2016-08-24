@@ -38,6 +38,12 @@ sed -i.bak '/HAVE_EXECINFO/d' config.h
 find . -name ".deps" -type d -prune -exec rm -rf '{}' '+'
 
 
+# Compile and run the C++ program to prepare the visual studio project.
+g++ -std=c++11 ../prepare.cpp
+./a.out
+rm a.out
+
+
 # Synchronize the configured source to the Windows share.
 # This enabled Visual Studio on Windows to work in a local folder rather than in a share, as that does not work reliably.
 echo Synchronizing source to the Windows share.
@@ -47,42 +53,3 @@ rsync --archive $TEMPDIR /Volumes/visualstudio/Projects
 # Fix g++.exe: error: unrecognized command line option '-rdynamic'
 # Fix undefined reference to `_imp__*' by adding required library to the linker.
 # sed -i 's/-rdynamic/-lws2_32/' Makefile.am
-
-
-# The following command saves all source files from Makefile.am to file.
-# It uses several steps to obtain the result:
-# * Obtain source files between the correct patterns.
-# * Remove first line.
-# * Remove last line.
-# * Remove tabs.
-# * Remove backslashes.
-sed -n "/libbibledit_a_SOURCES/,/bin_PROGRAMS/p" Makefile.am | tail -n +2 | sed '$d' | strings | sed 's/\\//g' > sources.txt
-
-# Remove white space from the sources file.
-cat sources.txt | awk '{$1=$1};1' > sources2.txt
-mv sources2.txt sources.txt
-
-
-
-# Update the visual studio project file to include all sources.
-sed 's|<ClCompile Include=\"executable\\bibledit.cpp\" />|COMPILE|' server.vcxproj
-
-
-exit
-
-sed 's|^|<ClCompile Include=\"|' sources.txt
-
-sed 's|$|done|' sources.txt
-
-
-
-sed "s/COMPILE/$(cat sources.txt)/" server.vcxproj
-
-
-
-rm sources.txt
-
-
-
-
-
