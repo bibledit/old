@@ -40,7 +40,7 @@ find . -name ".deps" -type d -prune -exec rm -rf '{}' '+'
 
 # Compile and run the C++ program to prepare the visual studio project.
 g++ -std=c++11 ../prepare.cpp
-./a.out
+# ./a.out
 rm a.out
 
 
