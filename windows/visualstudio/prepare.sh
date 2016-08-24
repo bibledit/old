@@ -39,9 +39,9 @@ find . -name ".deps" -type d -prune -exec rm -rf '{}' '+'
 
 
 # Compile and run the C++ program to prepare the visual studio project.
-g++ -std=c++11 ../prepare.cpp
+# g++ -std=c++11 ../prepare.cpp
 # ./a.out
-rm a.out
+# rm a.out
 
 
 # Synchronize the configured source to the Windows share.
