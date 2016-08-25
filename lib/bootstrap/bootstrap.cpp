@@ -184,7 +184,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/save.h>
 #include <editone/verse.h>
 #include <editone/preview.h>
-#include <debug/index.h>
+#include <developer/index.h>
 #include <paratext/index.h>
 #include <personalize/index.h>
 #include <menu/index.h>

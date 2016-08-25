@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/logic.h>
 #include <checks/logic.h>
 #include <export/logic.h>
-#include <debug/logic.h>
+#include <developer/logic.h>
 #include <setup/logic.h>
 
 

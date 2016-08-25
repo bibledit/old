@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <consistency/index.h>
 #include <database/config/general.h>
 #include <database/userresources.h>
-#include <debug/index.h>
+#include <developer/index.h>
 #include <edit/index.h>
 #include <editone/index.h>
 #include <editusfm/index.h>
@@ -504,7 +504,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
   string send_receive = translate ("Send/receive");
   string hyphenation = translate ("Hyphenate");
   string cross_references = translate ("Transfer cross-references");
-  string debug = translate ("Debug");
+  string develop = translate ("Develop");
   string exporting = translate ("Export");
   string journal = translate ("Journal");
   vector <string> labels = {
@@ -516,7 +516,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     send_receive,
     hyphenation,
     cross_references,
-    debug,
+    develop,
     exporting,
     journal
   };
@@ -593,7 +593,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
       }
     }
     
-    if (label == debug) {
+    if (label == develop) {
       if (debug_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (debug_index_url (), label, true));
         tiplabels.push_back (label);

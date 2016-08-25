@@ -56,7 +56,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ipc/notes.h>
 #include <client/logic.h>
 #include <bible/logic.h>
-#include <debug/logic.h>
+#include <developer/logic.h>
 
 
 #ifdef HAVE_UNITTESTS

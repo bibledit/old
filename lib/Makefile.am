@@ -331,8 +331,8 @@ libbibledit_a_SOURCES = \
 	xrefs/target.cpp \
 	xrefs/translate.cpp \
 	webbible/search.cpp \
-	debug/index.cpp \
-	debug/logic.cpp \
+	developer/index.cpp \
+	developer/logic.cpp \
 	paratext/logic.cpp \
 	paratext/index.cpp \
 	personalize/index.cpp \
