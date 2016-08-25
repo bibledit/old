@@ -1170,10 +1170,6 @@
 		CAEE85F61A7006B500BE3A1A /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAEE85F71A7035CD00BE3A1A /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAEE85F81A7035CD00BE3A1A /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CAEF4D021D6EF82600FBB688 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CAEF4D031D6EF82600FBB688 /* index.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.Po; sourceTree = "<group>"; };
-		CAEF4D041D6EF82600FBB688 /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
-		CAEF4D051D6EF82600FBB688 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAEF4D061D6EF82600FBB688 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAEF4D071D6EF82600FBB688 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAEF4D081D6EF82600FBB688 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -3474,8 +3470,6 @@
 		CAEF4D001D6EF82600FBB688 /* developer */ = {
 			isa = PBXGroup;
 			children = (
-				CAEF4D011D6EF82600FBB688 /* .deps */,
-				CAEF4D051D6EF82600FBB688 /* .dirstamp */,
 				CAEF4D061D6EF82600FBB688 /* index.cpp */,
 				CAEF4D071D6EF82600FBB688 /* index.h */,
 				CAEF4D081D6EF82600FBB688 /* index.html */,
@@ -3487,16 +3481,6 @@
 			);
 			name = developer;
 			path = ../developer;
-			sourceTree = "<group>";
-		};
-		CAEF4D011D6EF82600FBB688 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CAEF4D021D6EF82600FBB688 /* .dirstamp */,
-				CAEF4D031D6EF82600FBB688 /* index.Po */,
-				CAEF4D041D6EF82600FBB688 /* logic.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CAF6DBE91A72583700E5389F /* collaboration */ = {

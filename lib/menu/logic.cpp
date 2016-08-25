@@ -594,8 +594,8 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     }
     
     if (label == develop) {
-      if (debug_index_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (debug_index_url (), label, true));
+      if (developer_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (developer_index_url (), label, true));
         tiplabels.push_back (label);
       }
     }

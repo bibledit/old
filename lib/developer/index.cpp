@@ -31,19 +31,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 
 
-const char * debug_index_url ()
+const char * developer_index_url ()
 {
-  return "debug/index";
+  return "developer/index";
 }
 
 
-bool debug_index_acl (void * webserver_request)
+bool developer_index_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
 }
 
 
-string debug_index (void * webserver_request)
+string developer_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -114,7 +114,7 @@ string debug_index (void * webserver_request)
   
   view.set_variable ("code", code);
 
-  page += view.render ("debug", "index");
+  page += view.render ("developer", "index");
   page += Assets_Page::footer ();
 
   return page;

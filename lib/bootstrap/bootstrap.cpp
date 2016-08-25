@@ -397,7 +397,7 @@ void bootstrap_index (void * webserver_request)
   
   else if ((url == xrefs_index_url ()) && bootstrap_browser_request_security_okay (request) && xrefs_index_acl (request)) request->reply = xrefs_index (request);
   
-  else if ((url == debug_index_url ()) && bootstrap_browser_request_security_okay (request) && debug_index_acl (request)) request->reply = debug_index (request);
+  else if ((url == developer_index_url ()) && bootstrap_browser_request_security_okay (request) && developer_index_acl (request)) request->reply = developer_index (request);
   
   // Settings menu.
   else if ((url == personalize_index_url ()) && bootstrap_browser_request_security_okay (request) && personalize_index_acl (request)) request->reply = personalize_index (request);

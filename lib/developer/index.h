@@ -24,9 +24,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-const char * debug_index_url ();
-bool debug_index_acl (void * webserver_request);
-string debug_index (void * webserver_request);
+const char * developer_index_url ();
+bool developer_index_acl (void * webserver_request);
+string developer_index (void * webserver_request);
 
 
 #endif
