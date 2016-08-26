@@ -197,7 +197,7 @@ void Database_Notes::trim ()
       vector <string> bits2 = filter_url_scandir (folder);
       if (bits2.empty ()) {
         Database_Logs::log (message + folder);
-        rmdir (folder.c_str ());
+        remove (folder.c_str ());
       }
       for (auto bit2 : bits2) {
         if (bit2.length () == 3) {
@@ -205,7 +205,7 @@ void Database_Notes::trim ()
           vector <string> bits3 = filter_url_scandir (folder);
           if (bits3.empty ()) {
             Database_Logs::log (message + folder);
-            rmdir (folder.c_str());
+            remove (folder.c_str());
           }
         }
       }
