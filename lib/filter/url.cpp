@@ -132,7 +132,11 @@ string filter_url_basename (string url)
 
 void filter_url_unlink (string filename)
 {
+#ifdef HAVE_VISUALSTUDIO
+  _unlink(filename.c_str());
+#else
   unlink (filename.c_str ());
+#endif
 }
 
 
@@ -205,7 +209,7 @@ void filter_url_mkdir (string directory)
 {
   int status;
 #ifdef HAVE_VISUALSTUDIO
-  status = mkdir (directory.c_str());
+  status = _mkdir (directory.c_str());
 #else
   status = mkdir (directory.c_str(), 0777);
 #endif
@@ -220,7 +224,7 @@ void filter_url_mkdir (string directory)
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {
 #ifdef HAVE_VISUALSTUDIO
-      mkdir (paths[i].c_str ());
+      _mkdir (paths[i].c_str ());
 #else
       mkdir (paths[i].c_str (), 0777);
 #endif
@@ -984,7 +988,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   
   // Resolve the host.
   struct addrinfo hints;
-  struct addrinfo * address_results;
+  struct addrinfo * address_results = nullptr;
   bool address_info_resolved = false;
   if (!secure) {
     memset (&hints, 0, sizeof (struct addrinfo));
@@ -1257,7 +1261,11 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         ret = mbedtls_ssl_read (&ssl, buffer, 1);
         cur = buffer [0];
       } else {
-        ret = read (sock, &cur, 1);
+#ifdef HAVE_VISUALSTUDIO
+        ret = _read(sock, &cur, 1);
+#else
+        ret = read(sock, &cur, 1);
+#endif
       }
       if (ret > 0) {
         if (reading_body) {
@@ -1298,7 +1306,13 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     // Only close the socket if it was open.
     // It used to close (0) in error,
     // and on Android and iOS, when this was done a couple of times, it would crash the app.
-    if (sock > 0) close (sock);
+    if (sock > 0) {
+#ifdef HAVE_VISUALSTUDIO
+      _close(sock);
+#else
+      close(sock);
+#endif
+    }
   }
 
   
