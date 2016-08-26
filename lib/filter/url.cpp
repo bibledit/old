@@ -37,6 +37,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/error.h"
 #include "mbedtls/certs.h"
+#ifdef HAVE_VISUALSTUDIO
+#include <direct.h>
+#include <io.h>
+#endif
 
 
 // SSL/TLS globals.
@@ -226,8 +230,9 @@ void filter_url_mkdir (string directory)
 
 
 // Removes directory recursively.
-void filter_url_rmdir (string directory)
+void filter_url_rmdir (string directory) // Todo make it work on Visual Studio.
 {
+#ifndef HAVE_VISUALSTUDIO
   DIR *dir;
   struct dirent *entry;
   char path[PATH_MAX];
@@ -249,6 +254,7 @@ void filter_url_rmdir (string directory)
   }
   closedir(dir);
   remove (directory.c_str());
+#endif // !HAVE_VISUALSTUDIO
 }
 
 
@@ -261,17 +267,23 @@ bool filter_url_is_dir (string path)
 }
 
 
-bool filter_url_get_write_permission (string path)
+bool filter_url_get_write_permission (string path) // Todo test on Visual Studio.
 {
+#ifdef HAVE_VISUALSTUDIO
+	return true;
+#else
   int result = access (path.c_str(), W_OK);
   if (result == 0) return true;
   return false;
+#endif
 }
 
 
-void filter_url_set_write_permission (string path)
+void filter_url_set_write_permission (string path) // Todo test on Visual Studio.
 {
-  chmod (path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
+#ifndef HAVE_VISUALSTUDIO
+  chmod(path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
+#endif // !HAVE_VISUALSTUDIO
 }
 
 
@@ -370,9 +382,11 @@ int filter_url_filesize (string filename)
 
 
 // A C++ near equivalent for PHP's scandir function.
-vector <string> filter_url_scandir (string folder)
+vector <string> filter_url_scandir (string folder) // Todo make it work on Visual Studio.
 {
   vector <string> files;
+#ifdef HAVE_VISUALSTUDIO
+#else
   DIR * dir = opendir (folder.c_str());
   if (dir) {
     struct dirent * direntry;
@@ -385,6 +399,7 @@ vector <string> filter_url_scandir (string folder)
     closedir (dir);
   }
   sort (files.begin(), files.end());
+#endif // !HAVE_VISUALSTUDIO
   return files;
 }
 
@@ -986,8 +1001,11 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     int res = getaddrinfo (hostname.c_str(), service.c_str (), &hints, &address_results);
     if (res != 0) {
       error = hostname + ": ";
+#ifndef HAVE_VISUALSTUDIO
+      // Todo implement this for Visual Studio.
       error.append (gai_strerror (res));
-      connection_healthy = false;
+#endif // !HAVE_VISUALSTUDIO
+	  connection_healthy = false;
     } else {
       address_info_resolved = true;
     }
