@@ -6184,7 +6184,7 @@ msgstr ""
 msgid "Transfer cross-references"
 msgstr ""
 
-msgid "Debug"
+msgid "Develop"
 msgstr ""
 
 msgid "Personalize"
