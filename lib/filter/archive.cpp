@@ -23,6 +23,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 
 
+// Work around old Microsoft macro definitions.
+#undef max
+#undef min
+
+
 // Whether the operating system can zip data.
 bool filter_archive_can_zip ()
 {

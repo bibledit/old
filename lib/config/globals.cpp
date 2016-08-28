@@ -20,6 +20,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 
 
+#undef max
+
+
 string config_globals_document_root = DIRECTORY_SEPARATOR;
 bool config_globals_unit_testing = false;
 bool config_globals_open_installation = false;
