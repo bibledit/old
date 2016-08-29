@@ -33,6 +33,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <mbedtls/net.h>
 #include <mbedtls/error.h>
 #include <mbedtls/ssl_cache.h>
+#ifdef HAVE_VISUALSTUDIO
+#include <io.h>
+#endif
+
+
+// Work around Windows quirks
+#ifdef HAVE_VISUALSTUDIO
+#define read _read
+#define write _write
+#define close _close
+#endif
 
 
 // Gets a line from a socket.
