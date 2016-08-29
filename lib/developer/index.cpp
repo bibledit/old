@@ -23,10 +23,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/header.h>
 #include <filter/roles.h>
 #include <tasks/logic.h>
+#ifndef HAVE_CLIENT
 #include <sources/etcbc4.h>
 #include <sources/kjv.h>
 #include <sources/morphgnt.h>
 #include <sources/hebrewlexicon.h>
+#endif
 #include <resource/external.h>
 #include <database/logs.h>
 
