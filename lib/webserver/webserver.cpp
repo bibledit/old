@@ -217,7 +217,7 @@ void http_server ()
   serveraddr.sin_port = htons (convert_to_int (config_logic_http_network_port ()));
   result = mybind (listenfd, (SA *) &serveraddr, sizeof (serveraddr));
 #ifdef HAVE_VISUALSTUDIO
-  if (result == SOCKET_ERROR) // CheckWindows
+  if (result == SOCKET_ERROR) // Todo CheckWindows
 #else
   if (result != 0)
 #endif
@@ -237,7 +237,7 @@ void http_server ()
     int connfd = accept (listenfd, (SA *)&clientaddr, &clientlen);
     if (connfd > 0) {
 
-      // Socket receive timeout, plain http. CheckWindows
+      // Socket receive timeout, plain http. Todo CheckWindows
 #ifndef HAVE_VISUALSTUDIO
       struct timeval tv;
       tv.tv_sec = 60;
@@ -245,7 +245,7 @@ void http_server ()
       setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 #endif
       
-      // The client's remote IPv4 address in dotted notation. CheckWindows
+      // The client's remote IPv4 address in dotted notation. Todo CheckWindows
       string clientaddress;
 #ifndef HAVE_VISUALSTUDIO
       char remote_address[256];
@@ -273,7 +273,7 @@ void http_server ()
 // Processes a single request from a web client.
 void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd)
 {
-  // Socket receive timeout, secure https. CheckWindows
+  // Socket receive timeout, secure https. Todo CheckWindows
 #ifndef HAVE_VISUALSTUDIO
   struct timeval tv;
   tv.tv_sec = 60;
@@ -297,16 +297,16 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
 
     if (config_globals_https_running) {
 
-      // Get client's remote IPv4 address in dotted notation and put it in the webserver request object. CheckWindows
-#ifndef HAVE_VISUALSTUDIO
+      // Get client's remote IPv4 address in dotted notation and put it in the webserver request object. Todo CheckWindows
+#ifdef HAVE_VISUALSTUDIO
+      request.remote_address = "127.0.0.1";
+#else
       struct sockaddr_in addr;
       socklen_t addr_size = sizeof(struct sockaddr_in);
       getpeername (client_fd.fd, (struct sockaddr *)&addr, &addr_size);
       char remote_address [256];
       inet_ntop (AF_INET, &addr.sin_addr.s_addr, remote_address, sizeof (remote_address));
       request.remote_address = remote_address;
-#else
-      request.remote_address = "127.0.0.1";
 #endif
       
       // This flag indicates a healthy connection: One that can proceed.

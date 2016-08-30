@@ -87,7 +87,7 @@ int main (int argc, char **argv)
 #endif
 
   // Get the executable path and base the document root on it.
-  string webroot; // CheckWindows
+  string webroot; // Todo CheckWindows
 #ifndef HAVE_VISUALSTUDIO
   {
     // The following works on Linux but not on Mac OS X:
