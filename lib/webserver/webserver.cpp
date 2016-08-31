@@ -42,7 +42,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_VISUALSTUDIO
 #define read _read
 #define write _write
-#define close _close
 #endif
 
 
@@ -158,8 +157,8 @@ void webserver_process_request (int connfd, string clientaddress)
           const char * output = request.reply.c_str();
           // The C function strlen () fails on null characters in the reply, so take string::size()
           size_t length = request.reply.size ();
-          int written = write (connfd, output, length);
-          if (written) {};
+		  int written = write (connfd, output, length);
+          (void) (written);
           
         } else {
           // cerr << "Insufficient data received, closing connection" << endl;
@@ -182,7 +181,11 @@ void webserver_process_request (int connfd, string clientaddress)
   }
   
   // Done: Close.
+#ifdef HAVE_VISUALSTUDIO
+  closesocket (connfd);
+#else
   close (connfd);
+#endif
 }
 
 
@@ -301,7 +304,11 @@ void http_server ()
   }
   
   // Close listening socket, freeing it for a possible subsequent server process.
+#ifdef HAVE_VISUALSTUDIO
+  closesocket (listenfd);
+#else
   close (listenfd);
+#endif
 
   // On Windows, cleanup the used Windows Sockets.
 #ifdef HAVE_VISUALSTUDIO

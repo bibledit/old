@@ -73,6 +73,15 @@ void sigsegv_handler (int sig)
 #endif
 
 
+#ifdef HAVE_VISUALSTUDIO
+void myInvalidParameterHandler(const wchar_t* expression, const wchar_t* function, const wchar_t* file,	unsigned int line, uintptr_t pReserved) {
+  wprintf(L"Invalid parameter detected in function %s."
+          L" File: %s Line: %d\n", function, file, line);
+  wprintf(L"Expression: %s\n", expression);
+}
+#endif
+
+
 int main (int argc, char **argv)
 {
   (void) argc;
@@ -84,6 +93,16 @@ int main (int argc, char **argv)
 #ifdef HAVE_EXECINFO
   // Handler for logging segmentation fault.
   signal (SIGSEGV, sigsegv_handler);
+#endif
+
+#ifdef HAVE_VISUALSTUDIO
+  // Set our own invalid parameter handler for on Windows.
+  _invalid_parameter_handler oldHandler, newHandler;
+  newHandler = myInvalidParameterHandler;
+  oldHandler = _set_invalid_parameter_handler(newHandler);
+
+  // Disable the message box for assertions on Windows.
+  _CrtSetReportMode(_CRT_ASSERT, 0);
 #endif
 
   // Get the executable path and base the document root on it.

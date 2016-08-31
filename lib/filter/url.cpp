@@ -1308,7 +1308,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     // and on Android and iOS, when this was done a couple of times, it would crash the app.
     if (sock > 0) {
 #ifdef HAVE_VISUALSTUDIO
-      _close(sock);
+      closesocket(sock);
 #else
       close(sock);
 #endif
