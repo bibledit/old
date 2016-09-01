@@ -151,7 +151,11 @@ void bibledit_start_library ()
   config_globals_http_running = true;
   config_globals_https_running = true;
   
-  // Run the web server in a thread.
+  // Whether the plain http server redirects to secure http.
+  config_globals_enforce_https_browser = config_logic_enforce_https_browser ();
+  config_globals_enforce_https_client = config_logic_enforce_https_client ();
+  
+  // Run the plain web server in a thread.
   config_globals_http_worker = new thread (http_server);
   
   // Run the secure web server in a thread.

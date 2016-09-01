@@ -189,33 +189,12 @@ void webserver_process_request (int connfd, string clientaddress)
 }
 
 
+#ifndef HAVE_VISUALSTUDIO
+// This http server uses BSD sockets.
 void http_server ()
 {
-  // Whether the plain http server redirects to secure http.
-  config_globals_enforce_https_browser = config_logic_enforce_https_browser ();
-  config_globals_enforce_https_client = config_logic_enforce_https_client ();
-
   bool listener_healthy = true;
   
-  // On Windows, startup the interface to Windows Sockets.
-#ifdef HAVE_VISUALSTUDIO
-  // Desired minimum winsock version.
-  WORD version = MAKEWORD (2, 0);
-  // Initialize the system.
-  WSADATA wsaData;
-  int error = WSAStartup (version, &wsaData);
-  // Check for error.
-  if (error != 0) {
-    cerr << "Could not initialize Windows Sockets" << endl;
-    listener_healthy = false;
-  }
-  // Check for correct version
-  if (LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 0) {
-    cerr << "Incorrect Windows Sockets version" << endl;
-    listener_healthy = false;
-  }
-#endif
-
   // Create a listening socket.
   int listenfd = socket (AF_INET, SOCK_STREAM, 0);
   if (listenfd < 0) {
@@ -245,12 +224,7 @@ void http_server ()
 #endif
   serveraddr.sin_port = htons (convert_to_int (config_logic_http_network_port ()));
   result = mybind (listenfd, (SA *) &serveraddr, sizeof (serveraddr));
-#ifdef HAVE_VISUALSTUDIO
-  if (result == SOCKET_ERROR)
-#else
-  if (result != 0)
-#endif
-  {
+  if (result != 0) {
     cerr << "Error binding server to socket" << endl;
     listener_healthy = false;
   }
@@ -272,26 +246,17 @@ void http_server ()
     int connfd = accept (listenfd, (SA *)&clientaddr, &clientlen);
     if (connfd > 0) {
 
-      // Socket receive timeout, plain http. Todo CheckWindows
-#ifdef HAVE_VISUALSTUDIO
-      const char * tv = "600000"; // In milliseconds.
-      setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
-#else
+      // Socket receive timeout, plain http.
       struct timeval tv;
       tv.tv_sec = 60;
       tv.tv_usec = 0;
       setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
-#endif
       
-      // The client's remote IPv4 address in dotted notation. Todo CheckWindows
+      // The client's remote IPv4 address in dotted notation.
       string clientaddress;
-#ifndef HAVE_VISUALSTUDIO
       char remote_address[256];
       inet_ntop (AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof (remote_address));
       clientaddress = remote_address;
-#else
-      clientaddress = "127.0.0.1";
-#endif
       
       // Handle this request in a thread, enabling parallel requests.
       thread request_thread = thread (webserver_process_request, connfd, clientaddress);
@@ -304,17 +269,136 @@ void http_server ()
   }
   
   // Close listening socket, freeing it for a possible subsequent server process.
-#ifdef HAVE_VISUALSTUDIO
-  closesocket (listenfd);
-#else
   close (listenfd);
+}
 #endif
 
-  // On Windows, cleanup the used Windows Sockets.
+
 #ifdef HAVE_VISUALSTUDIO
+// This http server uses Windows sockets.
+void http_server ()
+{
+  cout << "test server listening on port 27015" << endl;
+  
+  int iResult;
+  bool listener_healty = true;
+  
+  // Initialize the interface to Windows Sockets.
+  WSADATA wsaData;
+  iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+  if (iResult != 0) {
+    cerr << "Could not initialize Windows Sockets with error " << iResult << endl;
+    listener_healty = false;
+  }
+  // Check for correct version
+  if (LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 2) {
+    cerr << "Incorrect Windows Sockets version" << endl;
+    listener_healthy = false;
+  }
+  
+  
+  struct addrinfo hints;
+  ZeroMemory(&hints, sizeof(hints));
+  hints.ai_family = AF_INET;
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_protocol = IPPROTO_TCP;
+  hints.ai_flags = AI_PASSIVE;
+  
+  
+  // Resolve the server address and port
+  struct addrinfo *result = NULL;
+  iResult = getaddrinfo(NULL, "27015", &hints, &result);
+  if (iResult != 0) {
+    printf("getaddrinfo failed with error: %d\n", iResult);
+    listener_healty = false;
+  }
+  
+  // Create a SOCKET for connecting to server
+  SOCKET ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+  if (ListenSocket == INVALID_SOCKET) {
+    printf("socket failed with error: %ld\n", WSAGetLastError());
+    listener_healty = false;
+  }
+  
+ 
+  // Setup the TCP listening socket
+  iResult = mybind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
+  if (iResult == SOCKET_ERROR) {
+    printf("bind failed with error: %d\n", WSAGetLastError());
+    listener_healty = false;
+  }
+  
+  freeaddrinfo(result);
+  
+  iResult = listen(ListenSocket, SOMAXCONN);
+  if (iResult == SOCKET_ERROR) {
+    printf("listen failed with error: %d\n", WSAGetLastError());
+    listener_healty = false;
+  }
+  
+  
+  while (listener_healty) {
+    
+#define DEFAULT_BUFLEN 512
+    char recvbuf[DEFAULT_BUFLEN];
+    int recvbuflen = DEFAULT_BUFLEN;
+    
+    // Accept a client socket
+    SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
+    if (ClientSocket == INVALID_SOCKET) {
+      printf("accept failed with error: %d\n", WSAGetLastError());
+      closesocket(ListenSocket);
+      continue;
+    }
+
+    // Set timeout on receive, in milliseconds.
+    const char * tv = "600000";
+    setsockopt (ListenSocket, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
+
+    // Todo
+    // clientaddress = "127.0.0.1";
+
+    iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+    if (iResult > 0) {
+      printf("Bytes received: %d\n", iResult);
+      
+      // Echo the buffer back to the sender
+      int iSendResult = send(ClientSocket, recvbuf, iResult, 0);
+      if (iSendResult == SOCKET_ERROR) {
+        printf("send failed with error: %d\n", WSAGetLastError());
+        closesocket(ClientSocket);
+        continue;
+      }
+      printf("Bytes sent: %d\n", iSendResult);
+    }
+    else if (iResult == 0)
+      printf("Connection closing...\n");
+    else {
+      printf("recv failed with error: %d\n", WSAGetLastError());
+      closesocket(ClientSocket);
+      continue;
+    }
+    
+    
+    // shutdown the connection since we're done
+    iResult = shutdown(ClientSocket, SD_SEND);
+    if (iResult == SOCKET_ERROR) {
+      printf("shutdown failed with error: %d\n", WSAGetLastError());
+    }
+    
+    
+    // cleanup
+    closesocket(ClientSocket);
+    
+  }
+  
+  // No longer need server socket
+  closesocket(ListenSocket);
+  
+  // Clean up the interface to Windows Socket.
   WSACleanup();
-#endif
 }
+#endif
 
 
 // Processes a single request from a web client.

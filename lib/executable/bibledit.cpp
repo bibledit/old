@@ -75,9 +75,9 @@ void sigsegv_handler (int sig)
 
 #ifdef HAVE_VISUALSTUDIO
 void myInvalidParameterHandler(const wchar_t* expression, const wchar_t* function, const wchar_t* file,	unsigned int line, uintptr_t pReserved) {
-  wprintf(L"Invalid parameter detected in function %s."
-          L" File: %s Line: %d\n", function, file, line);
-  wprintf(L"Expression: %s\n", expression);
+  wprintf(L"Invalid parameter detected in function %s.\n", function);
+  wprintf(L"File %s line %d.\n", file, line);
+  wprintf(L"Expression %s.\n", expression);
 }
 #endif
 
@@ -97,10 +97,7 @@ int main (int argc, char **argv)
 
 #ifdef HAVE_VISUALSTUDIO
   // Set our own invalid parameter handler for on Windows.
-  _invalid_parameter_handler oldHandler, newHandler;
-  newHandler = myInvalidParameterHandler;
-  oldHandler = _set_invalid_parameter_handler(newHandler);
-
+  _set_invalid_parameter_handler(myInvalidParameterHandler);
   // Disable the message box for assertions on Windows.
   _CrtSetReportMode(_CRT_ASSERT, 0);
 #endif
@@ -136,7 +133,7 @@ int main (int argc, char **argv)
     // The following works on Windows.
     char buf[1024] = {0};
     DWORD ret = GetModuleFileNameA (NULL, buf, sizeof(buf));
-    if (ret != 0) webroot = filter_url_dirname (buf);
+    if (ret != 0) webroot = filter_url_dirname (buf); // Todo fix the dirname.
   }
 #endif
   bibledit_initialize_library (webroot.c_str(), webroot.c_str());
@@ -162,13 +159,13 @@ int main (int argc, char **argv)
     }
   }
 
-  // Bibledit Cloud should restart itself at midnight.
+  // Bibledit Cloud should restarts itself at midnight.
   // This is to be sure that any memory leaks don't accumulate too much
-  // in case Bibledit Cloud runs for months and years.
+  // in case Bibledit Cloud would run for months and years.
   bibledit_set_quit_at_midnight ();
   
   // Keep running till Bibledit stops or gets interrupted.
-  while (bibledit_is_running ()) { };
+  while (bibledit_is_running ()) { }
 
   bibledit_shutdown_library ();
 
