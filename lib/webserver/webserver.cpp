@@ -157,7 +157,7 @@ void webserver_process_request (int connfd, string clientaddress)
           const char * output = request.reply.c_str();
           // The C function strlen () fails on null characters in the reply, so take string::size()
           size_t length = request.reply.size ();
-		  int written = write (connfd, output, length);
+          int written = write (connfd, output, length);
           (void) (written);
           
         } else {
@@ -182,8 +182,10 @@ void webserver_process_request (int connfd, string clientaddress)
   
   // Done: Close.
 #ifdef HAVE_VISUALSTUDIO
+  shutdown (connfd, SD_BOTH);
   closesocket (connfd);
 #else
+  shutdown (connfd, SHUT_RDWR);
   close (connfd);
 #endif
 }
@@ -259,9 +261,9 @@ void http_server ()
       clientaddress = remote_address;
       
       // Handle this request in a thread, enabling parallel requests.
-      thread request_thread = thread (webserver_process_request, connfd, clientaddress);
+      thread request_thread = thread (webserver_process_request, connfd, clientaddress);  // Todo to Windows.
       // Detach and delete thread object.
-      request_thread.detach ();
+      request_thread.detach ();  // Todo to Windows.
       
     } else {
       cerr << "Error accepting connection on socket" << endl;
@@ -278,124 +280,97 @@ void http_server ()
 // This http server uses Windows sockets.
 void http_server ()
 {
-  cout << "test server listening on port 27015" << endl;
-  
   int iResult;
-  bool listener_healty = true;
+  bool listener_healthy = true;
   
   // Initialize the interface to Windows Sockets.
   WSADATA wsaData;
   iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
   if (iResult != 0) {
     cerr << "Could not initialize Windows Sockets with error " << iResult << endl;
-    listener_healty = false;
+    listener_healthy = false;
   }
-  // Check for correct version
+  // Check for the correct requested Windows Sockets interface version.
   if (LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 2) {
     cerr << "Incorrect Windows Sockets version" << endl;
     listener_healthy = false;
   }
   
-  
-  struct addrinfo hints;
-  ZeroMemory(&hints, sizeof(hints));
-  hints.ai_family = AF_INET;
-  hints.ai_socktype = SOCK_STREAM;
-  hints.ai_protocol = IPPROTO_TCP;
-  hints.ai_flags = AI_PASSIVE;
-  
-  
-  // Resolve the server address and port
-  struct addrinfo *result = NULL;
-  iResult = getaddrinfo(NULL, "27015", &hints, &result);
-  if (iResult != 0) {
-    printf("getaddrinfo failed with error: %d\n", iResult);
-    listener_healty = false;
-  }
-  
-  // Create a SOCKET for connecting to server
-  SOCKET ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+  // Create a socket for listening for incoming connections.
+  SOCKET ListenSocket = socket(AF_INET, SOCK_STREAM, 0);
   if (ListenSocket == INVALID_SOCKET) {
-    printf("socket failed with error: %ld\n", WSAGetLastError());
-    listener_healty = false;
+    cerr << "Socket failed with error " << WSAGetLastError() << endl;
+    listener_healthy = false;
   }
-  
- 
-  // Setup the TCP listening socket
-  iResult = mybind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
+
+  // The listening socket will be an endpoint for all requests to a port on this host.
+  // As Windows is a client, it listens on the loopback device only, for improved security.
+  typedef struct sockaddr SA;
+  struct sockaddr_in serveraddr;
+  memset(&serveraddr, 0, sizeof(serveraddr));
+  serveraddr.sin_family = AF_INET;
+  serveraddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+  serveraddr.sin_port = htons(convert_to_int(config_logic_http_network_port()));
+  iResult = mybind(ListenSocket, (SA *)&serveraddr, sizeof(serveraddr));
   if (iResult == SOCKET_ERROR) {
-    printf("bind failed with error: %d\n", WSAGetLastError());
-    listener_healty = false;
+	  cerr << "Error binding server to socket" << endl;
+	  listener_healthy = false;
   }
-  
-  freeaddrinfo(result);
-  
+
+  // Listen for multiple connections.
   iResult = listen(ListenSocket, SOMAXCONN);
   if (iResult == SOCKET_ERROR) {
-    printf("listen failed with error: %d\n", WSAGetLastError());
-    listener_healty = false;
+    cerr << "Listen failed with error " << WSAGetLastError() << endl;
+    listener_healthy = false;
   }
   
-  
-  while (listener_healty) {
+  // Keep waiting for, accepting, and processing connections.
+  config_globals_http_running = true;
+  while (listener_healthy && config_globals_http_running) {
     
-#define DEFAULT_BUFLEN 512
-    char recvbuf[DEFAULT_BUFLEN];
-    int recvbuflen = DEFAULT_BUFLEN;
-    
-    // Accept a client socket
-    SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
-    if (ClientSocket == INVALID_SOCKET) {
-      printf("accept failed with error: %d\n", WSAGetLastError());
-      closesocket(ListenSocket);
-      continue;
-    }
+    // Accept a client socket.
+    struct sockaddr_in clientaddr;
+    socklen_t clientlen = sizeof(clientaddr);
+    SOCKET ClientSocket = accept(ListenSocket, (SA *)&clientaddr, &clientlen);
+    if (ClientSocket != INVALID_SOCKET) {
 
-    // Set timeout on receive, in milliseconds.
-    const char * tv = "600000";
-    setsockopt (ListenSocket, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
-
-    // Todo
-    // clientaddress = "127.0.0.1";
-
-    iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-    if (iResult > 0) {
-      printf("Bytes received: %d\n", iResult);
+      // Set timeout on receive, in milliseconds.
+      const char * tv = "600000";
+      setsockopt (ClientSocket, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
       
-      // Echo the buffer back to the sender
-      int iSendResult = send(ClientSocket, recvbuf, iResult, 0);
-      if (iSendResult == SOCKET_ERROR) {
-        printf("send failed with error: %d\n", WSAGetLastError());
-        closesocket(ClientSocket);
-        continue;
+      // The client's remote IPv4 address in dotted notation.
+      string clientaddress;
+      char remote_address[256];
+      inet_ntop(AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof(remote_address));
+      clientaddress = remote_address;
+      
+#define DEFAULT_BUFLEN 512
+      char recvbuf[DEFAULT_BUFLEN];
+      int recvbuflen = DEFAULT_BUFLEN;
+      
+      iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+      if (iResult > 0) {
+        cout << "Bytes received: " << iResult << endl;
+        // Echo the buffer back to the sender
+        int iSendResult = send(ClientSocket, recvbuf, iResult, 0);
+        if (iSendResult == SOCKET_ERROR) {
+          cout << "Send failed with error " << WSAGetLastError() << endl;
+          closesocket(ClientSocket);
+          continue;
+        }
+        cout << "Bytes sent: " << iSendResult << endl;
       }
-      printf("Bytes sent: %d\n", iSendResult);
-    }
-    else if (iResult == 0)
-      printf("Connection closing...\n");
-    else {
-      printf("recv failed with error: %d\n", WSAGetLastError());
-      closesocket(ClientSocket);
-      continue;
     }
     
-    
-    // shutdown the connection since we're done
-    iResult = shutdown(ClientSocket, SD_SEND);
-    if (iResult == SOCKET_ERROR) {
-      printf("shutdown failed with error: %d\n", WSAGetLastError());
-    }
-    
-    
-    // cleanup
+    // Shutdown and close the connection.
+    shutdown(ClientSocket, SD_BOTH);
     closesocket(ClientSocket);
-    
   }
   
   // No longer need server socket
   closesocket(ListenSocket);
   
-  // Clean up the interface to Windows Socket.
+  // Clean up the interface to Windows Sockets.
   WSACleanup();
 }
 #endif
