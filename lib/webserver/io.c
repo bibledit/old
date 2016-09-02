@@ -22,7 +22,7 @@
 
 
 /*
- This is our own "bind" function. Todo CheckWindows
+ This is our own "bind" function.
  GCC links to the correct Unix call "bind", but Clang++ takes the C++ "bind" function.
  The function below corrects that as follows:
  It is located in this .c file.

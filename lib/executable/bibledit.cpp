@@ -115,8 +115,8 @@ int main (int argc, char **argv)
     free (linkname);
   }
 #endif
-  {
 #ifdef HAVE_LIBPROC
+  {
     // The following works on Linux and on Mac OS X:
     int ret;
     pid_t pid;
@@ -126,8 +126,8 @@ int main (int argc, char **argv)
     if (ret > 0 ) {
       webroot = filter_url_dirname (pathbuf);
     }
-#endif
   }
+#endif
 #ifdef HAVE_VISUALSTUDIO
   {
     // The following works on Windows.
