@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #include <database/logs.h>
 #ifdef HAVE_VISUALSTUDIO
-#include <Windows.h>
+#include <windows.h>
 #endif
 
 
@@ -74,10 +74,14 @@ void sigsegv_handler (int sig)
 
 
 #ifdef HAVE_VISUALSTUDIO
-void myInvalidParameterHandler(const wchar_t* expression, const wchar_t* function, const wchar_t* file,	unsigned int line, uintptr_t pReserved) {
-  wprintf(L"Invalid parameter detected in function %s.\n", function);
-  wprintf(L"File %s line %d.\n", file, line);
-  wprintf(L"Expression %s.\n", expression);
+void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* function, const wchar_t* file,	unsigned int line, uintptr_t pReserved) {
+  wstring wexpression(expression);
+  string sexpression(wexpression.begin(), wexpression.end());
+  wstring wfunction(function);
+  string sfunction(wfunction.begin(), wfunction.end());
+  wstring wfile (file);
+  string sfile(wfile.begin(), wfile.end());
+  cout << "Invalid parameter detected in function " << sfunction << " in file " << sfile << " line " << convert_to_string (line) << " expression " << sexpression << "." << endl;
 }
 #endif
 
@@ -85,7 +89,7 @@ void myInvalidParameterHandler(const wchar_t* expression, const wchar_t* functio
 int main (int argc, char **argv)
 {
   (void) argc;
-  (void) argv[0];
+  (void) argv;
   
   // Ctrl-C initiates a clean shutdown sequence, so there's no memory leak.
   signal (SIGINT, sigint_handler);
@@ -97,20 +101,20 @@ int main (int argc, char **argv)
 
 #ifdef HAVE_VISUALSTUDIO
   // Set our own invalid parameter handler for on Windows.
-  _set_invalid_parameter_handler(myInvalidParameterHandler);
+  // Todo _set_invalid_parameter_handler(my_invalid_parameter_handler);
   // Disable the message box for assertions on Windows.
   _CrtSetReportMode(_CRT_ASSERT, 0);
 #endif
 
   // Get the executable path and base the document root on it.
-  string webroot; // Todo CheckWindows
+  string webroot;
 #ifndef HAVE_VISUALSTUDIO
   {
     // The following works on Linux but not on Mac OS X:
     char *linkname = (char *) malloc (256);
     memset (linkname, 0, 256); // valgrind uninitialized value(s)
     ssize_t r = readlink ("/proc/self/exe", linkname, 256);
-    if (r) {};
+    (void) r;
     webroot = filter_url_dirname (linkname);
     free (linkname);
   }
@@ -130,10 +134,18 @@ int main (int argc, char **argv)
 #endif
 #ifdef HAVE_VISUALSTUDIO
   {
-    // The following works on Windows.
-    char buf[1024] = {0};
-    DWORD ret = GetModuleFileNameA (NULL, buf, sizeof(buf));
-    if (ret != 0) webroot = filter_url_dirname (buf); // Todo fix the dirname.
+    // Getting the web root on Windows.
+	// The following gets the path to the server.exe.
+    // char buf[MAX_PATH] = { 0 };
+    // DWORD ret = GetModuleFileNameA(NULL, buf, MAX_PATH);
+	// While developing, the .exe runs in folder Debug or Release, and not in the expected folder.
+	// Therefore it's better to take the path of the current directory.
+    wchar_t buffer[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, buffer);
+	char chars[MAX_PATH];
+	char def_char = ' ';
+	WideCharToMultiByte(CP_ACP, 0, buffer, -1, chars, MAX_PATH, &def_char, NULL);
+	webroot = chars;
   }
 #endif
   bibledit_initialize_library (webroot.c_str(), webroot.c_str());

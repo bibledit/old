@@ -221,8 +221,7 @@ void bibledit_stop_library ()
   config_globals_http_running = false;
   config_globals_https_running = false;
   
-  // Connect to localhost to initiate the shutdown mechanism in the running server. Todo CheckWindows
-#ifndef HAVE_VISUALSTUDIO
+  // Connect to localhost to initiate the shutdown mechanism in the running server.
   {
     struct sockaddr_in sa;
     sa.sin_family = AF_INET;
@@ -234,10 +233,9 @@ void bibledit_stop_library ()
     int mysocket = socket (PF_INET, SOCK_STREAM, 0);
     connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
   }
-#endif
   
-  // Connect to the secure server to initiate its shutdown mechanism. Todo CheckWindows
-#ifndef HAVE_VISUALSTUDIO
+  // Connect to the secure server to initiate its shutdown mechanism.
+#ifndef HAVE_CLIENT
   {
     struct sockaddr_in sa;
     sa.sin_family = AF_INET;

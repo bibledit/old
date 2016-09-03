@@ -21,10 +21,16 @@
 #define INCLUDED_CONFIG_CONFIG_H
 
 
+// Whether file upload works in the browser on the platform.
 #define HAVE_UPLOAD 1
 
 
+// Maxinum number of simultaneous background tasks.
 #define MAX_PARALLEL_TASKS 10
+
+
+// The directory separator for the platform: Windows differs from Linux.
+#define DIRECTORY_SEPARATOR "/"
 
 
 #ifdef HAVE_WINDOWS
@@ -35,6 +41,11 @@
 #define HAVE_URLSETTINGS 1
 #endif
 
+
+#ifdef HAVE_VISUALSTUDIO
+#undef DIRECTORY_SEPARATOR
+#define DIRECTORY_SEPARATOR "\\"
+#endif
 
 #ifdef HAVE_ANDROID
 #define HAVE_CLIENT 1

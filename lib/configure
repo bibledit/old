@@ -6790,10 +6790,6 @@ fi
 
 
 
-
-$as_echo "#define DIRECTORY_SEPARATOR \"/\"" >>confdefs.h
-
-
 # Demo installation.
 DEMO=no
 # Check whether --enable-demo was given.

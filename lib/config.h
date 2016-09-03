@@ -13,9 +13,6 @@
 /* Define whether it is a demo installation */
 #define DEMO "no"
 
-/* Define the directory separator as Windows differs from Linux */
-#define DIRECTORY_SEPARATOR "/"
-
 /* Define whether to compile for Android */
 /* #undef HAVE_ANDROID */
 

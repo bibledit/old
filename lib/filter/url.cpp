@@ -99,6 +99,7 @@ void redirect_browser (void * webserver_request, string path)
 
 
 // C++ replacement for the dirname function, see http://linux.die.net/man/3/dirname.
+// The BSD dirname is not thread-safe, see the implementation notes on $ man 3 dirname.
 string filter_url_dirname (string url)
 {
   if (!url.empty ()) {
@@ -116,6 +117,7 @@ string filter_url_dirname (string url)
 
 
 // C++ replacement for the basename function, see http://linux.die.net/man/3/basename.
+// The BSD basename is not thread-safe, see the warnings in $ man 3 basename.
 string filter_url_basename (string url)
 {
   if (!url.empty ()) {
@@ -291,13 +293,14 @@ void filter_url_set_write_permission (string path) // Todo test on Visual Studio
 }
 
 
-// C++ rough equivalent for PHP'sfilter_url_file_get_contents.
+// C++ rough equivalent for PHP's file_get_contents.
 string filter_url_file_get_contents (string filename)
 {
   if (!file_exists (filename)) return "";
   try {
     ifstream ifs (filename.c_str(), ios::in | ios::binary | ios::ate);
     streamoff filesize = ifs.tellg();
+	if (filesize == 0) return "";
     ifs.seekg (0, ios::beg);
     vector <char> bytes ((int)filesize);
     ifs.read (&bytes[0], (int)filesize);
