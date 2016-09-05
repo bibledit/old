@@ -48,7 +48,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void timer_index ()
 {
-  bool client = client_logic_client_enabled ();
   int previous_second = -1;
   int previous_minute = -1;
   int previous_fraction = -1;
@@ -91,11 +90,13 @@ void timer_index ()
       // Every minute send out queued email.
       tasks_logic_queue (SENDEMAIL);
 
+#ifndef HAVE_CLIENT
       // Check for new mail every five minutes.
       // Do not check more often with gmail else the account may be shut down.
-      if ((!client) && ((minute % 5) == 0)) {
+      if ((minute % 5) == 0) {
         tasks_logic_queue (RECEIVEEMAIL);
       }
+#endif
 
       // At the nineth minute after every full hour rotate the journal.
       // The nine is chosen, because the journal rotation will summarize the send/receive messages.
@@ -116,23 +117,23 @@ void timer_index ()
         sendreceive_queue_all (sendreceive);
       }
       
+#ifndef HAVE_CLIENT
       // Deal with the changes in the Bible made per user.
       // Deal with notifications for the daily changes in the Bibles.
       // This takes a few minutes on a production machine with two Bibles and changes in several chapters.
       // It runs in a server configuration, not on a client.
-      if (!client) {
-        if ((hour == 0) && (minute == 20)) {
-          changes_logic_start ();
-        }
+      if ((hour == 0) && (minute == 20)) {
+        changes_logic_start ();
       }
+#endif
 
+#ifndef HAVE_CLIENT
       // Run the checks on the Bibles.
       // This takes 15 minutes on a production machine with two Bibles.
-      if (!client) {
-        if ((hour == 0) && (minute == 30)) {
-          checks_logic_start_all ();
-        }
+      if ((hour == 0) && (minute == 30)) {
+        checks_logic_start_all ();
       }
+#endif
       
       // Database maintenance and trimming.
       // It takes a few minutes on a production machine.
@@ -140,24 +141,26 @@ void timer_index ()
         tasks_logic_queue (MAINTAINDATABASE);
       }
       
+#ifndef HAVE_CLIENT
       // Export the Bibles to the various output formats.
       // This may take an hour on a production machine.
       // This hour was in PHP. In C++ it is much faster.
-      if (!client) {
-        if ((hour == 1) && (minute == 10)) {
-          Export_Logic::scheduleAll ();
-        }
+      if ((hour == 1) && (minute == 10)) {
+        Export_Logic::scheduleAll ();
       }
+#endif
       
       // Delete temporal files older than a few days.
       if ((hour == 2) && (minute == 0)) {
         tasks_logic_queue (CLEANTMPFILES);
       }
       
+#ifndef HAVE_CLIENT
       // Software update notifications.
-      if (!client && hour == 2 && minute == 20) {
+      if (hour == 2 && minute == 20) {
         tasks_logic_queue (NOTIFYSOFTWAREUPDATES);
       }
+#endif
       
       // Re-index Bibles and notes.
       // Only update missing indexes.
@@ -176,14 +179,14 @@ void timer_index ()
         }
       }
       
+#ifndef HAVE_CLIENT
       // Sprint burndown.
       // It runs every hour in the Cloud.
       // The script itself determines what to do at which hour of the day or day of the week or day of the month.
-      if (!client) {
-        if (minute == 5) {
-          tasks_logic_queue (SPRINTBURNDOWN);
-        }
+      if (minute == 5) {
+        tasks_logic_queue (SPRINTBURNDOWN);
       }
+#endif
 
       // Quit at midnight if flag is set.
       if (config_globals_quit_at_midnight) {
@@ -207,33 +210,39 @@ void timer_index ()
         }
       }
       
+#ifndef HAVE_CLIENT
       // Email notes statistics to the users.
-      if (!client) {
-        if ((hour == 3) && (minute == 0)) {
-          tasks_logic_queue (NOTESSTATISTICS);
-        }
+      if ((hour == 3) && (minute == 0)) {
+        tasks_logic_queue (NOTESSTATISTICS);
       }
+#endif
 
+#ifndef HAVE_CLIENT
       // Update SWORD stuff once a week.
       if (weekday == 1) {
         // Refresh module list.
-        if ((!client) && (hour == 3) && (minute == 5)) {
+        if ((hour == 3) && (minute == 5)) {
           tasks_logic_queue (REFRESHSWORDMODULES);
         }
         // Update installed SWORD modules, shortly after the module list has been refreshed.
-        if ((!client) && (hour == 3) && (minute == 15)) {
+        if ((hour == 3) && (minute == 15)) {
           tasks_logic_queue (UPDATESWORDMODULES);
         }
       }
-      
+#endif
+
+#ifndef HAVE_CLIENT
       // The Cloud updates the list of USFM resources once a week.
       if (weekday == 1) {
-        if ((!client) && (hour == 3) && (minute == 10)) {
+        if ((hour == 3) && (minute == 10)) {
           tasks_logic_queue (LISTUSFMRESOURCES);
         }
       }
-      
+#endif
 
+      // Suppress compiler warning on client.
+      (void) weekday;
+      
     } catch (exception & e) {
       Database_Logs::log (e.what ());
     } catch (exception * e) {
@@ -241,6 +250,5 @@ void timer_index ()
     } catch (...) {
       Database_Logs::log ("A general internal error occurred in the timers");
     }
-
   }
 }
