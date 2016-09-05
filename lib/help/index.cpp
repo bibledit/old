@@ -29,8 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string help_index_html (const string& url)
 {
-  size_t pos = url.find ("/");
   string path (url);
+  size_t pos = url.find ("/");
   if (pos != string::npos) path.erase (0, ++pos);
   path.append (".html");
   path = filter_url_create_root_path ("help", path);
@@ -87,7 +87,11 @@ string help_index (void * webserver_request, const string& url)
   }
   view.set_variable ("cloudversion", cloud_version);
 
-  page += view.render ("help", filter_url_basename (url));
+  string filename (url);
+  size_t pos = url.find ("/");
+  if (pos != string::npos) filename.erase (0, ++pos);
+ 
+  page += view.render ("help", filename);
 
   page += Assets_Page::footer ();
 
