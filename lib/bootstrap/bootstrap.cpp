@@ -717,7 +717,7 @@ void bootstrap_index (void * webserver_request)
   }
   
   // Help menu.
-  if ((help_index_url (url)) && browser_request_security_okay (request) && help_index_acl (request, url)) {
+  if ((help_index_url (url)) && browser_request_security_okay (request) && help_index_acl (request)) {
     request->reply = help_index (request, url);
     return;
   }

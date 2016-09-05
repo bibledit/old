@@ -29,7 +29,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string help_index_html (const string& url)
 {
-  string path = filter_url_basename (url);
+  size_t pos = url.find ("/");
+  string path (url);
+  if (pos != string::npos) path.erase (0, ++pos);
   path.append (".html");
   path = filter_url_create_root_path ("help", path);
   return path;
@@ -38,15 +40,14 @@ string help_index_html (const string& url)
 
 bool help_index_url (const string& url)
 {
-  string folder = filter_url_dirname (url);
-  if (folder != "help") return false;
+  size_t pos = url.find ("help/");
+  if (pos != 0) return false;
   return file_exists (help_index_html (url));
 }
 
 
-bool help_index_acl (void * webserver_request, const string& url)
+bool help_index_acl (void * webserver_request)
 {
-  if (url.empty()) {};
   return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
 }
 
