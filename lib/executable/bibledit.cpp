@@ -81,7 +81,7 @@ void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* func
   string sfunction(wfunction.begin(), wfunction.end());
   wstring wfile (file);
   string sfile(wfile.begin(), wfile.end());
-  cout << "Invalid parameter detected in function " << sfunction << " in file " << sfile << " line " << convert_to_string (line) << " expression " << sexpression << "." << endl;
+  Database_Logs::log ("Invalid parameter detected in function " + sfunction + " in file " + sfile + " line " + convert_to_string (line) + " expression " + sexpression + ".");
 }
 #endif
 
@@ -101,7 +101,7 @@ int main (int argc, char **argv)
 
 #ifdef HAVE_VISUALSTUDIO
   // Set our own invalid parameter handler for on Windows.
-  // Todo _set_invalid_parameter_handler(my_invalid_parameter_handler);
+  _set_invalid_parameter_handler(my_invalid_parameter_handler);
   // Disable the message box for assertions on Windows.
   _CrtSetReportMode(_CRT_ASSERT, 0);
 #endif

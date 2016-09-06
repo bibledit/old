@@ -40,13 +40,66 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_VISUALSTUDIO
 #include <direct.h>
 #include <io.h>
+#include <strsafe.h>
 #endif
+
+
+//#undef UNICODE
 
 
 // SSL/TLS globals.
 mbedtls_entropy_context filter_url_mbed_tls_entropy;
 mbedtls_ctr_drbg_context filter_url_mbed_tls_ctr_drbg;
 mbedtls_x509_crt filter_url_mbed_tls_cacert;
+
+
+vector <string> filter_url_scandir_internal (string folder)
+{
+  vector <string> files;
+  
+#ifdef HAVE_VISUALSTUDIO
+  
+  if (!folder.empty()) {
+    if (folder[folder.size() - 1] == '\\') {
+      folder = folder.substr(0, folder.size() - 1);
+    }
+    folder.append("\\*");
+    wstring wfolder = string2wstring(folder);
+    WIN32_FIND_DATA fdata;
+    HANDLE hFind = FindFirstFileW(wfolder.c_str(), &fdata);
+    if (hFind != INVALID_HANDLE_VALUE) {
+      do {
+        wstring wfilename(fdata.cFileName);
+        string name = wstring2string (wfilename);
+        if (name.substr(0, 1) != ".") {
+          files.push_back(name);
+        }
+      } while (FindNextFileW(hFind, &fdata) != 0);
+    }
+    FindClose(hFind);
+  }
+  
+#else
+  
+  DIR * dir = opendir (folder.c_str());
+  if (dir) {
+    struct dirent * direntry;
+    while ((direntry = readdir (dir)) != NULL) {
+      string name = direntry->d_name;
+      if (name.substr (0, 1) == ".") continue;
+      files.push_back (name);
+    }
+    closedir (dir);
+  }
+  sort (files.begin(), files.end());
+  
+#endif
+  
+  // Remove . and ..
+  files = filter_string_array_diff (files, {".", ".."});
+  
+  return files;
+}
 
 
 // Gets the base URL of current Bibledit installation.
@@ -132,7 +185,7 @@ string filter_url_basename (string url)
 }
 
 
-void filter_url_unlink (string filename)
+void filter_url_unlink (string filename) // Todo check wstring
 {
 #ifdef HAVE_VISUALSTUDIO
   _unlink(filename.c_str());
@@ -142,7 +195,7 @@ void filter_url_unlink (string filename)
 }
 
 
-void filter_url_rename (const string& oldfilename, const string& newfilename)
+void filter_url_rename (const string& oldfilename, const string& newfilename) // Todo check wstring.
 {
   rename (oldfilename.c_str(), newfilename.c_str());
 }
@@ -198,20 +251,21 @@ string filter_url_get_extension (string url)
 
 
 // Returns true if the file in "url" exists.
-bool file_exists (string url)
+bool file_exists (string url) // Todo check on Windows.
 {
   struct stat buffer;   
   return (stat (url.c_str(), &buffer) == 0);
 }
 
 
-// Wrapper for the mkdir function: make a directory. Todo CheckWindows
+// Makes a directory.
 // Creates parents where needed.
 void filter_url_mkdir (string directory)
 {
   int status;
 #ifdef HAVE_VISUALSTUDIO
-  status = _mkdir (directory.c_str());
+  wstring wdirectory = string2wstring(directory);
+  status = _wmkdir (wdirectory.c_str());
 #else
   status = mkdir (directory.c_str(), 0777);
 #endif
@@ -226,7 +280,8 @@ void filter_url_mkdir (string directory)
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {
 #ifdef HAVE_VISUALSTUDIO
-      _mkdir (paths[i].c_str ());
+      wstring wpathsi = string2wstring(paths[i]);
+      _wmkdir (wpathsi.c_str ());
 #else
       mkdir (paths[i].c_str (), 0777);
 #endif
@@ -238,34 +293,20 @@ void filter_url_mkdir (string directory)
 // Removes directory recursively.
 void filter_url_rmdir (string directory) // Todo make it work on Visual Studio.
 {
-#ifndef HAVE_VISUALSTUDIO
-  DIR *dir;
-  struct dirent *entry;
-  char path[PATH_MAX];
-  dir = opendir(directory.c_str());
-  if (dir == NULL) return;
-  while ((entry = readdir (dir)) != NULL) {
-    if (strcmp (entry->d_name, ".") && strcmp (entry->d_name, "..")) {
-      snprintf (path, (size_t) PATH_MAX, "%s/%s", directory.c_str(), entry->d_name);
-      // It used to test on entry->d_type == DT_DIR but this did not work within Mingw:
-      // error: 'struct dirent' has no member named 'd_type'; did you mean 'd_name'?
-      // if (entry->d_type == DT_DIR)
-      // error: 'DT_DIR' was not declared in this scope
-      // if (entry->d_type == DT_DIR)
-      if (filter_url_is_dir (path)) {
-        filter_url_rmdir (path);
-      }
-      remove (path);
+  vector <string> files = filter_url_scandir_internal (directory);
+  for (auto path : files) {
+    path = filter_url_create_path (directory, path);
+    if (filter_url_is_dir(path)) {
+      filter_url_rmdir(path);
     }
+    remove(path.c_str ());
   }
-  closedir(dir);
-  remove (directory.c_str());
-#endif // !HAVE_VISUALSTUDIO
+	remove(directory.c_str());
 }
 
 
 // Returns true is $path points to a directory.
-bool filter_url_is_dir (string path)
+bool filter_url_is_dir (string path) // Todo check wchar?
 {
   struct stat sb;
   stat (path.c_str(), &sb);
@@ -294,7 +335,7 @@ void filter_url_set_write_permission (string path) // Todo test on Visual Studio
 
 
 // C++ rough equivalent for PHP's file_get_contents.
-string filter_url_file_get_contents (string filename)
+string filter_url_file_get_contents (string filename) // Todo check wchar?
 {
   if (!file_exists (filename)) return "";
   try {
@@ -311,8 +352,8 @@ string filter_url_file_get_contents (string filename)
 }
 
 
-// C++ rough equivalent for PHP'sfilter_url_file_put_contents.
-void filter_url_file_put_contents (string filename, string contents)
+// C++ rough equivalent for PHP's file_put_contents.
+void filter_url_file_put_contents (string filename, string contents) // Todo check wchar_t?
 {
   try {
     ofstream file;  
@@ -326,7 +367,7 @@ void filter_url_file_put_contents (string filename, string contents)
 
 // C++ rough equivalent for PHP'sfilter_url_file_put_contents.
 // Appends the data if the file exists.
-void filter_url_file_put_contents_append (string filename, string contents)
+void filter_url_file_put_contents_append (string filename, string contents) // Toco check wide string Windows.
 {
   try {
     ofstream file;  
@@ -340,7 +381,7 @@ void filter_url_file_put_contents_append (string filename, string contents)
 
 // Copies the contents of file named "input" to file named "output".
 // It is assumed that the folder where "output" will reside exists.
-bool filter_url_file_cp (string input, string output)
+bool filter_url_file_cp (string input, string output) // Todo check wide characters.
 {
   try {
     ifstream source (input, ios::binary);
@@ -357,7 +398,7 @@ bool filter_url_file_cp (string input, string output)
 
 // Copies the entire directory $input to a directory named $output.
 // It will recursively copy the inner directories also.
-void filter_url_dir_cp (const string & input, const string & output)
+void filter_url_dir_cp (const string & input, const string & output) // Todo check wide charas.
 {
   // Create the output directory.
   filter_url_mkdir (output);
@@ -380,7 +421,7 @@ void filter_url_dir_cp (const string & input, const string & output)
 
 
 // A C++ equivalent for PHP's filesize function.
-int filter_url_filesize (string filename)
+int filter_url_filesize (string filename) // Todo check wide characters.
 {
   struct stat stat_buf;
   int rc = stat (filename.c_str(), &stat_buf);
@@ -388,25 +429,11 @@ int filter_url_filesize (string filename)
 }
 
 
-// A C++ near equivalent for PHP's scandir function.
-vector <string> filter_url_scandir (string folder) // Todo make it work on Visual Studio.
+// Scans the directory for files it contains.
+vector <string> filter_url_scandir (string folder)
 {
-  vector <string> files;
-#ifdef HAVE_VISUALSTUDIO
-#else
-  DIR * dir = opendir (folder.c_str());
-  if (dir) {
-    struct dirent * direntry;
-    while ((direntry = readdir (dir)) != NULL) {
-      string name = direntry->d_name;
-      if (name.substr (0, 1) == ".") continue;
-      if (name == "gitflag") continue;
-      files.push_back (name);
-    }
-    closedir (dir);
-  }
-  sort (files.begin(), files.end());
-#endif // !HAVE_VISUALSTUDIO
+  vector <string> files = filter_url_scandir_internal (folder);
+  files = filter_string_array_diff (files, {"gitflag"});
   return files;
 }
 
@@ -426,7 +453,7 @@ void filter_url_recursive_scandir (string folder, vector <string> & paths)
 
 
 // A C++ near equivalent for PHP's filemtime function.
-int filter_url_filemtime (string filename)
+int filter_url_filemtime (string filename) // Todo check wide characters.
 {
   struct stat attributes;
   stat (filename.c_str(), &attributes);
@@ -452,7 +479,7 @@ string filter_url_urlencode (string url)
 
 
 // Returns the name of a temporary file.
-string filter_url_tempfile (const char * directory)
+string filter_url_tempfile (const char * directory) // Todo check wide characters.
 {
   string filename = convert_to_string (filter_date_seconds_since_epoch ()) + convert_to_string (filter_date_numerical_microseconds ()) + convert_to_string (filter_string_rand (10000000, 99999999));
   if (directory) {
@@ -981,6 +1008,9 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   
   // SSL/TLS configuration and context.
   // The configuration is local, because options may not be the same for every website.
+  // On Windows, threading has been disabled in the mbedTLS library.
+  // On the server, this will lead to undefined crashes which are hard to find.
+  // On a client, since the TLS context is not shared, there won't be any crashes.
   mbedtls_ssl_context ssl;
   mbedtls_ssl_config conf;
   if (secure) {
@@ -1254,7 +1284,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     char prev = 0;
     char cur;
     FILE * file = NULL;
-    if (!filename.empty ()) file = fopen (filename.c_str(), "w");
+    if (!filename.empty ()) file = fopen (filename.c_str(), "w"); // Todo check wide characters in path.
     
     do {
       int ret = 0;
@@ -1265,7 +1295,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         cur = buffer [0];
       } else {
 #ifdef HAVE_VISUALSTUDIO
-        ret = _read(sock, &cur, 1);
+        ret = recv(sock, &cur, 1, 0);
 #else
         ret = read(sock, &cur, 1);
 #endif
