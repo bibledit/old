@@ -2188,6 +2188,18 @@ void test_filter_url ()
   trace_unit_tests (__func__);
   
   {
+    // Test writing to and reading from files, and whether a file exists.
+    string filename = "/tmp/בוקר טוב";
+    string contents = "בוקר טוב בוקר טוב";
+    evaluate (__LINE__, __func__, false, file_exists (filename));
+    filter_url_file_put_contents (filename, contents);
+    evaluate (__LINE__, __func__, true, file_exists (filename));
+    evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (filename));
+    filter_url_unlink (filename);
+    evaluate (__LINE__, __func__, false, file_exists (filename));
+  }
+  
+  {
     // Test unique filename.
     string filename = "/tmp/unique";
     filter_url_file_put_contents (filename, "");

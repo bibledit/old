@@ -26,7 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <utf8proc/utf8proc.h>
 #include <config/globals.h>
+#ifdef HAVE_VISUALSTUDIO
 #include <codecvt>
+#endif
 
 
 // A C++ equivalent for PHP's explode function.
@@ -1348,17 +1350,21 @@ const char * english ()
 }
 
 
+#ifdef HAVE_VISUALSTUDIO
 wstring string2wstring(const string& str)
 {
   using convert_typeX = codecvt_utf8<wchar_t>;
   wstring_convert<convert_typeX, wchar_t> converterX;
   return converterX.from_bytes(str);
 }
+#endif
 
 
+#ifdef HAVE_VISUALSTUDIO
 string wstring2string(const wstring& wstr)
 {
   using convert_typeX = codecvt_utf8<wchar_t>;
   wstring_convert<convert_typeX, wchar_t> converterX;
   return converterX.to_bytes(wstr);
 }
+#endif

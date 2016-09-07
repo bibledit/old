@@ -40,11 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_VISUALSTUDIO
 #include <direct.h>
 #include <io.h>
-#include <strsafe.h>
 #endif
-
-
-//#undef UNICODE
 
 
 // SSL/TLS globals.
@@ -250,11 +246,20 @@ string filter_url_get_extension (string url)
 }
 
 
-// Returns true if the file in "url" exists.
-bool file_exists (string url) // Todo check on Windows.
+// Returns true if the file at $url exists.
+bool file_exists(string url)
 {
-  struct stat buffer;   
-  return (stat (url.c_str(), &buffer) == 0);
+#ifdef HAVE_VISUALSTUDIO
+  // The Windows documentation says that the 'stat' function should work with wide characters.
+  // But this does not work: Another method is used on Windows. 
+  wstring wurl = string2wstring(url);
+  ifstream ff(wurl.c_str());
+  return ff.is_open();
+#else
+  // The 'stat' function works as expected on Linux.
+  struct stat buffer;
+  return (stat(url.c_str(), &buffer) == 0);
+#endif
 }
 
 
@@ -291,7 +296,7 @@ void filter_url_mkdir (string directory)
 
 
 // Removes directory recursively.
-void filter_url_rmdir (string directory) // Todo make it work on Visual Studio.
+void filter_url_rmdir (string directory)
 {
   vector <string> files = filter_url_scandir_internal (directory);
   for (auto path : files) {
@@ -299,15 +304,33 @@ void filter_url_rmdir (string directory) // Todo make it work on Visual Studio.
     if (filter_url_is_dir(path)) {
       filter_url_rmdir(path);
     }
-    remove(path.c_str ());
+#ifdef HAVE_VISUALSTUDIO
+	// Remove directory.
+	wstring wpath = string2wstring(path);
+	_wrmdir(wpath.c_str());
+	// Remove file.
+	filter_url_unlink(path);
+#else
+	// On Linux remove the directory or the file.
+    remove(path.c_str());
+#endif
   }
-	remove(directory.c_str());
+#ifdef HAVE_VISUALSTUDIO
+  wstring wdirectory = string2wstring(directory);
+  _wrmdir(wdirectory.c_str());
+  filter_url_unlink(directory);
+#else
+  remove(directory.c_str());
+#endif
 }
 
 
 // Returns true is $path points to a directory.
-bool filter_url_is_dir (string path) // Todo check wchar?
+bool filter_url_is_dir (string path)
 {
+  // The stat works on Linux, of course, and also on Windows, according to their documentation:
+  // _stat automatically handles multibyte-character string arguments as appropriate, 
+  // recognizing multibyte-character sequences according to the multibyte code page currently in use.
   struct stat sb;
   stat (path.c_str(), &sb);
   return (sb.st_mode & S_IFMT) == S_IFDIR;
@@ -335,29 +358,40 @@ void filter_url_set_write_permission (string path) // Todo test on Visual Studio
 
 
 // C++ rough equivalent for PHP's file_get_contents.
-string filter_url_file_get_contents (string filename) // Todo check wchar?
+string filter_url_file_get_contents(string filename)
 {
-  if (!file_exists (filename)) return "";
+  if (!file_exists(filename)) return "";
   try {
-    ifstream ifs (filename.c_str(), ios::in | ios::binary | ios::ate);
+#ifdef HAVE_VISUALSTUDIO
+    wstring wfilename = string2wstring(filename);
+    ifstream ifs(wfilename.c_str(), ios::in | ios::binary | ios::ate);
+#else
+    ifstream ifs(filename.c_str(), ios::in | ios::binary | ios::ate);
+#endif
     streamoff filesize = ifs.tellg();
-	if (filesize == 0) return "";
-    ifs.seekg (0, ios::beg);
-    vector <char> bytes ((int)filesize);
-    ifs.read (&bytes[0], (int)filesize);
-    return string (&bytes[0], (int)filesize);
-  } catch (...) {
+    if (filesize == 0) return "";
+    ifs.seekg(0, ios::beg);
+    vector <char> bytes((int)filesize);
+    ifs.read(&bytes[0], (int)filesize);
+    return string(&bytes[0], (int)filesize);
+  }
+  catch (...) {
     return "";
   }
 }
 
 
 // C++ rough equivalent for PHP's file_put_contents.
-void filter_url_file_put_contents (string filename, string contents) // Todo check wchar_t?
+void filter_url_file_put_contents (string filename, string contents)
 {
   try {
     ofstream file;  
-    file.open (filename, ios::binary | ios::trunc);
+#ifdef HAVE_VISUALSTUDIO
+	wstring wfilename = string2wstring(filename);
+	file.open(wfilename, ios::binary | ios::trunc);
+#else
+	file.open(filename, ios::binary | ios::trunc);
+#endif
     file << contents;
     file.close ();
   } catch (...) {
