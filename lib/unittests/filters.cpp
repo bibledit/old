@@ -1185,7 +1185,7 @@ void test_filters_archive ()
   {
     // Test zip compression of one file.
     string zipfile = filter_archive_zip_file (file1);
-    evaluate (__LINE__, __func__, true, file_exists (zipfile));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 223, filter_url_filesize (zipfile));
     filter_url_unlink (zipfile);
     // Test compressing a non-existing file.
@@ -1200,7 +1200,7 @@ void test_filters_archive ()
     filter_url_file_put_contents (folder + "/file2", data2);
     // Test zip compression.
     string zipfile = filter_archive_zip_folder (folder);
-    evaluate (__LINE__, __func__, true, file_exists (zipfile));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 396, filter_url_filesize (zipfile));
     // Clean up the mess.
     filter_url_unlink (zipfile);
@@ -1211,7 +1211,7 @@ void test_filters_archive ()
     string zipfile = filter_archive_zip_file (file1);
     // Test unzip.
     string folder = filter_archive_unzip (zipfile);
-    evaluate (__LINE__, __func__, true, file_exists (zipfile));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
     filter_url_unlink (zipfile);
     filter_url_rmdir (folder);
@@ -1223,7 +1223,7 @@ void test_filters_archive ()
   {
     // Test gzipped tarball compression.
     string tarball = filter_archive_tar_gzip_file (file1);
-    evaluate (__LINE__, __func__, true, file_exists (tarball));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
     if ((size < 155) || (size > 180)) evaluate (__LINE__, __func__, "between 155 and 180", convert_to_string (size));
     // Clean up tarball from /tmp folder.
@@ -1240,7 +1240,7 @@ void test_filters_archive ()
     filter_url_file_put_contents (folder + "/file2", data2);
     // Test compression.
     string tarball = filter_archive_tar_gzip_folder (folder);
-    evaluate (__LINE__, __func__, true, file_exists (tarball));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
     if ((size < 235) || (size > 260)) evaluate (__LINE__, __func__, "between 235 and 260", convert_to_string (size));
     // Clean up.
@@ -1255,10 +1255,10 @@ void test_filters_archive ()
     string tarball = filter_archive_tar_gzip_file (file1);
     // Test decompression.
     string folder = filter_archive_untar_gzip (tarball);
-    evaluate (__LINE__, __func__, true, file_exists (folder));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (folder));
     filter_url_rmdir (folder);
     folder = filter_archive_uncompress (tarball);
-    evaluate (__LINE__, __func__, true, file_exists (folder));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (folder));
     evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
     filter_url_rmdir (folder);
     filter_url_unlink (tarball);
@@ -2191,22 +2191,22 @@ void test_filter_url ()
     // Test writing to and reading from files, and whether a file exists.
     string filename = "/tmp/בוקר טוב";
     string contents = "בוקר טוב בוקר טוב";
-    evaluate (__LINE__, __func__, false, file_exists (filename));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
     filter_url_file_put_contents (filename, contents);
-    evaluate (__LINE__, __func__, true, file_exists (filename));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filename));
     evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (filename));
     filter_url_unlink (filename);
-    evaluate (__LINE__, __func__, false, file_exists (filename));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
   }
   
   {
     // Test function to check existence of directory.
     string folder = "/tmp/בוקר טוב";
-    evaluate (__LINE__, __func__, false, file_exists (folder));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (folder));
     filter_url_mkdir (folder);
-    evaluate (__LINE__, __func__, true, file_exists (folder));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (folder));
     filter_url_rmdir (folder);
-    evaluate (__LINE__, __func__, false, file_exists (folder));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (folder));
   }
   
   {
@@ -2246,11 +2246,11 @@ void test_filter_url ()
     evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (path));
     
     path = filter_url_create_path (testing_directory, "a");
-    evaluate (__LINE__, __func__, true, file_exists (path));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (path));
     evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
     
     filter_url_rmdir (path);
-    evaluate (__LINE__, __func__, false, file_exists (path));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (path));
     evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
   }
 
@@ -2345,7 +2345,7 @@ void test_filter_url ()
     filter_url_rmdir (output);
     filter_url_dir_cp (input, output);
     string path = filter_url_create_path (output, "tests", "basic.css");
-    evaluate (__LINE__, __func__, true, file_exists (path));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (path));
   }
 
   {
@@ -3491,20 +3491,20 @@ void test_filter_git ()
   // Sync Bible To Git 1
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
-    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
     
     request.database_bibles()->storeChapter (bible, 2, 1, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
 
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
-    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
-    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
 
     // Remove generated journal entries.
     refresh_sandbox (false);
@@ -3514,18 +3514,18 @@ void test_filter_git ()
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
 
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
-    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
     
     request.database_bibles()->storeChapter (bible, 19, 1, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
 
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "1", "data")));
     
     string data = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "1", "data"));
     evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
@@ -3538,21 +3538,21 @@ void test_filter_git ()
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
-    evaluate (__LINE__, __func__, false, file_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "0", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path (repository, "Exodus", "1", "data")));
 
     request.database_bibles()->storeChapter (bible, 19, 1, song_of_solomon_2_data);
     request.database_bibles()->storeChapter (bible, 22, 2, psalms_11_data);
     request.database_bibles()->storeChapter (bible, 19, 11, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
     
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, ".git")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "1", "data")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
-    evaluate (__LINE__, __func__, true, file_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, ".git")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "1", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Song of Solomon", "2", "data")));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path (repository, "Psalms", "11", "data")));
 
     string data = filter_url_file_get_contents (filter_url_create_path (repository, "Song of Solomon", "2", "data"));
     evaluate (__LINE__, __func__, psalms_11_data, data);

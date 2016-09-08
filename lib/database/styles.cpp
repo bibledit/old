@@ -675,7 +675,7 @@ Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
   string filename;
   if (!take_default) {
     filename = stylefile (sheet, marker);
-    if (!file_exists (filename)) take_default = true;
+    if (!file_or_dir_exists (filename)) take_default = true;
   }
   if (take_default) {
     // Take the default style for the marker.

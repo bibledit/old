@@ -68,7 +68,7 @@ string index_listing (void * webserver_request, string url)
     view.set_variable ("parent", parent);
   }
   string directory = filter_url_create_root_path (url);
-  if (!file_exists (directory) || filter_url_is_dir (directory)) {
+  if (!file_or_dir_exists (directory) || filter_url_is_dir (directory)) {
     vector <string> files = filter_url_scandir (directory);
     for (auto & file : files) {
       string path = filter_url_create_path (directory, file);

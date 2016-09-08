@@ -39,7 +39,7 @@ void export_odt_book (string bible, int book, bool log)
 {
   // Create folders for the OpenDocument export.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "opendocument");
-  if (!file_exists (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   // Filenames for the various types of OpenDocument files.

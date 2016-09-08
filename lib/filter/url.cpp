@@ -248,7 +248,7 @@ string filter_url_get_extension (string url)
 
 
 // Returns true if the file at $url exists.
-bool file_exists(string url)
+bool file_or_dir_exists(string url)
 {
 #ifdef HAVE_VISUALSTUDIO
   // Function '_wstat' works with wide characters.
@@ -361,7 +361,7 @@ void filter_url_set_write_permission (string path) // Todo test on Visual Studio
 // C++ rough equivalent for PHP's file_get_contents.
 string filter_url_file_get_contents(string filename)
 {
-  if (!file_exists(filename)) return "";
+  if (!file_or_dir_exists(filename)) return "";
   try {
 #ifdef HAVE_VISUALSTUDIO
     wstring wfilename = string2wstring(filename);
@@ -552,10 +552,10 @@ string filter_url_escape_shell_argument (string argument)
 // to ensure that the $path does not yet exist in the filesystem.
 string filter_url_unique_path (string path)
 {
-  if (!file_exists (path)) return path;
+  if (!file_or_dir_exists (path)) return path;
   for (size_t i = 1; i < 100; i++) {
     string uniquepath = path + "." + convert_to_string (i);
-    if (!file_exists (uniquepath)) return uniquepath;
+    if (!file_or_dir_exists (uniquepath)) return uniquepath;
   }
   return path + "." + convert_to_string (filter_string_rand (100, 1000));
 }

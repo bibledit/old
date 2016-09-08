@@ -82,7 +82,7 @@ string Database_Config_User::getValueForUser (string user, const char * key, con
 {
   string value;
   string filename = file (user, key);
-  if (file_exists (filename)) value = filter_url_file_get_contents (filename);
+  if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
   return value;
 }
@@ -125,7 +125,7 @@ void Database_Config_User::setValueForUser (string user, const char * key, strin
 {
   string filename = file (user, key);
   string directory = filter_url_dirname (filename);
-  if (!file_exists (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   filter_url_file_put_contents (filename, value);
 }
 
@@ -141,7 +141,7 @@ vector <string> Database_Config_User::getListForUser (string user, const char * 
 {
   string filename = file (user, key);
   vector <string> list;
-  if (file_exists (filename)) {
+  if (file_or_dir_exists (filename)) {
     string value = filter_url_file_get_contents (filename);
     list = filter_string_explode (value, '\n');
   }
@@ -160,7 +160,7 @@ void Database_Config_User::setListForUser (string user, const char * key, vector
 {
   string filename = file (user, key);
   string directory = filter_url_dirname (filename);
-  if (!file_exists (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   string value = filter_string_implode (values, "\n");
   filter_url_file_put_contents (filename, value);
 }
@@ -197,7 +197,7 @@ void Database_Config_User::trim ()
   vector <string> users = database_users.getUsers ();
   for (unsigned int i = 0; i < users.size(); i++) {
     string filename = file (users[i], keySprintMonth ());
-    if (file_exists (filename)) {
+    if (file_or_dir_exists (filename)) {
       if (filter_url_filemtime (filename) < time) {
         filter_url_unlink (filename);
       }

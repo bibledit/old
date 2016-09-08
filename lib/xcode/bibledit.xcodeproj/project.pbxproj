@@ -411,7 +411,7 @@
 		CA80A70E1AA0A9A800C7208F /* libjson.pc.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = libjson.pc.in; sourceTree = "<group>"; };
 		CA80A70F1AA0A9A800C7208F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CA80A7101AA0FF1B00C7208F /* biblehub-john-1-1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 2; path = "biblehub-john-1-1.html"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CA815E841B6647A700E2DE26 /* files.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = files.cpp; sourceTree = "<group>"; };
+		CA815E841B6647A700E2DE26 /* files.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = files.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA815E851B6647A700E2DE26 /* files.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = files.h; sourceTree = "<group>"; };
 		CA815E861B66489B00E2DE26 /* files.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = files.cpp; sourceTree = "<group>"; };
 		CA815E871B66489B00E2DE26 /* files.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = files.h; sourceTree = "<group>"; };
@@ -1112,7 +1112,7 @@
 		CAD410D51A6DA1AC00088E26 /* bibledit */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = bibledit; path = ../bibledit; sourceTree = "<group>"; };
 		CAD443251AC95A840005B8F6 /* exports.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = exports.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAD443261AC95A840005B8F6 /* exports.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = exports.h; sourceTree = "<group>"; };
-		CAD443271AC95BC60005B8F6 /* esword.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = esword.cpp; sourceTree = "<group>"; };
+		CAD443271AC95BC60005B8F6 /* esword.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = esword.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAD443281AC95BC60005B8F6 /* esword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = esword.h; sourceTree = "<group>"; };
 		CAD4432A1AC95BC60005B8F6 /* html.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = html.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAD4432B1AC95BC60005B8F6 /* html.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = html.h; sourceTree = "<group>"; };

@@ -38,13 +38,13 @@
 void export_esword (string bible, bool log)
 {
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "esword");
-  if (!file_exists (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   string filename = filter_url_create_path (directory, "bible.bblx");
 
   
-  if (file_exists (filename)) filter_url_unlink (filename);
+  if (file_or_dir_exists (filename)) filter_url_unlink (filename);
   
   
   Database_Bibles database_bibles;

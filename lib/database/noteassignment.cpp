@@ -35,7 +35,7 @@ string Database_NoteAssignment::path (string user)
 
 bool Database_NoteAssignment::exists (string user)
 {
-  return file_exists (path (user));
+  return file_or_dir_exists (path (user));
 }
 
 

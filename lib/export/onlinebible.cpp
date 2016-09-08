@@ -39,7 +39,7 @@
 void export_onlinebible (string bible, bool log)
 {
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "onlinebible");
-  if (!file_exists (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   string filename = filter_url_create_path (directory, "bible.exp");

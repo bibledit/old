@@ -484,7 +484,7 @@ string Database_Notes::expiryFile (int identifier)
 // This checks whether the note identifier exists.
 bool Database_Notes::identifierExists (int identifier)
 {
-  return file_exists (noteFolder (identifier));
+  return file_or_dir_exists (noteFolder (identifier));
 }
 
 
@@ -1470,7 +1470,7 @@ void Database_Notes::setModified (int identifier, int time)
 bool Database_Notes::getPublic (int identifier)
 {
   string file = publicFile (identifier);
-  return file_exists (file);
+  return file_or_dir_exists (file);
 }
 
 
@@ -1625,7 +1625,7 @@ void Database_Notes::unmarkForDeletion (int identifier)
 bool Database_Notes::isMarkedForDeletion (int identifier)
 {
   string file = expiryFile (identifier);
-  return file_exists (file);
+  return file_or_dir_exists (file);
 }
 
 
@@ -1827,7 +1827,7 @@ void Database_Notes::set_availability (bool available)
 // Returns whether the notes databases are available, as a boolean.
 bool Database_Notes::available ()
 {
-  return !file_exists (availability_flag ());
+  return !file_or_dir_exists (availability_flag ());
 }
 
 

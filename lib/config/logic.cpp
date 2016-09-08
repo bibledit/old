@@ -176,10 +176,10 @@ string config_logic_server_key_path ()
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path ("config", "server.key");
-  if (file_exists (path)) return path;
+  if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
   path = filter_url_create_root_path ("config", "local.server.key");
-  if (file_exists (path)) return path;
+  if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
 }
@@ -190,10 +190,10 @@ string config_logic_server_certificate_path ()
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path ("config", "server.crt");
-  if (file_exists (path)) return path;
+  if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
   path = filter_url_create_root_path ("config", "local.server.crt");
-  if (file_exists (path)) return path;
+  if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
 }
@@ -204,10 +204,10 @@ string config_logic_authorities_certificates_path ()
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path ("config", "authorities.crt");
-  if (file_exists (path)) return path;
+  if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
   path = filter_url_create_root_path ("config", "local.authorities.crt");
-  if (file_exists (path)) return path;
+  if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
 }
@@ -216,14 +216,14 @@ string config_logic_authorities_certificates_path ()
 // Whether to enforce https traffic for browser communications.
 bool config_logic_enforce_https_browser ()
 {
-  return file_exists (filter_url_create_root_path ("config", "browser.https"));
+  return file_or_dir_exists (filter_url_create_root_path ("config", "browser.https"));
 }
 
 
 // Whether to enforce https traffic for client communications.
 bool config_logic_enforce_https_client ()
 {
-  return file_exists (filter_url_create_root_path ("config", "client.https"));
+  return file_or_dir_exists (filter_url_create_root_path ("config", "client.https"));
 }
 
 

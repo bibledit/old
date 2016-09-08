@@ -70,7 +70,7 @@ string export_quickbible_tabify (const string & one, const string & two, const s
 void export_quickbible (string bible, bool log)
 {
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "quickbible");
-  if (!file_exists (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
 
   Database_Bibles database_bibles;
   

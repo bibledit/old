@@ -165,7 +165,7 @@ void setup_wait_till_main_folders_present ()
     vector <string> folders = {"dyncss", "databases", "databases/config/general", "logbook", "bibles", "processes"};
     for (auto folder : folders) {
       string path = filter_url_create_root_path (folder);
-      if (!file_exists (path)) {
+      if (!file_or_dir_exists (path)) {
         present = false;
       }
     }

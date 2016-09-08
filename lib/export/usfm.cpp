@@ -42,7 +42,7 @@ void export_usfm (string bible, bool log)
   
   // Root USFM directory, plus info file.
   string usfmDirectory = Export_Logic::USFMdirectory (bible, 2);
-  if (!file_exists (usfmDirectory)) filter_url_mkdir (usfmDirectory);
+  if (!file_or_dir_exists (usfmDirectory)) filter_url_mkdir (usfmDirectory);
   string infopath = filter_url_create_root_path ("export", "usfm.html");
   string infocontents = filter_url_file_get_contents (infopath);
   infopath = filter_url_create_path (usfmDirectory, "readme.html");
@@ -51,7 +51,7 @@ void export_usfm (string bible, bool log)
   
   // USFM directories
   string usfmDirectoryFull = Export_Logic::USFMdirectory (bible, 0);
-  if (!file_exists (usfmDirectoryFull)) filter_url_mkdir (usfmDirectoryFull);
+  if (!file_or_dir_exists (usfmDirectoryFull)) filter_url_mkdir (usfmDirectoryFull);
   
   
   // Take the USFM from the Bible database.

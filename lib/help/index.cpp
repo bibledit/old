@@ -42,7 +42,7 @@ bool help_index_url (const string& url)
 {
   size_t pos = url.find ("help/");
   if (pos != 0) return false;
-  return file_exists (help_index_html (url));
+  return file_or_dir_exists (help_index_html (url));
 }
 
 
@@ -65,7 +65,7 @@ string help_index (void * webserver_request, const string& url)
   
   string linux_version = "1.0.xxx";
   string linux_path = "/var/www/bibledit.org/linux";
-  if (file_exists (linux_path)) {
+  if (file_or_dir_exists (linux_path)) {
     vector <string> files = filter_url_scandir (linux_path);
     if (!files.empty ()) {
       linux_version = files.back ();
@@ -77,7 +77,7 @@ string help_index (void * webserver_request, const string& url)
 
   string cloud_version = "1.0.xxx";
   string cloud_path = "/var/www/bibledit.org/cloud";
-  if (file_exists (cloud_path)) {
+  if (file_or_dir_exists (cloud_path)) {
     vector <string> files = filter_url_scandir (cloud_path);
     if (!files.empty ()) {
       cloud_version = files.back ();

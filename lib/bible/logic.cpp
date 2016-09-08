@@ -162,7 +162,7 @@ void bible_logic_delete_bible (const string& bible)
     
     // Possible git repository.
     string gitdirectory = filter_git_directory (bible);
-    if (file_exists (gitdirectory)) {
+    if (file_or_dir_exists (gitdirectory)) {
       filter_url_rmdir (gitdirectory);
     }
 

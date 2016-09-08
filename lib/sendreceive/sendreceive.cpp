@@ -41,7 +41,7 @@ void sendreceive_sendreceive (string bible)
   
 
   // Check that the repository directory is there.
-  if (!file_exists (directory)) {
+  if (!file_or_dir_exists (directory)) {
     Database_Logs::log ("Cannot send and receive because the local git repository was not found.");
     return;
   }
