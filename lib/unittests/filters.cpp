@@ -2200,6 +2200,16 @@ void test_filter_url ()
   }
   
   {
+    // Test function to check existence of directory.
+    string folder = "/tmp/בוקר טוב";
+    evaluate (__LINE__, __func__, false, file_exists (folder));
+    filter_url_mkdir (folder);
+    evaluate (__LINE__, __func__, true, file_exists (folder));
+    filter_url_rmdir (folder);
+    evaluate (__LINE__, __func__, false, file_exists (folder));
+  }
+  
+  {
     // Test unique filename.
     string filename = "/tmp/unique";
     filter_url_file_put_contents (filename, "");

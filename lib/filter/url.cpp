@@ -184,7 +184,8 @@ string filter_url_basename (string url)
 void filter_url_unlink (string filename) // Todo check wstring
 {
 #ifdef HAVE_VISUALSTUDIO
-  _unlink(filename.c_str());
+  wstring wfilename = string2wstring (filename);
+  _wunlink(wfilename.c_str());
 #else
   unlink (filename.c_str ());
 #endif
@@ -250,11 +251,11 @@ string filter_url_get_extension (string url)
 bool file_exists(string url)
 {
 #ifdef HAVE_VISUALSTUDIO
-  // The Windows documentation says that the 'stat' function should work with wide characters.
-  // But this does not work: Another method is used on Windows. 
+  // Function '_wstat' works with wide characters.
   wstring wurl = string2wstring(url);
-  ifstream ff(wurl.c_str());
-  return ff.is_open();
+  struct _stat buffer;
+  int result = _wstat (wurl.c_str (), &buffer);
+  return (result == 0);
 #else
   // The 'stat' function works as expected on Linux.
   struct stat buffer;
@@ -326,7 +327,7 @@ void filter_url_rmdir (string directory)
 
 
 // Returns true is $path points to a directory.
-bool filter_url_is_dir (string path)
+bool filter_url_is_dir (string path) // Todo test with wide characters.
 {
   // The stat works on Linux, of course, and also on Windows, according to their documentation:
   // _stat automatically handles multibyte-character string arguments as appropriate, 
@@ -387,10 +388,10 @@ void filter_url_file_put_contents (string filename, string contents)
   try {
     ofstream file;  
 #ifdef HAVE_VISUALSTUDIO
-	wstring wfilename = string2wstring(filename);
-	file.open(wfilename, ios::binary | ios::trunc);
+    wstring wfilename = string2wstring(filename);
+    file.open(wfilename, ios::binary | ios::trunc);
 #else
-	file.open(filename, ios::binary | ios::trunc);
+    file.open(filename, ios::binary | ios::trunc);
 #endif
     file << contents;
     file.close ();
@@ -399,13 +400,18 @@ void filter_url_file_put_contents (string filename, string contents)
 }
 
 
-// C++ rough equivalent for PHP'sfilter_url_file_put_contents.
+// C++ rough equivalent for PHP's file_put_contents.
 // Appends the data if the file exists.
-void filter_url_file_put_contents_append (string filename, string contents) // Toco check wide string Windows.
+void filter_url_file_put_contents_append (string filename, string contents)
 {
   try {
-    ofstream file;  
-    file.open (filename, ios::binary | ios::app);  
+    ofstream file;
+#ifdef HAVE_VISUALSTUDIO
+    wstring wfilename = string2wstring (filename);
+    file.open (wfilename, ios::binary | ios::app);
+#else
+    file.open (filename, ios::binary | ios::app);
+#endif
     file << contents;
     file.close ();
   } catch (...) {
@@ -455,11 +461,17 @@ void filter_url_dir_cp (const string & input, const string & output) // Todo che
 
 
 // A C++ equivalent for PHP's filesize function.
-int filter_url_filesize (string filename) // Todo check wide characters.
+int filter_url_filesize (string filename)
 {
-  struct stat stat_buf;
-  int rc = stat (filename.c_str(), &stat_buf);
-  return rc == 0 ? stat_buf.st_size : 0;
+#ifdef HAVE_VISUALSTUDIO
+  wstring wfilename = string2wstring (filename);
+  struct _stat buf;
+  int rc = _wstat (wfilename.c_str (), &buf);
+#else
+  struct stat buf;
+  int rc = stat (filename.c_str (), &buf);
+#endif
+  return rc == 0 ? buf.st_size : 0;
 }
 
 
