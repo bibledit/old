@@ -26,8 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/books.h>
 #include <database/logs.h>
-#ifdef HAVE_CLIENT
-#else
+#ifndef HAVE_CLIENT
 #include <curl/curl.h>
 #endif
 #include "mbedtls/net.h"
@@ -181,20 +180,26 @@ string filter_url_basename (string url)
 }
 
 
-void filter_url_unlink (string filename) // Todo check wstring
+void filter_url_unlink (string filename)
 {
 #ifdef HAVE_VISUALSTUDIO
   wstring wfilename = string2wstring (filename);
-  _wunlink(wfilename.c_str());
+  _wunlink (wfilename.c_str ());
 #else
   unlink (filename.c_str ());
 #endif
 }
 
 
-void filter_url_rename (const string& oldfilename, const string& newfilename) // Todo check wstring.
+void filter_url_rename (const string& oldfilename, const string& newfilename)
 {
-  rename (oldfilename.c_str(), newfilename.c_str());
+#ifdef HAVE_VISUALSTUDIO
+  wstring woldfilename = string2wstring (oldfilename);
+  wstring wnewfilename = string2wstring (newfilename);
+  _wrename (woldfilename.c_str (), wnewfilename.c_str ());
+#else
+  rename (oldfilename.c_str (), newfilename.c_str ());
+#endif
 }
 
 
@@ -327,34 +332,41 @@ void filter_url_rmdir (string directory)
 
 
 // Returns true is $path points to a directory.
-bool filter_url_is_dir (string path) // Todo test with wide characters.
+bool filter_url_is_dir (string path)
 {
-  // The stat works on Linux, of course, and also on Windows, according to their documentation:
-  // _stat automatically handles multibyte-character string arguments as appropriate, 
-  // recognizing multibyte-character sequences according to the multibyte code page currently in use.
+#ifdef HAVE_VISUALSTUDIO
+  // Function '_wstat', on Windows, works with wide characters.
+  wstring wpath = string2wstring (path);
+  struct _stat sb;
+  _wstat (wpath.c_str (), &sb);
+#else
   struct stat sb;
-  stat (path.c_str(), &sb);
+  stat (path.c_str (), &sb);
+#endif
   return (sb.st_mode & S_IFMT) == S_IFDIR;
 }
 
 
-bool filter_url_get_write_permission (string path) // Todo test on Visual Studio.
+bool filter_url_get_write_permission (string path)
 {
 #ifdef HAVE_VISUALSTUDIO
-	return true;
+  wstring wpath = string2wstring (path);
+  int result = _waccess (wpath.c_str (), 06);
 #else
   int result = access (path.c_str(), W_OK);
-  if (result == 0) return true;
-  return false;
 #endif
+  return (result == 0);
 }
 
 
-void filter_url_set_write_permission (string path) // Todo test on Visual Studio.
+void filter_url_set_write_permission (string path)
 {
-#ifndef HAVE_VISUALSTUDIO
-  chmod(path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
-#endif // !HAVE_VISUALSTUDIO
+#ifdef HAVE_VISUALSTUDIO
+  wstring wpath = string2wstring (path);
+  _wchmod (wpath.c_str (), _S_IREAD | _S_IWRITE);
+#else
+  chmod (path.c_str (), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
+#endif
 }
 
 
@@ -424,8 +436,13 @@ void filter_url_file_put_contents_append (string filename, string contents)
 bool filter_url_file_cp (string input, string output) // Todo check wide characters.
 {
   try {
+#ifdef HAVE_VISUALSTUDIO
+    ifstream source (string2wstring (input), ios::binary);
+    ofstream dest (string2wstring (output), ios::binary | ios::trunc);
+#else
     ifstream source (input, ios::binary);
     ofstream dest (output, ios::binary | ios::trunc);
+#endif
     dest << source.rdbuf();
     source.close();
     dest.close();
