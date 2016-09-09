@@ -433,7 +433,7 @@ void filter_url_file_put_contents_append (string filename, string contents)
 
 // Copies the contents of file named "input" to file named "output".
 // It is assumed that the folder where "output" will reside exists.
-bool filter_url_file_cp (string input, string output) // Todo check wide characters.
+bool filter_url_file_cp (string input, string output)
 {
   try {
 #ifdef HAVE_VISUALSTUDIO
@@ -455,7 +455,7 @@ bool filter_url_file_cp (string input, string output) // Todo check wide charact
 
 // Copies the entire directory $input to a directory named $output.
 // It will recursively copy the inner directories also.
-void filter_url_dir_cp (const string & input, const string & output) // Todo check wide charas.
+void filter_url_dir_cp (const string & input, const string & output)
 {
   // Create the output directory.
   filter_url_mkdir (output);
@@ -515,7 +515,7 @@ void filter_url_recursive_scandir (string folder, vector <string> & paths)
 }
 
 
-// A C++ near equivalent for PHP's filemtime function.
+// Gets the file modification time.
 int filter_url_filemtime (string filename) // Todo check wide characters.
 {
   struct stat attributes;
