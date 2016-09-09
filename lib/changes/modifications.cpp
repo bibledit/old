@@ -372,7 +372,7 @@ void changes_modifications ()
   bibles = filter_url_scandir (directory);
   for (auto &bible : bibles) {
     string folder = filter_url_create_path (directory, bible);
-    int time = filter_url_filemtime (folder);
+    int time = filter_url_file_modification_time (folder);
     int days = (now - time) / 86400;
     if (days > 31) {
       filter_url_rmdir (folder);
@@ -380,7 +380,7 @@ void changes_modifications ()
       vector <string> revisions = filter_url_scandir (folder);
       for (auto & revision : revisions) {
         string path = filter_url_create_path (folder, revision);
-        int time = filter_url_filemtime (path);
+        int time = filter_url_file_modification_time (path);
         int days = (now - time) / 86400;
         if (days > 31) {
           filter_url_rmdir (path);

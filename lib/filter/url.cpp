@@ -516,7 +516,7 @@ void filter_url_recursive_scandir (string folder, vector <string> & paths)
 
 
 // Gets the file modification time.
-int filter_url_filemtime (string filename) // Todo check wide characters.
+int filter_url_file_modification_time (string filename) // Todo check wide characters.
 {
   struct stat attributes;
   stat (filename.c_str(), &attributes);

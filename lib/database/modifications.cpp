@@ -188,7 +188,7 @@ vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, i
     vector <string> bits = filter_string_explode (file, '.');
     if (bits.size() != 3) continue;
     string path = filter_url_create_path (teamFolder (), file);
-    int time = filter_url_filemtime (path);
+    int time = filter_url_file_modification_time (path);
     int days = (filter_date_seconds_since_epoch () - time) / 86400;
     if (days > 5) {
       // Unprocessed team changes older than so many days usually indicate a problem.
@@ -391,7 +391,7 @@ vector <int> Database_Modifications::getUserChapters (const string& username, co
   vector <int> chapters;
   for (auto & file : files) {
     string path = filter_url_create_path (folder, file);
-    int time = filter_url_filemtime (path);
+    int time = filter_url_file_modification_time (path);
     int days = (filter_date_seconds_since_epoch () - time) / 86400;
     if (days > 5) {
       // Unprocessed user changes older than so many days usually indicate a problem.

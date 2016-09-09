@@ -34,7 +34,7 @@ void tmp_tmp ()
   for (auto & name : names) {
     if (name.find ("tmp.") == 0) continue;
     string filename = filter_url_create_path (directory, name);
-    int mtime = filter_url_filemtime (filename);
+    int mtime = filter_url_file_modification_time (filename);
     if (mtime < expired) {
       filter_url_rmdir (filename);
       filter_url_unlink (filename);

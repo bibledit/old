@@ -198,7 +198,7 @@ void Database_Config_User::trim ()
   for (unsigned int i = 0; i < users.size(); i++) {
     string filename = file (users[i], keySprintMonth ());
     if (file_or_dir_exists (filename)) {
-      if (filter_url_filemtime (filename) < time) {
+      if (filter_url_file_modification_time (filename) < time) {
         filter_url_unlink (filename);
       }
     }
