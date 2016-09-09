@@ -516,10 +516,16 @@ void filter_url_recursive_scandir (string folder, vector <string> & paths)
 
 
 // Gets the file modification time.
-int filter_url_file_modification_time (string filename) // Todo check wide characters.
+int filter_url_file_modification_time (string filename)
 {
+#ifdef HAVE_VISUALSTUDIO
+  wstring wfilename = string2wstring (filename);
+  struct _stat attributes;
+  _wstat (wfilename.c_str (), &attributes);
+#else
   struct stat attributes;
-  stat (filename.c_str(), &attributes);
+  stat (filename.c_str (), &attributes);
+#endif
   return (int) attributes.st_mtime;
 }
 
@@ -1018,13 +1024,13 @@ string filter_url_remove_username_password (string url)
 // $error: To store any error messages.
 // $post: Value pairs for a POST request.
 // $filename: The filename to save the data to.
-// $check_certificate: Whether the check the server certificate in case of secure http.
-string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate) // Todo CheckWindows
+// $check_certificate: Whether to check the server certificate in case of secure http.
+string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate)
 {
   // The "http" scheme is used to locate network resources via the HTTP protocol.
   // $url = "http(s):" "//" host [ ":" port ] [ abs_path [ "?" query ]]
-  
-  
+
+
   // Whether this is a secure http request.
   bool secure = url.find ("https:") != string::npos;
   
@@ -1101,11 +1107,13 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     int res = getaddrinfo (hostname.c_str(), service.c_str (), &hints, &address_results);
     if (res != 0) {
       error = hostname + ": ";
-#ifndef HAVE_VISUALSTUDIO
-      // Todo implement this for Visual Studio.
+#ifdef HAVE_VISUALSTUDIO
+      wchar_t * err = gai_strerrorW (res);
+      error.append (wstring2string (err));
+#else
       error.append (gai_strerror (res));
-#endif // !HAVE_VISUALSTUDIO
-	  connection_healthy = false;
+#endif
+      connection_healthy = false;
     } else {
       address_info_resolved = true;
     }
@@ -1147,8 +1155,11 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     
     // Secure connect to host.
     if (connection_healthy) {
-      const char * server_port = convert_to_string (port).c_str ();
-      int ret = mbedtls_net_connect (&fd, hostname.c_str(), server_port, MBEDTLS_NET_PROTO_TCP);
+      // It used to pass the "server_port" to the connect routine:
+      // const char * server_port = convert_to_string (port).c_str ();
+      // But MSVC optimized this variable away before it could be passed to that routine.
+      // The code was updated to work around that.
+      int ret = mbedtls_net_connect (&fd, hostname.c_str(), convert_to_string (port).c_str (), MBEDTLS_NET_PROTO_TCP);
       if (ret != 0) {
         filter_url_display_mbed_tls_error (ret, &error, false);
         connection_healthy = false;
