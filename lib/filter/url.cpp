@@ -548,7 +548,7 @@ string filter_url_urlencode (string url)
 
 
 // Returns the name of a temporary file.
-string filter_url_tempfile (const char * directory) // Todo check wide characters.
+string filter_url_tempfile (const char * directory)
 {
   string filename = convert_to_string (filter_date_seconds_since_epoch ()) + convert_to_string (filter_date_numerical_microseconds ()) + convert_to_string (filter_string_rand (10000000, 99999999));
   if (directory) {
@@ -1219,7 +1219,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     // Socket, whether plain or secure http.
     int comm_sock = sock;
     if (secure) comm_sock = fd.fd;
-    // Make the timeout not too short, so it can support very slow networks. Todo CheckWindows
+    // Make the timeout not too short, so it can support very slow networks.
 #ifdef HAVE_VISUALSTUDIO
     // Windows: Timeout value is a DWORD in milliseconds, address passed to setsockopt() is const char *
     const char * tv = "600000";
@@ -1376,7 +1376,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       }
       if (ret > 0) {
         if (reading_body) {
-          if (file) fwrite (&cur, 1, 1, file);
+          if (file) fwrite (&cur, 1, 1, file); // Todo wide?
           else response += cur;
         } else {
           if (cur == '\r') continue;
