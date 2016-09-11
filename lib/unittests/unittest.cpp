@@ -84,7 +84,6 @@ int main (int argc, char **argv)
   test_filter_string_rand ();
   test_filter_passage ();
   test_email ();
-  test_stat ();
   test_replace ();
   test_database_users ();
   test_session_logic ();

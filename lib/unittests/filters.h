@@ -43,7 +43,6 @@ void test_filter_url ();
 void test_filter_string_rand ();
 void test_filter_passage ();
 void test_email ();
-void test_stat ();
 void test_replace ();
 void test_styles_css ();
 void test_filter_custom_css ();

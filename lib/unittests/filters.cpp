@@ -2382,6 +2382,41 @@ void test_filter_url ()
     filter_url_ssl_tls_finalize ();
   }
   
+  {
+    // Testing is_dir.
+    string path = filter_url_create_root_path ("git");
+    evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
+    path = filter_url_create_root_path ("setup", "index.html");
+    evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
+    
+    string directory = filter_url_create_root_path ("tmp");
+    string file1 = filter_url_create_path (directory, "1");
+    string file2 = filter_url_create_path (directory, "2");
+    filter_url_file_put_contents (file1, "x");
+    filter_url_file_put_contents (file2, "x");
+    
+    // Testing checking for and setting write permissions.
+    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (directory));
+    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file1));
+    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file2));
+    
+    chmod (directory.c_str(), S_IRUSR);
+    chmod (file1.c_str(), S_IRUSR);
+    chmod (file2.c_str(), S_IRUSR);
+    
+    evaluate (__LINE__, __func__, false, filter_url_get_write_permission (directory));
+    evaluate (__LINE__, __func__, false, filter_url_get_write_permission (file1));
+    evaluate (__LINE__, __func__, false, filter_url_get_write_permission (file2));
+    
+    filter_url_set_write_permission (directory);
+    filter_url_set_write_permission (file1);
+    filter_url_set_write_permission (file2);
+    
+    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (directory));
+    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file1));
+    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file2));
+  }
+  
   refresh_sandbox (true);
 }
 
@@ -2796,45 +2831,6 @@ void test_email ()
     "\n"
     ">    test notes three \n";
   evaluate (__LINE__, __func__, "test", filter_string_extract_body (body, "2011", "Bibledit"));
-}
-
-
-void test_stat ()
-{
-  trace_unit_tests (__func__);
-  
-  // Testing is_dir.
-  string path = filter_url_create_root_path ("git");
-  evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
-  path = filter_url_create_root_path ("setup", "index.html");
-  evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
-  
-  string directory = filter_url_create_root_path ("tmp");
-  string file1 = filter_url_create_path (directory, "1");
-  string file2 = filter_url_create_path (directory, "2");
-  filter_url_file_put_contents (file1, "x");
-  filter_url_file_put_contents (file2, "x");
-
-  // Testing checking for and setting write permissions.
-  evaluate (__LINE__, __func__, true, filter_url_get_write_permission (directory));
-  evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file1));
-  evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file2));
-  
-  chmod (directory.c_str(), S_IRUSR);
-  chmod (file1.c_str(), S_IRUSR);
-  chmod (file2.c_str(), S_IRUSR);
-
-  evaluate (__LINE__, __func__, false, filter_url_get_write_permission (directory));
-  evaluate (__LINE__, __func__, false, filter_url_get_write_permission (file1));
-  evaluate (__LINE__, __func__, false, filter_url_get_write_permission (file2));
-
-  filter_url_set_write_permission (directory);
-  filter_url_set_write_permission (file1);
-  filter_url_set_write_permission (file2);
-
-  evaluate (__LINE__, __func__, true, filter_url_get_write_permission (directory));
-  evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file1));
-  evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file2));
 }
 
 
