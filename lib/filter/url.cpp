@@ -264,7 +264,7 @@ bool file_or_dir_exists(string url)
 #else
   // The 'stat' function works as expected on Linux.
   struct stat buffer;
-  return (stat(url.c_str(), &buffer) == 0);
+  return (stat (url.c_str(), &buffer) == 0);
 #endif
 }
 

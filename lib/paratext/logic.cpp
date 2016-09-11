@@ -37,7 +37,7 @@
 #include <bible/logic.h>
 
 
-string Paratext_Logic::searchProjectsFolder () // Todo CheckWindows
+string Paratext_Logic::searchProjectsFolder ()
 {
   const char *homedir;
 
