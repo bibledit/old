@@ -1358,8 +1358,15 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     char prev = 0;
     char cur;
     FILE * file = NULL;
-    if (!filename.empty ()) file = fopen (filename.c_str(), "w"); // Todo check wide characters in path.
-    
+    if (!filename.empty ()) {
+#ifdef HAVE_VISUALSTUDIO
+      wstring wfilename = string2wstring (filename);
+      file = _wfopen (wfilename.c_str (), L"w");
+#else
+      file = fopen (filename.c_str (), "w");
+#endif
+    }
+
     do {
       int ret = 0;
       if (secure) {
@@ -1376,7 +1383,9 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       }
       if (ret > 0) {
         if (reading_body) {
-          if (file) fwrite (&cur, 1, 1, file); // Todo wide?
+          if (file) {
+            fwrite (&cur, 1, 1, file);
+          }
           else response += cur;
         } else {
           if (cur == '\r') continue;

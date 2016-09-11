@@ -74,6 +74,11 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   // This is supported to prevent "database locked" errors.
   sqlite3_config (SQLITE_CONFIG_SERIALIZED);
 
+  // Binary file mode on Windows.
+#ifdef HAVE_VISUALSTUDIO
+  _set_fmode (_O_BINARY);
+#endif
+
   // Set the web root folder.
   config_globals_document_root = webroot;
   
