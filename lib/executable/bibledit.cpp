@@ -32,7 +32,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <windows.h>
 #endif
 
-
 void sigint_handler (int s)
 {
   (void) s;
@@ -81,7 +80,7 @@ void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* func
   string sfunction(wfunction.begin(), wfunction.end());
   wstring wfile (file);
   string sfile(wfile.begin(), wfile.end());
-  Database_Logs::log ("Invalid parameter detected in function " + sfunction + " in file " + sfile + " line " + convert_to_string (line) + " expression " + sexpression + ".");
+  Database_Logs::log ("Invalid parameter detected in function " + sfunction + " in file " + sfile + " line " + convert_to_string ((size_t)line) + " expression " + sexpression + ".");
 }
 #endif
 
