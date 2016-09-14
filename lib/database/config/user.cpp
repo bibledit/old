@@ -1272,3 +1272,13 @@ void Database_Config_User::setEnabledUsfmEditors (int value)
 {
   setIValue ("enabled-usfm-editors", value);
 }
+
+
+bool Database_Config_User::getEnableStylesButtonVisualEditors ()
+{
+  return getBValue ("enable-styles-button-visual-editors", true);
+}
+void Database_Config_User::setEnableStylesButtonVisualEditors (bool value)
+{
+  setBValue ("enable-styles-button-visual-editors", value);
+}

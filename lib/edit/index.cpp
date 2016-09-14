@@ -158,6 +158,12 @@ string edit_index (void * webserver_request)
   }
 
   
+  // Whether to enable the styles button.
+  if (request->database_config_user ()->getEnableStylesButtonVisualEditors ()) {
+    view.enable_zone ("stylesbutton");
+  }
+  
+  
   page += view.render ("edit", "index");
   
   

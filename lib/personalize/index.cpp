@@ -98,6 +98,13 @@ string personalize_index (void * webserver_request)
   }
   
   
+  // Styles editing in visual editors.
+  if (request->query.count ("enablestylesbutton")) {
+    bool state = request->database_config_user ()->getEnableStylesButtonVisualEditors ();
+    request->database_config_user ()->setEnableStylesButtonVisualEditors (!state);
+  }
+  
+  
   string page;
   string success;
   string error;
@@ -315,6 +322,11 @@ string personalize_index (void * webserver_request)
   editors = menu_logic_editor_settings_text (false, request->database_config_user ()->getEnabledUsfmEditors ());
   view.set_variable (activeusfmeditors, editors);
 
+  
+  // Whether to enable editing styles in the visual editors.
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getEnableStylesButtonVisualEditors ());
+  view.set_variable ("enablestylesbutton", on_off);
+  
   
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);

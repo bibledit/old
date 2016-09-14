@@ -134,6 +134,11 @@ string editone_index (void * webserver_request)
     view.enable_zone ("fastswitcheditor");
   }
 
+  // Whether to enable the styles button.
+  if (request->database_config_user ()->getEnableStylesButtonVisualEditors ()) {
+    view.enable_zone ("stylesbutton");
+  }
+
   page += view.render ("editone", "index");
   
   page += Assets_Page::footer ();

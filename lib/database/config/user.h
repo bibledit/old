@@ -233,6 +233,8 @@ public:
   void setEnabledVisualEditors (int value);
   int getEnabledUsfmEditors ();
   void setEnabledUsfmEditors (int value);
+  bool getEnableStylesButtonVisualEditors ();
+  void setEnableStylesButtonVisualEditors (bool value);
 private:
   void * webserver_request;
   string file (string user);
