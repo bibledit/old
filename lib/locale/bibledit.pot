@@ -6952,6 +6952,9 @@ msgstr ""
 msgid "USFM editors:"
 msgstr ""
 
+msgid "Enable the Styles button in the visual Bible editors"
+msgstr ""
+
 msgid "Back to chapter"
 msgstr ""
 

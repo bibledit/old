@@ -264,11 +264,11 @@ string personalize_index (void * webserver_request)
   view.set_variable ("desktopfadeoutdelay", convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()));
 
   
-  // Permissable relative changes in the four Bible editors.
+  // Permissable relative changes in the two to four Bible editors.
   view.set_variable ("chapterpercentage", convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceChapter ()));
   view.set_variable ("versepercentage", convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceVerse ()));
   
- 
+  
   // Whether to keep the main menu always visible.
   on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getMainMenuAlwaysVisible ());
   view.set_variable ("menuvisible", on_off);
@@ -322,6 +322,29 @@ string personalize_index (void * webserver_request)
   editors = menu_logic_editor_settings_text (false, request->database_config_user ()->getEnabledUsfmEditors ());
   view.set_variable (activeusfmeditors, editors);
 
+  
+  // The names of the two, three, or four Bible editors.
+  // The location of this code is important that it is after the editors have been enabled or disabled.
+  string chapter_editors, verse_editors;
+  for (int i = 0; i < 4; i++) {
+    bool visual = (i % 2);
+    bool chapter = (i <2);
+    if (menu_logic_editor_enabled (webserver_request, visual, chapter)) {
+      string label = menu_logic_editor_menu_text (webserver_request, visual, chapter);
+      if (chapter) {
+        if (!chapter_editors.empty ()) chapter_editors.append (", ");
+        chapter_editors.append (label);
+      } else {
+        if (!verse_editors.empty ()) verse_editors.append (", ");
+        verse_editors.append (label);
+      }
+    }
+  }
+  if (!chapter_editors.empty ()) view.enable_zone ("chaptereditors");
+  view.set_variable ("chaptereditors", chapter_editors);
+  if (!verse_editors.empty ()) view.enable_zone ("verseeditors");
+  view.set_variable ("verseeditors", verse_editors);
+  
   
   // Whether to enable editing styles in the visual editors.
   on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getEnableStylesButtonVisualEditors ());
