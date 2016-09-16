@@ -6928,12 +6928,6 @@ msgstr ""
 msgid "Maximum difference for:"
 msgstr ""
 
-msgid "Chapter editors:"
-msgstr ""
-
-msgid "Verse editors"
-msgstr ""
-
 msgid "Keep main menu always visible"
 msgstr ""
 
