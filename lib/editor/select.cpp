@@ -50,16 +50,21 @@ bool editor_select_acl (void * webserver_request)
 
 string editor_select (void * webserver_request)
 {
+  Webserver_Request * request = static_cast <Webserver_Request *> (webserver_request);
+  
   string page;
   Assets_Header header = Assets_Header (translate("Select editor"), webserver_request);
   page = header.run();
   Assets_View view;
+  
+  vector <string> urls;
   
   if (edit_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, true, true)) {
       string label = menu_logic_editor_menu_text (webserver_request, true, true);
       string url = edit_index_url ();
       view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
+      urls.push_back (url);
     }
   }
   
@@ -68,6 +73,7 @@ string editor_select (void * webserver_request)
       string label = menu_logic_editor_menu_text (webserver_request, true, false);
       string url = editone_index_url ();
       view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
+      urls.push_back (url);
     }
   }
   
@@ -76,6 +82,7 @@ string editor_select (void * webserver_request)
       string label = menu_logic_editor_menu_text (webserver_request, false, true);
       string url = editusfm_index_url ();
       view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
+      urls.push_back (url);
     }
   }
   
@@ -84,6 +91,24 @@ string editor_select (void * webserver_request)
       string label = menu_logic_editor_menu_text (webserver_request, false, false);
       string url = editverse_index_url ();
       view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
+      urls.push_back (url);
+    }
+  }
+
+  // Checking on whether to switch to another editor, through the keyboard shortcut.
+  string from = request->query ["from"];
+  from.append ("/");
+  if (!from.empty ()) {
+    if (!urls.empty ()) {
+      urls.push_back (urls[0]);
+      bool match = false;
+      for (auto url : urls) {
+        if (match) {
+          redirect_browser (webserver_request, url);
+          return "";
+        }
+        if (url.find (from) == 0) match = true;
+      }
     }
   }
   

@@ -3174,22 +3174,22 @@ msgstr ""
 msgid "Install Bibledit on Windows"
 msgstr ""
 
-msgid "Bibledit runs on Windows XP / Vista / 7 / 8 / 8.1 / 10."
+msgid "Bibledit runs on Windows XP / Vista / 7 / 8.1 / 10."
 msgstr ""
 
-msgid "Windows XP needs Service Pack 3."
-msgstr ""
-
-msgid "The service pack can be downloaded from the Microsoft Download Center."
+msgid "Install Service Pack 3 on Windows XP."
 msgstr ""
 
 msgid "Reboot after installation."
 msgstr ""
 
-msgid "Windows XP / Vista / 7 need NET Framework 4.0 or higher."
+msgid "Install NET Framework 4.0 or higher on Windows XP / Vista / 7."
 msgstr ""
 
-msgid "The framework can be downloaded from the Microsoft Download Center."
+msgid "Apply all updates through Windows Update."
+msgstr ""
+
+msgid "This is because Bibledit uses recent Windows technology."
 msgstr ""
 
 msgid "Download"
