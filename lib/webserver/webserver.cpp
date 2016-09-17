@@ -330,8 +330,8 @@ void http_server ()
       char remote_address[256];
       inet_ntop(AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof(remote_address));
       clientaddress = remote_address;
-       */
-      clientaddress = inet_ntoa (&clientaddr.sin_addr.s_addr);
+      */
+      clientaddress = inet_ntoa (clientaddr.sin_addr);
       
       
       // On Linux and related operating systems,
