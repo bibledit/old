@@ -326,16 +326,20 @@ void http_server ()
       
       // The client's remote IPv4 address in dotted notation.
       string clientaddress;
+      /* Windows XP does not have inet_ntop, so it uses inet_ntoa instead.
       char remote_address[256];
       inet_ntop(AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof(remote_address));
       clientaddress = remote_address;
+       */
+      clientaddress = inet_ntoa (&clientaddr.sin_addr.s_addr);
       
-	  // On Linux and related operating systems, 
-	  // it would handle this request in a thread, 
-	  // enabling parallel requests.
-	  // But on Windows this does not work as it is.
-	  // Thus Windows processes request in sequence.
-	  webserver_process_request(client_socket, clientaddress);
+      
+      // On Linux and related operating systems,
+      // it would handle this request in a thread,
+      // enabling parallel requests.
+      // But on Windows this does not work as it is.
+      // Thus Windows processes request in sequence.
+      webserver_process_request(client_socket, clientaddress);
     }
     
     // Shutdown and close the connection.
