@@ -227,35 +227,19 @@ void bibledit_stop_library ()
   config_globals_https_running = false;
   
   // Connect to localhost to initiate the shutdown mechanism in the running server.
-  {
-    struct sockaddr_in sa;
-    sa.sin_family = AF_INET;
-    sa.sin_port = htons (convert_to_int (config_logic_http_network_port ()));
-    inet_pton (AF_INET, "127.0.0.1", &(sa.sin_addr));
-    char str[INET_ADDRSTRLEN];
-    inet_ntop (AF_INET, &(sa.sin_addr), str, INET_ADDRSTRLEN);
-    memset (sa.sin_zero, '\0', sizeof (sa.sin_zero));
-    int mysocket = socket (PF_INET, SOCK_STREAM, 0);
-    connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
-  }
+  string url = "http://localhost:";
+  url.append (config_logic_http_network_port ());
+  string error;
+  filter_url_http_get (url, error, false);
   
   // Connect to the secure server to initiate its shutdown mechanism.
 #ifndef HAVE_CLIENT
-  {
-    struct sockaddr_in sa;
-    sa.sin_family = AF_INET;
-    sa.sin_port = htons (config_logic_https_network_port ());
-    inet_pton (AF_INET, "127.0.0.1", &(sa.sin_addr));
-    char str[INET_ADDRSTRLEN];
-    inet_ntop (AF_INET, &(sa.sin_addr), str, INET_ADDRSTRLEN);
-    memset (sa.sin_zero, '\0', sizeof (sa.sin_zero));
-    int mysocket = socket (PF_INET, SOCK_STREAM, 0);
-    connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
-    // Let the connection start, then close it.
-    // The server will then abort the TLS handshake, and shut down.
-    this_thread::sleep_for (chrono::milliseconds (1));
-    close (mysocket);
-  }
+  url = "https://localhost:";
+  url.append (convert_to_string (config_logic_https_network_port ()));
+  filter_url_http_get (url, error, false);
+  // Let the connection start, then close it.
+  // The server will then abort the TLS handshake, and shut down.
+  this_thread::sleep_for (chrono::milliseconds (1));
 #endif
   
   // Wait till the servers and the timers shut down.
