@@ -3174,16 +3174,10 @@ msgstr ""
 msgid "Install Bibledit on Windows"
 msgstr ""
 
-msgid "Bibledit runs on Windows XP / Vista / 7 / 8.1 / 10."
+msgid "Bibledit runs on Windows Vista and higher."
 msgstr ""
 
-msgid "Install Service Pack 3 on Windows XP."
-msgstr ""
-
-msgid "Reboot after installation."
-msgstr ""
-
-msgid "Install NET Framework 4.0 or higher on Windows XP / Vista / 7."
+msgid "Install NET Framework 4.0 or higher on Windows Vista and Windows 7."
 msgstr ""
 
 msgid "Apply all updates through Windows Update."
