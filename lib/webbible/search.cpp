@@ -71,7 +71,7 @@ string webbible_search (void * webserver_request)
   
   
   // Exported Bible.
-  string exportedBible = filter_url_basename (filter_url_dirname (filter_url_dirname (backlinkUrl)));
+  string exportedBible = filter_url_basename (filter_url_dirname (filter_url_dirname (backlinkUrl))); // Todo test base and dir on Windows.
   
   
   // Search the Bible text in the exported Bible.

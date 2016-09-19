@@ -174,7 +174,7 @@ string Filter_Css::getCss (string class_, string font, int directionvalue, int l
   vector <string> css;
   
   // If the font has a URL, then it is a web font.
-  if ((font != filter_url_basename (font)) && !font.empty()) {
+  if ((font != filter_url_basename (font)) && !font.empty()) { // Todo test it on Windows.
     css.push_back ("@font-face");
     css.push_back ("{");
     css.push_back ("font-family: " + class_ + ";");

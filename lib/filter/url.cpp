@@ -166,17 +166,33 @@ string filter_url_dirname (string url)
 
 // C++ replacement for the basename function, see http://linux.die.net/man/3/basename.
 // The BSD basename is not thread-safe, see the warnings in $ man 3 basename.
-string filter_url_basename (string url)
+string filter_url_basename_internal (string url, const char * separator)
 {
   if (!url.empty ()) {
-    if (url.find_last_of (DIRECTORY_SEPARATOR) == url.length () - 1) {
+    if (url.find_last_of (separator) == url.length () - 1) {
       // Remove trailing slash.
       url = url.substr (0, url.length () - 1);
     }
-    size_t pos = url.find_last_of (DIRECTORY_SEPARATOR);
+    size_t pos = url.find_last_of (separator);
     if (pos != string::npos) url = url.substr (pos + 1);
   }
   return url;
+}
+
+
+// Basename routine for the operating system:
+// It uses the defined slash as the separator.
+string filter_url_basename (string url)
+{
+  return filter_url_basename_internal (url, DIRECTORY_SEPARATOR);
+}
+
+
+// Basename routine for the web:
+// It uses the forward slash as the separator.
+string filter_url_basename_web (string url)
+{
+  return filter_url_basename_internal (url, "/");
 }
 
 
