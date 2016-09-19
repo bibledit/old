@@ -148,19 +148,35 @@ void redirect_browser (void * webserver_request, string path)
 
 // C++ replacement for the dirname function, see http://linux.die.net/man/3/dirname.
 // The BSD dirname is not thread-safe, see the implementation notes on $ man 3 dirname.
-string filter_url_dirname (string url)
+string filter_url_dirname_internal (string url, const char * separator)
 {
   if (!url.empty ()) {
-    if (url.find_last_of (DIRECTORY_SEPARATOR) == url.length () - 1) {
+    if (url.find_last_of (separator) == url.length () - 1) {
       // Remove trailing slash.
       url = url.substr (0, url.length () - 1);
     }
-    size_t pos = url.find_last_of (DIRECTORY_SEPARATOR);
+    size_t pos = url.find_last_of (separator);
     if (pos != string::npos) url = url.substr (0, pos);
     else url = "";
   }
   if (url.empty ()) url = ".";
   return url;
+}
+
+
+// Dirname routine for the operating system.
+// It uses the defined slash as the separator.
+string filter_url_dirname (string url)
+{
+  return filter_url_dirname_internal (url, DIRECTORY_SEPARATOR);
+}
+
+
+// Dirname routine for the web.
+// It uses the forward slash as the separator.
+string filter_url_dirname_web (string url)
+{
+  return filter_url_dirname_internal (url, "/");
 }
 
 
@@ -180,7 +196,7 @@ string filter_url_basename_internal (string url, const char * separator)
 }
 
 
-// Basename routine for the operating system:
+// Basename routine for the operating system.
 // It uses the defined slash as the separator.
 string filter_url_basename (string url)
 {
@@ -188,7 +204,7 @@ string filter_url_basename (string url)
 }
 
 
-// Basename routine for the web:
+// Basename routine for the web.
 // It uses the forward slash as the separator.
 string filter_url_basename_web (string url)
 {
@@ -269,7 +285,7 @@ string filter_url_get_extension (string url)
 
 
 // Returns true if the file at $url exists.
-bool file_or_dir_exists(string url)
+bool file_or_dir_exists (string url)
 {
 #ifdef HAVE_VISUALSTUDIO
   // Function '_wstat' works with wide characters.
