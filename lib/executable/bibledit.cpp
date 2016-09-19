@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // The normal shutdown procedure works by connecting to the internal webserver,
-// and this connection in turns helps with shutting down the listening internal webserver.
+// and this connection in turn helps with shutting down the listening internal webserver.
 // In case the internal webserver no longer is able to accept connections,
 // the normal shutdown fails to work.
 // This last-ditch function waits a few seconds, and if the app is still running then,
