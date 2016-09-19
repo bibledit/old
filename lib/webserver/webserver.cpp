@@ -232,6 +232,7 @@ void http_server ()
     struct sockaddr_in clientaddr;
     socklen_t clientlen = sizeof(clientaddr);
     int connfd = accept (listenfd, (SA *)&clientaddr, &clientlen);
+    cout << connfd << endl; // Todo
     if (connfd > 0) {
 
       // Socket receive timeout, plain http.
@@ -252,7 +253,7 @@ void http_server ()
       request_thread.detach ();
       
     } else {
-      cerr << "Error accepting connection on socket" << endl;
+      cerr << "Error accepting connection on socket: " << strerror (errno) << endl;
     }
   }
   

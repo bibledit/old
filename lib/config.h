@@ -35,7 +35,7 @@
 #define HAVE_LIBPROC 1
 
 /* Define whether to compile for Linux */
-/* #undef HAVE_LINUX */
+#define HAVE_LINUX 1
 
 /* Define whether to compile for Mac */
 /* #undef HAVE_MAC */
@@ -77,7 +77,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
-#define HAVE_UNITTESTS 1
+/* #undef HAVE_UNITTESTS */
 
 /* Define whether to compile on Visual Studio */
 /* #undef HAVE_VISUALSTUDIO */
@@ -113,7 +113,7 @@
 #define STDC_HEADERS 1
 
 /* Define whether unit tests are enabled */
-#define UNITTESTS "yes"
+#define UNITTESTS "no"
 
 /* Version number of package */
 #define VERSION "1.0.562"
