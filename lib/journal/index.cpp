@@ -142,7 +142,7 @@ string journal_index (void * webserver_request)
   string expansion = request->query ["expansion"];
   if (!expansion.empty ()) {
     // Get file path.
-    expansion = filter_url_basename (expansion); // Todo fix on Windows.
+    expansion = filter_url_basename_web (expansion);
     string path = filter_url_create_path (Database_Logs::folder (), expansion);
     // Get contents of the record.
     expansion = filter_url_file_get_contents (path);
