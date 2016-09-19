@@ -56,17 +56,19 @@ string Paratext_Logic::searchProjectsFolder ()
     }
   }
   
+#ifdef HAVE_VISUALSTUDIO
   // Try Windows.
   homedir = "C:\\";
   vector <string> files = filter_url_scandir (homedir);
   for (auto file : files) {
     if (file.find ("Paratext") != string::npos) {
       string path = filter_url_create_path (homedir, file);
-      path = filter_string_str_replace ("\\/", "\\", path);
+      path = filter_string_str_replace ("\\\\", "\\", path);
       return path;
     }
   }
-  
+#endif
+
   // No Paratext projects folder found.
   return "";
 }
@@ -175,7 +177,7 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
     if (!paratext_book.empty ()) {
 
       string path = filter_url_create_path (projectFolder (bible), paratext_book);
-      Database_Logs::log (bookname + ": " "Storing to:" " " + path);
+      Database_Logs::log (bookname + ": " "Saving to:" " " + path);
       filter_url_file_put_contents (path, usfm);
       
       paratext_books [book].clear ();
