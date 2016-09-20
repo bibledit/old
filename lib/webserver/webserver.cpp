@@ -232,7 +232,6 @@ void http_server ()
     struct sockaddr_in clientaddr;
     socklen_t clientlen = sizeof(clientaddr);
     int connfd = accept (listenfd, (SA *)&clientaddr, &clientlen);
-    cout << connfd << endl; // Todo
     if (connfd > 0) {
 
       // Socket receive timeout, plain http.
