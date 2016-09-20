@@ -69,7 +69,7 @@ string notes_click (void * webserver_request)
   
   if (request->query.count ("new")) {
     string snew = request->query ["new"];
-    snew = filter_url_basename_web (snew); // Test on Windows, it might fail now.
+    snew = filter_url_basename_web (snew);
     int inew = convert_to_int (snew);
     Database_Modifications database_modifications;
     string bible = database_modifications.getNotificationBible (inew);

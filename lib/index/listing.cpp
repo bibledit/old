@@ -61,8 +61,9 @@ string index_listing (void * webserver_request, string url)
   Assets_View view;
   url = filter_url_urldecode (url);
   url = filter_url_create_path ("", url);
+  url = filter_string_str_replace ("\\", "/", url);
   view.set_variable ("url", url);
-  string parent = filter_url_dirname (url); // Todo is a "web" version needed?
+  string parent = filter_url_dirname_web (url);
   if (parent.length () > 1) {
     view.enable_zone ("parent");
     view.set_variable ("parent", parent);

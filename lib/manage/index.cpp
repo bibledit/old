@@ -83,7 +83,7 @@ string manage_index (void * webserver_request)
   // Delete a font.
   string deletefont = request->query ["deletefont"];
   if (!deletefont.empty ()) {
-    string font = filter_url_basename (deletefont); // Todo fix on Windows.
+    string font = filter_url_basename_web (deletefont);
     bool font_in_use = false;
     vector <string> bibles = request->database_bibles ()->getBibles ();
     for (auto & bible : bibles) {
