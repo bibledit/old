@@ -40,51 +40,11 @@
 using namespace std;
 
 
-string filter_url_http_request_mbed (string url, string& error)
+string filter_url_http_request_mbed ()
 {
-  bool secure = url.find ("https:") != string::npos;
-  
-  
-  // Remove the scheme: http(s).
-  size_t pos = url.find ("://");
-  if (pos != string::npos) {
-    url.erase (0, pos + 3);
-  }
-
-  
-  // Extract the host.
-  pos = url.find (":");
-  if (pos == string::npos) pos = url.find ("/");
-  if (pos == string::npos) pos = url.length () + 1;
-  string hostname = url.substr (0, pos);
-  url.erase (0, hostname.length ());
-
-  
-  // Default port numbers for plain or secure http.
-  string port = "80";
-  if (secure) port = "443";
-  // Extract the port number if any.
-  pos = url.find (":");
-  if (pos != string::npos) {
-    url.erase (0, 1);
-    size_t pos2 = url.find ("/");
-    if (pos2 == string::npos) pos2 = url.length () + 1;
-    string p = url.substr (0, pos2);
-    port = p;
-    url.erase (0, p.length ());
-  }
-  
-  
-  // Empty URL results in a slash.
-  if (url.empty ()) url = "/";
-  
-  
-  // The absolute path plus optional query remain after extracting the preceding stuff.
-  
-
+  bool secure = false;  
   bool connection_healthy = true;
-  
-  
+
   
   // Resolve the host.
   struct addrinfo hints;
@@ -102,14 +62,13 @@ string filter_url_http_request_mbed (string url, string& error)
     // The 'service' is actually the port number.
     string service = "8080";
     // Get a list of address structures. There can be several of them.
-    int res = getaddrinfo (hostname.c_str(), service.c_str (), &hints, &address_results);
+    int res = getaddrinfo ("localhost", "8080", &hints, &address_results);
     if (res != 0) {
-      error = hostname + ": ";
 #ifdef HAVE_VISUALSTUDIO
       wchar_t * err = gai_strerrorW (res);
-      error.append (wstring2string (err));
+      cout << wstring2string (err) << endl;
 #else
-      error.append (gai_strerror (res));
+      cout << gai_strerror (res) << endl;
 #endif
       connection_healthy = false;
     } else {
@@ -142,7 +101,9 @@ string filter_url_http_request_mbed (string url, string& error)
         }
         // If success: Done.
         if (res != -1) break;
-        // Failure: Socket should be closed: This is done in the code below.
+        // Failure: Socket should be closed.
+        if (sock) close (sock);
+        sock = 0;
       }
     }
     
@@ -197,12 +158,12 @@ string filter_url_http_request_mbed (string url, string& error)
   if (connection_healthy) {
     string request = "GET";
     request.append (" ");
-    request.append (url);
+    request.append ("/");
     request.append (" ");
     request.append ("HTTP/1.1");
     request.append ("\r\n");
     request.append ("Host: ");
-    request.append (hostname);
+    request.append ("localhost");
     request.append ("\r\n");
     // Close connection, else it's harder to locate the end of the response.
     request.append ("Connection: close");
@@ -214,8 +175,7 @@ string filter_url_http_request_mbed (string url, string& error)
 
       // Send plain http.
       if (send (sock, request.c_str(), request.length(), 0) != (int) request.length ()) {
-        error = "Sending request: ";
-        error.append (strerror (errno));
+        cout << strerror (errno) << endl;
         connection_healthy = false;
       }
       
@@ -232,7 +192,6 @@ string filter_url_http_request_mbed (string url, string& error)
     bool reading_body = false;
     char prev = 0;
     char cur;
-    FILE * file = NULL;
 
     do {
       int ret = 0;
@@ -246,10 +205,7 @@ string filter_url_http_request_mbed (string url, string& error)
       }
       if (ret > 0) {
         if (reading_body) {
-          if (file) {
-            fwrite (&cur, 1, 1, file);
-          }
-          else response += cur;
+          response += cur;
         } else {
           if (cur == '\r') continue;
           headers += cur;
@@ -257,16 +213,13 @@ string filter_url_http_request_mbed (string url, string& error)
           prev = cur;
         }
       } else if (!secure && (ret < 0)) {
-        error = "Receiving: ";
-        error.append (strerror (errno));
+        cout << strerror (errno) << endl;
         connection_healthy = false;
       } else {
         // Probably EOF.
         reading = false;
       }
     } while (reading && connection_healthy);
-
-    if (file) fclose (file);
   }
   
   
@@ -276,26 +229,19 @@ string filter_url_http_request_mbed (string url, string& error)
     // It used to close (0) in error,
     // and on Android and iOS, when this was done a couple of times, it would crash the app.
     if (sock > 0) {
-      cout << "socket " << sock << endl;
+      cout << "Closing socket " << sock << endl;
       close (sock);
     }
   }
 
   
-  // Done.
-  if (!connection_healthy) response.clear ();
   return response;
 }
-
-
-
-
 
 
 int main()
 {
   for (int i = 0; i < 10; ++i) {
-    string error;
-    filter_url_http_request_mbed ("http://localhost:8080", error);
+    filter_url_http_request_mbed ();
   }
 }
