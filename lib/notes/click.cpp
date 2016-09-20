@@ -59,7 +59,7 @@ string notes_click (void * webserver_request)
   
   if (request->query.count ("open")) {
     string open = request->query ["open"];
-    open = filter_url_basename (open); // Todo test on windows, it might fail.
+    open = filter_url_basename_web (open);
     int iopen = convert_to_int (open);
     if (database_notes.identifierExists (iopen)) {
       Ipc_Notes::open (request, iopen);
@@ -69,7 +69,7 @@ string notes_click (void * webserver_request)
   
   if (request->query.count ("new")) {
     string snew = request->query ["new"];
-    snew = filter_url_basename (snew); // Test on Windows, it might fail now.
+    snew = filter_url_basename_web (snew); // Test on Windows, it might fail now.
     int inew = convert_to_int (snew);
     Database_Modifications database_modifications;
     string bible = database_modifications.getNotificationBible (inew);
