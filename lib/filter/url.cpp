@@ -1228,7 +1228,9 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         }
         // If success: Done.
         if (res != -1) break;
-        // Failure: Socket should be closed: This is done in the code below.
+        // Failure: Socket should be closed.
+        if (sock) close (sock);
+        sock = 0;
       }
     }
     
