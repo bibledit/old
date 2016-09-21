@@ -153,12 +153,12 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
   
   Database_Logs::log ("Copying Bible from Bibledit to a Paratext project.");
 
-  string project_folder = projectFolder (bible);
+  string paratext_project_folder = projectFolder (bible);
 
   Database_Logs::log ("Bibledit Bible: " + bible);
-  Database_Logs::log ("Paratext project: " + project_folder);
+  Database_Logs::log ("Paratext project: " + paratext_project_folder);
 
-  map <int, string> paratext_books = searchBooks (project_folder);
+  map <int, string> paratext_books = searchBooks (paratext_project_folder);
   
   vector <int> bibledit_books = database_bibles.getBooks (bible);
   for (int book : bibledit_books) {
@@ -176,7 +176,7 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
     
     if (!paratext_book.empty ()) {
 
-      string path = filter_url_create_path (projectFolder (bible), paratext_book);
+      string path = filter_url_create_path (paratext_project_folder, paratext_book);
       Database_Logs::log (bookname + ": " "Saving to:" " " + path);
       filter_url_file_put_contents (path, usfm);
       
@@ -291,24 +291,21 @@ void Paratext_Logic::synchronize ()
   Database_Logs::log (synchronizeStartText (), Filter_Roles::translator ());
   
 
-  /*
-  When Bibledit writes changes to Paratext's USFM files, Paratext does not reload those changed USFM files. Thus Bibledit may overwrite changes made by others in the loaded chapter.
-  Best would be that Bibledit refuses to sync while Paratext is opened. Bibledit would then give a message in its interface that changes for Paratext are ready, and that they will go through after closing Paratext. It keeps checking on Paratext while it syncs, and stops syncing right away when Paratext opens again. The library could contain the Linux check on Paratext running, and have an interface API for the Windows check. When Paratext is on, it refuses to sync, and gives a message in the log about that. On startup, the Windows exe immediately check whether Paratext runs to be sure the library does not start sync while Paratext is on.
-  We might check what happens with Paratext Live, whether that gets updated immediately or not.
-  Else only update the USFM files when Paratext does not run: This is a fool-proof method of update.
-  */
-
-  bool paratext_running = false; // Todo enable this again and test on Linux and on Windows.
+  // When Bibledit writes changes to Paratext's USFM files, 
+  // Paratext does not reload those changed USFM files. 
+  // Thus Bibledit may overwrite changes made by others in the loaded chapter.
+  // Therefore only update the USFM files when Paratext does not run.
+  // This should be fool-proof.
+  bool paratext_running = false; // Todo test on Linux.
   vector <string> processes = filter_shell_active_processes ();
   for (auto p : processes) {
-    cout << p << endl; // Todo
-    if (p.find ("Paratext") != string::npos) paratext_running = true;
+    if (p.find ("Paratext") != string::npos) 
+      paratext_running = true;
   }
   if (paratext_running) {
     Database_Logs::log ("Cannot synchronize while Paratext is running", Filter_Roles::translator ());
     return;
   }
-  return; // Todo
   
   
   // Go through each Bible.
@@ -322,9 +319,6 @@ void Paratext_Logic::synchronize ()
       continue;
     }
 
-    
-    string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
-    
     
     vector <int> bibledit_books = database_bibles.getBooks (bible);
     map <int, string> paratext_books = searchBooks (project_folder);
@@ -358,6 +352,10 @@ void Paratext_Logic::synchronize ()
       {
         string path = filter_url_create_path (projectFolder (bible), paratext_book);
         string usfm = filter_url_file_get_contents (path);
+#ifdef HAVE_VISUALSTUDIO
+        // Remove the carriage return on Windows.
+        usfm = filter_string_str_replace ("\r", "", usfm);
+#endif
         vector <int> chapters = usfm_get_chapter_numbers (usfm);
         for (auto chapter : chapters) {
           string chapter_usfm = usfm_get_chapter_text (usfm, chapter);
@@ -368,7 +366,7 @@ void Paratext_Logic::synchronize ()
       
       // Assemble the available chapters in this book
       // by combining the available chapters in the Bible in Bibledit
-      // with the available chapters in the Paratext project.
+      // with the available chapters in the relevant Paratext project.
       vector <int> chapters = database_bibles.getChapters (bible, book);
       for (auto element : paratext_usfm) {
         chapters.push_back (element.first);

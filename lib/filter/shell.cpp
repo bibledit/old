@@ -24,6 +24,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifndef HAVE_CLIENT
 #include <sys/wait.h>
 #endif
+#ifdef HAVE_VISUALSTUDIO
+#include <tlhelp32.h>
+#endif
 
 
 string filter_shell_escape_argument (string argument)
@@ -148,26 +151,36 @@ bool filter_shell_is_present (string program)
 
 
 // Lists the running processes.
-vector <string> filter_shell_active_processes () // Todo
+vector <string> filter_shell_active_processes ()
 {
   vector <string> processes;
-  
-  string output, error;
-  int result;
-  
+
 #ifdef HAVE_VISUALSTUDIO
-  result = filter_shell_run ("tasklist.exe", NULL, output);
+
+  HANDLE hProcessSnap = CreateToolhelp32Snapshot (TH32CS_SNAPPROCESS, 0);
+  if (hProcessSnap != INVALID_HANDLE_VALUE) {
+    PROCESSENTRY32 pe32;
+    pe32.dwSize = sizeof (PROCESSENTRY32);
+    if (Process32First (hProcessSnap, &pe32)) {
+      processes.push_back (wstring2string (pe32.szExeFile));
+      while (Process32Next (hProcessSnap, &pe32)) {
+        processes.push_back (wstring2string (pe32.szExeFile));
+      }
+      CloseHandle (hProcessSnap);
+    }
+  }
+
 #else
-  result = filter_shell_run ("", "ps", {"ax"}, &output, &error);
-#endif
-  
-  if (result) {}
-  
+
+  string output, error;
+  filter_shell_run ("", "ps", { "ax" }, &output, &error);
   if (!error.empty ()) {
     output.append ("\n");
     output.append (error);
   }
   processes = filter_string_explode (output, '\n');
+
+#endif
   
   return processes;
 }
