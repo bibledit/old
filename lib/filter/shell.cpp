@@ -145,3 +145,29 @@ bool filter_shell_is_present (string program)
   int exitcode = system (command.c_str ());
   return (exitcode == 0);
 }
+
+
+// Lists the running processes.
+vector <string> filter_shell_active_processes () // Todo
+{
+  vector <string> processes;
+  
+  string output, error;
+  int result;
+  
+#ifdef HAVE_VISUALSTUDIO
+  result = filter_shell_run ("tasklist.exe", NULL, output);
+#else
+  result = filter_shell_run ("", "ps", {"ax"}, &output, &error);
+#endif
+  
+  if (result) {}
+  
+  if (!error.empty ()) {
+    output.append ("\n");
+    output.append (error);
+  }
+  processes = filter_string_explode (output, '\n');
+  
+  return processes;
+}
