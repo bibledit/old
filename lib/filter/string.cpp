@@ -1368,3 +1368,19 @@ string wstring2string(const wstring& wstr)
   return converterX.to_bytes(wstr);
 }
 #endif
+
+
+// Converts any line feed character in $str to carriage return + line feed characters,
+// basically adding the appropriate carriage return characters.
+string lf2crlf (string str)
+{
+  return filter_string_str_replace ("\n", "\r\n", str);
+}
+
+
+// Converts any carriage return + line feed characters to a line feed character,
+// essentially removing any carriage return characters.
+string crlf2lf (string str)
+{
+  return filter_string_str_replace ("\r\n", "\n", str);
+}

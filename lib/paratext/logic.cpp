@@ -170,15 +170,17 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
     string usfm;
     vector <int> chapters = database_bibles.getChapters (bible, book);
     for (int chapter : chapters) {
-      if (!usfm.empty ()) usfm.append ("\n");
       usfm.append (database_bibles.getChapter (bible, book, chapter));
+      // Add a new line after each chapter.
+      usfm.append ("\n");
     }
     
     if (!paratext_book.empty ()) {
 
       string path = filter_url_create_path (paratext_project_folder, paratext_book);
       Database_Logs::log (bookname + ": " "Saving to:" " " + path);
-      filter_url_file_put_contents (path, usfm);
+      // Paratext on Windows and on Linux store the line ending with carriage return and line feed.
+      filter_url_file_put_contents (path, lf2crlf (usfm));
       
       paratext_books [book].clear ();
     
@@ -229,7 +231,8 @@ void Paratext_Logic::copyParatext2Bibledit (string bible)
     tasks_logic_queue (IMPORTBIBLE, { path, bible });
 
     // Ancestor data needed for future merge.
-    string usfm = filter_url_file_get_contents (path);
+    // The Paratext files have cr+lf at the end, and the ancestor data should only have lf at the end of each line.
+    string usfm = crlf2lf (filter_url_file_get_contents (path));
     ancestor (bible, book, usfm);
   }
 }
@@ -278,7 +281,7 @@ vector <string> Paratext_Logic::enabledBibles ()
 }
 
 
-void Paratext_Logic::synchronize ()
+void Paratext_Logic::synchronize () // Todo add \r for Paratext side.
 {
   // The Bibles for which Paratext synchronization has been enabled.
   vector <string> bibles = enabledBibles ();
@@ -296,10 +299,10 @@ void Paratext_Logic::synchronize ()
   // Thus Bibledit may overwrite changes made by others in the loaded chapter.
   // Therefore only update the USFM files when Paratext does not run.
   // This should be fool-proof.
-  bool paratext_running = false; // Todo test on Linux.
+  bool paratext_running = false;
   vector <string> processes = filter_shell_active_processes ();
   for (auto p : processes) {
-    if (p.find ("Paratext") != string::npos) 
+    if (p.find ("Paratext") != string::npos)
       paratext_running = true;
   }
   if (paratext_running) {
@@ -348,14 +351,11 @@ void Paratext_Logic::synchronize ()
 
 
       // Paratext USFM per chapter.
+      // Remove the carriage return that Paratext stores on both Windows and Linux.
       map <int, string> paratext_usfm;
       {
         string path = filter_url_create_path (projectFolder (bible), paratext_book);
-        string usfm = filter_url_file_get_contents (path);
-#ifdef HAVE_VISUALSTUDIO
-        // Remove the carriage return on Windows.
-        usfm = filter_string_str_replace ("\r", "", usfm);
-#endif
+        string usfm = crlf2lf (filter_url_file_get_contents (path));
         vector <int> chapters = usfm_get_chapter_numbers (usfm);
         for (auto chapter : chapters) {
           string chapter_usfm = usfm_get_chapter_text (usfm, chapter);
@@ -457,7 +457,7 @@ void Paratext_Logic::synchronize ()
           }
         }
         string path = filter_url_create_path (projectFolder (bible), paratext_book);
-        filter_url_file_put_contents (path, usfm);
+        filter_url_file_put_contents (path, lf2crlf (usfm));
       }
       
 

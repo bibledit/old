@@ -172,12 +172,8 @@ vector <string> filter_shell_active_processes ()
 
 #else
 
-  string output, error;
-  filter_shell_run ("", "ps", { "ax" }, &output, &error);
-  if (!error.empty ()) {
-    output.append ("\n");
-    output.append (error);
-  }
+  string output;
+  filter_shell_run ("ps ax", output);
   processes = filter_string_explode (output, '\n');
 
 #endif

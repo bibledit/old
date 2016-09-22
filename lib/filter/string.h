@@ -107,9 +107,11 @@ string emoji_heavy_plus_sign ();
 void array_move_up_down (vector <string> & container, size_t item, bool up);
 const char * english ();
 #ifdef HAVE_VISUALSTUDIO
-wstring string2wstring(const string& str);
-string wstring2string(const wstring& wstr);
+wstring string2wstring (const string& str);
+string wstring2string (const wstring& wstr);
 #endif
+string lf2crlf (string str);
+string crlf2lf (string str);
 
 
 #endif

@@ -89,6 +89,7 @@ public:
   static const int notes_put_mark_delete = 25;
   static const int notes_put_unmark_delete = 26;
   static const int notes_put_delete = 27;
+  static const int notes_get_notes = 28;
   
   static const int usfmresources_get_total_checksum = 1;
   static const int usfmresources_get_resources = 2;

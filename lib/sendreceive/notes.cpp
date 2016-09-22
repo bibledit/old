@@ -474,7 +474,8 @@ bool sendreceive_notes_download (int lowId, int highId)
   
 
   // Check whether the local notes on the client match the ones on the server.
-  // If needed download the note from the server.
+  // If needed, download the note from the server.
+  vector <int> identifiers_bulk_download;
   for (size_t i = 0; i < server_identifiers.size (); i++) {
 
     if (i >= server_checksums.size ()) continue;
@@ -494,10 +495,23 @@ bool sendreceive_notes_download (int lowId, int highId)
       database_notes.setIdentifier (id, identifier);
     }
 
+    // Store the identifier to be downloaded as part of a bulk download.
+    identifiers_bulk_download.push_back (identifier);
+    
     // Fetch the note from the server.
     map <string, string> post;
     post ["i"] = convert_to_string (identifier);
 
+    /*
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_notes); // Todo
+    sendreceive_notes_kick_watchdog ();
+    response = sync_logic.post (post, url, error);
+    if (!error.empty ()) {
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting note: " + error, Filter_Roles::consultant ());
+      return false;
+    }
+     */
+    
     post ["a"] = convert_to_string (Sync_Logic::notes_get_summary);
     sendreceive_notes_kick_watchdog ();
     response = sync_logic.post (post, url, error);
