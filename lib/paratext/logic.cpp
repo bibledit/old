@@ -355,7 +355,7 @@ void Paratext_Logic::synchronize ()
       {
         string path = filter_url_create_path (projectFolder (bible), paratext_book);
         string usfm = crlf2lf (filter_url_file_get_contents (path));
-        // Paratext has been seen adding empty lines right after \c (chapter).
+        // Paratext on Linux has been seen adding empty lines right after \c (chapter).
         // It does that after syncing with Bibledit and editing the chapter in Paratext.
         // This looks like a bug in Paratext. Remove those empty lines.
         usfm = filter_string_str_replace ("\n\n", "\n", usfm);
