@@ -1,4 +1,6 @@
-This folder contains Bibledit for Windows.
+## Bibledit for Windows
+
+### The current code for Bibledit for Windows is at https://github.com/bibledit/bibledit-windows.
 
 build.sh: Script to update and build the Bibledit core library from within a Cygwin shell.
 
