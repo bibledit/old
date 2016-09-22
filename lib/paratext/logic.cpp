@@ -281,7 +281,7 @@ vector <string> Paratext_Logic::enabledBibles ()
 }
 
 
-void Paratext_Logic::synchronize () // Todo add \r for Paratext side.
+void Paratext_Logic::synchronize ()
 {
   // The Bibles for which Paratext synchronization has been enabled.
   vector <string> bibles = enabledBibles ();
@@ -296,9 +296,8 @@ void Paratext_Logic::synchronize () // Todo add \r for Paratext side.
 
   // When Bibledit writes changes to Paratext's USFM files, 
   // Paratext does not reload those changed USFM files. 
-  // Thus Bibledit may overwrite changes made by others in the loaded chapter.
+  // Thus Bibledit may overwrite changes made by others in the loaded chapter in Paratext.
   // Therefore only update the USFM files when Paratext does not run.
-  // This should be fool-proof.
   bool paratext_running = false;
   vector <string> processes = filter_shell_active_processes ();
   for (auto p : processes) {
@@ -356,6 +355,10 @@ void Paratext_Logic::synchronize () // Todo add \r for Paratext side.
       {
         string path = filter_url_create_path (projectFolder (bible), paratext_book);
         string usfm = crlf2lf (filter_url_file_get_contents (path));
+        // Paratext has been seen adding empty lines right after \c (chapter).
+        // It does that after syncing with Bibledit and editing the chapter in Paratext.
+        // This looks like a bug in Paratext. Remove those empty lines.
+        usfm = filter_string_str_replace ("\n\n", "\n", usfm);
         vector <int> chapters = usfm_get_chapter_numbers (usfm);
         for (auto chapter : chapters) {
           string chapter_usfm = usfm_get_chapter_text (usfm, chapter);
