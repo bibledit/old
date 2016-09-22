@@ -2,6 +2,8 @@
 
 ### The current code for Bibledit for Windows is at https://github.com/bibledit/bibledit-windows.
 
+Description of the old folder and code:
+
 build.sh: Script to update and build the Bibledit core library from within a Cygwin shell.
 
 build.bat: Script to run build.sh from within Windows.
