@@ -12,7 +12,7 @@ cd `dirname $0`
 
 # Synchronize the Bibledit core library to the Linux folder.
 cd ..
-rsync -av --exclude xcode ../lib/ .
+rsync --archive --exclude xcode ../lib/ .
 ./configure
 make distclean
 
