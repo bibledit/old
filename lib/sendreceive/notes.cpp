@@ -489,15 +489,17 @@ bool sendreceive_notes_download (int lowId, int highId)
     string client_checksum = database_notes.getChecksum (identifier);
     if (client_checksum == server_checksum) continue;
     
+    // Store the identifier to be downloaded as part of a bulk download.
+    identifiers_bulk_download.push_back (convert_to_string (identifier));
+
+    /* Todo check that the code removed is entirely replaced, including indexing.
+     
     // If the note does not yet exist locally, create a dummy note and set the correct identifier.
     if (!database_notes.identifierExists (identifier)) {
       int id = database_notes.storeNewNote ("", 0, 0, 0, "dummy", "dummy", true);
       database_notes.setIdentifier (id, identifier);
     }
 
-    // Store the identifier to be downloaded as part of a bulk download.
-    identifiers_bulk_download.push_back (convert_to_string (identifier));
-    
     // Fetch the note from the server.
     map <string, string> post;
     post ["i"] = convert_to_string (identifier);
@@ -607,25 +609,37 @@ bool sendreceive_notes_download (int lowId, int highId)
     Database_Logs::log (sendreceive_notes_text () + "Received from server: " + summary, Filter_Roles::manager ());
 
     database_notes.getChecksum (identifier);
+     */
   }
   
   // Download the notes in bulk from the Cloud, in a database, for faster download.
   if (!identifiers_bulk_download.empty ()) {
     sendreceive_notes_kick_watchdog ();
+    // First step is to request the filename from the Cloud.
+    // This request causes the Cloud to produce a database with the requested notes.
     post.clear ();
-    post ["a"] = convert_to_string (Sync_Logic::notes_get_notes); // Todo
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_notes);
     string bulk_identifiers = filter_string_implode (identifiers_bulk_download, "\n");
     post ["b"] = bulk_identifiers;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting notes in bulk: " + error, Filter_Roles::consultant ());
-      // Todo return false;
+      cout << error << endl; // Todo
+      return false;
     }
-    cout << error << endl; // Todo
+    // Download the file with the notes from the Cloud.
     cout << response << endl; // Todo
+    string filename = filter_url_tempfile ();
+    cout << filename << endl; // Todo
+    
+    string url = client_logic_url (address, port, response);
+    filter_url_download_file (url, filename, error, false);
+    if (!error.empty ()) {
+      Database_Logs::log (sendreceive_notes_text () + "Failure downloading notes in bulk: " + error, Filter_Roles::consultant ());
+      cout << error << endl; // Todo
+      return false;
+    }
   }
-  
-  // Todo obtain the filename, and then download the file from the cloud.
   
   return true;
 }
