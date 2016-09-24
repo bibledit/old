@@ -332,9 +332,14 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_notes:
     {
-      string bulk = request->post ["b"];
-      cout << bulk << endl; // Todo
-      return "";
+      vector <string> notes = filter_string_explode (request->post ["b"], '\n');
+      vector <int> identifiers;
+      for (auto note : notes) identifiers.push_back (convert_to_int (note));
+      string filename = database_notes.getBulk (identifiers);
+      string base1 = filter_url_basename (filter_url_dirname (filename));
+      string base2 = filter_url_basename (filename);
+      filename = filter_url_create_path (base1, base2);
+      return filename;
     }
   }
   
