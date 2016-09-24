@@ -53,6 +53,7 @@ void filter_url_recursive_scandir (string folder, vector <string> & paths);
 int filter_url_file_modification_time (string filename);
 string filter_url_urldecode (string url);
 string filter_url_urlencode (string url);
+const char * filter_url_temp_dir ();
 string filter_url_tempfile (const char * directory = NULL);
 string filter_url_escape_shell_argument (string argument);
 string filter_url_unique_path (string path);

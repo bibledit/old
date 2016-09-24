@@ -2389,7 +2389,7 @@ void test_filter_url ()
     path = filter_url_create_root_path ("setup", "index.html");
     evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
     
-    string directory = filter_url_create_root_path ("tmp");
+    string directory = filter_url_create_root_path (filter_url_temp_dir ());
     string file1 = filter_url_create_path (directory, "1");
     string file2 = filter_url_create_path (directory, "2");
     filter_url_file_put_contents (file1, "x");

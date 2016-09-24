@@ -579,6 +579,13 @@ string filter_url_urlencode (string url)
 }
 
 
+// Returns the name of the temp directory.
+const char * filter_url_temp_dir ()
+{
+  return "tmp";
+}
+
+
 // Returns the name of a temporary file.
 string filter_url_tempfile (const char * directory)
 {
@@ -586,7 +593,7 @@ string filter_url_tempfile (const char * directory)
   if (directory) {
     filename = filter_url_create_path (directory, filename);
   } else {
-    filename = filter_url_create_root_path ("tmp", filename);
+    filename = filter_url_create_root_path (filter_url_temp_dir (), filename);
   }
   return filename;
 }

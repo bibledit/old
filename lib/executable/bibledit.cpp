@@ -56,7 +56,7 @@ void sigint_handler (int s)
 
 string backtrace_path ()
 {
-  string path = filter_url_create_root_path ("tmp", "backtrace.txt");
+  string path = filter_url_create_root_path (filter_url_temp_dir (), "backtrace.txt");
   return path;
 }
 
