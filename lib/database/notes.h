@@ -38,7 +38,6 @@ class Database_Notes
 {
 public:
   Database_Notes (void * webserver_request_in);
-  ~Database_Notes ();
   void create ();
   string database_path ();
   string checksums_database_path ();
@@ -126,6 +125,8 @@ public:
   vector <int> getNotesInRangeForBibles (int lowId, int highId, const vector <string> & bibles, bool anybible);
   void set_availability (bool available);
   bool available ();
+  string getBulk (vector <int> identifiers);
+  void setBulk (string filename);
 private:
   void * webserver_request;
   sqlite3 * connect ();

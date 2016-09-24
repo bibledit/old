@@ -475,7 +475,7 @@ bool sendreceive_notes_download (int lowId, int highId)
 
   // Check whether the local notes on the client match the ones on the server.
   // If needed, download the note from the server.
-  vector <int> identifiers_bulk_download;
+  vector <string> identifiers_bulk_download;
   for (size_t i = 0; i < server_identifiers.size (); i++) {
 
     if (i >= server_checksums.size ()) continue;
@@ -496,22 +496,12 @@ bool sendreceive_notes_download (int lowId, int highId)
     }
 
     // Store the identifier to be downloaded as part of a bulk download.
-    identifiers_bulk_download.push_back (identifier);
+    identifiers_bulk_download.push_back (convert_to_string (identifier));
     
     // Fetch the note from the server.
     map <string, string> post;
     post ["i"] = convert_to_string (identifier);
 
-    /*
-    post ["a"] = convert_to_string (Sync_Logic::notes_get_notes); // Todo
-    sendreceive_notes_kick_watchdog ();
-    response = sync_logic.post (post, url, error);
-    if (!error.empty ()) {
-      Database_Logs::log (sendreceive_notes_text () + "Failure requesting note: " + error, Filter_Roles::consultant ());
-      return false;
-    }
-     */
-    
     post ["a"] = convert_to_string (Sync_Logic::notes_get_summary);
     sendreceive_notes_kick_watchdog ();
     response = sync_logic.post (post, url, error);
@@ -579,7 +569,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     // the contents should be passed in its raw form, without processing it.
     // If it were processed, then there will be a situation that the client keeps downloading
     // notes from the server, and never stops doing so, because the passage file contents
-    // will always remain different. Raw passages transfer fix this.
+    // will always remain different. Raw passages transfer fixes this.
     database_notes.setRawPassage (identifier, response);
     
     post ["a"] = convert_to_string (Sync_Logic::notes_get_severity);
@@ -610,7 +600,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     }
     database_notes.setModified (identifier, convert_to_int (response));
     
-    // Update search and checksum.
+    // Update search and checksum. Todo move this down.
     database_notes.updateSearchFields (identifier);
     database_notes.updateChecksum (identifier);
 
@@ -618,6 +608,24 @@ bool sendreceive_notes_download (int lowId, int highId)
 
     database_notes.getChecksum (identifier);
   }
+  
+  // Download the notes in bulk from the Cloud, in a database, for faster download.
+  if (!identifiers_bulk_download.empty ()) {
+    sendreceive_notes_kick_watchdog ();
+    post.clear ();
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_notes); // Todo
+    string bulk_identifiers = filter_string_implode (identifiers_bulk_download, "\n");
+    post ["b"] = bulk_identifiers;
+    response = sync_logic.post (post, url, error);
+    if (!error.empty ()) {
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting notes in bulk: " + error, Filter_Roles::consultant ());
+      // Todo return false;
+    }
+    cout << error << endl; // Todo
+    cout << response << endl; // Todo
+  }
+  
+  // Todo obtain the filename, and then download the file from the cloud.
   
   return true;
 }

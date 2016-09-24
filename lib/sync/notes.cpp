@@ -80,7 +80,7 @@ string sync_notes (void * webserver_request)
 
   
   // Check on the credentials when the clients sends data to the server to be stored there.
-  if (action >= Sync_Logic::notes_put_create_initiate) {
+  if ((action >= Sync_Logic::notes_put_create_initiate) && (action != Sync_Logic::notes_get_notes)) {
     if (!sync_logic.credentials_okay ()) return "";
   }
 
@@ -328,6 +328,12 @@ string sync_notes (void * webserver_request)
       // Delete note on server.
       notes_logic.erase (identifier);
       // Done.
+      return "";
+    }
+    case Sync_Logic::notes_get_notes:
+    {
+      string bulk = request->post ["b"];
+      cout << bulk << endl; // Todo
       return "";
     }
   }

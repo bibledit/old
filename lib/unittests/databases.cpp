@@ -2542,6 +2542,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2560,6 +2561,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2585,6 +2587,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2630,6 +2633,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2669,6 +2673,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2720,6 +2725,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2741,6 +2747,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2769,6 +2776,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2801,6 +2809,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2839,6 +2848,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2864,6 +2874,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2889,6 +2900,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2929,6 +2941,7 @@ void test_database_notes ()
     // and whether it is not yet due for deletion before that.
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2961,6 +2974,7 @@ void test_database_notes ()
     // will not be due for deletion.
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -2988,6 +3002,7 @@ void test_database_notes ()
     // are properly touched so they keep their own number of days.
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -3024,6 +3039,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -3050,6 +3066,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -3136,6 +3153,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -3159,6 +3177,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -3247,6 +3266,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -3283,6 +3303,7 @@ void test_database_notes ()
   // ResilienceNotes.
   {
     refresh_sandbox (true);
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -3306,6 +3327,7 @@ void test_database_notes ()
   // ResilienceChecksumsNotes.
   {
     refresh_sandbox (true);
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -3329,6 +3351,7 @@ void test_database_notes ()
   // Availability.
   {
     refresh_sandbox (true);
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -3344,6 +3367,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;
@@ -3372,6 +3396,109 @@ void test_database_notes ()
     database_notes.setPublic (identifier1, false);
     evaluate (__LINE__, __func__, false, database_notes.getPublic (identifier1));
     evaluate (__LINE__, __func__, true, database_notes.getPublic (identifier2));
+  }
+  // Bulk notes transfer.
+  {
+    refresh_sandbox (true);
+    Database_State::create ();
+    Database_Login::create ();
+    Database_Users database_users;
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes (&request);
+    database_notes.create ();
+    
+    // Keep the stored values for the notes.
+    vector <string> v_assigned;
+    vector <string> v_bible;
+    vector <string> v_contents;
+    vector <int> v_identifier;
+    vector <int> v_modified;
+    vector <string> v_passage;
+    vector <int> v_severity;
+    vector <string> v_status;
+    vector <string> v_subscriptions;
+    vector <string> v_summary;
+    
+    // Create several notes.
+    for (int i = 0; i < 5; i++) {
+      // Basic fields for the note.
+      string offset = convert_to_string (i);
+      string bible = "bible" + offset;
+      int book = i;
+      int chapter = i + 1;
+      int verse = i + 2;
+      string summary = "summary" + offset;
+      string contents = "contents" + offset;
+      int identifier = database_notes.storeNewNote (bible, book, chapter, verse, summary, contents, false);
+      database_notes.setContents (identifier, contents);
+      // Additional fields for the note.
+      string assigned = "assigned" + offset;
+      filter_url_file_put_contents (database_notes.assignedFile (identifier), assigned);
+      int modified = 2 * i;
+      filter_url_file_put_contents (database_notes.modifiedFile (identifier), convert_to_string (modified));
+      string passage = "passage" + offset;
+      filter_url_file_put_contents (database_notes.passageFile (identifier), passage);
+      int severity = 4 * i;
+      filter_url_file_put_contents (database_notes.severityFile (identifier), convert_to_string (severity));
+      string status = "status" + offset;
+      filter_url_file_put_contents (database_notes.statusFile (identifier), status);
+      string subscriptions = "subscriptions" + offset;
+      filter_url_file_put_contents (database_notes.subscriptionsFile (identifier), subscriptions);
+      // Store all fields round-trip check.
+      v_assigned.push_back (assigned);
+      v_bible.push_back (bible);
+      v_contents.push_back (contents);
+      v_identifier.push_back (identifier);
+      v_modified.push_back (modified);
+      v_passage.push_back (passage);
+      v_severity.push_back (severity);
+      v_status.push_back (status);
+      v_subscriptions.push_back (subscriptions);
+      v_summary.push_back (summary);
+    }
+    
+    // Get the notes in bulk in a database.
+    string filename = database_notes.getBulk (v_identifier);
+    
+    // Delete all notes again.
+    for (int i = 0; i < 5; i++) {
+      int identifier = v_identifier [i];
+      database_notes.erase (identifier);
+      evaluate (__LINE__, __func__, "", database_notes.getSummary (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.getContents (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.getBible (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.getRawPassage (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.getRawStatus (identifier));
+      evaluate (__LINE__, __func__, 2, database_notes.getRawSeverity (identifier));
+      evaluate (__LINE__, __func__, 0, database_notes.getModified (identifier));
+    }
+    
+    // Copy the notes from the database back to the filesystem.
+    database_notes.setBulk (filename);
+    
+    // Check the notes are back.
+    for (int i = 0; i < 5; i++) {
+      int identifier = v_identifier [i];
+      string assigned = filter_url_file_get_contents (database_notes.assignedFile (identifier));
+      evaluate (__LINE__, __func__, v_assigned [i], assigned);
+      string bible = database_notes.getBible (identifier);
+      evaluate (__LINE__, __func__, v_bible [i], bible);
+      string contents = database_notes.getContents (identifier);
+      evaluate (__LINE__, __func__, v_contents [i], contents);
+      int modified = database_notes.getModified (identifier);
+      evaluate (__LINE__, __func__, v_modified [i], modified);
+      string passage = database_notes.getRawPassage (identifier);
+      evaluate (__LINE__, __func__, v_passage [i], passage);
+      int severity = database_notes.getRawSeverity (identifier);
+      evaluate (__LINE__, __func__, v_severity [i], severity);
+      string status = database_notes.getRawStatus (identifier);
+      evaluate (__LINE__, __func__, v_status [i], status);
+      string subscriptions = filter_url_file_get_contents (database_notes.subscriptionsFile (identifier));
+      evaluate (__LINE__, __func__, v_subscriptions [i], subscriptions);
+      string summary = database_notes.getSummary (identifier);
+      evaluate (__LINE__, __func__, v_summary [i], summary);
+    }
   }
 }
 
@@ -4483,6 +4610,13 @@ void test_database_userresources ()
 
   fragment = Database_UserResources::book (name, book + 1);
   evaluate (__LINE__, __func__, "", fragment);
+}
+
+
+void test_database_develop ()
+{
+  trace_unit_tests (__func__);
+
 }
 
 

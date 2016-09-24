@@ -58,7 +58,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  test_filter_url (); refresh_sandbox (true); exit (0);
+  test_database_notes (); refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -158,6 +158,7 @@ int main (int argc, char **argv)
   test_database_userresources ();
   test_related ();
   test_editone_logic ();
+  test_database_develop ();
 
   
   // Output possible journal entries.

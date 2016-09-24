@@ -44,25 +44,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 /*
-
- Storing notes, now being done as separate files, each file taking up a default space, 
- will become more efficien, that is, take up less space,
+ Storing notes, now being done as separate files, each file taking up a default space,
+ will become more efficient, that is, take up less space,
  when each note is stored as a separate SQLite database.
  On a Linux server, one notes takes up 32kbytes, and a lot of that space is wasted.
  If one notes was stored in one file, it would take up 4kbytes.
  That is a difference of 8 times.
  This would be a possible improvement.
-
 */
+
 
 Database_Notes::Database_Notes (void * webserver_request_in)
 {
   webserver_request = webserver_request_in;
-}
-
-
-Database_Notes::~Database_Notes ()
-{
 }
 
 
@@ -1868,3 +1862,103 @@ string Database_Notes::notesOrderByRelevanceStatement ()
   return "";
 }
 
+
+string Database_Notes::getBulk (vector <int> identifiers)
+{
+  string filename = filter_url_tempfile () + ".sqlite";
+  {
+    SqliteDatabase db (filename);
+    db.add ("CREATE TABLE notes ("
+            "assigned text, "
+            "bible text, "
+            "contents text, "
+            "identifier integer, "
+            "modified integer, "
+            "passage text, "
+            "severity integer, "
+            "status text, "
+            "subscriptions text, "
+            "summary text);");
+    db.execute ();
+    for (auto identifier : identifiers) {
+      db.clear ();
+      db.add ("INSERT INTO notes VALUES (");
+      string assigned = filter_url_file_get_contents (assignedFile (identifier));
+      db.add (assigned);
+      db.add (",");
+      string bible = getBible (identifier);
+      db.add (bible);
+      db.add (",");
+      string contents = getContents (identifier);
+      db.add (contents);
+      db.add (",");
+      db.add (identifier);
+      db.add (",");
+      int modified = getModified (identifier);
+      db.add (modified);
+      db.add (",");
+      string passage = getRawPassage (identifier);
+      db.add (passage);
+      db.add (",");
+      int severity = getRawSeverity (identifier);
+      db.add (severity);
+      db.add (",");
+      string status = getRawStatus (identifier);
+      db.add (status);
+      db.add (",");
+      string subscriptions = filter_url_file_get_contents (subscriptionsFile (identifier));
+      db.add (subscriptions);
+      db.add (",");
+      string summary = getSummary (identifier);
+      db.add (summary);
+      db.add (");");
+      db.execute ();
+    }
+  }
+  return filename;
+}
+
+
+void Database_Notes::setBulk (string filename)
+{
+  // Open the database.
+  SqliteDatabase db (filename);
+  
+  // Select everything in it.
+  db.add ("SELECT * from notes;");
+  map <string, vector <string> > results = db.query ();
+  
+  // Sort all the different bits out.
+  vector <string> assigned = results ["assigned"];
+  vector <string> bible = results ["bible"];
+  vector <string> contents = results ["contents"];
+  vector <string> identifier = results ["identifier"];
+  vector <string> modified = results ["modified"];
+  vector <string> passage = results ["passage"];
+  vector <string> severity = results ["severity"];
+  vector <string> status = results ["status"];
+  vector <string> subscriptions = results ["subscriptions"];
+  vector <string> summary = results ["summary"];
+
+  // Go through the identifiers the database contains.
+  for (size_t i = 0; i < identifier.size (); i++) {
+    
+    // Store the note in the filesystem.
+    int id = convert_to_int (identifier[i]);
+    filter_url_mkdir (noteFolder (id));
+    filter_url_file_put_contents (assignedFile (id), assigned [i]);
+    filter_url_file_put_contents (bibleFile (id), bible [i]);
+    filter_url_file_put_contents (contentsFile (id), contents [i]);
+    filter_url_file_put_contents (modifiedFile (id), modified [i]);
+    filter_url_file_put_contents (passageFile (id), passage [i]);
+    filter_url_file_put_contents (severityFile (id), severity [i]);
+    filter_url_file_put_contents (statusFile (id), status [i]);
+    filter_url_file_put_contents (subscriptionsFile (id), subscriptions [i]);
+    filter_url_file_put_contents (summaryFile (id), summary [i]);
+    
+    // Update the indexes.
+    updateDatabase (id);
+    updateSearchFields (id);
+    updateChecksum (id);
+  }
+}
