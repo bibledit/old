@@ -250,7 +250,7 @@ void bootstrap_index (void * webserver_request)
   }
 
   // Serve resource downloads.
-  if ((request->get.find (Database_Cache::fragment ()) != string::npos) && (extension == "sqlite")) {
+  if ((extension == "sqlite") && (request->get.find (Database_Cache::fragment ()) != string::npos)) {
     http_serve_cache_file (request);
     return;
   }
@@ -937,6 +937,12 @@ void bootstrap_index (void * webserver_request)
   if (url == sync_notes_url ()) {
     request->reply = sync_notes (request);
     return;
+  }
+  if (extension == "sqlite") {
+    if (filter_url_dirname (url) == filter_url_temp_dir ()) {
+      http_serve_cache_file (request);
+      return;
+    }
   }
   if (url == sync_usfmresources_url ()) {
     request->reply = sync_usfmresources (request);

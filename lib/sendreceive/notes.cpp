@@ -615,6 +615,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   // Download the notes in bulk from the Cloud, in a database, for faster download.
   if (!identifiers_bulk_download.empty ()) {
     sendreceive_notes_kick_watchdog ();
+    Database_Logs::log (sendreceive_notes_text () + "Receiving notes in bulk: " + convert_to_string (identifiers_bulk_download.size ()), Filter_Roles::manager ());
     // First step is to request the filename from the Cloud.
     // This request causes the Cloud to produce a database with the requested notes.
     post.clear ();
@@ -624,21 +625,21 @@ bool sendreceive_notes_download (int lowId, int highId)
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting notes in bulk: " + error, Filter_Roles::consultant ());
-      cout << error << endl; // Todo
       return false;
     }
+    sendreceive_notes_kick_watchdog ();
     // Download the file with the notes from the Cloud.
-    cout << response << endl; // Todo
-    string filename = filter_url_tempfile ();
-    cout << filename << endl; // Todo
-    
+    string filename = filter_url_tempfile () + ".sqlite";
     string url = client_logic_url (address, port, response);
     filter_url_download_file (url, filename, error, false);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure downloading notes in bulk: " + error, Filter_Roles::consultant ());
-      cout << error << endl; // Todo
       return false;
     }
+    // Store the notes in the file system.
+    database_notes.setBulk (filename);
+    // Remove the downloaded temporal file.
+    filter_url_unlink (filename);
   }
   
   return true;
