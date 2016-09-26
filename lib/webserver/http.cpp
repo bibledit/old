@@ -281,7 +281,8 @@ void http_assemble_response (Webserver_Request * request)
 void http_serve_cache_file (Webserver_Request * request)
 {
   // Full path to the file.
-  string filename = filter_url_create_root_path (filter_url_urldecode (request->get));
+  string url = filter_url_urldecode (request->get);
+  string filename = filter_url_create_root_path (url);
   
   // File size for browser caching.
   int size = filter_url_filesize (filename);
@@ -296,4 +297,10 @@ void http_serve_cache_file (Webserver_Request * request)
   
   // Get file's contents.
   request->reply = filter_url_file_get_contents (filename);
+
+  // If downloading from the temporal folder, delete that temporal file.
+  string folder = filter_url_basename_web (filter_url_dirname_web (url));
+  if (folder == filter_url_temp_dir ()) {
+    filter_url_unlink (filename);
+  }
 }
