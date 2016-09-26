@@ -23,6 +23,7 @@
 #include <filter/string.h>
 #include <filter/merge.h>
 #include <filter/date.h>
+#include <filter/archive.h>
 #include <tasks/logic.h>
 #include <config/globals.h>
 #include <database/config/general.h>
@@ -615,7 +616,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   // Download the notes in bulk from the Cloud, in a database, for faster download.
   if (!identifiers_bulk_download.empty ()) {
     sendreceive_notes_kick_watchdog ();
-    Database_Logs::log (sendreceive_notes_text () + "Receiving notes in bulk: " + convert_to_string (identifiers_bulk_download.size ()), Filter_Roles::manager ());
+    Database_Logs::log (sendreceive_notes_text () + "Receiving multiple notes: " + convert_to_string (identifiers_bulk_download.size ()), Filter_Roles::manager ());
     // First step is to request the filename from the Cloud.
     // This request causes the Cloud to produce a database with the requested notes.
     post.clear ();
@@ -624,7 +625,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     post ["b"] = bulk_identifiers;
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      Database_Logs::log (sendreceive_notes_text () + "Failure requesting notes in bulk: " + error, Filter_Roles::consultant ());
+      Database_Logs::log (sendreceive_notes_text () + "Failure requesting multiple notes: " + error, Filter_Roles::consultant ());
       return false;
     }
     sendreceive_notes_kick_watchdog ();
@@ -633,9 +634,13 @@ bool sendreceive_notes_download (int lowId, int highId)
     string url = client_logic_url (address, port, response);
     filter_url_download_file (url, filename, error, false);
     if (!error.empty ()) {
-      Database_Logs::log (sendreceive_notes_text () + "Failure downloading notes in bulk: " + error, Filter_Roles::consultant ());
+      Database_Logs::log (sendreceive_notes_text () + "Failure downloading multiple notes: " + error, Filter_Roles::consultant ());
       return false;
     }
+    // Decompress the received database.
+    string data = filter_url_file_get_contents (filename);
+    data = filter_archive_decompress (data);
+    filter_url_file_put_contents (filename, data);
     // Store the notes in the file system.
     database_notes.setBulk (filename);
     // Remove the downloaded temporal file.

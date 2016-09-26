@@ -22,6 +22,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/merge.h>
+#include <filter/archive.h>
 #include <tasks/logic.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
@@ -332,10 +333,21 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_bulk:
     {
+      // Get the note identifiers the client requests.
       vector <string> notes = filter_string_explode (request->post ["b"], '\n');
       vector <int> identifiers;
       for (auto note : notes) identifiers.push_back (convert_to_int (note));
+      // Create a file with a database that contains all the requested notes.
       string filename = database_notes.getBulk (identifiers);
+      // Compress the data because the database size is a multiple of 8kb or more.
+      // And that usually wastes a lot of space.
+      // Compressing the database makes the file much smaller.
+      // This speeds up the transfer to the client, in particular over slow network connections.
+      string data = filter_url_file_get_contents (filename);
+      data = filter_archive_compress (data);
+      filter_url_file_put_contents (filename, data);
+      // Send the client the details about the file it should download,
+      // without revealing the full path.
       string base1 = filter_url_basename (filter_url_dirname (filename));
       string base2 = filter_url_basename (filename);
       filename = filter_url_create_path (base1, base2);
