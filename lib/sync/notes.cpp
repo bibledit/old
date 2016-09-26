@@ -331,6 +331,8 @@ string sync_notes (void * webserver_request)
       // Done.
       return "";
     }
+    // This method of bulk download was implemented as of September 2016.
+    // After a year or so, the logic for the replaced download methods can probably be removed from the Cloud.
     case Sync_Logic::notes_get_bulk:
     {
       // Get the note identifiers the client requests.
