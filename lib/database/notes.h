@@ -126,7 +126,7 @@ public:
   void set_availability (bool available);
   bool available ();
   string getBulk (vector <int> identifiers);
-  void setBulk (string filename);
+  vector <string> setBulk (string filename);
 private:
   void * webserver_request;
   sqlite3 * connect ();

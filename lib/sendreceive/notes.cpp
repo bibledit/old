@@ -616,7 +616,9 @@ bool sendreceive_notes_download (int lowId, int highId)
   // Download the notes in bulk from the Cloud, in a database, for faster download.
   if (!identifiers_bulk_download.empty ()) {
     sendreceive_notes_kick_watchdog ();
-    Database_Logs::log (sendreceive_notes_text () + "Receiving multiple notes: " + convert_to_string (identifiers_bulk_download.size ()), Filter_Roles::manager ());
+    if (identifiers_bulk_download.size () >= 3) {
+      Database_Logs::log (sendreceive_notes_text () + "Receiving multiple notes: " + convert_to_string (identifiers_bulk_download.size ()), Filter_Roles::manager ());
+    }
     // First step is to request the filename from the Cloud.
     // This request causes the Cloud to produce a database with the requested notes.
     post.clear ();
@@ -642,9 +644,15 @@ bool sendreceive_notes_download (int lowId, int highId)
     data = filter_archive_decompress (data);
     filter_url_file_put_contents (filename, data);
     // Store the notes in the file system.
-    database_notes.setBulk (filename);
+    vector <string> summaries = database_notes.setBulk (filename);
     // Remove the downloaded temporal file.
     filter_url_unlink (filename);
+    // More specific feedback in case it downloaded only a few notes, rather than notes in bulk.
+    if (identifiers_bulk_download.size () < 3) {
+      for (auto & summary : summaries) {
+        Database_Logs::log (sendreceive_notes_text () + "Receiving: " + summary, Filter_Roles::manager ());
+      }
+    }
   }
   
   return true;

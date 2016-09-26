@@ -1863,6 +1863,7 @@ string Database_Notes::notesOrderByRelevanceStatement ()
 }
 
 
+// This creates a database that contains the notes indicated by $identifiers.
 string Database_Notes::getBulk (vector <int> identifiers)
 {
   string filename = filter_url_tempfile () + ".sqlite";
@@ -1919,7 +1920,8 @@ string Database_Notes::getBulk (vector <int> identifiers)
 }
 
 
-void Database_Notes::setBulk (string filename)
+// This takes a datase, and stores all the notes it contains in the filesystem.
+vector <string> Database_Notes::setBulk (string filename)
 {
   // Open the database.
   SqliteDatabase db (filename);
@@ -1961,4 +1963,7 @@ void Database_Notes::setBulk (string filename)
     updateSearchFields (id);
     updateChecksum (id);
   }
+  
+  // Container with all the summaries of the notes that were stored.
+  return summary;
 }
