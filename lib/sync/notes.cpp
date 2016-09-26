@@ -80,7 +80,7 @@ string sync_notes (void * webserver_request)
 
   
   // Check on the credentials when the clients sends data to the server to be stored there.
-  if ((action >= Sync_Logic::notes_put_create_initiate) && (action != Sync_Logic::notes_get_notes)) {
+  if ((action >= Sync_Logic::notes_put_create_initiate) && (action != Sync_Logic::notes_get_bulk)) {
     if (!sync_logic.credentials_okay ()) return "";
   }
 
@@ -330,7 +330,7 @@ string sync_notes (void * webserver_request)
       // Done.
       return "";
     }
-    case Sync_Logic::notes_get_notes:
+    case Sync_Logic::notes_get_bulk:
     {
       vector <string> notes = filter_string_explode (request->post ["b"], '\n');
       vector <int> identifiers;

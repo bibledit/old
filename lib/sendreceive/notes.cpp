@@ -619,7 +619,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     // First step is to request the filename from the Cloud.
     // This request causes the Cloud to produce a database with the requested notes.
     post.clear ();
-    post ["a"] = convert_to_string (Sync_Logic::notes_get_notes);
+    post ["a"] = convert_to_string (Sync_Logic::notes_get_bulk);
     string bulk_identifiers = filter_string_implode (identifiers_bulk_download, "\n");
     post ["b"] = bulk_identifiers;
     response = sync_logic.post (post, url, error);
