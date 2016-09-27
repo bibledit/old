@@ -31,6 +31,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <trash/handler.h>
 #include <webserver/request.h>
+#include <jsonxx/jsonxx.h>
+
+
+using namespace jsonxx;
 
 
 // Database resilience.
@@ -1863,107 +1867,87 @@ string Database_Notes::notesOrderByRelevanceStatement ()
 }
 
 
-// This creates a database that contains the notes indicated by $identifiers.
-string Database_Notes::getBulk (vector <int> identifiers)
+// This returns JSON that contains the notes indicated by $identifiers.
+string Database_Notes::getBulk (vector <int> identifiers) // Todo
 {
-  string filename = filter_url_tempfile () + ".sqlite";
-  {
-    SqliteDatabase db (filename);
-    db.add ("CREATE TABLE notes ("
-            "assigned text, "
-            "bible text, "
-            "contents text, "
-            "identifier integer, "
-            "modified integer, "
-            "passage text, "
-            "severity integer, "
-            "status text, "
-            "subscriptions text, "
-            "summary text);");
-    db.execute ();
-    for (auto identifier : identifiers) {
-      db.clear ();
-      db.add ("INSERT INTO notes VALUES (");
-      string assigned = filter_url_file_get_contents (assignedFile (identifier));
-      db.add (assigned);
-      db.add (",");
-      string bible = getBible (identifier);
-      db.add (bible);
-      db.add (",");
-      string contents = getContents (identifier);
-      db.add (contents);
-      db.add (",");
-      db.add (identifier);
-      db.add (",");
-      int modified = getModified (identifier);
-      db.add (modified);
-      db.add (",");
-      string passage = getRawPassage (identifier);
-      db.add (passage);
-      db.add (",");
-      int severity = getRawSeverity (identifier);
-      db.add (severity);
-      db.add (",");
-      string status = getRawStatus (identifier);
-      db.add (status);
-      db.add (",");
-      string subscriptions = filter_url_file_get_contents (subscriptionsFile (identifier));
-      db.add (subscriptions);
-      db.add (",");
-      string summary = getSummary (identifier);
-      db.add (summary);
-      db.add (");");
-      db.execute ();
-    }
+  // JSON container for the bulk notes.
+  Array bulk;
+  // Go through all the notes.
+  for (auto identifier : identifiers) {
+    // JSON object for the note.
+    Object note;
+    // Add all the fields of the note.
+    string assigned = filter_url_file_get_contents (assignedFile (identifier));
+    note << "a" << assigned;
+    string bible = getBible (identifier);
+    note << "b" << bible;
+    string contents = getContents (identifier);
+    note << "c" << contents;
+    note << "i" << identifier;
+    int modified = getModified (identifier);
+    note << "m" << modified;
+    string passage = getRawPassage (identifier);
+    note << "p" << passage;
+    string subscriptions = filter_url_file_get_contents (subscriptionsFile (identifier));
+    note << "sb" << subscriptions;
+    string summary = getSummary (identifier);
+    note << "sm" << summary;
+    string status = getRawStatus (identifier);
+    note << "st" << status;
+    int severity = getRawSeverity (identifier);
+    note << "sv" << severity;
+    // Add the note to the bulk container.
+    bulk << note;
   }
-  return filename;
+  // Resulting JSON string.
+  return bulk.json ();
 }
 
 
-// This takes a datase, and stores all the notes it contains in the filesystem.
-vector <string> Database_Notes::setBulk (string filename)
+// This takes $json and stores all the notes it contains in the filesystem.
+vector <string> Database_Notes::setBulk (string json) // Todo
 {
-  // Open the database.
-  SqliteDatabase db (filename);
-  
-  // Select everything in it.
-  db.add ("SELECT * from notes;");
-  map <string, vector <string> > results = db.query ();
-  
-  // Sort all the different bits out.
-  vector <string> assigned = results ["assigned"];
-  vector <string> bible = results ["bible"];
-  vector <string> contents = results ["contents"];
-  vector <string> identifier = results ["identifier"];
-  vector <string> modified = results ["modified"];
-  vector <string> passage = results ["passage"];
-  vector <string> severity = results ["severity"];
-  vector <string> status = results ["status"];
-  vector <string> subscriptions = results ["subscriptions"];
-  vector <string> summary = results ["summary"];
+  // Container for the summaries that were stored.
+  vector <string> summaries;
 
-  // Go through the identifiers the database contains.
-  for (size_t i = 0; i < identifier.size (); i++) {
-    
+  // Parse the incoming JSON.
+  Array bulk;
+  bulk.parse (json);
+  
+  // Go through the notes the JSON contains.
+  for (size_t i = 0; i < bulk.size (); i++) {
+
+    // Get all the different fields for this note.
+    Object note = bulk.get<Object>(i);
+    string assigned = note.get<String> ("a");
+    string bible = note.get<String> ("b");
+    string contents = note.get<String> ("c");
+    int identifier = note.get<Number> ("i");
+    int modified = note.get<Number> ("m");
+    string passage = note.get<String> ("p");
+    string subscriptions = note.get<String> ("sb");
+    string summary = note.get<String> ("sm");
+    string status = note.get<String> ("st");
+    int severity = note.get<Number> ("sv");
+
     // Store the note in the filesystem.
-    int id = convert_to_int (identifier[i]);
-    filter_url_mkdir (noteFolder (id));
-    filter_url_file_put_contents (assignedFile (id), assigned [i]);
-    filter_url_file_put_contents (bibleFile (id), bible [i]);
-    filter_url_file_put_contents (contentsFile (id), contents [i]);
-    filter_url_file_put_contents (modifiedFile (id), modified [i]);
-    filter_url_file_put_contents (passageFile (id), passage [i]);
-    filter_url_file_put_contents (severityFile (id), severity [i]);
-    filter_url_file_put_contents (statusFile (id), status [i]);
-    filter_url_file_put_contents (subscriptionsFile (id), subscriptions [i]);
-    filter_url_file_put_contents (summaryFile (id), summary [i]);
-    
+    filter_url_mkdir (noteFolder (identifier));
+    filter_url_file_put_contents (assignedFile (identifier), assigned);
+    filter_url_file_put_contents (bibleFile (identifier), bible);
+    filter_url_file_put_contents (contentsFile (identifier), contents);
+    filter_url_file_put_contents (modifiedFile (identifier), convert_to_string (modified));
+    filter_url_file_put_contents (passageFile (identifier), passage);
+    filter_url_file_put_contents (severityFile (identifier), convert_to_string (severity));
+    filter_url_file_put_contents (statusFile (identifier), status);
+    filter_url_file_put_contents (subscriptionsFile (identifier), subscriptions);
+    filter_url_file_put_contents (summaryFile (identifier), summary);
+
     // Update the indexes.
-    updateDatabase (id);
-    updateSearchFields (id);
-    updateChecksum (id);
+    updateDatabase (identifier);
+    updateSearchFields (identifier);
+    updateChecksum (identifier);
   }
   
   // Container with all the summaries of the notes that were stored.
-  return summary;
+  return summaries;
 }

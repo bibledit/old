@@ -500,34 +500,18 @@ bool sendreceive_notes_download (int lowId, int highId)
     if (identifiers_bulk_download.size () >= 3) {
       Database_Logs::log (sendreceive_notes_text () + "Receiving multiple notes: " + convert_to_string (identifiers_bulk_download.size ()), Filter_Roles::manager ());
     }
-    // First step is to request the filename from the Cloud.
-    // This request causes the Cloud to produce a database with the requested notes.
+    // Request the JSON from the Cloud: It will contain the requested notes.
     post.clear ();
     post ["a"] = convert_to_string (Sync_Logic::notes_get_bulk);
     string bulk_identifiers = filter_string_implode (identifiers_bulk_download, "\n");
     post ["b"] = bulk_identifiers;
-    response = sync_logic.post (post, url, error);
+    string json = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting multiple notes: " + error, Filter_Roles::consultant ());
       return false;
     }
-    sendreceive_notes_kick_watchdog ();
-    // Download the file with the notes from the Cloud.
-    string filename = filter_url_tempfile () + ".sqlite";
-    string url = client_logic_url (address, port, response);
-    filter_url_download_file (url, filename, error, false);
-    if (!error.empty ()) {
-      Database_Logs::log (sendreceive_notes_text () + "Failure downloading multiple notes: " + error, Filter_Roles::consultant ());
-      return false;
-    }
-    // Decompress the received database.
-    string data = filter_url_file_get_contents (filename);
-    data = filter_archive_decompress (data);
-    filter_url_file_put_contents (filename, data);
     // Store the notes in the file system.
-    vector <string> summaries = database_notes.setBulk (filename);
-    // Remove the downloaded temporal file.
-    filter_url_unlink (filename);
+    vector <string> summaries = database_notes.setBulk (json);
     // More specific feedback in case it downloaded only a few notes, rather than notes in bulk.
     if (identifiers_bulk_download.size () < 3) {
       for (auto & summary : summaries) {

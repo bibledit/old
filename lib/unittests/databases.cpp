@@ -3397,6 +3397,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, false, database_notes.getPublic (identifier1));
     evaluate (__LINE__, __func__, true, database_notes.getPublic (identifier2));
   }
+  
   // Bulk notes transfer elaborate tests.
   {
     refresh_sandbox (true);
@@ -3457,7 +3458,7 @@ void test_database_notes ()
       v_subscriptions.push_back (subscriptions);
       v_summary.push_back (summary);
     }
-
+    
     // Get the checksums for later reference.
     vector <string> checksums;
     for (int i = 0; i < 5; i++) {
@@ -3472,7 +3473,7 @@ void test_database_notes ()
     search_results = database_notes.selectNotes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     
     // Get the notes in bulk in a database.
-    string filename = database_notes.getBulk (v_identifier);
+    string json = database_notes.getBulk (v_identifier);
     
     // Delete all notes again.
     for (int i = 0; i < 5; i++) {
@@ -3486,7 +3487,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, 2, database_notes.getRawSeverity (identifier));
       evaluate (__LINE__, __func__, 0, database_notes.getModified (identifier));
     }
-
+    
     // The checksums should now be gone.
     for (int i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
@@ -3500,7 +3501,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {}, no_search_results);
     
     // Copy the notes from the database back to the filesystem.
-    database_notes.setBulk (filename);
+    database_notes.setBulk (json);
     
     // Check the notes are back.
     for (int i = 0; i < 5; i++) {
@@ -3531,7 +3532,7 @@ void test_database_notes ()
       string checksum = database_notes.getChecksum (identifier);
       evaluate (__LINE__, __func__, checksums [i], checksum);
     }
-
+    
     // The search results should be back.
     vector <int> restored_search;
     restored_search = database_notes.selectNotes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
@@ -4653,7 +4654,6 @@ void test_database_userresources ()
 void test_database_develop ()
 {
   trace_unit_tests (__func__);
-
 }
 
 
