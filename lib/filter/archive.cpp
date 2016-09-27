@@ -602,6 +602,7 @@ private:
    
 
 // Compresses a string through the LZW algorithm.
+// NOTE: It fails to work correctly on Android.
 string filter_archive_compress (string data)
 {
   istringstream is (data);
@@ -612,6 +613,7 @@ string filter_archive_compress (string data)
 
 
 // Decompresses a string through the LZW algorithm.
+  // NOTE: It fails to work correctly on Android.
 string filter_archive_decompress (string data)
 {
   istringstream is (data);
