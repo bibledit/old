@@ -3163,7 +3163,7 @@ void test_json ()
 {
   trace_unit_tests (__func__);
   {
-    // Convert json to xml.
+    // Convert JSON to xml.
     string json ("{"
                  "  \"foo\" : 1,"
                  "  \"bar\" : false,"
@@ -3175,6 +3175,18 @@ void test_json ()
     string path = filter_url_create_root_path ("unittests", "tests", "jsonxx.txt");
     string xml = filter_url_file_get_contents (path);
     evaluate (__LINE__, __func__, xml, object.xml (JSONx));
+  }
+  {
+    // Test malformed JSON.
+    string json ("{"
+                 "  \"foo\" 1,"
+                 "  \"bar : false,"
+                 "  \"person\" : me\" : \"GWB\", \"age\" : 60,},"
+                 "  \"data\": \"abcd\", 42],"
+                 );
+    Object object;
+    object.parse (json);
+    evaluate (__LINE__, __func__, "{\n} \n", object.json ());
   }
 }
 
