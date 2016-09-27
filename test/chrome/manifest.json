@@ -1,0 +1,16 @@
+{
+  "name": "Page Redder and Wake Lock",
+  "description": "Make the current page red and request a wake lock",
+  "version": "2.0",
+  "permissions": [
+    "activeTab", "power"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_title": "Make this page red and request a wake lock"
+  },
+  "manifest_version": 2
+}
