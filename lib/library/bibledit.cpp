@@ -70,8 +70,11 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   // Thread locking.
   thread_setup ();
   
-  // Initialize SQLite: Full thread safety: https://www.sqlite.org/threadsafe.html.
+  // Initialize SQLite: Full thread safety: https://www.sqlite.org/c3ref/threadsafe.html.
   // This is supported to prevent "database locked" errors.
+  if (!sqlite3_threadsafe ()) {
+    cerr << "SQLite is not threadsafe" << endl;
+  }
   sqlite3_config (SQLITE_CONFIG_SERIALIZED);
 
   // Binary file mode on Windows.
