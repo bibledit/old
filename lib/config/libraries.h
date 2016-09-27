@@ -76,7 +76,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Headers dependencies.
-#include <sqlite3.h>
+#include <sqlite/sqlite3.h>
 
 
 // Bibledit configuration.

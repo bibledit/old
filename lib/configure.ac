@@ -52,11 +52,6 @@ if test x$PKG_CONFIG_PATH = xno; then
   AC_MSG_ERROR(Program "pkg-config" is needed. Install this first.)
 fi
 
-PKG_CHECK_MODULES(SQLITE, sqlite3 >= 3.0.0,,AC_MSG_ERROR(libsqlite3-dev version >= 3.0.0 is needed.))
-AC_SUBST(SQLITE_CFLAGS)
-AC_SUBST(SQLITE_LIBS)
-AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. Usually this is in libsqlite3-dev.]))
-
 PKG_CHECK_MODULES(CURL, libcurl >= 7.20.0,,AC_MSG_ERROR(libcurl development version >= 7.20.0 is needed.))
 AC_SUBST(CURL_CFLAGS)
 AC_SUBST(CURL_LIBS)

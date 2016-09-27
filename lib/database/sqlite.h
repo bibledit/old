@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
-#include <sqlite3.h>
 
 
 sqlite3 * database_sqlite_connect_file (string filename);

@@ -18,7 +18,6 @@
 
 
 #include "greekstrong.h"
-#include <sqlite3.h>
 #include <unicode/ustdio.h>
 #include <unicode/normlzr.h>
 #include <unicode/utypes.h>

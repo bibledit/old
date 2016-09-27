@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
-#include <sqlite3.h>
 
 
 // This is the database that contains Open Scriptures's Hebrew Lexicon.

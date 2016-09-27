@@ -429,7 +429,8 @@ libbibledit_a_SOURCES = \
 	mbedtls/x509write_crt.c \
 	mbedtls/x509write_csr.c \
 	mbedtls/xtea.c \
-	related/logic.cpp
+	related/logic.cpp \
+	sqlite/sqlite3.c
 
 bin_PROGRAMS = server unittest generate
 
@@ -454,13 +455,11 @@ AM_CFLAGS = -Wall -Wextra -pedantic -g
 AM_CFLAGS += $(OPENSSL_CFLAGS)
 
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g
-AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 AM_CXXFLAGS += $(SWORD_CFLAGS)
 
 LIBS = -Wall -lpthread -L. -g -rdynamic
-LIBS += $(SQLITE_LIBS)
 LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
 LIBS += $(SWORD_LIBS)
