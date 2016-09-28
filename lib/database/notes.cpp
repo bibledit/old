@@ -1868,7 +1868,7 @@ string Database_Notes::notesOrderByRelevanceStatement ()
 
 
 // This returns JSON that contains the notes indicated by $identifiers.
-string Database_Notes::getBulk (vector <int> identifiers) // Todo
+string Database_Notes::getBulk (vector <int> identifiers)
 {
   // JSON container for the bulk notes.
   Array bulk;
@@ -1905,7 +1905,7 @@ string Database_Notes::getBulk (vector <int> identifiers) // Todo
 
 
 // This takes $json and stores all the notes it contains in the filesystem.
-vector <string> Database_Notes::setBulk (string json) // Todo
+vector <string> Database_Notes::setBulk (string json)
 {
   // Container for the summaries that were stored.
   vector <string> summaries;
