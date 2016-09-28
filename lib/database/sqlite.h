@@ -40,8 +40,6 @@ void database_sqlite_error (sqlite3 * database, const string & prefix, char * er
 class SqliteSQL
 {
 public:
-  SqliteSQL ();
-  ~SqliteSQL ();
   void clear ();
   void add (const char * fragment);
   void add (int value);

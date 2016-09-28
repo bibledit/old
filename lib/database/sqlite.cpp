@@ -204,16 +204,6 @@ void database_sqlite_error (sqlite3 * database, const string & prefix, char * er
 }
 
 
-SqliteSQL::SqliteSQL ()
-{
-}
-
-
-SqliteSQL::~SqliteSQL ()
-{
-}
-
-
 void SqliteSQL::clear ()
 {
   sql.clear ();
