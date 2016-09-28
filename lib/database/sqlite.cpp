@@ -83,6 +83,15 @@ The database errors went away.
 */
 
 
+// Despite compiling the SQLite library in thread-safe mode,
+// there's still 'database locked' and "SQL error' errors.
+// Sample errors:
+// INSERT INTO cache VALUES ( 136 , 0 , '' ); - database is locked - database is locked
+// INSERT INTO cache VALUES ( 25 , 21 , '' ); - unrecognized token: "'" - SQL logic error or missing database
+// Therefore here's an extra mutex for our own logic, and that should fix those errors.
+mutex sqlite_execute_mutex;
+
+
 sqlite3 * database_sqlite_connect_file (string filename)
 {
   sqlite3 *db;
@@ -130,7 +139,9 @@ string database_sqlite_no_sql_injection (string sql)
 void database_sqlite_exec (sqlite3 * db, string sql)
 {
   char *error = NULL;
+  sqlite_execute_mutex.lock ();
   int rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
+  sqlite_execute_mutex.unlock ();
   if (rc != SQLITE_OK) database_sqlite_error (db, sql, error);
   if (error) sqlite3_free (error);
 }
@@ -140,7 +151,9 @@ map <string, vector <string> > database_sqlite_query (sqlite3 * db, string sql)
 {
   char * error = NULL;
   SqliteReader reader (0);
+  sqlite_execute_mutex.lock ();
   int rc = sqlite3_exec (db, sql.c_str(), reader.callback, &reader, &error);
+  sqlite_execute_mutex.unlock ();
   if (rc != SQLITE_OK) database_sqlite_error (db, sql, error);
   if (error) sqlite3_free (error);
   return reader.result;
