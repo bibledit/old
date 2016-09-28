@@ -369,7 +369,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "Bibledit iOS/bibledit-ios-Prefix.pch";
 				INFOPLIST_FILE = "Bibledit iOS/bibledit-ios-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -400,7 +400,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "Bibledit iOS/bibledit-ios-Prefix.pch";
 				INFOPLIST_FILE = "Bibledit iOS/bibledit-ios-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
