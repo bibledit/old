@@ -12,15 +12,8 @@
 		CA1599F61B1759A600B26F9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA1599F51B1759A600B26F9C /* Images.xcassets */; };
 		CA3CC2701C45277E001CBA74 /* UIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3CC26F1C45277E001CBA74 /* UIDelegate.m */; };
 		CA43E08B1BB851BE00347EE1 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA43E08A1BB851BE00347EE1 /* libstdc++.tbd */; };
-		CA43E08F1BB851F700347EE1 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */; };
 		CA99CFA11B175B8B00696023 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA99CFA01B175B8B00696023 /* WebKit.framework */; };
 		CAE0196F1B1775C6000EAF46 /* webroot in Resources */ = {isa = PBXBuildFile; fileRef = CAE0196E1B1775C6000EAF46 /* webroot */; };
-		CAE235B51B176BAF005AEEBF /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235AF1B176BAF005AEEBF /* libcrypto.a */; };
-		CAE235B61B176BAF005AEEBF /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B01B176BAF005AEEBF /* libcurl.a */; };
-		CAE235B71B176BAF005AEEBF /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B11B176BAF005AEEBF /* libiconv.a */; };
-		CAE235B81B176BAF005AEEBF /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B21B176BAF005AEEBF /* libidn.a */; };
-		CAE235B91B176BAF005AEEBF /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B31B176BAF005AEEBF /* libintl.a */; };
-		CAE235BA1B176BAF005AEEBF /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235B41B176BAF005AEEBF /* libssl.a */; };
 		CAE235C61B176C2D005AEEBF /* libbibledit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE235C51B176C2D005AEEBF /* libbibledit.a */; };
 		CAF569171B177EBD00EE957E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAE33E751B176F2500BBA84A /* MainMenu.xib */; };
 /* End PBXBuildFile section */
@@ -58,15 +51,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA43E08F1BB851F700347EE1 /* libsqlite3.tbd in Frameworks */,
 				CA43E08B1BB851BE00347EE1 /* libstdc++.tbd in Frameworks */,
 				CAE235C61B176C2D005AEEBF /* libbibledit.a in Frameworks */,
-				CAE235B51B176BAF005AEEBF /* libcrypto.a in Frameworks */,
-				CAE235B61B176BAF005AEEBF /* libcurl.a in Frameworks */,
-				CAE235B71B176BAF005AEEBF /* libiconv.a in Frameworks */,
-				CAE235B81B176BAF005AEEBF /* libidn.a in Frameworks */,
-				CAE235B91B176BAF005AEEBF /* libintl.a in Frameworks */,
-				CAE235BA1B176BAF005AEEBF /* libssl.a in Frameworks */,
 				CA99CFA11B175B8B00696023 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
