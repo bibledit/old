@@ -35,12 +35,6 @@
 		CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		CA99CFA01B175B8B00696023 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CAE0196E1B1775C6000EAF46 /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = "<group>"; };
-		CAE235AF1B176BAF005AEEBF /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
-		CAE235B01B176BAF005AEEBF /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = lib/libcurl.a; sourceTree = "<group>"; };
-		CAE235B11B176BAF005AEEBF /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = lib/libiconv.a; sourceTree = "<group>"; };
-		CAE235B21B176BAF005AEEBF /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = lib/libidn.a; sourceTree = "<group>"; };
-		CAE235B31B176BAF005AEEBF /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = lib/libintl.a; sourceTree = "<group>"; };
-		CAE235B41B176BAF005AEEBF /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
 		CAE235C51B176C2D005AEEBF /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = webroot/libbibledit.a; sourceTree = "<group>"; };
 		CAE33E761B176F2500BBA84A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = osx/Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		CAFBC78D1B17624E0063BA33 /* osx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = osx.entitlements; sourceTree = "<group>"; };
@@ -68,12 +62,6 @@
 				CAE0196E1B1775C6000EAF46 /* webroot */,
 				CAE33E751B176F2500BBA84A /* MainMenu.xib */,
 				CAE235C51B176C2D005AEEBF /* libbibledit.a */,
-				CAE235AF1B176BAF005AEEBF /* libcrypto.a */,
-				CAE235B01B176BAF005AEEBF /* libcurl.a */,
-				CAE235B11B176BAF005AEEBF /* libiconv.a */,
-				CAE235B21B176BAF005AEEBF /* libidn.a */,
-				CAE235B31B176BAF005AEEBF /* libintl.a */,
-				CAE235B41B176BAF005AEEBF /* libssl.a */,
 				CA99CFA01B175B8B00696023 /* WebKit.framework */,
 				CA1599ED1B1759A600B26F9C /* gui */,
 				CA1599EC1B1759A600B26F9C /* Products */,
