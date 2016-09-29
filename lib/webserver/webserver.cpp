@@ -77,7 +77,7 @@ int get_line (int sock, char *buf, int size)
 void webserver_process_request (int connfd, string clientaddress)
 {
   // The environment for this request.
-  // It gets passed around from function to function during the entire request.
+  // A pointer to it gets passed around from function to function during the entire request.
   // This provides thread-safety to the request.
   Webserver_Request request;
   
