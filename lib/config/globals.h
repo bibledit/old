@@ -24,9 +24,11 @@ extern string config_globals_document_root;
 extern bool config_globals_unit_testing;
 extern bool config_globals_open_installation;
 extern bool config_globals_client_prepared;
-extern bool config_globals_http_running;
-extern bool config_globals_https_running;
-extern thread * config_globals_http_worker;
+extern bool config_globals_webserver_running;
+extern thread * config_globals_ipv4_http_worker;
+#ifndef HAVE_CLIENT
+extern thread * config_globals_ipv6_http_worker;
+#endif
 extern thread * config_globals_https_worker;
 extern thread * config_globals_timer;
 extern bool config_globals_mail_receive_running;
