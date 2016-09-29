@@ -281,7 +281,6 @@ void http_server (bool ipv6)
         inet_ntop (AF_INET, &clientaddr4.sin_addr.s_addr, remote_address, sizeof (remote_address));
       }
       clientaddress = remote_address;
-      //cout << clientaddress << endl; // Todo
       
       // Handle this request in a thread, enabling parallel requests.
       thread request_thread = thread (webserver_process_request, connfd, clientaddress);
