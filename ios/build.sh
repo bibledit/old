@@ -141,7 +141,7 @@ make --jobs=`sysctl -n hw.ncpu`
 popd
 
 # Sychronizes the libbibledit data files in the source tree to iOS and cleans them up.
-rsync -av --delete ../lib/ webroot
+rsync -a --delete ../lib/ webroot
 pushd webroot
 ./configure
 make distclean
