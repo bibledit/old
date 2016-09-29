@@ -253,9 +253,16 @@ void http_server (bool ipv6)
   while (listener_healthy && config_globals_webserver_running) {
 
     // Socket and file descriptor for the client connection.
-    struct sockaddr_in clientaddr;
-    socklen_t clientlen = sizeof(clientaddr);
-    int connfd = accept (listenfd, (struct sockaddr *)&clientaddr, &clientlen);
+    int connfd;
+    struct sockaddr_in clientaddr4;
+    struct sockaddr_in6 clientaddr6;
+    if (ipv6) {
+      socklen_t clientlen = sizeof (clientaddr6);
+      connfd = accept (listenfd, (struct sockaddr *)&clientaddr6, &clientlen);
+    } else {
+      socklen_t clientlen = sizeof (clientaddr4);
+      connfd = accept (listenfd, (struct sockaddr *)&clientaddr4, &clientlen);
+    }
     if (connfd > 0) {
 
       // Socket receive timeout, plain http.
@@ -264,10 +271,15 @@ void http_server (bool ipv6)
       tv.tv_usec = 0;
       setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
       
-      // The client's remote IPv4 address in dotted notation.
+      // The client's remote IPv4 address in dotted notation,
+      // or its remote IPv6 address in hexadecimal digits separated by colons.
       string clientaddress;
       char remote_address[256];
-      inet_ntop (AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof (remote_address));
+      if (ipv6) {
+        inet_ntop (AF_INET6, &clientaddr6.sin6_addr, remote_address, sizeof (remote_address));
+      } else {
+        inet_ntop (AF_INET, &clientaddr4.sin_addr.s_addr, remote_address, sizeof (remote_address));
+      }
       clientaddress = remote_address;
       cout << clientaddress << endl; // Todo
       
