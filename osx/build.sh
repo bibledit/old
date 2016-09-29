@@ -26,7 +26,7 @@ pushd webroot
 
 
 # Sychronizes the libbibledit data files in the source tree to OS X and cleans them up.
-rsync -av --delete ../../lib/ .
+rsync -a --delete ../../lib/ .
 ./configure
 make distclean
 rm config.h
