@@ -52,7 +52,6 @@ $DRYECHO apt-get --yes --force-yes install build-essential
 $DRYECHO apt-get --yes --force-yes install git
 $DRYECHO apt-get --yes --force-yes install zip
 $DRYECHO apt-get --yes --force-yes install pkgconf
-$DRYECHO apt-get --yes --force-yes install libsqlite3-dev
 $DRYECHO apt-get --yes --force-yes install libcurl4-openssl-dev
 $DRYECHO apt-get --yes --force-yes install libssl-dev
 $DRYECHO apt-get --yes --force-yes install libatspi2.0-dev
@@ -66,7 +65,6 @@ $DRYECHO dnf --assumeyes install gcc-c++
 $DRYECHO dnf --assumeyes install git
 $DRYECHO dnf --assumeyes install zip
 $DRYECHO dnf --assumeyes install pkgconfig
-$DRYECHO dnf --assumeyes install sqlite-devel
 $DRYECHO dnf --assumeyes install libcurl-devel
 $DRYECHO dnf --assumeyes install openssl-devel
 $DRYECHO dnf --assumeyes install gtk3-devel
@@ -79,7 +77,6 @@ $DRYECHO yum --assumeyes install gcc-c++
 $DRYECHO yum --assumeyes install git
 $DRYECHO yum --assumeyes install zip
 $DRYECHO yum --assumeyes install pkgconfig
-$DRYECHO yum --assumeyes install sqlite-devel
 $DRYECHO yum --assumeyes install libcurl-devel
 $DRYECHO yum --assumeyes install openssl-devel
 $DRYECHO yum --assumeyes install gtk3-devel
@@ -92,7 +89,6 @@ $DRYECHO zypper --non-interactive install gcc-c++
 $DRYECHO zypper --non-interactive install git
 $DRYECHO zypper --non-interactive install zip
 $DRYECHO zypper --non-interactive install pkg-config
-$DRYECHO zypper --non-interactive install sqlite3-devel
 $DRYECHO zypper --non-interactive install libcurl-devel
 $DRYECHO zypper --non-interactive install libopenssl-devel
 $DRYECHO zypper --non-interactive install cairo-devel
