@@ -49,7 +49,12 @@ void last_ditch_forced_exit ()
 void sigint_handler (int s)
 {
   (void) s;
+  // When pressing Ctrl-C, the system outputs a "^C".
+  // It is cleaner to write a new line after that.
+  cout << endl;
+  // Schedule a timer to exit(0) the program in case the network stack fails to exit the servers.
   new thread (last_ditch_forced_exit);
+  // Initiate clean server shutdown.
   bibledit_stop_library ();
 }
 

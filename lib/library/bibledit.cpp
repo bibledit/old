@@ -234,7 +234,7 @@ void bibledit_stop_library ()
   string url, error;
   
   // Connect to localhost through IPv4 to initiate the shutdown mechanism in the running IPv4 server.
-  url = "http://localhost:";
+  url = "http://127.0.0.1:";
   url.append (config_logic_http_network_port ());
   filter_url_http_get (url, error, false);
 
@@ -242,7 +242,7 @@ void bibledit_stop_library ()
   // Connect to localhost through IPv6 to initiate the shutdown mechanism in the running IPv6 server.
   {
     int sockfd = socket (AF_INET6, SOCK_STREAM, 0);
-    struct hostent *server = gethostbyname2 ("localhost", AF_INET6);
+    struct hostent *server = gethostbyname2 ("::1", AF_INET6);
     struct sockaddr_in6 serv_addr;
     memset ((char *) &serv_addr, 0, sizeof (serv_addr));
     serv_addr.sin6_flowinfo = 0;
@@ -250,9 +250,7 @@ void bibledit_stop_library ()
     memmove ((char *) &serv_addr.sin6_addr.s6_addr, (char *) server->h_addr, server->h_length);
     serv_addr.sin6_port = htons (convert_to_int (config_logic_http_network_port ()));
     connect (sockfd, (struct sockaddr *) &serv_addr, sizeof (serv_addr));
-    char buffer [256] = "GET /\n\n\n\n";
-    send (sockfd, buffer, strlen (buffer) + 1, 0);
-    this_thread::sleep_for (chrono::milliseconds (10));
+    this_thread::sleep_for (chrono::milliseconds (1));
     close (sockfd);
   }
 #endif
