@@ -184,6 +184,8 @@ void http_server ()
   bool listener_healthy = true;
   
   // Create a listening socket.
+  // This represents an endpoint.
+  // Listen on address family AF_INET to prepare to accept incoming connections on.
   int listenfd = socket (AF_INET, SOCK_STREAM, 0);
   if (listenfd < 0) {
     cerr << "Error opening socket: It returns a descriptor of " << listenfd << endl;
@@ -191,6 +193,8 @@ void http_server ()
   }
 
   // Eliminate "Address already in use" error from bind.
+  // The function is used to allow the local address to  be reused
+  // when the server is restarted before the required wait time expires.
   int optval = 1;
   int result = setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, (const char *) &optval, sizeof (int));
   if (result != 0) {
@@ -217,7 +221,8 @@ void http_server ()
     listener_healthy = false;
   }
 
-  // Make it a listening socket ready to accept many connection requests.
+  // Make it a listening socket ready to queue and accept many connection requests
+  // before the system starts rejecting the incoming requests.
   result = listen (listenfd, 100);
   if (result != 0) {
     listener_healthy = false;
