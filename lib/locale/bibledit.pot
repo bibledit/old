@@ -940,7 +940,7 @@ msgstr ""
 msgid "Suppressed entries"
 msgstr ""
 
-msgid "The checking results are also available online."
+msgid "The checking results are also available online, plus checking settings."
 msgstr ""
 
 msgid "Bible Checks"
