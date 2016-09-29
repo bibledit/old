@@ -1,2 +1,0 @@
-gcc -w -o tcpclient tcpclient.c
-gcc -w -o tcpserver tcpserver.c
