@@ -183,20 +183,23 @@ void http_server (bool ipv6)
 {
   bool listener_healthy = true;
 
+  // Error specified IP family.
+  string ipvn = "IPv4: ";
+  if (ipv6) ipvn = "IPv6: ";
+  
   // The socket IP family, whether IPv4 or IPv6.
   unsigned short int sin_family = AF_INET;
   if (ipv6) sin_family = AF_INET6;
 
-  string ipvn = "IPv4: ";
-  if (ipv6) ipvn = "IPv6: ";
-  
   // Create a listening socket.
   // This represents an endpoint.
   // Listen on address family AF_INET for IPv4, and on AF_INET6 for IPv6.
   // This prepares to accept incoming connections on.
   int listenfd = socket (sin_family, SOCK_STREAM, 0);
   if (listenfd < 0) {
-    cerr << ipvn << "Error opening socket: It returns a descriptor of " << listenfd << endl;
+    string error = ipvn + "Error opening socket: " + strerror (errno);
+    cerr << error << endl;
+    Database_Logs::log (error);
     listener_healthy = false;
   }
 
@@ -206,7 +209,9 @@ void http_server (bool ipv6)
   int optval = 1;
   int result = setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, (const char *) &optval, sizeof (int));
   if (result != 0) {
-    cerr << ipvn << "Error setting socket options" << endl;
+    string error = ipvn + "Error setting socket option: " + strerror (errno);
+    cerr << error << endl;
+    Database_Logs::log (error);
   }
 
   // The listening socket will be an endpoint for all requests to a port on this host.
@@ -240,7 +245,9 @@ void http_server (bool ipv6)
     result = mybind (listenfd, (struct sockaddr *) &serveraddr, sizeof (serveraddr));
   }
   if (result != 0) {
-    cerr << ipvn << "Error binding server to socket" << endl;
+    string error = ipvn + "Error binding server to socket: " + strerror (errno);
+    cerr << error << endl;
+    Database_Logs::log (error);
     listener_healthy = false;
   }
 
@@ -248,8 +255,10 @@ void http_server (bool ipv6)
   // before the system starts rejecting the incoming requests.
   result = listen (listenfd, 100);
   if (result != 0) {
+    string error = ipvn + "Error listening on socket: " + strerror (errno);
+    cerr << error << endl;
+    Database_Logs::log (error);
     listener_healthy = false;
-    cerr << ipvn << "Error listening on socket" << endl;
   }
 
   // Keep waiting for, accepting, and processing connections.
@@ -291,7 +300,9 @@ void http_server (bool ipv6)
       request_thread.detach ();
       
     } else {
-      cerr << ipvn << "Error accepting connection on socket: " << strerror (errno) << endl;
+      string error = ipvn + "Error accepting connection on socket: " + strerror (errno);
+      cerr << error << endl;
+      Database_Logs::log (error);
     }
   }
   
