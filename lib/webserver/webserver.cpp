@@ -187,13 +187,16 @@ void http_server (bool ipv6)
   unsigned short int sin_family = AF_INET;
   if (ipv6) sin_family = AF_INET6;
 
+  string ipvn = "IPv4: ";
+  if (ipv6) ipvn = "IPv6: ";
+  
   // Create a listening socket.
   // This represents an endpoint.
   // Listen on address family AF_INET for IPv4, and on AF_INET6 for IPv6.
   // This prepares to accept incoming connections on.
   int listenfd = socket (sin_family, SOCK_STREAM, 0);
   if (listenfd < 0) {
-    cerr << "Error opening socket: It returns a descriptor of " << listenfd << endl;
+    cerr << ipvn << "Error opening socket: It returns a descriptor of " << listenfd << endl;
     listener_healthy = false;
   }
 
@@ -203,7 +206,7 @@ void http_server (bool ipv6)
   int optval = 1;
   int result = setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, (const char *) &optval, sizeof (int));
   if (result != 0) {
-    cerr << "Error setting socket options" << endl;
+    cerr << ipvn << "Error setting socket options" << endl;
   }
 
   // The listening socket will be an endpoint for all requests to a port on this host.
@@ -237,7 +240,7 @@ void http_server (bool ipv6)
     result = mybind (listenfd, (struct sockaddr *) &serveraddr, sizeof (serveraddr));
   }
   if (result != 0) {
-    cerr << "Error binding server to socket" << endl;
+    cerr << ipvn << "Error binding server to socket" << endl;
     listener_healthy = false;
   }
 
@@ -246,7 +249,7 @@ void http_server (bool ipv6)
   result = listen (listenfd, 100);
   if (result != 0) {
     listener_healthy = false;
-    cerr << "Error listening on socket" << endl;
+    cerr << ipvn << "Error listening on socket" << endl;
   }
 
   // Keep waiting for, accepting, and processing connections.
@@ -288,7 +291,7 @@ void http_server (bool ipv6)
       request_thread.detach ();
       
     } else {
-      cerr << "Error accepting connection on socket: " << strerror (errno) << endl;
+      cerr << ipvn << "Error accepting connection on socket: " << strerror (errno) << endl;
     }
   }
   
