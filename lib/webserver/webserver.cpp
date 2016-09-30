@@ -179,25 +179,18 @@ void webserver_process_request (int connfd, string clientaddress)
 
 #ifndef HAVE_VISUALSTUDIO
 // This http server uses BSD sockets.
-void http_server (bool ipv6)
+void http_server ()
 {
   bool listener_healthy = true;
 
-  // Error specified IP family.
-  string ipvn = "IPv4: ";
-  if (ipv6) ipvn = "IPv6: ";
-  
-  // The socket IP family, whether IPv4 or IPv6.
-  unsigned short int sin_family = AF_INET;
-  if (ipv6) sin_family = AF_INET6;
-
   // Create a listening socket.
   // This represents an endpoint.
-  // Listen on address family AF_INET for IPv4, and on AF_INET6 for IPv6.
+  // Listen on address family AF_INET6 for both IPv4 and IPv6.
   // This prepares to accept incoming connections on.
-  int listenfd = socket (sin_family, SOCK_STREAM, 0);
+  int listenfd = socket (AF_INET6, SOCK_STREAM, 0);
   if (listenfd < 0) {
-    string error = ipvn + "Error opening socket: " + strerror (errno);
+    string error = "Error opening socket: ";
+    error.append (strerror (errno));
     cerr << error << endl;
     Database_Logs::log (error);
     listener_healthy = false;
@@ -209,7 +202,8 @@ void http_server (bool ipv6)
   int optval = 1;
   int result = setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, (const char *) &optval, sizeof (int));
   if (result != 0) {
-    string error = ipvn + "Error setting socket option: " + strerror (errno);
+    string error = "Error setting socket option: ";
+    error.append (strerror (errno));
     cerr << error << endl;
     Database_Logs::log (error);
   }
@@ -217,35 +211,21 @@ void http_server (bool ipv6)
   // The listening socket will be an endpoint for all requests to a port on this host.
   // When configured as a server it listens on any IP address.
   // When configured as a client, it listens on the loopback device.
-  if (ipv6) {
-    struct sockaddr_in6 serveraddr;
-    memset (&serveraddr, 0, sizeof (serveraddr));
-    serveraddr.sin6_flowinfo = 0;
-    serveraddr.sin6_family = AF_INET6;
-    serveraddr.sin6_addr =
+  struct sockaddr_in6 serveraddr;
+  memset (&serveraddr, 0, sizeof (serveraddr));
+  serveraddr.sin6_flowinfo = 0;
+  serveraddr.sin6_family = AF_INET6;
+  serveraddr.sin6_addr =
 #ifdef HAVE_CLIENT
-    in6addr_loopback;
+  in6addr_loopback;
 #else
-    in6addr_any;
+  in6addr_any;
 #endif
-    serveraddr.sin6_port = htons (convert_to_int (config_logic_http_network_port ()));
-    result = mybind (listenfd, (struct sockaddr *) &serveraddr, sizeof (serveraddr));
-  }
-  else {
-    struct sockaddr_in serveraddr;
-    memset (&serveraddr, 0, sizeof (serveraddr));
-    serveraddr.sin_family = AF_INET;
-    serveraddr.sin_addr.s_addr =
-#ifdef HAVE_CLIENT
-    htonl (INADDR_LOOPBACK);
-#else
-    htonl (INADDR_ANY);
-#endif
-    serveraddr.sin_port = htons (convert_to_int (config_logic_http_network_port ()));
-    result = mybind (listenfd, (struct sockaddr *) &serveraddr, sizeof (serveraddr));
-  }
+  serveraddr.sin6_port = htons (convert_to_int (config_logic_http_network_port ()));
+  result = mybind (listenfd, (struct sockaddr *) &serveraddr, sizeof (serveraddr));
   if (result != 0) {
-    string error = ipvn + "Error binding server to socket: " + strerror (errno);
+    string error = "Error binding server to socket: ";
+    error.append (strerror (errno));
     cerr << error << endl;
     Database_Logs::log (error);
     listener_healthy = false;
@@ -255,7 +235,8 @@ void http_server (bool ipv6)
   // before the system starts rejecting the incoming requests.
   result = listen (listenfd, 100);
   if (result != 0) {
-    string error = ipvn + "Error listening on socket: " + strerror (errno);
+    string error = "Error listening on socket: ";
+    error.append (strerror (errno));
     cerr << error << endl;
     Database_Logs::log (error);
     listener_healthy = false;
@@ -265,16 +246,9 @@ void http_server (bool ipv6)
   while (listener_healthy && config_globals_webserver_running) {
 
     // Socket and file descriptor for the client connection.
-    int connfd;
-    struct sockaddr_in clientaddr4;
     struct sockaddr_in6 clientaddr6;
-    if (ipv6) {
-      socklen_t clientlen = sizeof (clientaddr6);
-      connfd = accept (listenfd, (struct sockaddr *)&clientaddr6, &clientlen);
-    } else {
-      socklen_t clientlen = sizeof (clientaddr4);
-      connfd = accept (listenfd, (struct sockaddr *)&clientaddr4, &clientlen);
-    }
+    socklen_t clientlen = sizeof (clientaddr6);
+    int connfd = accept (listenfd, (struct sockaddr *)&clientaddr6, &clientlen);
     if (connfd > 0) {
 
       // Socket receive timeout, plain http.
@@ -283,15 +257,11 @@ void http_server (bool ipv6)
       tv.tv_usec = 0;
       setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
       
-      // The client's remote IPv4 address in dotted notation,
-      // or its remote IPv6 address in hexadecimal digits separated by colons.
+      // The client's remote IPv6 address in hexadecimal digits separated by colons.
+      // IPv4 addresses are mapped to IPv6 addresses.
       string clientaddress;
       char remote_address[256];
-      if (ipv6) {
-        inet_ntop (AF_INET6, &clientaddr6.sin6_addr, remote_address, sizeof (remote_address));
-      } else {
-        inet_ntop (AF_INET, &clientaddr4.sin_addr.s_addr, remote_address, sizeof (remote_address));
-      }
+      inet_ntop (AF_INET6, &clientaddr6.sin6_addr, remote_address, sizeof (remote_address));
       clientaddress = remote_address;
       
       // Handle this request in a thread, enabling parallel requests.
@@ -300,7 +270,8 @@ void http_server (bool ipv6)
       request_thread.detach ();
       
     } else {
-      string error = ipvn + "Error accepting connection on socket: " + strerror (errno);
+      string error = "Error accepting connection on socket: ";
+      error.append (strerror (errno));
       cerr << error << endl;
       Database_Logs::log (error);
     }
@@ -314,9 +285,8 @@ void http_server (bool ipv6)
 
 #ifdef HAVE_VISUALSTUDIO
 // This http server uses Windows sockets.
-void http_server (bool ipv6)
+void http_server ()
 {
-  (void) ipv6;
   int result;
   bool listener_healthy = true;
   

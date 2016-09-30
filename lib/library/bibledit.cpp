@@ -162,13 +162,8 @@ void bibledit_start_library ()
   config_globals_enforce_https_browser = config_logic_enforce_https_browser ();
   config_globals_enforce_https_client = config_logic_enforce_https_client ();
   
-  // Run the plain IPv4 web server in a thread.
-  config_globals_ipv4_http_worker = new thread (http_server, false);
-
-  // Run the plain IPv6 web server in a thread.
-#ifndef HAVE_CLIENT
-  config_globals_ipv6_http_worker = new thread (http_server, true);
-#endif
+  // Run the plain web server in a thread.
+  config_globals_http_worker = new thread (http_server);
 
   // Run the secure web server in a thread.
   config_globals_https_worker = new thread (https_server);
@@ -266,18 +261,12 @@ void bibledit_stop_library ()
 #endif
   
   // Wait till the servers and the timers shut down.
-  config_globals_ipv4_http_worker->join ();
-#ifndef HAVE_CLIENT
-  config_globals_ipv6_http_worker->join ();
-#endif
+  config_globals_http_worker->join ();
   config_globals_https_worker->join ();
   config_globals_timer->join ();
   
   // Clear memory.
-  delete config_globals_ipv4_http_worker;
-#ifndef HAVE_CLIENT
-  delete config_globals_ipv6_http_worker;
-#endif
+  delete config_globals_http_worker;
   delete config_globals_https_worker;
   delete config_globals_timer;
 }

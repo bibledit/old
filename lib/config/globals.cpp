@@ -28,10 +28,7 @@ bool config_globals_unit_testing = false;
 bool config_globals_open_installation = false;
 bool config_globals_client_prepared = false;
 bool config_globals_webserver_running = true;
-thread * config_globals_ipv4_http_worker = NULL;
-#ifndef HAVE_CLIENT
-thread * config_globals_ipv6_http_worker = NULL;
-#endif
+thread * config_globals_http_worker = NULL;
 thread * config_globals_https_worker = NULL;
 thread * config_globals_timer = NULL;
 bool config_globals_mail_receive_running = false;
