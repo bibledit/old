@@ -191,6 +191,9 @@ int mbedtls_net_bind( mbedtls_net_context *ctx, const char *bind_ip, const char 
 
     /* Try the sockaddrs until a binding succeeds */
     ret = MBEDTLS_ERR_NET_UNKNOWN_HOST;
+  for( cur = addr_list; cur != NULL; cur = cur->ai_next ) {
+    printf ("%d\n", cur->ai_family); // Todo
+  }
     for( cur = addr_list; cur != NULL; cur = cur->ai_next )
     {
         ctx->fd = (int) socket( cur->ai_family, cur->ai_socktype,
