@@ -47,6 +47,7 @@ void test_libraries_temporal ();
 void test_json ();
 void test_related ();
 void test_editone_logic ();
+void test_http ();
 
 
 #endif

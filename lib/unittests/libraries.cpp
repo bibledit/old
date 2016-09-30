@@ -52,6 +52,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <jsonxx/jsonxx.h>
 #include <related/logic.h>
 #include <editone/logic.h>
+#include <webserver/http.h>
 
 
 using namespace jsonxx;
@@ -3377,6 +3378,30 @@ void test_editone_logic ()
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone5suffix2.html"));
     evaluate (__LINE__, __func__, standard, suffix);
   }
+}
+
+
+void test_http ()
+{
+  trace_unit_tests (__func__);
+
+  string host, line;
+  
+  line = "192.168.1.139:8080";
+  host = http_parse_host (line);
+  evaluate (__LINE__, __func__, "192.168.1.139", host);
+
+  line = "localhost:8080";
+  host = http_parse_host (line);
+  evaluate (__LINE__, __func__, "localhost", host);
+
+  line = "[::1]:8080";
+  host = http_parse_host (line);
+  evaluate (__LINE__, __func__, "[::1]", host);
+
+  line = "[fe80::601:25ff:fe07:6801]:8080";
+  host = http_parse_host (line);
+  evaluate (__LINE__, __func__, "[fe80::601:25ff:fe07:6801]", host);
 }
 
 

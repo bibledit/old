@@ -29,6 +29,7 @@ bool http_parse_header (string header, Webserver_Request * request);
 void http_parse_post (string content, Webserver_Request * request);
 void http_assemble_response (Webserver_Request * request);
 void http_serve_cache_file (Webserver_Request * request);
+string http_parse_host (const string & line);
 
 
 #endif

@@ -94,12 +94,12 @@ bool http_parse_header (string header, Webserver_Request * request)
     request->accept_language = header.substr (17);
   }
   
-  // Extract the Host from a header like this:
+  // Extract the host from headers like this:
   // Host: 192.168.1.139:8080
+  // Host: [::1]:8080
+  // Host: localhost:8080
   if (header.substr (0, 4) == "Host") {
-    request->host = header.substr (6);
-    vector <string> bits = filter_string_explode (request->host, ':');
-    if (!bits.empty ()) request->host = filter_string_trim (bits [0]);
+    request->host = http_parse_host (header.substr (6));
   }
   
   // Extract the Content-Type from a header like this:
@@ -303,4 +303,31 @@ void http_serve_cache_file (Webserver_Request * request)
   if (folder == filter_url_temp_dir ()) {
     filter_url_unlink (filename);
   }
+}
+
+
+// Obtain the host name from lines like this:
+// 192.168.1.139:8080
+// localhost:8080
+// [::1]:8080
+// [fe80::601:25ff:fe07:6801]:8080
+string http_parse_host (const string & line)
+{
+  string host;
+
+  size_t ipv6_opener = line.find ("[");
+  size_t ipv6_closer = line.find ("]");
+  if ((ipv6_opener != string::npos) && (ipv6_closer != string::npos)) {
+    // Square brackets? That's IPv6.
+    host = line.substr (0, ++ipv6_closer);
+  } else {
+    // IPv4.
+    host = line;
+    size_t pos = line.find (":");
+    if (pos != string::npos) {
+      host = host.substr (0, pos);
+    }
+  }
+
+  return host;
 }
