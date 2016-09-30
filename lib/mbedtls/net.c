@@ -180,7 +180,7 @@ int mbedtls_net_bind( mbedtls_net_context *ctx, const char *bind_ip, const char 
 
     /* Bind to IPv6 and/or IPv4, but only in the desired protocol */
     memset( &hints, 0, sizeof( hints ) );
-    hints.ai_family = AF_UNSPEC;
+    hints.ai_family = AF_INET6;
     hints.ai_socktype = proto == MBEDTLS_NET_PROTO_UDP ? SOCK_DGRAM : SOCK_STREAM;
     hints.ai_protocol = proto == MBEDTLS_NET_PROTO_UDP ? IPPROTO_UDP : IPPROTO_TCP;
     if( bind_ip == NULL )
@@ -191,9 +191,6 @@ int mbedtls_net_bind( mbedtls_net_context *ctx, const char *bind_ip, const char 
 
     /* Try the sockaddrs until a binding succeeds */
     ret = MBEDTLS_ERR_NET_UNKNOWN_HOST;
-  for( cur = addr_list; cur != NULL; cur = cur->ai_next ) {
-    printf ("%d\n", cur->ai_family); // Todo
-  }
     for( cur = addr_list; cur != NULL; cur = cur->ai_next )
     {
         ctx->fd = (int) socket( cur->ai_family, cur->ai_socktype,
