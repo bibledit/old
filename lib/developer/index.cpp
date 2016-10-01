@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/page.h>
 #include <assets/header.h>
 #include <filter/roles.h>
+#include <filter/url.h>
 #include <tasks/logic.h>
 #ifndef HAVE_CLIENT
 #include <sources/etcbc4.h>
@@ -112,6 +113,22 @@ string developer_index (void * webserver_request)
   if (debug == "receive") {
     tasks_logic_queue (RECEIVEEMAIL);
     view.set_variable ("success", "Receiving email and running tasks that send mail");
+  }
+
+  if (debug == "ipv6") {
+    view.set_variable ("success", "Fetching data via IPv6");
+    string error;
+    string response = filter_url_http_get ("http://ipv6.google.com", error, true);
+    page.append (response);
+    view.set_variable ("error", error);
+  }
+  
+  if (debug == "ipv6s") {
+    view.set_variable ("success", "Securely fetching data via IPv6");
+    string error;
+    string response = filter_url_http_get ("https://ipv6.google.com", error, true);
+    page.append (response);
+    view.set_variable ("error", error);
   }
   
   view.set_variable ("code", code);
