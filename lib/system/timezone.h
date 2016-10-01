@@ -28,10 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define MAXIMUM_TIMEZONE 14
 
 
-string system_timezone_url ();
-bool system_timezone_acl (void * webserver_request);
-string system_timezone (void * webserver_request);
-
 string system_timeoffset_url ();
 bool system_timeoffset_acl (void * webserver_request);
 string system_timeoffset (void * webserver_request);

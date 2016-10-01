@@ -472,7 +472,6 @@
 		CA97857E1BD251A600E13388 /* livetest.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = livetest.js; sourceTree = "<group>"; };
 		CA9B22741DA01A6200725C04 /* timezone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = timezone.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA9B22751DA01A6200725C04 /* timezone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timezone.h; sourceTree = "<group>"; };
-		CA9B22761DA01A6200725C04 /* timezone.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = timezone.html; sourceTree = "<group>"; };
 		CA9B22771DA0212200725C04 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CA9B22781DA0212200725C04 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA9B22791DA0212200725C04 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -1423,7 +1422,6 @@
 				CA9B22791DA0212200725C04 /* index.html */,
 				CA9B22741DA01A6200725C04 /* timezone.cpp */,
 				CA9B22751DA01A6200725C04 /* timezone.h */,
-				CA9B22761DA01A6200725C04 /* timezone.html */,
 			);
 			name = system;
 			path = ../system;

@@ -641,11 +641,6 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == system_timezone_url ()) && browser_request_security_okay (request) && system_timezone_acl (request)) {
-    request->reply = system_timezone (request);
-    return;
-  }
-  
   if ((url == system_index_url ()) && browser_request_security_okay (request) && system_index_acl (request)) {
     request->reply = system_index (request);
     return;

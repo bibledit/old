@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <menu/logic.h>
 #include <menu/index.h>
-#include <system/timezone.h>
 #include <system/index.h>
 #include <bible/manage.h>
 #include <changes/changes.h>
@@ -640,7 +639,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string personalize = translate ("Personalize");
   string users = menu_logic_manage_users_text ();
   string indexes_fonts = translate ("Indexes and Fonts");
-  string timezone = translate ("Timezone");
   string mail = translate ("Mail");
   string styles = menu_logic_styles_text ();
   string versifications = menu_logic_versification_index_text ();
@@ -662,7 +660,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     personalize,
     users,
     indexes_fonts,
-    timezone,
     mail,
     styles,
     versifications,
@@ -754,19 +751,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       if (manage_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (manage_index_url (), label, true));
         tiplabels.push_back (label);
-      }
-    }
-    
-    if (label == timezone) {
-      if (system_timezone_acl (webserver_request)) {
-        // Display menu to set the site's timezone only in case the calling program has not yet set this zone in the library.
-        // So for example the app for iOS can set the timezone from the device, and in case this has been done,
-        // then the user no longer can set it through Bibledit.
-        if ((config_globals_timezone_offset_utc < MINIMUM_TIMEZONE)
-            || (config_globals_timezone_offset_utc > MAXIMUM_TIMEZONE)) {
-          html.push_back (menu_logic_create_item (system_timezone_url (), label, true));
-          tiplabels.push_back (label);
-        }
       }
     }
     
