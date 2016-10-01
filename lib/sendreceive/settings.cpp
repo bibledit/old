@@ -163,7 +163,7 @@ void sendreceive_settings ()
     platform_id = PLATFORM_ANDROID;
 #endif
 #ifdef HAVE_MAC
-    platform_id = PLATFORM_MAC;
+    platform_id = PLATFORM_MACOS;
 #endif
 #ifdef HAVE_LINUX
     platform_id = PLATFORM_LINUX;

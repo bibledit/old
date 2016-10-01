@@ -34,6 +34,7 @@ typedef struct
   const char * prefix;
   const char * suffix;
   bool join;
+  const char * info;
 } platform_record;
 
 
@@ -44,44 +45,51 @@ platform_record platform_table [] =
     "Windows",
     "http://bibledit.org/windows",
     "<a href=\"", "\">",
-    true
+    true,
+    "https://bibledit.org:8081/help/installwindows"
   },
   {
     PLATFORM_ANDROID,
     "Android",
     "https://play.google.com/store/apps/details?id=org.bibledit.android",
     "\"softwareVersion\">", "</div>",
-    false
+    false,
+    "https://bibledit.org:8081/help/installandroid"
   },
-  { PLATFORM_MAC,
+  { PLATFORM_MACOS,
     "Mac",
     "https://itunes.apple.com/en/app/bibledit/id996639148",
     "\"softwareVersion\">", "</span>",
-    false
+    false,
+    "https://bibledit.org:8081/help/installosx"
   },
   { PLATFORM_LINUX,
     "Linux",
     "http://bibledit.org/linux",
     "<a href=\"", "\">",
-    true
+    true,
+    "https://bibledit.org:8081/help/installlinux"
   },
   { PLATFORM_IOS,
     "iOS",
     "https://itunes.apple.com/en/app/bibledit/id967595683",
     "\"softwareVersion\">", "</span>",
-    false
+    false,
+    "https://bibledit.org:8081/help/installios"
   },
   { PLATFORM_CHROMEOS,
     "Chrome OS",
     "https://chrome.google.com/webstore/detail/bibledit/aiaanakhppdclmabkcnpmnidajanaoda",
     "\"version\" content=\"", "\"",
-    false
+    false,
+    "https://bibledit.org:8081/help/installchromeos"
   },
   { PLATFORM_CLOUD,
     "Cloud",
     "http://bibledit.org/cloud",
     "<a href=\"", "\">",
-    true
+    true,
+    "https://bibledit.org:8081/help/installcloudubuntu"
   }
 };
 
@@ -184,7 +192,9 @@ void user_logic_software_updates_notify ()
             body.push_back ("Version: " + version);
             bool join = platform_table[platform].join;
             if (join) url = filter_url_create_path (url, online_version_number);
-            body.push_back (url);
+            body.push_back ("Download: " + url);
+            string info = platform_table[platform].info;
+            body.push_back ("Info: " + info);
             email_schedule (user, "Bibledit " + name + " update", filter_string_implode (body, "<br>"));
             user_version_numbers [platform] = online_version_number;
             user_versions_updated = true;

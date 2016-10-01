@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #define PLATFORM_WINDOWS 1
 #define PLATFORM_ANDROID 2
-#define PLATFORM_MAC 3
+#define PLATFORM_MACOS 3
 #define PLATFORM_LINUX 4
 #define PLATFORM_IOS 5
 #define PLATFORM_CHROMEOS 6
