@@ -17,16 +17,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_ADMINISTRATION_LANGUAGE_H
-#define INCLUDED_ADMINISTRATION_LANGUAGE_H
+#ifndef INCLUDED_SYSTEM_INDEX_H
+#define INCLUDED_SYSTEM_INDEX_H
 
 
 #include <config/libraries.h>
 
 
-string administration_language_url ();
-bool administration_language_acl (void * webserver_request);
-string administration_language (void * webserver_request);
+string system_index_url ();
+bool system_index_acl (void * webserver_request);
+string system_index (void * webserver_request);
 
 
 #endif

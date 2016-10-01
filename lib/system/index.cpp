@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <administration/language.h>
+#include <system/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/roles.h>
@@ -32,32 +32,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 
 
-string administration_language_url ()
+string system_index_url ()
 {
-  return "administration/language";
+  return "system/index";
 }
 
 
-bool administration_language_acl (void * webserver_request)
+bool system_index_acl (void * webserver_request)
 {
-  // Cloud: Manager can set the language.
-  int role = Filter_Roles::manager ();
 #ifdef HAVE_CLIENT
-  // Client: Anyone can set the language.
-  role = Filter_Roles::member ();
+  // Client: Anyone has access, basically.
+  return true;
+#else
+  // Cloud: Manager can make system settings.
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
 #endif
-  return Filter_Roles::access_control (webserver_request, role);
 }
 
 
-string administration_language (void * webserver_request)
+string system_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   string page;
 
+  // The available localizations.
   map <string, string> localizations = locale_logic_localizations ();
-  
+
+  // User can select or set the system language.
   if (request->query.count ("language")) {
     string language = request->query ["language"];
     if (language == "select") {
@@ -73,7 +75,7 @@ string administration_language (void * webserver_request)
     }
   }
 
-  Assets_Header header = Assets_Header (translate("Language"), webserver_request);
+  Assets_Header header = Assets_Header (translate("System"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   
@@ -82,8 +84,8 @@ string administration_language (void * webserver_request)
   string language = locale_logic_filter_default_language (Database_Config_General::getSiteLanguage ());
   language = localizations [language];
   view.set_variable ("language", language);
-  
-  page += view.render ("administration", "language");
+
+  page += view.render ("system", "index");
 
   page += Assets_Page::footer ();
 

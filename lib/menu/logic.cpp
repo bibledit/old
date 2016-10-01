@@ -19,8 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <menu/logic.h>
 #include <menu/index.h>
-#include <administration/language.h>
-#include <administration/timezone.h>
+#include <system/timezone.h>
+#include <system/index.h>
 #include <bible/manage.h>
 #include <changes/changes.h>
 #include <changes/manage.h>
@@ -640,7 +640,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string personalize = translate ("Personalize");
   string users = menu_logic_manage_users_text ();
   string indexes_fonts = translate ("Indexes and Fonts");
-  string language = translate ("Language");
   string timezone = translate ("Timezone");
   string mail = translate ("Mail");
   string styles = menu_logic_styles_text ();
@@ -653,6 +652,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string notifications = translate ("Notifications");
   string account = translate ("Account");
   string basic_mode = translate ("Basic mode");
+  string system = translate ("System");
   vector <string> labels = {
     bibles,
     desktops,
@@ -662,7 +662,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     personalize,
     users,
     indexes_fonts,
-    language,
     timezone,
     mail,
     styles,
@@ -674,7 +673,8 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     logout,
     notifications,
     account,
-    basic_mode
+    basic_mode,
+    system
   };
   
   // Sort the labels in alphabetical order for the menu.
@@ -757,21 +757,14 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       }
     }
     
-    if (label == language) {
-      if (administration_language_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (administration_language_url (), label, true));
-        tiplabels.push_back (label);
-      }
-    }
-    
     if (label == timezone) {
-      if (administration_timezone_acl (webserver_request)) {
+      if (system_timezone_acl (webserver_request)) {
         // Display menu to set the site's timezone only in case the calling program has not yet set this zone in the library.
         // So for example the app for iOS can set the timezone from the device, and in case this has been done,
         // then the user no longer can set it through Bibledit.
         if ((config_globals_timezone_offset_utc < MINIMUM_TIMEZONE)
             || (config_globals_timezone_offset_utc > MAXIMUM_TIMEZONE)) {
-          html.push_back (menu_logic_create_item (administration_timezone_url (), label, true));
+          html.push_back (menu_logic_create_item (system_timezone_url (), label, true));
           tiplabels.push_back (label);
         }
       }
@@ -877,6 +870,14 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
         tiplabels.push_back (label);
       }
     }
+    
+    if (label == system) {
+      if (system_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (system_index_url (), label, true));
+        tiplabels.push_back (label);
+      }
+    }
+
   }
   
   if (!html.empty ()) {

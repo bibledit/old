@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <config/globals.h>
-#include <administration/timezone.h>
+#include <system/timezone.h>
 
 
 // Functions for getting and setting values or lists of values.

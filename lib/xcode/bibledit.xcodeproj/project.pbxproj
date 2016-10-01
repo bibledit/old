@@ -470,6 +470,12 @@
 		CA97857C1BD24A9E00E13388 /* initialize.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = initialize.sh; sourceTree = "<group>"; };
 		CA97857D1BD24AAA00E13388 /* paths.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = paths.sh; sourceTree = "<group>"; };
 		CA97857E1BD251A600E13388 /* livetest.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = livetest.js; sourceTree = "<group>"; };
+		CA9B22741DA01A6200725C04 /* timezone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = timezone.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		CA9B22751DA01A6200725C04 /* timezone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timezone.h; sourceTree = "<group>"; };
+		CA9B22761DA01A6200725C04 /* timezone.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = timezone.html; sourceTree = "<group>"; };
+		CA9B22771DA0212200725C04 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CA9B22781DA0212200725C04 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		CA9B22791DA0212200725C04 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA9C8D251CC805480092E213 /* git.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = git.cpp; sourceTree = "<group>"; };
 		CA9C8D261CC805480092E213 /* git.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = git.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA9DB7991AA8E4B500D6B549 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -491,12 +497,6 @@
 		CAA4CEFC1A45A647003ABA25 /* bible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = bible.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4CEFD1A45A647003ABA25 /* user.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user.cpp; sourceTree = "<group>"; };
 		CAA4CEFE1A45A647003ABA25 /* user.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = user.h; sourceTree = "<group>"; };
-		CAA4CF171A45A647003ABA25 /* language.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = language.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CAA4CF181A45A647003ABA25 /* language.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language.h; sourceTree = "<group>"; };
-		CAA4CF191A45A647003ABA25 /* language.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = language.html; sourceTree = "<group>"; };
-		CAA4CF2C1A45A647003ABA25 /* timezone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = timezone.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CAA4CF2D1A45A647003ABA25 /* timezone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timezone.h; sourceTree = "<group>"; };
-		CAA4CF2E1A45A647003ABA25 /* timezone.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = timezone.html; sourceTree = "<group>"; };
 		CAA4CF371A45A647003ABA25 /* bibledit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bibledit.png; sourceTree = "<group>"; };
 		CAA4CF381A45A647003ABA25 /* bibledit.xpm */ = {isa = PBXFileReference; lastKnownFileType = text; path = bibledit.xpm; sourceTree = "<group>"; };
 		CAA4CF3B1A45A647003ABA25 /* error.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = error.html; sourceTree = "<group>"; };
@@ -1415,6 +1415,20 @@
 			path = ../livetest;
 			sourceTree = "<group>";
 		};
+		CA9B226B1DA01A6200725C04 /* system */ = {
+			isa = PBXGroup;
+			children = (
+				CA9B22771DA0212200725C04 /* index.cpp */,
+				CA9B22781DA0212200725C04 /* index.h */,
+				CA9B22791DA0212200725C04 /* index.html */,
+				CA9B22741DA01A6200725C04 /* timezone.cpp */,
+				CA9B22751DA01A6200725C04 /* timezone.h */,
+				CA9B22761DA01A6200725C04 /* timezone.html */,
+			);
+			name = system;
+			path = ../system;
+			sourceTree = "<group>";
+		};
 		CAA4CEF51A45A647003ABA25 /* access */ = {
 			isa = PBXGroup;
 			children = (
@@ -1427,20 +1441,6 @@
 			);
 			name = access;
 			path = ../access;
-			sourceTree = "<group>";
-		};
-		CAA4CF001A45A647003ABA25 /* administration */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4CF171A45A647003ABA25 /* language.cpp */,
-				CAA4CF181A45A647003ABA25 /* language.h */,
-				CAA4CF191A45A647003ABA25 /* language.html */,
-				CAA4CF2C1A45A647003ABA25 /* timezone.cpp */,
-				CAA4CF2D1A45A647003ABA25 /* timezone.h */,
-				CAA4CF2E1A45A647003ABA25 /* timezone.html */,
-			);
-			name = administration;
-			path = ../administration;
 			sourceTree = "<group>";
 		};
 		CAA4CF2F1A45A647003ABA25 /* assets */ = {
@@ -3122,7 +3122,6 @@
 			isa = PBXGroup;
 			children = (
 				CAA4CEF51A45A647003ABA25 /* access */,
-				CAA4CF001A45A647003ABA25 /* administration */,
 				CAA4CF2F1A45A647003ABA25 /* assets */,
 				CAA912131C526E1A00F74080 /* basic */,
 				CAA4CF571A45A647003ABA25 /* bible */,
@@ -3213,6 +3212,7 @@
 				CAA4D35E1A45A648003ABA25 /* styles */,
 				CA4077461BB0321F000D2712 /* sword */,
 				CAA4D3731A45A648003ABA25 /* sync */,
+				CA9B226B1DA01A6200725C04 /* system */,
 				CAA4D3841A45A648003ABA25 /* tasks */,
 				CAA4D3901A45A648003ABA25 /* text */,
 				CAA4D3A01A45A648003ABA25 /* timer */,

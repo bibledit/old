@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <administration/timezone.h>
+#include <system/timezone.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/roles.h>
@@ -31,19 +31,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 
 
-string administration_timezone_url ()
+string system_timezone_url ()
 {
-  return "administration/timezone";
+  return "system/timezone";
 }
 
 
-bool administration_timezone_acl (void * webserver_request)
+bool system_timezone_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
 }
 
 
-string administration_timezone (void * webserver_request)
+string system_timezone (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -80,7 +80,7 @@ string administration_timezone (void * webserver_request)
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   
-  page += view.render ("administration", "timezone");
+  page += view.render ("system", "timezone");
 
   page += Assets_Page::footer ();
 
@@ -88,20 +88,20 @@ string administration_timezone (void * webserver_request)
 }
 
 
-string administration_timeoffset_url ()
+string system_timeoffset_url ()
 {
-  return "administration/timeoffset";
+  return "system/timeoffset";
 }
 
 
-bool administration_timeoffset_acl (void * webserver_request)
+bool system_timeoffset_acl (void * webserver_request)
 {
   if (webserver_request) {};
   return true;
 }
 
 
-string administration_timeoffset (void * webserver_request)
+string system_timeoffset (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   

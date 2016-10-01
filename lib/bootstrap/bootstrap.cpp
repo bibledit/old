@@ -42,8 +42,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/hyphenation.h>
 #include <manage/write.h>
 #include <manage/privileges.h>
-#include <administration/language.h>
-#include <administration/timezone.h>
+#include <system/timezone.h>
+#include <system/index.h>
 #include <collaboration/index.h>
 #include <collaboration/url.h>
 #include <collaboration/direction.h>
@@ -641,13 +641,13 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == administration_language_url ()) && browser_request_security_okay (request) && administration_language_acl (request)) {
-    request->reply = administration_language (request);
+  if ((url == system_timezone_url ()) && browser_request_security_okay (request) && system_timezone_acl (request)) {
+    request->reply = system_timezone (request);
     return;
   }
   
-  if ((url == administration_timezone_url ()) && browser_request_security_okay (request) && administration_timezone_acl (request)) {
-    request->reply = administration_timezone (request);
+  if ((url == system_index_url ()) && browser_request_security_okay (request) && system_index_acl (request)) {
+    request->reply = system_index (request);
     return;
   }
   
@@ -1147,8 +1147,8 @@ void bootstrap_index (void * webserver_request)
   }
 
   // Internal settings calls.
-  if ((url == administration_timeoffset_url ()) && administration_timeoffset_acl (request)) {
-    request->reply = administration_timeoffset (request);
+  if ((url == system_timeoffset_url ()) && system_timeoffset_acl (request)) {
+    request->reply = system_timeoffset (request);
     return;
   }
 

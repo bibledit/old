@@ -17,8 +17,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_ADMINISTRATION_TIMEZONE_H
-#define INCLUDED_ADMINISTRATION_TIMEZONE_H
+#ifndef INCLUDED_SYSTEM_TIMEZONE_H
+#define INCLUDED_SYSTEM_TIMEZONE_H
 
 
 #include <config/libraries.h>
@@ -28,13 +28,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define MAXIMUM_TIMEZONE 14
 
 
-string administration_timezone_url ();
-bool administration_timezone_acl (void * webserver_request);
-string administration_timezone (void * webserver_request);
+string system_timezone_url ();
+bool system_timezone_acl (void * webserver_request);
+string system_timezone (void * webserver_request);
 
-string administration_timeoffset_url ();
-bool administration_timeoffset_acl (void * webserver_request);
-string administration_timeoffset (void * webserver_request);
+string system_timeoffset_url ();
+bool system_timeoffset_acl (void * webserver_request);
+string system_timeoffset (void * webserver_request);
 
 
 #endif
