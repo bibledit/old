@@ -118,7 +118,7 @@ string developer_index (void * webserver_request)
   if (debug == "ipv6") {
     view.set_variable ("success", "Fetching data via IPv6");
     string error;
-    string response = filter_url_http_get ("http://ipv6.google.com", error, true);
+    string response = filter_url_http_request_mbed ("http://ipv6.google.com", error, {}, "", true);
     page.append (response);
     view.set_variable ("error", error);
   }
@@ -126,7 +126,7 @@ string developer_index (void * webserver_request)
   if (debug == "ipv6s") {
     view.set_variable ("success", "Securely fetching data via IPv6");
     string error;
-    string response = filter_url_http_get ("https://ipv6.google.com", error, true);
+    string response = filter_url_http_request_mbed ("https://ipv6.google.com", error, {}, "", true);
     page.append (response);
     view.set_variable ("error", error);
   }
