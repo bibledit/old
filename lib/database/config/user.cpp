@@ -1177,7 +1177,9 @@ void Database_Config_User::setBasicInterfaceMode (bool value)
 
 bool Database_Config_User::getMainMenuAlwaysVisible ()
 {
-  return getBValue ("main-menu-always-visible", false);
+  // Default visible in basic mode.
+  // Advanced mode: By default it is not visible.
+  return getBValue ("main-menu-always-visible", getBasicInterfaceModeDefault ());
 }
 void Database_Config_User::setMainMenuAlwaysVisible (bool value)
 {
