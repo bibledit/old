@@ -207,7 +207,7 @@ void demo_clean_data ()
   
   
   // No flipped basic <> advanded mode.
-  request.database_config_user ()->setFlipInterfaceMode (false);
+  request.database_config_user ()->setBasicInterfaceMode (false);
 }
 
 

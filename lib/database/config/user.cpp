@@ -1146,13 +1146,13 @@ void Database_Config_User::setEditingAllowedDifferenceVerse (int value)
 }
 
 
-bool Database_Config_User::getFlipInterfaceMode ()
+bool Database_Config_User::getBasicInterfaceMode ()
 {
-  return getBValue ("flip-interface-mode", false);
+  return getBValue ("basic-interface-mode", false);
 }
-void Database_Config_User::setFlipInterfaceMode (bool value)
+void Database_Config_User::setBasicInterfaceMode (bool value)
 {
-  setBValue ("flip-interface-mode", value);
+  setBValue ("basic-interface-mode", value);
 }
 
 

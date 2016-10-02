@@ -100,22 +100,10 @@ int my_stoi (const string& str, void * idx, int base)
 
 
 // Returns whether the interface is supposed to be in basic mode.
-// When the mode was flipped, this used to expire after some hours.
-// But there may be people working on a tablet,
-// who would want to permanently switch to advanced mode, without this mode to expire.
-// Therefore the mode flip switch is now permanent, till flipped again.
 bool config_logic_basic_mode (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
-  // When this is a touch-enabled device, the basic mode will be on.
-  bool basic_mode = request->session_logic ()->touchEnabled ();
-  
-  // Check whether to flip basic <> advanced mode.
-  if (request->database_config_user ()->getFlipInterfaceMode ()) {
-    basic_mode = !basic_mode;
-  }
-  
+  bool basic_mode = request->database_config_user ()->getBasicInterfaceMode ();
   return basic_mode;
 }
 

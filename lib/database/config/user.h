@@ -207,8 +207,8 @@ public:
   void setEditingAllowedDifferenceChapter (int value);
   int getEditingAllowedDifferenceVerse ();
   void setEditingAllowedDifferenceVerse (int value);
-  bool getFlipInterfaceMode ();
-  void setFlipInterfaceMode (bool value);
+  bool getBasicInterfaceMode ();
+  void setBasicInterfaceMode (bool value);
   bool getMainMenuAlwaysVisible ();
   void setMainMenuAlwaysVisible (bool value);
   bool getSwipeActionsAvailable ();
