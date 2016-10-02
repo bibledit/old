@@ -1146,9 +1146,28 @@ void Database_Config_User::setEditingAllowedDifferenceVerse (int value)
 }
 
 
+bool Database_Config_User::getBasicInterfaceModeDefault ()
+{
+  // Touch devices default to basic mode.
+#ifdef HAVE_ANDROID
+  return true;
+#endif
+#ifdef HAVE_IOS
+  return true;
+#endif
+#ifdef HAVE_CHROMEOS
+  return true;
+#endif
+  // The app running on a desktop or laptop have default to basic mode for a lower role.
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  int level = request->session_logic ()->currentLevel ();
+  if (level <= Filter_Roles::manager ()) return true;
+  // Higher role: default to advanced mode.
+  return false;
+}
 bool Database_Config_User::getBasicInterfaceMode ()
 {
-  return getBValue ("basic-interface-mode", false);
+  return getBValue ("basic-interface-mode", getBasicInterfaceModeDefault ());
 }
 void Database_Config_User::setBasicInterfaceMode (bool value)
 {
