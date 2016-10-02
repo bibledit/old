@@ -16,57 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Set the language for Bibledit"
-msgstr ""
-
-msgid "Language"
-msgstr ""
-
-msgid "The language for Bibledit:"
-msgstr ""
-
-msgid "change"
-msgstr ""
-
-msgid "Your preferred language is not listed?"
-msgstr ""
-
-msgid ""
-"Use your translation skills to assist with bringing another language to "
-"Bibledit."
-msgstr ""
-
-msgid "Start translating right away."
-msgstr ""
-
-msgid ""
-"It is possible to translate only the most important phrases to get your "
-"translation team going in their own language."
-msgstr ""
-
-msgid "Your translation will be included with the next Bibledit release."
-msgstr ""
-
-msgid "Timezone"
-msgstr ""
-
-msgid "The timezone was clipped"
-msgstr ""
-
-msgid "The timezone was saved"
-msgstr ""
-
-msgid "Site timezone"
-msgstr ""
-
-msgid ""
-"Set the timezone for Bibledit as an offset from UTC in whole hours from -12 "
-"till +14."
-msgstr ""
-
-msgid "Submit"
-msgstr ""
-
 msgid "Menu"
 msgstr ""
 
@@ -254,6 +203,9 @@ msgid "Import Bible text."
 msgstr ""
 
 msgid "Paste the text into the box below and submit it."
+msgstr ""
+
+msgid "Submit"
 msgstr ""
 
 msgid "You can also upload a file with the text."
@@ -6202,6 +6154,9 @@ msgstr ""
 msgid "Basic mode"
 msgstr ""
 
+msgid "System"
+msgstr ""
+
 msgid "USFM resources"
 msgstr ""
 
@@ -6347,6 +6302,9 @@ msgid "Severity"
 msgstr ""
 
 msgid "This is a general note, it does not apply to any specific Bible"
+msgstr ""
+
+msgid "change"
 msgstr ""
 
 msgid "Edit contents"
@@ -8534,6 +8492,48 @@ msgid "Dump endnotes when encountering marker"
 msgstr ""
 
 msgid "Received from client"
+msgstr ""
+
+msgid "Set the language for Bibledit"
+msgstr ""
+
+msgid "The timezone was clipped"
+msgstr ""
+
+msgid "The timezone was saved"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "The language for Bibledit:"
+msgstr ""
+
+msgid "Your preferred language is not listed?"
+msgstr ""
+
+msgid ""
+"Use your translation skills to assist with bringing another language to "
+"Bibledit."
+msgstr ""
+
+msgid "Start translating right away."
+msgstr ""
+
+msgid ""
+"It is possible to translate only the most important phrases to get your "
+"translation team going in their own language."
+msgstr ""
+
+msgid "Your translation will be included with the next Bibledit release."
+msgstr ""
+
+msgid "Timezone"
+msgstr ""
+
+msgid ""
+"Set the timezone for Bibledit as an offset from UTC in whole hours from -12 "
+"till +14."
 msgstr ""
 
 msgid "ABC"
