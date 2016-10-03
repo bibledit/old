@@ -215,8 +215,21 @@ const char * bibledit_is_synchronizing ()
 }
 
 
+// The normal shutdown procedure works by connecting to the internal webservers,
+// and these connections in turn help with shutting down the listening internal webservers.
+// In case all the internal webservers no longer are able to accept connections,
+// the normal shutdown fails to work.
+// This last-ditch function waits a few seconds, and if the app is still running then,
+// it exits the app, regardless of the state of the internal webservers.
+void bibledit_last_ditch_forced_exit ()
+{
+  this_thread::sleep_for (chrono::seconds (2));
+  exit (0);
+}
+
+
 // Stop the library.
-// Can be called multiple times during the lifetime of the app
+// Can be called multiple times during the lifetime of the app.
 void bibledit_stop_library ()
 {
   // Repeating stop guard.
@@ -228,28 +241,11 @@ void bibledit_stop_library ()
   
   string url, error;
   
-  // Connect to localhost through IPv4 to initiate the shutdown mechanism in the running IPv4 server.
+  // Connect to the plain webserver to initiate its shutdown mechanism.
   url = "http://127.0.0.1:";
   url.append (config_logic_http_network_port ());
   filter_url_http_get (url, error, false);
 
-#ifndef HAVE_CLIENT
-  // Connect to localhost through IPv6 to initiate the shutdown mechanism in the running IPv6 server.
-  {
-    int sockfd = socket (AF_INET6, SOCK_STREAM, 0);
-    struct hostent *server = gethostbyname2 ("::1", AF_INET6);
-    struct sockaddr_in6 serv_addr;
-    memset ((char *) &serv_addr, 0, sizeof (serv_addr));
-    serv_addr.sin6_flowinfo = 0;
-    serv_addr.sin6_family = AF_INET6;
-    memmove ((char *) &serv_addr.sin6_addr.s6_addr, (char *) server->h_addr, server->h_length);
-    serv_addr.sin6_port = htons (convert_to_int (config_logic_http_network_port ()));
-    connect (sockfd, (struct sockaddr *) &serv_addr, sizeof (serv_addr));
-    this_thread::sleep_for (chrono::milliseconds (1));
-    close (sockfd);
-  }
-#endif
-  
   // Connect to the secure server to initiate its shutdown mechanism.
 #ifndef HAVE_CLIENT
   url = "https://localhost:";
@@ -259,7 +255,10 @@ void bibledit_stop_library ()
   // The server will then abort the TLS handshake, and shut down.
   this_thread::sleep_for (chrono::milliseconds (1));
 #endif
-  
+
+  // Schedule a timer to exit(0) the program in case the network stack fails to exit the servers.
+  new thread (bibledit_last_ditch_forced_exit);
+
   // Wait till the servers and the timers shut down.
   config_globals_http_worker->join ();
   config_globals_https_worker->join ();

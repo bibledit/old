@@ -33,28 +33,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 
 
-// The normal shutdown procedure works by connecting to the internal webserver,
-// and this connection in turn helps with shutting down the listening internal webserver.
-// In case the internal webserver no longer is able to accept connections,
-// the normal shutdown fails to work.
-// This last-ditch function waits a few seconds, and if the app is still running then,
-// it exits the app, regardless of the state of the internal webserver.
-void last_ditch_forced_exit ()
-{
-  this_thread::sleep_for (chrono::seconds (2));
-  exit (0);
-}
-
-
 void sigint_handler (int s)
 {
   (void) s;
   // When pressing Ctrl-C, the system outputs a "^C".
   // It is cleaner to write a new line after that.
   cout << endl;
-  // Schedule a timer to exit(0) the program in case the network stack fails to exit the servers.
-  new thread (last_ditch_forced_exit);
-  // Initiate clean server shutdown.
+  // Initiate server(s) shutdown.
   bibledit_stop_library ();
 }
 
