@@ -15,7 +15,11 @@
     android:minSdkVersion="11"
     android:targetSdkVersion="11"
   />
-            
+
+  <!-- Some Chromebooks don't support touch. 
+   It is not essential but still it's good to explicitly state that it does not require touch. -->
+  <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+
   <supports-screens
 	android:smallScreens="true"
     android:normalScreens="true"
