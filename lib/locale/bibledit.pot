@@ -49,6 +49,12 @@ msgid ""
 "Once in advanced mode, return to basic mode via menu Settings / Basic mode."
 msgstr ""
 
+msgid "Show the changes"
+msgstr ""
+
+msgid "Whether to have a menu entry to go to the changes."
+msgstr ""
+
 msgid "Logout."
 msgstr ""
 
