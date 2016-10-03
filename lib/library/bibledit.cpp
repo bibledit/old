@@ -242,7 +242,7 @@ void bibledit_stop_library ()
   string url, error;
   
   // Connect to the plain webserver to initiate its shutdown mechanism.
-  url = "http://127.0.0.1:";
+  url = "http://localhost:";
   url.append (config_logic_http_network_port ());
   filter_url_http_get (url, error, false);
 
@@ -253,7 +253,6 @@ void bibledit_stop_library ()
   filter_url_http_get (url, error, false);
   // Let the connection start, then close it.
   // The server will then abort the TLS handshake, and shut down.
-  this_thread::sleep_for (chrono::milliseconds (1));
 #endif
 
   // Schedule a timer to exit(0) the program in case the network stack fails to exit the servers.
