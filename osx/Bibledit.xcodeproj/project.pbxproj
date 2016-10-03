@@ -32,7 +32,6 @@
 		CA3CC26E1C45277D001CBA74 /* UIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDelegate.h; sourceTree = "<group>"; };
 		CA3CC26F1C45277E001CBA74 /* UIDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDelegate.m; sourceTree = "<group>"; };
 		CA43E08A1BB851BE00347EE1 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
-		CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		CA99CFA01B175B8B00696023 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CAE0196E1B1775C6000EAF46 /* webroot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webroot; sourceTree = "<group>"; };
 		CAE235C51B176C2D005AEEBF /* libbibledit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbibledit.a; path = webroot/libbibledit.a; sourceTree = "<group>"; };
@@ -57,7 +56,6 @@
 		CA1599E21B1759A600B26F9C = {
 			isa = PBXGroup;
 			children = (
-				CA43E08E1BB851F700347EE1 /* libsqlite3.tbd */,
 				CA43E08A1BB851BE00347EE1 /* libstdc++.tbd */,
 				CAE0196E1B1775C6000EAF46 /* webroot */,
 				CAE33E751B176F2500BBA84A /* MainMenu.xib */,
