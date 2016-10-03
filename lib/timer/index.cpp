@@ -63,8 +63,7 @@ void timer_index ()
       if (!config_globals_data_initialized) continue;
       
       // The current time, localized.
-      int seconds_since_epoch = filter_date_seconds_since_epoch ();
-      int local_seconds = filter_date_local_seconds (seconds_since_epoch);
+      int local_seconds = filter_date_local_seconds (filter_date_seconds_since_epoch ());
       int second = filter_date_numerical_second (local_seconds);
       int minute = filter_date_numerical_minute (local_seconds);
       int hour = filter_date_numerical_hour (local_seconds);
