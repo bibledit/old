@@ -71,7 +71,7 @@ string system_index (void * webserver_request)
   if (request->query.count ("language")) {
     string language = request->query ["language"];
     if (language == "select") {
-      Dialog_List dialog_list = Dialog_List ("language", translate("Set the language for Bibledit"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Set the language for Bibledit"), "", "");
       for (auto element : localizations) {
         dialog_list.add_row (element.second, "language", element.first);
       }
