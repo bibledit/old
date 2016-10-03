@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <access/bible.h>
 #include <ipc/focus.h>
 #include <client/logic.h>
+#include <styles/logic.h>
 
 
 const char * basic_index_url ()
@@ -57,7 +58,8 @@ string basic_index (void * webserver_request)
   Assets_Header header = Assets_Header ("Settings", webserver_request);
   string page = header.run ();
   Assets_View view;
-
+  string on_off;
+  
   
   if (request->query.count ("changebible")) {
     string changebible = request->query ["changebible"];
@@ -83,6 +85,14 @@ string basic_index (void * webserver_request)
   }
   string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
   view.set_variable ("bible", bible);
+  
+  
+  if (request->query.count ("showchanges")) {
+    bool state = request->database_config_user ()->getMenuChangesInBasicMode ();
+    request->database_config_user ()->setMenuChangesInBasicMode (!state);
+  }
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getMenuChangesInBasicMode ());
+  view.set_variable ("showchanges", on_off);
   
   
 #ifdef HAVE_CLIENT

@@ -236,6 +236,8 @@ public:
   void setEnabledUsfmEditors (int value);
   bool getEnableStylesButtonVisualEditors ();
   void setEnableStylesButtonVisualEditors (bool value);
+  bool getMenuChangesInBasicMode ();
+  void setMenuChangesInBasicMode (bool value);
 private:
   void * webserver_request;
   string file (string user);

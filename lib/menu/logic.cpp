@@ -265,6 +265,12 @@ string menu_logic_basic_categories (void * webserver_request)
     html.push_back (menu_logic_create_item (editone_index_url (), translate ("Translation"), true));
   }
   
+  if (changes_changes_acl (webserver_request)) {
+    if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
+      html.push_back (menu_logic_create_item (changes_changes_url (), menu_logic_changes_text (), true));
+    }
+  }
+
   if (notes_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (notes_index_url (), translate ("Notes"), true));
   }

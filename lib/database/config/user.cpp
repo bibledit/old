@@ -1303,3 +1303,13 @@ void Database_Config_User::setEnableStylesButtonVisualEditors (bool value)
 {
   setBValue ("enable-styles-button-visual-editors", value);
 }
+
+
+bool Database_Config_User::getMenuChangesInBasicMode ()
+{
+  return getBValue ("menu-changes-in-basic-mode", false);
+}
+void Database_Config_User::setMenuChangesInBasicMode (bool value)
+{
+  setBValue ("menu-changes-in-basic-mode", value);
+}
