@@ -15,6 +15,8 @@
 		CA00A3411B8C9925007B95BA /* kjv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = kjv.cpp; sourceTree = "<group>"; };
 		CA00A3421B8C9925007B95BA /* kjv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kjv.h; sourceTree = "<group>"; };
 		CA00A3441B8C9925007B95BA /* kjv.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = kjv.txt; sourceTree = "<group>"; };
+		CA02DE771DA3B0F8001155A9 /* memory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = memory.cpp; sourceTree = "<group>"; };
+		CA02DE781DA3B0F8001155A9 /* memory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = memory.h; sourceTree = "<group>"; };
 		CA05545D1A7D283D0023BA52 /* setup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = setup.cpp; sourceTree = "<group>"; };
 		CA05545E1A7D283D0023BA52 /* setup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = setup.h; sourceTree = "<group>"; };
 		CA0554611A7D43CC0023BA52 /* settings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = settings.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -2151,6 +2153,8 @@
 				CA442D031A553DA6006374D3 /* git.h */,
 				CAA4D0F71A45A647003ABA25 /* md5.cpp */,
 				CAA4D0F81A45A647003ABA25 /* md5.h */,
+				CA02DE771DA3B0F8001155A9 /* memory.cpp */,
+				CA02DE781DA3B0F8001155A9 /* memory.h */,
 				CA8669C11A793629009E8E3F /* merge.cpp */,
 				CA8669C21A793629009E8E3F /* merge.h */,
 				CAA4D1021A45A647003ABA25 /* passage.cpp */,

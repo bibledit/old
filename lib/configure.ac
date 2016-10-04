@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.576],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.577],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -79,6 +79,10 @@ AC_CHECK_HEADER(pthread.h,AC_DEFINE([HAVE_PTHREAD],[1],[Define whether pthread.h
 AC_CHECK_HEADER(libproc.h,AC_DEFINE([HAVE_LIBPROC],[1],[Define whether libproc.h is present]),)
 
 AC_CHECK_HEADER(execinfo.h,AC_DEFINE([HAVE_EXECINFO],[1],[Define whether execinfo.h is present]),)
+
+AC_CHECK_HEADER(sys/sysctl.h,AC_DEFINE([HAVE_SYS_SYSCTL],[1],[Define whether sys/sysctl.h is present]),)
+
+AC_CHECK_HEADER(mach/mach.h,AC_DEFINE([HAVE_MACH_MACH],[1],[Define whether mach/mach.h is present]),)
 
 # Demo installation.
 DEMO=no

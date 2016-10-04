@@ -23,6 +23,7 @@ libbibledit_a_SOURCES = \
 	filter/shell.cpp \
 	filter/merge.cpp \
 	filter/date.cpp \
+	filter/memory.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \

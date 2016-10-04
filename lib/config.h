@@ -40,6 +40,9 @@
 /* Define whether to compile for Mac */
 /* #undef HAVE_MAC */
 
+/* Define whether mach/mach.h is present */
+#define HAVE_MACH_MACH 1
+
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
@@ -70,6 +73,9 @@
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
 
+/* Define whether sys/sysctl.h is present */
+#define HAVE_SYS_SYSCTL 1
+
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
 
@@ -98,7 +104,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.576"
+#define PACKAGE_STRING "bibledit 1.0.577"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -107,7 +113,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.576"
+#define PACKAGE_VERSION "1.0.577"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -116,7 +122,7 @@
 #define UNITTESTS "no"
 
 /* Version number of package */
-#define VERSION "1.0.576"
+#define VERSION "1.0.577"
 
 /* Define whether to compile on Windows */
 /* #undef WIN32 */

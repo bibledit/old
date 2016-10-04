@@ -123,13 +123,13 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/css.$(OBJEXT) filter/git.$(OBJEXT) \
 	filter/diff.$(OBJEXT) filter/abbreviations.$(OBJEXT) \
 	filter/shell.$(OBJEXT) filter/merge.$(OBJEXT) \
-	filter/date.$(OBJEXT) flate/flate.$(OBJEXT) \
-	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
-	assets/header.$(OBJEXT) index/index.$(OBJEXT) \
-	index/listing.$(OBJEXT) config/globals.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/index.$(OBJEXT) \
-	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
-	database/config/general.$(OBJEXT) \
+	filter/date.$(OBJEXT) filter/memory.$(OBJEXT) \
+	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
+	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
+	index/index.$(OBJEXT) index/listing.$(OBJEXT) \
+	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
+	menu/index.$(OBJEXT) locale/translate.$(OBJEXT) \
+	locale/logic.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
@@ -582,6 +582,7 @@ libbibledit_a_SOURCES = \
 	filter/shell.cpp \
 	filter/merge.cpp \
 	filter/date.cpp \
+	filter/memory.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -1131,6 +1132,8 @@ filter/shell.$(OBJEXT): filter/$(am__dirstamp) \
 filter/merge.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/date.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
+filter/memory.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 flate/$(am__dirstamp):
 	@$(MKDIR_P) flate
@@ -2739,6 +2742,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/diff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/git.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/md5.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/memory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/merge.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/passage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/roles.Po@am__quote@

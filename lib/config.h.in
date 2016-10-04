@@ -39,6 +39,9 @@
 /* Define whether to compile for Mac */
 #undef HAVE_MAC
 
+/* Define whether mach/mach.h is present */
+#undef HAVE_MACH_MACH
+
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
@@ -68,6 +71,9 @@
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
+
+/* Define whether sys/sysctl.h is present */
+#undef HAVE_SYS_SYSCTL
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H

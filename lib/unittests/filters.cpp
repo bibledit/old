@@ -45,6 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/merge.h>
 #include <filter/date.h>
 #include <filter/shell.h>
+#include <filter/memory.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -4904,6 +4905,15 @@ void test_filter_shell ()
   
   evaluate (__LINE__, __func__, true, filter_shell_is_present ("zip"));
   evaluate (__LINE__, __func__, false, filter_shell_is_present ("xxxxx"));
+}
+
+
+void test_filter_memory () // Todo
+{
+  trace_unit_tests (__func__);
+  
+  int available = filter_memory_percentage_available ();
+  cout << available << endl; // Todo
 }
 
 
