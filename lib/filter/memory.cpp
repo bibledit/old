@@ -73,3 +73,21 @@ int filter_memory_percentage_available () // Todo
   // Failed to get available memory: Return something sensible.
   return 50;
 }
+
+
+// Returns how many bytes of memory the app currently uses.
+uint64_t filter_memory_total_usage ()
+{
+#ifdef HAVE_MACH_MACH
+  // macOS.
+  struct task_basic_info t_info;
+  mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT;
+  task_info (mach_task_self(), TASK_BASIC_INFO, (task_info_t)&t_info, &t_info_count);
+  // Total usage consists of resident and virtual memory size.
+  uint64_t resident_memory = t_info.resident_size;
+  // The resident memory is unrealistically high, so can be left out.
+  //uint64_t virtual_memory = t_info.virtual_size;
+  return resident_memory;
+#endif
+  return 0;
+}

@@ -48,6 +48,7 @@ void test_json ();
 void test_related ();
 void test_editone_logic ();
 void test_http ();
+void test_memory ();
 
 
 #endif
