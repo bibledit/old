@@ -80,6 +80,8 @@ sed -i.bak '/HAVE_STOI/d' jni/config.h
 sed -i.bak '/HAVE_SWORD/d' jni/config.h
 # No file-upload possible from web view.
 sed -i.bak '/CONFIG_ENABLE_FILE_UPLOAD/d' jni/config/config.h
+# Android does not need BSD memory profiling calls.
+sed -i.bak '/HAVE_MACH_MACH/d' jni/config.h
 # Cleanup
 rm jni/config.h.bak
 rm jni/config/config.h.bak
