@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+gcc -lldap ldap1.c -o ldap
+./ldap
+rm ldap
