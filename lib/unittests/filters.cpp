@@ -4908,12 +4908,11 @@ void test_filter_shell ()
 }
 
 
-void test_filter_memory () // Todo
+void test_filter_memory ()
 {
   trace_unit_tests (__func__);
   
   int available = filter_memory_percentage_available ();
-  cout << available << endl; // Todo
 }
 
 

@@ -111,7 +111,7 @@ void changes_process_identifiers (Webserver_Request * request,
 void changes_modifications ()
 {
   Database_Logs::log ("Change notifications: Generating", Filter_Roles::translator ());
-  
+
   
   // Set flag so the notifications are not now available to clients.
   config_globals_change_notifications_available = false;

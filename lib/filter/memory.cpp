@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Returns the memory available as a percentage of the total system memory.
-int filter_memory_percentage_available () // Todo
+int filter_memory_percentage_available ()
 {
 #ifdef HAVE_MACH_MACH
   // macOS.

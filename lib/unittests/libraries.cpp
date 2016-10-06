@@ -3434,11 +3434,10 @@ void test_memory_record ()
 }
 
 
-void test_memory () // Todo
+void test_memory ()
 {
   // Measure maximum memory usage of tasks that normally run in the background.
 
-  /* Todo
   // Creating search index for one Bible.
   refresh_sandbox (false);
   {
@@ -3492,8 +3491,8 @@ void test_memory () // Todo
     Database_Bibles database_bibles;
     Database_Modifications database_modifications;
     string bible = demo_sample_bible_name ();
-    for (int book = 1; book <= 5; book++) {
-      for (int chapter = 1; chapter < 10; chapter++) {
+    for (int book = 1; book <= 1; book++) {
+      for (int chapter = 1; chapter <= 1; chapter++) {
         string usfm = database_bibles.getChapter (bible, book, chapter);
         usfm = filter_string_str_replace ("the", "THE", usfm);
         database_modifications.storeTeamDiff (bible, book, chapter);
@@ -3508,9 +3507,10 @@ void test_memory () // Todo
     test_memory_run = false;
     recorder->join ();
     delete recorder;
-    cout << max_memory_usage - basic_usage << " changes_modifications" << endl;
+    uint64_t after_usage = filter_memory_total_usage ();
+    cout << max_memory_usage - basic_usage << " changes_modifications, leakage " << after_usage - basic_usage << endl;
   }
-  
+
   // Running checks.
   refresh_sandbox (false);
   {
@@ -3613,7 +3613,6 @@ void test_memory () // Todo
     delete recorder;
     cout << max_memory_usage - basic_usage << " export_esword" << endl;
   }
-   */
 
   // Exporting Bible to Online Bible.
   refresh_sandbox (false);
@@ -3665,6 +3664,24 @@ void test_memory () // Todo
   
   // Done.
   refresh_sandbox (false);
+  
+  /*
+   
+   First iteration displaying memory usage in bytes per function:
+   40960 search_reindex_bibles
+   8192 search_reindex_notes
+   113590272 changes_modifications
+   8364032 checks_run
+   40960 export_usfm
+   339968 export_text_usfm_book
+   929792 export_odt_book
+   30154752 export_esword
+   15814656 export_onlinebible
+   118784 export_quickbible
+   20480 sword_logic_refresh_module_list
+   This is on macOS, but valgrind on Linux gives different values, lower values.
+  
+  */
 }
 
 
