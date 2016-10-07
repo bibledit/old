@@ -84,7 +84,6 @@ AC_CHECK_HEADER(sys/sysctl.h,AC_DEFINE([HAVE_SYS_SYSCTL],[1],[Define whether sys
 
 AC_CHECK_HEADER(mach/mach.h,AC_DEFINE([HAVE_MACH_MACH],[1],[Define whether mach/mach.h is present]),)
 
-AC_CHECK_HEADER(ldap.h,AC_DEFINE([HAVE_LDAP],[1],[Define whether ldap.h is present]),)
 
 # Demo installation.
 DEMO=no

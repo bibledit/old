@@ -6719,14 +6719,6 @@ fi
 
 
 
-ac_fn_cxx_check_header_mongrel "$LINENO" "ldap.h" "ac_cv_header_ldap_h" "$ac_includes_default"
-if test "x$ac_cv_header_ldap_h" = xyes; then :
-
-$as_echo "#define HAVE_LDAP 1" >>confdefs.h
-
-fi
-
-
 
 # Demo installation.
 DEMO=no

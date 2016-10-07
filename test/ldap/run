@@ -1,6 +1,0 @@
-#!/bin/bash
-
-
-g++ -lldap ldap.cpp -o ldap
-./ldap
-rm ldap
