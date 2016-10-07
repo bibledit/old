@@ -461,7 +461,7 @@ AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 AM_CXXFLAGS += $(SWORD_CFLAGS)
 
-LIBS = -Wall -lpthread -L. -g -rdynamic -ldl -lldap
+LIBS = -Wall -lpthread -L. -g -rdynamic -ldl
 LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
 LIBS += $(SWORD_LIBS)
