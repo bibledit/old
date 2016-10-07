@@ -4916,4 +4916,11 @@ void test_filter_memory ()
 }
 
 
+void test_filter_ldap () // Todo
+{
+  trace_unit_tests (__func__);
+  
+}
+
+
 #endif

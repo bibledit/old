@@ -30,6 +30,9 @@
 /* Define whether to compile for iOS */
 #undef HAVE_IOS
 
+/* Define whether ldap.h is present */
+#undef HAVE_LDAP
+
 /* Define whether libproc.h is present */
 #undef HAVE_LIBPROC
 

@@ -24,6 +24,7 @@ libbibledit_a_SOURCES = \
 	filter/merge.cpp \
 	filter/date.cpp \
 	filter/memory.cpp \
+	filter/ldap.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -460,7 +461,7 @@ AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 AM_CXXFLAGS += $(SWORD_CFLAGS)
 
-LIBS = -Wall -lpthread -L. -g -rdynamic -ldl
+LIBS = -Wall -lpthread -L. -g -rdynamic -ldl -lldap
 LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
 LIBS += $(SWORD_LIBS)
