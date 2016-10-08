@@ -46,6 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <filter/shell.h>
 #include <filter/memory.h>
+#include <filter/ldap.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -4899,12 +4900,20 @@ void test_filter_archive ()
 }
 
 
-void test_filter_shell ()
+void test_filter_shell () // Todo
 {
   trace_unit_tests (__func__);
   
   evaluate (__LINE__, __func__, true, filter_shell_is_present ("zip"));
   evaluate (__LINE__, __func__, false, filter_shell_is_present ("xxxxx"));
+  
+  string output;
+  int result;
+  result = filter_shell_vfork (output, "ls", "-l");
+  evaluate (__LINE__, __func__, 0, result);
+  if (output.find ("unittest") == string::npos) {
+    evaluate (__LINE__, __func__, "Supposed to list files", output);
+  }
 }
 
 
@@ -4913,6 +4922,7 @@ void test_filter_memory ()
   trace_unit_tests (__func__);
   
   int available = filter_memory_percentage_available ();
+  (void) available;
 }
 
 
@@ -4920,6 +4930,20 @@ void test_filter_ldap () // Todo
 {
   trace_unit_tests (__func__);
   
+  string uri = "ldap://ldap.forumsys.com";
+  string user = "boyle";
+  string password = "password";
+  string binddn = "uid=[user],dc=example,dc=com";
+  string basedn = "dc=example,dc=com";
+  string scope = "sub";
+  string filter = "(uid=[user])";
+  bool okay;
+  bool access;
+  string email;
+  okay = filter_ldap_get (uri, user, password, binddn, basedn, scope, filter, access, email);
+  evaluate (__LINE__, __func__, true, okay);
+  evaluate (__LINE__, __func__, true, access);
+  evaluate (__LINE__, __func__, "boyle@ldap.forumsys.com", email);
 }
 
 

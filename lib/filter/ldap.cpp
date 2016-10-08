@@ -18,11 +18,67 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <filter/ldap.h>
+#include <filter/shell.h>
+#include <filter/string.h>
 
 
-bool filter_ldap_get (string uri, string user, string password, bool & access, string & email) // Todo
+/*
+
+ Public LDAP test server:
+ http://www.forumsys.com/en/tutorials/integration-how-to/ldap/online-ldap-test-server/
+ 
+ Examples of search queries against the test server:
+ 
+ ldapsearch -D "cn=read-only-admin,dc=example,dc=com" -w password -h ldap.forumsys.com -p 389 -b "dc=example,dc=com" -s sub "(objectclass=*)"
+ 
+ ldapsearch -D "uid=boyle,dc=example,dc=com" -w password -h ldap.forumsys.com -p 389
+ 
+ ldapsearch -h ldap.forumsys.com -p 389 -w password -D "cn=read-only-admin,dc=example,dc=com" -b "dc=example,dc=com" -s sub "(objectclass=*)"
+ 
+ ldapsearch -H ldap://ldap.forumsys.com -D "cn=read-only-admin,dc=example,dc=com" -w password -b "dc=example,dc=com" -s sub "(objectclass=*)"
+
+*/
+
+
+// Queries the LDAP server at $uri, with credentials $user and $password.
+// Parameter $access indicates whether the credentials have access to the server.
+// Parameter $mail returns the email address.
+// If the query was done successfully, the function returns true.
+bool filter_ldap_get (string uri,
+                      string user, string password,
+                      string binddn, string basedn, string scope, string filter,
+                      bool & access, string & email) // Todo
 {
+  access = false;
+  email.clear ();
+  binddn = filter_string_str_replace ("[user]", user, binddn);
+  filter = filter_string_str_replace ("[user]", user, filter);
+  string output;
+  int result = filter_shell_vfork (output, "ldapsearch",
+                                   "-H", uri.c_str (),
+                                   "-D", binddn.c_str (),
+                                   "-w", password.c_str (),
+                                   "-b", basedn.c_str (),
+                                   "-s", scope.c_str(),
+                                   filter.c_str());
   
-  // Done.
-  return true;
+  // Check on invalid credentials.
+  if (result == 12544) {
+    return true;
+  }
+  
+  // Parse server response.
+  if (result == 0) {
+    access = true;
+    vector <string> lines = filter_string_explode (output, '\n');
+    for (auto & line : lines) {
+      if (line.find ("mail:") == 0) {
+        email = filter_string_trim (line.substr (5));
+      }
+    }
+    return true;
+  }
+  
+  // Communication failure or another error.
+  return false;
 }

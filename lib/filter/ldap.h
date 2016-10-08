@@ -24,7 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-bool filter_ldap_get (string uri, string user, string password, bool & access, string & email);
+bool filter_ldap_get (string uri,
+                      string user, string password,
+                      string binddn, string basedn, string scope, string filter,
+                      bool & access, string & email);
 
 
 #endif
