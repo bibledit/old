@@ -4900,7 +4900,7 @@ void test_filter_archive ()
 }
 
 
-void test_filter_shell () // Todo
+void test_filter_shell ()
 {
   trace_unit_tests (__func__);
   
@@ -4926,7 +4926,7 @@ void test_filter_memory ()
 }
 
 
-void test_filter_ldap () // Todo
+void test_filter_ldap ()
 {
   trace_unit_tests (__func__);
   

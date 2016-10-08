@@ -47,7 +47,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 bool filter_ldap_get (string uri,
                       string user, string password,
                       string binddn, string basedn, string scope, string filter,
-                      bool & access, string & email) // Todo
+                      bool & access, string & email)
 {
   access = false;
   email.clear ();
