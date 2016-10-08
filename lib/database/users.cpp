@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // This database is resilient.
 // The data is stored in a SQLite database.
 // This part is read often, and infrequently written to.
-// Due to the infrequent write operations, there is a low and acceptable change of corruption.
+// Due to the infrequent write operations, there is a low and acceptable chance of corruption.
 
 
 sqlite3 * Database_Users::connect ()
