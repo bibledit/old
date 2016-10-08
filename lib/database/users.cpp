@@ -55,10 +55,10 @@ void Database_Users::create ()
 
 void Database_Users::upgrade ()
 {
-  // Column 'timestamp' is available in older databases.
-  // It is not in use.
-  // It cannot be dropped easily in SQLite.
-  // Leave it for just now.
+  // Several extra columns are available in older databases.
+  // They are not in use.
+  // They cannot be dropped easily in SQLite.
+  // Leave them for just now.
 }
 
 
