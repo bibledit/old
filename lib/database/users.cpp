@@ -299,13 +299,8 @@ void Database_Users::execute (const string& sqlfragment)
 }
 
 
+// The filename of the database.
 const char * Database_Users::filename ()
 {
   return "users";
-}
-
-
-sqlite3 * Database_Users::connect ()
-{
-  return database_sqlite_connect (filename ());
 }

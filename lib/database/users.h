@@ -51,7 +51,6 @@ public:
   void execute (const string& sqlfragment);
 private:
   const char * filename ();
-  sqlite3 * connect ();
 };
 
 
