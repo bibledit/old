@@ -32,12 +32,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Due to the infrequent write operations, there is a low and acceptable chance of corruption.
 
 
-sqlite3 * Database_Users::connect ()
-{
-  return database_sqlite_connect ("users");
-}
-
-
 void Database_Users::create ()
 {
   sqlite3 * db = connect ();
@@ -59,6 +53,22 @@ void Database_Users::upgrade ()
   // They are not in use.
   // They cannot be dropped easily in SQLite.
   // Leave them for just now.
+
+  // Add columns for LDAP authentication and for disabling an account,
+  // if the columns are not yet there.
+  SqliteDatabase sql (filename ());
+  sql.add ("PRAGMA table_info (users);");
+  vector <string> columns = sql.query () ["name"];
+  if (!in_array ((string)"ldap", columns)) {
+    sql.clear ();
+    sql.add ("ALTER TABLE users ADD COLUMN ldap boolean;");
+    sql.execute ();
+  }
+  if (!in_array ((string)"disabled", columns)) {
+    sql.clear ();
+    sql.add ("ALTER TABLE users ADD COLUMN disabled boolean;");
+    sql.execute ();
+  }
 }
 
 
@@ -282,4 +292,16 @@ void Database_Users::execute (const string& sql)
   sqlite3 * db = connect ();
   database_sqlite_exec (db, sql);
   database_sqlite_disconnect (db);
+}
+
+
+const char * Database_Users::filename ()
+{
+  return "users";
+}
+
+
+sqlite3 * Database_Users::connect ()
+{
+  return database_sqlite_connect (filename ());
 }

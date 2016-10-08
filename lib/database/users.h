@@ -50,6 +50,7 @@ public:
   string getmd5 (string user);
   void execute (const string& sql);
 private:
+  const char * filename ();
   sqlite3 * connect ();
 };
 
