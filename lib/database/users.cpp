@@ -42,23 +42,13 @@ void Database_Users::create ()
 {
   sqlite3 * db = connect ();
   string sql;
-  
   sql = "CREATE TABLE IF NOT EXISTS users ("
-        " username text,"
-        " password text,"
-        " level integer,"
-        " email text"
+        "username text, "
+        "password text, "
+        "level integer, "
+        "email text"
         ");";
   database_sqlite_exec (db, sql);
-  
-  // Drop tables that formerly were included in this database, but are now separate.
-  sql = "DROP TABLE IF EXISTS teams;";
-  database_sqlite_exec (db, sql);
-  sql = "DROP TABLE IF EXISTS logins;";
-  database_sqlite_exec (db, sql);
-  sql = "DROP TABLE IF EXISTS readonly;";
-  database_sqlite_exec (db, sql);
-  
   database_sqlite_disconnect (db);
 }
 
