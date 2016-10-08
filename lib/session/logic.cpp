@@ -149,7 +149,7 @@ bool Session_Logic::attemptLogin (string user_or_email, string password, bool to
   Database_Users database = Database_Users ();
   bool login_okay = false;
   // Match username and email.
-  if (database.matchUsernamePassword (user_or_email, password)) {
+  if (database.matchUserPassword (user_or_email, password)) {
     login_okay = true;
   }
   // Match password and email.

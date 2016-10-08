@@ -269,8 +269,8 @@ void test_database_users () // Todo
     
     database_users.addNewUser (username, password, level, email);
 
-    evaluate (__LINE__, __func__, true, database_users.matchUsernamePassword (username, password));
-    evaluate (__LINE__, __func__, false, database_users.matchUsernamePassword (username, "wrong password"));
+    evaluate (__LINE__, __func__, true, database_users.matchUserPassword (username, password));
+    evaluate (__LINE__, __func__, false, database_users.matchUserPassword (username, "wrong password"));
 
     evaluate (__LINE__, __func__, true, database_users.matchEmailPassword (email, password));
     evaluate (__LINE__, __func__, false, database_users.matchEmailPassword (email, "wrong password"));

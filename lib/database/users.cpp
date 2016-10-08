@@ -79,12 +79,12 @@ void Database_Users::optimize ()
 
 
 // Add the user details to the database.
-void Database_Users::addNewUser (string username, string password, int level, string email)
+void Database_Users::addNewUser (string user, string password, int level, string email)
 {
   {
     SqliteDatabase sql (filename ());
     sql.add ("INSERT INTO users (username, level, email) VALUES (");
-    sql.add (username);
+    sql.add (user);
     sql.add (",");
     sql.add (level);
     sql.add (",");
@@ -92,7 +92,7 @@ void Database_Users::addNewUser (string username, string password, int level, st
     sql.add (");");
     sql.execute ();
   }
-  updateUserPassword (username, password);
+  updateUserPassword (user, password);
 }
 
 
@@ -109,12 +109,12 @@ void Database_Users::updateUserPassword (string user, string password)
 }
 
 
-// Returns true if the username and password match.
-bool Database_Users::matchUsernamePassword (string username, string password)
+// Returns true if the user and password match.
+bool Database_Users::matchUserPassword (string user, string password) // Todo honour enabled.
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE username =");
-  sql.add (username);
+  sql.add (user);
   sql.add ("AND password =");
   sql.add (md5 (password));
   sql.add (";");
@@ -124,7 +124,7 @@ bool Database_Users::matchUsernamePassword (string username, string password)
 
 
 // Returns true if the email and password match.
-bool Database_Users::matchEmailPassword (string email, string password)
+bool Database_Users::matchEmailPassword (string email, string password) // Todo honour enabled.
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE email =");
@@ -138,18 +138,18 @@ bool Database_Users::matchEmailPassword (string email, string password)
 
 
 // Returns the query to execute to add a new user.
-string Database_Users::addNewUserQuery (string username, string password, int level, string email)
+string Database_Users::addNewUserQuery (string user, string password, int level, string email)
 {
-  username = database_sqlite_no_sql_injection (username);
+  user = database_sqlite_no_sql_injection (user);
   password = md5 (password);
   email = database_sqlite_no_sql_injection (email);
-  string query = "INSERT INTO users (username, password, level, email) VALUES ('" + username + "', '" + password + "', " + convert_to_string (level) + ", '" + email + "');";
+  string query = "INSERT INTO users (username, password, level, email) VALUES ('" + user + "', '" + password + "', " + convert_to_string (level) + ", '" + email + "');";
   return query;
 }
 
 
 // Returns the username that belongs to the email.
-string Database_Users::getEmailToUser (string email)
+string Database_Users::getEmailToUser (string email) // Todo check whether enabled flag to be used.
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE email =");
@@ -162,7 +162,7 @@ string Database_Users::getEmailToUser (string email)
 
 
 // Returns the email address that belongs to user.
-string Database_Users::getUserToEmail (string user)
+string Database_Users::getUserToEmail (string user) // Todo check whether enabled flag to be honoured.
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT email FROM users WHERE username = ");
@@ -248,13 +248,13 @@ vector <string> Database_Users::getAdministrators ()
 
 
 // Returns the query to update a user's email address.
-string Database_Users::updateEmailQuery (string username, string email)
+string Database_Users::updateEmailQuery (string user, string email)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET email =");
   sql.add (email);
   sql.add ("WHERE username =");
-  sql.add (username);
+  sql.add (user);
   sql.add (";");
   return sql.sql;
 }
@@ -290,11 +290,55 @@ string Database_Users::getmd5 (string user)
 }
 
 
-// Executes SQL as given in $sqlfragent.
-void Database_Users::execute (const string& sqlfragment)
+// Executes the SQL fragment.
+void Database_Users::execute (string sqlfragment)
 {
   SqliteDatabase sql (filename ());
   sql.sql = sqlfragment;
+  sql.execute ();
+}
+
+
+// Set LDAP on for the $user account.
+void Database_Users::ldap_on (string user) // Todo unittests
+{
+  SqliteDatabase sql (filename ());
+  sql.add ("UPDATE users SET ldap = true WHERE username =");
+  sql.add (user);
+  sql.add (";");
+  sql.execute ();
+}
+
+
+// Set LDAP off for the $user account.
+void Database_Users::ldap_off (string user) // Todo unittests
+{
+  SqliteDatabase sql (filename ());
+  sql.add ("UPDATE users SET ldap = false WHERE username =");
+  sql.add (user);
+  sql.add (";");
+  sql.execute ();
+}
+
+
+// Enable the $user account.
+void Database_Users::enable (string user) // Todo unittests
+{
+  SqliteDatabase sql (filename ());
+  sql.add ("UPDATE users SET disabled = false WHERE username =");
+  sql.add (user);
+  sql.add (";");
+  sql.execute ();
+}
+
+
+// Disable the $user account.
+void Database_Users::disable (string user) // Todo unittests
+{
+  SqliteDatabase sql (filename ());
+  sql.add ("UPDATE users SET disabled = true WHERE username =");
+  sql.add (user);
+  sql.add (";");
   sql.execute ();
 }
 

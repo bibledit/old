@@ -31,11 +31,11 @@ public:
   void upgrade ();
   void trim ();
   void optimize ();
-  void addNewUser (string username, string password, int level, string email);
+  void addNewUser (string user, string password, int level, string email);
   void updateUserPassword (string user, string password);
-  bool matchUsernamePassword (string username, string password);
+  bool matchUserPassword (string user, string password);
   bool matchEmailPassword (string email, string password);
-  string addNewUserQuery (string username, string password, int level, string email);
+  string addNewUserQuery (string user, string password, int level, string email);
   string getEmailToUser (string email);
   string getUserToEmail (string user);
   bool usernameExists (string user);
@@ -44,11 +44,15 @@ public:
   void updateUserLevel (string user, int level);
   void removeUser (string user);
   vector <string> getAdministrators ();
-  string updateEmailQuery (string username, string email);
+  string updateEmailQuery (string user, string email);
   void updateUserEmail (string user, string email);
   vector <string> getUsers ();
   string getmd5 (string user);
-  void execute (const string& sqlfragment);
+  void execute (string sqlfragment);
+  void ldap_on (string user);
+  void ldap_off (string user);
+  void enable (string user);
+  void disable (string user);
 private:
   const char * filename ();
 };

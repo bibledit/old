@@ -81,7 +81,7 @@ string user_account (void * webserver_request)
         form_is_valid = false;
         view.set_variable ("new_password2_invalid_message", translate("Passwords do not match"));
       }
-      if (!request->database_users()->matchUsernamePassword (username, currentpassword)) {
+      if (!request->database_users()->matchUserPassword (username, currentpassword)) {
         form_is_valid = false;
         view.set_variable ("current_password_invalid_message", translate("Current password is not valid"));
       }
@@ -97,7 +97,7 @@ string user_account (void * webserver_request)
         form_is_valid = false;
         view.set_variable ("new_email_invalid_message", translate("Email address is not valid"));
       }
-      if (!request->database_users()->matchUsernamePassword (username, currentpassword)) {
+      if (!request->database_users()->matchUserPassword (username, currentpassword)) {
         form_is_valid = false;
         view.set_variable ("current_password_invalid_message", translate("Current password is not valid"));
       }

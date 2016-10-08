@@ -585,7 +585,7 @@
 		CAA4D03E1A45A647003ABA25 /* styles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = styles.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D03F1A45A647003ABA25 /* styles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = styles.h; sourceTree = "<group>"; };
 		CAA4D0401A45A647003ABA25 /* users.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = users.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CAA4D0411A45A647003ABA25 /* users.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = users.h; sourceTree = "<group>"; };
+		CAA4D0411A45A647003ABA25 /* users.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = users.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4D0421A45A647003ABA25 /* usfmresources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = usfmresources.cpp; sourceTree = "<group>"; };
 		CAA4D0431A45A647003ABA25 /* usfmresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfmresources.h; sourceTree = "<group>"; };
 		CAA4D0441A45A647003ABA25 /* versifications.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = versifications.cpp; sourceTree = "<group>"; };
@@ -741,7 +741,7 @@
 		CAA4D31A1A45A648003ABA25 /* similar.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = similar.js; sourceTree = "<group>"; };
 		CAA4D31C1A45A648003ABA25 /* strong.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = strong.js; sourceTree = "<group>"; };
 		CAA4D31E1A45A648003ABA25 /* strongs.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = strongs.js; sourceTree = "<group>"; };
-		CAA4D3381A45A648003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CAA4D3381A45A648003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D3391A45A648003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAA4D33A1A45A648003ABA25 /* login.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = login.cpp; sourceTree = "<group>"; };
 		CAA4D33B1A45A648003ABA25 /* login.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = login.h; sourceTree = "<group>"; };
