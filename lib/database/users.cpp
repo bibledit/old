@@ -263,9 +263,7 @@ string Database_Users::updateEmailQuery (string username, string email)
 // Updates the "email" for "user".
 void Database_Users::updateUserEmail (string user, string email)
 {
-  SqliteDatabase sql (filename ());
-  sql.sql = updateEmailQuery (user, email);
-  sql.execute ();
+  execute (updateEmailQuery (user, email));
 }
 
 
@@ -292,7 +290,8 @@ string Database_Users::getmd5 (string user)
 }
 
 
-void Database_Users::execute (const string& sqlfragment) // Todo missing unittest.
+// Executes SQL as given in $sqlfragent.
+void Database_Users::execute (const string& sqlfragment)
 {
   SqliteDatabase sql (filename ());
   sql.sql = sqlfragment;
