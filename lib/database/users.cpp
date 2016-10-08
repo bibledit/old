@@ -34,16 +34,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void Database_Users::create ()
 {
-  sqlite3 * db = connect ();
-  string sql;
-  sql = "CREATE TABLE IF NOT EXISTS users ("
-        "username text, "
-        "password text, "
-        "level integer, "
-        "email text"
-        ");";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("CREATE TABLE IF NOT EXISTS users (username text, password text, level integer, email text);");
+  sql.execute ();
 }
 
 
@@ -79,22 +72,26 @@ void Database_Users::trim ()
 
 void Database_Users::optimize ()
 {
-  sqlite3 * db = connect ();
-  string sql = "VACUUM;";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("VACUUM;");
+  sql.execute ();
 }
 
 
 // Add the user details to the database.
 void Database_Users::addNewUser (string username, string password, int level, string email)
 {
-  username = database_sqlite_no_sql_injection (username);
-  email = database_sqlite_no_sql_injection (email);
-  sqlite3 * db = connect ();
-  string sql = "INSERT INTO users (username, level, email) VALUES ('" + username + "', " + convert_to_string (level) + ", '" + email + "');";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  {
+    SqliteDatabase sql (filename ());
+    sql.add ("INSERT INTO users (username, level, email) VALUES (");
+    sql.add (username);
+    sql.add (",");
+    sql.add (level);
+    sql.add (",");
+    sql.add (email);
+    sql.add (");");
+    sql.execute ();
+  }
   updateUserPassword (username, password);
 }
 
@@ -102,24 +99,26 @@ void Database_Users::addNewUser (string username, string password, int level, st
 // Updates the password for user.
 void Database_Users::updateUserPassword (string user, string password)
 {
-  user = database_sqlite_no_sql_injection (user);
-  password = md5 (password);
-  sqlite3 * db = connect ();
-  string sql = "UPDATE users SET password = '" + password + "' WHERE username = '" + user + "';";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("UPDATE users SET password =");
+  sql.add (md5 (password));
+  sql.add ("WHERE username =");
+  sql.add (user);
+  sql.add (";");
+  sql.execute ();
 }
 
 
 // Returns true if the username and password match.
 bool Database_Users::matchUsernamePassword (string username, string password)
 {
-  username = database_sqlite_no_sql_injection (username);
-  password = md5 (password);
-  sqlite3 * db = connect ();
-  string sql = "SELECT * FROM users WHERE username = '" + username + "' and password = '" + password + "';";
-  vector <string> result = database_sqlite_query (db, sql) ["username"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT username FROM users WHERE username =");
+  sql.add (username);
+  sql.add ("AND password =");
+  sql.add (md5 (password));
+  sql.add (";");
+  vector <string> result = sql.query () ["username"];
   return (!result.empty());
 }
 
@@ -127,12 +126,13 @@ bool Database_Users::matchUsernamePassword (string username, string password)
 // Returns true if the email and password match.
 bool Database_Users::matchEmailPassword (string email, string password)
 {
-  email = database_sqlite_no_sql_injection (email);
-  password = md5 (password);
-  string sql = "SELECT * FROM users WHERE email = '" + email + "' and password = '" + password + "';";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["username"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT username FROM users WHERE email =");
+  sql.add (email);
+  sql.add ("AND password =");
+  sql.add (md5 (password));
+  sql.add (";");
+  vector <string> result = sql.query () ["username"];
   return (!result.empty());
 }
 
@@ -151,11 +151,11 @@ string Database_Users::addNewUserQuery (string username, string password, int le
 // Returns the username that belongs to the email.
 string Database_Users::getEmailToUser (string email)
 {
-  email = database_sqlite_no_sql_injection (email);
-  string sql = "SELECT username FROM users WHERE email = '" + email + "';";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["username"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT username FROM users WHERE email =");
+  sql.add (email);
+  sql.add (";");
+  vector <string> result = sql.query () ["username"];
   if (!result.empty()) return result [0];
   return "";
 }
@@ -164,11 +164,11 @@ string Database_Users::getEmailToUser (string email)
 // Returns the email address that belongs to user.
 string Database_Users::getUserToEmail (string user)
 {
-  user = database_sqlite_no_sql_injection (user);
-  string sql = "SELECT email FROM users WHERE username = '" + user + "';";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["email"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT email FROM users WHERE username = ");
+  sql.add (user);
+  sql.add (";");
+  vector <string> result = sql.query () ["email"];
   if (!result.empty()) return result [0];
   return "";
 }
@@ -177,11 +177,11 @@ string Database_Users::getUserToEmail (string user)
 // Returns true if the username exists in the database.
 bool Database_Users::usernameExists (string user)
 {
-  user = database_sqlite_no_sql_injection (user);
-  string sql = "SELECT * FROM users WHERE username = '" + user + "';";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["username"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT username FROM users WHERE username =");
+  sql.add (user);
+  sql.add (";");
+  vector <string> result = sql.query () ["username"];
   return !result.empty ();
 }
 
@@ -189,11 +189,11 @@ bool Database_Users::usernameExists (string user)
 // Returns true if the email address exists in the database.
 bool Database_Users::emailExists (string email)
 {
-  email  = database_sqlite_no_sql_injection (email);
-  string sql  = "SELECT * FROM users WHERE email = '" + email + "';";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["username"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT username FROM users WHERE email = ");
+  sql.add (email);
+  sql.add (";");
+  vector <string> result = sql.query () ["username"];
   return !result.empty ();
 }
 
@@ -201,11 +201,11 @@ bool Database_Users::emailExists (string email)
 // Returns the level that belongs to the user.
 int Database_Users::getUserLevel (string user)
 {
-  user = database_sqlite_no_sql_injection (user);
-  string sql = "SELECT level FROM users WHERE username = '" + user + "';";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["level"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT level FROM users WHERE username = ");
+  sql.add (user);
+  sql.add (";");
+  vector <string> result = sql.query () ["level"];
   if (!result.empty()) return convert_to_int (result [0]);
   return Filter_Roles::guest ();
 }
@@ -214,32 +214,35 @@ int Database_Users::getUserLevel (string user)
 // Updates the level of a given user.
 void Database_Users::updateUserLevel (string user, int level)
 {
-  user = database_sqlite_no_sql_injection (user);
-  string sql = "UPDATE users SET level = " + convert_to_string (level) + " WHERE username = '" + user + "';";
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("UPDATE users SET level =");
+  sql.add (level);
+  sql.add ("WHERE username =");
+  sql.add (user);
+  sql.add (";");
+  sql.execute ();
 }
 
 
 // Remove a user from the database.
 void Database_Users::removeUser (string user)
 {
-  user = database_sqlite_no_sql_injection (user);
-  sqlite3 * db = connect ();
-  string sql = "DELETE FROM users WHERE username = '" + user + "'";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("DELETE FROM users WHERE username =");
+  sql.add (user);
+  sql.add (";");
+  sql.execute ();
 }
 
 
 // Returns an array with the usernames of the site administrators.
 vector <string> Database_Users::getAdministrators ()
 {
-  string sql = "SELECT username FROM users WHERE level = " + convert_to_string (Filter_Roles::admin ()) + ";";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["username"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT username FROM users WHERE level =");
+  sql.add (Filter_Roles::admin ());
+  sql.add (";");
+  vector <string> result = sql.query () ["username"];
   return result;
 }
 
@@ -247,29 +250,31 @@ vector <string> Database_Users::getAdministrators ()
 // Returns the query to update a user's email address.
 string Database_Users::updateEmailQuery (string username, string email)
 {
-  return "UPDATE users SET email = '" + email + "' WHERE username = '" + username + "';";
+  SqliteDatabase sql (filename ());
+  sql.add ("UPDATE users SET email =");
+  sql.add (email);
+  sql.add ("WHERE username =");
+  sql.add (username);
+  sql.add (";");
+  return sql.sql;
 }
 
 
 // Updates the "email" for "user".
 void Database_Users::updateUserEmail (string user, string email)
 {
-  user = database_sqlite_no_sql_injection (user);
-  email = database_sqlite_no_sql_injection (email);
-  string sql = updateEmailQuery (user, email);
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.sql = updateEmailQuery (user, email);
+  sql.execute ();
 }
 
 
 // Return an array with the available users.
 vector <string> Database_Users::getUsers ()
 {
-  string sql = "SELECT username FROM users;";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["username"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT username FROM users;");
+  vector <string> result = sql.query () ["username"];
   return result;
 }
 
@@ -277,21 +282,21 @@ vector <string> Database_Users::getUsers ()
 // Returns the md5 hash for the $user's password.
 string Database_Users::getmd5 (string user)
 {
-  user = database_sqlite_no_sql_injection (user);
-  string sql = "SELECT password FROM users WHERE username = '" + user + "';";
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql) ["password"];
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT password FROM users WHERE username =");
+  sql.add (user);
+  sql.add (";");
+  vector <string> result = sql.query () ["password"];
   if (!result.empty()) return result [0];
   return "";
 }
 
 
-void Database_Users::execute (const string& sql)
+void Database_Users::execute (const string& sqlfragment) // Todo missing unittest.
 {
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  SqliteDatabase sql (filename ());
+  sql.sql = sqlfragment;
+  sql.execute ();
 }
 
 

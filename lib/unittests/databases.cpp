@@ -301,7 +301,7 @@ void test_database_users () // Todo
     database_users.removeUser (username);
     evaluate (__LINE__, __func__, false, database_users.usernameExists (username));
     
-    evaluate (__LINE__, __func__, "UPDATE users SET email = 'email@site.nl' WHERE username = 'unit test';", database_users.updateEmailQuery (username, email));
+    evaluate (__LINE__, __func__, " UPDATE users SET email =  'email@site.nl'  WHERE username =  'unit test'  ; ", database_users.updateEmailQuery (username, email));
   }
   {
     refresh_sandbox (true);

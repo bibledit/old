@@ -48,7 +48,7 @@ public:
   void updateUserEmail (string user, string email);
   vector <string> getUsers ();
   string getmd5 (string user);
-  void execute (const string& sql);
+  void execute (const string& sqlfragment);
 private:
   const char * filename ();
   sqlite3 * connect ();
