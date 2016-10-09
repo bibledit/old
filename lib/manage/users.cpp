@@ -214,6 +214,17 @@ string manage_users (void * webserver_request)
   }
   
   
+  // Enable or disable a user account.
+  if (request->query.count ("enable")) {
+    request->database_users ()->set_enabled (objectUsername, true);
+    Assets_Page::success (translate("The user account was enabled"));
+  }
+  if (request->query.count ("disable")) {
+    request->database_users ()->set_enabled (objectUsername, false);
+    Assets_Page::success (translate("The user account was disabled"));
+  }
+  
+  
   // Login on behalf of another user.
   if (request->query.count ("login")) {
     request->session_logic ()->switchUser (objectUsername);
@@ -282,7 +293,22 @@ string manage_users (void * webserver_request)
     }
     tbody.push_back ("</td>");
     
-    // Logging for another user.
+    // Disable or enable the account.
+    if (myLevel >= Filter_Roles::manager ()) {
+      if (myLevel > objectUserLevel) {
+        tbody.push_back ("<td>│</td>");
+        tbody.push_back ("<td>");
+        bool enabled = request->database_users ()->get_enabled (username);
+        if (enabled) {
+          tbody.push_back ("<a href=\"?user=" + username + "&disable\">" + translate ("Disable") + "</a>");
+        } else {
+          tbody.push_back ("<a href=\"?user=" + username + "&enable\">" + translate ("Enable") + "</a>");
+        }
+        tbody.push_back ("</td>");
+      }
+    }
+
+    // Login on behalf of another user.
     if (myLevel > objectUserLevel) {
       tbody.push_back ("<td>│</td>");
       tbody.push_back ("<td>");
