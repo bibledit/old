@@ -248,7 +248,7 @@ void test_database_logs ()
 }
 
 
-void test_database_users () // Todo
+void test_database_users ()
 {
   trace_unit_tests (__func__);
   

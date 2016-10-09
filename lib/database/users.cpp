@@ -110,7 +110,7 @@ void Database_Users::updateUserPassword (string user, string password)
 
 
 // Returns true if the user and password match.
-bool Database_Users::matchUserPassword (string user, string password) // Todo honour enabled.
+bool Database_Users::matchUserPassword (string user, string password)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE username =");
@@ -124,7 +124,7 @@ bool Database_Users::matchUserPassword (string user, string password) // Todo ho
 
 
 // Returns true if the email and password match.
-bool Database_Users::matchEmailPassword (string email, string password) // Todo honour enabled.
+bool Database_Users::matchEmailPassword (string email, string password)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE email =");
@@ -149,7 +149,7 @@ string Database_Users::addNewUserQuery (string user, string password, int level,
 
 
 // Returns the username that belongs to the email.
-string Database_Users::getEmailToUser (string email) // Todo check whether enabled flag to be used.
+string Database_Users::getEmailToUser (string email)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE email =");
@@ -162,7 +162,7 @@ string Database_Users::getEmailToUser (string email) // Todo check whether enabl
 
 
 // Returns the email address that belongs to user.
-string Database_Users::getUserToEmail (string user) // Todo check whether enabled flag to be honoured.
+string Database_Users::getUserToEmail (string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT email FROM users WHERE username = ");
@@ -236,7 +236,7 @@ void Database_Users::removeUser (string user)
 
 
 // Returns an array with the usernames of the site administrators.
-vector <string> Database_Users::getAdministrators () // Todo check if enabled.
+vector <string> Database_Users::getAdministrators ()
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE level =");
@@ -326,7 +326,7 @@ bool Database_Users::get_ldap (string user)
 
 
 // Enable the $user account.
-void Database_Users::set_enabled (string user, bool on) // Todo unittests
+void Database_Users::set_enabled (string user, bool on)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET disabled =");
@@ -339,7 +339,7 @@ void Database_Users::set_enabled (string user, bool on) // Todo unittests
 
 
 // Disable the $user account.
-bool Database_Users::get_enabled (string user) // Todo unittests
+bool Database_Users::get_enabled (string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT disabled FROM users WHERE username =");
