@@ -49,10 +49,10 @@ public:
   vector <string> getUsers ();
   string getmd5 (string user);
   void execute (string sqlfragment);
-  void ldap_on (string user);
-  void ldap_off (string user);
-  void enable (string user);
-  void disable (string user);
+  void set_ldap (string user, bool on);
+  bool get_ldap (string user);
+  void set_enabled (string user, bool on);
+  bool get_enabled (string user);
 private:
   const char * filename ();
 };

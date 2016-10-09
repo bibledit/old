@@ -236,7 +236,7 @@ void Database_Users::removeUser (string user)
 
 
 // Returns an array with the usernames of the site administrators.
-vector <string> Database_Users::getAdministrators ()
+vector <string> Database_Users::getAdministrators () // Todo check if enabled.
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE level =");
@@ -299,33 +299,39 @@ void Database_Users::execute (string sqlfragment)
 }
 
 
-// Set LDAP on for the $user account.
-void Database_Users::ldap_on (string user) // Todo unittests
+// Set the LDAP state for the $user account $on or off.
+void Database_Users::set_ldap (string user, bool on)
 {
   SqliteDatabase sql (filename ());
-  sql.add ("UPDATE users SET ldap = true WHERE username =");
+  sql.add ("UPDATE users SET ldap =");
+  sql.add (convert_to_int (on));
+  sql.add ("WHERE username =");
   sql.add (user);
   sql.add (";");
   sql.execute ();
 }
 
 
-// Set LDAP off for the $user account.
-void Database_Users::ldap_off (string user) // Todo unittests
+// Get whether the $user account comes from a LDAP server.
+bool Database_Users::get_ldap (string user)
 {
   SqliteDatabase sql (filename ());
-  sql.add ("UPDATE users SET ldap = false WHERE username =");
+  sql.add ("SELECT ldap FROM users WHERE username =");
   sql.add (user);
   sql.add (";");
-  sql.execute ();
+  vector <string> result = sql.query () ["ldap"];
+  if (!result.empty()) return convert_to_bool (result [0]);
+  return false;
 }
 
 
 // Enable the $user account.
-void Database_Users::enable (string user) // Todo unittests
+void Database_Users::set_enabled (string user, bool on) // Todo unittests
 {
   SqliteDatabase sql (filename ());
-  sql.add ("UPDATE users SET disabled = false WHERE username =");
+  sql.add ("UPDATE users SET disabled =");
+  sql.add (convert_to_int (!on));
+  sql.add ("WHERE username =");
   sql.add (user);
   sql.add (";");
   sql.execute ();
@@ -333,13 +339,15 @@ void Database_Users::enable (string user) // Todo unittests
 
 
 // Disable the $user account.
-void Database_Users::disable (string user) // Todo unittests
+bool Database_Users::get_enabled (string user) // Todo unittests
 {
   SqliteDatabase sql (filename ());
-  sql.add ("UPDATE users SET disabled = true WHERE username =");
+  sql.add ("SELECT disabled FROM users WHERE username =");
   sql.add (user);
   sql.add (";");
-  sql.execute ();
+  vector <string> result = sql.query () ["disabled"];
+  if (!result.empty()) return !convert_to_bool (result [0]);
+  return false;
 }
 
 

@@ -332,6 +332,54 @@ void test_database_users () // Todo
     
     evaluate (__LINE__, __func__, md5 (password), database_users.getmd5 (username1));
   }
+  {
+    refresh_sandbox (true);
+    Database_Users database_users;
+    database_users.create ();
+    database_users.upgrade ();
+
+    // LDAP should be off initially.
+    string user = "unittest";
+    evaluate (__LINE__, __func__, false, database_users.get_ldap (user));
+    database_users.addNewUser (user, "password", Filter_Roles::consultant(), "email@site");
+    evaluate (__LINE__, __func__, false, database_users.get_ldap (user));
+
+    // Test LDAP on.
+    database_users.set_ldap (user + "x", true);
+    evaluate (__LINE__, __func__, false, database_users.get_ldap (user));
+    database_users.set_ldap (user, true);
+    evaluate (__LINE__, __func__, true, database_users.get_ldap (user));
+    
+    // Test LDAP off.
+    database_users.set_ldap (user, false);
+    evaluate (__LINE__, __func__, false, database_users.get_ldap (user));
+  }
+  {
+    refresh_sandbox (true);
+    Database_Users database_users;
+    database_users.create ();
+    database_users.upgrade ();
+    
+    // Non existing account is disabled.
+    string user = "unittest";
+    evaluate (__LINE__, __func__, false, database_users.get_enabled (user));
+    
+    // Account should be enabled initially.
+    database_users.addNewUser (user, "password", Filter_Roles::consultant(), "email@site");
+    evaluate (__LINE__, __func__, true, database_users.get_enabled (user));
+    
+    // Test disable account of other user.
+    database_users.set_enabled (user + "x", false);
+    evaluate (__LINE__, __func__, true, database_users.get_enabled (user));
+    
+    // Test disable account.
+    database_users.set_enabled (user, false);
+    evaluate (__LINE__, __func__, false, database_users.get_enabled (user));
+    
+    // Test enable account.
+    database_users.set_enabled (user, true);
+    evaluate (__LINE__, __func__, true, database_users.get_enabled (user));
+  }
 }
 
 
