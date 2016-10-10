@@ -39,3 +39,6 @@ $ cd databases/config/general
 $ echo 1 > read-from-git
 When enabled, the mechanism is subject to race condition in rare circumstances, and will at time revert some changes made by users.
 There is no intention to fix this behaviour, because receiving changes from a git repository is going to be phased out soon.
+
+
+OpenLDAP server: See file ldap.txt for more information about that.
