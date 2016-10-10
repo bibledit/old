@@ -24,7 +24,6 @@ libbibledit_a_SOURCES = \
 	filter/merge.cpp \
 	filter/date.cpp \
 	filter/memory.cpp \
-	filter/ldap.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -432,7 +431,8 @@ libbibledit_a_SOURCES = \
 	mbedtls/x509write_csr.c \
 	mbedtls/xtea.c \
 	related/logic.cpp \
-	sqlite/sqlite3.c
+	sqlite/sqlite3.c \
+	ldap/logic.cpp
 
 bin_PROGRAMS = server unittest generate
 

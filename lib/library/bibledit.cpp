@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <curl/curl.h>
 #endif
 #include <sendreceive/logic.h>
+#include <ldap/logic.h>
 
 
 bool bibledit_started = false;
@@ -87,6 +88,11 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   
   // Initialize SSL/TLS (after webroot has been set).
   filter_url_ssl_tls_initialize ();
+  
+#ifndef HAVE_CLIENT
+  // Cloud initializes OpenLDAP server access settings (after webroot has been set).
+  ldap_logic_initialize ();
+#endif
   
   // Initialize data in a thread.
   thread setup_thread = thread (setup_conditionally, package);
