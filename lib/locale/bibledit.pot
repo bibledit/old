@@ -5953,7 +5953,19 @@ msgstr ""
 msgid "The user no longer has access to this Bible"
 msgstr ""
 
+msgid "The user account was enabled"
+msgstr ""
+
+msgid "The user account was disabled"
+msgstr ""
+
 msgid "edit"
+msgstr ""
+
+msgid "Disable"
+msgstr ""
+
+msgid "Enable"
 msgstr ""
 
 msgid "Login"

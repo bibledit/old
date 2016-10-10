@@ -243,53 +243,63 @@ string manage_users (void * webserver_request)
     string namedrole = Filter_Roles::text (objectUserLevel);
     string email = request->database_users ()->getUserToEmail (username);
     if (email == "") email = "--";
+    bool enabled = request->database_users ()->get_enabled (username);
     tbody.push_back ("<tr>");
-    tbody.push_back ("<td><a href=\"?user=" + username + "&delete\">" + emoji_wastebasket () + "</a> " + username + "</td>");
-    tbody.push_back ("<td>│</td>");
-    tbody.push_back ("<td><a href=\"?user=" + username + "&level\">" + namedrole + "</a></td>");
-    tbody.push_back ("<td>│</td>");
-    tbody.push_back ("<td><a href=\"?user=" + username + "&email\">" + email + "</a></td>");
+    tbody.push_back ("<td>");
+    tbody.push_back ("<a href=\"?user=" + username + "&delete\">" + emoji_wastebasket () + "</a> " + username);
+    tbody.push_back ("</td>");
     tbody.push_back ("<td>│</td>");
     tbody.push_back ("<td>");
-
-    if (objectUserLevel < Filter_Roles::manager ()) {
-      for (auto & bible : allbibles) {
-        bool exists = Database_Privileges::getBibleBookExists (username, bible, 0);
-        if (exists) {
-          bool read, write;
-          Database_Privileges::getBible (username, bible, read, write);
-          if  (objectUserLevel >= Filter_Roles::translator ()) write = true;
-          tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">" + emoji_wastebasket () + "</a>");
-          tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\">" + bible + "</a>");
-          tbody.push_back ("<a href=\"write?user=" + username + "&bible=" + bible + "\">");
-          int readwritebooks = 0;
-          vector <int> books = request->database_bibles ()->getBooks (bible);
-          for (auto book : books) {
-            Database_Privileges::getBibleBook (username, bible, book, read, write);
-            if (write) readwritebooks++;
+    if (enabled) tbody.push_back ("<a href=\"?user=" + username + "&level\">" + namedrole + "</a>");
+    tbody.push_back ("</td>");
+    tbody.push_back ("<td>│</td>");
+    tbody.push_back ("<td>");
+    if (enabled) tbody.push_back ("<a href=\"?user=" + username + "&email\">" + email + "</a>");
+    tbody.push_back ("</td>");
+    tbody.push_back ("<td>│</td>");
+    tbody.push_back ("<td>");
+    if (enabled) {
+      if (objectUserLevel < Filter_Roles::manager ()) {
+        for (auto & bible : allbibles) {
+          bool exists = Database_Privileges::getBibleBookExists (username, bible, 0);
+          if (exists) {
+            bool read, write;
+            Database_Privileges::getBible (username, bible, read, write);
+            if  (objectUserLevel >= Filter_Roles::translator ()) write = true;
+            tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">" + emoji_wastebasket () + "</a>");
+            tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\">" + bible + "</a>");
+            tbody.push_back ("<a href=\"write?user=" + username + "&bible=" + bible + "\">");
+            int readwritebooks = 0;
+            vector <int> books = request->database_bibles ()->getBooks (bible);
+            for (auto book : books) {
+              Database_Privileges::getBibleBook (username, bible, book, read, write);
+              if (write) readwritebooks++;
+            }
+            tbody.push_back ("(" + convert_to_string (readwritebooks) + "/" + convert_to_string (books.size ()) + ")");
+            tbody.push_back ("</a>");
+            tbody.push_back ("|");
           }
-          tbody.push_back ("(" + convert_to_string (readwritebooks) + "/" + convert_to_string (books.size ()) + ")");
-          tbody.push_back ("</a>");
-          tbody.push_back ("|");
         }
       }
-    }
-    if (objectUserLevel >= Filter_Roles::manager ()) {
-      // Managers and higher roles have access to all Bibles.
-      tbody.push_back ("(" + translate ("all") + ")");
-    } else {
-      tbody.push_back ("<a href=\"?user=" + username + "&addbible=\">" + emoji_heavy_plus_sign () + "</a>");
+      if (objectUserLevel >= Filter_Roles::manager ()) {
+        // Managers and higher roles have access to all Bibles.
+        tbody.push_back ("(" + translate ("all") + ")");
+      } else {
+        tbody.push_back ("<a href=\"?user=" + username + "&addbible=\">" + emoji_heavy_plus_sign () + "</a>");
+      }
     }
     tbody.push_back ("</td>");
 
     tbody.push_back ("<td>│</td>");
 
     tbody.push_back ("<td>");
-    if (objectUserLevel >= Filter_Roles::manager ()) {
-      // Managers and higher roles have all privileges.
-      tbody.push_back ("(" + translate ("all") + ")");
-    } else {
-      tbody.push_back ("<a href=\"privileges?user=" + username + "\">" + translate ("edit") + "</a>");
+    if (enabled) {
+      if (objectUserLevel >= Filter_Roles::manager ()) {
+        // Managers and higher roles have all privileges.
+        tbody.push_back ("(" + translate ("all") + ")");
+      } else {
+        tbody.push_back ("<a href=\"privileges?user=" + username + "\">" + translate ("edit") + "</a>");
+      }
     }
     tbody.push_back ("</td>");
     
@@ -309,11 +319,13 @@ string manage_users (void * webserver_request)
     }
 
     // Login on behalf of another user.
-    if (myLevel > objectUserLevel) {
-      tbody.push_back ("<td>│</td>");
-      tbody.push_back ("<td>");
-      tbody.push_back ("<a href=\"?user=" + username + "&login\">" + translate ("Login") + "</a>");
-      tbody.push_back ("</td>");
+    if (enabled) {
+      if (myLevel > objectUserLevel) {
+        tbody.push_back ("<td>│</td>");
+        tbody.push_back ("<td>");
+        tbody.push_back ("<a href=\"?user=" + username + "&login\">" + translate ("Login") + "</a>");
+        tbody.push_back ("</td>");
+      }
     }
     
     tbody.push_back ("</tr>");
