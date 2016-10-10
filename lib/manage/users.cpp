@@ -220,7 +220,11 @@ string manage_users (void * webserver_request)
     Assets_Page::success (translate("The user account was enabled"));
   }
   if (request->query.count ("disable")) {
+    // Disable the user in the database.
     request->database_users ()->set_enabled (objectUsername, false);
+    // Remove all login tokens (cookies) for this user, so the user no longer is logged in.
+    Database_Login::removeTokens (objectUsername);
+    // Feedback.
     Assets_Page::success (translate("The user account was disabled"));
   }
   
