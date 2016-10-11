@@ -278,7 +278,7 @@ vector <string> Database_Users::getUsers ()
 
 
 // Returns the md5 hash for the $user's password.
-string Database_Users::getmd5 (string user)
+string Database_Users::get_md5 (string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT password FROM users WHERE username =");

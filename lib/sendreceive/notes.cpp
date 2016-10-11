@@ -129,7 +129,7 @@ bool sendreceive_notes_upload ()
   // It contains the user's credentials.
   map <string, string> post;
   post ["u"] = bin2hex (user);
-  post ["p"] = request.database_users ()->getmd5 (user);
+  post ["p"] = request.database_users ()->get_md5 (user);
   post ["l"] = convert_to_string (request.database_users ()->get_level (user));
   
   
@@ -344,7 +344,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   }
   string user = users [0];
   request.session_logic ()->setUsername (user);
-  string password = request.database_users ()->getmd5 (user);
+  string password = request.database_users ()->get_md5 (user);
 
   
   // Check for the health of the notes databases and take action if needed.

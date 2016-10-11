@@ -330,7 +330,7 @@ void test_database_users ()
     vector <string> users = database_users.getUsers ();
     evaluate (__LINE__, __func__, 2, (int)users.size());
     
-    evaluate (__LINE__, __func__, md5 (password), database_users.getmd5 (username1));
+    evaluate (__LINE__, __func__, md5 (password), database_users.get_md5 (username1));
   }
   {
     refresh_sandbox (true);

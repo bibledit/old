@@ -47,7 +47,7 @@ public:
   string updateEmailQuery (string user, string email);
   void updateUserEmail (string user, string email);
   vector <string> getUsers ();
-  string getmd5 (string user);
+  string get_md5 (string user);
   void execute (string sqlfragment);
   void set_ldap (string user, bool on);
   bool get_ldap (string user);

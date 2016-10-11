@@ -95,7 +95,7 @@ string session_login (void * webserver_request)
         ldap_logic_get (user, pass, ldap_okay, email, role, true);
         if (request->database_users ()->usernameExists (user)) {
           // Verify and/or update the fields for the user in the local database.
-          if (request->database_users ()->getmd5 (user) != md5 (pass)) {
+          if (request->database_users ()->get_md5 (user) != md5 (pass)) {
             request->database_users ()->set_password (user, pass);
           }
           if (request->database_users ()->get_level (user) != role) {

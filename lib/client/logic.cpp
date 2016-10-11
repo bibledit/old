@@ -71,7 +71,7 @@ string client_logic_connection_setup (string user, string hash)
     vector <string> users = database_users.getUsers ();
     if (users.empty()) return "";
     user = users [0];
-    hash = database_users.getmd5 (user);
+    hash = database_users.get_md5 (user);
   }
   
   string encoded_user = bin2hex (user);
