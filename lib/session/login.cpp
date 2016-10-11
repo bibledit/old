@@ -26,9 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/md5.h>
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <index/index.h>
+#include <ldap/logic.h>
 
 
 const char * session_login_url ()
@@ -85,7 +87,32 @@ string session_login (void * webserver_request)
       view.set_variable ("password_invalid", translate ("Password should be at least four characters long"));
     }
     if (form_is_valid) {
-      if (request->session_logic()->attemptLogin (user, pass, touch_enabled)) {
+      bool ldap_okay = true;
+      if (ldap_logic_on ()) {
+        // Query the LDAP server and log the response.
+        string email;
+        int role;
+        ldap_logic_get (user, pass, ldap_okay, email, role, true);
+        if (request->database_users ()->usernameExists (user)) {
+          // Verify and/or update the fields for the user in the local database.
+          if (request->database_users ()->getmd5 (user) != md5 (pass)) {
+            request->database_users ()->updateUserPassword (user, pass);
+          }
+          if (request->database_users ()->getUserLevel (user) != role) {
+            request->database_users ()->updateUserLevel (user, role);
+          }
+          if (request->database_users ()->getUserToEmail (user) != email) {
+            request->database_users ()->updateUserEmail (user, email);
+          }
+          if (!request->database_users ()->get_enabled (user)) {
+            request->database_users ()->set_enabled (user, true);
+          }
+        } else {
+          // Enter the user into the database.
+          request->database_users ()->addNewUser (user, pass, role, email);
+        }
+      }
+      if (ldap_okay && request->session_logic()->attemptLogin (user, pass, touch_enabled)) {
         // Log the login.
         Database_Logs::log (request->session_logic()->currentUser () + " logged in");
         // Store web site's base URL.

@@ -21,6 +21,7 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/shell.h>
+#include <filter/roles.h>
 #include <database/logs.h>
 
 
@@ -41,6 +42,10 @@
 
  ldapsearch -H ldap://ldap.forumsys.com -D "uid=boyle,dc=example,dc=com" -w password -b "dc=example,dc=com" -s sub "(uid=boyle)"
 
+ ldapsearch -H ldap://192.168.2.12 -D "cn=admin,dc=test,dc=com" -w openldap -b "dc=test,dc=com" -s sub "(objectClass=*)"
+ 
+ ldapsearch -H ldap://192.168.2.12 -D "cn=user,dc=test,dc=com" -w benschop -b "dc=test,dc=com" -s sub "(cn=user)"
+
  */
 
 
@@ -51,6 +56,7 @@ string ldap_logic_binddn;
 string ldap_logic_basedn;
 string ldap_logic_scope;
 string ldap_logic_filter;
+string ldap_logic_role;
 
 
 // Initialize the configuration for accessing an OpenLDAP server.
@@ -75,6 +81,7 @@ void ldap_logic_initialize ()
       if (key == "basedn") ldap_logic_basedn = line;
       if (key == "scope" ) ldap_logic_scope  = line;
       if (key == "filter") ldap_logic_filter = line;
+      if (key == "role"  ) ldap_logic_role   = line;
     }
     // Log the results.
     if (ldap_logic_on (true)) {
@@ -107,31 +114,42 @@ bool ldap_logic_on (bool log)
     if (log) Database_Logs::log ("LDAP server configuration lacks the search filter");
     return false;
   }
+  if (ldap_logic_role.empty ()) {
+    if (log) Database_Logs::log ("LDAP server configuration lacks the role field");
+    return false;
+  }
   return true;
 }
 
 
-// Queries the LDAP server at $uri, with credentials $user and $password.
+// Queries the LDAP server with credentials $user and $password.
 // Parameter $access indicates whether the credentials have access to the server.
 // Parameter $mail returns the email address.
+// Parameter $role returns the user's role.
 // If the query was done successfully, the function returns true.
-bool ldap_logic_get (string uri,
-                     string user, string password,
-                     string binddn, string basedn, string scope, string filter,
-                     bool & access, string & email)
+bool ldap_logic_get (string user, string password, bool & access, string & email, int & role, bool log)
 {
+  // Initialize result values for the caller.
   access = false;
   email.clear ();
-  binddn = filter_string_str_replace ("[user]", user, binddn);
-  filter = filter_string_str_replace ("[user]", user, filter);
+  role = Filter_Roles::guest ();
+  
+  // Insert the user name where appropriate.
+  string binddn = filter_string_str_replace ("[user]", user, ldap_logic_binddn);
+  string filter = filter_string_str_replace ("[user]", user, ldap_logic_filter);
+  
+  // Query the LDAP server.
   string output;
   int result = filter_shell_vfork (output, "ldapsearch",
-                                   "-H", uri.c_str (),
+                                   "-H", ldap_logic_uri.c_str (),
                                    "-D", binddn.c_str (),
                                    "-w", password.c_str (),
-                                   "-b", basedn.c_str (),
-                                   "-s", scope.c_str(),
+                                   "-b", ldap_logic_basedn.c_str (),
+                                   "-s", ldap_logic_scope.c_str(),
                                    filter.c_str());
+  
+  // Logging.
+  if (log) Database_Logs::log ("LDAP query\n" + output, Filter_Roles::admin ());
   
   // Check on invalid credentials.
   if (result == 12544) {
@@ -145,6 +163,14 @@ bool ldap_logic_get (string uri,
     for (auto & line : lines) {
       if (line.find ("mail:") == 0) {
         email = filter_string_trim (line.substr (5));
+      }
+      if (line.find (ldap_logic_role + ":") == 0) {
+        string fragment = unicode_string_casefold (filter_string_trim (line.substr (5)));
+        for (int r = Filter_Roles::lowest (); r <= Filter_Roles::highest (); r++) {
+          if (fragment.find (unicode_string_casefold (Filter_Roles::english (r))) != string::npos) {
+            role = r;
+          }
+        }
       }
     }
     return true;

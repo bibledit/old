@@ -69,6 +69,17 @@ int Filter_Roles::highest ()
 }
 
 
+string Filter_Roles::english (int role)
+{
+  if (role == admin ()) return "Administrator";
+  if (role == manager ()) return "Manager";
+  if (role == translator ()) return "Translator";
+  if (role == consultant ())return "Consultant";
+  if (role == member ()) return "Member";
+  return "Guest";
+}
+
+
 string Filter_Roles::text (int role)
 {
   if (role == admin ()) return translate ("Administrator");

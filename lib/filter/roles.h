@@ -36,6 +36,7 @@ public:
   static int admin ();
   static int lowest ();
   static int highest ();
+  static string english (int role);
   static string text (int role);
   static bool access_control (void * webserver_request, int role);
 private:

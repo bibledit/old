@@ -23,3 +23,12 @@ scope = sub
 # This will be passed as the last parameter to ldapsearch.
 # Bibledit substitutes "[user]" with the username it searches for.
 filter = (uid=[user])
+
+# To retrieve a user's email address, field "mail" is used.
+# This is hard coded in Bibledit
+
+# To retrieve a user's role, the field below will be searched
+# for words like "translator" or "manager" and so on.
+# Field "ou" is, as per RFC2256, "the organizational unit this object belongs to".
+# Change it to suit your needs.
+role = ou
