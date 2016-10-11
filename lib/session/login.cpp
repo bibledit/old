@@ -78,7 +78,7 @@ string session_login (void * webserver_request)
     bool touch_enabled = convert_to_bool (request->post["touch"]);
     if (user.length () < 2) {
       form_is_valid = false;
-      view.set_variable ("username_email_invalid", translate ("Username should be at least two characters long"));
+      view.set_variable ("username_invalid", translate ("Username should be at least two characters long"));
     }
     if (pass.length() < 4) {
       form_is_valid = false;
