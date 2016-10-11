@@ -21,6 +21,7 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/shell.h>
+#include <database/logs.h>
 
 
 /*
@@ -53,23 +54,58 @@ string ldap_logic_filter;
 // Initialize the configuration for accessing an OpenLDAP server.
 void ldap_logic_initialize ()
 {
+  // Check if the OpenLDAP configuration file exists.
   string path = filter_url_create_root_path ("config", "ldap.conf");
-  string contents = filter_url_file_get_contents (path);
-  vector <string> lines = filter_string_explode (contents, '\n');
-  for (auto line : lines) {
-    line = filter_string_trim (line);
-    if (line.empty ()) continue;
-    if (line.substr (0, 1) == "#") continue;
-    size_t pos = line.find ("=");
-    string key = filter_string_trim (line.substr (0, pos));
-    line.erase (0, ++pos);
-    line = filter_string_trim (line);
-    if (key == "uri"   ) ldap_logic_uri    = line;
-    if (key == "binddn") ldap_logic_binddn = line;
-    if (key == "basedn") ldap_logic_basedn = line;
-    if (key == "scope" ) ldap_logic_scope  = line;
-    if (key == "filter") ldap_logic_filter = line;
+  if (file_or_dir_exists (path)) {
+    // Parse the configuration file.
+    string contents = filter_url_file_get_contents (path);
+    vector <string> lines = filter_string_explode (contents, '\n');
+    for (auto line : lines) {
+      line = filter_string_trim (line);
+      if (line.empty ()) continue;
+      if (line.substr (0, 1) == "#") continue;
+      size_t pos = line.find ("=");
+      string key = filter_string_trim (line.substr (0, pos));
+      line.erase (0, ++pos);
+      line = filter_string_trim (line);
+      if (key == "uri"   ) ldap_logic_uri    = line;
+      if (key == "binddn") ldap_logic_binddn = line;
+      if (key == "basedn") ldap_logic_basedn = line;
+      if (key == "scope" ) ldap_logic_scope  = line;
+      if (key == "filter") ldap_logic_filter = line;
+    }
+    // Log the results.
+    if (ldap_logic_on (true)) {
+      Database_Logs::log ("Using LDAP for authentication");
+    }
   }
+}
+
+
+// Returns true if authentication through OpenLDAP is on.
+bool ldap_logic_on (bool log)
+{
+  if (ldap_logic_uri.empty ()) {
+    if (log) Database_Logs::log ("LDAP server configuration lacks the URI");
+    return false;
+  }
+  if (ldap_logic_binddn.empty ()) {
+    if (log) Database_Logs::log ("LDAP server configuration lacks the bind dn");
+    return false;
+  }
+  if (ldap_logic_basedn.empty ()) {
+    if (log) Database_Logs::log ("LDAP server configuration lacks the base dn");
+    return false;
+  }
+  if (ldap_logic_scope.empty ()) {
+    if (log) Database_Logs::log ("LDAP server configuration lacks the scope");
+    return false;
+  }
+  if (ldap_logic_filter.empty ()) {
+    if (log) Database_Logs::log ("LDAP server configuration lacks the search filter");
+    return false;
+  }
+  return true;
 }
 
 

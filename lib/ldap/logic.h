@@ -25,6 +25,7 @@
 
 
 void ldap_logic_initialize ();
+bool ldap_logic_on (bool log = false);
 bool ldap_logic_get (string uri,
                      string user, string password,
                      string binddn, string basedn, string scope, string filter,
