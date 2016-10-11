@@ -38,7 +38,9 @@
  ldapsearch -h ldap.forumsys.com -p 389 -w password -D "cn=read-only-admin,dc=example,dc=com" -b "dc=example,dc=com" -s sub "(objectclass=*)"
  
  ldapsearch -H ldap://ldap.forumsys.com -D "cn=read-only-admin,dc=example,dc=com" -w password -b "dc=example,dc=com" -s sub "(objectclass=*)"
- 
+
+ ldapsearch -H ldap://ldap.forumsys.com -D "uid=boyle,dc=example,dc=com" -w password -b "dc=example,dc=com" -s sub "(uid=boyle)"
+
  */
 
 
