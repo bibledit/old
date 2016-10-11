@@ -65,7 +65,7 @@ string session_password (void * webserver_request)
     Database_Users database_users;
     if (form_is_valid) {
       form_is_valid = false;
-      email = database_users.getUserToEmail (user);
+      email = database_users.get_email (user);
       if (email != "") {
         form_is_valid = true;
       }
@@ -81,7 +81,7 @@ string session_password (void * webserver_request)
       string generated_password = md5 (convert_to_string (filter_string_rand (0, 1000000)));
       generated_password = generated_password.substr (0, 15);
       string username = database_users.getEmailToUser (email);
-      database_users.updateUserPassword (username, generated_password);
+      database_users.set_password (username, generated_password);
       // Send the new password to the user.
       string subject = translate("Account changed");
       string body = translate("Somebody requested a new password for your account.");

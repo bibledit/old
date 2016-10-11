@@ -169,9 +169,9 @@ void demo_clean_data ()
   };
   for (auto & element : users) {
     if (!request.database_users ()->usernameExists (element.first)) {
-      request.database_users ()->addNewUser(element.first, element.first, element.second, "");
+      request.database_users ()->add_user(element.first, element.first, element.second, "");
     }
-    request.database_users ()->updateUserLevel (element.first, element.second);
+    request.database_users ()->set_level (element.first, element.second);
   }
 
   

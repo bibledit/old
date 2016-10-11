@@ -55,7 +55,7 @@ void email_send ()
     // Get all details of the mail.
     Database_Mail_Item details = database_mail.get (id);
     string username = details.username;
-    string email = database_users.getUserToEmail (username);
+    string email = database_users.get_email (username);
     string subject = details.subject;
     string body = details.body;
     

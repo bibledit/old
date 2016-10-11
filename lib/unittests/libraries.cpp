@@ -148,7 +148,7 @@ void test_session_logic ()
     database_users.create ();
     string username = "ঃইঝম";
     int level = 10;
-    database_users.addNewUser (username, "password", level, "email");
+    database_users.add_user (username, "password", level, "email");
     config_globals_client_prepared = true;
     Webserver_Request request = Webserver_Request ();
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
@@ -167,7 +167,7 @@ void test_session_logic ()
     string password = "ᨃᨄᨔᨕ";
     string email = "email@website";
     int level = 10;
-    database_users.addNewUser (username, password, level, email);
+    database_users.add_user (username, password, level, email);
 
     // Log in by providing username and password.
     evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, "incorrect", true));

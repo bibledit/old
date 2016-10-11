@@ -39,7 +39,7 @@ vector <string> access_user_assignees (void * webserver_request)
   sort (users.begin(), users.end());
   for (auto & user : users) {
     // Assignees should have a level less than or equal to mylevel.
-    int level = request->database_users ()->getUserLevel (user);
+    int level = request->database_users ()->get_level (user);
     if (level <= mylevel) {
       assignees.push_back (user);
     }

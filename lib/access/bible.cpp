@@ -42,7 +42,7 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
     level = request->session_logic ()->currentLevel ();
   } else {
     // Take level belonging to user.
-    level = request->database_users ()->getUserLevel (user);
+    level = request->database_users ()->get_level (user);
   }
 
   // Managers and higher have read access.
@@ -90,7 +90,7 @@ bool access_bible_write (void * webserver_request, const string & bible, string 
   }
   if (level == 0) {
     // Take level belonging to user.
-    level = request->database_users ()->getUserLevel (user);
+    level = request->database_users ()->get_level (user);
   }
   
   // Managers and higher always have write access.
@@ -141,7 +141,7 @@ bool access_bible_book_write (void * webserver_request, string user, const strin
   }
   if (level == 0) {
     // Take level belonging to user.
-    level = request->database_users ()->getUserLevel (user);
+    level = request->database_users ()->get_level (user);
   }
 
   // Managers and higher always have write access.

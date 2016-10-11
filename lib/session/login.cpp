@@ -96,12 +96,12 @@ string session_login (void * webserver_request)
         if (request->database_users ()->usernameExists (user)) {
           // Verify and/or update the fields for the user in the local database.
           if (request->database_users ()->getmd5 (user) != md5 (pass)) {
-            request->database_users ()->updateUserPassword (user, pass);
+            request->database_users ()->set_password (user, pass);
           }
-          if (request->database_users ()->getUserLevel (user) != role) {
-            request->database_users ()->updateUserLevel (user, role);
+          if (request->database_users ()->get_level (user) != role) {
+            request->database_users ()->set_level (user, role);
           }
-          if (request->database_users ()->getUserToEmail (user) != email) {
+          if (request->database_users ()->get_email (user) != email) {
             request->database_users ()->updateUserEmail (user, email);
           }
           if (!request->database_users ()->get_enabled (user)) {
@@ -109,7 +109,7 @@ string session_login (void * webserver_request)
           }
         } else {
           // Enter the user into the database.
-          request->database_users ()->addNewUser (user, pass, role, email);
+          request->database_users ()->add_user (user, pass, role, email);
         }
       }
       if (ldap_okay && request->session_logic()->attemptLogin (user, pass, touch_enabled)) {

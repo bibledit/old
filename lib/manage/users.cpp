@@ -85,7 +85,7 @@ string manage_users (void * webserver_request)
     if (request->database_users ()->usernameExists (user)) {
       page += Assets_Page::error (translate("User already exists"));
     } else {
-      request->database_users ()->addNewUser(user, user, Filter_Roles::member (), "");
+      request->database_users ()->add_user(user, user, Filter_Roles::member (), "");
       user_updated = true;
       page += Assets_Page::success (translate("User created"));
     }
@@ -94,13 +94,13 @@ string manage_users (void * webserver_request)
   
   // The user to act on.
   string objectUsername = request->query["user"];
-  int objectUserLevel = request->database_users ()->getUserLevel (objectUsername);
+  int objectUserLevel = request->database_users ()->get_level (objectUsername);
   
   
   // Delete a user.
   if (request->query.count ("delete")) {
     string role = Filter_Roles::text (objectUserLevel);
-    string email = request->database_users ()->getUserToEmail (objectUsername);
+    string email = request->database_users ()->get_email (objectUsername);
     vector <string> users = request->database_users ()->getUsers ();
     vector <string> administrators = request->database_users ()->getAdministrators ();
     if (users.size () == 1) {
@@ -148,7 +148,7 @@ string manage_users (void * webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      request->database_users ()->updateUserLevel (objectUsername, convert_to_int (level));
+      request->database_users ()->set_level (objectUsername, convert_to_int (level));
       user_updated = true;
     }
   }
@@ -159,7 +159,7 @@ string manage_users (void * webserver_request)
     string email = request->query ["email"];
     if (email == "") {
       string question = translate("Please enter an email address for") + " " + objectUsername;
-      string value = request->database_users ()->getUserToEmail (objectUsername);
+      string value = request->database_users ()->get_email (objectUsername);
       Dialog_Entry dialog_entry = Dialog_Entry ("users", question, value, "email", "");
       dialog_entry.add_query ("user", objectUsername);
       page += dialog_entry.run ();
@@ -243,9 +243,9 @@ string manage_users (void * webserver_request)
   vector <string> users = access_user_assignees (webserver_request);
   for (auto & username : users) {
     // Gather details for this user account.
-    objectUserLevel = request->database_users ()->getUserLevel (username);
+    objectUserLevel = request->database_users ()->get_level (username);
     string namedrole = Filter_Roles::text (objectUserLevel);
-    string email = request->database_users ()->getUserToEmail (username);
+    string email = request->database_users ()->get_email (username);
     if (email == "") email = "--";
     bool enabled = request->database_users ()->get_enabled (username);
     tbody.push_back ("<tr>");

@@ -82,7 +82,7 @@ string public_login (void * webserver_request)
     
     // If the username exists with a level higher than guest, that would not be right.
     if (form_is_valid) {
-      int level = request->database_users ()->getUserLevel (name);
+      int level = request->database_users ()->get_level (name);
       if (level > Filter_Roles::guest ()) {
         form_is_valid = false;
         view.set_variable ("error", other_login);
@@ -93,7 +93,7 @@ string public_login (void * webserver_request)
     if (form_is_valid) {
       if (request->database_users ()->emailExists (email)) {
         string username = request->database_users ()->getEmailToUser (email);
-        int level = request->database_users ()->getUserLevel (username);
+        int level = request->database_users ()->get_level (username);
         if (level > Filter_Roles::guest ()) {
           form_is_valid = false;
           view.set_variable ("error", other_login);
@@ -106,7 +106,7 @@ string public_login (void * webserver_request)
     if (form_is_valid) {
       if (request->database_users ()->emailExists (email)) {
         string username = request->database_users ()->getEmailToUser (email);
-        int level = request->database_users ()->getUserLevel (username);
+        int level = request->database_users ()->get_level (username);
         if (level == Filter_Roles::guest ()) {
           name = username;
         }
@@ -120,7 +120,7 @@ string public_login (void * webserver_request)
         Database_Logs::log ("User " + request->session_logic()->currentUser () + " logged in");
       } else {
         // Add a new user and login.
-        request->database_users ()->addNewUser(name, name, Filter_Roles::guest (), email);
+        request->database_users ()->add_user(name, name, Filter_Roles::guest (), email);
         request->session_logic()->attemptLogin (name, name, touch_enabled);
         Database_Logs::log ("Public account created for user " + request->session_logic()->currentUser () + " with email " + email);
       }

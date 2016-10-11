@@ -75,7 +75,7 @@ bool Sync_Logic::credentials_okay ()
   if (!user_ok) Database_Logs::log ("Non existing user: " + username, Filter_Roles::manager ());
   bool pass_ok = (password == request->database_users ()->getmd5 (username));
   if (!pass_ok) Database_Logs::log ("Incorrect password: " + password, Filter_Roles::manager ());
-  bool level_ok = (level == request->database_users ()->getUserLevel (username));
+  bool level_ok = (level == request->database_users ()->get_level (username));
   if (!level_ok) Database_Logs::log ("Incorrect role: " + Filter_Roles::text (level), Filter_Roles::manager ());
   if (!user_ok || !pass_ok || !level_ok) {
     // Unauthorized.

@@ -116,7 +116,7 @@ void sendreceive_bibles ()
   map <string, string> post;
   post ["u"] = bin2hex (user);
   post ["p"] = password;
-  post ["l"] = convert_to_string (request.database_users ()->getUserLevel (user));
+  post ["l"] = convert_to_string (request.database_users ()->get_level (user));
 
   
   // Error variable.

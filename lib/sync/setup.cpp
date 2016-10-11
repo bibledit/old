@@ -54,7 +54,7 @@ string sync_setup (void * webserver_request)
     if (password == md5) {
       // The credentials of the client have been accepted.
       // Return the level to the client.
-      return convert_to_string (request->database_users ()->getUserLevel (username));
+      return convert_to_string (request->database_users ()->get_level (username));
     }
   }
   

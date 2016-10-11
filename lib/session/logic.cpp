@@ -213,7 +213,7 @@ int Session_Logic::currentLevel (bool force)
   if ((level == 0) || force) {
     if (loggedIn()) {
       Database_Users database = Database_Users();
-      level = database.getUserLevel (currentUser());
+      level = database.get_level (currentUser());
     } else {
       level = Filter_Roles::guest ();
     }
@@ -246,7 +246,7 @@ bool Session_Logic::clientAccess ()
       level = Filter_Roles::admin ();
     } else {
       user = users [0];
-      level = database_users.getUserLevel (user);
+      level = database_users.get_level (user);
     }
     setUsername (user);
     logged_in = true;

@@ -78,7 +78,7 @@ void access_logic_user_level (void * webserver_request, string & user, int & lev
     level = request->session_logic ()->currentLevel ();
   } else {
     // If a user is given, take the matching level from the database.
-    level = request->database_users ()->getUserLevel (user);
+    level = request->database_users ()->get_level (user);
   }
 }
 

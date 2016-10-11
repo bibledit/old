@@ -127,7 +127,7 @@ void test_database_config_user ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    database_users.addNewUser ("username", "password", 5, "");
+    database_users.add_user ("username", "password", 5, "");
     request.session_logic ()->attemptLogin ("username", "password", true);
     
     // Testing setList, getList, plus add/removeUpdatedSetting.
@@ -267,7 +267,7 @@ void test_database_users ()
     database_users.optimize ();
     database_users.trim ();
     
-    database_users.addNewUser (username, password, level, email);
+    database_users.add_user (username, password, level, email);
 
     evaluate (__LINE__, __func__, true, database_users.matchUserPassword (username, password));
     evaluate (__LINE__, __func__, false, database_users.matchUserPassword (username, "wrong password"));
@@ -276,14 +276,14 @@ void test_database_users ()
     evaluate (__LINE__, __func__, false, database_users.matchEmailPassword (email, "wrong password"));
 
     string ref = "INSERT INTO users (username, password, level, email) VALUES ('unit test', '014877e71841e82d44ce524d66dcc732', 10, 'email@site.nl');";
-    string act = database_users.addNewUserQuery (username, password, level, email);
+    string act = database_users.add_userQuery (username, password, level, email);
     evaluate (__LINE__, __func__, ref, act);
 
     evaluate (__LINE__, __func__, username, database_users.getEmailToUser (email));
     evaluate (__LINE__, __func__, "", database_users.getEmailToUser ("wrong email"));
 
-    evaluate (__LINE__, __func__, email, database_users.getUserToEmail (username));
-    evaluate (__LINE__, __func__, "", database_users.getUserToEmail ("wrong username"));
+    evaluate (__LINE__, __func__, email, database_users.get_email (username));
+    evaluate (__LINE__, __func__, "", database_users.get_email ("wrong username"));
 
     evaluate (__LINE__, __func__, true, database_users.usernameExists (username));
     evaluate (__LINE__, __func__, false, database_users.usernameExists ("invalid username"));
@@ -291,12 +291,12 @@ void test_database_users ()
     evaluate (__LINE__, __func__, true, database_users.emailExists (email));
     evaluate (__LINE__, __func__, false, database_users.emailExists ("invalid email"));
 
-    evaluate (__LINE__, __func__, level, database_users.getUserLevel (username));
-    evaluate (__LINE__, __func__, Filter_Roles::guest (), database_users.getUserLevel ("invalid username"));
+    evaluate (__LINE__, __func__, level, database_users.get_level (username));
+    evaluate (__LINE__, __func__, Filter_Roles::guest (), database_users.get_level ("invalid username"));
 
     level = 7;
-    database_users.updateUserLevel (username, level);
-    evaluate (__LINE__, __func__, level, database_users.getUserLevel (username));
+    database_users.set_level (username, level);
+    evaluate (__LINE__, __func__, level, database_users.get_level (username));
 
     database_users.removeUser (username);
     evaluate (__LINE__, __func__, false, database_users.usernameExists (username));
@@ -314,18 +314,18 @@ void test_database_users ()
     int level = Filter_Roles::admin();
     string email = "email@site";
 
-    database_users.addNewUser (username1, password, level, email);
+    database_users.add_user (username1, password, level, email);
     vector <string> admins = database_users.getAdministrators ();
     evaluate (__LINE__, __func__, 1, (int)admins.size());
     if (!admins.empty()) evaluate (__LINE__, __func__, username1, admins [0]);
     
-    database_users.addNewUser (username2, password, level, email);
+    database_users.add_user (username2, password, level, email);
     admins = database_users.getAdministrators ();
     evaluate (__LINE__, __func__, 2, (int)admins.size());
     
     email = "new@email.address";
     database_users.updateUserEmail (username1, email);
-    evaluate (__LINE__, __func__, email, database_users.getUserToEmail (username1));
+    evaluate (__LINE__, __func__, email, database_users.get_email (username1));
     
     vector <string> users = database_users.getUsers ();
     evaluate (__LINE__, __func__, 2, (int)users.size());
@@ -341,7 +341,7 @@ void test_database_users ()
     // LDAP should be off initially.
     string user = "unittest";
     evaluate (__LINE__, __func__, false, database_users.get_ldap (user));
-    database_users.addNewUser (user, "password", Filter_Roles::consultant(), "email@site");
+    database_users.add_user (user, "password", Filter_Roles::consultant(), "email@site");
     evaluate (__LINE__, __func__, false, database_users.get_ldap (user));
 
     // Test LDAP on.
@@ -365,7 +365,7 @@ void test_database_users ()
     evaluate (__LINE__, __func__, false, database_users.get_enabled (user));
     
     // Account should be enabled initially.
-    database_users.addNewUser (user, "password", Filter_Roles::consultant(), "email@site");
+    database_users.add_user (user, "password", Filter_Roles::consultant(), "email@site");
     evaluate (__LINE__, __func__, true, database_users.get_enabled (user));
     
     // Test disable account of other user.
@@ -2699,7 +2699,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {}, subscribers);
 
     // Create a note again, but this time set the session variable to a certain user.
-    database_users.addNewUser ("phpunit", "", 5, "");
+    database_users.add_user ("phpunit", "", 5, "");
     request.session_logic()->setUsername ("phpunit");
     request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
     identifier = database_notes.storeNewNote ("", 1, 1, 1, "Summary", "Contents", false);

@@ -615,7 +615,7 @@ string filter_git_user (string user)
 string filter_git_email (string user)
 {
   Database_Users database_users;
-  string email = database_users.getUserToEmail (user);
+  string email = database_users.get_email (user);
   if (email.empty ()) {
     email = Database_Config_General::getSiteMailAddress ();
   }

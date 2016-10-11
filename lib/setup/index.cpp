@@ -155,7 +155,7 @@ string setup_index (void * webserver_request)
         emails.append (" / ");
       }
       usernames.append (admins[i]);
-      emails.append (request->database_users ()->getUserToEmail (admins[i]));
+      emails.append (request->database_users ()->get_email (admins[i]));
     }
     view.set_variable ("usernames", usernames);
     view.set_variable ("emails", emails);

@@ -79,7 +79,7 @@ void Database_Users::optimize ()
 
 
 // Add the user details to the database.
-void Database_Users::addNewUser (string user, string password, int level, string email)
+void Database_Users::add_user (string user, string password, int level, string email)
 {
   {
     SqliteDatabase sql (filename ());
@@ -92,12 +92,12 @@ void Database_Users::addNewUser (string user, string password, int level, string
     sql.add (");");
     sql.execute ();
   }
-  updateUserPassword (user, password);
+  set_password (user, password);
 }
 
 
 // Updates the password for user.
-void Database_Users::updateUserPassword (string user, string password)
+void Database_Users::set_password (string user, string password)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET password =");
@@ -138,7 +138,7 @@ bool Database_Users::matchEmailPassword (string email, string password)
 
 
 // Returns the query to execute to add a new user.
-string Database_Users::addNewUserQuery (string user, string password, int level, string email)
+string Database_Users::add_userQuery (string user, string password, int level, string email)
 {
   user = database_sqlite_no_sql_injection (user);
   password = md5 (password);
@@ -162,7 +162,7 @@ string Database_Users::getEmailToUser (string email)
 
 
 // Returns the email address that belongs to user.
-string Database_Users::getUserToEmail (string user)
+string Database_Users::get_email (string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT email FROM users WHERE username = ");
@@ -199,7 +199,7 @@ bool Database_Users::emailExists (string email)
 
 
 // Returns the level that belongs to the user.
-int Database_Users::getUserLevel (string user)
+int Database_Users::get_level (string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT level FROM users WHERE username = ");
@@ -212,7 +212,7 @@ int Database_Users::getUserLevel (string user)
 
 
 // Updates the level of a given user.
-void Database_Users::updateUserLevel (string user, int level)
+void Database_Users::set_level (string user, int level)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET level =");

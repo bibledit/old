@@ -88,9 +88,9 @@ string client_logic_connection_setup (string user, string hash)
   if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
     // Set user's role on the client to be the same as on the server.
     // Do this only when it differs, to prevent excessive database writes on the client.
-    int level = database_users.getUserLevel (user);
+    int level = database_users.get_level (user);
     if (iresponse != level) {
-      database_users.updateUserLevel (user, iresponse);
+      database_users.set_level (user, iresponse);
     }
   } else {
     Database_Logs::log (error, Filter_Roles::translator ());

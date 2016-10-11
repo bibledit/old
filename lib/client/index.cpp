@@ -66,7 +66,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
   
   // Remove all users from the database, and add the current one.
   client_index_remove_all_users (request);
-  request->database_users ()->addNewUser (username, password, level, "");
+  request->database_users ()->add_user (username, password, level, "");
   
   // Update the username and the level in the current session.
   request->session_logic ()->setUsername (username);
@@ -159,7 +159,7 @@ string client_index (void * webserver_request)
   
   vector <string> users = request->database_users ()->getUsers ();
   for (auto & user : users) {
-    int level = request->database_users()->getUserLevel (user);
+    int level = request->database_users()->get_level (user);
     view.set_variable ("role", Filter_Roles::text (level));
   }
   

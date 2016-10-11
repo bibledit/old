@@ -267,7 +267,7 @@ void setup_set_admin_details (string username, string password, string email)
 {
   Database_Users database_users;
   database_users.removeUser (username);
-  database_users.addNewUser (username, password, Filter_Roles::admin (), email);
+  database_users.add_user (username, password, Filter_Roles::admin (), email);
 }
 
 
