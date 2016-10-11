@@ -69,12 +69,12 @@ Session_Logic::Session_Logic (void * webserver_request_in)
 {
   webserver_request = webserver_request_in;
   touch_enabled = false;
-  Open ();
+  open ();
 }
 
 
 // Call this when logging in.
-void Session_Logic::Open ()
+void Session_Logic::open ()
 {
   if (openAccess ()) return;
   if (clientAccess ()) return;
@@ -159,7 +159,7 @@ bool Session_Logic::attemptLogin (string user_or_email, string password, bool to
     user_or_email = database.getEmailToUser (user_or_email);
   }
   if (login_okay) {
-    Open ();
+    open ();
     setUsername (user_or_email);
     logged_in = true;
     string cookie = ((Webserver_Request *) webserver_request)->session_identifier;

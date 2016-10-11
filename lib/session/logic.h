@@ -47,7 +47,7 @@ private:
   string username;             // The username.
   bool touch_enabled;          // Whether user works from a touch-enabled device.
   void * webserver_request;    // Pointer to instance of Webserver_Request.
-  void Open ();
+  void open ();
   bool openAccess ();
   string fingerprint ();
   bool clientAccess ();
