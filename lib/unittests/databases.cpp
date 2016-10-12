@@ -275,6 +275,11 @@ void test_database_users ()
     evaluate (__LINE__, __func__, true, database_users.matchEmailPassword (email, password));
     evaluate (__LINE__, __func__, false, database_users.matchEmailPassword (email, "wrong password"));
 
+    // No matches for a disabled account.
+    database_users.set_enabled (username, false);
+    evaluate (__LINE__, __func__, false, database_users.matchUserPassword (username, password));
+    evaluate (__LINE__, __func__, false, database_users.matchEmailPassword (email, password));
+
     string ref = "INSERT INTO users (username, password, level, email) VALUES ('unit test', '014877e71841e82d44ce524d66dcc732', 10, 'email@site.nl');";
     string act = database_users.add_userQuery (username, password, level, email);
     evaluate (__LINE__, __func__, ref, act);
@@ -374,7 +379,7 @@ void test_database_users ()
     database_users.create ();
     database_users.upgrade ();
     
-    // Non existing account is disabled.
+    // Non-existing account is disabled.
     string user = "unittest";
     evaluate (__LINE__, __func__, false, database_users.get_enabled (user));
     

@@ -117,7 +117,7 @@ bool Database_Users::matchUserPassword (string user, string password)
   sql.add (user);
   sql.add ("AND password =");
   sql.add (md5 (password));
-  sql.add (";");
+  sql.add ("AND (disabled IS NULL OR disabled = 0);");
   vector <string> result = sql.query () ["username"];
   return (!result.empty());
 }
@@ -131,7 +131,7 @@ bool Database_Users::matchEmailPassword (string email, string password)
   sql.add (email);
   sql.add ("AND password =");
   sql.add (md5 (password));
-  sql.add (";");
+  sql.add ("AND (disabled IS NULL OR disabled = 0);");
   vector <string> result = sql.query () ["username"];
   return (!result.empty());
 }
