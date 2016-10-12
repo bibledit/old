@@ -3,7 +3,14 @@
 <p class="error ">##error_message##</p>
 <form action="login?request=##forward##" name="form" method="post">
 
-<p><label for="user">translate ("Username or email address:")</label></p>
+<p><label for="user">
+<!-- #BEGINZONE local -->
+translate ("Username or email address:")
+<!-- #ENDZONE local -->
+<!-- #BEGINZONE ldap -->
+translate ("Username:")
+<!-- #ENDZONE ldap -->
+</label></p>
 <p><input class="width50 center" type="text" name="user" id="user" maxlength="30" /></p>
 <p class="error">##username_invalid##</p>
 

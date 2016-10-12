@@ -132,6 +132,12 @@ string session_login (void * webserver_request)
   }
   
   view.set_variable ("VERSION", config_logic_version ());
+  
+  if (ldap_logic_on ()) {
+    view.enable_zone ("ldap");
+  } else {
+    view.enable_zone ("local");
+  }
 
   string page;
 
