@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <database/git.h>
 #include <database/login.h>
+#include <database/logs.h>
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -58,6 +59,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <bible/logic.h>
 #include <developer/logic.h>
+#include <ldap/logic.h>
 
 
 #ifdef HAVE_UNITTESTS
@@ -4929,20 +4931,36 @@ void test_filter_ldap ()
 {
   trace_unit_tests (__func__);
   
-  string uri = "ldap://ldap.forumsys.com";
+  refresh_sandbox (true);
+
+  // Copy the default LDAP server configuration into place.
+  string ldap_txt = filter_url_create_root_path ("config", "ldap.txt");
+  string ldap_conf = filter_url_create_root_path ("config", "ldap.conf");
+  filter_url_file_cp (ldap_txt, ldap_conf);
+  // Initialize LDAP configuration.
+  ldap_logic_initialize ();
+  
+  // Authenticate a user and check the results.
   string user = "boyle";
   string password = "password";
-  string binddn = "uid=[user],dc=example,dc=com";
-  string basedn = "dc=example,dc=com";
-  string scope = "sub";
-  string filter = "(uid=[user])";
   bool okay;
   bool access;
   string email;
-  okay = filter_ldap_get (uri, user, password, binddn, basedn, scope, filter, access, email);
+  int role;
+  okay = ldap_logic_get (user, password, access, email, role, false);
   evaluate (__LINE__, __func__, true, okay);
   evaluate (__LINE__, __func__, true, access);
   evaluate (__LINE__, __func__, "boyle@ldap.forumsys.com", email);
+  evaluate (__LINE__, __func__, Filter_Roles::guest (), role);
+
+  // Check there is one journal entry as a result of authenticating a user.
+  string last = "0";
+  vector <string> logs = Database_Logs::get (last);
+  evaluate (__LINE__, __func__, 1, logs.size ());
+
+  // Clear LDAP settings.
+  ldap_logic_clear ();
+  refresh_sandbox (false);
 }
 
 

@@ -91,6 +91,18 @@ void ldap_logic_initialize ()
 }
 
 
+// Clear LDAP configuration.
+void ldap_logic_clear ()
+{
+  ldap_logic_uri.clear ();
+  ldap_logic_binddn.clear ();
+  ldap_logic_basedn.clear ();
+  ldap_logic_scope.clear ();
+  ldap_logic_filter.clear ();
+  ldap_logic_role.clear ();
+}
+
+
 // Returns true if authentication through OpenLDAP is on.
 bool ldap_logic_on (bool log)
 {
