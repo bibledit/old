@@ -43,6 +43,7 @@ string system_index_url ()
 bool system_index_acl (void * webserver_request)
 {
 #ifdef HAVE_CLIENT
+  (void) webserver_request;
   // Client: Anyone has make system settings, basically.
   return true;
 #else

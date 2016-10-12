@@ -205,7 +205,19 @@ int filter_shell_vfork (string & output, string command,
 #ifdef HAVE_CLIENT
   Database_Logs::log ("Did not run on client: " + command);
   (void) command;
-  (void) parameters;
+  (void) p01;
+  (void) p02;
+  (void) p03;
+  (void) p04;
+  (void) p05;
+  (void) p06;
+  (void) p07;
+  (void) p08;
+  (void) p09;
+  (void) p10;
+  (void) p11;
+  (void) p12;
+  (void) p13;
   (void) output;
 #else
 
