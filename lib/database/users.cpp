@@ -241,7 +241,7 @@ vector <string> Database_Users::getAdministrators ()
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE level =");
   sql.add (Filter_Roles::admin ());
-  sql.add (";");
+  sql.add ("AND (disabled IS NULL OR disabled = 0);");
   vector <string> result = sql.query () ["username"];
   return result;
 }

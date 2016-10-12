@@ -303,11 +303,15 @@ void test_database_users ()
     
     evaluate (__LINE__, __func__, " UPDATE users SET email =  'email@site.nl'  WHERE username =  'unit test'  ; ", database_users.updateEmailQuery (username, email));
   }
+
+  // Test administrators and updating email.
   {
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
+    database_users.upgrade ();
 
+    // Test data for two admins.
     string username1 = "unit test1";
     string username2 = "unit test2";
     string password = "pazz";
@@ -320,6 +324,16 @@ void test_database_users ()
     if (!admins.empty()) evaluate (__LINE__, __func__, username1, admins [0]);
     
     database_users.add_user (username2, password, level, email);
+    admins = database_users.getAdministrators ();
+    evaluate (__LINE__, __func__, 2, (int)admins.size());
+    
+    // Check that a disabled admin account is not included in the number of administrators.
+    database_users.set_enabled (username1, false);
+    admins = database_users.getAdministrators ();
+    evaluate (__LINE__, __func__, 1, (int)admins.size());
+
+    // Check that once an account is enabled, it is included again in the number of administrators.
+    database_users.set_enabled (username1, true);
     admins = database_users.getAdministrators ();
     evaluate (__LINE__, __func__, 2, (int)admins.size());
     
