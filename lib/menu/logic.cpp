@@ -91,6 +91,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <basic/index.h>
 #include <bible/logic.h>
+#include <ldap/logic.h>
 
 
 string menu_logic_href (string href)
@@ -847,9 +848,11 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     
     if (label == account) {
       if (!(client || demo)) {
-        if (user_account_acl (webserver_request)) {
-          html.push_back (menu_logic_create_item (user_account_url (), label, true));
-          tiplabels.push_back (label);
+        if (!ldap_logic_on ()) {
+          if (user_account_acl (webserver_request)) {
+            html.push_back (menu_logic_create_item (user_account_url (), label, true));
+            tiplabels.push_back (label);
+          }
         }
       }
     }
