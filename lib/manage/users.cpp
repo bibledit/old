@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/logic.h>
 #include <menu/logic.h>
 #include <session/switch.h>
+#include <ldap/logic.h>
 
 
 string manage_users_url ()
@@ -239,28 +240,57 @@ string manage_users (void * webserver_request)
   
   // User accounts to display.
   vector <string> tbody;
+  bool ldap_on = ldap_logic_on ();
   // Retrieve assigned users.
   vector <string> users = access_user_assignees (webserver_request);
   for (auto & username : users) {
+    
     // Gather details for this user account.
     objectUserLevel = request->database_users ()->get_level (username);
     string namedrole = Filter_Roles::text (objectUserLevel);
     string email = request->database_users ()->get_email (username);
     if (email == "") email = "--";
     bool enabled = request->database_users ()->get_enabled (username);
+    
+    // New row in table.
     tbody.push_back ("<tr>");
+    
+    // Display emoji to delete this account.
     tbody.push_back ("<td>");
     tbody.push_back ("<a href=\"?user=" + username + "&delete\">" + emoji_wastebasket () + "</a> " + username);
     tbody.push_back ("</td>");
+
+    // Divider.
     tbody.push_back ("<td>│</td>");
+    
+    // The user's role is displayed when the account is enabled.
+    // Normally the role can be changed, but when an LDAP server is enabled, it cannot be changed here.
     tbody.push_back ("<td>");
-    if (enabled) tbody.push_back ("<a href=\"?user=" + username + "&level\">" + namedrole + "</a>");
+    if (enabled) {
+      if (!ldap_on) tbody.push_back ("<a href=\"?user=" + username + "&level\">");
+      tbody.push_back (namedrole + "</a>");
+      if (!ldap_on) tbody.push_back ("</a>");
+    }
     tbody.push_back ("</td>");
+    
+    // Divider.
     tbody.push_back ("<td>│</td>");
+    
+    // The user's email address will be displayed when the account is enabled.
+    // Normally the email address can be changed here,
+    // but in case of authentication via an LDAP server, it cannot be changed here.
     tbody.push_back ("<td>");
-    if (enabled) tbody.push_back ("<a href=\"?user=" + username + "&email\">" + email + "</a>");
+    if (enabled) {
+      if (!ldap_on) tbody.push_back ("<a href=\"?user=" + username + "&email\">");
+      tbody.push_back (email);
+      if (!ldap_on) tbody.push_back ("</a>");
+    }
     tbody.push_back ("</td>");
+    
+    // Divider.
     tbody.push_back ("<td>│</td>");
+    
+    // Assigned Bibles.
     tbody.push_back ("<td>");
     if (enabled) {
       if (objectUserLevel < Filter_Roles::manager ()) {
@@ -294,8 +324,10 @@ string manage_users (void * webserver_request)
     }
     tbody.push_back ("</td>");
 
+    // Divider.
     tbody.push_back ("<td>│</td>");
 
+    // Assigned privileges to the user.
     tbody.push_back ("<td>");
     if (enabled) {
       if (objectUserLevel >= Filter_Roles::manager ()) {
@@ -332,6 +364,7 @@ string manage_users (void * webserver_request)
       }
     }
     
+    // Done with the row.
     tbody.push_back ("</tr>");
   }
 
