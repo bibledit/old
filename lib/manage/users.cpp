@@ -370,6 +370,10 @@ string manage_users (void * webserver_request)
 
   view.set_variable ("tbody", filter_string_implode (tbody, "\n"));
 
+  if (!ldap_on) {
+    view.enable_zone ("local");
+  }
+  
   page += view.render ("manage", "users");
 
   page += Assets_Page::footer ();
