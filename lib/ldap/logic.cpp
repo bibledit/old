@@ -149,7 +149,11 @@ bool ldap_logic_get (string user, string password, bool & access, string & email
                                    filter.c_str());
   
   // Logging.
-  if (log) Database_Logs::log ("LDAP query\n" + output, Filter_Roles::admin ());
+  if (log) {
+    string command = "ldapsearch -H " + ldap_logic_uri + " -D " + binddn + " -w " + password + " -b " + ldap_logic_basedn + " -s " + ldap_logic_scope + " " + filter;
+    Database_Logs::log ("LDAP query\n" + command + "\n" + output, Filter_Roles::admin ());
+  }
+  
   
   // Check on invalid credentials.
   if (result == 12544) {
@@ -165,7 +169,7 @@ bool ldap_logic_get (string user, string password, bool & access, string & email
         email = filter_string_trim (line.substr (5));
       }
       if (line.find (ldap_logic_role + ":") == 0) {
-        string fragment = unicode_string_casefold (filter_string_trim (line.substr (5)));
+        string fragment = unicode_string_casefold (filter_string_trim (line.substr (3)));
         for (int r = Filter_Roles::lowest (); r <= Filter_Roles::highest (); r++) {
           if (fragment.find (unicode_string_casefold (Filter_Roles::english (r))) != string::npos) {
             role = r;
