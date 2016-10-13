@@ -38,3 +38,6 @@ filter = (uid=[user])
 # Field "ou" is, as per RFC2256, "the organizational unit this object belongs to".
 # Change it to suit your needs.
 role = ou
+
+# Note: Bibledit clients do not query the LDAP server.
+# Instead they use the accounts in Bibledit Cloud.
