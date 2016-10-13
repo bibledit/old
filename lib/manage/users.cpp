@@ -240,7 +240,7 @@ string manage_users (void * webserver_request)
   
   // User accounts to display.
   vector <string> tbody;
-  bool ldap_on = ldap_logic_on ();
+  bool ldap_on = ldap_logic_is_on ();
   // Retrieve assigned users.
   vector <string> users = access_user_assignees (webserver_request);
   for (auto & username : users) {

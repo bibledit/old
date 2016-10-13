@@ -26,8 +26,8 @@
 
 void ldap_logic_initialize ();
 void ldap_logic_clear ();
-bool ldap_logic_on (bool log = false);
-bool ldap_logic_get (string user, string password, bool & access, string & email, int & role, bool log);
+bool ldap_logic_is_on (bool log = false);
+bool ldap_logic_fetch (string user, string password, bool & access, string & email, int & role, bool log);
 
 
 #endif

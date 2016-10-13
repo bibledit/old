@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <index/index.h>
 #include <ldap/logic.h>
+#include <user/logic.h>
 
 
 const char * session_login_url ()
@@ -87,34 +88,10 @@ string session_login (void * webserver_request)
       view.set_variable ("password_invalid", translate ("Password should be at least four characters long"));
     }
     if (form_is_valid) {
-      bool ldap_okay = true;
-      if (ldap_logic_on ()) {
-        // Query the LDAP server and log the response.
-        string email;
-        int role;
-        ldap_logic_get (user, pass, ldap_okay, email, role, true);
-        if (ldap_okay) {
-          if (request->database_users ()->usernameExists (user)) {
-            // Verify and/or update the fields for the user in the local database.
-            if (request->database_users ()->get_md5 (user) != md5 (pass)) {
-              request->database_users ()->set_password (user, pass);
-            }
-            if (request->database_users ()->get_level (user) != role) {
-              request->database_users ()->set_level (user, role);
-            }
-            if (request->database_users ()->get_email (user) != email) {
-              request->database_users ()->updateUserEmail (user, email);
-            }
-            if (!request->database_users ()->get_enabled (user)) {
-              request->database_users ()->set_enabled (user, true);
-            }
-          } else {
-            // Enter the user into the database.
-            request->database_users ()->add_user (user, pass, role, email);
-          }
-        }
-      }
-      if (ldap_okay && request->session_logic()->attemptLogin (user, pass, touch_enabled)) {
+      // Optionally query the LDAP server and log the response.
+      user_logic_optional_ldap_authentication (webserver_request, user, pass);
+      // Authenticate against local database.
+      if (request->session_logic()->attemptLogin (user, pass, touch_enabled)) {
         // Log the login.
         Database_Logs::log (request->session_logic()->currentUser () + " logged in");
         // Store web site's base URL.
@@ -133,7 +110,7 @@ string session_login (void * webserver_request)
   
   view.set_variable ("VERSION", config_logic_version ());
   
-  if (ldap_logic_on ()) {
+  if (ldap_logic_is_on ()) {
     view.enable_zone ("ldap");
   } else {
     view.enable_zone ("local");

@@ -20,10 +20,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <user/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/md5.h>
 #include <database/users.h>
 #include <database/config/user.h>
 #include <database/logs.h>
 #include <email/send.h>
+#include <ldap/logic.h>
+#include <webserver/request.h>
 
 
 typedef struct
@@ -212,6 +215,39 @@ void user_logic_software_updates_notify ()
       // The purpose of this is that if a user stops running on a certain platform,
       // the user won't keep getting update notifications for this platform.
       database_config_user.setConnectedClientsForUser (user, {});
+    }
+  }
+}
+
+
+void user_logic_optional_ldap_authentication (void * webserver_request, string user, string pass)
+{
+  if (ldap_logic_is_on ()) {
+    // Query the LDAP server and log the response.
+    bool ldap_okay;
+    string email;
+    int role;
+    ldap_logic_fetch (user, pass, ldap_okay, email, role, true);
+    if (ldap_okay) {
+      Webserver_Request * request = (Webserver_Request *) webserver_request;
+      if (request->database_users ()->usernameExists (user)) {
+        // Verify and/or update the fields for the user in the local database.
+        if (request->database_users ()->get_md5 (user) != md5 (pass)) {
+          request->database_users ()->set_password (user, pass);
+        }
+        if (request->database_users ()->get_level (user) != role) {
+          request->database_users ()->set_level (user, role);
+        }
+        if (request->database_users ()->get_email (user) != email) {
+          request->database_users ()->updateUserEmail (user, email);
+        }
+        if (!request->database_users ()->get_enabled (user)) {
+          request->database_users ()->set_enabled (user, true);
+        }
+      } else {
+        // Enter the user into the database.
+        request->database_users ()->add_user (user, pass, role, email);
+      }
     }
   }
 }

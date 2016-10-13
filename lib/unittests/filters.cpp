@@ -4947,7 +4947,7 @@ void test_filter_ldap ()
   bool access;
   string email;
   int role;
-  okay = ldap_logic_get (user, password, access, email, role, false);
+  okay = ldap_logic_fetch (user, password, access, email, role, false);
   evaluate (__LINE__, __func__, true, okay);
   evaluate (__LINE__, __func__, true, access);
   evaluate (__LINE__, __func__, "boyle@ldap.forumsys.com", email);

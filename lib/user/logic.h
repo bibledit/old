@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 void user_logic_software_updates_notify ();
+void user_logic_optional_ldap_authentication (void * webserver_request, string user, string pass);
 
 
 #endif

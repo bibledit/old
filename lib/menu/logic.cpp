@@ -848,7 +848,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     
     if (label == account) {
       if (!(client || demo)) {
-        if (!ldap_logic_on ()) {
+        if (!ldap_logic_is_on ()) {
           if (user_account_acl (webserver_request)) {
             html.push_back (menu_logic_create_item (user_account_url (), label, true));
             tiplabels.push_back (label);

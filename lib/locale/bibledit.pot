@@ -5981,21 +5981,6 @@ msgstr ""
 msgid "Click 🗑 before a username to delete the account."
 msgstr ""
 
-msgid "Click a user's role to change it."
-msgstr ""
-
-msgid "Click a user's email address to change it."
-msgstr ""
-
-msgid "You can create a new user."
-msgstr ""
-
-msgid "The password will be the same as the username."
-msgstr ""
-
-msgid "Normally users register their own account."
-msgstr ""
-
 msgid "Click ➕ to give a user access to a Bible."
 msgstr ""
 
@@ -6014,6 +5999,15 @@ msgstr ""
 msgid ""
 "If no user has been granted access to any Bible, then all users have write "
 "access to all Bibles."
+msgstr ""
+
+msgid "You can create a new user."
+msgstr ""
+
+msgid "The password will be the same as the username."
+msgstr ""
+
+msgid "Normally users register their own account."
 msgstr ""
 
 msgid ""
@@ -7729,6 +7723,9 @@ msgid "Username or email address or password are not correct"
 msgstr ""
 
 msgid "Username or email address:"
+msgstr ""
+
+msgid "Username:"
 msgstr ""
 
 msgid "Password:"

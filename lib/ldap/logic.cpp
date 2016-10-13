@@ -84,7 +84,7 @@ void ldap_logic_initialize ()
       if (key == "role"  ) ldap_logic_role   = line;
     }
     // Log the results.
-    if (ldap_logic_on (true)) {
+    if (ldap_logic_is_on (true)) {
       Database_Logs::log ("Using LDAP for authentication");
     }
   }
@@ -104,7 +104,7 @@ void ldap_logic_clear ()
 
 
 // Returns true if authentication through OpenLDAP is on.
-bool ldap_logic_on (bool log)
+bool ldap_logic_is_on (bool log)
 {
   if (ldap_logic_uri.empty ()) {
     if (log) Database_Logs::log ("LDAP server configuration lacks the URI");
@@ -139,7 +139,7 @@ bool ldap_logic_on (bool log)
 // Parameter $mail returns the email address.
 // Parameter $role returns the user's role.
 // If the query was done successfully, the function returns true.
-bool ldap_logic_get (string user, string password, bool & access, string & email, int & role, bool log)
+bool ldap_logic_fetch (string user, string password, bool & access, string & email, int & role, bool log)
 {
   // Initialize result values for the caller.
   access = false;
