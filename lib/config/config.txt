@@ -41,4 +41,4 @@ When enabled, the mechanism is subject to race condition in rare circumstances, 
 There is no intention to fix this behaviour, because receiving changes from a git repository is going to be phased out soon.
 
 
-OpenLDAP server: See file ldap.txt for more information about that.
+OpenLDAP server: See file ldap.txt for more information.

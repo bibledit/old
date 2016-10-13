@@ -28,7 +28,13 @@ filter = (uid=[user])
 # This is hard coded in Bibledit
 
 # To retrieve a user's role, the field below will be searched
-# for words like "translator" or "manager" and so on.
+# for any of the following words:
+#  "Administrator"
+#  "Manager"
+#  "Translator"
+#  "Consultant"
+#  "Member"
+#  "Guest"
 # Field "ou" is, as per RFC2256, "the organizational unit this object belongs to".
 # Change it to suit your needs.
 role = ou
