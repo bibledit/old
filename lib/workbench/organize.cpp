@@ -51,7 +51,7 @@ string workbench_organize (void * webserver_request)
   
   if (request->post.count ("add")) {
     string add = request->post["add"];
-    request->database_config_user()->setActiveWorkbench (add);
+    request->database_config_user()->setActiveWorkspace (add);
     workbench_set_urls    (request, workbench_get_default_urls (0));
     workbench_set_widths  (request, workbench_get_default_widths (0));
     workbench_set_heights (request, workbench_get_default_heights (0));
@@ -82,7 +82,7 @@ string workbench_organize (void * webserver_request)
   string page;
   
   
-  Assets_Header header = Assets_Header (translate("Desktops"), request);
+  Assets_Header header = Assets_Header (translate("Workspaces"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   

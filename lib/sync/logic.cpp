@@ -154,9 +154,9 @@ string Sync_Logic::settings_checksum (const vector <string> & bibles)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string checksum;
-  checksum.append (request->database_config_user()->getWorkbenchURLs ());
-  checksum.append (request->database_config_user()->getWorkbenchWidths ());
-  checksum.append (request->database_config_user()->getWorkbenchHeights ());
+  checksum.append (request->database_config_user()->getWorkspaceURLs ());
+  checksum.append (request->database_config_user()->getWorkspaceWidths ());
+  checksum.append (request->database_config_user()->getWorkspaceHeights ());
   vector <string> resources = request->database_config_user()->getActiveResources ();
   checksum.append (filter_string_implode (resources, "\n"));
   for (auto & bible : bibles) {

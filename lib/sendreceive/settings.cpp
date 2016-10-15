@@ -124,13 +124,13 @@ void sendreceive_settings ()
     string value;
     switch (id) {
       case Sync_Logic::settings_send_workbench_urls:
-        value = request.database_config_user()->getWorkbenchURLs ();
+        value = request.database_config_user()->getWorkspaceURLs ();
         break;
       case Sync_Logic::settings_send_workbench_widths:
-        value = request.database_config_user()->getWorkbenchWidths ();
+        value = request.database_config_user()->getWorkspaceWidths ();
         break;
       case Sync_Logic::settings_send_workbench_heights:
-        value = request.database_config_user()->getWorkbenchHeights ();
+        value = request.database_config_user()->getWorkspaceHeights ();
         break;
       case Sync_Logic::settings_send_resources_organization:
         vector <string> resources = request.database_config_user()->getActiveResources ();
@@ -217,7 +217,7 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  request.database_config_user()->setWorkbenchURLs (response);
+  request.database_config_user()->setWorkspaceURLs (response);
 
   post ["a"] = convert_to_string (Sync_Logic::settings_get_workbench_widths);
   response = sync_logic.post (post, url, error);
@@ -226,7 +226,7 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  request.database_config_user()->setWorkbenchWidths (response);
+  request.database_config_user()->setWorkspaceWidths (response);
 
   post ["a"] = convert_to_string (Sync_Logic::settings_get_workbench_heights);
   response = sync_logic.post (post, url, error);
@@ -235,7 +235,7 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  request.database_config_user()->setWorkbenchHeights (response);
+  request.database_config_user()->setWorkspaceHeights (response);
 
   post ["a"] = convert_to_string (Sync_Logic::settings_get_resources_organization);
   response = sync_logic.post (post, url, error);

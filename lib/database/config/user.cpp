@@ -698,51 +698,51 @@ void Database_Config_User::setContributorChangesNotificationsOnline (bool value)
 }
 
 
-string Database_Config_User::getWorkbenchURLs ()
+string Database_Config_User::getWorkspaceURLs ()
 {
   return getValue ("workbench-urls", "");
 }
-void Database_Config_User::setWorkbenchURLs (string value)
+void Database_Config_User::setWorkspaceURLs (string value)
 {
   setValue ("workbench-urls", value);
 }
 
 
-string Database_Config_User::getWorkbenchWidths ()
+string Database_Config_User::getWorkspaceWidths ()
 {
   return getValue ("workbench-widths", "");
 }
-void Database_Config_User::setWorkbenchWidths (string value)
+void Database_Config_User::setWorkspaceWidths (string value)
 {
   setValue ("workbench-widths", value);
 }
 
 
-string Database_Config_User::getWorkbenchHeights ()
+string Database_Config_User::getWorkspaceHeights ()
 {
   return getValue ("workbench-heights", "");
 }
-void Database_Config_User::setWorkbenchHeights (string value)
+void Database_Config_User::setWorkspaceHeights (string value)
 {
   setValue ("workbench-heights", value);
 }
 
 
-string Database_Config_User::getEntireWorkbenchWidths ()
+string Database_Config_User::getEntireWorkspaceWidths ()
 {
   return getValue ("entire-workbench-widths", "");
 }
-void Database_Config_User::setEntireWorkbenchWidths (string value)
+void Database_Config_User::setEntireWorkspaceWidths (string value)
 {
   setValue ("entire-workbench-widths", value);
 }
 
 
-string Database_Config_User::getActiveWorkbench ()
+string Database_Config_User::getActiveWorkspace ()
 {
   return getValue ("active-workbench", "");
 }
-void Database_Config_User::setActiveWorkbench (string value)
+void Database_Config_User::setActiveWorkspace (string value)
 {
   setValue ("active-workbench", value);
 }
@@ -1116,11 +1116,11 @@ void Database_Config_User::setDisplayBreadcrumbs (bool value)
 }
 
 
-int Database_Config_User::getDesktopMenuFadeoutDelay ()
+int Database_Config_User::getWorkspaceMenuFadeoutDelay ()
 {
   return getIValue ("desktop-menu-fadeout-delay", 4);
 }
-void Database_Config_User::setDesktopMenuFadeoutDelay (int value)
+void Database_Config_User::setWorkspaceMenuFadeoutDelay (int value)
 {
   setIValue ("desktop-menu-fadeout-delay", value);
 }

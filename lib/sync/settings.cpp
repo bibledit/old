@@ -68,30 +68,30 @@ string sync_settings (void * webserver_request)
     }
     case Sync_Logic::settings_send_workbench_urls:
     {
-      request->database_config_user()->setWorkbenchURLs (value);
+      request->database_config_user()->setWorkspaceURLs (value);
       return "";
     }
     case Sync_Logic::settings_get_workbench_urls:
     {
-      return request->database_config_user()->getWorkbenchURLs ();
+      return request->database_config_user()->getWorkspaceURLs ();
     }
     case Sync_Logic::settings_send_workbench_widths:
     {
-      request->database_config_user()->setWorkbenchWidths (value);
+      request->database_config_user()->setWorkspaceWidths (value);
       return "";
     }
     case Sync_Logic::settings_get_workbench_widths:
     {
-      return request->database_config_user()->getWorkbenchWidths ();
+      return request->database_config_user()->getWorkspaceWidths ();
     }
     case Sync_Logic::settings_send_workbench_heights:
     {
-      request->database_config_user()->setWorkbenchHeights (value);
+      request->database_config_user()->setWorkspaceHeights (value);
       return "";
     }
     case Sync_Logic::settings_get_workbench_heights:
     {
-      return request->database_config_user()->getWorkbenchHeights ();
+      return request->database_config_user()->getWorkspaceHeights ();
     }
     case Sync_Logic::settings_send_resources_organization:
     {

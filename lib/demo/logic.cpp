@@ -345,7 +345,7 @@ void demo_create_sample_workbenches (void * webserver_request)
     make_pair (2, "")
   };
 
-  request->database_config_user()->setActiveWorkbench ("USFM");
+  request->database_config_user()->setActiveWorkspace ("USFM");
   workbench_set_urls (request, urls);
   workbench_set_widths (request, widths);
   workbench_set_heights (request, row_heights);
@@ -353,7 +353,7 @@ void demo_create_sample_workbenches (void * webserver_request)
   urls[0] = editone_index_url ();
   urls[1] = resource_index_url ();
 
-  request->database_config_user()->setActiveWorkbench (demo_workbench ());
+  request->database_config_user()->setActiveWorkspace (demo_workbench ());
   workbench_set_urls (request, urls);
   workbench_set_widths (request, widths);
   workbench_set_heights (request, row_heights);

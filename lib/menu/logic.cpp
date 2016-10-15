@@ -175,7 +175,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   vector <string> tooltipbits;
 
   if (workbench_index_acl (webserver_request)) {
-    string label = translate ("Desktop");
+    string label = translate ("Workspace");
     string tooltip;
     menu_logic_desktop_category (webserver_request, &tooltip);
     html.push_back (menu_logic_create_item (workbench_index_url (), label, true, tooltip));
@@ -1069,7 +1069,7 @@ string menu_logic_bible_manage_text ()
 
 string menu_logic_desktop_organize_text ()
 {
-  return translate ("Desktops");
+  return translate ("Workspaces");
 }
 
 

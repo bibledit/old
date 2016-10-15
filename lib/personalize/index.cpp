@@ -247,21 +247,21 @@ string personalize_index (void * webserver_request)
   view.set_variable ("breadcrumbs", on_off);
 
   
-  // Desktop menu fade out delay.
+  // Workspace menu fade out delay.
   if (request->query.count ("desktopfadeoutdelay")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a fade out delay between 1 and 100 seconds or 0 to disable"), convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()), "desktopfadeoutdelay", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a fade out delay between 1 and 100 seconds or 0 to disable"), convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()), "desktopfadeoutdelay", "");
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count ("desktopfadeoutdelay")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
-      request->database_config_user ()->setDesktopMenuFadeoutDelay (value);
+      request->database_config_user ()->setWorkspaceMenuFadeoutDelay (value);
     } else {
       error = translate ("Incorrect fade out delay in seconds");
     }
   }
-  view.set_variable ("desktopfadeoutdelay", convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()));
+  view.set_variable ("desktopfadeoutdelay", convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()));
 
   
   // Permissable relative changes in the two to four Bible editors.

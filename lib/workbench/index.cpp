@@ -56,17 +56,17 @@ string workbench_index (void * webserver_request)
     unsigned int bench = convert_to_int (request->query ["bench"]);
     if (bench < desktops.size ()) {
       string workbench = desktops [bench];
-      request->database_config_user()->setActiveWorkbench (workbench);
+      request->database_config_user()->setActiveWorkspace (workbench);
     }
   }
   
   
   // Check that the active desktop exists, else set the first available desktop as the active one.
   {
-    string desktop = request->database_config_user ()->getActiveWorkbench ();
+    string desktop = request->database_config_user ()->getActiveWorkspace ();
     if (!in_array (desktop, desktops)) {
       if (!desktops.empty ()) {
-        request->database_config_user ()->setActiveWorkbench (desktops [0]);
+        request->database_config_user ()->setActiveWorkspace (desktops [0]);
       }
     }
   }
@@ -96,7 +96,7 @@ string workbench_index (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Desktop"), request);
+  Assets_Header header = Assets_Header (translate("Workspace"), request);
   header.setNavigator ();
   header.setFadingMenu (menu_logic_desktop_category (webserver_request));
   page = header.run ();

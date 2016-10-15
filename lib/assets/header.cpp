@@ -232,7 +232,7 @@ string Assets_Header::run ()
     if (!fadingmenu.empty ()) {
       view->enable_zone ("fading_menu");
       view->set_variable ("fadingmenu", fadingmenu);
-      string delay = convert_to_string (request->database_config_user ()->getDesktopMenuFadeoutDelay ()) + "000";
+      string delay = convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
       view->set_variable ("fadingmenudelay", delay);
       fadingmenu.clear ();
     }

@@ -2032,7 +2032,7 @@ void test_workbench_logic ()
   }
   {
     evaluate (__LINE__, __func__, "Default", workbench_get_active_name (&request));
-    request.database_config_user()->setActiveWorkbench ("unittest");
+    request.database_config_user()->setActiveWorkspace ("unittest");
     evaluate (__LINE__, __func__, "unittest", workbench_get_active_name (&request));
   }
   {
@@ -2057,9 +2057,9 @@ void test_workbench_logic ()
   refresh_sandbox (true);
   request.database_users ()->create ();
   {
-    request.database_config_user()->setActiveWorkbench ("unittest");
+    request.database_config_user()->setActiveWorkspace ("unittest");
     workbench_set_urls (&request, {make_pair (10, "url10")});
-    request.database_config_user()->setActiveWorkbench ("unittest2");
+    request.database_config_user()->setActiveWorkspace ("unittest2");
     map <int, string> standard = { make_pair (0, "url0"), make_pair (5, "url5")};
     workbench_set_urls (&request, standard);
     vector <string> workbenches = workbench_get_names (&request);
@@ -2074,11 +2074,11 @@ void test_workbench_logic ()
   refresh_sandbox (true);
   request.database_users ()->create ();
   {
-    request.database_config_user()->setActiveWorkbench ("unittest2");
+    request.database_config_user()->setActiveWorkspace ("unittest2");
     workbench_set_urls (&request, {make_pair (10, "url10")});
-    request.database_config_user()->setActiveWorkbench ("abc32");
+    request.database_config_user()->setActiveWorkspace ("abc32");
     workbench_set_urls (&request, {make_pair (10, "url10"), make_pair (11, "url11")});
-    request.database_config_user()->setActiveWorkbench ("zzz");
+    request.database_config_user()->setActiveWorkspace ("zzz");
     workbench_set_urls (&request, {make_pair (120, "url120"), make_pair (121, "url121")});
     workbench_reorder (&request, {"zzz", "yyy", "unittest2", "abc32"});
     vector <string> workbenches = workbench_get_names (&request);

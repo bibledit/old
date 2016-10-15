@@ -51,7 +51,7 @@ string workbench_settings (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   string name = request->query ["name"];
-  request->database_config_user()->setActiveWorkbench (name);
+  request->database_config_user()->setActiveWorkspace (name);
   
   if (request->query.count ("preset")) {
     int preset = convert_to_int (request->query ["preset"]);
