@@ -1,18 +1,6 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Define the admin email */
-#define ADMIN_EMAIL ""
-
-/* Define the admin password */
-#define ADMIN_PASSWORD ""
-
-/* Define the admin username */
-#define ADMIN_USERNAME ""
-
-/* Define whether it is a demo installation */
-#define DEMO "no"
-
 /* Define whether to compile for Android */
 /* #undef HAVE_ANDROID */
 

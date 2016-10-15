@@ -70,7 +70,7 @@
 // Else returns false.
 bool demo_acl (string user, string pass)
 {
-  if (strcmp (DEMO, "yes") == 0) {
+  if (config_logic_demo_enabled ()) {
     if (user == session_admin_credentials ()) {
       if ((pass == session_admin_credentials ()) || (pass == md5 (session_admin_credentials ()))) {
         return true;

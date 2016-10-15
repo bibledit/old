@@ -625,11 +625,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
-ADMIN_EMAIL
-ADMIN_PASSWORD
-ADMIN_USERNAME
 UNITTESTS
-DEMO
 SWORD_LIBS
 SWORD_CFLAGS
 SWORD16_LIBS
@@ -750,11 +746,7 @@ ac_user_opts='
 enable_option_checking
 enable_silent_rules
 enable_dependency_tracking
-enable_demo
 enable_unittests
-with_admin_username
-with_admin_password
-with_admin_email
 enable_windows
 enable_visualstudio
 enable_android
@@ -1409,7 +1401,6 @@ Optional Features:
                           do not reject slow dependency extractors
   --disable-dependency-tracking
                           speeds up one-time build
-  --enable-demo  Enable demo mode
   --enable-unittests Enable unit tests
   --enable-windows Compile for Windows
   --enable-visualstudio Compile for Windows on Visual Studio
@@ -1418,13 +1409,6 @@ Optional Features:
   --enable-linux Compile for Linux
   --enable-ios Compile for iOS
   --enable-chromeos Compile for Chrome OS
-
-Optional Packages:
-  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
-  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-admin-username=username Admin username
-  --with-admin-password=password Admin password
-  --with-admin-email=email Admin email
 
 Some influential environment variables:
   CC          C compiler command
@@ -6717,23 +6701,6 @@ fi
 
 
 
-# Demo installation.
-DEMO=no
-# Check whether --enable-demo was given.
-if test "${enable_demo+set}" = set; then :
-  enableval=$enable_demo;  DEMO=yes
-
-fi
-
-
-$as_echo "#define DEMO /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define DEMO "$DEMO"
-_ACEOF
-
-
-
 # Check whether function 'stoi' is available
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether stoi is available" >&5
 $as_echo_n "checking whether stoi is available... " >&6; }
@@ -6774,63 +6741,6 @@ $as_echo "#define UNITTESTS /**/" >>confdefs.h
 
 cat >>confdefs.h <<_ACEOF
 #define UNITTESTS "$UNITTESTS"
-_ACEOF
-
-
-
-# Configure admin username.
-
-# Check whether --with-admin-username was given.
-if test "${with_admin_username+set}" = set; then :
-  withval=$with_admin_username;  ADMIN_USERNAME=$withval
-else
-   ADMIN_USERNAME=
-
-fi
-
-
-$as_echo "#define ADMIN_USERNAME /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define ADMIN_USERNAME "$ADMIN_USERNAME"
-_ACEOF
-
-
-
-# Configure admin password.
-
-# Check whether --with-admin-password was given.
-if test "${with_admin_password+set}" = set; then :
-  withval=$with_admin_password;  ADMIN_PASSWORD=$withval
-else
-   ADMIN_PASSWORD=
-
-fi
-
-
-$as_echo "#define ADMIN_PASSWORD /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define ADMIN_PASSWORD "$ADMIN_PASSWORD"
-_ACEOF
-
-
-
-# Configure admin email.
-
-# Check whether --with-admin-email was given.
-if test "${with_admin_email+set}" = set; then :
-  withval=$with_admin_email;  ADMIN_EMAIL=$withval
-else
-   ADMIN_EMAIL=
-
-fi
-
-
-$as_echo "#define ADMIN_EMAIL /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define ADMIN_EMAIL "$ADMIN_EMAIL"
 _ACEOF
 
 
@@ -8411,17 +8321,13 @@ fi
 echo "
 Bibledit $VERSION configuration summary:
 
-Installation prefix                               : ${prefix}
-Demo edition (--enable-demo)                      : ${DEMO}
-Unit tests   (--enable-unittests)                 : ${UNITTESTS}
-Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
-Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
-Admin email    (--with-admin-email=email)         : ${ADMIN_EMAIL}
-Windows   (--enable-windows)                      : ${ENABLEWINDOWS}
-Android   (--enable-android)                      : ${ENABLEANDROID}
-Mac       (--enable-mac)                          : ${ENABLEMAC}
-Linux     (--enable-linux)                        : ${ENABLELINUX}
-iOS       (--enable-ios)                          : ${ENABLEIOS}
-Chrome OS (--enable-chromeos)                     : ${ENABLECHROMEOS}
-SWORD library                                     : ${SWORD_CFLAGS}
+Installation prefix               : ${prefix}
+Unit tests   (--enable-unittests) : ${UNITTESTS}
+Windows   (--enable-windows)      : ${ENABLEWINDOWS}
+Android   (--enable-android)      : ${ENABLEANDROID}
+Mac       (--enable-mac)          : ${ENABLEMAC}
+Linux     (--enable-linux)        : ${ENABLELINUX}
+iOS       (--enable-ios)          : ${ENABLEIOS}
+Chrome OS (--enable-chromeos)     : ${ENABLECHROMEOS}
+SWORD library                     : ${SWORD_CFLAGS}
 "

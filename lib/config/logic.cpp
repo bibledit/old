@@ -68,28 +68,32 @@ int config_logic_https_network_port ()
 // Returns whether demo mode is enabled during configure.
 bool config_logic_demo_enabled ()
 {
-  return (strcmp (DEMO, "yes") == 0);
+  string path = filter_url_create_root_path (config_logic_config_folder (), "demo");
+  return file_or_dir_exists (path);
 }
 
 
 // The configured admin's username.
 string config_logic_admin_username ()
 {
-  return ADMIN_USERNAME;
+  string path = filter_url_create_root_path (config_logic_config_folder (), "admin-username");
+  return filter_string_trim (filter_url_file_get_contents (path));
 }
 
 
 // The configured admin's password.
 string config_logic_admin_password ()
 {
-  return ADMIN_PASSWORD;
+  string path = filter_url_create_root_path (config_logic_config_folder (), "admin-password");
+  return filter_string_trim (filter_url_file_get_contents (path));
 }
 
 
 // The configured admin's email.
 string config_logic_admin_email ()
 {
-  return ADMIN_EMAIL;
+  string path = filter_url_create_root_path (config_logic_config_folder (), "admin-email");
+  return filter_string_trim (filter_url_file_get_contents (path));
 }
 
 

@@ -85,16 +85,6 @@ AC_CHECK_HEADER(sys/sysctl.h,AC_DEFINE([HAVE_SYS_SYSCTL],[1],[Define whether sys
 AC_CHECK_HEADER(mach/mach.h,AC_DEFINE([HAVE_MACH_MACH],[1],[Define whether mach/mach.h is present]),)
 
 
-# Demo installation.
-DEMO=no
-AC_ARG_ENABLE(demo,
-[  --enable-demo  Enable demo mode],
-[ DEMO=yes
-])
-AC_DEFINE([DEMO], [], [Define whether it is a demo installation])
-AC_DEFINE_UNQUOTED(DEMO, "$DEMO")
-AC_SUBST(DEMO)
-
 # Check whether function 'stoi' is available
 AC_MSG_CHECKING([whether stoi is available])
 AC_COMPILE_IFELSE(
@@ -118,36 +108,6 @@ UNITTESTS=yes
 AC_DEFINE([UNITTESTS], [], [Define whether unit tests are enabled])
 AC_DEFINE_UNQUOTED(UNITTESTS, "$UNITTESTS")
 AC_SUBST(UNITTESTS)
-
-# Configure admin username.
-AC_ARG_WITH(admin-username,
-[  --with-admin-username=username Admin username],
-[ ADMIN_USERNAME=$withval ],
-[ ADMIN_USERNAME= ]
-)
-AC_DEFINE([ADMIN_USERNAME], [], [Define the admin username])
-AC_DEFINE_UNQUOTED(ADMIN_USERNAME, "$ADMIN_USERNAME")
-AC_SUBST(ADMIN_USERNAME)
-
-# Configure admin password.
-AC_ARG_WITH(admin-password,
-[  --with-admin-password=password Admin password],
-[ ADMIN_PASSWORD=$withval ],
-[ ADMIN_PASSWORD= ]
-)
-AC_DEFINE([ADMIN_PASSWORD], [], [Define the admin password])
-AC_DEFINE_UNQUOTED(ADMIN_PASSWORD, "$ADMIN_PASSWORD")
-AC_SUBST(ADMIN_PASSWORD)
-
-# Configure admin email.
-AC_ARG_WITH(admin-email,
-[  --with-admin-email=email Admin email],
-[ ADMIN_EMAIL=$withval ],
-[ ADMIN_EMAIL= ]
-)
-AC_DEFINE([ADMIN_EMAIL], [], [Define the admin email])
-AC_DEFINE_UNQUOTED(ADMIN_EMAIL, "$ADMIN_EMAIL")
-AC_SUBST(ADMIN_EMAIL)
 
 # Windows.
 ENABLEWINDOWS=no
@@ -220,17 +180,13 @@ AC_OUTPUT(Makefile)
 echo "
 Bibledit $VERSION configuration summary:
 
-Installation prefix                               : ${prefix}
-Demo edition (--enable-demo)                      : ${DEMO}
-Unit tests   (--enable-unittests)                 : ${UNITTESTS}
-Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
-Admin password (--with-admin-password=password)   : ${ADMIN_PASSWORD}
-Admin email    (--with-admin-email=email)         : ${ADMIN_EMAIL}
-Windows   (--enable-windows)                      : ${ENABLEWINDOWS}
-Android   (--enable-android)                      : ${ENABLEANDROID}
-Mac       (--enable-mac)                          : ${ENABLEMAC}
-Linux     (--enable-linux)                        : ${ENABLELINUX}
-iOS       (--enable-ios)                          : ${ENABLEIOS}
-Chrome OS (--enable-chromeos)                     : ${ENABLECHROMEOS}
-SWORD library                                     : ${SWORD_CFLAGS}
+Installation prefix               : ${prefix}
+Unit tests   (--enable-unittests) : ${UNITTESTS}
+Windows   (--enable-windows)      : ${ENABLEWINDOWS}
+Android   (--enable-android)      : ${ENABLEANDROID}
+Mac       (--enable-mac)          : ${ENABLEMAC}
+Linux     (--enable-linux)        : ${ENABLELINUX}
+iOS       (--enable-ios)          : ${ENABLEIOS}
+Chrome OS (--enable-chromeos)     : ${ENABLECHROMEOS}
+SWORD library                     : ${SWORD_CFLAGS}
 "
