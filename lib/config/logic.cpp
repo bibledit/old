@@ -41,16 +41,24 @@ const char * config_logic_version ()
 
 
 // Return the network port configured for the server.
-const char * config_logic_http_network_port ()
+string config_logic_http_network_port ()
 {
-  return NETWORK_PORT;
+  // Read the port number from file.
+  string path = filter_url_create_root_path (config_logic_config_folder (), "network-port");
+  string port = filter_url_file_get_contents (path);
+  // Remove white-space, e.g. a new line, that easily makes its way into the configuration file.
+  port = filter_string_trim (port);
+  // Default value.
+  if (port.empty ()) port = "8080";
+  // Done.
+  return port;
 }
 
 
 // Return the secure network port for the secure server.
 int config_logic_https_network_port ()
 {
-  int port = convert_to_int (NETWORK_PORT);
+  int port = convert_to_int (config_logic_http_network_port ());
   // The secure port is the plain http port plus one.
   port++;
   return port;

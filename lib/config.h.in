@@ -90,9 +90,6 @@
 /* Define whether to compile on Windows */
 #undef HAVE_WINDOWS
 
-/* Define the network port number */
-#undef NETWORK_PORT
-
 /* Name of package */
 #undef PACKAGE
 

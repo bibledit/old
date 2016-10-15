@@ -95,16 +95,6 @@ AC_DEFINE([DEMO], [], [Define whether it is a demo installation])
 AC_DEFINE_UNQUOTED(DEMO, "$DEMO")
 AC_SUBST(DEMO)
 
-# Network port.
-AC_ARG_WITH(network-port,
-[  --with-network-port=number Port number for server to listen on],
-[ NETWORK_PORT=$withval ],
-[ NETWORK_PORT=8080 ]
-)
-AC_DEFINE([NETWORK_PORT], [], [Define the network port number])
-AC_DEFINE_UNQUOTED(NETWORK_PORT, "$NETWORK_PORT")
-AC_SUBST(NETWORK_PORT)
-
 # Check whether function 'stoi' is available
 AC_MSG_CHECKING([whether stoi is available])
 AC_COMPILE_IFELSE(
@@ -231,7 +221,6 @@ echo "
 Bibledit $VERSION configuration summary:
 
 Installation prefix                               : ${prefix}
-Network port (--with-network-port=n)              : ${NETWORK_PORT}
 Demo edition (--enable-demo)                      : ${DEMO}
 Unit tests   (--enable-unittests)                 : ${UNITTESTS}
 Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}

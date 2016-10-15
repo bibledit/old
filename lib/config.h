@@ -91,9 +91,6 @@
 /* Define whether to compile on Windows */
 /* #undef HAVE_WINDOWS */
 
-/* Define the network port number */
-#define NETWORK_PORT "8080"
-
 /* Name of package */
 #define PACKAGE "bibledit"
 

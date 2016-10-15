@@ -48,11 +48,12 @@ const char * bibledit_get_version_number ()
 }
 
 
-
 // Get the port number that Bibledit's web server listens on.
+string library_bibledit_network_port;
 const char * bibledit_get_network_port ()
 {
-  return config_logic_http_network_port ();
+  library_bibledit_network_port = config_logic_http_network_port ();
+  return library_bibledit_network_port.c_str ();
 }
 
 

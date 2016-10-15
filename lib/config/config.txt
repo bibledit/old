@@ -42,3 +42,9 @@ There is no intention to fix this behaviour, because receiving changes from a gi
 
 
 OpenLDAP server: See file ldap.txt for more information.
+
+
+Network port for http server: The default value is 8080. Put a different port number in file "network-port".
+
+
+Administrator details: To preset the administrator's account, put the details in the files "admin-username" and "admin-password" and "admin-email", one detail per file.

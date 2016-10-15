@@ -629,7 +629,6 @@ ADMIN_EMAIL
 ADMIN_PASSWORD
 ADMIN_USERNAME
 UNITTESTS
-NETWORK_PORT
 DEMO
 SWORD_LIBS
 SWORD_CFLAGS
@@ -752,7 +751,6 @@ enable_option_checking
 enable_silent_rules
 enable_dependency_tracking
 enable_demo
-with_network_port
 enable_unittests
 with_admin_username
 with_admin_password
@@ -1424,7 +1422,6 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-network-port=number Port number for server to listen on
   --with-admin-username=username Admin username
   --with-admin-password=password Admin password
   --with-admin-email=email Admin email
@@ -6737,25 +6734,6 @@ _ACEOF
 
 
 
-# Network port.
-
-# Check whether --with-network-port was given.
-if test "${with_network_port+set}" = set; then :
-  withval=$with_network_port;  NETWORK_PORT=$withval
-else
-   NETWORK_PORT=8080
-
-fi
-
-
-$as_echo "#define NETWORK_PORT /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define NETWORK_PORT "$NETWORK_PORT"
-_ACEOF
-
-
-
 # Check whether function 'stoi' is available
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether stoi is available" >&5
 $as_echo_n "checking whether stoi is available... " >&6; }
@@ -8434,7 +8412,6 @@ echo "
 Bibledit $VERSION configuration summary:
 
 Installation prefix                               : ${prefix}
-Network port (--with-network-port=n)              : ${NETWORK_PORT}
 Demo edition (--enable-demo)                      : ${DEMO}
 Unit tests   (--enable-unittests)                 : ${UNITTESTS}
 Admin username (--with-admin-username=username)   : ${ADMIN_USERNAME}
