@@ -33,19 +33,19 @@
 #include <navigation/passage.h>
 
 
-string workbench_index_url ()
+string workspace_index_url ()
 {
   return "workbench/index";
 }
 
 
-bool workbench_index_acl (void * webserver_request)
+bool workspace_index_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
 }
 
 
-string workbench_index (void * webserver_request)
+string workspace_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <string> desktops = workbench_get_names (request);

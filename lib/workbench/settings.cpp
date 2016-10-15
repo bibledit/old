@@ -82,7 +82,7 @@ string workbench_settings (void * webserver_request)
     workbench_set_heights (request, row_heights);
     string workbenchwidth = request->post ["workbenchwidth"];
     workbench_set_entire_width (request, workbenchwidth);
-    redirect_browser (request, workbench_index_url ());
+    redirect_browser (request, workspace_index_url ());
     return "";
   }
   

@@ -55,7 +55,7 @@ string index_index (void * webserver_request)
   if (config_logic_demo_enabled ()) {
     // The demo, when there's no active menu, forwards to a the active workbench.
     if (request->query.empty ()) {
-      header.refresh (5, "/" + workbench_index_url ());
+      header.refresh (5, "/" + workspace_index_url ());
     }
   }
   

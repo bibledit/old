@@ -24,9 +24,9 @@
 #include <config/libraries.h>
 
 
-string workbench_index_url ();
-bool workbench_index_acl (void * webserver_request);
-string workbench_index (void * webserver_request);
+string workspace_index_url ();
+bool workspace_index_acl (void * webserver_request);
+string workspace_index (void * webserver_request);
 
 
 #endif

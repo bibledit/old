@@ -174,11 +174,11 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   vector <string> html;
   vector <string> tooltipbits;
 
-  if (workbench_index_acl (webserver_request)) {
+  if (workspace_index_acl (webserver_request)) {
     string label = translate ("Workspace");
     string tooltip;
     menu_logic_desktop_category (webserver_request, &tooltip);
-    html.push_back (menu_logic_create_item (workbench_index_url (), label, true, tooltip));
+    html.push_back (menu_logic_create_item (workspace_index_url (), label, true, tooltip));
     tooltipbits.push_back (label);
   }
 
@@ -324,7 +324,7 @@ string menu_logic_desktop_category (void * webserver_request, string * tooltip)
   if (workbench_organize_acl (webserver_request)) {
     vector <string> workbenches = workbench_get_names (webserver_request);
     for (size_t i = 0; i < workbenches.size(); i++) {
-      string item = menu_logic_create_item (workbench_index_url () + "?bench=" + convert_to_string (i), workbenches[i], true);
+      string item = menu_logic_create_item (workspace_index_url () + "?bench=" + convert_to_string (i), workbenches[i], true);
       html.push_back (item);
       labels.push_back (workbenches [i]);
     }

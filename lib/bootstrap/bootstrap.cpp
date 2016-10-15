@@ -375,8 +375,8 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == workbench_index_url ()) && browser_request_security_okay (request) && workbench_index_acl (request)) {
-    request->reply = workbench_index (request);
+  if ((url == workspace_index_url ()) && browser_request_security_okay (request) && workspace_index_acl (request)) {
+    request->reply = workspace_index (request);
     return;
   }
   
