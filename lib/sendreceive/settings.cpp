@@ -213,7 +213,7 @@ void sendreceive_settings ()
   post ["a"] = convert_to_string (Sync_Logic::settings_get_workspace_urls);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("Failure receiving workbench URLS", Filter_Roles::translator ());
+    Database_Logs::log ("Failure receiving workspace URLS", Filter_Roles::translator ());
     sendreceive_settings_done ();
     return;
   }
@@ -222,7 +222,7 @@ void sendreceive_settings ()
   post ["a"] = convert_to_string (Sync_Logic::settings_get_workspace_widths);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("Failure receiving workbench widths", Filter_Roles::translator ());
+    Database_Logs::log ("Failure receiving workspace widths", Filter_Roles::translator ());
     sendreceive_settings_done ();
     return;
   }
@@ -231,7 +231,7 @@ void sendreceive_settings ()
   post ["a"] = convert_to_string (Sync_Logic::settings_get_workspace_heights);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("Failure receiving workbench heights", Filter_Roles::translator ());
+    Database_Logs::log ("Failure receiving workspace heights", Filter_Roles::translator ());
     sendreceive_settings_done ();
     return;
   }
@@ -240,7 +240,7 @@ void sendreceive_settings ()
   post ["a"] = convert_to_string (Sync_Logic::settings_get_resources_organization);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    Database_Logs::log ("Failure receiving workbench heights", Filter_Roles::translator ());
+    Database_Logs::log ("Failure receiving workspace heights", Filter_Roles::translator ());
     sendreceive_settings_done ();
     return;
   }

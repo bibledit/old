@@ -53,7 +53,7 @@ string index_index (void * webserver_request)
   Assets_Header header = Assets_Header ("Bibledit", webserver_request);
   
   if (config_logic_demo_enabled ()) {
-    // The demo, when there's no active menu, forwards to a the active workbench.
+    // The demo, when there's no active menu, forwards to a the active workspace.
     if (request->query.empty ()) {
       header.refresh (5, "/" + workspace_index_url ());
     }

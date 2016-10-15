@@ -171,11 +171,11 @@ void workspace_create_defaults (void * webserver_request)
 string workspace_get_active_name (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  string workbench = request->database_config_user()->getActiveWorkspace ();
-  if (workbench.empty ()) {
-    workbench = workspace_get_default_name ();
+  string workspace = request->database_config_user()->getActiveWorkspace ();
+  if (workspace.empty ()) {
+    workspace = workspace_get_default_name ();
   }
-  return workbench;
+  return workspace;
 }
 
 
@@ -202,7 +202,7 @@ void workspace_set_values (void * webserver_request, int selector, const map <in
 {
   // Store values locally, and for a client, store them also for sending to the server.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  string workbench = workspace_get_active_name (request);
+  string workspace = workspace_get_active_name (request);
   string rawvalue;
   if (selector == URLS) rawvalue = request->database_config_user()->getWorkspaceURLs ();
   if (selector == WIDTHS) rawvalue = request->database_config_user()->getWorkspaceWidths ();
@@ -211,12 +211,12 @@ void workspace_set_values (void * webserver_request, int selector, const map <in
   vector <string> currentlines = filter_string_explode (rawvalue, '\n');
   vector <string> newlines;
   for (auto & line : currentlines) {
-    if (line.find (workbench + "_") != 0) {
+    if (line.find (workspace + "_") != 0) {
       newlines.push_back (line);
     }
   }
   for (auto & element : values) {
-    string line = workbench + "_" + convert_to_string (element.first) + "_" + element.second;
+    string line = workspace + "_" + convert_to_string (element.first) + "_" + element.second;
     newlines.push_back (line);
   }
   rawvalue = filter_string_implode (newlines, "\n");
@@ -241,11 +241,11 @@ void workspace_set_values (void * webserver_request, int selector, const map <in
 
 void workspace_set_urls (void * webserver_request, const map <int, string> & values)
 {
-  // Get current order of the workbenches.
+  // Get current order of the workspacees.
   vector <string> order = workspace_get_names (webserver_request);
-  // Update the values: This reorders the workbenches.
+  // Update the values: This reorders the workspacees.
   workspace_set_values (webserver_request, URLS, values);
-  // Put the workbenches in the original order.
+  // Put the workspacees in the original order.
   workspace_reorder (webserver_request, order);
 }
 
@@ -275,7 +275,7 @@ map <int, string> workspace_get_values (void * webserver_request, int selector, 
 
   map <int, string> values;
   
-  string workbench = workspace_get_active_name (request);
+  string workspace = workspace_get_active_name (request);
   
   string rawvalue;
   if (selector == URLS) rawvalue = request->database_config_user()->getWorkspaceURLs ();
@@ -284,7 +284,7 @@ map <int, string> workspace_get_values (void * webserver_request, int selector, 
   if (selector == ENTIREWIDTH) rawvalue = request->database_config_user()->getEntireWorkspaceWidths ();
   vector <string> lines = filter_string_explode (rawvalue, '\n');
   for (auto & line : lines) {
-    if (line.find (workbench + "_") == 0) {
+    if (line.find (workspace + "_") == 0) {
       vector <string> bits = filter_string_explode (line, '_');
       if (bits.size() == 3) {
         int key = convert_to_int (bits [1]);
@@ -305,7 +305,7 @@ map <int, string> workspace_get_values (void * webserver_request, int selector, 
     
     if ((selector == URLS) && use) {
   
-      // Add query value for suppressing the topbar as the workbench already has one.
+      // Add query value for suppressing the topbar as the workspace already has one.
       if (element.second != "") {
         element.second = filter_url_build_http_query (element.second, "topbar", "0");
       }
@@ -362,28 +362,28 @@ string workspace_get_entire_width (void * webserver_request)
 }
 
 
-// Returns the names of the available workbenches.
+// Returns the names of the available workspacees.
 vector <string> workspace_get_names (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  vector <string> workbenches;
-  // The names and the order of the workbenches is taken from the URLs.
+  vector <string> workspacees;
+  // The names and the order of the workspacees is taken from the URLs.
   string rawvalue = request->database_config_user()->getWorkspaceURLs ();
   vector <string> lines = filter_string_explode (rawvalue, '\n');
   for (auto & line : lines) {
     vector <string> bits = filter_string_explode (line, '_');
     if (bits.size() == 3) {
-      if (find (workbenches.begin(), workbenches.end(), bits[0]) == workbenches.end()) {
-        workbenches.push_back (bits[0]);
+      if (find (workspacees.begin(), workspacees.end(), bits[0]) == workspacees.end()) {
+        workspacees.push_back (bits[0]);
       }
     }
   }
-  if (workbenches.empty ()) workbenches.push_back (workspace_get_active_name (request));
-  return workbenches;
+  if (workspacees.empty ()) workspacees.push_back (workspace_get_active_name (request));
+  return workspacees;
 }
 
 
-void workspace_delete (void * webserver_request, string workbench)
+void workspace_delete (void * webserver_request, string workspace)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -395,7 +395,7 @@ void workspace_delete (void * webserver_request, string workbench)
   currentlines = filter_string_explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
-    if (line.find (workbench + "_") != 0) newlines.push_back (line);
+    if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
   rawvalue = filter_string_implode (newlines, "\n");
   request->database_config_user()->setWorkspaceURLs (rawvalue);
@@ -404,7 +404,7 @@ void workspace_delete (void * webserver_request, string workbench)
   currentlines = filter_string_explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
-    if (line.find (workbench + "_") != 0) newlines.push_back (line);
+    if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
   rawvalue = filter_string_implode (newlines, "\n");
   request->database_config_user()->setWorkspaceWidths (rawvalue);
@@ -413,7 +413,7 @@ void workspace_delete (void * webserver_request, string workbench)
   currentlines = filter_string_explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
-    if (line.find (workbench + "_") != 0) newlines.push_back (line);
+    if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
   rawvalue = filter_string_implode (newlines, "\n");
   request->database_config_user()->setWorkspaceHeights (rawvalue);
@@ -425,24 +425,24 @@ void workspace_delete (void * webserver_request, string workbench)
 }
 
 
-// This orders the workbenches.
-// It takes the order as in array $workbenches.
-void workspace_reorder (void * webserver_request, const vector <string> & workbenches)
+// This orders the workspacees.
+// It takes the order as in array $workspacees.
+void workspace_reorder (void * webserver_request, const vector <string> & workspacees)
 {
-  // The order of the workbenches is taken from the URLs.
+  // The order of the workspacees is taken from the URLs.
   // Widths and heights are not considered for the order.
   
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-  // Retrieve the old order of the workbenches, plus their details.
+  // Retrieve the old order of the workspacees, plus their details.
   string rawvalue = request->database_config_user()->getWorkspaceURLs ();
   vector <string> oldlines = filter_string_explode (rawvalue, '\n');
   
-  // Create vector with the sorted workbench definitions.
+  // Create vector with the sorted workspace definitions.
   vector <string> newlines;
-  for (auto & workbench : workbenches) {
+  for (auto & workspace : workspacees) {
     for (auto & line : oldlines) {
-      if (line.find (workbench + "_") == 0) {
+      if (line.find (workspace + "_") == 0) {
         newlines.push_back (line);
         line.clear ();
       }
@@ -490,7 +490,7 @@ void workspace_copy (void * webserver_request, string source, string destination
 }
 
 
-// Store updated workbench settings for sending to the cloud.
+// Store updated workspace settings for sending to the cloud.
 void workspace_cache_for_cloud (void * webserver_request, bool urls, bool widths, bool heights)
 {
 #ifdef HAVE_CLIENT

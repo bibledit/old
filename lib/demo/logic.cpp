@@ -183,8 +183,8 @@ void demo_clean_data ()
   demo_create_sample_notes (&request);
   
   
-  // Create samples for the workbenches.
-  demo_create_sample_workbenches (&request);
+  // Create samples for the workspacees.
+  demo_create_sample_workspacees (&request);
   
   
   // Set navigator to John 3:16.
@@ -313,13 +313,13 @@ void demo_create_sample_notes (void * webserver_request)
 }
 
 
-string demo_workbench ()
+string demo_workspace ()
 {
   return "Translation";
 }
 
 
-void demo_create_sample_workbenches (void * webserver_request)
+void demo_create_sample_workspacees (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -353,7 +353,7 @@ void demo_create_sample_workbenches (void * webserver_request)
   urls[0] = editone_index_url ();
   urls[1] = resource_index_url ();
 
-  request->database_config_user()->setActiveWorkspace (demo_workbench ());
+  request->database_config_user()->setActiveWorkspace (demo_workspace ());
   workspace_set_urls (request, urls);
   workspace_set_widths (request, widths);
   workspace_set_heights (request, row_heights);

@@ -165,7 +165,7 @@ string workspace_organize (void * webserver_request)
 #endif
   
 
-  page += view.render ("workbench", "organize");
+  page += view.render ("workspace", "organize");
   
   
   page += Assets_Page::footer ();

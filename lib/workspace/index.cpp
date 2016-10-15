@@ -55,8 +55,8 @@ string workspace_index (void * webserver_request)
   if (request->query.count ("bench")) {
     unsigned int bench = convert_to_int (request->query ["bench"]);
     if (bench < desktops.size ()) {
-      string workbench = desktops [bench];
-      request->database_config_user()->setActiveWorkspace (workbench);
+      string workspace = desktops [bench];
+      request->database_config_user()->setActiveWorkspace (workspace);
     }
   }
   
@@ -128,16 +128,16 @@ string workspace_index (void * webserver_request)
   }
   
   
-  string workbenchwidth = workspace_get_entire_width (request);
-  if (!workbenchwidth.empty ()) {
-    workbenchwidth.insert (0, "width: ");
-    workbenchwidth.append (";");
+  string workspacewidth = workspace_get_entire_width (request);
+  if (!workspacewidth.empty ()) {
+    workspacewidth.insert (0, "width: ");
+    workspacewidth.append (";");
   }
-  view.set_variable ("workbenchwidth", workbenchwidth);
+  view.set_variable ("workspacewidth", workspacewidth);
   
   
   // The rendered template disables framekillers through the "sandbox" attribute on the iframe elements.
-  page += view.render ("workbench", "index");
+  page += view.render ("workspace", "index");
   page += Assets_Page::footer ();
   return page;
 }

@@ -58,7 +58,7 @@ string notes_index (void * webserver_request)
   string success;
 
   // Presets for notes selectors.
-  // This is for the daily statistics and the workbench.
+  // This is for the daily statistics and the workspace.
   if (request->query.count ("presetselection")) {
     request->database_config_user()->setConsultationNotesPassageSelector (3);
     request->database_config_user()->setConsultationNotesEditSelector (0);

@@ -2051,8 +2051,8 @@ void test_workspace_logic ()
     evaluate (__LINE__, __func__, widths, result);
   }
   {
-    vector <string> workbenches = workspace_get_names (&request);
-    evaluate (__LINE__, __func__, {"unittest"}, workbenches);
+    vector <string> workspacees = workspace_get_names (&request);
+    evaluate (__LINE__, __func__, {"unittest"}, workspacees);
   }
   refresh_sandbox (true);
   request.database_users ()->create ();
@@ -2062,14 +2062,14 @@ void test_workspace_logic ()
     request.database_config_user()->setActiveWorkspace ("unittest2");
     map <int, string> standard = { make_pair (0, "url0"), make_pair (5, "url5")};
     workspace_set_urls (&request, standard);
-    vector <string> workbenches = workspace_get_names (&request);
-    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workbenches);
+    vector <string> workspacees = workspace_get_names (&request);
+    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workspacees);
     workspace_delete (&request, "unittest3");
-    workbenches = workspace_get_names (&request);
-    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workbenches);
+    workspacees = workspace_get_names (&request);
+    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workspacees);
     workspace_delete (&request, "unittest2");
-    workbenches = workspace_get_names (&request);
-    evaluate (__LINE__, __func__, {"unittest"}, workbenches);
+    workspacees = workspace_get_names (&request);
+    evaluate (__LINE__, __func__, {"unittest"}, workspacees);
   }
   refresh_sandbox (true);
   request.database_users ()->create ();
@@ -2081,8 +2081,8 @@ void test_workspace_logic ()
     request.database_config_user()->setActiveWorkspace ("zzz");
     workspace_set_urls (&request, {make_pair (120, "url120"), make_pair (121, "url121")});
     workspace_reorder (&request, {"zzz", "yyy", "unittest2", "abc32"});
-    vector <string> workbenches = workspace_get_names (&request);
-    evaluate (__LINE__, __func__, {"zzz", "unittest2", "abc32"}, workbenches);
+    vector <string> workspacees = workspace_get_names (&request);
+    evaluate (__LINE__, __func__, {"zzz", "unittest2", "abc32"}, workspacees);
   }
 }
 

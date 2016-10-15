@@ -366,7 +366,7 @@ span[contenteditable=true],
 @media print {
   body,
   #workspacewrapper,
-  #workbenches,
+  #workspacees,
   .iframewrapper,
   .iframewrapper iframe {
     display: block !important;
@@ -415,7 +415,7 @@ span[contenteditable=true],
     -ms-flex-negative: 0;
           flex-shrink: 0;
 }
-#workspacewrapper > #workbenches {
+#workspacewrapper > #workspacees {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

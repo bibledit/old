@@ -80,8 +80,8 @@ string workspace_settings (void * webserver_request)
     workspace_set_urls (request, urls);
     workspace_set_widths (request, widths);
     workspace_set_heights (request, row_heights);
-    string workbenchwidth = request->post ["workbenchwidth"];
-    workspace_set_entire_width (request, workbenchwidth);
+    string workspacewidth = request->post ["workspacewidth"];
+    workspace_set_entire_width (request, workspacewidth);
     redirect_browser (request, workspace_index_url ());
     return "";
   }
@@ -115,8 +115,8 @@ string workspace_settings (void * webserver_request)
     view.set_variable (variable, row_heights [key]);
   }
 
-  string workbenchwidth = workspace_get_entire_width (request);
-  view.set_variable ("workbenchwidth", workbenchwidth);
+  string workspacewidth = workspace_get_entire_width (request);
+  view.set_variable ("workspacewidth", workspacewidth);
   
   view.set_variable ("name", name);
   
@@ -131,7 +131,7 @@ string workspace_settings (void * webserver_request)
   
   view.set_variable ("help", translate ("See the help below for information about what to enter"));
  
-  page += view.render ("workbench", "settings");
+  page += view.render ("workspace", "settings");
   
   page += Assets_Page::footer ();
   
