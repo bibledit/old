@@ -17,7 +17,7 @@
  */
 
 
-#include <workbench/organize.h>
+#include <workspace/organize.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -26,25 +26,25 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
-#include <workbench/logic.h>
+#include <workspace/logic.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>
 #include <menu/logic.h>
 
 
-string workbench_organize_url ()
+string workspace_organize_url ()
 {
-  return "workbench/organize";
+  return "workspace/organize";
 }
 
 
-bool workbench_organize_acl (void * webserver_request)
+bool workspace_organize_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
 }
 
 
-string workbench_organize (void * webserver_request)
+string workspace_organize (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -52,30 +52,30 @@ string workbench_organize (void * webserver_request)
   if (request->post.count ("add")) {
     string add = request->post["add"];
     request->database_config_user()->setActiveWorkspace (add);
-    workbench_set_urls    (request, workbench_get_default_urls (0));
-    workbench_set_widths  (request, workbench_get_default_widths (0));
-    workbench_set_heights (request, workbench_get_default_heights (0));
+    workspace_set_urls    (request, workspace_get_default_urls (0));
+    workspace_set_widths  (request, workspace_get_default_widths (0));
+    workspace_set_heights (request, workspace_get_default_heights (0));
   }
   
   
   // Re-ordering desktops.
   if (request->query.count ("up")) {
     size_t item = convert_to_int (request->query ["up"]);
-    vector <string> desktops = workbench_get_names (request);
+    vector <string> desktops = workspace_get_names (request);
     array_move_up_down (desktops, item, true);
-    workbench_reorder (request, desktops);
+    workspace_reorder (request, desktops);
   }
   if (request->query.count ("down")) {
     size_t item = convert_to_int (request->query ["down"]);
-    vector <string> desktops = workbench_get_names (request);
+    vector <string> desktops = workspace_get_names (request);
     array_move_up_down (desktops, item, false);
-    workbench_reorder (request, desktops);
+    workspace_reorder (request, desktops);
   }
   
   
   // Create and reset all default desktops.
   if (request->query.count ("defaults")) {
-    workbench_create_defaults (webserver_request);
+    workspace_create_defaults (webserver_request);
   }
   
   
@@ -97,7 +97,7 @@ string workbench_organize (void * webserver_request)
       return page;
     }
     if (confirm == "yes") {
-      workbench_delete (request, remove);
+      workspace_delete (request, remove);
     }
   }
   
@@ -113,7 +113,7 @@ string workbench_organize (void * webserver_request)
   if (request->query.count ("source")) {
     string source = request->query ["source"];
     string destination = request->post ["entry"];
-    workbench_copy (webserver_request, source, destination);
+    workspace_copy (webserver_request, source, destination);
   }
 
   
@@ -124,7 +124,7 @@ string workbench_organize (void * webserver_request)
     vector <string> users = request->database_users ()->getUsers ();
     for (auto user : users) {
       if (user != me) {
-        workbench_send (webserver_request, send, user);
+        workspace_send (webserver_request, send, user);
       }
     }
   }
@@ -134,7 +134,7 @@ string workbench_organize (void * webserver_request)
   
   
   vector <string> desktopblock;
-  vector <string> desktops = workbench_get_names (request);
+  vector <string> desktops = workspace_get_names (request);
   for (size_t i = 0; i < desktops.size (); i++) {
     string desktop = desktops [i];
     desktopblock.push_back ("<p>");

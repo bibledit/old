@@ -42,7 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checksum/logic.h>
 #include <editor/html2usfm.h>
 #include <editor/usfm2html.h>
-#include <workbench/logic.h>
+#include <workspace/logic.h>
 #include <client/logic.h>
 #include <styles/logic.h>
 #include <checks/sentences.h>
@@ -2016,7 +2016,7 @@ void test_editor_development ()
 }
 
 
-void test_workbench_logic ()
+void test_workspace_logic ()
 {
   trace_unit_tests (__func__);
   
@@ -2026,62 +2026,62 @@ void test_workbench_logic ()
   request.database_users ()->create ();
   request.session_logic ()->setUsername ("phpunit");
   {
-    evaluate (__LINE__, __func__, "100%", workbench_process_units ("100"));
-    evaluate (__LINE__, __func__, "100%", workbench_process_units ("100 %"));
-    evaluate (__LINE__, __func__, "100px", workbench_process_units ("100 px"));
+    evaluate (__LINE__, __func__, "100%", workspace_process_units ("100"));
+    evaluate (__LINE__, __func__, "100%", workspace_process_units ("100 %"));
+    evaluate (__LINE__, __func__, "100px", workspace_process_units ("100 px"));
   }
   {
-    evaluate (__LINE__, __func__, "Default", workbench_get_active_name (&request));
+    evaluate (__LINE__, __func__, "Default", workspace_get_active_name (&request));
     request.database_config_user()->setActiveWorkspace ("unittest");
-    evaluate (__LINE__, __func__, "unittest", workbench_get_active_name (&request));
+    evaluate (__LINE__, __func__, "unittest", workspace_get_active_name (&request));
   }
   {
     map <int, string> standard = { make_pair (0, "edit/index"), make_pair (5, "resource/index")};
-    evaluate (__LINE__, __func__, standard, workbench_get_default_urls (1));
+    evaluate (__LINE__, __func__, standard, workspace_get_default_urls (1));
   }
   {
     map <int, string> urls = { make_pair (10, "url1"), make_pair (2, "url2")};
-    workbench_set_urls (&request, urls);
-    map <int, string> result = workbench_get_urls (&request, false);
+    workspace_set_urls (&request, urls);
+    map <int, string> result = workspace_get_urls (&request, false);
     evaluate (__LINE__, __func__, urls, result);
   }
   {
     map <int, string> widths = { make_pair (0, "24%"), make_pair (1, "24%"), make_pair (2, "24%"), make_pair (3, "24%")};
-    map <int, string> result = workbench_get_widths (&request);
+    map <int, string> result = workspace_get_widths (&request);
     evaluate (__LINE__, __func__, widths, result);
   }
   {
-    vector <string> workbenches = workbench_get_names (&request);
+    vector <string> workbenches = workspace_get_names (&request);
     evaluate (__LINE__, __func__, {"unittest"}, workbenches);
   }
   refresh_sandbox (true);
   request.database_users ()->create ();
   {
     request.database_config_user()->setActiveWorkspace ("unittest");
-    workbench_set_urls (&request, {make_pair (10, "url10")});
+    workspace_set_urls (&request, {make_pair (10, "url10")});
     request.database_config_user()->setActiveWorkspace ("unittest2");
     map <int, string> standard = { make_pair (0, "url0"), make_pair (5, "url5")};
-    workbench_set_urls (&request, standard);
-    vector <string> workbenches = workbench_get_names (&request);
+    workspace_set_urls (&request, standard);
+    vector <string> workbenches = workspace_get_names (&request);
     evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workbenches);
-    workbench_delete (&request, "unittest3");
-    workbenches = workbench_get_names (&request);
+    workspace_delete (&request, "unittest3");
+    workbenches = workspace_get_names (&request);
     evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workbenches);
-    workbench_delete (&request, "unittest2");
-    workbenches = workbench_get_names (&request);
+    workspace_delete (&request, "unittest2");
+    workbenches = workspace_get_names (&request);
     evaluate (__LINE__, __func__, {"unittest"}, workbenches);
   }
   refresh_sandbox (true);
   request.database_users ()->create ();
   {
     request.database_config_user()->setActiveWorkspace ("unittest2");
-    workbench_set_urls (&request, {make_pair (10, "url10")});
+    workspace_set_urls (&request, {make_pair (10, "url10")});
     request.database_config_user()->setActiveWorkspace ("abc32");
-    workbench_set_urls (&request, {make_pair (10, "url10"), make_pair (11, "url11")});
+    workspace_set_urls (&request, {make_pair (10, "url10"), make_pair (11, "url11")});
     request.database_config_user()->setActiveWorkspace ("zzz");
-    workbench_set_urls (&request, {make_pair (120, "url120"), make_pair (121, "url121")});
-    workbench_reorder (&request, {"zzz", "yyy", "unittest2", "abc32"});
-    vector <string> workbenches = workbench_get_names (&request);
+    workspace_set_urls (&request, {make_pair (120, "url120"), make_pair (121, "url121")});
+    workspace_reorder (&request, {"zzz", "yyy", "unittest2", "abc32"});
+    vector <string> workbenches = workspace_get_names (&request);
     evaluate (__LINE__, __func__, {"zzz", "unittest2", "abc32"}, workbenches);
   }
 }

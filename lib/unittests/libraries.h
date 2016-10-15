@@ -34,7 +34,7 @@ void test_editor_html2usfm ();
 void test_editor_usfm2html ();
 void test_editor_roundtrip ();
 void test_editor_development ();
-void test_workbench_logic ();
+void test_workspace_logic ();
 void test_client_logic ();
 void test_check_sentences ();
 void test_check_versification ();

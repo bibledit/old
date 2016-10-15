@@ -17,7 +17,7 @@
  */
 
 
-#include <workbench/index.h>
+#include <workspace/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -27,7 +27,7 @@
 #include <locale/translate.h>
 #include <database/config/general.h>
 #include <database/notes.h>
-#include <workbench/logic.h>
+#include <workspace/logic.h>
 #include <menu/logic.h>
 #include <ipc/focus.h>
 #include <navigation/passage.h>
@@ -35,7 +35,7 @@
 
 string workspace_index_url ()
 {
-  return "workbench/index";
+  return "workspace/index";
 }
 
 
@@ -48,7 +48,7 @@ bool workspace_index_acl (void * webserver_request)
 string workspace_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  vector <string> desktops = workbench_get_names (request);
+  vector <string> desktops = workspace_get_names (request);
 
   
   // Set the requested desktop as the active one.
@@ -75,10 +75,10 @@ string workspace_index (void * webserver_request)
   // Create default set of desktops if there are none.
   bool create = desktops.empty ();
   if (!create) {
-    create = (desktops [0] == workbench_get_default_name ());
+    create = (desktops [0] == workspace_get_default_name ());
   }
   if (create) {
-    workbench_create_defaults (webserver_request);
+    workspace_create_defaults (webserver_request);
   }
 
   
@@ -103,8 +103,8 @@ string workspace_index (void * webserver_request)
   Assets_View view;
 
   
-  map <int, string> urls = workbench_get_urls (request, true);
-  map <int, string> widths = workbench_get_widths (request);
+  map <int, string> urls = workspace_get_urls (request, true);
+  map <int, string> widths = workspace_get_widths (request);
   for (unsigned int key = 0; key < 15; key++) {
     string url = urls [key];
     string width = widths [key];
@@ -118,7 +118,7 @@ string workspace_index (void * webserver_request)
   }
   
   
-  map <int, string> heights = workbench_get_heights (request);
+  map <int, string> heights = workspace_get_heights (request);
   for (unsigned int key = 0; key < 3; key++) {
     string height = heights [key];
     int row = key + 1;
@@ -128,7 +128,7 @@ string workspace_index (void * webserver_request)
   }
   
   
-  string workbenchwidth = workbench_get_entire_width (request);
+  string workbenchwidth = workspace_get_entire_width (request);
   if (!workbenchwidth.empty ()) {
     workbenchwidth.insert (0, "width: ");
     workbenchwidth.append (";");

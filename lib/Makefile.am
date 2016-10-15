@@ -229,10 +229,10 @@ libbibledit_a_SOURCES = \
 	search/strong.cpp \
 	search/originals.cpp \
 	tmp/tmp.cpp \
-	workbench/index.cpp \
-	workbench/logic.cpp \
-	workbench/settings.cpp \
-	workbench/organize.cpp \
+	workspace/index.cpp \
+	workspace/logic.cpp \
+	workspace/settings.cpp \
+	workspace/organize.cpp \
 	sendreceive/logic.cpp \
 	sendreceive/index.cpp \
 	sendreceive/sendreceive.cpp \

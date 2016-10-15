@@ -17,7 +17,7 @@
  */
 
 
-#include <workbench/settings.h>
+#include <workspace/settings.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -26,27 +26,27 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
-#include <workbench/logic.h>
-#include <workbench/index.h>
+#include <workspace/logic.h>
+#include <workspace/index.h>
 #include <dialog/yes.h>
 #include <filter/url.h>
 #include <menu/logic.h>
-#include <workbench/organize.h>
+#include <workspace/organize.h>
 
 
-string workbench_settings_url ()
+string workspace_settings_url ()
 {
-  return "workbench/settings";
+  return "workspace/settings";
 }
 
 
-bool workbench_settings_acl (void * webserver_request)
+bool workspace_settings_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
 }
 
 
-string workbench_settings (void * webserver_request)
+string workspace_settings (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -55,9 +55,9 @@ string workbench_settings (void * webserver_request)
   
   if (request->query.count ("preset")) {
     int preset = convert_to_int (request->query ["preset"]);
-    workbench_set_urls (request, workbench_get_default_urls (preset));
-    workbench_set_widths (request, workbench_get_default_widths (preset));
-    workbench_set_heights (request, workbench_get_default_heights (preset));
+    workspace_set_urls (request, workspace_get_default_urls (preset));
+    workspace_set_widths (request, workspace_get_default_widths (preset));
+    workspace_set_heights (request, workspace_get_default_heights (preset));
   }
   
   if (request->post.count ("save")) {
@@ -77,11 +77,11 @@ string workbench_settings (void * webserver_request)
       row_heights [to2] = request->post ["height" + key];
       to2++;
     }
-    workbench_set_urls (request, urls);
-    workbench_set_widths (request, widths);
-    workbench_set_heights (request, row_heights);
+    workspace_set_urls (request, urls);
+    workspace_set_widths (request, widths);
+    workspace_set_heights (request, row_heights);
     string workbenchwidth = request->post ["workbenchwidth"];
-    workbench_set_entire_width (request, workbenchwidth);
+    workspace_set_entire_width (request, workbenchwidth);
     redirect_browser (request, workspace_index_url ());
     return "";
   }
@@ -90,13 +90,13 @@ string workbench_settings (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate("Edit desktop"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
-  header.addBreadCrumb (workbench_organize_url (), menu_logic_desktop_organize_text ());
+  header.addBreadCrumb (workspace_organize_url (), menu_logic_desktop_organize_text ());
   page = header.run ();
   
   Assets_View view;
   
-  map <int, string> urls = workbench_get_urls (request, false);
-  map <int, string> widths = workbench_get_widths (request);
+  map <int, string> urls = workspace_get_urls (request, false);
+  map <int, string> widths = workspace_get_widths (request);
   for (auto & element : urls) {
     int key = element.first;
     int row = round (key / 5) + 1;
@@ -107,7 +107,7 @@ string workbench_settings (void * webserver_request)
     view.set_variable (variable, widths[key]);
   }
   
-  map <int, string> row_heights = workbench_get_heights (request);
+  map <int, string> row_heights = workspace_get_heights (request);
   for (auto & element : row_heights) {
     int key = element.first;
     int row = key + 1;
@@ -115,13 +115,13 @@ string workbench_settings (void * webserver_request)
     view.set_variable (variable, row_heights [key]);
   }
 
-  string workbenchwidth = workbench_get_entire_width (request);
+  string workbenchwidth = workspace_get_entire_width (request);
   view.set_variable ("workbenchwidth", workbenchwidth);
   
   view.set_variable ("name", name);
   
   
-  vector <string> samples = workbench_get_default_names ();
+  vector <string> samples = workspace_get_default_names ();
   for (size_t i = 0; i < samples.size (); i++) {
     string sample = "<a href=\"settings?name=##name##&preset=" + convert_to_string (i + 1) + "\">" + samples[i] + "</a>";
     samples [i] = sample;

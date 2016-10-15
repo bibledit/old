@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_WORKBENCH_ORGANIZE_H
-#define INCLUDED_WORKBENCH_ORGANIZE_H
+#ifndef INCLUDED_WORKBENCH_SETTINGS_H
+#define INCLUDED_WORKBENCH_SETTINGS_H
 
 
 #include <config/libraries.h>
 
 
-string workbench_organize_url ();
-bool workbench_organize_acl (void * webserver_request);
-string workbench_organize (void * webserver_request);
+string workspace_settings_url ();
+bool workspace_settings_acl (void * webserver_request);
+string workspace_settings (void * webserver_request);
 
 
 #endif

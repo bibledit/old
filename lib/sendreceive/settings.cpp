@@ -123,13 +123,13 @@ void sendreceive_settings ()
 
     string value;
     switch (id) {
-      case Sync_Logic::settings_send_workbench_urls:
+      case Sync_Logic::settings_send_workspace_urls:
         value = request.database_config_user()->getWorkspaceURLs ();
         break;
-      case Sync_Logic::settings_send_workbench_widths:
+      case Sync_Logic::settings_send_workspace_widths:
         value = request.database_config_user()->getWorkspaceWidths ();
         break;
-      case Sync_Logic::settings_send_workbench_heights:
+      case Sync_Logic::settings_send_workspace_heights:
         value = request.database_config_user()->getWorkspaceHeights ();
         break;
       case Sync_Logic::settings_send_resources_organization:
@@ -210,7 +210,7 @@ void sendreceive_settings ()
   // At this stage the total checksum of all relevant settings on the client differs from the same on the server.
   // Request all settings from the server.
 
-  post ["a"] = convert_to_string (Sync_Logic::settings_get_workbench_urls);
+  post ["a"] = convert_to_string (Sync_Logic::settings_get_workspace_urls);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workbench URLS", Filter_Roles::translator ());
@@ -219,7 +219,7 @@ void sendreceive_settings ()
   }
   request.database_config_user()->setWorkspaceURLs (response);
 
-  post ["a"] = convert_to_string (Sync_Logic::settings_get_workbench_widths);
+  post ["a"] = convert_to_string (Sync_Logic::settings_get_workspace_widths);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workbench widths", Filter_Roles::translator ());
@@ -228,7 +228,7 @@ void sendreceive_settings ()
   }
   request.database_config_user()->setWorkspaceWidths (response);
 
-  post ["a"] = convert_to_string (Sync_Logic::settings_get_workbench_heights);
+  post ["a"] = convert_to_string (Sync_Logic::settings_get_workspace_heights);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workbench heights", Filter_Roles::translator ());

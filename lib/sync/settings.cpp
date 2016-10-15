@@ -66,30 +66,30 @@ string sync_settings (void * webserver_request)
     {
       return sync_logic.settings_checksum (filter_string_explode (bible_s, '\n'));
     }
-    case Sync_Logic::settings_send_workbench_urls:
+    case Sync_Logic::settings_send_workspace_urls:
     {
       request->database_config_user()->setWorkspaceURLs (value);
       return "";
     }
-    case Sync_Logic::settings_get_workbench_urls:
+    case Sync_Logic::settings_get_workspace_urls:
     {
       return request->database_config_user()->getWorkspaceURLs ();
     }
-    case Sync_Logic::settings_send_workbench_widths:
+    case Sync_Logic::settings_send_workspace_widths:
     {
       request->database_config_user()->setWorkspaceWidths (value);
       return "";
     }
-    case Sync_Logic::settings_get_workbench_widths:
+    case Sync_Logic::settings_get_workspace_widths:
     {
       return request->database_config_user()->getWorkspaceWidths ();
     }
-    case Sync_Logic::settings_send_workbench_heights:
+    case Sync_Logic::settings_send_workspace_heights:
     {
       request->database_config_user()->setWorkspaceHeights (value);
       return "";
     }
-    case Sync_Logic::settings_get_workbench_heights:
+    case Sync_Logic::settings_get_workspace_heights:
     {
       return request->database_config_user()->getWorkspaceHeights ();
     }

@@ -38,7 +38,7 @@
 #include <resource/index.h>
 #include <resource/external.h>
 #include <resource/logic.h>
-#include <workbench/logic.h>
+#include <workspace/logic.h>
 #include <ipc/focus.h>
 #include <lexicon/logic.h>
 #include <search/logic.h>
@@ -346,17 +346,17 @@ void demo_create_sample_workbenches (void * webserver_request)
   };
 
   request->database_config_user()->setActiveWorkspace ("USFM");
-  workbench_set_urls (request, urls);
-  workbench_set_widths (request, widths);
-  workbench_set_heights (request, row_heights);
+  workspace_set_urls (request, urls);
+  workspace_set_widths (request, widths);
+  workspace_set_heights (request, row_heights);
 
   urls[0] = editone_index_url ();
   urls[1] = resource_index_url ();
 
   request->database_config_user()->setActiveWorkspace (demo_workbench ());
-  workbench_set_urls (request, urls);
-  workbench_set_widths (request, widths);
-  workbench_set_heights (request, row_heights);
+  workspace_set_urls (request, urls);
+  workspace_set_widths (request, widths);
+  workspace_set_heights (request, row_heights);
 }
 
 

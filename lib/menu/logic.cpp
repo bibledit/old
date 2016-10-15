@@ -79,12 +79,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <user/account.h>
 #include <user/notifications.h>
 #include <versification/index.h>
-#include <workbench/index.h>
-#include <workbench/logic.h>
-#include <workbench/logic.h>
-#include <workbench/logic.h>
-#include <workbench/organize.h>
-#include <workbench/organize.h>
+#include <workspace/index.h>
+#include <workspace/logic.h>
+#include <workspace/logic.h>
+#include <workspace/logic.h>
+#include <workspace/organize.h>
+#include <workspace/organize.h>
 #include <xrefs/index.h>
 #include <public/index.h>
 #include <public/logic.h>
@@ -321,8 +321,8 @@ string menu_logic_desktop_category (void * webserver_request, string * tooltip)
 
   // Add the available configured desktops to the menu.
   // The user's role should be sufficiently high.
-  if (workbench_organize_acl (webserver_request)) {
-    vector <string> workbenches = workbench_get_names (webserver_request);
+  if (workspace_organize_acl (webserver_request)) {
+    vector <string> workbenches = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workbenches.size(); i++) {
       string item = menu_logic_create_item (workspace_index_url () + "?bench=" + convert_to_string (i), workbenches[i], true);
       html.push_back (item);
@@ -698,8 +698,8 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == desktops) {
-      if (workbench_organize_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (workbench_organize_url (), menu_logic_desktop_organize_text (), true));
+      if (workspace_organize_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (workspace_organize_url (), menu_logic_desktop_organize_text (), true));
         tiplabels.push_back (menu_logic_desktop_organize_text ());
       }
     }

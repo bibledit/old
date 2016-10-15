@@ -127,7 +127,7 @@ int main (int argc, char **argv)
   test_editor_roundtrip ();
   test_editor_development ();
   test_filter_markup ();
-  test_workbench_logic ();
+  test_workspace_logic ();
   test_filter_git ();
   test_filter_merge ();
   test_filter_tidy ();

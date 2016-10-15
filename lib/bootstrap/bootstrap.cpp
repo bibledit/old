@@ -97,9 +97,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/strongs.h>
 #include <search/strong.h>
 #include <search/originals.h>
-#include <workbench/index.h>
-#include <workbench/organize.h>
-#include <workbench/settings.h>
+#include <workspace/index.h>
+#include <workspace/organize.h>
+#include <workspace/settings.h>
 #include <sendreceive/index.h>
 #include <client/index.h>
 #include <sync/setup.h>
@@ -380,8 +380,8 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == workbench_organize_url ()) && browser_request_security_okay (request) && workbench_organize_acl (request)) {
-    request->reply = workbench_organize (request);
+  if ((url == workspace_organize_url ()) && browser_request_security_okay (request) && workspace_organize_acl (request)) {
+    request->reply = workspace_organize (request);
     return;
   }
   
@@ -815,8 +815,8 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == workbench_settings_url ()) && browser_request_security_okay (request) && workbench_settings_acl (request)) {
-    request->reply = workbench_settings (request);
+  if ((url == workspace_settings_url ()) && browser_request_security_okay (request) && workspace_settings_acl (request)) {
+    request->reply = workspace_settings (request);
     return;
   }
   
