@@ -4068,13 +4068,13 @@ msgstr ""
 msgid "Disabling an extension in Chrome resolved it."
 msgstr ""
 
-msgid "Enable consultants to view the Bible in a workbench"
+msgid "Enable consultants to view the Bible in a workspace"
 msgstr ""
 
 msgid "Just add the desired Bible to the Resources through the link organizer."
 msgstr ""
 
-msgid "Then add the Resources to the workbench through URL resource/index."
+msgid "Then add the Resources to the workspace through URL resource/index."
 msgstr ""
 
 msgid "Backup"
@@ -6089,7 +6089,7 @@ msgstr ""
 msgid "Delete this mapping"
 msgstr ""
 
-msgid "Desktop"
+msgid "Workspace"
 msgstr ""
 
 msgid "Translation"
@@ -6200,7 +6200,7 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-msgid "Desktops"
+msgid "Workspaces"
 msgstr ""
 
 msgid "Image resources"
@@ -6869,7 +6869,7 @@ msgstr ""
 msgid "Show breadcrumbs"
 msgstr ""
 
-msgid "Desktop menu fade out delay"
+msgid "Workspace menu fade out delay"
 msgstr ""
 
 msgid "How long it takes for the desktop menu to start fading out."
@@ -8821,28 +8821,31 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-msgid "Drag the list of desktops into the desired order."
+msgid "Drag the list of workspaces into the desired order."
 msgstr ""
 
-msgid "Click 🗑 to remove the desktop."
+msgid "Click 🗑 to remove the workspace."
 msgstr ""
 
-msgid "Click ✎ to edit the desktop."
+msgid "Click ✎ to edit the workspace."
 msgstr ""
 
-msgid "Click ⎘ to copy the desktop to a new one."
+msgid "Click ⎘ to copy the workspace to a new one."
 msgstr ""
 
-msgid "Click ✉ to send the desktop to all users."
+msgid "Click ✉ to send the workspace to all users."
 msgstr ""
 
-msgid "Create a new desktop."
+msgid "Create a new workspace."
 msgstr ""
 
-msgid "Reset all default desktops."
+msgid "Reset all default workspaces."
 msgstr ""
 
 msgid "See the help below for information about what to enter"
+msgstr ""
+
+msgid "Edit workspace"
 msgstr ""
 
 msgid "Top row"
@@ -8869,14 +8872,15 @@ msgstr ""
 msgid "Samples"
 msgstr ""
 
-msgid "Samples to load in the current desktop:"
+msgid "Samples to load in the current workspace:"
 msgstr ""
 
-msgid "This page is for configuring the layout of a desktop."
+msgid "This page is for configuring the layout of a workspace."
 msgstr ""
 
 msgid ""
-"A desktop enables you to display parts of Bibledit or websites side-by-side."
+"A workspace enables you to display parts of Bibledit or websites side-by-"
+"side."
 msgstr ""
 
 msgid "There are three rows:"
@@ -8935,7 +8939,7 @@ msgstr ""
 msgid "There are many more of them."
 msgstr ""
 
-msgid "To edit two Bibles side-by side, add two editors to the desktop."
+msgid "To edit two Bibles side-by side, add two editors to the workspace."
 msgstr ""
 
 msgid "Add the following to each of them:"
@@ -8952,7 +8956,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"When this desktop will be opened, it will display all the notes that refer "
+"When this workspace will be opened, it will display all the notes that refer "
 "to the focused passage."
 msgstr ""
 
@@ -8971,23 +8975,23 @@ msgstr ""
 msgid "Display subscribed notes that have been idle for a week."
 msgstr ""
 
-msgid "The desktop configurations will work as expected on most devices."
+msgid "The workspace configurations will work as expected on most devices."
 msgstr ""
 
-msgid "But on iOS the pages within the desktop do not scroll."
+msgid "But on iOS the pages within the workspace do not scroll."
 msgstr ""
 
 msgid "Instead the pages take the full height."
 msgstr ""
 
-msgid "It may be needed to create desktops specifically for iOS."
+msgid "It may be needed to create workspaces specifically for iOS."
 msgstr ""
 
-msgid "You can set the width of the entire desktop."
+msgid "You can set the width of the entire workspace."
 msgstr ""
 
 msgid ""
-"By setting the width wider than the screen, the desktop can be scrolled "
+"By setting the width wider than the screen, the workspace can be scrolled "
 "horizontally."
 msgstr ""
 
