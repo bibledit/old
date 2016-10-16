@@ -213,6 +213,11 @@ void database_sqlite_error (sqlite3 * database, const string & prefix, char * er
     message.append (" - ");
     message.append (extended_error_string);
   }
+  const char * filename = sqlite3_db_filename (database, "main");
+  if (filename) {
+    message.append (" - ");
+    message.append (filename);
+  }
   Database_Logs::log (message);
 }
 
