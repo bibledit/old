@@ -643,7 +643,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string checks = menu_logic_checks_settings_text ();
   string resources = menu_logic_resources_text ();
   string changes = menu_logic_changes_text ();
-  string personalize = translate ("Personalize");
+  string preferences = translate ("Preferences");
   string users = menu_logic_manage_users_text ();
   string indexes_fonts = translate ("Indexes and Fonts");
   string mail = translate ("Mail");
@@ -664,7 +664,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     checks,
     resources,
     changes,
-    personalize,
+    preferences,
     users,
     indexes_fonts,
     mail,
@@ -738,7 +738,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 #endif
     }
     
-    if (label == personalize) {
+    if (label == preferences) {
       if (personalize_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (personalize_index_url (), label, true));
         tiplabels.push_back (label);
