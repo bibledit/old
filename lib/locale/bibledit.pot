@@ -6149,7 +6149,7 @@ msgstr ""
 msgid "Develop"
 msgstr ""
 
-msgid "Personalize"
+msgid "Preferences"
 msgstr ""
 
 msgid "Indexes and Fonts"
