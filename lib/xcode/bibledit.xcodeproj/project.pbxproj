@@ -285,6 +285,8 @@
 		CA4150281AB7651100C30DA5 /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = notes.cpp; sourceTree = "<group>"; };
 		CA4150291AB7651100C30DA5 /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
 		CA42C3761B84E8E10050E0DA /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
+		CA4350B51DB64CE9003CF867 /* statistics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = statistics.cpp; sourceTree = "<group>"; };
+		CA4350B61DB64CE9003CF867 /* statistics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = statistics.h; sourceTree = "<group>"; };
 		CA442D021A553DA6006374D3 /* git.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = git.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA442D031A553DA6006374D3 /* git.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = git.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA442D041A55466F006374D3 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -731,7 +733,6 @@
 		CAA4D2A81A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4D2B71A45A648003ABA25 /* reconfigure */ = {isa = PBXFileReference; lastKnownFileType = text; name = reconfigure; path = ../reconfigure; sourceTree = "<group>"; };
 		CAA4D2C41A45A648003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
-		CAA4D2EE1A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4D2FB1A45A648003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CAA4D2FD1A45A648003ABA25 /* originals.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = originals.js; sourceTree = "<group>"; };
 		CAA4D2FF1A45A648003ABA25 /* rebibles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rebibles.cpp; sourceTree = "<group>"; };
@@ -1792,6 +1793,8 @@
 				CAA4D03D1A45A647003ABA25 /* sqlite.h */,
 				CA6EF52E1B5FDAC00006EBAB /* state.cpp */,
 				CA6EF52F1B5FDAC00006EBAB /* state.h */,
+				CA4350B51DB64CE9003CF867 /* statistics.cpp */,
+				CA4350B61DB64CE9003CF867 /* statistics.h */,
 				CAD1D0331B7DEAC400AEDA70 /* strong.cpp */,
 				CAD1D0341B7DEAC400AEDA70 /* strong.h */,
 				CAA4D03E1A45A647003ABA25 /* styles.cpp */,
@@ -2674,7 +2677,6 @@
 		CAA4D2ED1A45A648003ABA25 /* revisions */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D2EE1A45A648003ABA25 /* gitflag */,
 			);
 			name = revisions;
 			path = ../revisions;

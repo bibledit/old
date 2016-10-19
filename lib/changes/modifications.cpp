@@ -33,6 +33,7 @@
 #include <database/modifications.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
+#include <database/statistics.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <client/logic.h>
@@ -52,7 +53,8 @@ void changes_process_identifiers (Webserver_Request * request,
                                   string bible,
                                   int book, int chapter,
                                   int oldId, int newId,
-                                  string & email)
+                                  string & email,
+                                  int & change_count, float & time_total, int & time_count)
 {
   if (oldId != 0) {
     recipients = filter_string_array_diff (recipients, {user});
@@ -62,7 +64,6 @@ void changes_process_identifiers (Webserver_Request * request,
     string old_chapter_usfm = old_chapter_text.oldtext;
     Database_Modifications_Text new_chapter_text = database_modifications.getUserChapter (user, bible, book, chapter, newId);
     string new_chapter_usfm = new_chapter_text.newtext;
-    //int timestamp = database_modifications.getUserTimestamp (user, bible, book, chapter, newId);
     vector <int> old_verse_numbers = usfm_get_verse_numbers (old_chapter_usfm);
     vector <int> new_verse_numbers = usfm_get_verse_numbers (new_chapter_usfm);
     vector <int> verses = old_verse_numbers;
@@ -102,6 +103,11 @@ void changes_process_identifiers (Webserver_Request * request,
             database_modifications.recordNotification ({recipient}, user, bible, book, chapter, verse, old_html, modification, new_html);
           }
         }
+        // Statistics: Count yet another change made by this hard-working user!
+        change_count++;
+        int timestamp = database_modifications.getUserTimestamp (user, bible, book, chapter, newId);
+        time_total += timestamp;
+        time_count++;
       }
     }
   }
@@ -113,7 +119,7 @@ void changes_modifications ()
   Database_Logs::log ("Change notifications: Generating", Filter_Roles::translator ());
 
   
-  // Set flag so the notifications are not now available to clients.
+  // Notifications are not available to clients for the duration of processing them.
   config_globals_change_notifications_available = false;
   
   
@@ -131,6 +137,7 @@ void changes_modifications ()
   // through the web editor or through a client.
   // It runs before the team changes.
   // This produces the desired order of the notifications in the GUI.
+  // At the same time, produce change statistics per user.
   
   // Get the users who will receive the changes entered by the contributors.
   vector <string> recipients;
@@ -142,10 +149,18 @@ void changes_modifications ()
       }
     }
   }
+
+  // Storage for the statistics.
+  map <string, int> user_change_statistics;
+  float modification_time_total = 0;
+  int modification_time_count = 0;
   
   vector <string> users = database_modifications.getUserUsernames ();
   if (!users.empty ()) Database_Logs::log ("Change notifications: Per user", Filter_Roles::translator ());
   for (auto user : users) {
+
+    // Total changes made by this user.
+    int change_count = 0;
     
     // Go through the Bibles changed by the current user.
     vector <string> bibles = database_modifications.getUserBibles (user);
@@ -178,7 +193,7 @@ void changes_modifications ()
             newId = IdSet.newid;
             
             if (restart) {
-              changes_process_identifiers (&request, user, recipients, bible, book, chapter, referenceNewId, newId, email);
+              changes_process_identifiers (&request, user, recipients, bible, book, chapter, referenceNewId, newId, email, change_count, modification_time_total, modification_time_count);
               //referenceOldId = oldId;
               referenceNewId = newId;
               lastNewId = newId;
@@ -194,7 +209,7 @@ void changes_modifications ()
           }
           
           // Process the last set of identifiers.
-          changes_process_identifiers (&request, user, recipients, bible, book, chapter, referenceNewId, newId, email);
+          changes_process_identifiers (&request, user, recipients, bible, book, chapter, referenceNewId, newId, email, change_count, modification_time_total, modification_time_count);
           
         }
       }
@@ -209,6 +224,9 @@ void changes_modifications ()
       }
     }
     
+    // Store change statistics for this user.
+    user_change_statistics [user] = change_count;
+
     // Clear the user's changes in the database.
     database_modifications.clearUserUser (user);
     
@@ -402,8 +420,21 @@ void changes_modifications ()
   database_modifications.vacuum ();
   
   
-  // Clear flag so the notifications are again available to clients.
+  // Make the notifications available again to clients.
   config_globals_change_notifications_available = true;
+
+  
+  // Store the statistics in the database.
+  if (modification_time_count) {
+    // Take average timestamp of all timestamps.
+    int timestamp = round (modification_time_total / modification_time_count);
+    for (auto & element : user_change_statistics) {
+      // Store dated change statistics per user.
+      string user = element.first;
+      int count = element.second;
+      Database_Statistics::store_changes (timestamp, user, count);
+    }
+  }
   
 
   Database_Logs::log ("Change notifications: Ready", Filter_Roles::translator ());
