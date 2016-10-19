@@ -76,6 +76,7 @@ libbibledit_a_SOURCES = \
 	database/privileges.cpp \
 	database/git.cpp \
 	database/userresources.cpp \
+	database/statistics.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \

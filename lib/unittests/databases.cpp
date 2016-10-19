@@ -63,6 +63,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/privileges.h>
 #include <database/git.h>
 #include <database/userresources.h>
+#include <database/statistics.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -4715,6 +4716,34 @@ void test_database_userresources ()
 
   fragment = Database_UserResources::book (name, book + 1);
   evaluate (__LINE__, __func__, "", fragment);
+}
+
+
+void test_database_statistics ()
+{
+  trace_unit_tests (__func__);
+  
+  {
+    refresh_sandbox (true);
+    Database_Statistics::create ();
+    Database_Statistics::optimize ();
+    Database_Statistics::store_changes (1000, "one", 10);
+    Database_Statistics::store_changes (2000, "one", 20);
+    Database_Statistics::store_changes (3000, "one", 30);
+    Database_Statistics::store_changes (1100, "two", 11);
+    Database_Statistics::store_changes (2100, "two", 21);
+    Database_Statistics::store_changes (3100, "two", 31);
+
+    vector <string> users = Database_Statistics::get_users ();
+    evaluate (__LINE__, __func__, {"one", "two"}, users);
+
+    map <int, int> changes = Database_Statistics::get_changes ("");
+    evaluate (__LINE__, __func__, { }, changes);
+
+    changes = Database_Statistics::get_changes ("two");
+    evaluate (__LINE__, __func__, { make_pair (1100, 11), make_pair (2100, 21), make_pair (3100, 31) }, changes);
+  }
+  
 }
 
 
