@@ -4725,8 +4725,11 @@ void test_database_statistics ()
   
   {
     refresh_sandbox (true);
+    
     Database_Statistics::create ();
     Database_Statistics::optimize ();
+    
+    // Record some statistics.
     Database_Statistics::store_changes (1000, "one", 10);
     Database_Statistics::store_changes (2000, "one", 20);
     Database_Statistics::store_changes (3000, "one", 30);
@@ -4734,16 +4737,29 @@ void test_database_statistics ()
     Database_Statistics::store_changes (2100, "two", 21);
     Database_Statistics::store_changes (3100, "two", 31);
 
+    // Check all available users.
     vector <string> users = Database_Statistics::get_users ();
     evaluate (__LINE__, __func__, {"one", "two"}, users);
 
-    map <int, int> changes = Database_Statistics::get_changes ("");
-    evaluate (__LINE__, __func__, { }, changes);
+    // No changes for empty user.
+    vector <pair <int, int>> changes = Database_Statistics::get_changes ("");
+    evaluate (__LINE__, __func__, 0, changes.size ());
 
+    // A known amount of change statistic record for a known user.
     changes = Database_Statistics::get_changes ("two");
-    evaluate (__LINE__, __func__, { make_pair (1100, 11), make_pair (2100, 21), make_pair (3100, 31) }, changes);
+    unsigned int size = 3;
+    evaluate (__LINE__, __func__, size, changes.size ());
+    
+    // Sort the change statistics most recent first.
+    if (changes.size () == size) {
+      evaluate (__LINE__, __func__, 3100, changes[0].first);
+      evaluate (__LINE__, __func__, 31,   changes[0].second);
+      evaluate (__LINE__, __func__, 2100, changes[1].first);
+      evaluate (__LINE__, __func__, 21,   changes[1].second);
+      evaluate (__LINE__, __func__, 1100, changes[2].first);
+      evaluate (__LINE__, __func__, 11,   changes[2].second);
+    }
   }
-  
 }
 
 

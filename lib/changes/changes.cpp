@@ -237,6 +237,9 @@ string changes_changes (void * webserver_request)
   if (touch) view.enable_zone ("touch");
 
   
+  view.set_variable ("interlinks", changes_interlinks (webserver_request, changes_changes_url ())); // Todo put anywhere.
+  
+  
   page += view.render ("changes", "changes");
   
   

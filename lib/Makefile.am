@@ -288,6 +288,7 @@ libbibledit_a_SOURCES = \
 	changes/logic.cpp \
 	changes/manage.cpp \
 	changes/modifications.cpp \
+	changes/statistics.cpp \
 	sprint/burndown.cpp \
 	sprint/index.cpp \
 	checks/run.cpp \

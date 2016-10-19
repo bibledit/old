@@ -257,11 +257,12 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	mapping/map.$(OBJEXT) statistics/statistics.$(OBJEXT) \
 	changes/change.$(OBJEXT) changes/changes.$(OBJEXT) \
 	changes/logic.$(OBJEXT) changes/manage.$(OBJEXT) \
-	changes/modifications.$(OBJEXT) sprint/burndown.$(OBJEXT) \
-	sprint/index.$(OBJEXT) checks/run.$(OBJEXT) \
-	checks/headers.$(OBJEXT) checks/index.$(OBJEXT) \
-	checks/logic.$(OBJEXT) checks/sentences.$(OBJEXT) \
-	checks/settings.$(OBJEXT) checks/settingspatterns.$(OBJEXT) \
+	changes/modifications.$(OBJEXT) changes/statistics.$(OBJEXT) \
+	sprint/burndown.$(OBJEXT) sprint/index.$(OBJEXT) \
+	checks/run.$(OBJEXT) checks/headers.$(OBJEXT) \
+	checks/index.$(OBJEXT) checks/logic.$(OBJEXT) \
+	checks/sentences.$(OBJEXT) checks/settings.$(OBJEXT) \
+	checks/settingspatterns.$(OBJEXT) \
 	checks/settingssentences.$(OBJEXT) checks/space.$(OBJEXT) \
 	checks/suppress.$(OBJEXT) checks/usfm.$(OBJEXT) \
 	checks/verses.$(OBJEXT) checks/versification.$(OBJEXT) \
@@ -844,6 +845,7 @@ libbibledit_a_SOURCES = \
 	changes/logic.cpp \
 	changes/manage.cpp \
 	changes/modifications.cpp \
+	changes/statistics.cpp \
 	sprint/burndown.cpp \
 	sprint/index.cpp \
 	checks/run.cpp \
@@ -2006,6 +2008,8 @@ changes/manage.$(OBJEXT): changes/$(am__dirstamp) \
 	changes/$(DEPDIR)/$(am__dirstamp)
 changes/modifications.$(OBJEXT): changes/$(am__dirstamp) \
 	changes/$(DEPDIR)/$(am__dirstamp)
+changes/statistics.$(OBJEXT): changes/$(am__dirstamp) \
+	changes/$(DEPDIR)/$(am__dirstamp)
 sprint/$(am__dirstamp):
 	@$(MKDIR_P) sprint
 	@: > sprint/$(am__dirstamp)
@@ -2619,6 +2623,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/manage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/modifications.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/statistics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/headers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/logic.Po@am__quote@

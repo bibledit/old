@@ -17,17 +17,16 @@
  */
 
 
-#ifndef INCLUDED_CHANGES_LOGIC_H
-#define INCLUDED_CHANGES_LOGIC_H
+#ifndef INCLUDED_CHANGES_STATISTICS_H
+#define INCLUDED_CHANGES_STATISTICS_H
 
 
 #include <config/libraries.h>
 
 
-void changes_logic_start ();
-const char * changes_personal_category ();
-const char * changes_bible_category ();
-string changes_interlinks (void * webserver_request, string my_url);
+string changes_statistics_url ();
+bool changes_statistics_acl (void * webserver_request);
+string changes_statistics (void * webserver_request);
 
 
 #endif

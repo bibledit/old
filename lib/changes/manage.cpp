@@ -90,7 +90,10 @@ string changes_manage (void * webserver_request)
     }
   }
   if (notifications) view.enable_zone ("notifications");
+
   
+  view.set_variable ("interlinks", changes_interlinks (webserver_request, changes_manage_url ()));
+
   
   page += view.render ("changes", "manage");
   page += Assets_Page::footer ();

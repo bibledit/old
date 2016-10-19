@@ -70,9 +70,9 @@ vector <string> Database_Statistics::get_users ()
 
 
 // Fetches the change statistics from the database for $user.
-map <int, int> Database_Statistics::get_changes (string user)
+vector <pair <int, int>> Database_Statistics::get_changes (string user)
 {
-  map <int, int> changes;
+  vector <pair <int, int>> changes;
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT timestamp, count FROM changes WHERE user =");
   sql.add (user);
@@ -82,7 +82,7 @@ map <int, int> Database_Statistics::get_changes (string user)
   for (size_t i = 0; i < timestamps.size (); i++) {
     int timestamp = convert_to_int (timestamps[i]);
     int count = convert_to_int (counts[i]);
-    changes [timestamp] = count;
+    changes.push_back (make_pair (timestamp, count));
   }
   return changes;
 }

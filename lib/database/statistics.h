@@ -31,7 +31,7 @@ public:
   static void optimize ();
   static void store_changes (int timestamp, string user, int count);
   static vector <string> get_users ();
-  static map <int, int> get_changes (string user);
+  static vector <pair <int, int>> get_changes (string user);
 private:
   static const char * name ();
 };

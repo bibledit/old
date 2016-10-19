@@ -156,6 +156,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/changes.h>
 #include <changes/change.h>
 #include <changes/manage.h>
+#include <changes/statistics.h>
 #include <index/listing.h>
 #include <sprint/index.h>
 #include <checks/index.h>
@@ -590,6 +591,11 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == changes_manage_url ()) && browser_request_security_okay (request) && changes_manage_acl (request)) {
     request->reply = changes_manage (request);
+    return;
+  }
+  
+  if ((url == changes_statistics_url ()) && browser_request_security_okay (request) && changes_statistics_acl (request)) {
+    request->reply = changes_statistics (request);
     return;
   }
 
