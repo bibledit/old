@@ -48,7 +48,7 @@ const char * changes_bible_category ()
 }
 
 
-string changes_interlinks (void * webserver_request, string my_url) // Todo
+string changes_interlinks (void * webserver_request, string my_url)
 {
   // The available links.
   vector <string> urls;

@@ -60,7 +60,7 @@ void Database_Statistics::store_changes (int timestamp, string user, int count)
 }
 
 
-// Fetches the distinct users who have been active within the last 365 days. // Todo test year ago.
+// Fetches the distinct users who have been active within the last 365 days.
 vector <string> Database_Statistics::get_users ()
 {
   SqliteDatabase sql = SqliteDatabase (name ());
@@ -72,7 +72,7 @@ vector <string> Database_Statistics::get_users ()
 }
 
 
-// Fetches the change statistics from the database for $user for no more than a year ago. // Todo test both new things.
+// Fetches the change statistics from the database for $user for no more than a year ago.
 vector <pair <int, int>> Database_Statistics::get_changes (string user)
 {
   vector <pair <int, int>> changes;
