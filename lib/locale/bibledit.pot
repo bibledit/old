@@ -789,6 +789,18 @@ msgstr ""
 msgid "(all of them)"
 msgstr ""
 
+msgid "View"
+msgstr ""
+
+msgid "Statistics"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Manage"
+msgstr ""
+
 msgid "Will generate lists of changes"
 msgstr ""
 
@@ -858,6 +870,9 @@ msgid "New code:"
 msgstr ""
 
 msgid "Recent changes:"
+msgstr ""
+
+msgid "Change statistics"
 msgstr ""
 
 msgid "Checks"
@@ -3146,9 +3161,6 @@ msgid "Apply all updates through Windows Update."
 msgstr ""
 
 msgid "This is because Bibledit uses recent Windows technology."
-msgstr ""
-
-msgid "Download"
 msgstr ""
 
 msgid "Start it through the menu."
@@ -5848,9 +5860,6 @@ msgid "The Bible where the hyphenated data will be written to is:"
 msgstr ""
 
 msgid "Insert the soft hyphens according to the settings."
-msgstr ""
-
-msgid "Manage"
 msgstr ""
 
 msgid "The font could not be deleted because it is in use"

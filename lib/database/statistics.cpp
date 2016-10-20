@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/statistics.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <database/sqlite.h>
 
 
@@ -59,23 +60,30 @@ void Database_Statistics::store_changes (int timestamp, string user, int count)
 }
 
 
-// Fetches the distinct users from the database.
+// Fetches the distinct users who have been active within the last 365 days. // Todo test year ago.
 vector <string> Database_Statistics::get_users ()
 {
   SqliteDatabase sql = SqliteDatabase (name ());
-  sql.add ("SELECT DISTINCT user FROM changes ORDER BY user;");
+  sql.add ("SELECT DISTINCT user FROM changes WHERE timestamp >=");
+  sql.add (year_ago ());
+  sql.add ("ORDER BY user;");
   vector <string> users = sql.query () ["user"];
   return users;
 }
 
 
-// Fetches the change statistics from the database for $user.
+// Fetches the change statistics from the database for $user for no more than a year ago. // Todo test both new things.
 vector <pair <int, int>> Database_Statistics::get_changes (string user)
 {
   vector <pair <int, int>> changes;
   SqliteDatabase sql = SqliteDatabase (name ());
-  sql.add ("SELECT timestamp, count FROM changes WHERE user =");
-  sql.add (user);
+  sql.add ("SELECT timestamp, count FROM changes WHERE timestamp >=");
+  sql.add (year_ago ());
+  if (!user.empty ()) {
+    // Empty user: Get all changes for all users.
+    sql.add ("AND user =");
+    sql.add (user);
+  }
   sql.add ("ORDER BY timestamp DESC;");
   vector <string> timestamps = sql.query () ["timestamp"];
   vector <string> counts = sql.query () ["count"];
@@ -91,4 +99,12 @@ vector <pair <int, int>> Database_Statistics::get_changes (string user)
 const char * Database_Statistics::name ()
 {
   return "statistics";
+}
+
+
+int Database_Statistics::year_ago ()
+{
+  int timestamp = filter_date_seconds_since_epoch ();
+  timestamp -= (3600 * 24 * 365);
+  return timestamp;
 }

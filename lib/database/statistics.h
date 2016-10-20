@@ -34,6 +34,7 @@ public:
   static vector <pair <int, int>> get_changes (string user);
 private:
   static const char * name ();
+  static int year_ago ();
 };
 
 

@@ -4729,35 +4729,41 @@ void test_database_statistics ()
     Database_Statistics::create ();
     Database_Statistics::optimize ();
     
+    int one_thousand = 1000;
+    int two_thousand = 2000;
+    int now = filter_date_seconds_since_epoch ();
+    int now_plus_one = now + 1;
+    
     // Record some statistics.
-    Database_Statistics::store_changes (1000, "one", 10);
-    Database_Statistics::store_changes (2000, "one", 20);
-    Database_Statistics::store_changes (3000, "one", 30);
+    Database_Statistics::store_changes (one_thousand, "zero", 0);
+    Database_Statistics::store_changes (one_thousand, "one", 10);
+    Database_Statistics::store_changes (two_thousand, "one", 20);
+    Database_Statistics::store_changes (now, "one", 30);
+    Database_Statistics::store_changes (now_plus_one, "one", 40);
     Database_Statistics::store_changes (1100, "two", 11);
     Database_Statistics::store_changes (2100, "two", 21);
-    Database_Statistics::store_changes (3100, "two", 31);
+    Database_Statistics::store_changes (now - one_thousand, "two", 31);
+    Database_Statistics::store_changes (now - two_thousand, "two", 41);
 
     // Check all available users.
     vector <string> users = Database_Statistics::get_users ();
     evaluate (__LINE__, __func__, {"one", "two"}, users);
 
-    // No changes for empty user.
+    // The changes for all available users for no more than a year ago.
     vector <pair <int, int>> changes = Database_Statistics::get_changes ("");
-    evaluate (__LINE__, __func__, 0, changes.size ());
+    evaluate (__LINE__, __func__, 4, changes.size ());
 
-    // A known amount of change statistic record for a known user.
+    // A known amount of change statistics records for a known user for no more than a year ago.
     changes = Database_Statistics::get_changes ("two");
-    unsigned int size = 3;
+    unsigned int size = 2;
     evaluate (__LINE__, __func__, size, changes.size ());
     
     // Sort the change statistics most recent first.
     if (changes.size () == size) {
-      evaluate (__LINE__, __func__, 3100, changes[0].first);
-      evaluate (__LINE__, __func__, 31,   changes[0].second);
-      evaluate (__LINE__, __func__, 2100, changes[1].first);
-      evaluate (__LINE__, __func__, 21,   changes[1].second);
-      evaluate (__LINE__, __func__, 1100, changes[2].first);
-      evaluate (__LINE__, __func__, 11,   changes[2].second);
+      evaluate (__LINE__, __func__, now - one_thousand, changes[0].first);
+      evaluate (__LINE__, __func__, 31, changes[0].second);
+      evaluate (__LINE__, __func__, now - two_thousand, changes[1].first);
+      evaluate (__LINE__, __func__, 41, changes[1].second);
     }
   }
 }

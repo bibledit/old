@@ -24,18 +24,14 @@
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <filter/md5.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-#include <client/logic.h>
-#include <demo/logic.h>
-#include <database/modifications.h>
-#include <database/notes.h>
-#include <trash/handler.h>
-#include <ipc/focus.h>
-#include <navigation/passage.h>
-#include <changes/logic.h>
-#include <menu/logic.h>
+#include <locale/logic.h>
+#include <pugixml/pugixml.hpp>
+#include <database/statistics.h>
+
+
+using namespace pugi;
 
 
 string changes_statistics_url ()
@@ -61,7 +57,25 @@ string changes_statistics (void * webserver_request)
   Assets_View view;
   
   
-  view.set_variable ("interlinks", changes_interlinks (webserver_request, changes_statistics_url ())); // Todo put anywhere.
+  string user = request->query["user"];
+
+  
+  vector <pair <int, int>> changes = Database_Statistics::get_changes (user);
+  for (auto & element : changes) {
+    string date = locale_logic_date (element.first);
+    string count = convert_to_string (element.second);
+    map <string, string> values;
+    values ["date"] = date;
+    values ["count"] = count;
+    view.add_iteration ("statistics", values);
+  }
+
+  
+  if (user.empty ()) user = translate ("Everyone");
+  view.set_variable ("user", user);
+
+  
+  vector <string> users = Database_Statistics::get_users ();
   
   
   page += view.render ("changes", "statistics");
