@@ -57,7 +57,9 @@ string changes_statistics (void * webserver_request)
   Assets_View view;
   
   
+  string everyone = translate ("Everyone");
   string user = request->query["user"];
+  if (user == everyone) user.clear ();
 
   
   vector <pair <int, int>> changes = Database_Statistics::get_changes (user);
@@ -71,11 +73,18 @@ string changes_statistics (void * webserver_request)
   }
 
   
-  if (user.empty ()) user = translate ("Everyone");
-  view.set_variable ("user", user);
-
-  
   vector <string> users = Database_Statistics::get_users ();
+  users.push_back (everyone);
+  for (size_t i = 0; i < users.size (); i++) {
+    map <string, string> values;
+    if (i) values ["divider"] = "|";
+    values ["user"] = users[i];
+    view.add_iteration ("users", values);
+  }
+  
+  
+  if (user.empty ()) user = everyone;
+  view.set_variable ("user", user);
   
   
   page += view.render ("changes", "statistics");
