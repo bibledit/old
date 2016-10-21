@@ -46,6 +46,17 @@ bool changes_statistics_acl (void * webserver_request)
 }
 
 
+void changes_statistics_add (Assets_View & view, const string & date, int count) // Todo
+{
+  if (count) {
+    map <string, string> values;
+    values ["date"] = date;
+    values ["count"] = convert_to_string (count);
+    view.add_iteration ("statistics", values);
+  }
+}
+
+
 string changes_statistics (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -63,13 +74,21 @@ string changes_statistics (void * webserver_request)
 
   
   vector <pair <int, int>> changes = Database_Statistics::get_changes (user);
+  string last_date;
+  int last_count = 0;
   for (auto & element : changes) {
     string date = locale_logic_date (element.first);
-    string count = convert_to_string (element.second);
-    map <string, string> values;
-    values ["date"] = date;
-    values ["count"] = count;
-    view.add_iteration ("statistics", values);
+    int count = element.second;
+    if (date == last_date) {
+      last_count += count;
+    } else {
+      changes_statistics_add (view, last_date, last_count);
+      last_date = date;
+      last_count = count;
+    }
+  }
+  if (last_count) {
+    changes_statistics_add (view, last_date, last_count);
   }
 
   

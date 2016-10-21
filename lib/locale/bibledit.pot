@@ -875,6 +875,15 @@ msgstr ""
 msgid "Change statistics"
 msgstr ""
 
+msgid "Everyone"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Number of changes"
+msgstr ""
+
 msgid "Checks"
 msgstr ""
 
