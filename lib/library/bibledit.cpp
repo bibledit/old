@@ -262,8 +262,15 @@ void bibledit_stop_library ()
   // The server will then abort the TLS handshake, and shut down.
 #endif
 
+#ifndef HAVE_ANDROID
+#ifndef HAVE_IOS
   // Schedule a timer to exit(0) the program in case the network stack fails to exit the servers.
+  // This should not be done on devices like Android and iOS
+  // because then the app would quit when the user moves the app to the background,
+  // whereas the user expects the app to stay alive in the background.
   new thread (bibledit_last_ditch_forced_exit);
+#endif
+#endif
 
   // Wait till the servers and the timers shut down.
   config_globals_http_worker->join ();
