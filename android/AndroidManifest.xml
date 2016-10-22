@@ -3,8 +3,8 @@
 <manifest 
     xmlns:android="http://schemas.android.com/apk/res/android" 
     package="org.bibledit.android" 
-    android:versionCode="64"
-    android:versionName="1.0.590"
+    android:versionCode="65"
+    android:versionName="1.0.595"
   >
 
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
