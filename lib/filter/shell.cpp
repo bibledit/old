@@ -183,9 +183,10 @@ vector <string> filter_shell_active_processes ()
 
 
 // Runs $command with $p1, $p2, etc...
+// If $directory is given, the process changes the working directory to that.
 // It does not run $command through the shell, but executes it through vfork,
 // which is the fastest possibble way to run a child process.
-int filter_shell_vfork (string & output, string command,
+int filter_shell_vfork (string & output, string directory, string command,
                         const char * p01,
                         const char * p02,
                         const char * p03,
@@ -198,8 +199,7 @@ int filter_shell_vfork (string & output, string command,
                         const char * p10,
                         const char * p11,
                         const char * p12,
-                        const char * p13
-                        )
+                        const char * p13)
 {
   int status = 0;
 #ifdef HAVE_CLIENT
@@ -241,6 +241,7 @@ int filter_shell_vfork (string & output, string command,
     dup2 (fd, 1);
     dup2 (fd, 2);
     close(fd);
+    if (!directory.empty ()) chdir (directory.c_str());
     execlp (command.c_str(), command.c_str(), p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, (char *) 0);
     // The above only returns in case of an error.
     Database_Logs::log (strerror (errno));

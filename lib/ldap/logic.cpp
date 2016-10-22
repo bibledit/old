@@ -152,7 +152,7 @@ bool ldap_logic_fetch (string user, string password, bool & access, string & ema
   
   // Query the LDAP server.
   string output;
-  int result = filter_shell_vfork (output, "ldapsearch",
+  int result = filter_shell_vfork (output, "", "ldapsearch",
                                    "-H", ldap_logic_uri.c_str (),
                                    "-D", binddn.c_str (),
                                    "-w", password.c_str (),

@@ -4910,10 +4910,17 @@ void test_filter_shell ()
   
   string output;
   int result;
-  result = filter_shell_vfork (output, "ls", "-l");
+
+  result = filter_shell_vfork (output, "", "ls", "-l");
   evaluate (__LINE__, __func__, 0, result);
   if (output.find ("unittest") == string::npos) {
     evaluate (__LINE__, __func__, "Supposed to list files", output);
+  }
+
+  result = filter_shell_vfork (output, "/", "ls", "-l");
+  evaluate (__LINE__, __func__, 0, result);
+  if (output.find ("tmp") == string::npos) {
+    evaluate (__LINE__, __func__, "Supposed to list folder /", output);
   }
 }
 

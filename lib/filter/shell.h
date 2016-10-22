@@ -30,7 +30,7 @@ int filter_shell_run (string command, const char * parameter, string & output);
 int filter_shell_run (string command, string & out_err);
 bool filter_shell_is_present (string program);
 vector <string> filter_shell_active_processes ();
-int filter_shell_vfork (string & output, string command,
+int filter_shell_vfork (string & output, string directory, string command,
                         const char * p01 = NULL,
                         const char * p02 = NULL,
                         const char * p03 = NULL,
@@ -43,8 +43,7 @@ int filter_shell_vfork (string & output, string command,
                         const char * p10 = NULL,
                         const char * p11 = NULL,
                         const char * p12 = NULL,
-                        const char * p13 = NULL
-                        );
+                        const char * p13 = NULL);
 
 
 #endif
