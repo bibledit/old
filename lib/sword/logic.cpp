@@ -402,15 +402,19 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   bool module_available = false;
 
   string osis = Database_Books::getOsisFromId (book);
-#ifdef HAVE_SWORD
-  module_text = sword_logic_diatheke (module, osis, chapter, verse, module_available);
-#else
+//#ifdef HAVE_SWORD
+  //module_text = sword_logic_diatheke (module, osis, chapter, verse, module_available);
+//#else
   // The server fetches the module text as follows:
   // diatheke -b KJV -k Jn 3:16
   string sword_path = sword_logic_get_path ();
+  /*
   string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
   filter_shell_run (command, module_text);
-
+   */
+  string ch_vs = convert_to_string (chapter) + ":" + convert_to_string (verse);
+  filter_shell_vfork (module_text, sword_path, "diatheke", "-b", module.c_str(), "-k", osis.c_str(), ch_vs.c_str()); // Todo
+  
   // Touch the cache so the server knows that the module has been accessed just now.
   string url = sword_logic_virtual_url (module, 0, 0, 0);
   database_filebased_cache_get (url);
@@ -419,7 +423,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   // If the module was installed, but the requested passage is out of range,
   // the output of "diatheke" contains the module name, so it won't be empty.
   module_available = !module_text.empty ();
-#endif
+//#endif
   
   if (!module_available) {
     
@@ -728,7 +732,19 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
 #endif
 }
 
+/*
+ This function works, but there are cases where it crashes as follows:
+ 
+ libsword.so.11v5(_ZN5sword7FileMgr7sysOpenEPNS_8FileDescE+0x39)
+ libsword.so.11v5(_ZN5sword8FileDesc5getFdEv+0x20)
+ libsword.so.11v5(_ZN5sword8SWConfig4LoadEv+0x16c)
+ libsword.so.11v5(_ZN5sword8SWConfigC2EPKc+0xcb)
+ libsword.so.11v5(_ZN5sword5SWMgr13loadConfigDirEPKc+0x1af)
+ libsword.so.11v5(_ZN5sword5SWMgr4LoadEv+0x201)
+ libsword.so.11v5(_ZN5sword5SWMgrC1EPKcbPNS_11SWFilterMgrEbb+0x325)
 
+ And this crash takes down the whole Bibledit Cloud instance.
+ */
 string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse, bool & available)
 {
   (void) module_name;
