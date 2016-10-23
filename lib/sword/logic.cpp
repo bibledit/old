@@ -44,6 +44,7 @@
 mutex sword_logic_installer_mutex;
 bool sword_logic_installing_module = false;
 mutex sword_logic_library_access_mutex;
+mutex sword_logic_diatheke_run_mutex;
 
 
 string sword_logic_get_path ()
@@ -402,18 +403,21 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   bool module_available = false;
 
   string osis = Database_Books::getOsisFromId (book);
-//#ifdef HAVE_SWORD
-  //module_text = sword_logic_diatheke (module, osis, chapter, verse, module_available);
-//#else
+  string chapter_verse = convert_to_string (chapter) + ":" + convert_to_string (verse);
+
+  // See notes on function sword_logic_diatheke
+  // for why it is not currently fetching content via a SWORD library call.
+  // module_text = sword_logic_diatheke (module, osis, chapter, verse, module_available);
+  
+  // Running diatheke only works when it runs in the SWORD installation directory.
+  string sword_path = sword_logic_get_path ();
+  // Running several instances of diatheke simultaneously fails.
+  sword_logic_diatheke_run_mutex.lock ();
   // The server fetches the module text as follows:
   // diatheke -b KJV -k Jn 3:16
-  string sword_path = sword_logic_get_path ();
-  /*
-  string command = "cd " + sword_path + "; diatheke -b " + module + " -k " + osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
-  filter_shell_run (command, module_text);
-   */
-  string ch_vs = convert_to_string (chapter) + ":" + convert_to_string (verse);
-  filter_shell_vfork (module_text, sword_path, "diatheke", "-b", module.c_str(), "-k", osis.c_str(), ch_vs.c_str()); // Todo
+  int result = filter_shell_vfork (module_text, sword_path, "diatheke", "-b", module.c_str(), "-k", osis.c_str(), chapter_verse.c_str());
+  sword_logic_diatheke_run_mutex.unlock ();
+  if (result != 0) return "Failure to fetch SWORD content";
   
   // Touch the cache so the server knows that the module has been accessed just now.
   string url = sword_logic_virtual_url (module, 0, 0, 0);
@@ -423,7 +427,6 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   // If the module was installed, but the requested passage is out of range,
   // the output of "diatheke" contains the module name, so it won't be empty.
   module_available = !module_text.empty ();
-//#endif
   
   if (!module_available) {
     
@@ -448,6 +451,13 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   
   // Remove any OSIS elements.
   filter_string_replace_between (module_text, "<", ">", "");
+  
+  // Remove the passage name that diatheke adds.
+  string passage = Database_Books::getEnglishFromId (book) + " " + chapter_verse + ":";
+  module_text = filter_string_str_replace (passage, "", module_text);
+  
+  // Remove the module name that diatheke adds.
+  module_text = filter_string_str_replace ("(" + module + ")", "", module_text);
   
   // Clean whitespace away.
   module_text = filter_string_trim (module_text);
