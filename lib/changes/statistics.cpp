@@ -46,7 +46,7 @@ bool changes_statistics_acl (void * webserver_request)
 }
 
 
-void changes_statistics_add (Assets_View & view, const string & date, int count) // Todo
+void changes_statistics_add (Assets_View & view, const string & date, int count)
 {
   if (count) {
     map <string, string> values;
