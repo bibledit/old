@@ -736,26 +736,14 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
       if (it->second & sword::InstallMgr::MODSTAT_UPDATED) status = "+";
       string module_name (status);
       module_name.append ("[");
-#ifdef HAVE_SWORD16
-      module_name.append (module->Name());
-#else
       module_name.append (module->getName());
-#endif
       module_name.append ("]  \t(");
       module_name.append (version);
       module_name.append (")  \t- ");
-#ifdef HAVE_SWORD16
-      module_name.append (module->Description());
-#else
       module_name.append (module->getDescription());
-#endif
       // Check if the module is a verse-based Bible or commentary.
       bool verse_based = false;
-#ifdef HAVE_SWORD16
-      string module_type = module->Type ();
-#else
       string module_type = module->getType ();
-#endif
       if (module_type == "Biblical Texts") verse_based = true;
       if (module_type == "Commentaries") verse_based = true;
       if (verse_based) modules.push_back (module_name);
@@ -820,11 +808,7 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
   if (module) {
     string key = osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
     module->setKey (key.c_str ());
-#ifdef HAVE_SWORD16
-    rendering = module->RenderText();
-#else
     rendering = module->renderText();
-#endif
   }
   sword_logic_library_access_mutex.unlock ();
 #endif

@@ -52,12 +52,6 @@
 /* Define to 1 if you have the <string.h> header file. */
 #define HAVE_STRING_H 1
 
-/* Define whether the SWORD library is present */
-/* #undef HAVE_SWORD */
-
-/* Define whether the SWORD library 1.6.x is present */
-/* #undef HAVE_SWORD16 */
-
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
 

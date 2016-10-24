@@ -61,12 +61,6 @@ PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development ve
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
 
-PKG_CHECK_MODULES(SWORD16, sword < 1.7.0, [AC_DEFINE([HAVE_SWORD16],[1],[Define whether the SWORD library 1.6.x is present])], [AC_MSG_RESULT()])
-
-PKG_CHECK_MODULES(SWORD, sword >= 1.6.0, [AC_DEFINE([HAVE_SWORD],[1],[Define whether the SWORD library is present])], [AC_MSG_RESULT([no])])
-AC_SUBST(SWORD_CFLAGS)
-AC_SUBST(SWORD_LIBS)
-
 
 # Tag1 (leave in place)
 # Tag2 (leave in place)
@@ -188,5 +182,4 @@ Mac       (--enable-mac)          : ${ENABLEMAC}
 Linux     (--enable-linux)        : ${ENABLELINUX}
 iOS       (--enable-ios)          : ${ENABLEIOS}
 Chrome OS (--enable-chromeos)     : ${ENABLECHROMEOS}
-SWORD library                     : ${SWORD_CFLAGS}
 "
