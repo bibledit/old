@@ -455,6 +455,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   filter_string_replace_between (module_text, "<", ">", "");
   
   // Remove the passage name that diatheke adds.
+  // A reliable signature for this is the chapter and verse plus subsequent colon.
   size_t pos = module_text.find (" " + chapter_verse + ":");
   if (pos != string::npos) {
     pos += 2;
