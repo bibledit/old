@@ -455,8 +455,12 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   filter_string_replace_between (module_text, "<", ">", "");
   
   // Remove the passage name that diatheke adds.
-  string passage = Database_Books::getEnglishFromId (book) + " " + chapter_verse + ":";
-  module_text = filter_string_str_replace (passage, "", module_text);
+  size_t pos = module_text.find (" " + chapter_verse + ":");
+  if (pos != string::npos) {
+    pos += 2;
+    pos += chapter_verse.size ();
+    module_text.erase (0, pos);
+  }
   
   // Remove the module name that diatheke adds.
   module_text = filter_string_str_replace ("(" + module + ")", "", module_text);
