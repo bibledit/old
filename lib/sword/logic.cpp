@@ -62,7 +62,6 @@ void sword_logic_refresh_module_list ()
   Database_Logs::log ("Refreshing SWORD module list");
   
   string out_err;
-  vector <string> lines;
   
   // Initialize SWORD directory structure and configuration.
   string sword_path = sword_logic_get_path ();
@@ -72,19 +71,16 @@ void sword_logic_refresh_module_list ()
   filter_url_file_put_contents (filter_url_create_path (sword_path, "sword.conf"), swordconf);
   string config_files_path = filter_url_create_root_path ("sword");
   filter_shell_run ("cp -r " + config_files_path + "/locales.d " + sword_path, out_err);
-  lines = filter_string_explode (out_err, '\n');
-  for (auto line : lines) Database_Logs::log (line);
+  sword_logic_log (out_err);
   filter_shell_run ("cp -r " + config_files_path + "/mods.d " + sword_path, out_err);
-  lines = filter_string_explode (out_err, '\n');
-  for (auto line : lines) Database_Logs::log (line);
+  sword_logic_log (out_err);
   
   // Initialize basic user configuration.
 #ifdef HAVE_SWORD
   sword_logic_installmgr_initialize ();
 #else
   filter_shell_run ("echo yes | installmgr -init", out_err);
-  lines = filter_string_explode (out_err, '\n');
-  for (auto line : lines) Database_Logs::log (line);
+  sword_logic_log (out_err);
 #endif
   
   // Sync the configuration with the online known remote repository list.
@@ -99,8 +95,7 @@ void sword_logic_refresh_module_list ()
 #else
   filter_shell_run ("echo yes | installmgr -sc", out_err);
   filter_string_replace_between (out_err, "WARNING", "enable? [no]", "");
-  lines = filter_string_explode (out_err, '\n');
-  for (auto line : lines) Database_Logs::log (line);
+  sword_logic_log (out_err);
 #endif
   
   // List the remote sources.
@@ -109,15 +104,16 @@ void sword_logic_refresh_module_list ()
   sword_logic_installmgr_list_remote_sources (remote_sources);
 #else
   filter_shell_run ("installmgr -s", out_err);
-  lines = filter_string_explode (out_err, '\n');
+  sword_logic_log (out_err);
+  vector <string> lines = filter_string_explode (out_err, '\n');
   for (auto line : lines) {
-    Database_Logs::log (line);
     line = filter_string_trim (line);
     if (line.find ("[") != string::npos) {
       line.erase (0, 1);
       if (line.find ("]") != string::npos) {
         line.erase (line.length () - 1, 1);
         remote_sources.push_back (line);
+        Database_Logs::log (line);
       }
     }
   }
@@ -134,7 +130,7 @@ void sword_logic_refresh_module_list ()
 #else
     filter_shell_run ("echo yes | installmgr -r \"" + remote_source + "\"", out_err);
     filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
-    Database_Logs::log (out_err);
+    sword_logic_log (out_err);
 #endif
 
     vector <string> modules;
@@ -257,7 +253,7 @@ void sword_logic_install_module (string source_name, string module_name)
   Database_Logs::log ("Install SWORD module " + module_name + " from source " + source_name);
   string sword_path = sword_logic_get_path ();
 
-  /* Installation through SWORD InstallMgr does not yet work.
+  // Installation through SWORD InstallMgr does not yet work.
   // When running it from the ~/.sword/InstallMgr directory, it works.
 #ifdef HAVE_SWORD
   
@@ -293,18 +289,12 @@ void sword_logic_install_module (string source_name, string module_name)
   delete mgr;
   
 #else
-   */
   
   string out_err;
   filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -ri \"" + source_name + "\" \"" + module_name + "\"", out_err);
-  vector <string> lines = filter_string_explode (out_err, '\n');
-  for (auto line : lines) {
-    line = filter_string_trim (line);
-    if (line.empty ()) continue;
-    Database_Logs::log (line);
-  }
+  sword_logic_log (out_err);
   
-//#endif
+#endif
 
   // After the installation is complete, cache some data.
   // This cached data indicates the last access time for this SWORD module.
@@ -319,12 +309,7 @@ void sword_logic_uninstall_module (string module)
   string out_err;
   string sword_path = sword_logic_get_path ();
   filter_shell_run ("cd " + sword_path + "; installmgr -u \"" + module + "\"", out_err);
-  vector <string> lines = filter_string_explode (out_err, '\n');
-  for (auto line : lines) {
-    line = filter_string_trim (line);
-    if (line.empty ()) continue;
-    Database_Logs::log (line);
-  }
+  sword_logic_log (out_err);
 }
 
 
@@ -814,4 +799,19 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
 #endif
   
   return rendering;
+}
+
+
+void sword_logic_log (string message)
+{
+  // Remove less comely stuff, warnings, confusing information.
+  message = filter_string_str_replace ("-=+*", "", message);
+  message = filter_string_str_replace ("WARNING", "", message);
+  message = filter_string_str_replace ("*+=-", "", message);
+  message = filter_string_str_replace ("enable?", "", message);
+  message = filter_string_str_replace ("[no]", "", message);
+  // Clean message up.
+  message = filter_string_trim (message);
+  // Record in the journal.
+  Database_Logs::log (message);
 }
