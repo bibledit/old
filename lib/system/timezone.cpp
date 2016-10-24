@@ -20,6 +20,7 @@
 #include <system/timezone.h>
 #include <webserver/request.h>
 #include <filter/string.h>
+#include <database/config/general.h>
 
 
 string system_timeoffset_url ()
