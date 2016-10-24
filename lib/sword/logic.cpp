@@ -390,9 +390,11 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   if (!error.empty ()) return error;
 
   // Client caches this info for later.
-  // Except when the Cloud is now installing the SWORD module.
+  // Except in case of predefined responses from the Cloud.
   if (html != sword_logic_installing_module_text ()) {
-    Database_Cache::cache (module, book, chapter, verse, html);
+    if (html != sword_logic_fetch_failure_text ()) {
+      Database_Cache::cache (module, book, chapter, verse, html);
+    }
   }
   
   return html;
@@ -417,7 +419,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   // diatheke -b KJV -k Jn 3:16
   int result = filter_shell_vfork (module_text, sword_path, "diatheke", "-b", module.c_str(), "-k", osis.c_str(), chapter_verse.c_str());
   sword_logic_diatheke_run_mutex.unlock ();
-  if (result != 0) return "Failure to fetch SWORD content";
+  if (result != 0) return sword_logic_fetch_failure_text ();
   
   // Touch the cache so the server knows that the module has been accessed just now.
   string url = sword_logic_virtual_url (module, 0, 0, 0);
@@ -531,9 +533,18 @@ void sword_logic_trim_modules ()
 
 
 // Text saying that the Cloud will install the requested SWORD module.
+// Client knows not to cache this.
 string sword_logic_installing_module_text ()
 {
   return "The requested SWORD module is not yet installed. Bibledit Cloud will install it shortly. Please check back after a few minutes.";
+}
+
+
+// Text stating fetch failure.
+// Client knows not to cache this.
+string sword_logic_fetch_failure_text ()
+{
+  return "Failure to fetch SWORD content.";
 }
 
 
