@@ -244,7 +244,7 @@ int filter_shell_vfork (string & output, string directory, string command,
     if (!directory.empty ()) chdir (directory.c_str());
     execlp (command.c_str(), command.c_str(), p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, (char *) 0);
     // The above only returns in case of an error.
-    Database_Logs::log (strerror (errno));
+    Database_Logs::log (command + ": " + strerror (errno));
     _exit (1);
     close (fd);
     return -1;
