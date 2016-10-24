@@ -332,8 +332,8 @@ void http_server ()
   }
   
   // Keep waiting for, accepting, and processing connections.
-  config_globals_http_running = true;
-  while (listener_healthy && config_globals_http_running) {
+  config_globals_webserver_running = true;
+  while (listener_healthy && config_globals_webserver_running) {
     
     // Accept a client socket.
     struct sockaddr_in clientaddr;
