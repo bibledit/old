@@ -307,7 +307,7 @@ void sword_logic_install_module (string source_name, string module_name)
 //#endif
 
   // After the installation is complete, cache some data.
-  // This cached data indicates the last access-time for this SWORD module.
+  // This cached data indicates the last access time for this SWORD module.
   string url = sword_logic_virtual_url (module_name, 0, 0, 0);
   database_filebased_cache_put (url, "SWORD");
 }
@@ -578,8 +578,17 @@ void sword_logic_run_scheduled_module_install (string source, string module)
   sword_logic_installing_module = true;
   sword_logic_installer_mutex.unlock ();
 
-  // Run the installer.
-  sword_logic_install_module (source, module);
+  // Run the installer if the module is not yet installed.
+  vector <string> modules = sword_logic_get_installed ();
+  bool already_installed = false;
+  for (auto & installed_module : modules) {
+    if (installed_module.find ("[" + module + "]") != string::npos) {
+      already_installed = true;
+    }
+  }
+  if (!already_installed) {
+    sword_logic_install_module (source, module);
+  }
   
   // Clear flag as current module installation is ready.
   sword_logic_installer_mutex.lock ();
