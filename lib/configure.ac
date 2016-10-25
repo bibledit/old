@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.597],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.598],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -174,12 +174,12 @@ AC_OUTPUT(Makefile)
 echo "
 Bibledit $VERSION configuration summary:
 
-Installation prefix               : ${prefix}
-Unit tests   (--enable-unittests) : ${UNITTESTS}
-Windows   (--enable-windows)      : ${ENABLEWINDOWS}
-Android   (--enable-android)      : ${ENABLEANDROID}
-Mac       (--enable-mac)          : ${ENABLEMAC}
-Linux     (--enable-linux)        : ${ENABLELINUX}
-iOS       (--enable-ios)          : ${ENABLEIOS}
-Chrome OS (--enable-chromeos)     : ${ENABLECHROMEOS}
+Installation prefix             : ${prefix}
+Unit tests (--enable-unittests) : ${UNITTESTS}
+Windows    (--enable-windows)   : ${ENABLEWINDOWS}
+Android    (--enable-android)   : ${ENABLEANDROID}
+Mac        (--enable-mac)       : ${ENABLEMAC}
+Linux      (--enable-linux)     : ${ENABLELINUX}
+iOS        (--enable-ios)       : ${ENABLEIOS}
+Chrome OS  (--enable-chromeos)  : ${ENABLECHROMEOS}
 "
