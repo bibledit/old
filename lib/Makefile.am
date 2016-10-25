@@ -214,6 +214,7 @@ libbibledit_a_SOURCES = \
 	edit/save.cpp \
 	edit/styles.cpp \
 	edit/logic.cpp \
+	editpm/index.cpp \
 	search/all.cpp \
 	search/index.cpp \
 	search/replace.cpp \
