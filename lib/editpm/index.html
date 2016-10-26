@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="prosemirror.css">
+<link rel="stylesheet" type="text/css" href="menu.css">
 <style type="text/css">
   ##custom_css##
 </style>
@@ -26,6 +27,19 @@
   </div>
 </div>
 <div id="editor" class="bibleeditor ##custom_class##"></div>
+<div style="display: none" id="content">
+  <h1>The future Bible editor</h1>
+  <p>This editor uses ProseMirror.</p>
+  <p>This is editable text. Focus it and start typing.</p>
+  
+  <p>To apply styling, you can select a piece of text and manipulate its styling from the menu. You get <em>emphasis</em>, <strong>strong text</strong>, <a href="http://marijnhaverbeke.nl/blog">links</a>, <code>code font</code>, and <img src="/img/smiley.png"> images.</p>
+        
+  <p>Block-level structure is manipulated, depending on the current menu style, either through the top menubar, or through the “hamburger” menu to the right of the selected paragraph. This allows you to change paragraphs into headers or code blocks, to wrap them in lists or blockquotes, to unwrap them, and to insert things like horizontal rules.</p>
+  
+  <p>Try using the "indent” item in the menu to wrap this paragraph in a numbered list.</p>
+  
+  <p>And turn this paragraph into a code block.</p>
+</div>
 <script>##script##</script>
 <script type="text/javascript" src="/rangy13/rangy-core.min.js?##VERSION##"></script>
 <script type="text/javascript" src="/rangy13/rangy-textrange.min.js?##VERSION##"></script>
