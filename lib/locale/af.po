@@ -1,34 +1,34 @@
-# Indonesian translation for bibledit
-# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# Afrikaans translation for bibledit
+# Copyright (c) 2016 Rosetta Contributors and Canonical Ltd 2016
 # This file is distributed under the same license as the bibledit package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2016-10-17 06:52+0000\n"
-"Last-Translator: balazi gulo <balazi@bahasakita.net>\n"
-"Language-Team: Indonesian <id@li.org>\n"
+"PO-Revision-Date: 2016-09-08 14:01+0000\n"
+"Last-Translator: Tristan B. Kildaire <deavmi@gmail.com>\n"
+"Language-Team: Afrikaans <af@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18232)\n"
+"X-Generator: Launchpad (build 18184)\n"
 
 msgid "Set the language for Bibledit"
-msgstr "Pilihlah bahasa untuk Bibledit"
+msgstr "Kies die taal vir Bibledit"
 
 msgid "Language"
-msgstr "Bahasa"
+msgstr "Taal"
 
 msgid "The language for Bibledit:"
-msgstr "Bahasa untuk Bibledit:"
+msgstr "Die taal vir Bibledit:"
 
 msgid "change"
-msgstr "ubah"
+msgstr "verander"
 
 msgid "Your preferred language is not listed?"
-msgstr "Pilihan bahasamu belum terdaftar?"
+msgstr ""
 
 msgid ""
 "Use your translation skills to assist with bringing another language to "
@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 
 msgid "Start translating right away."
-msgstr "Mulai menerjemahkan sekarang."
+msgstr ""
 
 msgid ""
 "It is possible to translate only the most important phrases to get your "
@@ -47,7 +47,7 @@ msgid "Your translation will be included with the next Bibledit release."
 msgstr ""
 
 msgid "Timezone"
-msgstr "Zona waktu"
+msgstr ""
 
 msgid "The timezone was clipped"
 msgstr ""
@@ -64,13 +64,13 @@ msgid ""
 msgstr ""
 
 msgid "Submit"
-msgstr "Terapkan"
+msgstr "Stuur in"
 
 msgid "Search"
-msgstr "Cari"
+msgstr "Soek"
 
 msgid "Searching"
-msgstr "Sedang mencari"
+msgstr "Aan die soek"
 
 msgid "Abbreviations"
 msgstr ""
@@ -88,19 +88,19 @@ msgid "Book abbreviations"
 msgstr ""
 
 msgid "Bible"
-msgstr ""
+msgstr "Bybel"
 
 msgid "Update the abbreviations."
 msgstr ""
 
 msgid "One line per book."
-msgstr ""
+msgstr "Een lyn vir elke boek."
 
 msgid "Book lines may repeat with different abbreviations for the same book."
 msgstr ""
 
 msgid "Save"
-msgstr "Simpan"
+msgstr "Stoor"
 
 msgid ""
 "Book abbreviations are used while copying cross references from a source "
@@ -108,7 +108,7 @@ msgid ""
 msgstr ""
 
 msgid "Book"
-msgstr ""
+msgstr "Boek"
 
 msgid "Would you like to delete this chapter?"
 msgstr ""
@@ -126,7 +126,7 @@ msgid "Create chapter"
 msgstr ""
 
 msgid "Delete this book"
-msgstr ""
+msgstr "Skrap hierdie boek"
 
 msgid "Chapter"
 msgstr ""
@@ -144,13 +144,13 @@ msgid "Make settings for font and text for the Bible editors."
 msgstr ""
 
 msgid "Font"
-msgstr ""
+msgstr "Skriftipe"
 
 msgid "Enter the name of a locally available font."
 msgstr ""
 
 msgid "Example:"
-msgstr ""
+msgstr "Voorbeeld:"
 
 msgid "Upload a font file."
 msgstr ""
@@ -165,25 +165,25 @@ msgid "If the font is empty, it takes the font entered in Bibledit Cloud."
 msgstr ""
 
 msgid "Direction"
-msgstr ""
+msgstr "Rigting"
 
 msgid "Unspecified"
-msgstr ""
+msgstr "Ongespesifiseer"
 
 msgid "Left-to-right"
-msgstr ""
+msgstr "Links-na-regs"
 
 msgid "Right-to-left"
 msgstr ""
 
 msgid "Writing mode"
-msgstr ""
+msgstr "Skryf modus"
 
 msgid "Top to bottom and left to right"
-msgstr ""
+msgstr "Bo na onder en links na regs"
 
 msgid "Top to bottom and right to left"
-msgstr ""
+msgstr "Bo na onder en regs na links"
 
 msgid "Bottom to top and left to right"
 msgstr ""
@@ -312,7 +312,7 @@ msgid "Nothing was uploaded"
 msgstr ""
 
 msgid "Journal"
-msgstr "Riwayat pembaharuan"
+msgstr "Joernaal"
 
 msgid "This helps you with importing Unified Standard Format Markers data."
 msgstr ""
@@ -351,16 +351,16 @@ msgid ""
 msgstr ""
 
 msgid "Bibles"
-msgstr "Alkitab-Alkitab"
+msgstr "Bybels"
 
 msgid "Please enter a name for the new empty Bible"
 msgstr ""
 
 msgid "This Bible already exists"
-msgstr "Alkitab itu sudah ada."
+msgstr ""
 
 msgid "The Bible was created"
-msgstr "Alkitab baru dibuat."
+msgstr "Die Bybel was gemaak"
 
 msgid "Please enter a name for where to copy the Bible to"
 msgstr ""
@@ -369,22 +369,22 @@ msgid "Cannot copy the Bible because the destination Bible already exists."
 msgstr ""
 
 msgid "The Bible was copied."
-msgstr "Alkitab sudah disalin"
+msgstr ""
 
 msgid "Would you like to delete this Bible?"
-msgstr "Apakah Anda mau menghapus proyek Alkitab ini?"
+msgstr "Wil jy hierdie Bybel skrap?"
 
 msgid "Available Bibles:"
 msgstr ""
 
 msgid "Create a new empty Bible"
-msgstr "Mengerjakan Alkitab baru yang kosong"
+msgstr ""
 
 msgid "Order"
-msgstr ""
+msgstr "Volgorde"
 
 msgid "Book order"
-msgstr ""
+msgstr "Boek orde"
 
 msgid ""
 "Drag books to another location to update the order of the books in this "
@@ -411,10 +411,10 @@ msgid ""
 msgstr ""
 
 msgid "Create book"
-msgstr ""
+msgstr "Maak boek"
 
 msgid "Would you like to delete this book?"
-msgstr ""
+msgstr "Wil jy hierdie boek skrap?"
 
 msgid "Available books"
 msgstr ""
@@ -429,7 +429,7 @@ msgid "Copy this Bible"
 msgstr ""
 
 msgid "Delete this Bible"
-msgstr ""
+msgstr "Skrap hierdie Bybel"
 
 msgid "Convert to USFM resource"
 msgstr ""
@@ -441,211 +441,211 @@ msgid "Viewable by all users"
 msgstr ""
 
 msgid "Front Matter"
-msgstr "Pendahuluan"
+msgstr ""
 
 msgid "Genesis"
-msgstr "Kejadian"
+msgstr ""
 
 msgid "Exodus"
-msgstr "Keluaran"
+msgstr ""
 
 msgid "Leviticus"
-msgstr "Imamat"
+msgstr ""
 
 msgid "Numbers"
-msgstr "Bilangan"
+msgstr ""
 
 msgid "Deuteronomy"
-msgstr "Ulangan"
+msgstr ""
 
 msgid "Joshua"
-msgstr "Yosua"
+msgstr ""
 
 msgid "Judges"
-msgstr "Hakim-hakim"
+msgstr ""
 
 msgid "Ruth"
-msgstr "Rut"
+msgstr ""
 
 msgid "1 Samuel"
-msgstr "1 Samuel"
+msgstr ""
 
 msgid "2 Samuel"
-msgstr "2 Samuel"
+msgstr ""
 
 msgid "1 Kings"
-msgstr "1 Raja"
+msgstr "1 Koning"
 
 msgid "2 Kings"
-msgstr "2 Raja"
+msgstr "2 Konings"
 
 msgid "1 Chronicles"
-msgstr "1 Tawarik"
+msgstr ""
 
 msgid "2 Chronicles"
-msgstr "2 Tawarik"
+msgstr ""
 
 msgid "Ezra"
-msgstr "Ezra"
+msgstr ""
 
 msgid "Nehemiah"
-msgstr "Nehemia"
+msgstr ""
 
 msgid "Esther"
-msgstr "Ester"
+msgstr ""
 
 msgid "Job"
-msgstr "Ayub"
+msgstr "Werk"
 
 msgid "Psalms"
-msgstr "Mazmur"
+msgstr ""
 
 msgid "Proverbs"
-msgstr "Amsal"
+msgstr ""
 
 msgid "Ecclesiastes"
-msgstr "Pengkotbah"
+msgstr ""
 
 msgid "Song of Solomon"
-msgstr "Kidung Agung"
+msgstr ""
 
 msgid "Isaiah"
-msgstr "Yesaya"
+msgstr ""
 
 msgid "Jeremiah"
-msgstr "Yeremia"
+msgstr ""
 
 msgid "Lamentations"
-msgstr "Ratapan"
+msgstr ""
 
 msgid "Ezekiel"
-msgstr "Yeheskiel"
+msgstr ""
 
 msgid "Daniel"
-msgstr "Daniel"
+msgstr ""
 
 msgid "Hosea"
-msgstr "Hosea"
+msgstr ""
 
 msgid "Joel"
-msgstr "Yoel"
+msgstr ""
 
 msgid "Amos"
-msgstr "Amos"
+msgstr ""
 
 msgid "Obadiah"
-msgstr "Obaja"
+msgstr ""
 
 msgid "Jonah"
-msgstr "Yunus"
+msgstr ""
 
 msgid "Micah"
-msgstr "Mika"
+msgstr ""
 
 msgid "Nahum"
-msgstr "Nahum"
+msgstr ""
 
 msgid "Habakkuk"
-msgstr "Habakuk"
+msgstr ""
 
 msgid "Zephaniah"
-msgstr "Zefanya"
+msgstr ""
 
 msgid "Haggai"
-msgstr "Hagai"
+msgstr ""
 
 msgid "Zechariah"
-msgstr "Zekaria"
+msgstr ""
 
 msgid "Malachi"
-msgstr "Maleaki"
+msgstr ""
 
 msgid "Matthew"
-msgstr "Matius"
+msgstr ""
 
 msgid "Mark"
-msgstr "Markus"
+msgstr ""
 
 msgid "Luke"
-msgstr "Lukas"
+msgstr ""
 
 msgid "John"
-msgstr "Yohanes"
+msgstr ""
 
 msgid "Acts"
-msgstr "Kisah"
+msgstr ""
 
 msgid "Romans"
-msgstr "Roma"
+msgstr ""
 
 msgid "1 Corinthians"
-msgstr "1 Korintus"
+msgstr ""
 
 msgid "2 Corinthians"
-msgstr "2 Korintus"
+msgstr ""
 
 msgid "Galatians"
-msgstr "Galatia"
+msgstr ""
 
 msgid "Ephesians"
-msgstr "Efesus"
+msgstr ""
 
 msgid "Philippians"
-msgstr "Filipi"
+msgstr ""
 
 msgid "Colossians"
-msgstr "Kolose"
+msgstr ""
 
 msgid "1 Thessalonians"
-msgstr "1 Tesalonika"
+msgstr ""
 
 msgid "2 Thessalonians"
-msgstr "2 Tesalonika"
+msgstr ""
 
 msgid "1 Timothy"
-msgstr "1 Timotius"
+msgstr ""
 
 msgid "2 Timothy"
-msgstr "2 Timotius"
+msgstr ""
 
 msgid "Titus"
-msgstr "Titus"
+msgstr ""
 
 msgid "Philemon"
-msgstr "Filemon"
+msgstr ""
 
 msgid "Hebrews"
-msgstr "Ibrani"
+msgstr ""
 
 msgid "James"
-msgstr "Yakobus"
+msgstr ""
 
 msgid "1 Peter"
-msgstr "1 Petrus"
+msgstr ""
 
 msgid "2 Peter"
-msgstr "2 Petrus"
+msgstr ""
 
 msgid "1 John"
-msgstr "1 Yohanes"
+msgstr ""
 
 msgid "2 John"
-msgstr "2 Yohanes"
+msgstr ""
 
 msgid "3 John"
-msgstr "3 Yohanes"
+msgstr ""
 
 msgid "Jude"
-msgstr "Yudas"
+msgstr ""
 
 msgid "Revelation"
-msgstr "Wahyu"
+msgstr ""
 
 msgid "Back Matter"
-msgstr "Catatan Belakang"
+msgstr ""
 
 msgid "Other Material"
-msgstr "Bahan lain"
+msgstr ""
 
 msgid "Bible bible does not exist: Cannot create book"
 msgstr ""
@@ -669,19 +669,19 @@ msgid "mark for deletion"
 msgstr ""
 
 msgid "Old"
-msgstr ""
+msgstr "Oud"
 
 msgid "Change"
-msgstr ""
+msgstr "Verander"
 
 msgid "New"
-msgstr ""
+msgstr "Nuwe"
 
 msgid "Create note"
-msgstr ""
+msgstr "Maak note"
 
 msgid "Changes"
-msgstr ""
+msgstr "Veranderinge"
 
 msgid "Loading ..."
 msgstr ""
@@ -693,16 +693,16 @@ msgid "View"
 msgstr ""
 
 msgid "all"
-msgstr ""
+msgstr "alles"
 
 msgid "personal"
-msgstr ""
+msgstr "personeel"
 
 msgid "team"
-msgstr ""
+msgstr "span"
 
 msgid "help"
-msgstr "Bantuan"
+msgstr "hulp"
 
 msgid "This page lists the change notifications."
 msgstr ""
@@ -877,7 +877,7 @@ msgid "Suppressed entries"
 msgstr ""
 
 msgid "Bible Checks"
-msgstr "Alat-alat pemeriksaan Alkitab"
+msgstr ""
 
 msgid "Manage Checks"
 msgstr ""
@@ -929,13 +929,13 @@ msgid "patterns in the text"
 msgstr ""
 
 msgid "settings"
-msgstr "Setelan"
+msgstr ""
 
 msgid "Settings for the sentence structure"
 msgstr ""
 
 msgid "Patterns"
-msgstr ""
+msgstr "Patrone"
 
 msgid "The patterns were saved"
 msgstr ""
@@ -952,7 +952,7 @@ msgid ""
 msgstr ""
 
 msgid "Go back"
-msgstr ""
+msgstr "Gaan terug"
 
 msgid "Sentence Structure"
 msgstr ""
@@ -987,7 +987,7 @@ msgid ""
 msgstr ""
 
 msgid "For example"
-msgstr ""
+msgstr "Vir byvoorbeeld"
 
 msgid ""
 "Enter all the possible small letters in the text of the Bible, separated by "
@@ -1024,7 +1024,7 @@ msgid "The check result will no longer be suppressed."
 msgstr ""
 
 msgid "back"
-msgstr ""
+msgstr "terug"
 
 msgid "The page lists the suppressed results of the checks."
 msgstr ""
@@ -1042,7 +1042,7 @@ msgid "Could not make the connection with Bibledit Cloud"
 msgstr ""
 
 msgid "Server"
-msgstr ""
+msgstr "Bediener"
 
 msgid "Bibledit Cloud connection"
 msgstr ""
@@ -1054,7 +1054,7 @@ msgid "Disconnect."
 msgstr ""
 
 msgid "Internet address"
-msgstr ""
+msgstr "Iiternet adres"
 
 msgid "Your role:"
 msgstr ""
@@ -1065,13 +1065,13 @@ msgid ""
 msgstr ""
 
 msgid "Port number"
-msgstr ""
+msgstr "Poort nommer"
 
 msgid "Username"
-msgstr ""
+msgstr "Gebruikernaam"
 
 msgid "Password"
-msgstr ""
+msgstr "Sleutelwoord"
 
 msgid "Or else connect to the Bibledit Cloud demo."
 msgstr ""
@@ -1252,7 +1252,7 @@ msgid ""
 msgstr ""
 
 msgid "Note the 'sudo' again."
-msgstr ""
+msgstr "Onthou die 'sudo' nog 'n tyd."
 
 msgid ""
 "Now it is time to check whether the USB drive is writable. We do this by "
@@ -1398,7 +1398,7 @@ msgid ""
 msgstr ""
 
 msgid "Select which Bible to use."
-msgstr "Pilihlah Alkitab."
+msgstr ""
 
 msgid "Setup for Bible"
 msgstr ""
@@ -1455,7 +1455,7 @@ msgid ""
 msgstr ""
 
 msgid "No Bible given"
-msgstr "Nama Alkitab belum diisi"
+msgstr ""
 
 msgid "It is unclear which data to copy to where"
 msgstr ""
@@ -1862,7 +1862,7 @@ msgid "After send and receive your data will reflect the data on the server."
 msgstr ""
 
 msgid "Cancel"
-msgstr "Batal"
+msgstr ""
 
 msgid "Here are the various options:"
 msgstr ""
@@ -1871,7 +1871,7 @@ msgid "Please pick one."
 msgstr ""
 
 msgid "Yes"
-msgstr "Ya"
+msgstr ""
 
 msgid "The passage has been opened in the existing Bible editor"
 msgstr ""
@@ -2100,7 +2100,7 @@ msgid "Exported to USFM"
 msgstr ""
 
 msgid "All books"
-msgstr "Semua buku"
+msgstr ""
 
 msgid "Go back to"
 msgstr ""
@@ -3045,7 +3045,7 @@ msgid "Show from the Word where this is the case."
 msgstr ""
 
 msgid "Help"
-msgstr "Bantuan"
+msgstr ""
 
 msgid "Introduction"
 msgstr ""
@@ -5931,13 +5931,13 @@ msgid "No files in this folder"
 msgstr ""
 
 msgid "This job does not exist."
-msgstr "Prosedur tidak ada."
+msgstr ""
 
 msgid "This job is not available to you."
-msgstr "Prosedur tidak diijinkan bagi Anda."
+msgstr ""
 
 msgid "The job is scheduled to start shortly."
-msgstr "Prosedur dijadwalkan untuk memulai sebentar"
+msgstr ""
 
 msgid "recent"
 msgstr ""
@@ -5991,13 +5991,13 @@ msgid "Month"
 msgstr ""
 
 msgid "Select a Bible"
-msgstr "Pilihlah nama Alkitab"
+msgstr ""
 
 msgid "The export has been removed."
-msgstr "Data ekspor sudah dihapuskan."
+msgstr ""
 
 msgid "The setting for nightly export to Web format was updated."
-msgstr "Seting untuk mengekspor pada malam hari ke format Web sudah diubah."
+msgstr ""
 
 msgid "The Bible is being exported to Web format."
 msgstr ""
@@ -6186,16 +6186,16 @@ msgid "Submit the Bible to the Bible Drop Box now."
 msgstr ""
 
 msgid "The two sets of characters were saved"
-msgstr "Dua kelompok huruf itu sudah disimpan."
+msgstr ""
 
 msgid "Which Bible would you like to take the data from?"
-msgstr "Ambil data dari Alkitab mana?"
+msgstr ""
 
 msgid "No first set of characters given"
-msgstr "Kelompok huruf pertama belum diberikan."
+msgstr ""
 
 msgid "No second set of characters given"
-msgstr "Kelompok huruf kedua belum diberikan."
+msgstr ""
 
 msgid "The Bible is being hyphenated."
 msgstr ""
@@ -6284,7 +6284,7 @@ msgid "Delete font"
 msgstr ""
 
 msgid "Indexing"
-msgstr "Sedang membuat Indeks"
+msgstr ""
 
 msgid "Bibledit uses indexes for fast lookup."
 msgstr ""
@@ -6316,16 +6316,16 @@ msgid "You can upload a new font."
 msgstr ""
 
 msgid "Users"
-msgstr "Pengguna"
+msgstr ""
 
 msgid "Please enter a name for the new user"
-msgstr "Isilah nama pengguna baru"
+msgstr ""
 
 msgid "User already exists"
-msgstr "Nama pengguna itu sudah terdaftar."
+msgstr ""
 
 msgid "User created"
-msgstr "Sudah berhasil mendaftar pengguna baru."
+msgstr ""
 
 msgid "Select a role for"
 msgstr ""
@@ -6334,7 +6334,7 @@ msgid "Please enter an email address for"
 msgstr ""
 
 msgid "Email address was updated"
-msgstr "Sudah berhasil mendaftar alamat e-mail."
+msgstr ""
 
 msgid "The email address is not valid"
 msgstr ""
@@ -6503,7 +6503,7 @@ msgid "Planning"
 msgstr ""
 
 msgid "Tools"
-msgstr "Alat-alat"
+msgstr ""
 
 msgid "Settings"
 msgstr ""
@@ -6581,10 +6581,10 @@ msgid "Account"
 msgstr ""
 
 msgid "Back"
-msgstr "Mundur"
+msgstr ""
 
 msgid "Forward"
-msgstr "Maju"
+msgstr ""
 
 msgid "Select book"
 msgstr ""
@@ -7159,7 +7159,7 @@ msgid "The collaboration is being set up."
 msgstr ""
 
 msgid "Paratext: Send/receive"
-msgstr "Kirim ke/Terima dari Paratext"
+msgstr ""
 
 msgid "Paratext: Up to date"
 msgstr ""
@@ -7624,7 +7624,7 @@ msgid "Search for verses with similar Strong's numbers in:"
 msgstr ""
 
 msgid "Send/receive"
-msgstr "Kirim/Terima"
+msgstr ""
 
 msgid "Up to date"
 msgstr ""
@@ -7642,7 +7642,7 @@ msgid "No user found"
 msgstr ""
 
 msgid "Sending to server"
-msgstr "Sedang kirim ke server"
+msgstr ""
 
 msgid "Failure getting total checksum"
 msgstr ""
@@ -7711,10 +7711,10 @@ msgid "Synchronizing"
 msgstr ""
 
 msgid "Send/Receive"
-msgstr "Kirim/Terima"
+msgstr ""
 
 msgid "Will send and receive."
-msgstr "Akan kirim dan terima data"
+msgstr ""
 
 msgid "Still sending and receiving from the last time."
 msgstr ""
@@ -7723,10 +7723,10 @@ msgid "Still synchronizing with Paratext."
 msgstr ""
 
 msgid "Send / Receive"
-msgstr "Kirim / Terima"
+msgstr ""
 
 msgid "Send and receive:"
-msgstr "Kirim dan terima:"
+msgstr ""
 
 msgid "now"
 msgstr ""
