@@ -148,6 +148,10 @@ string email_send (string to_mail, string to_name, string subject, string body, 
   
 #ifdef HAVE_CLIENT
 
+  if (!client_logic_client_enabled ()) {
+    return "";
+  }
+  
   (void) verbose;
   (void) to_mail;
 
