@@ -61,7 +61,7 @@ string sword_logic_get_path ()
 
 void sword_logic_refresh_module_list ()
 {
-  Database_Logs::log ("Refreshing SWORD module list");
+  Database_Logs::log ("Refreshing list of SWORD modules");
   
   string out_err;
   
