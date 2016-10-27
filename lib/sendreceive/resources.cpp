@@ -203,8 +203,10 @@ void sendreceive_resources ()
       // Wait a bit so as not to generate too many journal entries
       // when there were errors of when it had to wait for the Cloud.
       this_thread::sleep_for (chrono::minutes (1));
-      re_schedule_download = true;
-      Database_Logs::log ("Re-scheduling resource installation", Filter_Roles::consultant ());
+      if (!sendreceive_resources_interrupt) {
+        re_schedule_download = true;
+        Database_Logs::log ("Re-scheduling resource installation", Filter_Roles::consultant ());
+      }
     }
   }
   // Store new download schedule.
