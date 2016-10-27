@@ -629,7 +629,7 @@ void resource_logic_create_cache ()
         html = resource_logic_get_contents_for_client (resource, book, chapter, verse);
         server_is_installing_module = (html == sword_logic_installing_module_text ());
         if (server_is_installing_module) {
-          Database_Logs::log ("Waiting while installing the SWORD module");
+          Database_Logs::log ("Waiting while installing SWORD module: " + resource);
           this_thread::sleep_for (chrono::seconds (60));
           wait_iterations++;
         }
