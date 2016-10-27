@@ -43,7 +43,9 @@
 
 mutex sword_logic_installer_mutex;
 bool sword_logic_installing_module = false;
+#ifdef HAVE_SWORD
 mutex sword_logic_library_access_mutex;
+#endif
 mutex sword_logic_diatheke_run_mutex;
 
 
