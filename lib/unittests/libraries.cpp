@@ -68,6 +68,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/onlinebible.h>
 #include <export/quickbible.h>
 #include <sword/logic.h>
+#include <tasks/logic.h>
 
 
 using namespace jsonxx;
@@ -3437,6 +3438,7 @@ void test_memory_record ()
 void test_memory ()
 {
   // Measure maximum memory usage of tasks that normally run in the background.
+  trace_unit_tests (__func__);
 
   // Creating search index for one Bible.
   refresh_sandbox (false);
@@ -3682,6 +3684,26 @@ void test_memory ()
    This is on macOS, but valgrind on Linux gives different values, lower values.
   
   */
+}
+
+
+void test_tasks_logic ()
+{
+  trace_unit_tests (__func__);
+  
+  refresh_sandbox (true);
+  tasks_logic_queue ("task1");
+  tasks_logic_queue ("task3");
+  tasks_logic_queue ("task4", { "parameter1", "parameter2" });
+  evaluate (__LINE__, __func__, true, tasks_logic_queued ("task1"));
+  evaluate (__LINE__, __func__, false, tasks_logic_queued ("task2"));
+  evaluate (__LINE__, __func__, false, tasks_logic_queued ("task1", { "parameter" }));
+  evaluate (__LINE__, __func__, true, tasks_logic_queued ("task4"));
+  evaluate (__LINE__, __func__, true, tasks_logic_queued ("task4", { "parameter1" }));
+  evaluate (__LINE__, __func__, true, tasks_logic_queued ("task4", { "parameter1", "parameter2" }));
+  evaluate (__LINE__, __func__, false, tasks_logic_queued ("task4", { "parameter1", "parameter3" }));
+  evaluate (__LINE__, __func__, false, tasks_logic_queued ("task4", { "parameter2" }));
+  
 }
 
 

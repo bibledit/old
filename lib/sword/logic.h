@@ -32,6 +32,7 @@ string sword_logic_get_remote_module (string line);
 string sword_logic_get_installed_module (string line);
 string sword_logic_get_version (string line);
 string sword_logic_get_name (string line);
+void sword_logic_install_module_schedule (string source, string module);
 void sword_logic_install_module (string source, string module);
 void sword_logic_uninstall_module (string module);
 vector <string> sword_logic_get_available ();

@@ -53,20 +53,34 @@ void tasks_logic_queue (string command, vector <string> parameters)
 }
 
 
-// If $command is queued as a task, the function returns true.
+// If $command and $parameters are queued as a task, the function returns true.
 // Else it returns false.
-// The $command may also be part of a queued task.
-bool tasks_logic_queued (string command)
+// It looks for an exact match.
+// Parameters left out are not checked.
+bool tasks_logic_queued (string command, vector <string> parameters)
 {
-  command = filter_string_trim (command);
+  // The lines to look for consist of the command followed by the parameters.
+  vector <string> search (parameters);
+  search.insert (search.begin (), command);
+  // Go through all queued tasks.
   vector <string> files = filter_url_scandir (tasks_logic_folder ());
   for (auto & file : files) {
+    // Read the task's contents.
     string contents = filter_url_file_get_contents (filter_url_create_path (tasks_logic_folder (), file));
-    contents = filter_string_trim (contents);
-    if (contents.find (command) != string::npos) {
-      return true;
+    vector <string> lines = filter_string_explode (contents, '\n');
+    if (lines.empty ()) return false;
+    // Look for a match.
+    bool match = true;
+    for (size_t i = 0; i < search.size (); i++) {
+      if (i < lines.size ()) {
+        if (search [i] != lines[i]) match = false;
+      } else {
+        match = false;
+      }
     }
+    if (match) return true;
   }
+  // No match found.
   return false;
 }
 

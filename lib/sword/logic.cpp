@@ -250,6 +250,26 @@ string sword_logic_get_name (string line)
 }
 
 
+// Schedule SWORD module installation.
+void sword_logic_install_module_schedule (string source, string module)
+{
+  // No source: Done.
+  if (source.empty ()) return;
+  
+  // No module: Done.
+  // There have been cases with more than 6000 scheduled SWORD module installation tasks,
+  // all trying to install an empty $module.
+  // So it's important to check on that.
+  if (module.empty ()) return;
+  
+  // Check whether the module installation has been scheduled already.
+  if (tasks_logic_queued (INSTALLSWORDMODULE, {source, module})) return;
+  
+  // Schedule it.
+  tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
+}
+
+
 void sword_logic_install_module (string source_name, string module_name)
 {
   Database_Logs::log ("Install SWORD module " + module_name + " from source " + source_name);
@@ -430,7 +450,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
       // But due to long waiting on Bibledit demo, while it would install multiple modules,
       // the Bibledit demo would become unresponsive.
       // So, it's better to return immediately with an informative text.)
-      tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
+      sword_logic_install_module_schedule (source, module);
       // Return standard 'installing' information. Client knows not to cache this.
       return sword_logic_installing_module_text ();
     } else {
@@ -495,7 +515,7 @@ void sword_logic_update_installed_modules ()
             }
           }
           // Schedule module installation.
-          tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
+          sword_logic_install_module_schedule (source, module);
         }
         continue;
       }
@@ -561,7 +581,7 @@ void sword_logic_run_scheduled_module_install (string source, string module)
   bool installing = sword_logic_installing_module;
   sword_logic_installer_mutex.unlock ();
   if (installing) {
-    tasks_logic_queue (INSTALLSWORDMODULE, {source, module});
+    sword_logic_install_module_schedule (source, module);
     return;
   }
 

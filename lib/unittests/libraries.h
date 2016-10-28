@@ -49,6 +49,7 @@ void test_related ();
 void test_editone_logic ();
 void test_http ();
 void test_memory ();
+void test_tasks_logic ();
 
 
 #endif

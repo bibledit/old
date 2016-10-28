@@ -78,7 +78,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string tasks_logic_folder ();
 void tasks_logic_queue (string command, vector <string> parameters = { });
-bool tasks_logic_queued (string command);
+bool tasks_logic_queued (string command, vector <string> parameters = { });
 
 
 #endif
