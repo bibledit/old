@@ -30,6 +30,7 @@
 #include <html/text.h>
 #include <text/text.h>
 #include <locale/translate.h>
+#include <developer/logic.h>
 
 
 using dtl::Diff;

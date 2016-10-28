@@ -33,6 +33,7 @@
 #include <access/bible.h>
 #include <bible/logic.h>
 #include <editone/logic.h>
+#include <developer/logic.h>
 
 
 string editone_save_url ()

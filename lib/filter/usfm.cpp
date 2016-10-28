@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <bible/logic.h>
 #include <locale/translate.h>
+#include <developer/logic.h>
 
 
 BookChapterData::BookChapterData (int book_in, int chapter_in, string data_in)

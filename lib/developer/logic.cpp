@@ -18,3 +18,18 @@
 
 
 #include <developer/logic.h>
+#include <filter/date.h>
+
+
+void developer_logic_timing (int order, bool initialize)
+{
+  int now = filter_date_seconds_since_epoch ();
+  int unow = filter_date_numerical_microseconds ();
+  static int seconds = 0;
+  static int useconds = 0;
+  if (initialize) {
+    seconds = now;
+    useconds = unow;
+  }
+  cout << order << ": " << 1000000 * (now - seconds) + (unow - useconds) << endl;
+}

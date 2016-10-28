@@ -21,4 +21,10 @@
 #define INCLUDED_DEBUG_LOGIC_H
 
 
+#include <config/libraries.h>
+
+
+void developer_logic_timing (int order, bool initialize = false);
+
+
 #endif

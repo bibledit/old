@@ -44,6 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/logic.h>
 #include <locale/translate.h>
 #include <email/send.h>
+#include <developer/logic.h>
 
 
 void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm)
@@ -246,24 +247,16 @@ void bible_logic_import_resource (string bible, string resource)
 // When $force is given, it records the change on clients also.
 void bible_logic_log_change (const string& bible, int book, int chapter, const string& usfm, string user, const string & summary, bool force)
 {
-  bool record = true;
 #ifdef HAVE_CLIENT
-  record = false;
+  if (!force) return;
 #endif
-  if (force) record = true;
-  if (!record) {
-    return;
-  }
-
+  (void) force;
+  
   Database_Bibles database_bibles;
   string existing_usfm = database_bibles.getChapter (bible, book, chapter);
-  
-  int percentage = filter_diff_similarity (existing_usfm, usfm);
-  percentage = 100 - percentage;
-  string percentage_fragment;
-  if (percentage) {
-    percentage_fragment = " - " + convert_to_string (percentage) + "% change";
-  }
+
+  // It used to calculate the percentage difference, but this took a relatively long time.
+  // In particular on low-power devices and on Windows, the time it took was excessive.
 
   string bookname = Database_Books::getEnglishFromId (book);
   string passage = bible + " " + bookname + " " + convert_to_string (chapter);
@@ -313,7 +306,7 @@ void bible_logic_log_change (const string& bible, int book, int chapter, const s
   body.push_back (usfm);
   
   if (!user.empty ()) user.append (" - ");
-  Database_Logs::log (user + summary + " - " + passage + percentage_fragment, filter_string_implode (body, "\n"));
+  Database_Logs::log (user + summary + " - " + passage, filter_string_implode (body, "\n"));
 }
 
 
