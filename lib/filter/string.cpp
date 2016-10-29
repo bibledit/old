@@ -1175,7 +1175,7 @@ string html_tidy (string html)
 
 
 // Converts elements from the HTML specification to the XML spec.
-string html2xml (string html) // Todo
+string html2xml (string html)
 {
   // HTML specification: <hr>, XML specification: <hr/>.
   html = filter_string_str_replace ("<hr>", "<hr/>", html);

@@ -38,7 +38,7 @@ void editone_logic_prefix_html_stage_one (string usfm, string stylesheet, string
 }
 
 
-void editone_logic_editable_html (string prefix_last_p_style, string usfm, string stylesheet, string & html, string & editable_last_p_style, string & editable_first_applied_p_style) // Todo write unit tests with the change in <br>.
+void editone_logic_editable_html (string prefix_last_p_style, string usfm, string stylesheet, string & html, string & editable_last_p_style, string & editable_first_applied_p_style)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -76,7 +76,7 @@ void editone_logic_editable_html (string prefix_last_p_style, string usfm, strin
 }
 
 
-void editone_logic_suffix_html (string editable_last_p_style, string usfm, string stylesheet, string & html)
+void editone_logic_suffix_html (string editable_last_p_style, string usfm, string stylesheet, string & html) // Todo
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
