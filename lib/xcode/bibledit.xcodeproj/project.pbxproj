@@ -1153,6 +1153,7 @@
 		CAD443441AC95BC60005B8F6 /* web.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = web.h; sourceTree = "<group>"; };
 		CAD443491AC9650B0005B8F6 /* exports.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = exports.html; sourceTree = "<group>"; };
 		CAD4434A1AC965130005B8F6 /* hyphenation.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = hyphenation.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
+		CAD470861DC4E55800C4AC3D /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CADCC7CC1D4D1AF50076FF17 /* pairs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pairs.cpp; sourceTree = "<group>"; };
 		CADCC7CD1D4D1AF50076FF17 /* pairs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pairs.h; sourceTree = "<group>"; };
 		CADDF2B51D4A29E40036C3EF /* documentation.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = documentation.txt; sourceTree = "<group>"; };
@@ -2781,6 +2782,7 @@
 				CAEE85F41A7006B500BE3A1A /* index.cpp */,
 				CAEE85F51A7006B500BE3A1A /* index.h */,
 				CAEE85F61A7006B500BE3A1A /* index.html */,
+				CAD470861DC4E55800C4AC3D /* index.js */,
 				CA8E4EFF1A6E8346001720D0 /* logic.cpp */,
 				CA8E4F001A6E8346001720D0 /* logic.h */,
 				CAED62FB1B5969FD0049ECCD /* notes.cpp */,

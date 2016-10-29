@@ -37,6 +37,7 @@
 #include <client/logic.h>
 #include <paratext/logic.h>
 #include <menu/logic.h>
+#include <config/globals.h>
 
 
 string sendreceive_index_url ()
@@ -64,6 +65,20 @@ string sendreceive_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  
+  if (request->query.count ("status")) {
+    vector <string> bits;
+    if (config_globals_syncing_bibles)    bits.push_back (translate ("Bibles"));
+    if (config_globals_syncing_notes)     bits.push_back (translate ("Notes"));
+    if (config_globals_syncing_settings)  bits.push_back (translate ("Settings"));
+    if (config_globals_syncing_changes)   bits.push_back (translate ("Changes"));
+    if (config_globals_syncing_files)     bits.push_back (translate ("Files"));
+    if (config_globals_syncing_resources) bits.push_back (translate ("Resources"));
+    if (bits.empty ()) return "";
+    string status = translate ("Sending and receiving:") + " " + filter_string_implode (bits, ", ") + " ...";
+    return status;
+  }
+  
   
   string page;
   Assets_Header header = Assets_Header (translate("Send/Receive"), request);
