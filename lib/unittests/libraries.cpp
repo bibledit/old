@@ -496,7 +496,7 @@ void test_store_bible_data ()
     string explanation;
     string stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
     evaluate (__LINE__, __func__, "Text content differs too much", stored);
-    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The new text is 74% similar to the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
+    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The new text is 56% similar to the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
     evaluate (__LINE__, __func__, usfm, result);
     refresh_sandbox (false);

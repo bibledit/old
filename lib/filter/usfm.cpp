@@ -800,7 +800,17 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
   }
   
   // The new text should be at least a set percentage similar to the old text.
-  percentage = filter_diff_similarity (oldtext, newtext);
+  if (chapter) {
+    // For larger texts, work at the word level, for much better performance.
+    // The time it takes to calculate the difference was measured:
+    // character level: 327421 microseconds.
+    // word level: 489 microseconds.
+    // Doing it at the word level is more than 650 times faster.
+    percentage = filter_diff_word_similarity (oldtext, newtext);
+  } else {
+    // For shorter texts, work at the character level, for better accuracy.
+    percentage = filter_diff_character_similarity (oldtext, newtext);
+  }
   if (percentage < (100 - allowed_percentage)) {
     explanation.append (explanation1);
     explanation.append (" ");
@@ -854,8 +864,7 @@ string usfm_safely_store_chapter (void * webserver_request,
 // It saves the verse if the new USFM does not differ too much from the existing USFM.
 // On success it returns an empty message.
 // On failure it returns a message that specifies the reason why it could not be saved.
-// This function proves useful in cases that the text in the Bible editor gets corrupted
-// due to human error.
+// This function proves useful in cases that the text in the Bible editor gets corrupted due to human error.
 // It also is useful in cases where the session is deleted from the server,
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.

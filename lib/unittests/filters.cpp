@@ -3050,17 +3050,17 @@ void test_filter_diff ()
   }
   // Similarity 1.
   {
-    int similarity = filter_diff_similarity ("Old text", "New text");
+    int similarity = filter_diff_character_similarity ("Old text", "New text");
     evaluate (__LINE__, __func__, 45, similarity);
   }
   // Similarity 2.
   {
-    int similarity = filter_diff_similarity ("New text", "New text");
+    int similarity = filter_diff_character_similarity ("New text", "New text");
     evaluate (__LINE__, __func__, 100, similarity);
   }
   // Similarity 3.
   {
-    int similarity = filter_diff_similarity ("ABCDEFGH", "IJKLMNOPQRST");
+    int similarity = filter_diff_character_similarity ("ABCDEFGH", "IJKLMNOPQRST");
     evaluate (__LINE__, __func__, 0, similarity);
   }
   // Similarity 4.
@@ -3175,8 +3175,17 @@ void test_filter_diff ()
     "\\v 44 Tende rokusangana nearitari ndichazviita zvitsvene; uye Aroni navanakomana vake ndichavaita vatsvene, kuti vandishumire pabasa roupristi.\n"
     "\\v 45 Ndichagara pakati pavana vaIsraeri, kuti ndive Mwari wavo.\n"
     "\\v 46 Vachaziva kuti ndini Jehovha wavo, wakavabudisa panyika kuti ndigare pakati pavo; ndini Jehovha Mwari wavo.\n";
-    int similarity = filter_diff_similarity (first, second);
+    int similarity = filter_diff_character_similarity (first, second);
     evaluate (__LINE__, __func__, 94, similarity);
+
+    similarity = filter_diff_word_similarity (first, second);
+    evaluate (__LINE__, __func__, 94, similarity);
+
+    similarity = filter_diff_word_similarity ("one two three", "three two one");
+    evaluate (__LINE__, __func__, 20, similarity);
+
+    similarity = filter_diff_word_similarity ("one two three", "one two three four");
+    evaluate (__LINE__, __func__, 75, similarity);
   }
   {
     refresh_sandbox (true);

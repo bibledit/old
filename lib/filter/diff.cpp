@@ -91,11 +91,12 @@ string filter_diff_diff (string oldstring, string newstring)
 
 
 // This calculates the similarity between the old and new strings.
+// It works at the character level.
 // It returns the similarity as a percentage.
 // 100% means that the text is completely similar.
 // And 0% means that the text is completely different.
 // The output ranges from 0 to 100%.
-int filter_diff_similarity (string oldstring, string newstring)
+int filter_diff_character_similarity (string oldstring, string newstring)
 {
   // Type definitions for the diff template engine.
   typedef string elem;
@@ -112,6 +113,51 @@ int filter_diff_similarity (string oldstring, string newstring)
   for (size_t i = 0; i < newlength; i++) {
     newvector.push_back (unicode_string_substr (newstring, i, 1));
   }
+  
+  // Run the diff engine.
+  Diff <elem> d (oldvector, newvector);
+  d.compose();
+  
+  // Get the shortest edit distance.
+  stringstream result;
+  d.printSES (result);
+  
+  // Calculate the total elements compared, and the total differences found.
+  int element_count = 0;
+  int similar_count = 0;
+  vector <string> output = filter_string_explode (result.str(), '\n');
+  for (auto & line : output) {
+    if (line.empty ()) continue;
+    element_count++;
+    char indicator = line.front ();
+    if (indicator == ' ') similar_count++;
+  }
+  
+  // Calculate the percentage similarity.
+  int percentage = round (100 * ((float) similar_count / (float) element_count));
+  return percentage;
+}
+
+
+// This calculates the similarity between the old and new strings.
+// It works at the word level.
+// It returns the similarity as a percentage.
+// 100% means that the text is completely similar.
+// And 0% means that the text is completely different.
+// The output ranges from 0 to 100%.
+int filter_diff_word_similarity (string oldstring, string newstring)
+{
+  // Type definitions for the diff template engine.
+  typedef string elem;
+  typedef vector <string> sequence;
+  
+  // Split the input up into words separated by spaces.
+  sequence oldvector;
+  sequence newvector;
+  oldstring = filter_string_str_replace ("\n", " ", oldstring);
+  newstring = filter_string_str_replace ("\n", " ", newstring);
+  oldvector = filter_string_explode (oldstring, ' ');
+  newvector = filter_string_explode (newstring, ' ');
   
   // Run the diff engine.
   Diff <elem> d (oldvector, newvector);
