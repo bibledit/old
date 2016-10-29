@@ -114,7 +114,7 @@ int main (int argc, char **argv)
   string webroot;
 #ifndef HAVE_WINDOWS
   {
-    // The following works on Linux but not on Mac OS X:
+    // The following works on Linux but not on macOS:
     char *linkname = (char *) malloc (256);
     memset (linkname, 0, 256); // valgrind uninitialized value(s)
     ssize_t r = readlink ("/proc/self/exe", linkname, 256);
@@ -125,7 +125,7 @@ int main (int argc, char **argv)
 #endif
 #ifdef HAVE_LIBPROC
   {
-    // The following works on Linux and on Mac OS X:
+    // The following works on Linux and on macOS:
     int ret;
     pid_t pid;
     char pathbuf [2048];

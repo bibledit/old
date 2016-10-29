@@ -297,7 +297,7 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
 
 string filter_git_disabled ()
 {
-  return "Git has been disabled on iOS and Android, and can be enabled on Linux, Windows and OS X";
+  return "Git has been disabled on iOS and Android, and can be enabled on Linux, Windows and macOS";
 }
 
 
