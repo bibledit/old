@@ -97,7 +97,7 @@ string config_logic_admin_email ()
 }
 
 
-// Replacement function for missing "stoi" on some platforms, like Cygwin and Android.
+// Replacement function for missing "stoi" on platform like Android.
 int my_stoi (const string& str, void * idx, int base)
 {
 #ifdef HAVE_STOI

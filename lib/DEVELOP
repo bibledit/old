@@ -29,14 +29,6 @@ Therefore it is imperative that it leaks no memory at all.
 Keep it valgrind clean.
 Later on, Bibledit was modified, so it runs for 24 hours as a server, then restarts itself.
 
-Porting to Windows was done in Visual Studio.
-The library compiles well through gcc.
-It also compiles in Visual Studio, but the library crashes with a segmentation error.
-It is assumed that the cause is that the stack pointer gets mixed up.
-The solution that is taken is this:
-1. Compile the library plus console program on Windows within Cygwin.
-2. Write a GUI in C#: It calls the console app with the library.
-
 An important reason for moving from a LAMP stack to a self-contained Bibledit
 version written in C++ is this: A LAMP stack has many option to run
 shell commands and has options for security holes.
