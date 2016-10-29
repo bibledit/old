@@ -19,8 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CA0CCC211B1764D300487D8E /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = SOURCE_ROOT; };
-		CA0CCC231B1764DC00487D8E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		CA0CCC211B1764D300487D8E /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; lineEnding = 0; path = build.sh; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.sh; };
+		CA0CCC231B1764DC00487D8E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; lineEnding = 0; path = README.md; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 		CA0CCC251B17694900487D8E /* bibledit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledit.h; sourceTree = "<group>"; };
 		CA1599EB1B1759A600B26F9C /* Bibledit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bibledit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA1599EF1B1759A600B26F9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };

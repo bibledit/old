@@ -1,6 +1,5 @@
 //
 //  AppDelegate.m
-//  osx
 //
 //  Created by Teus Benschop on 28/05/2015.
 //  Copyright (c) 2015 Teus Benschop. All rights reserved.
@@ -24,7 +23,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-    // When the Bibledit app is in the background, OS X puts it to sleep.
+    // When the Bibledit app is in the background, macOS puts it to sleep.
     // This is the "App Nap".
     // It has been noticed that even after coming out of the nap, Bibledit remains slowish,
     // and uses a lot of CPU resources.

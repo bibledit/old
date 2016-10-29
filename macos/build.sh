@@ -1,31 +1,31 @@
 #!/bin/bash
 
 
-# Synchronize and build libbibledit on OS X for OS X.
+# Synchronize and build libbibledit on macOS for macOS.
 
 
-# Take the relevant source code for building Bibledit for OSX.
+# Take the relevant source code for building Bibledit for macOS.
 # Put it in a temporal location.
 # The purpose by doing so is not to have duplicated source code for the bibledit library.
 # This approach does not clutter the bibledit git repository with the built files.
-OSXSOURCE=`dirname $0`
-cd $OSXSOURCE
-BIBLEDITOSX=/tmp/bibledit-osx
-echo Synchronizing relevant source code to $BIBLEDITOSX
-mkdir -p $BIBLEDITOSX
-rm $BIBLEDITOSX/* 2> /dev/null
-rsync --archive --delete ../lib $BIBLEDITOSX/
-rsync --archive --delete ../osx $BIBLEDITOSX/
+MACOSSOURCE=`dirname $0`
+cd $MACOSSOURCE
+BIBLEDITMACOS=/tmp/bibledit-macos
+echo Synchronizing relevant source code to $BIBLEDITMACOS
+mkdir -p $BIBLEDITMACOS
+rm $BIBLEDITMACOS/* 2> /dev/null
+rsync --archive --delete ../lib $BIBLEDITMACOS/
+rsync --archive --delete ../macos $BIBLEDITMACOS/
 
 
 # From now on the working directory is the temporal location.
-cd $BIBLEDITOSX/osx
+cd $BIBLEDITMACOS/macos
 
 
 pushd webroot
 
 
-# Sychronizes the libbibledit data files in the source tree to OS X and cleans them up.
+# Sychronizes the libbibledit data files in the source tree to macOS and cleans them up.
 rsync -a --delete ../../lib/ .
 ./configure
 make distclean
@@ -37,7 +37,7 @@ export CC="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xc
 export CXX="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++"
 
 
-# Xcode's OS X SDK.
+# Xcode's macOS SDK.
 SDK=`xcrun --show-sdk-path`
 
 
@@ -69,7 +69,7 @@ make -j `sysctl -n hw.logicalcpu_max`
 
 
 # Save the header file.
-cp library/bibledit.h ../osx
+cp library/bibledit.h ../macos
 
 
 # Clean out stuff no longer needed.
@@ -105,11 +105,11 @@ popd
 
 
 # Build the app.
-cd $BIBLEDITOSX/osx
+cd $BIBLEDITMACOS/macos
 xcodebuild
 
 
 
-echo To graphically build the app for OSX, open the project in Xcode:
-echo open $BIBLEDITOSX/osx/Bibledit.xcodeproj
+echo To graphically build the app for macOS, open the project in Xcode:
+echo open $BIBLEDITMACOS/macos/Bibledit.xcodeproj
 echo Then build it from within Xcode

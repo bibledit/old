@@ -1,16 +1,16 @@
-# Bibledit OS X
+# Bibledit macOS
 
-Bibledit for OS X source code repository and developer assistance
+Bibledit for macOS source code repository and developer assistance
 
 ## Introduction
 
-Bibledit has been working on OS X in various forms:
-* Bibledit-Gtk written for Linux and ported to Mac OS X.
-* Bibledit-Web written in PHP and adapted to run on Mac OS X.
+Bibledit has been working on macOS in various forms:
+* Bibledit-Gtk written for Linux and ported to Mac macOS.
+* Bibledit-Web written in PHP and adapted to run on Mac macOS.
 
-The current port of Bibledit for OS X consists of the following parts:
-* A native Bibledit OS X app with a WebView.
-* The bibledit library written in C++, compiled for OS X.
+The current port of Bibledit for macOS consists of the following parts:
+* A native Bibledit macOS app with a WebView.
+* The bibledit library written in C++, compiled for macOS.
 
 ## Sandboxing
 
@@ -25,7 +25,7 @@ OSX 10.11 El Capitan has “App Transport Security”. This was disabled in the 
 
 The bibledit library depends on libcurl. Bibledit should be linked with a working version of libcurl. 
 
-* Linking with OS X 10.10 SDK libcurl.dylib: It initially works but after a few minutes of synchronizing with Bibledit Cloud it starts to time out, and then stops working.
+* Linking with macOS 10.10 SDK libcurl.dylib: It initially works but after a few minutes of synchronizing with Bibledit Cloud it starts to time out, and then stops working.
 
 * Linking with the static library (libcurl.a) of a Macports installation, and add all the macports dependent *.a libraries to the Bibledit Xcode project to include them: This works well. No timeouts occur.
 
@@ -40,10 +40,10 @@ Run script "build.sh".
 * Build it.
 * Copy the Bibledit product from Xcode to another location.
 * Test it from the other location.
-* Test it on a clean OS X installation.
+* Test it on a clean macOS installation.
 * Archive the app from Xcode, and submit it to the Apple App Store.
 * Have it reviewed by Apple.
-* On release, immediately test it on a clean OS X installation.
+* On release, immediately test it on a clean macOS installation.
 
 ## Compliance with Mac App Store
 
