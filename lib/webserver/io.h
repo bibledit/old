@@ -22,7 +22,7 @@
 
 
 #include <config.h>
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 #include <ws2tcpip.h>
 #else
 #include <sys/socket.h>

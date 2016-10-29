@@ -24,7 +24,7 @@
 #include <filter/usfm.h>
 #include <filter/merge.h>
 #include <filter/shell.h>
-#ifndef HAVE_VISUALSTUDIO
+#ifndef HAVE_WINDOWS
 #include <pwd.h>
 #endif
 #include <database/books.h>
@@ -43,7 +43,7 @@ string Paratext_Logic::searchProjectsFolder ()
 
   // Try Linux.
   if ((homedir = getenv("HOME")) == NULL) {
-#ifndef HAVE_VISUALSTUDIO
+#ifndef HAVE_WINDOWS
     homedir = getpwuid(getuid())->pw_dir;
 #endif
   }
@@ -56,7 +56,7 @@ string Paratext_Logic::searchProjectsFolder ()
     }
   }
   
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   // Try Windows.
   homedir = "C:\\";
   vector <string> files = filter_url_scandir (homedir);

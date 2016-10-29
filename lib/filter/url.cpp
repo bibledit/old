@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/error.h"
 #include "mbedtls/certs.h"
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 #include <direct.h>
 #include <io.h>
 #endif
@@ -52,7 +52,7 @@ vector <string> filter_url_scandir_internal (string folder)
 {
   vector <string> files;
   
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   
   if (!folder.empty()) {
     if (folder[folder.size() - 1] == '\\') {
@@ -214,7 +214,7 @@ string filter_url_basename_web (string url)
 
 void filter_url_unlink (string filename)
 {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   wstring wfilename = string2wstring (filename);
   _wunlink (wfilename.c_str ());
 #else
@@ -225,7 +225,7 @@ void filter_url_unlink (string filename)
 
 void filter_url_rename (const string& oldfilename, const string& newfilename)
 {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   wstring woldfilename = string2wstring (oldfilename);
   wstring wnewfilename = string2wstring (newfilename);
   _wrename (woldfilename.c_str (), wnewfilename.c_str ());
@@ -287,7 +287,7 @@ string filter_url_get_extension (string url)
 // Returns true if the file at $url exists.
 bool file_or_dir_exists (string url)
 {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   // Function '_wstat' works with wide characters.
   wstring wurl = string2wstring(url);
   struct _stat buffer;
@@ -306,7 +306,7 @@ bool file_or_dir_exists (string url)
 void filter_url_mkdir (string directory)
 {
   int status;
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   wstring wdirectory = string2wstring(directory);
   status = _wmkdir (wdirectory.c_str());
 #else
@@ -322,7 +322,7 @@ void filter_url_mkdir (string directory)
     }
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
       wstring wpathsi = string2wstring(paths[i]);
       _wmkdir (wpathsi.c_str ());
 #else
@@ -342,7 +342,7 @@ void filter_url_rmdir (string directory)
     if (filter_url_is_dir(path)) {
       filter_url_rmdir(path);
     }
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 	// Remove directory.
 	wstring wpath = string2wstring(path);
 	_wrmdir(wpath.c_str());
@@ -353,7 +353,7 @@ void filter_url_rmdir (string directory)
     remove(path.c_str());
 #endif
   }
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   wstring wdirectory = string2wstring(directory);
   _wrmdir(wdirectory.c_str());
   filter_url_unlink(directory);
@@ -366,7 +366,7 @@ void filter_url_rmdir (string directory)
 // Returns true is $path points to a directory.
 bool filter_url_is_dir (string path)
 {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   // Function '_wstat', on Windows, works with wide characters.
   wstring wpath = string2wstring (path);
   struct _stat sb;
@@ -381,7 +381,7 @@ bool filter_url_is_dir (string path)
 
 bool filter_url_get_write_permission (string path)
 {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   wstring wpath = string2wstring (path);
   int result = _waccess (wpath.c_str (), 06);
 #else
@@ -393,7 +393,7 @@ bool filter_url_get_write_permission (string path)
 
 void filter_url_set_write_permission (string path)
 {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   wstring wpath = string2wstring (path);
   _wchmod (wpath.c_str (), _S_IREAD | _S_IWRITE);
 #else
@@ -407,7 +407,7 @@ string filter_url_file_get_contents(string filename)
 {
   if (!file_or_dir_exists(filename)) return "";
   try {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
     wstring wfilename = string2wstring(filename);
     ifstream ifs(wfilename.c_str(), ios::in | ios::binary | ios::ate);
 #else
@@ -431,7 +431,7 @@ void filter_url_file_put_contents (string filename, string contents)
 {
   try {
     ofstream file;  
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
     wstring wfilename = string2wstring(filename);
     file.open(wfilename, ios::binary | ios::trunc);
 #else
@@ -450,7 +450,7 @@ void filter_url_file_put_contents_append (string filename, string contents)
 {
   try {
     ofstream file;
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
     wstring wfilename = string2wstring (filename);
     file.open (wfilename, ios::binary | ios::app);
 #else
@@ -468,7 +468,7 @@ void filter_url_file_put_contents_append (string filename, string contents)
 bool filter_url_file_cp (string input, string output)
 {
   try {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
     ifstream source (string2wstring (input), ios::binary);
     ofstream dest (string2wstring (output), ios::binary | ios::trunc);
 #else
@@ -512,7 +512,7 @@ void filter_url_dir_cp (const string & input, const string & output)
 // A C++ equivalent for PHP's filesize function.
 int filter_url_filesize (string filename)
 {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   wstring wfilename = string2wstring (filename);
   struct _stat buf;
   int rc = _wstat (wfilename.c_str (), &buf);
@@ -550,7 +550,7 @@ void filter_url_recursive_scandir (string folder, vector <string> & paths)
 // Gets the file modification time.
 int filter_url_file_modification_time (string filename)
 {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   wstring wfilename = string2wstring (filename);
   struct _stat attributes;
   _wstat (wfilename.c_str (), &attributes);
@@ -1146,7 +1146,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     int res = getaddrinfo (hostname.c_str(), service.c_str (), &hints, &address_results);
     if (res != 0) {
       error = hostname + ": ";
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
       wchar_t * err = gai_strerrorW (res);
       error.append (wstring2string (err));
 #else
@@ -1237,7 +1237,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         if (res != -1) break;
         // Failure: Socket should be closed.
         if (sock) {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
           closesocket (sock);
 #else
           close (sock);
@@ -1267,7 +1267,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     int comm_sock = sock;
     if (secure) comm_sock = fd.fd;
     // Make the timeout not too short, so it can support very slow networks.
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
     // Windows: Timeout value is a DWORD in milliseconds, address passed to setsockopt() is const char *
     const char * tv = "600000";
 #else
@@ -1280,13 +1280,13 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     // If it cannot be set, record it in the journal,
     // but still proceed with the connection, because this is not fatal.
     int ret;
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
 #else
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
 #endif
     if (ret != 0) Database_Logs::log (strerror (errno));
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, tv, sizeof (tv));
 #else
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
@@ -1406,7 +1406,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     char cur;
     FILE * file = NULL;
     if (!filename.empty ()) {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
       wstring wfilename = string2wstring (filename);
       file = _wfopen (wfilename.c_str (), L"w");
 #else
@@ -1422,7 +1422,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         ret = mbedtls_ssl_read (&ssl, buffer, 1);
         cur = buffer [0];
       } else {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
         ret = recv(sock, &cur, 1, 0);
 #else
         ret = read(sock, &cur, 1);
@@ -1470,7 +1470,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     // It used to close (0) in error,
     // and on Android and iOS, when this was done a couple of times, it would crash the app.
     if (sock > 0) {
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
       closesocket(sock);
 #else
       close (sock);

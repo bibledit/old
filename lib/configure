@@ -744,7 +744,6 @@ enable_silent_rules
 enable_dependency_tracking
 enable_unittests
 enable_windows
-enable_visualstudio
 enable_android
 enable_mac
 enable_linux
@@ -1395,7 +1394,6 @@ Optional Features:
                           speeds up one-time build
   --enable-unittests Enable unit tests
   --enable-windows Compile for Windows
-  --enable-visualstudio Compile for Windows on Visual Studio
   --enable-android Compile for Android
   --enable-mac Compile for Mac
   --enable-linux Compile for Linux
@@ -6588,15 +6586,6 @@ $as_echo "#define WIN32 1" >>confdefs.h
 $as_echo "#define HAVE_WINDOWS 1" >>confdefs.h
 
 ENABLEWINDOWS=yes
-
-
-fi
-
-
-# Check whether --enable-visualstudio was given.
-if test "${enable_visualstudio+set}" = set; then :
-  enableval=$enable_visualstudio;
-$as_echo "#define HAVE_VISUALSTUDIO 1" >>confdefs.h
 
 
 fi

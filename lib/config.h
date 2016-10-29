@@ -67,9 +67,6 @@
 /* Define whether to enable unit tests */
 /* #undef HAVE_UNITTESTS */
 
-/* Define whether to compile on Visual Studio */
-/* #undef HAVE_VISUALSTUDIO */
-
 /* Define whether to compile on Windows */
 /* #undef HAVE_WINDOWS */
 

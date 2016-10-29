@@ -106,7 +106,7 @@ string emoji_smiling_face_with_smiling_eyes ();
 string emoji_heavy_plus_sign ();
 void array_move_up_down (vector <string> & container, size_t item, bool up);
 const char * english ();
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 wstring string2wstring (const string& str);
 string wstring2string (const wstring& wstr);
 #endif

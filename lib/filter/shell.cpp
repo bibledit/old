@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifndef HAVE_CLIENT
 #include <sys/wait.h>
 #endif
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 #include <tlhelp32.h>
 #endif
 
@@ -155,7 +155,7 @@ vector <string> filter_shell_active_processes ()
 {
   vector <string> processes;
 
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 
   HANDLE hProcessSnap = CreateToolhelp32Snapshot (TH32CS_SNAPPROCESS, 0);
   if (hProcessSnap != INVALID_HANDLE_VALUE) {

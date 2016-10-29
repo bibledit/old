@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <execinfo.h>
 #endif
 #include <database/logs.h>
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 #include <windows.h>
 #endif
 
@@ -77,7 +77,7 @@ void sigsegv_handler (int sig)
 #endif
 
 
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* function, const wchar_t* file,	unsigned int line, uintptr_t pReserved) {
   wstring wexpression(expression);
   string sexpression(wexpression.begin(), wexpression.end());
@@ -103,7 +103,7 @@ int main (int argc, char **argv)
   signal (SIGSEGV, sigsegv_handler);
 #endif
 
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   // Set our own invalid parameter handler for on Windows.
   _set_invalid_parameter_handler(my_invalid_parameter_handler);
   // Disable the message box for assertions on Windows.
@@ -112,7 +112,7 @@ int main (int argc, char **argv)
 
   // Get the executable path and base the document root on it.
   string webroot;
-#ifndef HAVE_VISUALSTUDIO
+#ifndef HAVE_WINDOWS
   {
     // The following works on Linux but not on Mac OS X:
     char *linkname = (char *) malloc (256);
@@ -136,7 +136,7 @@ int main (int argc, char **argv)
     }
   }
 #endif
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   {
     // Getting the web root on Windows.
 	// The following gets the path to the server.exe.
@@ -175,7 +175,7 @@ int main (int argc, char **argv)
     }
   }
 
-#ifndef HAVE_VISUALSTUDIO
+#ifndef HAVE_WINDOWS
   // Bibledit Cloud should restart itself at midnight.
   // This is to be sure that any memory leaks don't accumulate too much
   // in case Bibledit Cloud would run for months and years.

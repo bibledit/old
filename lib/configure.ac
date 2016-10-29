@@ -114,11 +114,6 @@ ENABLEWINDOWS=yes
 ]
 )
 
-AC_ARG_ENABLE(visualstudio,
-[  --enable-visualstudio Compile for Windows on Visual Studio],
-[AC_DEFINE([HAVE_VISUALSTUDIO], [1], [Define whether to compile on Visual Studio])]
-)
-
 # Android.
 ENABLEANDROID=no
 AC_ARG_ENABLE(android,

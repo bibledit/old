@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <utf8proc/utf8proc.h>
 #include <config/globals.h>
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 #include <codecvt>
 #endif
 
@@ -1350,7 +1350,7 @@ const char * english ()
 }
 
 
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 wstring string2wstring(const string& str)
 {
   using convert_typeX = codecvt_utf8<wchar_t>;
@@ -1360,7 +1360,7 @@ wstring string2wstring(const string& str)
 #endif
 
 
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 string wstring2string(const wstring& wstr)
 {
   using convert_typeX = codecvt_utf8<wchar_t>;

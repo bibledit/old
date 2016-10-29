@@ -80,7 +80,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   sqlite3_config (SQLITE_CONFIG_SERIALIZED);
 
   // Binary file mode on Windows.
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   _set_fmode (_O_BINARY);
 #endif
 
@@ -158,7 +158,7 @@ void bibledit_start_library ()
   
   // Ignore SIGPIPE signal on Linux: When the browser cancels the request, it won't kill Bibledit.
   // On Windows, this is not needed.
-#ifndef HAVE_VISUALSTUDIO
+#ifndef HAVE_WINDOWS
   signal (SIGPIPE, SIG_IGN);
 #endif
   

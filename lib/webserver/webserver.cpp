@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <mbedtls/net.h>
 #include <mbedtls/error.h>
 #include <mbedtls/ssl_cache.h>
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 #include <io.h>
 #endif
 
@@ -167,7 +167,7 @@ void webserver_process_request (int connfd, string clientaddress)
   }
   
   // Done: Close.
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
   shutdown (connfd, SD_BOTH);
   closesocket (connfd);
 #else
@@ -177,7 +177,7 @@ void webserver_process_request (int connfd, string clientaddress)
 }
 
 
-#ifndef HAVE_VISUALSTUDIO
+#ifndef HAVE_WINDOWS
 // This http server uses BSD sockets.
 void http_server ()
 {
@@ -283,7 +283,7 @@ void http_server ()
 #endif
 
 
-#ifdef HAVE_VISUALSTUDIO
+#ifdef HAVE_WINDOWS
 // This http server uses Windows sockets.
 void http_server ()
 {
@@ -377,7 +377,7 @@ void http_server ()
 void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd)
 {
   // Socket receive timeout, secure https.
-#ifndef HAVE_VISUALSTUDIO
+#ifndef HAVE_WINDOWS
   struct timeval tv;
   tv.tv_sec = 60;
   tv.tv_usec = 0;
