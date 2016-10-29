@@ -68,7 +68,7 @@ string editone_load (void * webserver_request)
   string editable_usfm = usfm_get_verse_text (chapter_usfm, verse);
   string prefix_usfm = usfm_get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm);
   string suffix_usfm = usfm_get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm);
-
+  
   // Last paragraph style of the prefix: To be used for the starting visual style for the focused verse.
   string prefix_last_p_style;
 
