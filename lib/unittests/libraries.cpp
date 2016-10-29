@@ -3278,7 +3278,7 @@ void test_related ()
 
 
 // Test the logic used in the visual verse editor.
-void test_editone_logic () // Todo
+void test_editone_logic ()
 {
   trace_unit_tests (__func__);
 
