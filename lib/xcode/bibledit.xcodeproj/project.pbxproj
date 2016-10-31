@@ -423,11 +423,6 @@
 		CA80A6FE1AA069FE00C7208F /* download.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = download.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA80A6FF1AA069FE00C7208F /* download.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = download.h; sourceTree = "<group>"; };
 		CA80A7001AA069FE00C7208F /* download.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = download.html; sourceTree = "<group>"; };
-		CA80A70B1AA0A9A800C7208F /* json.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = json.c; sourceTree = "<group>"; };
-		CA80A70C1AA0A9A800C7208F /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
-		CA80A70D1AA0A9A800C7208F /* jsonlint.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jsonlint.c; sourceTree = "<group>"; };
-		CA80A70E1AA0A9A800C7208F /* libjson.pc.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = libjson.pc.in; sourceTree = "<group>"; };
-		CA80A70F1AA0A9A800C7208F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CA80A7101AA0FF1B00C7208F /* biblehub-john-1-1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 2; path = "biblehub-john-1-1.html"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA815E841B6647A700E2DE26 /* files.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = files.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA815E851B6647A700E2DE26 /* files.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = files.h; sourceTree = "<group>"; };
@@ -1156,7 +1151,6 @@
 		CAD470861DC4E55800C4AC3D /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CADCC7CC1D4D1AF50076FF17 /* pairs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pairs.cpp; sourceTree = "<group>"; };
 		CADCC7CD1D4D1AF50076FF17 /* pairs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pairs.h; sourceTree = "<group>"; };
-		CADDF2B51D4A29E40036C3EF /* documentation.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = documentation.txt; sourceTree = "<group>"; };
 		CADE4D7A1A9DE2FD00F16E49 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CADE4D7B1A9DE2FD00F16E49 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE4D7C1A9DE99200F16E49 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -1392,20 +1386,6 @@
 			);
 			name = related;
 			path = ../related;
-			sourceTree = "<group>";
-		};
-		CA80A7091AA0A9A800C7208F /* json */ = {
-			isa = PBXGroup;
-			children = (
-				CADDF2B51D4A29E40036C3EF /* documentation.txt */,
-				CA80A70B1AA0A9A800C7208F /* json.c */,
-				CA80A70C1AA0A9A800C7208F /* json.h */,
-				CA80A70D1AA0A9A800C7208F /* jsonlint.c */,
-				CA80A70E1AA0A9A800C7208F /* libjson.pc.in */,
-				CA80A70F1AA0A9A800C7208F /* README.md */,
-			);
-			name = json;
-			path = ../json;
 			sourceTree = "<group>";
 		};
 		CA816D821B64047400FD276E /* personalize */ = {
@@ -3216,7 +3196,6 @@
 				CAA4D1701A45A647003ABA25 /* ipc */,
 				CAA4D1791A45A647003ABA25 /* jobs */,
 				CAA4D17D1A45A647003ABA25 /* journal */,
-				CA80A7091AA0A9A800C7208F /* json */,
 				CAF8E68A1C9C326400A2373A /* jsonxx */,
 				CAB35CDB1DABB766002D625A /* ldap */,
 				CA8CF04D1B7CDC1700D07FCE /* lexicon */,

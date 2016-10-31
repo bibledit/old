@@ -21,7 +21,6 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <webserver/request.h>
-#include "json/json.h"
 #include "assets/view.h"
 #include "resource/logic.h"
 #include <jsonxx/jsonxx.h>
@@ -279,81 +278,46 @@ resource_record resource_table [] =
 };
 
 
-int gbs_digitaal_json_callback (void *userdata, int type, const char *data, uint32_t length)
-{
-  if (length) {};
-  vector <string> * history = (vector <string> *) userdata;
-  switch (type) {
-    case JSON_OBJECT_BEGIN:
-    case JSON_ARRAY_BEGIN:
-    case JSON_OBJECT_END:
-    case JSON_ARRAY_END:
-      break;
-    case JSON_KEY:
-    case JSON_STRING:
-    case JSON_INT:
-    case JSON_FLOAT:
-    {
-      history->push_back (data);
-      break;
-    }
-    case JSON_NULL:
-    {
-      history->push_back ("");
-      break;
-    }
-    case JSON_TRUE:
-    case JSON_FALSE:
-      break;
-  }
-  return 0;
-}
-
-
 // This function displays the canonical text from gbsdigitaal.nl.
 string gbs_digitaal_processor (string url, int verse)
 {
   string text;
 
+  // Retrieve JSON from the website or cache.
   string json = resource_logic_web_cache_get (url, text);
-
-  vector <string> history;
   
-  json_parser parser;
-  if (json_parser_init (&parser, NULL, gbs_digitaal_json_callback, &history)) {
-    text.append ("Could not initialize");
-  }
-  if (json_parser_string (&parser, json.c_str(), json.length(), NULL)) {
-    text.append ("Could not parse the data");
-  }
-  json_parser_free (&parser);
-
-  // The history sequence to get a verse is this:
-  // uid -> 0 -> number -> <verse number> -> text -> "verse text"
-  for (unsigned int i = 0; i < history.size (); i++) {
-    if (history[i] == "text") {
-      if (i >= 5) {
-        if (history [i - 4] == "uid") {
-          if (history [i - 3] == "0") {
-            if (history [i - 2] == "number") {
-              if (history [i - 1] == convert_to_string (verse)) {
-                if (history.size () > i + 1) {
-                  text = history [i + 1];
-                }
-              }
-            }
-          }
-        }
-      }
+  // Convert the JSON to XML.
+  Object object;
+  object.parse (json);
+  string xml = object.xml(TaggedXML);
+  
+  // Parse the XML text.
+  xml_document document;
+  document.load_string (xml.c_str());
+  
+  xml_node root_node = document.first_child ();
+  
+  xml_node verses_node = root_node.child ("verses");
+  // Iterate through the children of the verses node.
+  for (xml_node JsonItem_node : verses_node.children()) {
+    // Look for the matching verse number.
+    string number = JsonItem_node.child_value ("number");
+    if (verse == convert_to_int (number)) {
+      // The node that contains the canonical verse text.
+      string text_value = JsonItem_node.child_value ("text");
+      text.append (text_value);
     }
   }
 
   // Take out breaks.
   text = filter_string_str_replace ("<br />", "", text);
+
   // Remove the note callers.
   filter_string_replace_between (text, "<sup", "</sup>", "");
+  
   // Remove the pilcrow sign / paragraph sign if it's there.
   text = filter_string_str_replace ("¶", "", text);
+  
   // Add new line.
   text += "\n";
   

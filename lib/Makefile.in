@@ -252,17 +252,16 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	resource/sword.$(OBJEXT) resource/select.$(OBJEXT) \
 	resource/cache.$(OBJEXT) resource/user9edit.$(OBJEXT) \
 	resource/user1edit.$(OBJEXT) resource/user9view.$(OBJEXT) \
-	resource/user1view.$(OBJEXT) json/json.$(OBJEXT) \
-	jsonxx/jsonxx.$(OBJEXT) mapping/index.$(OBJEXT) \
-	mapping/map.$(OBJEXT) statistics/statistics.$(OBJEXT) \
-	changes/change.$(OBJEXT) changes/changes.$(OBJEXT) \
-	changes/logic.$(OBJEXT) changes/manage.$(OBJEXT) \
-	changes/modifications.$(OBJEXT) changes/statistics.$(OBJEXT) \
-	sprint/burndown.$(OBJEXT) sprint/index.$(OBJEXT) \
-	checks/run.$(OBJEXT) checks/headers.$(OBJEXT) \
-	checks/index.$(OBJEXT) checks/logic.$(OBJEXT) \
-	checks/sentences.$(OBJEXT) checks/settings.$(OBJEXT) \
-	checks/settingspatterns.$(OBJEXT) \
+	resource/user1view.$(OBJEXT) jsonxx/jsonxx.$(OBJEXT) \
+	mapping/index.$(OBJEXT) mapping/map.$(OBJEXT) \
+	statistics/statistics.$(OBJEXT) changes/change.$(OBJEXT) \
+	changes/changes.$(OBJEXT) changes/logic.$(OBJEXT) \
+	changes/manage.$(OBJEXT) changes/modifications.$(OBJEXT) \
+	changes/statistics.$(OBJEXT) sprint/burndown.$(OBJEXT) \
+	sprint/index.$(OBJEXT) checks/run.$(OBJEXT) \
+	checks/headers.$(OBJEXT) checks/index.$(OBJEXT) \
+	checks/logic.$(OBJEXT) checks/sentences.$(OBJEXT) \
+	checks/settings.$(OBJEXT) checks/settingspatterns.$(OBJEXT) \
 	checks/settingssentences.$(OBJEXT) checks/space.$(OBJEXT) \
 	checks/suppress.$(OBJEXT) checks/usfm.$(OBJEXT) \
 	checks/verses.$(OBJEXT) checks/versification.$(OBJEXT) \
@@ -832,7 +831,6 @@ libbibledit_a_SOURCES = \
 	resource/user1edit.cpp \
 	resource/user9view.cpp \
 	resource/user1view.cpp \
-	json/json.c \
 	jsonxx/jsonxx.cpp \
 	mapping/index.cpp \
 	mapping/map.cpp \
@@ -1963,14 +1961,6 @@ resource/user9view.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/user1view.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
-json/$(am__dirstamp):
-	@$(MKDIR_P) json
-	@: > json/$(am__dirstamp)
-json/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) json/$(DEPDIR)
-	@: > json/$(DEPDIR)/$(am__dirstamp)
-json/json.$(OBJEXT): json/$(am__dirstamp) \
-	json/$(DEPDIR)/$(am__dirstamp)
 jsonxx/$(am__dirstamp):
 	@$(MKDIR_P) jsonxx
 	@: > jsonxx/$(am__dirstamp)
@@ -2554,7 +2544,6 @@ mostlyclean-compile:
 	-rm -f ipc/*.$(OBJEXT)
 	-rm -f jobs/*.$(OBJEXT)
 	-rm -f journal/*.$(OBJEXT)
-	-rm -f json/*.$(OBJEXT)
 	-rm -f jsonxx/*.$(OBJEXT)
 	-rm -f ldap/*.$(OBJEXT)
 	-rm -f lexicon/*.$(OBJEXT)
@@ -2786,7 +2775,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@jobs/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/logic.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@json/$(DEPDIR)/json.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@jsonxx/$(DEPDIR)/jsonxx.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ldap/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lexicon/$(DEPDIR)/definition.Po@am__quote@
@@ -3416,8 +3404,6 @@ distclean-generic:
 	-rm -f jobs/$(am__dirstamp)
 	-rm -f journal/$(DEPDIR)/$(am__dirstamp)
 	-rm -f journal/$(am__dirstamp)
-	-rm -f json/$(DEPDIR)/$(am__dirstamp)
-	-rm -f json/$(am__dirstamp)
 	-rm -f jsonxx/$(DEPDIR)/$(am__dirstamp)
 	-rm -f jsonxx/$(am__dirstamp)
 	-rm -f ldap/$(DEPDIR)/$(am__dirstamp)
@@ -3519,7 +3505,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf access/$(DEPDIR) assets/$(DEPDIR) basic/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) developer/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editpm/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) jsonxx/$(DEPDIR) ldap/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) mbedtls/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) public/$(DEPDIR) pugixml/$(DEPDIR) related/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) sqlite/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) system/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) utf8proc/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workspace/$(DEPDIR) xrefs/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) assets/$(DEPDIR) basic/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) developer/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editpm/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) jsonxx/$(DEPDIR) ldap/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) mbedtls/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) public/$(DEPDIR) pugixml/$(DEPDIR) related/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) sqlite/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) system/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) utf8proc/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workspace/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -3567,7 +3553,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf access/$(DEPDIR) assets/$(DEPDIR) basic/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) developer/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editpm/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) json/$(DEPDIR) jsonxx/$(DEPDIR) ldap/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) mbedtls/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) public/$(DEPDIR) pugixml/$(DEPDIR) related/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) sqlite/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) system/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) utf8proc/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workspace/$(DEPDIR) xrefs/$(DEPDIR)
+	-rm -rf access/$(DEPDIR) assets/$(DEPDIR) basic/$(DEPDIR) bible/$(DEPDIR) book/$(DEPDIR) bootstrap/$(DEPDIR) changes/$(DEPDIR) checks/$(DEPDIR) checksum/$(DEPDIR) client/$(DEPDIR) collaboration/$(DEPDIR) compare/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) consistency/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) demo/$(DEPDIR) developer/$(DEPDIR) dialog/$(DEPDIR) edit/$(DEPDIR) editone/$(DEPDIR) editor/$(DEPDIR) editpm/$(DEPDIR) editusfm/$(DEPDIR) editverse/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) export/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) fonts/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) ipc/$(DEPDIR) jobs/$(DEPDIR) journal/$(DEPDIR) jsonxx/$(DEPDIR) ldap/$(DEPDIR) lexicon/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) manage/$(DEPDIR) mapping/$(DEPDIR) mbedtls/$(DEPDIR) menu/$(DEPDIR) navigation/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) paratext/$(DEPDIR) parsewebdata/$(DEPDIR) personalize/$(DEPDIR) public/$(DEPDIR) pugixml/$(DEPDIR) related/$(DEPDIR) resource/$(DEPDIR) search/$(DEPDIR) sendreceive/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) sources/$(DEPDIR) sprint/$(DEPDIR) sqlite/$(DEPDIR) statistics/$(DEPDIR) styles/$(DEPDIR) sword/$(DEPDIR) sync/$(DEPDIR) system/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) tmp/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) user/$(DEPDIR) utf8proc/$(DEPDIR) versification/$(DEPDIR) webbible/$(DEPDIR) webserver/$(DEPDIR) workspace/$(DEPDIR) xrefs/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

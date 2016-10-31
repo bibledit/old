@@ -2813,7 +2813,7 @@ msgstr ""
 msgid "Bibledit on Android"
 msgstr ""
 
-msgid "Bibledit on OS X"
+msgid "Bibledit on macOS"
 msgstr ""
 
 msgid "Bibledit on Linux"
@@ -3130,13 +3130,10 @@ msgid ""
 "as follows:"
 msgstr ""
 
-msgid "Install Bibledit on OSX"
+msgid "Install Bibledit on macOS"
 msgstr ""
 
 msgid "This assumes a standard installation of the operating system."
-msgstr ""
-
-msgid "Bibledit runs on OS X Yosemite 10.10."
 msgstr ""
 
 msgid "Download Bibledit from the App Store."
@@ -7629,6 +7626,9 @@ msgid "Files"
 msgstr ""
 
 msgid "Synchronizing"
+msgstr ""
+
+msgid "Sending and receiving:"
 msgstr ""
 
 msgid "Send/Receive"
