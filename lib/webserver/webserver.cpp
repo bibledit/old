@@ -284,6 +284,48 @@ void http_server ()
 
 
 #ifdef HAVE_WINDOWS
+bool server_accepting_flag = false;
+mutex server_accepting_mutex;
+
+
+void http_server_acceptor_processor (SOCKET listen_socket)
+{
+  // Accept a client socket.
+  server_accepting_mutex.lock ();
+  server_accepting_flag = true;
+  server_accepting_mutex.unlock ();
+  struct sockaddr_in clientaddr;
+  socklen_t clientlen = sizeof (clientaddr);
+  // The SOCKET in Windows will be closed when it goes out of scope.
+  // This is different from a Unix file descriptor.
+  // Therefore there's a difference in web server architecture between them.
+  SOCKET client_socket = accept (listen_socket, (struct sockaddr *)&clientaddr, &clientlen);
+  server_accepting_mutex.lock ();
+  server_accepting_flag = false;
+  server_accepting_mutex.unlock ();
+  if (client_socket != INVALID_SOCKET) {
+
+    // Set timeout on receive, in milliseconds.
+    const char * tv = "600000";
+    setsockopt (client_socket, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
+
+    // The client's remote IPv4 address in dotted notation.
+    string clientaddress;
+    char remote_address[256];
+    inet_ntop (AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof (remote_address));
+    clientaddress = remote_address;
+
+    webserver_process_request (client_socket, clientaddress);
+  }
+
+  // Shutdown and close the connection.
+  shutdown (client_socket, SD_BOTH);
+  closesocket (client_socket);
+}
+#endif
+
+
+#ifdef HAVE_WINDOWS
 // This http server uses Windows sockets.
 void http_server ()
 {
@@ -334,34 +376,20 @@ void http_server ()
   // Keep waiting for, accepting, and processing connections.
   config_globals_webserver_running = true;
   while (listener_healthy && config_globals_webserver_running) {
-    
-    // Accept a client socket.
-    struct sockaddr_in clientaddr;
-    socklen_t clientlen = sizeof(clientaddr);
-    SOCKET client_socket = accept(listen_socket, (SA *)&clientaddr, &clientlen);
-    if (client_socket != INVALID_SOCKET) {
 
-      // Set timeout on receive, in milliseconds.
-      const char * tv = "600000";
-      setsockopt (client_socket, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
-      
-      // The client's remote IPv4 address in dotted notation.
-      string clientaddress;
-      char remote_address[256];
-      inet_ntop(AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof(remote_address));
-      clientaddress = remote_address;
-      
-      // On Linux and related operating systems,
-      // it would handle this request in a thread,
-      // enabling parallel requests.
-      // But on Windows this does not work as it is.
-      // Thus Windows processes request in sequence.
-      webserver_process_request(client_socket, clientaddress);
+    // Poll the system whether to wait for a client.
+    bool start_acceptor = false;
+    server_accepting_mutex.lock ();
+    if (!server_accepting_flag) start_acceptor = true;
+    server_accepting_mutex.unlock ();
+    if (start_acceptor) {
+      // Handle waiting for and processing the request in a thread, enabling parallel requests.
+      thread request_thread = thread (http_server_acceptor_processor, listen_socket);
+      // Detach and delete thread object.
+      request_thread.detach ();
     }
-    
-    // Shutdown and close the connection.
-    shutdown(client_socket, SD_BOTH);
-    closesocket(client_socket);
+    // Wait shortly before next poll iteration.
+    this_thread::sleep_for (chrono::milliseconds (10));
   }
   
   // No longer need server socket
