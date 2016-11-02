@@ -25,6 +25,7 @@
 
 
 void developer_logic_timing (int order, bool initialize = false);
+void developer_logic_log (string message);
 
 
 #endif

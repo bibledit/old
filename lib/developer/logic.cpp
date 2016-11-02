@@ -19,6 +19,8 @@
 
 #include <developer/logic.h>
 #include <filter/date.h>
+#include <filter/url.h>
+#include <filter/string.h>
 
 
 void developer_logic_timing (int order, bool initialize)
@@ -32,4 +34,14 @@ void developer_logic_timing (int order, bool initialize)
     useconds = unow;
   }
   cout << order << ": " << 1000000 * (now - seconds) + (unow - useconds) << endl;
+}
+
+
+void developer_logic_log (string message)
+{
+  string path = filter_url_create_root_path ("developer", "log.txt");
+  filter_url_file_put_contents_append (path, filter_string_trim (message) + "\n");
+
+  
+  
 }
