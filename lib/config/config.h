@@ -33,7 +33,11 @@
 #define DIRECTORY_SEPARATOR "/"
 
 
+#define HAVE_CLOUD 1
+
+
 #ifdef HAVE_WINDOWS
+#undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #define HAVE_PARATEXT 1
 #undef MAX_PARALLEL_TASKS
@@ -45,6 +49,7 @@
 
 
 #ifdef HAVE_ANDROID
+#undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #undef MAX_PARALLEL_TASKS
 #define MAX_PARALLEL_TASKS 3
@@ -54,18 +59,21 @@
 
 
 #ifdef HAVE_MAC
+#undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #define HAVE_BARE_BROWSER 1
 #endif
 
 
 #ifdef HAVE_LINUX
+#undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #define HAVE_PARATEXT 1
 #endif
 
 
 #ifdef HAVE_IOS
+#undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #undef MAX_PARALLEL_TASKS
 #define MAX_PARALLEL_TASKS 3
@@ -75,6 +83,7 @@
 
 
 #ifdef HAVE_CHROMEOS
+#undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #undef MAX_PARALLEL_TASKS
 #define MAX_PARALLEL_TASKS 3
