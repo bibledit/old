@@ -94,7 +94,25 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   // Cloud initializes OpenLDAP server access settings (after webroot has been set).
   ldap_logic_initialize ();
 #endif
+
+#ifdef HAVE_CLIENT
+  // Set local timezone offset in the library.
+#ifdef HAVE_WINDOWS
+  TIME_ZONE_INFORMATION tzi;
+  DWORD dwRet = GetTimeZoneInformation (&tzi);
+  (void)dwRet;
+  int offset = 0 - (tzi.Bias / 60);
+  bibledit_set_timezone_hours_offset_utc (offset);
+#else
+  time_t t = time (NULL);
+  struct tm lt = {};
+  localtime_r (&t, &lt);
+  int offset = round (lt.tm_gmtoff / 3600);
+  bibledit_set_timezone_hours_offset_utc (offset);
+#endif
   
+#endif
+
   // Initialize data in a thread.
   thread setup_thread = thread (setup_conditionally, package);
   setup_thread.detach ();

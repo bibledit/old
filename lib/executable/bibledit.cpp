@@ -183,15 +183,6 @@ int main (int argc, char **argv)
   bibledit_set_quit_at_midnight ();
 #endif
 
-#ifdef HAVE_WINDOWS
-  // Set local timezone offset in the library.
-  TIME_ZONE_INFORMATION tzi;
-  DWORD dwRet = GetTimeZoneInformation (&tzi);
-  (void)dwRet;
-  int offset = 0 - (tzi.Bias / 60);
-  bibledit_set_timezone_hours_offset_utc (offset);
-#endif
-
   // Keep running till Bibledit stops or gets interrupted.
   while (bibledit_is_running ()) { }
 
