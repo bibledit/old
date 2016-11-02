@@ -139,17 +139,17 @@ int main (int argc, char **argv)
 #ifdef HAVE_WINDOWS
   {
     // Getting the web root on Windows.
-	// The following gets the path to the server.exe.
+    // The following gets the path to the server.exe.
     // char buf[MAX_PATH] = { 0 };
     // DWORD ret = GetModuleFileNameA(NULL, buf, MAX_PATH);
-	// While developing, the .exe runs in folder Debug or Release, and not in the expected folder.
-	// Therefore it's better to take the path of the current directory.
+    // While developing, the .exe runs in folder Debug or Release, and not in the expected folder.
+    // Therefore it's better to take the path of the current directory.
     wchar_t buffer[MAX_PATH];
-    GetCurrentDirectory(MAX_PATH, buffer);
-	char chars[MAX_PATH];
-	char def_char = ' ';
-	WideCharToMultiByte(CP_ACP, 0, buffer, -1, chars, MAX_PATH, &def_char, NULL);
-	webroot = chars;
+    GetCurrentDirectory (MAX_PATH, buffer);
+    char chars[MAX_PATH];
+    char def_char = ' ';
+    WideCharToMultiByte (CP_ACP, 0, buffer, -1, chars, MAX_PATH, &def_char, NULL);
+    webroot = chars;
   }
 #endif
   bibledit_initialize_library (webroot.c_str(), webroot.c_str());
@@ -182,7 +182,16 @@ int main (int argc, char **argv)
   // The Windows port uses this ./server also, but should not quit at midnight.
   bibledit_set_quit_at_midnight ();
 #endif
-  
+
+#ifdef HAVE_WINDOWS
+  // Set local timezone offset in the library.
+  TIME_ZONE_INFORMATION tzi;
+  DWORD dwRet = GetTimeZoneInformation (&tzi);
+  (void)dwRet;
+  int offset = 0 - (tzi.Bias / 60);
+  bibledit_set_timezone_hours_offset_utc (offset);
+#endif
+
   // Keep running till Bibledit stops or gets interrupted.
   while (bibledit_is_running ()) { }
 
