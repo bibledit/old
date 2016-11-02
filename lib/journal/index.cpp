@@ -91,18 +91,9 @@ string render_journal_entry (string filename, int userlevel)
     
   // Extract the seconds since the Unix epoch from the filename.
   time_t seconds = convert_to_int (filename.substr (0, 10));
-  // Localize the seconds.
-  seconds = filter_date_local_seconds (seconds);
-  // Convert the seconds into a human readable date and time.
-  string timestamp;
-  timestamp.append (locale_logic_date (seconds));
-  timestamp.append (" ");
-  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_hour (seconds)), 2, '0'));
-  timestamp.append (":");
-  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_minute (seconds)), 2, '0'));
-  timestamp.append (":");
-  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
-  
+  // Localized date and time stamp.
+  string timestamp = locale_logic_date_time (seconds);
+
   string a_open, a_close;
   if (limit || lines.size () > 1) {
     a_open = "<a href=\"" + filename + "\">";

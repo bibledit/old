@@ -64,6 +64,24 @@ string locale_logic_date (int seconds)
 }
 
 
+string locale_logic_date_time (int seconds)
+{
+  // Localize the seconds.
+  seconds = filter_date_local_seconds (seconds);
+  // Convert the seconds into a human readable date and time.
+  string timestamp;
+  timestamp.append (locale_logic_date (seconds));
+  timestamp.append (" ");
+  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_hour (seconds)), 2, '0'));
+  timestamp.append (":");
+  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_minute (seconds)), 2, '0'));
+  timestamp.append (":");
+  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
+  // Done.
+  return timestamp;
+}
+
+
 // Return the available localizations.
 map <string, string> locale_logic_localizations ()
 {
