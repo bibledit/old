@@ -1190,7 +1190,6 @@
 		CAEF4D0A1D6EF82600FBB688 /* index.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = index.o; sourceTree = "<group>"; };
 		CAEF4D0B1D6EF82600FBB688 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAEF4D0C1D6EF82600FBB688 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CAEF4D0D1D6EF82600FBB688 /* logic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = logic.o; sourceTree = "<group>"; };
 		CAEFFBF31C747AEE0035B1BE /* wikipedia.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = wikipedia.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAF0A8EF1BAD76E40066723D /* sword.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = sword.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAF0A8F01BAD76E40066723D /* sword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sword.h; sourceTree = "<group>"; };
@@ -3512,7 +3511,6 @@
 				CAEF4D0A1D6EF82600FBB688 /* index.o */,
 				CAEF4D0B1D6EF82600FBB688 /* logic.cpp */,
 				CAEF4D0C1D6EF82600FBB688 /* logic.h */,
-				CAEF4D0D1D6EF82600FBB688 /* logic.o */,
 			);
 			name = developer;
 			path = ../developer;
