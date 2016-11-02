@@ -219,6 +219,7 @@ int filter_shell_vfork (string & output, string directory, string command,
   (void) p12;
   (void) p13;
   (void) output;
+  (void) directory;
 #else
 
   // File descriptors for files to write child's stdout and stderr to.
