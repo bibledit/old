@@ -81,13 +81,6 @@ public class MainActivity extends Activity
         
         SetTouchEnabled (true);
         
-        // Set the timezone in the library.
-        TimeZone timezone = TimeZone.getDefault ();
-        Calendar calendar = GregorianCalendar.getInstance (timezone);
-        int offsetInMillis = timezone.getOffset (calendar.getTimeInMillis());
-        int offsetInHours = offsetInMillis / 3600 / 2000;
-        SetTimezoneHoursOffsetUtc (offsetInHours);
-        
         StartLibrary ();
         
         webview = new WebView (this);
@@ -119,7 +112,6 @@ public class MainActivity extends Activity
     // to avoid a "java.lang.UnsatisfiedLinkError: Native method not found" exception.
     public native String GetVersionNumber ();
     public native void SetTouchEnabled (Boolean enabled);
-    public native void SetTimezoneHoursOffsetUtc (int hours);
     public native void InitializeLibrary (String resources, String webroot);
     public native void StartLibrary ();
     public native Boolean IsRunning ();

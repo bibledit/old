@@ -57,12 +57,6 @@ void Java_org_bibledit_android_MainActivity_SetQuitAtMidnight (JNIEnv* env, jobj
 }
 
 
-void Java_org_bibledit_android_MainActivity_SetTimezoneHoursOffsetUtc (JNIEnv* env, jobject obj, int hours)
-{
-    bibledit_set_timezone_hours_offset_utc (hours);
-}
-
-
 void Java_org_bibledit_android_MainActivity_StartLibrary (JNIEnv* env, jobject obj)
 {
     bibledit_start_library ();
