@@ -595,6 +595,13 @@ string resource_logic_default_user_url ()
 // This creates a resource database cache and runs in the Cloud.
 void resource_logic_create_cache () // Todo
 {
+  // Due to a client quickly requesting SWORD caches,
+  // usually the Cloud starts to cache several books in parallel.
+  // Here's some logic to ensure there's only one SWORD book cached at a time.
+  static bool resource_logic_create_cache_running = false;
+  if (resource_logic_create_cache_running) return;
+  resource_logic_create_cache_running = true;
+  
   // If there's nothing to cache, bail out.
   vector <string> signatures = Database_Config_General::getResourcesToCache ();
   if (signatures.empty ()) return;
@@ -646,7 +653,8 @@ void resource_logic_create_cache () // Todo
   // Done.
   Database_Cache::ready (resource, book, true);
   Database_Logs::log ("Completed caching " + resource + " " + bookname, Filter_Roles::consultant ());
+  resource_logic_create_cache_running = false;
   
   // If there's another resource database waiting to be cached, schedule it for caching.
-  if (!signatures.empty ()) tasks_logic_queue (CACHERESOURCES);
+  if (!signatures.empty ()) tasks_logic_queue (CACHERESOURCES); // Todo but not if it's cached already.
 }
