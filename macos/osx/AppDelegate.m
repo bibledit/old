@@ -54,10 +54,7 @@
     [self.window setContentView:self.webview];
     // For the developer console in the webview, enter the following from a terminal:
     // defaults write org.bibledit.osx WebKitDeveloperExtras TRUE
-    
-    float timezoneoffset = ([[NSTimeZone systemTimeZone] secondsFromGMT] / 3600.0);
-    bibledit_set_timezone_hours_offset_utc ((int)timezoneoffset);
-    
+
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector (checkForExternalBrowser) userInfo:nil repeats:YES];
     
     //self.webview.UIDelegate = MyUIDelegate;
