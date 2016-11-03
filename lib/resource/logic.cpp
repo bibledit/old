@@ -45,6 +45,7 @@
 #include <sync/resources.h>
 #include <tasks/logic.h>
 #include <related/logic.h>
+#include <developer/logic.h>
 
 
 /*
@@ -592,7 +593,7 @@ string resource_logic_default_user_url ()
 
 
 // This creates a resource database cache and runs in the Cloud.
-void resource_logic_create_cache ()
+void resource_logic_create_cache () // Todo
 {
   // If there's nothing to cache, bail out.
   vector <string> signatures = Database_Config_General::getResourcesToCache ();
@@ -616,6 +617,7 @@ void resource_logic_create_cache ()
   for (auto & chapter : chapters) {
 
     Database_Logs::log ("Caching " + resource + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::consultant ());
+    developer_logic_log ("Start caching " + resource + " " + bookname + " " + convert_to_string (chapter)); // Todo
 
     vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
     for (auto & verse : verses) {
@@ -627,6 +629,7 @@ void resource_logic_create_cache ()
       do {
         // Fetch the resource data.
         html = resource_logic_get_contents_for_client (resource, book, chapter, verse);
+        developer_logic_log ("Caching " + resource + " " + bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse) + ": " + html); // Todo
         server_is_installing_module = (html == sword_logic_installing_module_text ());
         if (server_is_installing_module) {
           Database_Logs::log ("Waiting while installing SWORD module: " + resource);
@@ -635,8 +638,8 @@ void resource_logic_create_cache ()
         }
       } while (server_is_installing_module && (wait_iterations < 5));
 
-      // Cache the verse data.
-      Database_Cache::cache (resource, book, chapter, verse, html);
+      // Cache the verse data, if there's no error.
+      if (!server_is_installing_module) Database_Cache::cache (resource, book, chapter, verse, html);
     }
   }
 
