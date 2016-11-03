@@ -48,14 +48,14 @@ echo Installing the software Bibledit relies on...
 which apt-get > /dev/null
 if [ $? -eq 0 ]
 then
-$DRYECHO apt-get --yes --force-yes install build-essential
-$DRYECHO apt-get --yes --force-yes install git
-$DRYECHO apt-get --yes --force-yes install zip
-$DRYECHO apt-get --yes --force-yes install pkgconf
-$DRYECHO apt-get --yes --force-yes install libcurl4-openssl-dev
-$DRYECHO apt-get --yes --force-yes install libssl-dev
-$DRYECHO apt-get --yes --force-yes install libatspi2.0-dev
-$DRYECHO apt-get --yes --force-yes install libgtk-3-dev
+$DRYECHO apt-get --yes install build-essential
+$DRYECHO apt-get --yes install git
+$DRYECHO apt-get --yes install zip
+$DRYECHO apt-get --yes install pkgconf
+$DRYECHO apt-get --yes install libcurl4-openssl-dev
+$DRYECHO apt-get --yes install libssl-dev
+$DRYECHO apt-get --yes install libatspi2.0-dev
+$DRYECHO apt-get --yes install libgtk-3-dev
 fi
 
 which dnf > /dev/null
