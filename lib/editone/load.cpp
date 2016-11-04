@@ -90,7 +90,11 @@ string editone_load (void * webserver_request)
   
   // If the verse was empty, ensure that it has a non-breaking space as the last character,
   // for easier text entry in the verse.
-  if (usfm_contains_empty_verses (editable_usfm)) {
+  string plain_text = filter_string_html2text (focused_verse_html);
+  plain_text = filter_string_trim (plain_text);
+  string vs = convert_to_string (verse);
+  bool editable_verse_is_empty = plain_text == vs;
+  if (editable_verse_is_empty) {
     string search = "<span> </span></p>";
     string replace = "<span>" + unicode_non_breaking_space_entity () + "</span></p>";
     focused_verse_html = filter_string_str_replace (search, replace, focused_verse_html);
