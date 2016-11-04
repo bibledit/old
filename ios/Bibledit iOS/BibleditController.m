@@ -40,9 +40,6 @@ NSMutableString * previousSyncState;
     
     bibledit_set_touch_enabled (true);
     
-    float timezoneoffset = ([[NSTimeZone systemTimeZone] secondsFromGMT] / 3600.0);
-    bibledit_set_timezone_hours_offset_utc ((int)timezoneoffset);
-    
     bibledit_start_library ();
     
     [NSTimer scheduledTimerWithTimeInterval:1.0f
