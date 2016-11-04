@@ -185,9 +185,15 @@ void http_server ()
 
   // Create a listening socket.
   // This represents an endpoint.
-  // Listen on address family AF_INET6 for both IPv4 and IPv6.
   // This prepares to accept incoming connections on.
+#ifdef HAVE_CLIENT
+  // A client listens on IPv4, see also below.
+  int listenfd = socket (AF_INET, SOCK_STREAM, 0);
+#endif
+#ifdef HAVE_CLOUD
+  // The Cloud listens on address family AF_INET6 for both IPv4 and IPv6.
   int listenfd = socket (AF_INET6, SOCK_STREAM, 0);
+#endif
   if (listenfd < 0) {
     string error = "Error opening socket: ";
     error.append (strerror (errno));
@@ -209,19 +215,24 @@ void http_server ()
   }
 
   // The listening socket will be an endpoint for all requests to a port on this host.
-  // When configured as a server it listens on any IP address.
-  // When configured as a client, it listens on the loopback device.
+#ifdef HAVE_CLIENT
+  // When configured as a client, it listens on the IPv4 loopback device.
+  // It has been seen on Ubuntu 16.04 that a Bibledit Client would not listen on a IPv6 loopback device.
+  struct sockaddr_in serveraddr;
+  memset (&serveraddr, 0, sizeof (serveraddr));
+  serveraddr.sin_family = AF_INET;
+  serveraddr.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
+  serveraddr.sin_port = htons (convert_to_int (config_logic_http_network_port ()));
+#endif
+#ifdef HAVE_CLOUD
+  // When configured as a server it listens on any IPv6 address.
   struct sockaddr_in6 serveraddr;
   memset (&serveraddr, 0, sizeof (serveraddr));
   serveraddr.sin6_flowinfo = 0;
   serveraddr.sin6_family = AF_INET6;
-  serveraddr.sin6_addr =
-#ifdef HAVE_CLIENT
-  in6addr_loopback;
-#else
-  in6addr_any;
-#endif
+  serveraddr.sin6_addr = in6addr_any;
   serveraddr.sin6_port = htons (convert_to_int (config_logic_http_network_port ()));
+#endif
   result = mybind (listenfd, (struct sockaddr *) &serveraddr, sizeof (serveraddr));
   if (result != 0) {
     string error = "Error binding server to socket: ";
