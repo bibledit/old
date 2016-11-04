@@ -39,6 +39,7 @@
 #include <filemgr.h>
 #include <swmodule.h>
 #endif
+#include <developer/logic.h>
 
 
 mutex sword_logic_installer_mutex;
@@ -426,6 +427,8 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   // diatheke -b KJV -k Jn 3:16
   int result = filter_shell_vfork (module_text, sword_path, "diatheke", "-b", module.c_str(), "-k", osis.c_str(), chapter_verse.c_str());
   sword_logic_diatheke_run_mutex.unlock ();
+  developer_logic_log ("filter_shell_vfork result: " + convert_to_string (result)); // Todo
+  developer_logic_log ("filter_shell_vfork module_text: " + module_text); // Todo
   if (result != 0) return sword_logic_fetch_failure_text ();
   
   // Touch the cache so the server knows that the module has been accessed just now.

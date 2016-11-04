@@ -635,8 +635,13 @@ void resource_logic_create_cache () // Todo
       string html, error;
       do {
         // Fetch the resource data.
+        developer_logic_log ("Caching " + resource + " " + bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse)); // Todo
         html = resource_logic_get_contents_for_client (resource, book, chapter, verse);
-        developer_logic_log ("Caching " + resource + " " + bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse) + ": " + html); // Todo
+        {
+          string value (html); // Todo
+          if (value.size () > 200) value = "string with length " + convert_to_string (value.size ()); // Todo
+          developer_logic_log ("Resulting html: " + value); // Todo
+        }
         server_is_installing_module = (html == sword_logic_installing_module_text ());
         if (server_is_installing_module) {
           Database_Logs::log ("Waiting while installing SWORD module: " + resource);
