@@ -40,8 +40,6 @@ void developer_logic_timing (int order, bool initialize)
 void developer_logic_log (string message)
 {
   string path = filter_url_create_root_path ("developer", "log.txt");
+  if (!file_or_dir_exists (path)) return;
   filter_url_file_put_contents_append (path, filter_string_trim (message) + "\n");
-
-  
-  
 }
