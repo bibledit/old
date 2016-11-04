@@ -645,8 +645,12 @@ void resource_logic_create_cache () // Todo
         }
       } while (server_is_installing_module && (wait_iterations < 5));
 
-      // Cache the verse data, if there's no error.
-      if (!server_is_installing_module) Database_Cache::cache (resource, book, chapter, verse, html);
+      // Cache the verse data, even if there's an error.
+      // If it were not cached at, say, Leviticus, then the caching mechanism,
+      // after restart, would always continue from that same book, from Leviticus,
+      // and never finish. Therefore something should be cached, even if it's an empty string.
+      if (server_is_installing_module) html.clear ();
+      Database_Cache::cache (resource, book, chapter, verse, html);
     }
   }
 
