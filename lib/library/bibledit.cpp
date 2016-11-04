@@ -97,20 +97,20 @@ void bibledit_initialize_library (const char * package, const char * webroot)
 
 #ifdef HAVE_CLIENT
   // Set local timezone offset in the library.
+  int hours = 0;
 #ifdef HAVE_WINDOWS
   TIME_ZONE_INFORMATION tzi;
   DWORD dwRet = GetTimeZoneInformation (&tzi);
   (void)dwRet;
-  int offset = 0 - (tzi.Bias / 60);
-  bibledit_set_timezone_hours_offset_utc (offset);
+  hours = 0 - (tzi.Bias / 60);
 #else
   time_t t = time (NULL);
   struct tm lt = {};
   localtime_r (&t, &lt);
-  int offset = round (lt.tm_gmtoff / 3600);
-  bibledit_set_timezone_hours_offset_utc (offset);
+  hours = round (lt.tm_gmtoff / 3600);
 #endif
-  
+  config_globals_timezone_offset_utc = hours;
+  Database_Logs::log ("Timezone offset in hours: " + convert_to_string (hours));
 #endif
 
   // Initialize data in a thread.
@@ -146,14 +146,6 @@ void bibledit_set_quit_at_midnight ()
 {
   Database_Config_General::setJustStarted (true);
   config_globals_quit_at_midnight = true;
-}
-
-
-// Set the timezone in hours as an offset to UTC.
-void bibledit_set_timezone_hours_offset_utc (int hours)
-{
-  config_globals_timezone_offset_utc = hours;
-  Database_Logs::log ("Timezone offset in hours: " + convert_to_string (hours));
 }
 
 
