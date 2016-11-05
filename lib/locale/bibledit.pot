@@ -7221,9 +7221,6 @@ msgstr ""
 msgid "organize"
 msgstr ""
 
-msgid "freeze position"
-msgstr ""
-
 msgid "USFM Resources"
 msgstr ""
 
