@@ -624,7 +624,6 @@ void resource_logic_create_cache ()
   for (auto & chapter : chapters) {
 
     Database_Logs::log ("Caching " + resource + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::consultant ());
-    developer_logic_log ("Start caching " + resource + " " + bookname + " " + convert_to_string (chapter));
 
     vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
     for (auto & verse : verses) {
@@ -635,12 +634,10 @@ void resource_logic_create_cache ()
       string html, error;
       do {
         // Fetch the resource data.
-        developer_logic_log ("Caching " + resource + " " + bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse));
         html = resource_logic_get_contents_for_client (resource, book, chapter, verse);
         { // Todo
           string value (html);
           if (value.size () > 200) value = "string with length " + convert_to_string (value.size ());
-          developer_logic_log ("Resulting html: " + value);
         }
         server_is_installing_module = (html == sword_logic_installing_module_text ());
         if (server_is_installing_module) {

@@ -226,7 +226,6 @@ int filter_shell_vfork (string & output, string directory, string command,
   // File descriptors for files to write child's stdout and stderr to.
   string path = filter_url_tempfile () + ".txt";
   int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
-  developer_logic_log ("Open fd: " + convert_to_string (fd));
 
   // It seems that waiting very shortly before calling vfork ()
   // enables running threads to continue running.
@@ -235,7 +234,6 @@ int filter_shell_vfork (string & output, string directory, string command,
   if (pid != 0) {
     if (pid < 0) {
       Database_Logs::log ("Failed to run " + command);
-      developer_logic_log ("Failed to run " + command);
     } else {
       wait (&status);
     }
@@ -249,7 +247,6 @@ int filter_shell_vfork (string & output, string directory, string command,
     execlp (command.c_str(), command.c_str(), p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, (char *) 0);
     // The above only returns in case of an error.
     Database_Logs::log (command + ": " + strerror (errno));
-    developer_logic_log (command + ": " + strerror (errno));
     _exit (1);
     close (fd);
     return -1;
@@ -257,7 +254,6 @@ int filter_shell_vfork (string & output, string directory, string command,
   
   // Read the child's output.
   close (fd);
-  developer_logic_log ("Close fd: " + convert_to_string (fd));
   output = filter_url_file_get_contents (path);
   filter_url_unlink (path);
   
