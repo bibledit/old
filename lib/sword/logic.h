@@ -38,6 +38,7 @@ void sword_logic_uninstall_module (string module);
 vector <string> sword_logic_get_available ();
 vector <string> sword_logic_get_installed ();
 string sword_logic_get_text (string source, string module, int book, int chapter, int verse);
+map <int, string> sword_logic_get_bulk_text (string source, string module, int book, int chapter, vector <int> verses);
 void sword_logic_update_installed_modules ();
 void sword_logic_trim_modules ();
 string sword_logic_installing_module_text ();

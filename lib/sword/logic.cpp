@@ -485,6 +485,18 @@ string sword_logic_get_text (string source, string module, int book, int chapter
 }
 
 
+map <int, string> sword_logic_get_bulk_text (string source, string module, int book, int chapter, vector <int> verses) // Todo
+{
+  map <int, string> output;
+  
+  for (auto & verse : verses) {
+    output [verse] = convert_to_string ("SWORD contents for verse " + convert_to_string (verse));
+  }
+  
+  return output;
+}
+
+
 // Checks the installed modules, whether they need to be updated.
 void sword_logic_update_installed_modules ()
 {

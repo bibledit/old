@@ -593,11 +593,11 @@ string resource_logic_default_user_url ()
 
 
 // This creates a resource database cache and runs in the Cloud.
-void resource_logic_create_cache ()
+void resource_logic_create_cache () // Todo
 {
-  // Due to a client quickly requesting SWORD caches,
-  // usually the Cloud starts to cache several books in parallel.
-  // Here's some logic to ensure there's only one SWORD book cached at a time.
+  // Because clients usually request caches in a quick sequence,
+  // the Cloud starts to cache several books in parallel.
+  // Here's some logic to ensure there's only one book cached at a time.
   static bool resource_logic_create_cache_running = false;
   if (resource_logic_create_cache_running) return;
   resource_logic_create_cache_running = true;
@@ -614,6 +614,25 @@ void resource_logic_create_cache ()
   string resource = signature.substr (0, pos);
   int book = convert_to_int (signature.substr (pos++));
   string bookname = Database_Books::getEnglishFromId (book);
+
+  // Whether it's a SWORD module.
+  string sword_module = sword_logic_get_remote_module (resource);
+  string sword_source = sword_logic_get_source (resource);
+  bool is_sword_module = (!sword_source.empty () && !sword_module.empty ());
+
+  // In case of a  SWORD module, ensure it has been installed.
+  if (is_sword_module) {
+    vector <string> modules = sword_logic_get_installed ();
+    bool already_installed = false;
+    for (auto & installed_module : modules) {
+      if (installed_module.find ("[" + sword_module + "]") != string::npos) {
+        already_installed = true;
+      }
+    }
+    if (!already_installed) {
+      sword_logic_install_module (sword_source, sword_module);
+    }
+  }
   
   // Database layout is per book: Create a database for this book.
   Database_Cache::remove (resource, book);
@@ -635,10 +654,6 @@ void resource_logic_create_cache ()
       do {
         // Fetch the resource data.
         html = resource_logic_get_contents_for_client (resource, book, chapter, verse);
-        { // Todo
-          string value (html);
-          if (value.size () > 200) value = "string with length " + convert_to_string (value.size ());
-        }
         server_is_installing_module = (html == sword_logic_installing_module_text ());
         if (server_is_installing_module) {
           Database_Logs::log ("Waiting while installing SWORD module: " + resource);
