@@ -644,7 +644,18 @@ void resource_logic_create_cache () // Todo
 
     Database_Logs::log ("Caching " + resource + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::consultant ());
 
+    // The verse numbers in the chapter.
     vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
+    
+    // In case of a SWORD module, fetch the texts of all verses in bulk.
+    // This is because calling vfork once per verse to run diatheke stops working in the Cloud after some time.
+    // Forking once per chapter is much better, also for the performance.
+    map <int, string> sword_texts;
+    if (is_sword_module) {
+      sword_texts = sword_logic_get_bulk_text (sword_module, book, chapter, verses);
+    }
+    
+    // Iterate over the verses.
     for (auto & verse : verses) {
 
       // Fetch the text for the passage.
@@ -653,7 +664,9 @@ void resource_logic_create_cache () // Todo
       string html, error;
       do {
         // Fetch the resource data.
-        html = resource_logic_get_contents_for_client (resource, book, chapter, verse);
+        if (is_sword_module) html = sword_texts [verse];
+        else html = resource_logic_get_contents_for_client (resource, book, chapter, verse);
+        // Check on errors.
         server_is_installing_module = (html == sword_logic_installing_module_text ());
         if (server_is_installing_module) {
           Database_Logs::log ("Waiting while installing SWORD module: " + resource);

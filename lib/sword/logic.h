@@ -38,7 +38,7 @@ void sword_logic_uninstall_module (string module);
 vector <string> sword_logic_get_available ();
 vector <string> sword_logic_get_installed ();
 string sword_logic_get_text (string source, string module, int book, int chapter, int verse);
-map <int, string> sword_logic_get_bulk_text (string source, string module, int book, int chapter, vector <int> verses);
+map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses);
 void sword_logic_update_installed_modules ();
 void sword_logic_trim_modules ();
 string sword_logic_installing_module_text ();
@@ -52,6 +52,7 @@ bool sword_logic_installmgr_refresh_remote_source (string name);
 void sword_logic_installmgr_list_remote_modules (string source_name, vector <string> & modules);
 string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse, bool & available);
 void sword_logic_log (string message);
+string sword_logic_clean_verse (const string & module, int chapter, int verse, string text);
 
 
 #endif

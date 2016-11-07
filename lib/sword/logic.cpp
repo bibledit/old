@@ -362,7 +362,7 @@ vector <string> sword_logic_get_installed ()
 }
 
 
-string sword_logic_get_text (string source, string module, int book, int chapter, int verse)
+string sword_logic_get_text (string source, string module, int book, int chapter, int verse) // Todo check which code to re-use.
 {
 #ifdef HAVE_CLIENT
 
@@ -459,23 +459,8 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     }
   }
   
-  // Remove any OSIS elements.
-  filter_string_replace_between (module_text, "<", ">", "");
-  
-  // Remove the passage name that diatheke adds.
-  // A reliable signature for this is the chapter and verse plus subsequent colon.
-  size_t pos = module_text.find (" " + chapter_verse + ":");
-  if (pos != string::npos) {
-    pos += 2;
-    pos += chapter_verse.size ();
-    module_text.erase (0, pos);
-  }
-  
-  // Remove the module name that diatheke adds.
-  module_text = filter_string_str_replace ("(" + module + ")", "", module_text);
-  
-  // Clean whitespace away.
-  module_text = filter_string_trim (module_text);
+  // Clean it up.
+  module_text = sword_logic_clean_verse (module, chapter, verse, module_text);
   
   return module_text;
 
@@ -485,14 +470,63 @@ string sword_logic_get_text (string source, string module, int book, int chapter
 }
 
 
-map <int, string> sword_logic_get_bulk_text (string source, string module, int book, int chapter, vector <int> verses) // Todo
+map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses) // Todo
 {
+  // The name of the book to pass to diatheke.
+  string osis = Database_Books::getOsisFromId (book);
+  
+  // Signatures that will indicate start and end of verse text.
+  map <int, string> starters, finishers;
+  
+  // The script to run.
+  // It will fetch verse text for all verses in a chapter.
+  // Fetching verse text in bulk reduces the number of fork () calls.
+  vector <string> script;
+  script.push_back ("#!/bin/bash");
+  script.push_back ("cd '" + sword_logic_get_path () + "'");
+  for (auto verse : verses) {
+    string starter = "starter" + convert_to_string (verse) + "starter";
+    script.push_back ("echo " + starter);
+    starters [verse] = starter;
+    string chapter_verse = convert_to_string (chapter) + ":" + convert_to_string (verse);
+    script.push_back ("diatheke -b " + module + " -k " + osis + " " + chapter_verse);
+    string finisher = "finisher" + convert_to_string (verse) + "finisher";
+    script.push_back ("echo " + finisher);
+    finishers [verse] = finisher;
+  }
+
+  // Store the script and make it executable.
+  string script_path = filter_url_create_path (sword_logic_get_path (), "script.sh");
+  filter_url_file_put_contents (script_path, filter_string_implode (script, "\n"));
+  string chmod = "chmod +x " + script_path;
+  int result = system (chmod.c_str ());
+  (void) result;
+
+  // Run the script.
+  // Running several instances of diatheke simultaneously fails, so lock the mutex.
+  sword_logic_diatheke_run_mutex.lock ();
+  string out_err;
+  result = filter_shell_run (script_path, out_err);
+  (void) result;
+  sword_logic_diatheke_run_mutex.unlock ();
+
+  // Resulting verse text.
   map <int, string> output;
   
   for (auto & verse : verses) {
-    output [verse] = convert_to_string ("SWORD contents for verse " + convert_to_string (verse));
+    string starter = starters [verse];
+    size_t pos1 = out_err.find (starter);
+    string finisher = finishers [verse];
+    size_t pos2 = out_err.find (finisher);
+    if ((pos1 != string::npos) && (pos2 != string::npos)) {
+      pos1 += starter.length ();
+      string text = out_err.substr (pos1, pos2 - pos1);
+      text = sword_logic_clean_verse (module, chapter, verse, text);
+      output [verse] = text;
+    }
   }
   
+  // Done.
   return output;
 }
 
@@ -849,4 +883,30 @@ void sword_logic_log (string message)
   message = filter_string_trim (message);
   // Record in the journal.
   Database_Logs::log (message);
+}
+
+
+string sword_logic_clean_verse (const string & module, int chapter, int verse, string text) // Todo
+{
+  // Remove any OSIS elements.
+  filter_string_replace_between (text, "<", ">", "");
+  
+  // Remove the passage name that diatheke adds.
+  // A reliable signature for this is the chapter and verse plus subsequent colon.
+  string chapter_verse = convert_to_string (chapter) + ":" + convert_to_string (verse);
+  size_t pos = text.find (" " + chapter_verse + ":");
+  if (pos != string::npos) {
+    pos += 2;
+    pos += chapter_verse.size ();
+    text.erase (0, pos);
+  }
+  
+  // Remove the module name that diatheke adds.
+  text = filter_string_str_replace ("(" + module + ")", "", text);
+  
+  // Clean whitespace away.
+  text = filter_string_trim (text);
+
+  // Done.
+  return text;
 }
