@@ -362,7 +362,7 @@ vector <string> sword_logic_get_installed ()
 }
 
 
-string sword_logic_get_text (string source, string module, int book, int chapter, int verse) // Todo check which code to re-use.
+string sword_logic_get_text (string source, string module, int book, int chapter, int verse) // Todo
 {
 #ifdef HAVE_CLIENT
 
@@ -425,11 +425,13 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   sword_logic_diatheke_run_mutex.lock ();
   // The server fetches the module text as follows:
   // diatheke -b KJV -k Jn 3:16
-  int result = filter_shell_vfork (module_text, sword_path, "diatheke", "-b", module.c_str(), "-k", osis.c_str(), chapter_verse.c_str());
+  string error;
+  int result = filter_shell_run (sword_path, "diatheke", { "-b", module, "-k", osis, chapter_verse }, &module_text, &error);
+  module_text.append (error);
   sword_logic_diatheke_run_mutex.unlock ();
   if (result != 0) return sword_logic_fetch_failure_text ();
   
-  // Touch the cache so the server knows that the module has been accessed just now.
+  // Touch the cache so the server knows that the module has been accessed just now and won't uninstall it too soon.
   string url = sword_logic_virtual_url (module, 0, 0, 0);
   database_filebased_cache_get (url);
 
@@ -472,6 +474,10 @@ string sword_logic_get_text (string source, string module, int book, int chapter
 
 map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses) // Todo
 {
+  // Touch the cache so the server knows that the module has been accessed and won't uninstall it too soon.
+  string url = sword_logic_virtual_url (module, 0, 0, 0);
+  database_filebased_cache_get (url);
+
   // The name of the book to pass to diatheke.
   string osis = Database_Books::getOsisFromId (book);
   
@@ -503,12 +509,9 @@ map <int, string> sword_logic_get_bulk_text (const string & module, int book, in
   (void) result;
 
   // Run the script.
-  // Running several instances of diatheke simultaneously fails, so lock the mutex.
-  sword_logic_diatheke_run_mutex.lock ();
   string out_err;
   result = filter_shell_run (script_path, out_err);
   (void) result;
-  sword_logic_diatheke_run_mutex.unlock ();
 
   // Resulting verse text.
   map <int, string> output;
