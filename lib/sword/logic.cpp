@@ -467,8 +467,6 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   return module_text;
 
 #endif
-
-  return "";
 }
 
 
