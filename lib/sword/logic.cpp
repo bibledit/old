@@ -916,7 +916,7 @@ string sword_logic_clean_verse (const string & module, int chapter, int verse, s
 
 
 // Take the SWORD $source and SWORD $module and form it into a canonical resource name.
-string sword_logic_get_resource_name (const string & source, const string & module) // Todo
+string sword_logic_get_resource_name (const string & source, const string & module)
 {
   return "[" + source + "][" + module + "]";
 }

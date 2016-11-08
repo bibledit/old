@@ -100,8 +100,7 @@ string resource_cache (void * webserver_request)
   for (auto & resource : resources) {
     string source = sword_logic_get_source (resource);
     string module = sword_logic_get_remote_module (resource);
-    string name = "[" + source + "][" + module + "]"; // Todo
-    // string name = sword_logic_get_resource_name (source, module); // Todo
+    string name = sword_logic_get_resource_name (source, module);
     block.append ("<p>");
     block.append ("<a href=\"download?name=" + name + "\">" + resource + "</a>");
     block.append ("</p>\n");
