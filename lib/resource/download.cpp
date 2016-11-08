@@ -65,23 +65,11 @@ string resource_download (void * webserver_request)
   
   string name = request->query["name"];
   view.set_variable ("name", name);
+
   
-  
-  
-  bool old = request->query.count ("old");
-  if (old) view.enable_zone ("old");
-  else view.enable_zone ("current");
-                        
-                      
   if (request->query.count ("clear")) {
     // The client clears the installed resource.
     Database_Cache::remove (name);
-  }
-  if (request->query.count ("clearold")) {
-    // The client clears the two older storage locations just to be sure they are gone.
-    database_usfmresources.deleteResource (name);
-    redirect_browser (request, resource_cache_url ());
-    return "";
   }
   
   
