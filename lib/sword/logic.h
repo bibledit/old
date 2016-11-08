@@ -53,6 +53,7 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
 string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse, bool & available);
 void sword_logic_log (string message);
 string sword_logic_clean_verse (const string & module, int chapter, int verse, string text);
+string sword_logic_get_resource_name (const string & source, const string & module);
 
 
 #endif

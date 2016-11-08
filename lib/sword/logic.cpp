@@ -366,14 +366,17 @@ string sword_logic_get_text (string source, string module, int book, int chapter
 {
 #ifdef HAVE_CLIENT
 
-  // Client checks for and optionally creates the cache for this SWORD module.
-  if (!Database_Cache::exists (module, book)) {
-    Database_Cache::create (module, book);
+  // The resource name consists of source and module, e.g. [CrossWire][NET].
+  string resource = sword_logic_get_resource_name (source, module);
+
+  // Client checks for and optionally creates the cache for this SWORD source/module.
+  if (!Database_Cache::exists (resource, book)) {
+    Database_Cache::create (resource, book);
   }
 
   // If this module/passage exists in the cache, return it (it updates the access days in the cache).
-  if (Database_Cache::exists (module, book, chapter, verse)) {
-    return Database_Cache::retrieve (module, book, chapter, verse);
+  if (Database_Cache::exists (resource, book, chapter, verse)) {
+    return Database_Cache::retrieve (resource, book, chapter, verse);
   }
 
   // Fetch this SWORD resource from the server.
@@ -386,7 +389,6 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     port = demo_port ();
   }
   string url = client_logic_url (address, port, sync_resources_url ());
-  string resource = "[" + source + "][" + module + "]";
   url = filter_url_build_http_query (url, "r", resource);
   url = filter_url_build_http_query (url, "b", convert_to_string (book));
   url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
@@ -401,7 +403,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   // Except in case of predefined responses from the Cloud.
   if (html != sword_logic_installing_module_text ()) {
     if (html != sword_logic_fetch_failure_text ()) {
-      Database_Cache::cache (module, book, chapter, verse, html);
+      Database_Cache::cache (resource, book, chapter, verse, html);
     }
   }
   
@@ -910,4 +912,11 @@ string sword_logic_clean_verse (const string & module, int chapter, int verse, s
 
   // Done.
   return text;
+}
+
+
+// Take the SWORD $source and SWORD $module and form it into a canonical resource name.
+string sword_logic_get_resource_name (const string & source, const string & module) // Todo
+{
+  return "[" + source + "][" + module + "]";
 }
