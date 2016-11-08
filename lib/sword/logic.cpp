@@ -472,7 +472,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
 }
 
 
-map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses) // Todo
+map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses)
 {
   // Touch the cache so the server knows that the module has been accessed and won't uninstall it too soon.
   string url = sword_logic_virtual_url (module, 0, 0, 0);
@@ -889,7 +889,7 @@ void sword_logic_log (string message)
 }
 
 
-string sword_logic_clean_verse (const string & module, int chapter, int verse, string text) // Todo
+string sword_logic_clean_verse (const string & module, int chapter, int verse, string text)
 {
   // Remove any OSIS elements.
   filter_string_replace_between (text, "<", ">", "");

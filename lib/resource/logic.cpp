@@ -593,7 +593,7 @@ string resource_logic_default_user_url ()
 
 
 // This creates a resource database cache and runs in the Cloud.
-void resource_logic_create_cache () // Todo
+void resource_logic_create_cache ()
 {
   // Because clients usually request caches in a quick sequence,
   // the Cloud starts to cache several books in parallel.
