@@ -74,8 +74,6 @@ string resource_download (void * webserver_request)
                         
                       
   if (request->query.count ("clear")) {
-    // The client clears the two older storage locations just to be sure they are gone.
-    database_usfmresources.deleteResource (name);
     // The client clears the installed resource.
     Database_Cache::remove (name);
   }
