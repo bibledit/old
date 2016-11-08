@@ -362,7 +362,7 @@ vector <string> sword_logic_get_installed ()
 }
 
 
-string sword_logic_get_text (string source, string module, int book, int chapter, int verse) // Todo
+string sword_logic_get_text (string source, string module, int book, int chapter, int verse)
 {
 #ifdef HAVE_CLIENT
 
