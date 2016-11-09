@@ -7093,14 +7093,6 @@ msgstr ""
 msgid "And you can work offline."
 msgstr ""
 
-msgid "The resource is installed locally on Bibledit."
-msgstr ""
-
-msgid ""
-"It is an old resource that can no longer be updated because it is not "
-"available from the Cloud."
-msgstr ""
-
 msgid "Number of installed books for this resource:"
 msgstr ""
 
