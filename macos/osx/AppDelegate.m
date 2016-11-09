@@ -48,16 +48,14 @@
     // Open the web app in the web view.
     // The server listens on another port than 8080 so as not to interfere with possible development on the same host.
     NSURL *url = [NSURL URLWithString:@"http://localhost:9876"];
-    // NSURL *url = [NSURL URLWithString:@"http://localhost:8080"];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [[[self webview] mainFrame] loadRequest:urlRequest];
     [self.window setContentView:self.webview];
+
     // For the developer console in the webview, enter the following from a terminal:
     // defaults write org.bibledit.osx WebKitDeveloperExtras TRUE
 
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector (checkForExternalBrowser) userInfo:nil repeats:YES];
-    
-    //self.webview.UIDelegate = MyUIDelegate;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:self.window];
 }
@@ -66,13 +64,6 @@
     bibledit_stop_library ();
     while (bibledit_is_running ()) {}
     bibledit_shutdown_library ();
-}
-
-- (void)checkForExternalBrowser {
-    if (false) {
-        NSURL *url = [NSURL URLWithString:@"http://localhost:9876"];
-        [[NSWorkspace sharedWorkspace] openURL:url];
-    }
 }
 
 - (void) windowDidResize:(NSNotification *) notification
