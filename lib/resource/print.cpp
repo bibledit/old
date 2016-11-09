@@ -115,7 +115,7 @@ string resource_print (void * webserver_request)
       vector <int> books = request->database_bibles()->getBooks (bible);
       for (auto & book : books) {
         string bookname = Database_Books::getEnglishFromId (book);
-        dialog_list.add_row (bookname, "frombook", convert_to_string (book)); // Todo test it.
+        dialog_list.add_row (bookname, "frombook", convert_to_string (book));
       }
       page += dialog_list.run ();
       return page;
@@ -210,9 +210,10 @@ string resource_print (void * webserver_request)
       vector <int> books = request->database_bibles()->getBooks (bible);
       for (auto & book : books) {
         string bookname = Database_Books::getEnglishFromId (book);
-        dialog_list.add_row (bookname, "tobook", convert_to_string (book)); // Todo test it.
+        dialog_list.add_row (bookname, "tobook", convert_to_string (book));
       }
       page += dialog_list.run ();
+      return page;
     } else {
       // Set ending passage.
       Passage topassage = request->database_config_user()->getPrintPassageTo ();

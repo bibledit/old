@@ -61,7 +61,7 @@ void Dialog_List::add_query (string parameter, string value)
 }
 
 
-void Dialog_List::add_row (string text, string parameter, string value) // Todo check all places where it occurs.
+void Dialog_List::add_row (string text, string parameter, string value)
 {
   if (!list_block.empty ()) list_block.append ("\n");
   list_block.append ("<li>");
