@@ -74,7 +74,7 @@ string system_index (void * webserver_request)
     if (language == "select") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Set the language for Bibledit"), "", "");
       for (auto element : localizations) {
-        dialog_list.add_row (element.second, "language", element.first);
+        dialog_list.add_row (element.second, "language", element.first); // Todo test it.
       }
       page = Assets_Page::header ("", webserver_request);
       page += dialog_list.run ();

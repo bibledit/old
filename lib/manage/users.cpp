@@ -143,7 +143,7 @@ string manage_users (void * webserver_request)
       dialog_list.add_query ("user", objectUsername);
       for (int i = Filter_Roles::lowest (); i <= Filter_Roles::highest (); i++) {
         if (i <= myLevel) {
-          dialog_list.add_row (Filter_Roles::text (i), "level", convert_to_string (i));
+          dialog_list.add_row (Filter_Roles::text (i), "level", convert_to_string (i)); // Todo test it.
         }
       }
       page += dialog_list.run ();

@@ -127,7 +127,7 @@ string styles_view (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the category of this style?"),translate("Here are the various categories:"), translate("Please pick one."));
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      dialog_list.add_row (styles_logic_category_text ("id"),  "category", "id");
+      dialog_list.add_row (styles_logic_category_text ("id"),  "category", "id"); // Todo test it.
       dialog_list.add_row (styles_logic_category_text ("ith"), "category", "ith");
       dialog_list.add_row (styles_logic_category_text ("ipp"), "category", "ipp");
       dialog_list.add_row (styles_logic_category_text ("ioe"), "category", "ioe");
@@ -168,7 +168,7 @@ string styles_view (void * webserver_request)
       for (int i = 0; i < 99; i++) {
         string text = styles_logic_type_text (i);
         if (text.length () > 2) {
-          dialog_list.add_row (text, "type", convert_to_string (i));
+          dialog_list.add_row (text, "type", convert_to_string (i)); // Todo test it.
         }
       }
       page += dialog_list.run ();
@@ -195,7 +195,7 @@ string styles_view (void * webserver_request)
       for (int i = 0; i < 99; i++) {
         string text = styles_logic_subtype_text (type, i);
         if (text.length () > 2) {
-          dialog_list.add_row (text, "subtype", convert_to_string (i));
+          dialog_list.add_row (text, "subtype", convert_to_string (i)); // Todo test it.
         }
       }
       page += dialog_list.run ();
@@ -247,7 +247,7 @@ string styles_view (void * webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (marker_data.type, marker_data.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "italic", convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "italic", convert_to_string (i)); // Todo test it.
       }
       page += dialog_list.run ();
       return page;
@@ -272,7 +272,7 @@ string styles_view (void * webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (marker_data.type, marker_data.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "bold", convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "bold", convert_to_string (i)); // Todo test it.
       }
       page += dialog_list.run ();
       return page;
@@ -297,7 +297,7 @@ string styles_view (void * webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (type, subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "underline", convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "underline", convert_to_string (i)); // Todo test it.
       }
       page += dialog_list.run ();
       return page;
@@ -322,7 +322,7 @@ string styles_view (void * webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (marker_data.type, marker_data.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "smallcaps", convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "smallcaps", convert_to_string (i)); // Todo test it.
       }
       page += dialog_list.run ();
       return page;
@@ -356,7 +356,7 @@ string styles_view (void * webserver_request)
     dialog_list.add_query ("sheet", sheet);
     dialog_list.add_query ("style", style);
     for (int i = AlignmentLeft; i <= AlignmentJustify; i++) {
-      dialog_list.add_row (styles_logic_alignment_text (i), "justification", convert_to_string (i));
+      dialog_list.add_row (styles_logic_alignment_text (i), "justification", convert_to_string (i)); // Todo test it.
     }
     page += dialog_list.run ();
     return page;
@@ -573,7 +573,7 @@ string styles_view (void * webserver_request)
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = NoteNumbering123; i <= NoteNumberingUser; i++) {
-          dialog_list.add_row (styles_logic_note_numbering_text (i), "userint1", convert_to_string (i));
+          dialog_list.add_row (styles_logic_note_numbering_text (i), "userint1", convert_to_string (i)); // Todo test it.
         }
         page += dialog_list.run ();
         return page;
@@ -617,7 +617,7 @@ string styles_view (void * webserver_request)
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = NoteRestartNumberingNever; i <= NoteRestartNumberingEveryChapter; i++) {
-          dialog_list.add_row (styles_logic_note_restart_numbering_text (i), "userint2", convert_to_string (i));
+          dialog_list.add_row (styles_logic_note_restart_numbering_text (i), "userint2", convert_to_string (i)); // Todo test it.
         }
         page += dialog_list.run ();
         return page;
@@ -635,7 +635,7 @@ string styles_view (void * webserver_request)
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = EndNotePositionAfterBook; i <= EndNotePositionAtMarker; i++) {
-          dialog_list.add_row (styles_logic_end_note_position_text (i), "userint2", convert_to_string(i));
+          dialog_list.add_row (styles_logic_end_note_position_text (i), "userint2", convert_to_string(i)); // Todo test it.
         }
         page += dialog_list.run ();
         return page;

@@ -61,14 +61,14 @@ void Dialog_List::add_query (string parameter, string value)
 }
 
 
-void Dialog_List::add_row (string text, string parameter, string value)
+void Dialog_List::add_row (string text, string parameter, string value) // Todo check all places where it occurs.
 {
   if (!list_block.empty ()) list_block.append ("\n");
   list_block.append ("<li>");
   if (post_result) {
     list_block.append ("\n");
     list_block.append ("<form action=\"" + base_url + "\" method=\"post\">\n");
-    list_block.append ("<a href=\"javascript:;\" onclick=\"parentNode.submit();\">" + value + "</a>\n");
+    list_block.append ("<a href=\"javascript:;\" onclick=\"parentNode.submit();\">" + text + "</a>\n");
     list_block.append ("<input type=\"hidden\" name=\"add\" value=\"" + value + "\" />\n");
     list_block.append ("</form>\n");
   } else {
