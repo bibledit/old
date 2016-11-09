@@ -66,6 +66,7 @@
     bibledit_shutdown_library ();
 }
 
+// The embedded webview should resize when the main window resizes.
 - (void) windowDidResize:(NSNotification *) notification
 {
     NSSize size = self.window.contentView.frame.size;
