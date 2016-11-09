@@ -55,8 +55,6 @@
     // For the developer console in the webview, enter the following from a terminal:
     // defaults write org.bibledit.osx WebKitDeveloperExtras TRUE
 
-    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector (checkForExternalBrowser) userInfo:nil repeats:YES];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:self.window];
 }
 
