@@ -153,8 +153,8 @@ string paratext_index (void * webserver_request)
     if (master == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Where are you going to take the initial Bible data from?"), "", "");
       dialog_list.add_query ("bible", bible);
-      dialog_list.add_row ("Bibledit", "master", "bibledit"); // Todo test it.
-      dialog_list.add_row ("Paratext", "master", "paratext"); // Todo test it.
+      dialog_list.add_row ("Bibledit", "master", "bibledit");
+      dialog_list.add_row ("Paratext", "master", "paratext");
       page += dialog_list.run ();
       return page;
     } else {

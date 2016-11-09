@@ -292,7 +292,7 @@ string personalize_index (void * webserver_request)
     if (editors.empty ()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which visual Bible editors to enable?"), "", "");
       for (int i = 0; i < 3; i++) {
-        dialog_list.add_row (menu_logic_editor_settings_text (true, i), activevisualeditors, convert_to_string (i)); // Todo test it.
+        dialog_list.add_row (menu_logic_editor_settings_text (true, i), activevisualeditors, convert_to_string (i));
       }
       page += dialog_list.run ();
       return page;
@@ -311,7 +311,7 @@ string personalize_index (void * webserver_request)
     if (editors.empty ()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which visual Bible editors to enable?"), "", "");
       for (int i = 0; i < 3; i++) {
-        dialog_list.add_row (menu_logic_editor_settings_text (false, i), activeusfmeditors, convert_to_string (i)); // Todo test it.
+        dialog_list.add_row (menu_logic_editor_settings_text (false, i), activeusfmeditors, convert_to_string (i));
       }
       page += dialog_list.run ();
       return page;
