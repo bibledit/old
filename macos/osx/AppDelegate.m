@@ -58,6 +58,8 @@
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector (checkForExternalBrowser) userInfo:nil repeats:YES];
     
     //self.webview.UIDelegate = MyUIDelegate;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:self.window];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -71,6 +73,12 @@
         NSURL *url = [NSURL URLWithString:@"http://localhost:9876"];
         [[NSWorkspace sharedWorkspace] openURL:url];
     }
+}
+
+- (void) windowDidResize:(NSNotification *) notification
+{
+    NSSize size = self.window.contentView.frame.size;
+    [[self webview] setFrame:CGRectMake(0, 0, size.width, size.height)];
 }
 
 -(BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)app {
