@@ -158,7 +158,7 @@ string bible_settings (void * webserver_request)
   }
   
   
-  // Importing text from a resource. Todo test it.
+  // Importing text from a resource.
   if (request->query.count ("resource")) {
     Dialog_List dialog_list = Dialog_List ("settings", translate("Select a resource to import into the Bible"), translate ("The resource will be imported.") + " " + translate ("It will overwrite the content of the Bible."), "", true);
     dialog_list.add_query ("bible", bible);
@@ -171,7 +171,7 @@ string bible_settings (void * webserver_request)
       string source = sword_logic_get_source (resource);
       string module = sword_logic_get_remote_module (resource);
       string name = sword_logic_get_resource_name (source, module);
-      dialog_list.add_row (resource, "resource", name); // Todo test it.
+      dialog_list.add_row (resource, "resource", name);
     }
     page += dialog_list.run ();
     return page;
