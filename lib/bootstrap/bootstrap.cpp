@@ -84,6 +84,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/styles.h>
 #include <editpm/index.h>
 #include <editpm/load.h>
+#include <editql/index.h>
 #include <search/all.h>
 #include <search/index.h>
 #include <search/replace.h>
@@ -242,6 +243,7 @@ void bootstrap_index (void * webserver_request)
       || (Fonts_Logic::isFont (extension))
       || (extension == "sh")
       || (extension == "svg")
+      || (extension == "map")
       ) {
     http_serve_cache_file (request);
     return;
@@ -380,6 +382,11 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == editpm_load_url ()) && browser_request_security_okay (request) && editpm_load_acl (request)) {
     request->reply = editpm_load (request);
+    return;
+  }
+  
+  if ((url == editql_index_url ()) && browser_request_security_okay (request) && editql_index_acl (request)) {
+    request->reply = editql_index (request);
     return;
   }
   

@@ -1,0 +1,86 @@
+<link rel="stylesheet" type="text/css" href="../quill/quill.snow.css">
+<style type="text/css">
+  ##custom_css##
+</style>
+<div id="editorheader">
+  <div id="editorinnerheader">
+    <!-- #BEGINZONE advancedmode -->
+    <!-- #BEGINZONE stylesbutton -->
+    <input type="button" id="stylebutton" value="translate("Style")" unselectable="on" class="unselectable" tabIndex="-1">
+    <!-- #ENDZONE stylesbutton -->
+    <span id="stylesarea"></span>
+    <!-- #ENDZONE advancedmode -->
+    <span id="nostyles">
+      <!-- #BEGINZONE advancedmode -->
+      <span id="activestyles"></span>
+      |
+      <a id="bibleselect" href="index?changebible=">##bible##</a>
+      |
+      <!-- #ENDZONE advancedmode -->
+      <span id="editorstatus"></span>
+      <!-- #BEGINZONE fastswitcheditor -->
+      |
+      <a id="editorselect" href="../editor/select">translate ("editor")</a>
+      <!-- #ENDZONE fastswitcheditor -->
+    </span>
+  </div>
+</div>
+<div id="standalone-container">
+  <div id="toolbar-container">
+    <span class="ql-formats">
+      <select class="ql-font"></select>
+      <select class="ql-size"></select>
+    </span>
+    <span class="ql-formats">
+      <button class="ql-bold"></button>
+      <button class="ql-italic"></button>
+      <button class="ql-underline"></button>
+      <button class="ql-strike"></button>
+    </span>
+    <span class="ql-formats">
+      <select class="ql-color"></select>
+      <select class="ql-background"></select>
+    </span>
+    <span class="ql-formats">
+      <button class="ql-script" value="sub"></button>
+      <button class="ql-script" value="super"></button>
+    </span>
+    <span class="ql-formats">
+      <button class="ql-header" value="1"></button>
+      <button class="ql-header" value="2"></button>
+      <button class="ql-blockquote"></button>
+      <button class="ql-code-block"></button>
+    </span>
+    <span class="ql-formats">
+      <button class="ql-list" value="ordered"></button>
+      <button class="ql-list" value="bullet"></button>
+      <button class="ql-indent" value="-1"></button>
+      <button class="ql-indent" value="+1"></button>
+    </span>
+    <span class="ql-formats">
+      <button class="ql-direction" value="rtl"></button>
+      <select class="ql-align"></select>
+    </span>
+    <span class="ql-formats">
+      <button class="ql-link"></button>
+      <button class="ql-image"></button>
+      <button class="ql-video"></button>
+      <button class="ql-formula"></button>
+    </span>
+    <span class="ql-formats">
+      <button class="ql-clean"></button>
+    </span>
+  </div>
+  <div id="editor-container"></div>
+</div>
+<div id="editor" class="bibleeditor ##custom_class##"></div>
+<script>##script##</script>
+<script type="text/javascript" src="/checksum/logic.js?##VERSION##"></script>
+<script type="text/javascript" src="/edit/keys.js?##VERSION##"></script>
+<script type="text/javascript" src="/filter/url.js?##VERSION##"></script>
+<script type="text/javascript" src="/book/books.js?##VERSION##"></script>
+<script type="text/javascript" src="/filter/usfm.js?##VERSION##"></script>
+<script type="text/javascript" src="/editor/select.js?##VERSION##"></script>
+<script type="text/javascript" src="/quill/quill.min.js?##VERSION##"></script>
+<script type="text/javascript" src="index.js?##VERSION##"></script>
+##navigationCode##

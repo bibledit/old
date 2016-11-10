@@ -216,6 +216,7 @@ libbibledit_a_SOURCES = \
 	edit/logic.cpp \
 	editpm/index.cpp \
 	editpm/load.cpp \
+	editql/index.cpp \
 	search/all.cpp \
 	search/index.cpp \
 	search/replace.cpp \
