@@ -83,6 +83,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/save.h>
 #include <edit/styles.h>
 #include <editpm/index.h>
+#include <editpm/load.h>
 #include <search/all.h>
 #include <search/index.h>
 #include <search/replace.h>
@@ -376,7 +377,12 @@ void bootstrap_index (void * webserver_request)
     request->reply = editpm_index (request);
     return;
   }
-
+  
+  if ((url == editpm_load_url ()) && browser_request_security_okay (request) && editpm_load_acl (request)) {
+    request->reply = editpm_load (request);
+    return;
+  }
+  
   if ((url == search_index_url ()) && browser_request_security_okay (request) && search_index_acl (request)) {
     request->reply = search_index (request);
     return;
