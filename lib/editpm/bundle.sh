@@ -12,11 +12,11 @@ npm install prosemirror-model
 npm install prosemirror-example-setup
 npm install browserify
 COMMENT
-cp ~/dev/bibledit/lib/editpm/index.js .
-./node_modules/.bin/browserify index.js -o bundle.js
+cp ~/dev/bibledit/lib/editpm/main.js .
+./node_modules/.bin/browserify main.js -o bundle.js
 cp ./node_modules/prosemirror-view/style/prosemirror.css .
 cp ./node_modules/prosemirror-menu/style/menu.css .
-rm index.js
+rm main.js
 mv *.js ~/dev/bibledit/lib/editpm/
 mv *.css ~/dev/bibledit/lib/editpm/
 popd > /dev/null

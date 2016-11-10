@@ -135,6 +135,7 @@
 		CA143C291B5E595000242915 /* bibledropbox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bibledropbox.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA143C2A1B5E595000242915 /* bibledropbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledropbox.h; sourceTree = "<group>"; };
 		CA14EFBC1C4A757D0031BBC7 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
+		CA1506941DD4A55B00EA7FB0 /* main.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
 		CA180F221AC7152D006CA48B /* input.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = input.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA180F231AC7152D006CA48B /* input.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
 		CA180F241AC71539006CA48B /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -1306,6 +1307,7 @@
 				CA1F8A971DBF5C73002501BD /* index.h */,
 				CA1F8A981DBF5C73002501BD /* index.html */,
 				CA1F8A991DBF5C73002501BD /* index.js */,
+				CA1506941DD4A55B00EA7FB0 /* main.js */,
 			);
 			name = editpm;
 			path = ../editpm;
