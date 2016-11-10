@@ -157,8 +157,6 @@
 		CA1F8A971DBF5C73002501BD /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA1F8A981DBF5C73002501BD /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA1F8A991DBF5C73002501BD /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
-		CA1F8A9A1DBF808C002501BD /* main.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
-		CA1F8A9C1DBF839C002501BD /* prosemirror.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = prosemirror.js; sourceTree = "<group>"; };
 		CA201E941C88763400646D98 /* privileges.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = privileges.cpp; sourceTree = "<group>"; };
 		CA201E951C88763400646D98 /* privileges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = privileges.h; sourceTree = "<group>"; };
 		CA201E961C88763400646D98 /* privileges.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = privileges.html; sourceTree = "<group>"; };
@@ -1308,8 +1306,6 @@
 				CA1F8A971DBF5C73002501BD /* index.h */,
 				CA1F8A981DBF5C73002501BD /* index.html */,
 				CA1F8A991DBF5C73002501BD /* index.js */,
-				CA1F8A9A1DBF808C002501BD /* main.js */,
-				CA1F8A9C1DBF839C002501BD /* prosemirror.js */,
 			);
 			name = editpm;
 			path = ../editpm;
