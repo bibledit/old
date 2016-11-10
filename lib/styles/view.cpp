@@ -127,7 +127,7 @@ string styles_view (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the category of this style?"),translate("Here are the various categories:"), translate("Please pick one."));
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      dialog_list.add_row (styles_logic_category_text ("id"),  "category", "id"); // Todo test it.
+      dialog_list.add_row (styles_logic_category_text ("id"),  "category", "id");
       dialog_list.add_row (styles_logic_category_text ("ith"), "category", "ith");
       dialog_list.add_row (styles_logic_category_text ("ipp"), "category", "ipp");
       dialog_list.add_row (styles_logic_category_text ("ioe"), "category", "ioe");
@@ -168,7 +168,7 @@ string styles_view (void * webserver_request)
       for (int i = 0; i < 99; i++) {
         string text = styles_logic_type_text (i);
         if (text.length () > 2) {
-          dialog_list.add_row (text, "type", convert_to_string (i)); // Todo test it.
+          dialog_list.add_row (text, "type", convert_to_string (i));
         }
       }
       page += dialog_list.run ();
@@ -195,7 +195,7 @@ string styles_view (void * webserver_request)
       for (int i = 0; i < 99; i++) {
         string text = styles_logic_subtype_text (type, i);
         if (text.length () > 2) {
-          dialog_list.add_row (text, "subtype", convert_to_string (i)); // Todo test it.
+          dialog_list.add_row (text, "subtype", convert_to_string (i));
         }
       }
       page += dialog_list.run ();
