@@ -217,6 +217,7 @@ libbibledit_a_SOURCES = \
 	editpm/index.cpp \
 	editpm/load.cpp \
 	editql/index.cpp \
+	editql/load.cpp \
 	search/all.cpp \
 	search/index.cpp \
 	search/replace.cpp \
