@@ -74,6 +74,9 @@ string editql_load (void * webserver_request)
     html = filter_string_str_replace (search, replace, html);
   }
   
+  html = filter_string_str_replace ("class=\"", "class=\"ql-bg-", html); // Todo
+  html = filter_string_str_replace ("p class=\"ql-bg", "p class=\"ql-align", html); // Todo
+  
   string user = request->session_logic ()->currentUser ();
   bool write = access_bible_book_write (webserver_request, user, bible, book);
   

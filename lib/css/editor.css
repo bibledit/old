@@ -1,4 +1,4 @@
-.mono {
+.mono, .ql-align-mono {
   font-family: monospace, Courier, "Courier New", "Lucida Console", Monaco;
 }
 #focus {
