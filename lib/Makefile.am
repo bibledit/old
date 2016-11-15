@@ -437,7 +437,8 @@ libbibledit_a_SOURCES = \
 	mbedtls/xtea.c \
 	related/logic.cpp \
 	sqlite/sqlite3.c \
-	ldap/logic.cpp
+	ldap/logic.cpp \
+	quill/logic.cpp
 
 bin_PROGRAMS = server unittest generate
 

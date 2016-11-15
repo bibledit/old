@@ -24,6 +24,7 @@
 #include <locale/translate.h>
 #include <styles/logic.h>
 #include <database/logs.h>
+#include <quill/logic.h>
 
 
 void Editor_Usfm2Html::load (string usfm)
@@ -58,6 +59,13 @@ void Editor_Usfm2Html::stylesheet (string stylesheet)
       }
     }
   }
+}
+
+
+// Enable styles suitable for Quill-based editor.
+void Editor_Usfm2Html::quill ()
+{
+  quill_enabled = true;
 }
 
 
@@ -419,7 +427,9 @@ void Editor_Usfm2Html::newParagraph (string style)
   currentPnode = body_node.append_child ("p");
   current_p_open = true;
   if (!style.empty()) {
-    currentPnode.append_attribute ("class") = style.c_str();
+    string style2 (style);
+    if (quill_enabled) style2.insert (0, quill_logic_class_prefix_block ());
+    currentPnode.append_attribute ("class") = style2.c_str();
   }
   currentParagraphStyle = style;
   currentParagraphContent.clear();
@@ -469,7 +479,13 @@ void Editor_Usfm2Html::addText (string text)
     spanDomElement.text ().set (text.c_str());
     if (!currentTextStyles.empty ()) {
       // Take character style(s) as specified in this object.
-      spanDomElement.append_attribute ("class") = filter_string_implode (currentTextStyles, " ").c_str();
+      string textstyle;
+      for (auto & style : currentTextStyles) {
+        if (!textstyle.empty ()) textstyle.append (" ");
+        if (quill_enabled) textstyle.append (quill_logic_class_prefix_inline ());
+        textstyle.append (style);
+      }
+      spanDomElement.append_attribute ("class") = textstyle.c_str();
     }
     currentParagraphContent.append (text);
   }

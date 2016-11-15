@@ -34,6 +34,7 @@ class Editor_Usfm2Html
 public:
   void load (string usfm);
   void stylesheet (string stylesheet);
+  void quill ();
   void run ();
   string get ();
   size_t textLength;
@@ -84,6 +85,8 @@ private:
   void addLink (xml_node domNode, string reference, string identifier, string style, string text);
   
   bool roadIsClear ();
+  
+  bool quill_enabled = false;
 };
 
 

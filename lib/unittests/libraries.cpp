@@ -873,6 +873,24 @@ void test_editor_usfm2html ()
     editor_usfm2html.run ();
     evaluate (__LINE__, __func__, "q2", editor_usfm2html.currentParagraphStyle);
   }
+  // Convert styles for Quill-based editor.
+  {
+    string usfm =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 2 Text \\add of the \\add*1st \\add second verse\\add*.\n";
+    Webserver_Request request;
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.quill ();
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
+    string standard =
+    "<p class=\"ql-align-c\"><span>1</span></p>"
+    "<p class=\"ql-align-p\"><span class=\"ql-bg-v\">2</span><span> </span><span>Text </span><span class=\"ql-bg-add\">of the </span><span>1st </span><span class=\"ql-bg-add\">second verse</span><span>.</span></p>";
+    evaluate (__LINE__, __func__, standard, html);
+  }
 }
 
 

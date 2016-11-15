@@ -28,6 +28,7 @@
 #include <access/bible.h>
 #include <locale/translate.h>
 #include <database/logs.h>
+#include <quill/logic.h>
 
 
 string editql_load_url ()
@@ -63,6 +64,7 @@ string editql_load (void * webserver_request)
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (stylesheet);
+  editor_usfm2html.quill ();
   editor_usfm2html.run ();
   
   string html = editor_usfm2html.get ();
@@ -73,9 +75,6 @@ string editql_load (void * webserver_request)
     string replace = "<span>" + unicode_non_breaking_space_entity () + "</span>";
     html = filter_string_str_replace (search, replace, html);
   }
-  
-  html = filter_string_str_replace ("class=\"", "class=\"ql-bg-", html); // Todo
-  html = filter_string_str_replace ("p class=\"ql-bg", "p class=\"ql-align", html); // Todo
   
   string user = request->session_logic ()->currentUser ();
   bool write = access_bible_book_write (webserver_request, user, bible, book);
