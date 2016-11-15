@@ -167,11 +167,13 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
   string class_ = style->marker;
 
   // The name of the class as used in a Quill-based editor.
-  string quill_class;
+  string quill_class = ", .ql-";
   if (paragraph) {
+    quill_class.append ("align");
   } else {
-    quill_class = ", .ql-bg-" + class_;
+    quill_class.append ("bg");
   }
+  quill_class.append ("-" + class_);
   
   // Start with the class. Notice the dot.
   code.push_back ("." + class_ + quill_class + " {");
