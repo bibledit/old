@@ -126,7 +126,6 @@ void Editor_Usfm2Html::preprocess ()
   currentTextStyles.clear();
   noteCount = 0;
   currentNoteTextStyles.clear();
-  paragraphCount = 0;
   textLength = 0;
   verseStartOffsets = { make_pair (0, 0) };
   current_p_open = false;
@@ -240,9 +239,7 @@ void Editor_Usfm2Html::process ()
             openTextStyle (style, false);
             string textFollowingMarker = usfm_get_text_following_marker (markersAndText, markersAndTextPointer);
             string number = usfm_peek_verse_number (textFollowingMarker);
-            int offset = textLength;
-            if (quill_enabled) offset += paragraphCount - 1;
-            verseStartOffsets [convert_to_int (number)] = offset;
+            verseStartOffsets [convert_to_int (number)] = textLength;
             addText (number);
             closeTextStyle (false);
             addText (" ");
@@ -435,7 +432,12 @@ void Editor_Usfm2Html::newParagraph (string style)
   }
   currentParagraphStyle = style;
   currentParagraphContent.clear();
-  paragraphCount++;
+  // A Quill-based editor assigns a length of one to a new line.
+  if (quill_enabled) {
+    // Skip the first line.
+    if (first_line_done) textLength++;
+  }
+  first_line_done = true;
 }
 
 

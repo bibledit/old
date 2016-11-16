@@ -69,7 +69,8 @@ private:
   bool noteOpened = false;
   
   // Lengths and offsets.
-  int paragraphCount = 0;
+  bool quill_enabled = false;
+  bool first_line_done = false;
   
   void preprocess ();
   void process ();
@@ -85,8 +86,6 @@ private:
   void addLink (xml_node domNode, string reference, string identifier, string style, string text);
   
   bool roadIsClear ();
-  
-  bool quill_enabled = false;
 };
 
 
