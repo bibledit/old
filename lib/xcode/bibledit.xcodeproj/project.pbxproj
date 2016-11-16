@@ -1204,6 +1204,8 @@
 		CAF0A8F11BAD76E40066723D /* sword.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = sword.html; sourceTree = "<group>"; };
 		CAF2305A1DDC6D4000506E1C /* position.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = position.cpp; sourceTree = "<group>"; };
 		CAF2305B1DDC6D4000506E1C /* position.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = position.h; sourceTree = "<group>"; };
+		CAF2305C1DDC8CE500506E1C /* navigate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = navigate.cpp; sourceTree = "<group>"; };
+		CAF2305D1DDC8CE500506E1C /* navigate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = navigate.h; sourceTree = "<group>"; };
 		CAF2D9AD1BB28DDC002EFC6F /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAF2D9AE1BB28DDC002EFC6F /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAF2D9AF1BB2B358002EFC6F /* resources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = resources.cpp; sourceTree = "<group>"; };
@@ -1320,6 +1322,8 @@
 				CA1506AF1DD4FBFC00EA7FB0 /* index.js */,
 				CA3F90301DD5D273000BAEC0 /* load.cpp */,
 				CA3F90311DD5D273000BAEC0 /* load.h */,
+				CAF2305C1DDC8CE500506E1C /* navigate.cpp */,
+				CAF2305D1DDC8CE500506E1C /* navigate.h */,
 				CAF2305A1DDC6D4000506E1C /* position.cpp */,
 				CAF2305B1DDC6D4000506E1C /* position.h */,
 			);

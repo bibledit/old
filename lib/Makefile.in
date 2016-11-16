@@ -221,18 +221,19 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	editpm/index.$(OBJEXT) editpm/load.$(OBJEXT) \
 	editql/index.$(OBJEXT) editql/load.$(OBJEXT) \
-	editql/position.$(OBJEXT) search/all.$(OBJEXT) \
-	search/index.$(OBJEXT) search/replace.$(OBJEXT) \
-	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
-	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
-	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
-	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
-	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
-	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
-	tmp/tmp.$(OBJEXT) workspace/index.$(OBJEXT) \
-	workspace/logic.$(OBJEXT) workspace/settings.$(OBJEXT) \
-	workspace/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
-	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
+	editql/position.$(OBJEXT) editql/navigate.$(OBJEXT) \
+	search/all.$(OBJEXT) search/index.$(OBJEXT) \
+	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
+	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
+	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
+	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
+	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
+	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
+	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
+	workspace/index.$(OBJEXT) workspace/logic.$(OBJEXT) \
+	workspace/settings.$(OBJEXT) workspace/organize.$(OBJEXT) \
+	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
+	sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/notes.$(OBJEXT) sendreceive/changes.$(OBJEXT) \
 	sendreceive/files.$(OBJEXT) sendreceive/resources.$(OBJEXT) \
@@ -773,6 +774,7 @@ libbibledit_a_SOURCES = \
 	editql/index.cpp \
 	editql/load.cpp \
 	editql/position.cpp \
+	editql/navigate.cpp \
 	search/all.cpp \
 	search/index.cpp \
 	search/replace.cpp \
@@ -1813,6 +1815,8 @@ editql/load.$(OBJEXT): editql/$(am__dirstamp) \
 	editql/$(DEPDIR)/$(am__dirstamp)
 editql/position.$(OBJEXT): editql/$(am__dirstamp) \
 	editql/$(DEPDIR)/$(am__dirstamp)
+editql/navigate.$(OBJEXT): editql/$(am__dirstamp) \
+	editql/$(DEPDIR)/$(am__dirstamp)
 search/all.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
 search/index.$(OBJEXT): search/$(am__dirstamp) \
@@ -2755,6 +2759,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@editpm/$(DEPDIR)/load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editql/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editql/$(DEPDIR)/load.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@editql/$(DEPDIR)/navigate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editql/$(DEPDIR)/position.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/focus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/index.Po@am__quote@
