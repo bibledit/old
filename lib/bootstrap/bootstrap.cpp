@@ -86,6 +86,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editpm/load.h>
 #include <editql/index.h>
 #include <editql/load.h>
+#include <editql/position.h>
 #include <search/all.h>
 #include <search/index.h>
 #include <search/replace.h>
@@ -393,6 +394,11 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == editql_load_url ()) && browser_request_security_okay (request) && editql_load_acl (request)) {
     request->reply = editql_load (request);
+    return;
+  }
+
+  if ((url == editql_position_url ()) && browser_request_security_okay (request) && editql_position_acl (request)) {
+    request->reply = editql_position (request);
     return;
   }
 
