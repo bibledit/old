@@ -73,7 +73,7 @@ string editql_navigate (void * webserver_request)
   
   // The caret offset should be in the main text body.
   // If it is in a note body, skip the verse updating.
-  if (offset > editor_usfm2html.textLength) return ""; // Todo update textLength for Quill.
+  if (offset > editor_usfm2html.textLength) return "";
 
 
   // Get the number of verses in the USFM.
@@ -107,7 +107,7 @@ string editql_navigate (void * webserver_request)
         break;
       }
     }
-    ending_offsets.push_back (offset);
+    ending_offsets.push_back (offset - 1);
   }
   
   
