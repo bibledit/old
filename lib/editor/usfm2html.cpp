@@ -240,7 +240,9 @@ void Editor_Usfm2Html::process ()
             openTextStyle (style, false);
             string textFollowingMarker = usfm_get_text_following_marker (markersAndText, markersAndTextPointer);
             string number = usfm_peek_verse_number (textFollowingMarker);
-            verseStartOffsets [convert_to_int (number)] = textLength;
+            int offset = textLength;
+            if (quill_enabled) offset += paragraphCount - 1;
+            verseStartOffsets [convert_to_int (number)] = offset;
             addText (number);
             closeTextStyle (false);
             addText (" ");

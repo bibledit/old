@@ -65,6 +65,7 @@ string editql_position (void * webserver_request)
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (stylesheet);
+  editor_usfm2html.quill ();
   editor_usfm2html.run ();
   
   int startingOffset = 0;
