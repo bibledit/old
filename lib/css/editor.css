@@ -18,3 +18,9 @@
   padding-right: 5px;
   padding-bottom: 5px;
 }
+.nomargins {
+  margin-top: 0mm !important;
+  margin-bottom: 0mm !important;
+  margin-left: 0mm !important;
+  margin-right: 0mm !important;
+}
