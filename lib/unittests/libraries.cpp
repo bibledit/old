@@ -667,7 +667,7 @@ void test_store_bible_data ()
 }
 
 
-void test_editor_html2usfm ()
+void test_editor_html2usfm () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -676,35 +676,76 @@ void test_editor_html2usfm ()
   // Basic test.
   {
     string html = "<p class=\"p\"><span>The earth brought forth.</span></p>";
-    Editor_Html2Usfm editor_export;
-    editor_export.load (html);
-    editor_export.stylesheet (styles_logic_standard_sheet ());
-    editor_export.run ();
-    string usfm = editor_export.get ();
     string standard = "\\p The earth brought forth.";
-    evaluate (__LINE__, __func__, standard, usfm);
+    // DOM-based editor test.
+    {
+      Editor_Html2Usfm editor_export;
+      editor_export.load (html);
+      editor_export.stylesheet (styles_logic_standard_sheet ());
+      editor_export.run ();
+      string usfm = editor_export.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
+    // Quill-based editor test.
+    html = filter_string_str_replace ("<span>", "", html);
+    html = filter_string_str_replace ("</span>", "", html);
+    {
+      Editor_Html2Usfm editor_export;
+      editor_export.load (html);
+      editor_export.stylesheet (styles_logic_standard_sheet ());
+      editor_export.run ();
+      string usfm = editor_export.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
   }
   // Non-Breaking Spaces
   {
     string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
-    Editor_Html2Usfm editor_export;
-    editor_export.load (html);
-    editor_export.stylesheet (styles_logic_standard_sheet ());
-    editor_export.run ();
-    string usfm = editor_export.get ();
     string standard = "\\p The earth brought forth.";
-    evaluate (__LINE__, __func__, standard, usfm);
+    // Test DOM-based editor.
+    {
+      Editor_Html2Usfm editor_export;
+      editor_export.load (html);
+      editor_export.stylesheet (styles_logic_standard_sheet ());
+      editor_export.run ();
+      string usfm = editor_export.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
+    // Test Quill-based editor.
+    html = filter_string_str_replace ("<span>", "", html);
+    html = filter_string_str_replace ("</span>", "", html);
+    {
+      Editor_Html2Usfm editor_export;
+      editor_export.load (html);
+      editor_export.stylesheet (styles_logic_standard_sheet ());
+      editor_export.run ();
+      string usfm = editor_export.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
   }
-  // Embedded Text Spans One
+  // Test embedded <span> elements
   {
     string html = "<p class=\"p\"><span>The <span class=\"add\"><span class=\"nd\">Lord God</span> is calling</span> you</span><span>.</span></p>";
-    Editor_Html2Usfm editor_export;
-    editor_export.load (html);
-    editor_export.stylesheet (styles_logic_standard_sheet ());
-    editor_export.run ();
-    string usfm = editor_export.get ();
     string standard = "\\p The \\add \\+nd Lord God\\+nd* is calling\\add* you.";
-    evaluate (__LINE__, __func__, standard, usfm);
+    // Test DOM-based editor.
+    {
+      Editor_Html2Usfm editor_export;
+      editor_export.load (html);
+      editor_export.stylesheet (styles_logic_standard_sheet ());
+      editor_export.run ();
+      string usfm = editor_export.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
+    // Test Quill-based editor.
+    html = "<p class=\"p\">The <span class=\"add\"><span class=\"nd\">Lord God</span> is calling</span> you.</p>";
+    {
+      Editor_Html2Usfm editor_export;
+      editor_export.load (html);
+      editor_export.stylesheet (styles_logic_standard_sheet ());
+      editor_export.run ();
+      string usfm = editor_export.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
   }
   // Basic note
   {
@@ -723,7 +764,7 @@ void test_editor_html2usfm ()
     string standard = "\\p The earth brought forth\\x + 2 Joh. 1.1\\x*.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
-  // Footnote Deleted Body
+  // Footnote with its body deleted.
   {
     string html =
     "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">f</a><span>.</span></p>"
@@ -742,7 +783,7 @@ void test_editor_html2usfm ()
     // Clear message from logbook.
     refresh_sandbox (false);
   }
-  // Footnote Deleted Citation
+  // Footnote with a deleted citation.
   {
     string html =
       "<p class=\"p\"><span>The earth brought forth</span><span>.</span></p>"
