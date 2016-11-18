@@ -859,6 +859,11 @@
 		CAB06DFD1AD2FA3800AE245C /* bibleditweb.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = bibleditweb.html; sourceTree = "<group>"; };
 		CAB274B21BB1834C00703ED5 /* cache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = cache.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAB274B31BB1834C00703ED5 /* cache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = cache.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CAB31B511DDF1C5F00F77630 /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save.cpp; sourceTree = "<group>"; };
+		CAB31B521DDF1C5F00F77630 /* save.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = save.h; sourceTree = "<group>"; };
+		CAB31B5C1DDF249B00F77630 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CAB31B5D1DDF249B00F77630 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CAB31B661DDF249B00F77630 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CAB35CDA1DABA5C2002D625A /* ldap.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ldap.txt; sourceTree = "<group>"; };
 		CAB35CE11DABB766002D625A /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAB35CE21DABB766002D625A /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = logic.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1326,6 +1331,8 @@
 				CAF2305D1DDC8CE500506E1C /* navigate.h */,
 				CAF2305A1DDC6D4000506E1C /* position.cpp */,
 				CAF2305B1DDC6D4000506E1C /* position.h */,
+				CAB31B511DDF1C5F00F77630 /* save.cpp */,
+				CAB31B521DDF1C5F00F77630 /* save.h */,
 			);
 			name = editql;
 			path = ../editql;
@@ -3253,6 +3260,7 @@
 				CAA4D2A71A45A648003ABA25 /* processes */,
 				CAC0E03B1BE23B2C00640BFE /* public */,
 				CABE4D0B1BDBC996000547DB /* pugixml */,
+				CAB31B531DDF249B00F77630 /* quill */,
 				CAA4D2B71A45A648003ABA25 /* reconfigure */,
 				CA607B641D3FF41500FC5792 /* related */,
 				CAA4D2B91A45A648003ABA25 /* resource */,
@@ -3289,6 +3297,17 @@
 			indentWidth = 2;
 			sourceTree = "<group>";
 			tabWidth = 2;
+		};
+		CAB31B531DDF249B00F77630 /* quill */ = {
+			isa = PBXGroup;
+			children = (
+				CAB31B5C1DDF249B00F77630 /* logic.cpp */,
+				CAB31B5D1DDF249B00F77630 /* logic.h */,
+				CAB31B661DDF249B00F77630 /* readme.txt */,
+			);
+			name = quill;
+			path = ../quill;
+			sourceTree = "<group>";
 		};
 		CAB35CDB1DABB766002D625A /* ldap */ = {
 			isa = PBXGroup;
