@@ -179,7 +179,7 @@ int main (int argc, char **argv)
 
 #else
   
-  cout << "Unit tests are disabled" << endl;
+  cout << "Unit tests have been disabled" << endl;
   cout << "Enable them through ./configure --enable-unittests" << endl;
   return 0;
 
