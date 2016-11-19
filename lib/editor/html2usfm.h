@@ -32,6 +32,7 @@ using namespace pugi;
 class Editor_Html2Usfm
 {
 public:
+  void quill ();
   void load (string html);
   void stylesheet (string stylesheet);
   void run ();
@@ -57,6 +58,7 @@ private:
   void processNoteCitation (xml_node node);
   string cleanUSFM (string usfm);
   xml_node get_note_pointer (xml_node node, string id);
+  bool quill_enabled = false;
 };
 
 

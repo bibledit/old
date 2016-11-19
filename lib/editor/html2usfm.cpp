@@ -25,12 +25,27 @@
 #include <styles/logic.h>
 #include <database/logs.h>
 #include <pugixml/utils.h>
+#include <quill/logic.h>
+
+
+// Enable styles suitable for Quill-based editor.
+// To be called before loading the html.
+void Editor_Html2Usfm::quill ()
+{
+  quill_enabled = true;
+}
 
 
 void Editor_Html2Usfm::load (string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal ones.
   html = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", html);
+  
+  // Deal with the styles a Quill-based editor works with.
+  if (quill_enabled) {
+    html = filter_string_str_replace (quill_logic_class_prefix_block (), "", html);
+    html = filter_string_str_replace (quill_logic_class_prefix_inline (), "", html);
+  }
   
   // The web editor produces <hr> and other elements following the HTML specs,
   // but Bibledit's XML parser needs <hr/> and similar elements.

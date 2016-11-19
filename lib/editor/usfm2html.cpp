@@ -108,7 +108,9 @@ string Editor_Usfm2Html::get ()
   // Therefore convert it to the following:
   // <p class="b"><br></p>
   // This is how the webkit browser naturally represents a new empty line.
-  html = filter_string_str_replace ("<p class=\"b\" />", "<p class=\"b\"><br></p>", html);
+  string clas = "b";
+  if (quill_enabled) clas.insert (0, quill_logic_class_prefix_block ());
+  html = filter_string_str_replace ("<p class=\"" + clas + "\" />", "<p class=\"" + clas + "\"><br></p>", html);
   
   // Currently libxml2 produces hexadecimal character entities.
   // This is unwanted behaviour: Convert them to normal characters.

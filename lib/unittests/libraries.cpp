@@ -667,7 +667,7 @@ void test_store_bible_data ()
 }
 
 
-void test_editor_html2usfm () // Todo
+void test_editor_html2usfm ()
 {
   trace_unit_tests (__func__);
   
@@ -698,7 +698,7 @@ void test_editor_html2usfm () // Todo
       evaluate (__LINE__, __func__, standard, usfm);
     }
   }
-  // Non-Breaking Spaces
+  // Non-breaking spaces
   {
     string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
     string standard = "\\p The earth brought forth.";
@@ -828,6 +828,7 @@ void test_editor_usfm2html ()
       "\\p\n"
       "\\v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\\x + Dute. 4.19. Hlab. 33.6.\\x*.\n";
     {
+      // DOM-based editor.
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -836,6 +837,7 @@ void test_editor_usfm2html ()
       evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 1) }, editor_usfm2html.verseStartOffsets);
     }
     {
+      // Quill-based editor.
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -860,6 +862,7 @@ void test_editor_usfm2html ()
     "\\v 6 Kodwa kwenyuka inkungu ivela emhlabathini, yasithelela ubuso bonke bomhlabathi.\n"
     "\\v 7 IN\\nd kosi\\nd* uNkulunkulu yasibumba umuntu ngothuli oluvela emhlabathini\\x + 3.19,23. Hlab. 103.14. Tshu. 12.7. 1 Kor. 15.47.\\x*, yaphefumulela emakhaleni akhe umoya wempilo; umuntu wasesiba ngumphefumulo ophilayo\\x + 7.22. Jobe 33.4. Isa. 2.22. 1 Kor. 15.45.\\x*.\n";
     {
+      // DOM-based editor.
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -876,6 +879,7 @@ void test_editor_usfm2html ()
                                       editor_usfm2html.verseStartOffsets);
     }
     {
+      // Quill-based editor.
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -893,7 +897,7 @@ void test_editor_usfm2html ()
                                       editor_usfm2html.verseStartOffsets);
     }
   }
-  // Space After Starting Marker
+  // Space after starting marker
   {
     string usfm =
     "\\c 1\n"
@@ -968,7 +972,7 @@ void test_editor_roundtrip ()
   trace_unit_tests (__func__);
   
   refresh_sandbox (true);
-  // One Unknown Marker Opener
+  // One unknown opening marker.
   {
     string standard_usfm = "\\abc";
     string standard_html = "<p class=\"mono\"><span>\\abc </span></p>";
@@ -989,7 +993,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, filter_string_trim (usfm));
   }
-  // Two Unknown Marker Openers
+  // Two unknown opening markers.
   {
     string standard_usfm =
     "\\abc\n"
@@ -1014,7 +1018,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // One Unknown Markers Closer
+  // One unknown closing marker.
   {
     string standard_usfm = "\\abc text\\abc*.";
     string standard_html = "<p class=\"mono\"><span>\\abc </span><span>text</span><span>\\abc*</span><span>.</span></p>";
@@ -1035,7 +1039,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Two Unknown Markers Closer
+  // Two unknown closing markers.
   {
     string standard_usfm =
     "\\abc text\\abc*.\n"
@@ -1093,7 +1097,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // One Paragraph
+  // One paragraph.
   {
     string standard_usfm = "\\p Paragraph text.";
     string standard_html = "<p class=\"p\"><span>Paragraph text.</span></p>";
@@ -1114,7 +1118,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Two Paragraphs
+  // Two paragraphs.
   {
     string standard_usfm =
     "\\p Paragraph text.\n"
@@ -1139,7 +1143,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Inline Text
+  // Inline text
   {
     string standard_usfm = "\\p Paragraph text plus \\add added\\add* text.";
     string standard_html = "<p class=\"p\"><span>Paragraph text plus </span><span class=\"add\">added</span><span> text.</span></p>";
@@ -1160,7 +1164,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Inline Texts
+  // Inline texts
   {
     string standard_usfm = "\\p Paragraph text plus \\add added\\add* text plus \\add added\\add* text.";
     string standard_html = "<p class=\"p\"><span>Paragraph text plus </span><span class=\"add\">added</span><span> text plus </span><span class=\"add\">added</span><span> text.</span></p>";
@@ -1181,7 +1185,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Chapter
+  // Chapter.
   {
     string standard_usfm =
     "\\c 1\n"
@@ -1206,7 +1210,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Verses
+  // Verses.
   {
     string standard_usfm =
     "\\p\n"
@@ -1231,7 +1235,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Peripherals
+  // Peripherals.
   {
     string standard_usfm =
     "\\periph Title Page\n"
@@ -1256,7 +1260,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Picture
+  // Picture.
   {
     string standard_usfm =
     "\\p Text\n"
@@ -1283,7 +1287,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Table
+  // Table.
   {
     Webserver_Request request;
 
@@ -1321,7 +1325,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Word List Entry.
+  // Word list entry.
   {
     string standard_usfm = "\\p A \\ndx index\\ndx* b \\wh Hebrew\\wh* c.";
     string standard_html =
@@ -1343,7 +1347,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Crossreference
+  // Crossreference.
   {
     string standard_usfm = "\\p The elder\\x + 2 Joh. 1.1\\x* to the beloved Gaius.";
     string standard_html =
@@ -1369,7 +1373,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Crossreferences
+  // Crossreferences.
   {
     string standard_usfm =
     "\\p The elder\\x + 2 Joh. 1.1\\x* to the beloved Gaius.\n"
@@ -1398,7 +1402,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Footnote
+  // Footnote.
   {
     string standard_usfm =
     "\\p The earth brought forth\\f + \\fk brought: \\fl Heb. \\fq explanation.\\f*.";
@@ -1425,7 +1429,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Cycling Note Caller
+  // Cycling the note caller.
   {
     string standard_usfm =
     "\\p Text\\f + note\\f*.\n"
@@ -1512,7 +1516,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Endnote
+  // Endnote.
   {
     string standard_usfm =
     "\\p The earth brought forth\\fe + \\fk brought: \\fl Heb. \\fq explanation.\\fe*.";
@@ -1539,7 +1543,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Realistic Round Trip 1
+  // Round trip from real life.
   {
     string standard_usfm =
     "\\c 1\n"
@@ -1576,7 +1580,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Realistic Round Trip 2
+  // Round trip from real life.
   {
     string standard_usfm =
     "\\c 1\n"
@@ -1636,7 +1640,7 @@ void test_editor_roundtrip ()
     string usfm = editor_export.get ();
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
-  // Nested Text Markup 1
+  // Nested text markup.
   {
     string usfm =
     "\\p\n"
@@ -1663,7 +1667,7 @@ void test_editor_roundtrip ()
     "\\v 2 \\add add\\add*\\add \\+nd addnd\\+nd*\\add*.";
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // Nested Text Markup 2
+  // Nested text markup.
   {
     string usfm =
     "\\p\n"
@@ -1690,7 +1694,7 @@ void test_editor_roundtrip ()
     "\\v 2 \\add add\\add*\\add \\+nd addnd\\+nd*\\add*.";
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // Nested Text Markup 3
+  // Nested text markup.
   {
     string usfm =
     "\\p The \\add \\+nd Lord God\\+nd* is\\add* calling you";
@@ -1714,7 +1718,7 @@ void test_editor_roundtrip ()
     usfm = "\\p The \\add \\+nd Lord God\\+nd*\\add*\\add  is\\add* calling you";
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // Nested Note Markup 1
+  // Nested note markup.
   {
     string usfm =
     "\\p\n"
@@ -1745,7 +1749,7 @@ void test_editor_roundtrip ()
     "\\v 2 text\\f + \\fk fk \\fk \\+fdc key-fdc\\+fdc*\\fk* normal\\f*.";
     evaluate (__LINE__, __func__, usfm, output);
   }
-  // Nested Note Markup 2
+  // Nested note markup.
   {
     string usfm =
     "\\p"
@@ -1813,24 +1817,44 @@ void test_editor_roundtrip ()
     "\\p paragraph\n"
     "\\b\n"
     "\\p paragraph";
-    string standard_html =
-    "<p class=\"p\"><span>paragraph</span></p><p class=\"b\"><br></p><p class=\"p\"><span>paragraph</span></p>";
     
-    Webserver_Request request;
+    {
+      // DOM-based editor.
+      Editor_Usfm2Html editor_usfm2html;
+      editor_usfm2html.load (standard_usfm);
+      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+      editor_usfm2html.run ();
+      string html = editor_usfm2html.get ();
+      string standard_html = "<p class=\"p\"><span>paragraph</span></p><p class=\"b\"><br></p><p class=\"p\"><span>paragraph</span></p>";
+      evaluate (__LINE__, __func__, standard_html, html);
+      
+      Editor_Html2Usfm editor_export;
+      editor_export.load (html);
+      editor_export.stylesheet (styles_logic_standard_sheet ());
+      editor_export.run ();
+      string usfm = editor_export.get ();
+      evaluate (__LINE__, __func__, standard_usfm, usfm);
+    }
     
-    Editor_Usfm2Html editor_usfm2html;
-    editor_usfm2html.load (standard_usfm);
-    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.run ();
-    string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
-    
-    Editor_Html2Usfm editor_export;
-    editor_export.load (html);
-    editor_export.stylesheet (styles_logic_standard_sheet ());
-    editor_export.run ();
-    string usfm = editor_export.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    {
+      // Quill-based editor.
+      Editor_Usfm2Html editor_usfm2html;
+      editor_usfm2html.load (standard_usfm);
+      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+      editor_usfm2html.quill ();
+      editor_usfm2html.run ();
+      string html = editor_usfm2html.get ();
+      string standard_html = "<p class=\"ql-align-p\"><span>paragraph</span></p><p class=\"ql-align-b\"><br></p><p class=\"ql-align-p\"><span>paragraph</span></p>";
+      evaluate (__LINE__, __func__, standard_html, html);
+      
+      Editor_Html2Usfm editor_export;
+      editor_export.quill ();
+      editor_export.load (html);
+      editor_export.stylesheet (styles_logic_standard_sheet ());
+      editor_export.run ();
+      string usfm = editor_export.get ();
+      evaluate (__LINE__, __func__, standard_usfm, usfm);
+    }
   }
   // Text \xo and \xt.
   {
@@ -3809,6 +3833,14 @@ void test_tasks_logic ()
   evaluate (__LINE__, __func__, false, tasks_logic_queued ("task4", { "parameter1", "parameter3" }));
   evaluate (__LINE__, __func__, false, tasks_logic_queued ("task4", { "parameter2" }));
   
+}
+
+
+void test_libraries_dev ()
+{
+  trace_unit_tests (__func__);
+
+
 }
 
 

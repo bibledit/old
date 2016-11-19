@@ -50,6 +50,7 @@ void test_editone_logic ();
 void test_http ();
 void test_memory ();
 void test_tasks_logic ();
+void test_libraries_dev ();
 
 
 #endif

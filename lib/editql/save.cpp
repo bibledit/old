@@ -91,13 +91,10 @@ string editql_save (void * webserver_request)
     return translate("No write access");
   }
 
-  // Remove certain parts from the class names related to the Quill library.
-  html = filter_string_str_replace (quill_logic_class_prefix_block (), "", html);
-  html = filter_string_str_replace (quill_logic_class_prefix_inline (), "", html);
-  
   string stylesheet = request->database_config_user()->getStylesheet();
   
   Editor_Html2Usfm editor_export;
+  editor_export.quill ();
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
   editor_export.run ();
