@@ -55,7 +55,7 @@ string editql_load (void * webserver_request)
   int chapter = convert_to_int (request->query ["chapter"]);
   
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm (webserver_request, bible, book, chapter, "edit");
+  storeLoadedUsfm (webserver_request, bible, book, chapter, "editql");
   
   string stylesheet = request->database_config_user()->getStylesheet ();
   
