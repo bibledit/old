@@ -28,24 +28,10 @@
 #include <quill/logic.h>
 
 
-// Enable styles suitable for Quill-based editor.
-// To be called before loading the html.
-void Editor_Html2Usfm::quill ()
-{
-  quill_enabled = true;
-}
-
-
 void Editor_Html2Usfm::load (string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal ones.
   html = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", html);
-  
-  // Deal with the styles a Quill-based editor works with.
-  if (quill_enabled) {
-    html = filter_string_str_replace (quill_logic_class_prefix_block (), "", html);
-    html = filter_string_str_replace (quill_logic_class_prefix_inline (), "", html);
-  }
   
   // The web editor produces <hr> and other elements following the HTML specs,
   // but Bibledit's XML parser needs <hr/> and similar elements.
@@ -100,6 +86,13 @@ void Editor_Html2Usfm::stylesheet (string stylesheet)
 }
 
 
+// Enable styles suitable for Quill-based editor.
+void Editor_Html2Usfm::quill ()
+{
+  quill_enabled = true;
+}
+
+
 void Editor_Html2Usfm::run ()
 {
   preprocess ();
@@ -110,7 +103,7 @@ void Editor_Html2Usfm::run ()
 
 void Editor_Html2Usfm::process ()
 {
-  // Walk the children to retrieve the "p" elements, then process them.
+  // Iterate over the children to retrieve the "p" elements, then process them.
   xml_node body = document.first_child ();
   for (xml_node node : body.children()) {
     // Do not process the notes <div>,
@@ -168,7 +161,7 @@ void Editor_Html2Usfm::openElementNode (xml_node node)
 {
   // The tag and class names of this element node.
   string tagName = node.name ();
-  string className = node.attribute ("class").value ();
+  string className = update_quill_class (node.attribute ("class").value ());
   
   if (tagName == "p")
   {
@@ -210,7 +203,7 @@ void Editor_Html2Usfm::closeElementNode (xml_node node)
 {
   // The tag and class names of this element node.
   string tagName = node.name ();
-  string className = node.attribute ("class").value ();
+  string className = update_quill_class (node.attribute ("class").value ());
   
   if (tagName == "p")
   {
@@ -391,6 +384,16 @@ xml_node Editor_Html2Usfm::get_note_pointer (xml_node node, string id)
   
   xml_node null_node;
   return null_node;
+}
+
+
+string Editor_Html2Usfm::update_quill_class (string classname)
+{
+  if (quill_enabled) {
+    classname = filter_string_str_replace (quill_logic_class_prefix_block (), "", classname);
+    classname = filter_string_str_replace (quill_logic_class_prefix_inline (), "", classname);
+  }
+  return classname;
 }
 
 
