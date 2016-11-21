@@ -23,12 +23,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // The prefix configured in a Quill-based editor for block text.
 string quill_logic_class_prefix_block ()
 {
-  return "ql-align-";
+  return "b-";
 }
 
 
 // The prefix configured in a Quill-based editor for inline text.
 string quill_logic_class_prefix_inline ()
 {
-  return "ql-bg-";
+  return "i-";
 }

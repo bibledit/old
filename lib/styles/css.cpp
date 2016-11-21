@@ -26,6 +26,7 @@
 #include <styles/logic.h>
 #include <database/config/bible.h>
 #include <fonts/logic.h>
+#include <quill/logic.h>
 
 
 Styles_Css::Styles_Css (void * webserver_request_in, string stylesheet_in)
@@ -167,13 +168,13 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
   string class_ = style->marker;
 
   // The name of the class as used in a Quill-based editor.
-  string quill_class = ", .ql-";
+  string quill_class = ", .";
   if (paragraph) {
-    quill_class.append ("align");
+    quill_class.append (quill_logic_class_prefix_block ());
   } else {
-    quill_class.append ("bg");
+    quill_class.append (quill_logic_class_prefix_inline ());
   }
-  quill_class.append ("-" + class_);
+  quill_class.append (class_);
   
   // Start with the class. Notice the dot.
   code.push_back ("." + class_ + quill_class + " {");
