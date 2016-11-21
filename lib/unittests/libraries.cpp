@@ -816,10 +816,9 @@ void test_editor_html2usfm ()
 }
 
 
-void test_editor_usfm2html ()
+void test_editor_usfm2html () // Todo
 {
   trace_unit_tests (__func__);
-  
   Database_State::create ();
   // Test text length for one verse.
   {
@@ -1406,28 +1405,54 @@ void test_editor_roundtrip ()
   {
     string standard_usfm =
     "\\p The earth brought forth\\f + \\fk brought: \\fl Heb. \\fq explanation.\\f*.";
-    string standard_html =
-    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
-    "<div id=\"notes\">"
-    "<hr />"
-    "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>"
-    "</div>";
 
-    Webserver_Request request;
-    
-    Editor_Usfm2Html editor_usfm2html;
-    editor_usfm2html.load (standard_usfm);
-    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.run ();
-    string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
-    
-    Editor_Html2Usfm editor_export;
-    editor_export.load (html);
-    editor_export.stylesheet (styles_logic_standard_sheet ());
-    editor_export.run ();
-    string usfm = editor_export.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    {
+      // DOM-based editor.
+      string standard_html =
+      "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" style=\"text-decoration:none; color: inherit;\" class=\"superscript\">1</a><span>.</span></p>"
+      "<div id=\"notes\">"
+      "<hr />"
+      "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>"
+      "</div>";
+
+      Editor_Usfm2Html editor_usfm2html;
+      editor_usfm2html.load (standard_usfm);
+      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+      editor_usfm2html.run ();
+      string html = editor_usfm2html.get ();
+      evaluate (__LINE__, __func__, standard_html, html);
+      
+      Editor_Html2Usfm editor_export;
+      editor_export.load (html);
+      editor_export.stylesheet (styles_logic_standard_sheet ());
+      editor_export.run ();
+      string usfm = editor_export.get ();
+      evaluate (__LINE__, __func__, standard_usfm, usfm);
+    }
+    {
+      // Quill-based editor. Todo
+      string standard_html =
+      "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-note1 superscript\">1</span><span>.</span></p>"
+      "<p class=\"b-notes\">"
+      "<br />"
+      "<p class=\"b-f\"><span class=\"i-note1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>"
+      "</p>";
+      
+      Editor_Usfm2Html editor_usfm2html;
+      editor_usfm2html.load (standard_usfm);
+      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+      editor_usfm2html.quill ();
+      editor_usfm2html.run ();
+      string html = editor_usfm2html.get ();
+      evaluate (__LINE__, __func__, standard_html, html);
+      
+      Editor_Html2Usfm editor_export;
+      editor_export.load (html);
+      editor_export.stylesheet (styles_logic_standard_sheet ());
+      editor_export.run ();
+      string usfm = editor_export.get ();
+      // Todo evaluate (__LINE__, __func__, standard_usfm, usfm);
+    }
   }
   // Cycling the note caller.
   {

@@ -79,8 +79,9 @@ void Editor_Usfm2Html::run ()
 
 string Editor_Usfm2Html::get ()
 {
-  // If there are notes, move the notes <div> after everything else.
-  // (It has the <hr> as a child).
+  // If there are notes, move the notes <div> or <p> after everything else.
+  // (It has the <hr> or <br> as a child).
+  // Todo: Quill: Move its contents out and append them to the end.
   size_t count = distance (notes_node.begin (), notes_node.end ());
   if (count > 1) {
     body_node.append_move (notes_node);
@@ -171,9 +172,17 @@ void Editor_Usfm2Html::preprocess ()
   // Create notes xml node.
   // It comes at the start of the document.
   // (Later, it will either be deleted, or moved to the end).
-  notes_node = document.append_child ("div");
-  notes_node.append_attribute ("id") = "notes";
-  notes_node.append_child ("hr");
+  string notes_value = "notes";
+  if (quill_enabled) {
+    notes_node = document.append_child ("p");
+    notes_value.insert (0, quill_logic_class_prefix_block ());
+    notes_node.append_attribute ("class") = notes_value.c_str ();
+    notes_node.append_child ("br");
+  } else {
+    notes_node = document.append_child ("div");
+    notes_node.append_attribute ("id") = notes_value.c_str ();
+    notes_node.append_child ("hr");
+  }
 }
 
  
@@ -511,34 +520,43 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
     return;
   }
   
-  
   // Ensure that a paragraph is open, so that the note can be added to it.
   if (!current_p_open) {
     newParagraph ();
   }
   
   // Not used:
-  if (endnote) {};
+  (void) endnote;
   
   noteCount++;
   noteOpened = true;
   
   // Add the link with all relevant data for the note citation.
-  string reference = "#note" + convert_to_string (noteCount);
-  string identifier = "citation" + convert_to_string (noteCount);
-  addLink (currentPnode, reference, identifier, "superscript", citation);
+  if (quill_enabled) {
+    addNoteQuillLink (currentPnode, noteCount, "", citation);
+  } else {
+    string reference = "#note" + convert_to_string (noteCount);
+    string identifier = "citation" + convert_to_string (noteCount);
+    addNoteDomLink (currentPnode, reference, identifier, "superscript", citation);
+  }
   
   // Open a paragraph element for the note body.
   notePnode = notes_node.append_child ("p");
   note_p_open = true;
-  notePnode.append_attribute ("class") = style.c_str();
+  string cls (style);
+  if (quill_enabled) cls.insert (0, quill_logic_class_prefix_block ());
+  notePnode.append_attribute ("class") = cls.c_str();
   
   closeTextStyle (false);
   
   // Add the link with all relevant data for the note body.
-  reference = "#citation" + convert_to_string (noteCount);
-  identifier = "note" + convert_to_string (noteCount);
-  addLink (notePnode, reference, identifier, "", citation);
+  if (quill_enabled) {
+    addNoteQuillLink (notePnode, noteCount, "", citation);
+  } else {
+    string reference = "#citation" + convert_to_string (noteCount);
+    string identifier = "note" + convert_to_string (noteCount);
+    addNoteDomLink (notePnode, reference, identifier, "", citation);
+  }
   
   // Add a space.
   addNoteText (" ");
@@ -559,8 +577,14 @@ void Editor_Usfm2Html::addNoteText (string text)
   xml_node spanDomElement = notePnode.append_child ("span");
   spanDomElement.text ().set (text.c_str());
   if (!currentNoteTextStyles.empty()) {
-    // Take character style as specified in this object.
-    spanDomElement.append_attribute ("class") = filter_string_implode (currentNoteTextStyles, " ").c_str();
+    // Take character style(s) as specified in this object.
+    vector <string> currentNoteTextStyles2 (currentNoteTextStyles);
+    if (quill_enabled) {
+      for (auto & style : currentNoteTextStyles2) {
+        style.insert (0, quill_logic_class_prefix_inline ());
+      }
+    }
+    spanDomElement.append_attribute ("class") = filter_string_implode (currentNoteTextStyles2, " ").c_str();
   }
 }
 
@@ -575,13 +599,14 @@ void Editor_Usfm2Html::closeCurrentNote ()
 }
 
 
-// This adds a link.
+// This adds a link as a mechanism to connect body text with a note body.
 // $domNode: The DOM node where to add the link to.
 // $reference: The link's href, e.g. where it links to.
 // $identifier: The link's identifier. Others can link to it.
 // $style: The link text's style.
 // $text: The link's text.
-void Editor_Usfm2Html::addLink (xml_node domNode, string reference, string identifier, string style, string text)
+// It also deals with a Quill-based editor, in a slightly different way.
+void Editor_Usfm2Html::addNoteDomLink (xml_node domNode, string reference, string identifier, string style, string text)
 {
   xml_node aDomElement = domNode.append_child ("a");
   aDomElement.append_attribute ("href") = reference.c_str();
@@ -595,6 +620,25 @@ void Editor_Usfm2Html::addLink (xml_node domNode, string reference, string ident
   aDomElement.append_attribute ("style") = "text-decoration:none; color: inherit;";
   // Style = class.
   if (style != "") aDomElement.append_attribute ("class") = style.c_str();
+  aDomElement.text ().set (text.c_str());
+}
+
+
+// This adds a link as a mechanism to connect body text with a note body.
+// $domNode: The DOM node where to add the link to.
+// $identifier: The link's identifier.
+// $style: The link text's style.
+// $text: The link's text.
+// It also deals with a Quill-based editor, in a slightly different way.
+void Editor_Usfm2Html::addNoteQuillLink (xml_node domNode, int identifier, string style, string text)
+{
+  xml_node aDomElement = domNode.append_child ("span");
+  string cls = "i-note" + convert_to_string (identifier);
+  if (!style.empty ()) {
+    cls.append (" ");
+    cls.append (style);
+  }
+  aDomElement.append_attribute ("class") = cls.c_str();
   aDomElement.text ().set (text.c_str());
 }
 

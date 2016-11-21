@@ -53,7 +53,7 @@ void Styles_Css::exports ()
 // Generates the CSS.
 void Styles_Css::generate ()
 {
-  code.push_back (".superscript { font-size: x-small; vertical-align: super; }");
+  code.push_back (".superscript, [class^='i-note'] { font-size: x-small; vertical-align: super; }");
   if (exports_enabled) {
     add_exports_styles ();
   }
