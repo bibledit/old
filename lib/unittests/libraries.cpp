@@ -960,8 +960,8 @@ void test_editor_usfm2html ()
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     string standard =
-    "<p class=\"ql-align-c\"><span>1</span></p>"
-    "<p class=\"ql-align-p\"><span class=\"ql-bg-v\">2</span><span> </span><span>Text </span><span class=\"ql-bg-add\">of the </span><span>1st </span><span class=\"ql-bg-add\">second verse</span><span>.</span></p>";
+    "<p class=\"b-c\"><span>1</span></p>"
+    "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span>Text </span><span class=\"i-add\">of the </span><span>1st </span><span class=\"i-add\">second verse</span><span>.</span></p>";
     evaluate (__LINE__, __func__, standard, html);
   }
 }
@@ -1844,7 +1844,7 @@ void test_editor_roundtrip ()
       editor_usfm2html.quill ();
       editor_usfm2html.run ();
       string html = editor_usfm2html.get ();
-      string standard_html = "<p class=\"ql-align-p\"><span>paragraph</span></p><p class=\"ql-align-b\"><br></p><p class=\"ql-align-p\"><span>paragraph</span></p>";
+      string standard_html = "<p class=\"b-p\"><span>paragraph</span></p><p class=\"b-b\"><br></p><p class=\"b-p\"><span>paragraph</span></p>";
       evaluate (__LINE__, __func__, standard_html, html);
       
       Editor_Html2Usfm editor_export;
