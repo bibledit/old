@@ -65,7 +65,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether to enable unit tests */
-/* #undef HAVE_UNITTESTS */
+#define HAVE_UNITTESTS 1
 
 /* Define whether to compile on Windows */
 /* #undef HAVE_WINDOWS */
@@ -80,7 +80,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 1.0.623"
+#define PACKAGE_STRING "bibledit 1.0.625"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -89,16 +89,16 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.623"
+#define PACKAGE_VERSION "1.0.625"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Define whether unit tests are enabled */
-#define UNITTESTS "no"
+#define UNITTESTS "yes"
 
 /* Version number of package */
-#define VERSION "1.0.623"
+#define VERSION "1.0.625"
 
 /* Define whether to compile on Windows */
 /* #undef WIN32 */
