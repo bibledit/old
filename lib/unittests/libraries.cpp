@@ -1430,13 +1430,13 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
     {
-      // Quill-based editor. Todo
+      // Quill-based editor.
       string standard_html =
-      "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-note1 superscript\">1</span><span>.</span></p>"
+      "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-note1\">1</span><span>.</span></p>"
       "<p class=\"b-notes\">"
       "<br />"
-      "<p class=\"b-f\"><span class=\"i-note1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>"
-      "</p>";
+      "</p>"
+      "<p class=\"b-f\"><span class=\"i-note1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>";
       
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (standard_usfm);
@@ -3864,7 +3864,6 @@ void test_tasks_logic ()
 void test_libraries_dev ()
 {
   trace_unit_tests (__func__);
-
 
 }
 

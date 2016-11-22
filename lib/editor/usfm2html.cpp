@@ -81,10 +81,17 @@ string Editor_Usfm2Html::get ()
 {
   // If there are notes, move the notes <div> or <p> after everything else.
   // (It has the <hr> or <br> as a child).
-  // Todo: Quill: Move its contents out and append them to the end.
   size_t count = distance (notes_node.begin (), notes_node.end ());
   if (count > 1) {
     body_node.append_move (notes_node);
+  }
+
+  // A Quill-based editor does not work with embedded <p> elements.
+  // Move the notes out of their parent and append them to the end main body.
+  if (quill_enabled) {
+    while (xml_node note = notes_node.first_child ().next_sibling ()) {
+      body_node.append_move (note);
+    }
   }
   
   // Get the html code, including body, without head.
