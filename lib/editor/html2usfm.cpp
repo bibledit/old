@@ -106,13 +106,13 @@ void Editor_Html2Usfm::process ()
   // Iterate over the children to retrieve the "p" elements, then process them.
   xml_node body = document.first_child ();
   for (xml_node node : body.children()) {
-    // Do not process the notes <div> or <p>
+    // Do not process the notes <div> or <p> and beyond
     // because it is at the end of the text body,
     // and data has already been gleaned from it.
     string id_or_class;
     if (quill_enabled) id_or_class = update_quill_class (node.attribute ("class").value ());
     else id_or_class = node.attribute ("id").value ();
-    if (id_or_class == "notes") continue;
+    if (id_or_class == "notes") break;
     // Process the node.
     processNode (node);
   }

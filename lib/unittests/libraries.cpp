@@ -749,68 +749,140 @@ void test_editor_html2usfm () // Todo
   }
   // Basic note
   {
-    string html =
-    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">x</a><span>.</span></p>"
-    "<div id=\"notes\">"
-    "<hr/>"
-    "<p class=\"x\"><a href=\"#citation1\" id=\"note1\">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>"
-    "<br/>"
-    "</div>";
-    Editor_Html2Usfm editor_html2usfm;
-    editor_html2usfm.load (html);
-    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
-    editor_html2usfm.run ();
-    string usfm = editor_html2usfm.get ();
     string standard = "\\p The earth brought forth\\x + 2 Joh. 1.1\\x*.";
-    evaluate (__LINE__, __func__, standard, usfm);
+    {
+      // DOM-based editor.
+      string html =
+      "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">x</a><span>.</span></p>"
+      "<div id=\"notes\">"
+      "<hr/>"
+      "<p class=\"x\"><a href=\"#citation1\" id=\"note1\">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>"
+      "<br/>"
+      "</div>";
+      Editor_Html2Usfm editor_html2usfm;
+      editor_html2usfm.load (html);
+      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.run ();
+      string usfm = editor_html2usfm.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
+    {
+      // Quill-based editor.
+      string html =
+      "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">x</span><span>.</span></p>"
+      "<p class=\"b-notes\">"
+      "<br/>"
+      "</p>"
+      "<p class=\"b-x\"><span class=\"i-notebody1\">x</span><span> </span><span>+ 2 Joh. 1.1</span></p>";
+      Editor_Html2Usfm editor_html2usfm;
+      editor_html2usfm.load (html);
+      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.quill ();
+      editor_html2usfm.run ();
+      string usfm = editor_html2usfm.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
   }
   // Footnote with its body deleted.
   {
-    string html =
-    "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">f</a><span>.</span></p>"
-    "<div id=\"notes\">"
-    "<hr/>"
-    "<p class=\"f\"></p>"
-    "<br/>"
-    "</div>";
-    Editor_Html2Usfm editor_html2usfm;
-    editor_html2usfm.load (html);
-    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
-    editor_html2usfm.run ();
-    string usfm = editor_html2usfm.get ();
     string standard = "\\p The earth brought forth.";
-    evaluate (__LINE__, __func__, standard, usfm);
+    {
+      // DOM-based editor.
+      string html =
+      "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">f</a><span>.</span></p>"
+      "<div id=\"notes\">"
+      "<hr/>"
+      "<p class=\"f\"></p>"
+      "<br/>"
+      "</div>";
+      Editor_Html2Usfm editor_html2usfm;
+      editor_html2usfm.load (html);
+      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.run ();
+      string usfm = editor_html2usfm.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
+    {
+      // Quill-based editor.
+      string html =
+      "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">f</span><span>.</span></p>"
+      "<p class=\"b-notes\">"
+      "<br/>"
+      "<p class=\"b-f\"></p>"
+      "<br/>"
+      "</p>";
+      Editor_Html2Usfm editor_html2usfm;
+      editor_html2usfm.load (html);
+      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.quill ();
+      editor_html2usfm.run ();
+      string usfm = editor_html2usfm.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
     // Clear message from logbook.
     refresh_sandbox (false);
   }
   // Footnote with a deleted citation.
   {
-    string html =
+    string standard = "\\p The earth brought forth.";
+    {
+      // DOM-based editor.
+      string html =
       "<p class=\"p\"><span>The earth brought forth</span><span>.</span></p>"
       "<div id=\"notes\">"
-      "<hr/>"
+      "<hr />"
       "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">f</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>"
       "</div>";
-    Editor_Html2Usfm editor_html2usfm;
-    editor_html2usfm.load (html);
-    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
-    editor_html2usfm.run ();
-    string usfm = editor_html2usfm.get ();
-    string standard = "\\p The earth brought forth.";
-    evaluate (__LINE__, __func__, standard, usfm);
+      Editor_Html2Usfm editor_html2usfm;
+      editor_html2usfm.load (html);
+      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.run ();
+      string usfm = editor_html2usfm.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
+    {
+      // Quill-based editor.
+      string html =
+      "<p class=\"b-p\"><span>The earth brought forth</span><span>.</span></p>"
+      "<p class=\"b-notes\">"
+      "<br />"
+      "</p>"
+      "<p class=\"b-f\"><span class=\"i-notebody1\">f</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>";
+      Editor_Html2Usfm editor_html2usfm;
+      editor_html2usfm.load (html);
+      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.quill ();
+      editor_html2usfm.run ();
+      string usfm = editor_html2usfm.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
   }
   // Two words with character markup in sequence.
   // The converter used to take out the space between the two words.
   // This tests that it does not do that.
   {
-    string html = "<p class=\"p\"><span>Praise </span><span class=\"add\">Yahweh</span><span> <span class=\"add\">all</span> you nations!</span></p>";
-    Editor_Html2Usfm editor_html2usfm;
-    editor_html2usfm.load (html);
-    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
-    editor_html2usfm.run ();
-    string usfm = editor_html2usfm.get ();
     string standard = "\\p Praise \\add Yahweh\\add* \\add all\\add* you nations!";
-    evaluate (__LINE__, __func__, standard, usfm);
+    {
+      // DOM-based editor.
+      string html = "<p class=\"p\"><span>Praise </span><span class=\"add\">Yahweh</span><span> <span class=\"add\">all</span> you nations!</span></p>";
+      Editor_Html2Usfm editor_html2usfm;
+      editor_html2usfm.load (html);
+      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.run ();
+      string usfm = editor_html2usfm.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
+    {
+      // Quill-based editor.
+      string html = "<p class=\"b-p\"><span>Praise </span><span class=\"i-add\">Yahweh</span><span> <span class=\"i-add\">all</span> you nations!</span></p>";
+      Editor_Html2Usfm editor_html2usfm;
+      editor_html2usfm.load (html);
+      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.quill ();
+      editor_html2usfm.run ();
+      string usfm = editor_html2usfm.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
   }
   refresh_sandbox (true);
 }
