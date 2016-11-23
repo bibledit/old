@@ -667,7 +667,7 @@ void test_store_bible_data ()
 }
 
 
-void test_editor_html2usfm ()
+void test_editor_html2usfm () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -1809,7 +1809,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
-  // Cycling the note caller. Todo also quill.
+  // Cycling the note caller.
   {
     string standard_usfm =
     "\\p Text\\f + note\\f*.\n"
@@ -1904,7 +1904,6 @@ void test_editor_roundtrip ()
       editor_usfm2html.quill ();
       editor_usfm2html.run ();
       string html = editor_usfm2html.get ();
-      filter_url_file_put_contents ("/tmp/out.txt", html); // Todo
       evaluate (__LINE__, __func__, standard_html, html);
       
       Editor_Html2Usfm editor_html2usfm;
