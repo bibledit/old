@@ -142,36 +142,8 @@ void Editor_Usfm2Html::preprocess ()
   note_p_open = false;
 
   /*
-  // Load and parse the template.
-  htmlParserCtxtPtr context = htmlNewParserCtxt();
-  
-  string html_template =
-  "<!DOCTYPE html>\n"
-  "<html>\n"
-  "<head>\n"
-  "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">\n"
-  "</head>\n"
-  "<body>\n"
-  "</body>\n"
-  "</html>\n";
-  htmlDom = htmlCtxtReadMemory (context, html_template.c_str(), html_template.length(), "", "UTF-8", HTML_PARSE_RECOVER);
-  
-  // Get the "body" node through XPath.
-  xmlXPathContextPtr xpathCtx = xmlXPathNewContext (htmlDom);
-  xmlXPathObjectPtr xpathObj = xmlXPathEvalExpression (BAD_CAST "//body", xpathCtx);
-  xmlNodeSetPtr nodes = xpathObj->nodesetval;
-  bodyDomNode = nodes->nodeTab [0];
-  xmlXPathFreeObject(xpathObj);
-  xmlXPathFreeContext(xpathCtx);
-  
-  // Done parsing.
-  htmlFreeParserCtxt (context);
-
   XPath crashes on Android with libxml2 2.9.2 compiled through the Android NDK.
-  It crashes here: bodyDomNode = nodes->nodeTab [0];
-  Therefore use another method: Build the document from scratch.
-  After the move to pugixml, the above no longer applies.
-  Even so, the document is built from scratch.
+  After the move to pugixml, this no longer applies.
   */
 
   body_node = document.append_child ("body");
@@ -540,7 +512,7 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   
   // Add the link with all relevant data for the note citation.
   if (quill_enabled) {
-    addNoteQuillLink (currentPnode, noteCount, "", citation);
+    addNoteQuillLink (currentPnode, noteCount, "call", citation);
   } else {
     string reference = "#note" + convert_to_string (noteCount);
     string identifier = "citation" + convert_to_string (noteCount);
@@ -558,7 +530,7 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   
   // Add the link with all relevant data for the note body.
   if (quill_enabled) {
-    addNoteQuillLink (notePnode, noteCount, "", citation);
+    addNoteQuillLink (notePnode, noteCount, "body", citation);
   } else {
     string reference = "#citation" + convert_to_string (noteCount);
     string identifier = "note" + convert_to_string (noteCount);
@@ -634,17 +606,13 @@ void Editor_Usfm2Html::addNoteDomLink (xml_node domNode, string reference, strin
 // This adds a link as a mechanism to connect body text with a note body.
 // $domNode: The DOM node where to add the link to.
 // $identifier: The link's identifier.
-// $style: The link text's style.
+// $style: A style for the note citation, and one for the note body.
 // $text: The link's text.
 // It also deals with a Quill-based editor, in a slightly different way.
 void Editor_Usfm2Html::addNoteQuillLink (xml_node domNode, int identifier, string style, string text)
 {
   xml_node aDomElement = domNode.append_child ("span");
-  string cls = "i-note" + convert_to_string (identifier);
-  if (!style.empty ()) {
-    cls.append (" ");
-    cls.append (style);
-  }
+  string cls = "i-note" + style + convert_to_string (identifier);
   aDomElement.append_attribute ("class") = cls.c_str();
   aDomElement.text ().set (text.c_str());
 }

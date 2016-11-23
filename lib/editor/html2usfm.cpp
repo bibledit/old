@@ -106,11 +106,13 @@ void Editor_Html2Usfm::process ()
   // Iterate over the children to retrieve the "p" elements, then process them.
   xml_node body = document.first_child ();
   for (xml_node node : body.children()) {
-    // Do not process the notes <div>,
+    // Do not process the notes <div> or <p>
     // because it is at the end of the text body,
     // and data has already been gleaned from it.
-    string id = node.attribute ("id").value ();
-    if (id == "notes") continue;
+    string id_or_class;
+    if (quill_enabled) id_or_class = update_quill_class (node.attribute ("class").value ());
+    else id_or_class = node.attribute ("id").value ();
+    if (id_or_class == "notes") continue;
     // Process the node.
     processNode (node);
   }
@@ -186,6 +188,9 @@ void Editor_Html2Usfm::openElementNode (xml_node node)
     }
     else if (className.empty ()) {
       // Normal text is wrapped in elements without a class attribute.
+    } else if (className.substr (0, 8) == "notecall") {
+      // Note in Quill-based editor.
+      processNoteCitation (node);
     } else {
       // Handle remaining class attributes for inline text.
       openInline (className);
@@ -229,6 +234,8 @@ void Editor_Html2Usfm::closeElementNode (xml_node node)
     if (mono) return;
     // Do nothing without a class.
     if (className.empty()) return;
+    // Do nothing with a note caller.
+    if (className.substr (0, 8) == "notecall") return;
     // Do nothing if no endmarkers are supposed to be produced.
     if (suppressEndMarkers.find (className) != suppressEndMarkers.end()) return;
     // Add closing USFM, optionally closing embedded tags in reverse order.
@@ -274,15 +281,27 @@ void Editor_Html2Usfm::processNoteCitation (xml_node node)
 {
   // Remove the note citation from the text.
   // It means that this:
-  //   <a href="#note1" id="citation1" class="superscript">x</a>
+  //   <a href="#note1" id="citation1" class="superscript">1</a>
   // becomes this:
   //   <a href="#note1" id="citation1" class="superscript" />
+  // Or in case of a Quill-enabled editor, it means that this:
+  //   <span class="i-notecall1">1</span>
+  // becomes this:
+  //   <span class="i-notecall1" />
   xml_node child = node.first_child ();
   node.remove_child (child);
 
   // Get more information about the footnote to retrieve.
-  string href = node.attribute ("href").value ();
-  string id = href.substr (1);
+  string id;
+  if (quill_enabled) {
+    // <span class="i-notecall1" />
+    id = node.attribute ("class").value ();
+    id = filter_string_str_replace ("call", "body", id);
+  } else {
+    // <a href="#note1" id="citation1" class="superscript" />
+    string href = node.attribute ("href").value ();
+    id = href.substr (1);
+  }
 
   // Sample footnote body.
   // <p class="x"><a href="#citation1" id="note1">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>
@@ -290,16 +309,17 @@ void Editor_Html2Usfm::processNoteCitation (xml_node node)
   // At first this was done through an XPath expression:
   // http://www.grinninglizard.com/tinyxml2docs/index.html
   // But XPath crashes on Android with libxml2.
-  // Therefore now it iterates of all the nodes to find the required <a> element.
-  // (After moving to pugixml, the XPath expression could have been used again, but this was not done.)
-  xml_node aElement = get_note_pointer (document.first_child (), id);
-  if (aElement) {
+  // Therefore now it iterates over all the nodes to find the required <a> element.
+  // After moving to pugixml, the XPath expression could have been used again, but this was not done.
+  xml_node a_span_element = get_note_pointer (document.first_child (), id);
+  if (a_span_element) {
 
-    // It now has the 'a' element: Get its 'p' parent, and then remove that 'a' element.
+    // It now has the <a> or <span>.
+    // Get its <p> parent, and then remove that <a> or <span> element.
     // So we remain with:
     // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
-    xml_node pElement = aElement.parent ();
-    pElement.remove_child (aElement);
+    xml_node pElement = a_span_element.parent ();
+    pElement.remove_child (a_span_element);
     
     // Preserve active character styles in the main text, and reset them for the note.
     vector <string> preservedCharacterStyles = characterStyles;
@@ -314,11 +334,11 @@ void Editor_Html2Usfm::processNoteCitation (xml_node node)
     characterStyles = preservedCharacterStyles;
     
     // Remove this element so it can't be processed again.
-    xml_node div_notes = pElement.parent ();
-    div_notes.remove_child (pElement);
+    xml_node parent = pElement.parent ();
+    parent.remove_child (pElement);
     
   } else {
-    Database_Logs::log ("Discarding note with id " + id + " and href " + href);
+    Database_Logs::log ("Discarding note with id " + id);
   }
 }
 
@@ -363,17 +383,24 @@ void Editor_Html2Usfm::postprocess ()
 
 
 // Retrieves a pointer to a relevant footnote element in the XML.
-// Sample footnote element:
-// <a href="#citation1" id="note1">x</a>
 xml_node Editor_Html2Usfm::get_note_pointer (xml_node node, string id)
 {
   if (node) {
 
     string name = node.name ();
-    if (name == "a") {
-      string note_id = node.attribute ("id").value ();
-      if (id == note_id) return node;
+    string note_id;
+    if (quill_enabled) {
+      // <span class="i-notebody1" />
+      if (name == "span") {
+        note_id = node.attribute ("class").value ();
+      }
+    } else {
+      // <a href="#citation1" id="note1" />
+      if (name == "a") {
+        note_id = node.attribute ("id").value ();
+      }
     }
+    if (id == note_id) return node;
     
     for (xml_node child : node.children ()) {
       xml_node note = get_note_pointer (child, id);
