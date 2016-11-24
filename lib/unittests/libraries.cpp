@@ -667,7 +667,7 @@ void test_store_bible_data ()
 }
 
 
-void test_editor_html2usfm () // Todo
+void test_editor_html2usfm ()
 {
   trace_unit_tests (__func__);
   
