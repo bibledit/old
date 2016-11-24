@@ -34,3 +34,6 @@
   margin: 0.5em;
   background: black;
 }
+[class^='i-note'] {
+  cursor: pointer;
+}
