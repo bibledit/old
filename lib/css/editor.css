@@ -28,3 +28,9 @@
   transition: box-shadow 1s ease-in-out;
   box-shadow: 0px 0px 15px red;
 }
+.b-notes {
+  height: 1px;
+  width: 50%;
+  margin: 0.5em;
+  background: black;
+}
