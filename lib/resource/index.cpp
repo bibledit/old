@@ -83,7 +83,6 @@ string resource_index (void * webserver_request)
       }
     }
     resourceblock.append ("<span id=\"name" + convert_to_string (i) + "\" class=\"small\">" + resource + "</span>\n");
-    resourceblock.append ("<span id=\"loading" + convert_to_string (i) + "\"><img src=\"/pix/loading.gif\"></span>\n");
     resourceblock.append ("<span id=\"content" + convert_to_string (i) + "\" class=\"resource\"></span>\n");
     resourceblock.append ("<hr style=\"clear:both\">");
     resourceblock.append ("</div>\n");
