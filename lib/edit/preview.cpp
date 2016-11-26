@@ -90,7 +90,6 @@ string edit_preview (void * webserver_request)
   
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
-  //int verse = Ipc_Focus::getVerse (webserver_request);
   
   string stylesheet = request->database_config_user()->getStylesheet ();
   
