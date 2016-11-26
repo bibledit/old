@@ -304,13 +304,14 @@ string gbs_digitaal_processor (string url, int verse)
     string number = JsonItem_node.child_value ("number");
     if (verse == convert_to_int (number)) {
       // The node that contains the canonical verse text.
+      if (!text.empty ()) text.append (" ");
       string text_value = JsonItem_node.child_value ("text");
       text.append (text_value);
     }
   }
 
   // Take out breaks.
-  text = filter_string_str_replace ("<br />", "", text);
+  text = filter_string_str_replace ("<br />", " ", text);
 
   // Remove the note callers.
   filter_string_replace_between (text, "<sup", "</sup>", "");
