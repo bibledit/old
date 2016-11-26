@@ -208,7 +208,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	editverse/save.$(OBJEXT) editone/index.$(OBJEXT) \
 	editone/load.$(OBJEXT) editone/save.$(OBJEXT) \
 	editone/verse.$(OBJEXT) editone/logic.$(OBJEXT) \
-	editone/preview.$(OBJEXT) navigation/passage.$(OBJEXT) \
+	edit/preview.$(OBJEXT) navigation/passage.$(OBJEXT) \
 	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
 	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
 	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
@@ -744,7 +744,7 @@ libbibledit_a_SOURCES = \
 	editone/save.cpp \
 	editone/verse.cpp \
 	editone/logic.cpp \
-	editone/preview.cpp \
+	edit/preview.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
@@ -1711,8 +1711,14 @@ editone/verse.$(OBJEXT): editone/$(am__dirstamp) \
 	editone/$(DEPDIR)/$(am__dirstamp)
 editone/logic.$(OBJEXT): editone/$(am__dirstamp) \
 	editone/$(DEPDIR)/$(am__dirstamp)
-editone/preview.$(OBJEXT): editone/$(am__dirstamp) \
-	editone/$(DEPDIR)/$(am__dirstamp)
+edit/$(am__dirstamp):
+	@$(MKDIR_P) edit
+	@: > edit/$(am__dirstamp)
+edit/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) edit/$(DEPDIR)
+	@: > edit/$(DEPDIR)/$(am__dirstamp)
+edit/preview.$(OBJEXT): edit/$(am__dirstamp) \
+	edit/$(DEPDIR)/$(am__dirstamp)
 navigation/$(am__dirstamp):
 	@$(MKDIR_P) navigation
 	@: > navigation/$(am__dirstamp)
@@ -1771,12 +1777,6 @@ editor/usfm2html.$(OBJEXT): editor/$(am__dirstamp) \
 	editor/$(DEPDIR)/$(am__dirstamp)
 editor/select.$(OBJEXT): editor/$(am__dirstamp) \
 	editor/$(DEPDIR)/$(am__dirstamp)
-edit/$(am__dirstamp):
-	@$(MKDIR_P) edit
-	@: > edit/$(am__dirstamp)
-edit/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) edit/$(DEPDIR)
-	@: > edit/$(DEPDIR)/$(am__dirstamp)
 edit/edit.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
 edit/focus.$(OBJEXT): edit/$(am__dirstamp) \
@@ -2746,12 +2746,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/offset.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/preview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/styles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/logic.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/preview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/verse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/html2usfm.Po@am__quote@

@@ -17,7 +17,7 @@
  */
 
 
-#include <editone/preview.h>
+#include <edit/preview.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -38,13 +38,13 @@
 #include <editor/usfm2html.h>
 
 
-string editone_preview_url ()
+string edit_preview_url ()
 {
-  return "editone/preview";
+  return "edit/preview";
 }
 
 
-bool editone_preview_acl (void * webserver_request)
+bool edit_preview_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
@@ -53,7 +53,7 @@ bool editone_preview_acl (void * webserver_request)
 }
 
 
-string editone_preview (void * webserver_request)
+string edit_preview (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -66,7 +66,7 @@ string editone_preview (void * webserver_request)
   header.setEditorStylesheet ();
   if (touch) header.jQueryTouchOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
-  header.refresh (5, "index");
+  header.refresh (5, "../editone/index");
   page = header.run ();
   
   Assets_View view;
@@ -103,7 +103,7 @@ string editone_preview (void * webserver_request)
   string html = editor_usfm2html.get ();
   view.set_variable ("html", html);
  
-  page += view.render ("editone", "preview");
+  page += view.render ("edit", "preview");
   
   page += Assets_Page::footer ();
   

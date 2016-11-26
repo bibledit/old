@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_EDITONE_PREVIEW_H
-#define INCLUDED_EDITONE_PREVIEW_H
+#ifndef INCLUDED_EDIT_PREVIEW_H
+#define INCLUDED_EDIT_PREVIEW_H
 
 
 #include <config/libraries.h>
 
 
-string editone_preview_url ();
-bool editone_preview_acl (void * webserver_request);
-string editone_preview (void * webserver_request);
+string edit_preview_url ();
+bool edit_preview_acl (void * webserver_request);
+string edit_preview (void * webserver_request);
 
 
 #endif
