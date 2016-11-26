@@ -58,6 +58,7 @@ string edit_preview (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   bool touch = request->session_logic ()->touchEnabled ();
+  bool timeout = request->query.count ("timeout");
 
   string page;
   
@@ -66,7 +67,7 @@ string edit_preview (void * webserver_request)
   header.setEditorStylesheet ();
   if (touch) header.jQueryTouchOn ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
-  header.refresh (5, "../editone/index");
+  if (timeout) header.refresh (5, "../editone/index");
   page = header.run ();
   
   Assets_View view;
@@ -103,6 +104,8 @@ string edit_preview (void * webserver_request)
   string html = editor_usfm2html.get ();
   view.set_variable ("html", html);
  
+  if (timeout) view.enable_zone ("timeout");
+  
   page += view.render ("edit", "preview");
   
   page += Assets_Page::footer ();
