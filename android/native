@@ -67,6 +67,7 @@ rm -rf sources/morphhb
 rm -rf sources/sblgnt
 rm sources/oshb.xml.gz
 rm -rf unittests
+rm config/local.server.key
 popd
 
 
