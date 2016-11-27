@@ -131,6 +131,11 @@ string developer_index (void * webserver_request)
     view.set_variable ("error", error);
   }
   
+  if (debug == "maintain") {
+    tasks_logic_queue (MAINTAINDATABASE);
+    view.set_variable ("success", "Starting to maintain the databases");
+  }
+  
   view.set_variable ("code", code);
 
   page += view.render ("developer", "index");

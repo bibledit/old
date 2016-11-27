@@ -1555,6 +1555,9 @@ msgstr ""
 msgid "editor"
 msgstr ""
 
+msgid "Preview"
+msgstr ""
+
 msgid "Insufficient information"
 msgstr ""
 
@@ -1589,9 +1592,6 @@ msgid "Edit verse"
 msgstr ""
 
 msgid "preview"
-msgstr ""
-
-msgid "Preview"
 msgstr ""
 
 msgid "Don't know where to save"
