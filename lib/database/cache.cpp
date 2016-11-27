@@ -308,7 +308,7 @@ void database_filebased_cache_remove (string schema)
 
 
 // Deletes old cached items.
-void database_cache_trim () // Todo
+void database_cache_trim ()
 {
   string output, error;
 

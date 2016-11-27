@@ -147,6 +147,8 @@ void database_maintenance ()
   access_logic_create_client_files ();
   
   
+#ifdef HAVE_CLOUD
   database_cache_trim ();
   sword_logic_trim_modules ();
+#endif
 }
