@@ -102,7 +102,7 @@ string sendreceive_index (void * webserver_request)
           dialog_list.add_row (bible, "bible", bible);
         }
       }
-      page += dialog_list.run();
+      page += dialog_list.run ();
       return page;
     } else {
       request->database_config_user()->setBible (bible);

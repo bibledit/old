@@ -80,7 +80,7 @@ string manage_hyphenation (void * webserver_request)
       for (auto bible : bibles) {
         dialog_list.add_row (bible, "bible", bible);
       }
-      page += dialog_list.run();
+      page += dialog_list.run ();
       return page;
     } else {
       request->database_config_user()->setBible (bible);

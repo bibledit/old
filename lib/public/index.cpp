@@ -82,7 +82,7 @@ string public_index (void * webserver_request)
       }
       Assets_Header header = Assets_Header ("", request);
       string page = header.run ();
-      page += dialog_list.run();
+      page += dialog_list.run ();
       return page;
     } else {
       request->database_config_user()->setBible (bible);
