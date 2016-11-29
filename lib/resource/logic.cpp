@@ -730,3 +730,12 @@ string resource_logic_bible_gateway_module_list_refresh ()
   }
   return error;
 }
+
+
+// Get the list of BibleGateway resources.
+vector <string> resource_logic_bible_gateway_module_list_get ()
+{
+  string path = resource_logic_bible_gateway_module_list_path ();
+  string contents = filter_url_file_get_contents (path);
+  return filter_string_explode (contents, '\n');
+}
