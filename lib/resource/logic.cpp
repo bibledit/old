@@ -694,7 +694,35 @@ void resource_logic_create_cache ()
 }
 
 
+// The path to the list of BibleGateway resources.
+// It is stored in the client files area.
+// Clients will download it from there.
 string resource_logic_bible_gateway_module_list_path () // Todo
 {
   return filter_url_create_root_path ("databases", "client", "bible_gateway_modules.txt");
+}
+
+
+// Refreshes the list of resources available from BibleGateway.
+string resource_logic_bible_gateway_module_list_refresh ()
+{
+  string path = resource_logic_bible_gateway_module_list_path ();
+  string error;
+  string html = filter_url_http_get ("https://www.biblegateway.com/versions/", error, false);
+  if (error.empty ()) {
+    vector <string> resources;
+    html = filter_text_html_get_element (html, "select");
+    xml_document document;
+    document.load_string (html.c_str());
+    xml_node select_node = document.first_child ();
+    for (xml_node option_node : select_node.children()) {
+      string cls = option_node.attribute ("class").value ();
+      if (cls == "lang") continue;
+      if (cls == "spacer") continue;
+      string name = option_node.text ().get ();
+      resources.push_back (name);
+    }
+    filter_url_file_put_contents (path, filter_string_implode (resources, "\n"));
+  }
+  return error;
 }
