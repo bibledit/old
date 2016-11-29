@@ -127,7 +127,7 @@ vector <string> resource_logic_get_names (void * webserver_request)
 
 string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
-                                bool add_verse_numbers)
+                                bool add_verse_numbers) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -152,6 +152,7 @@ string resource_logic_get_html (void * webserver_request,
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
+  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
 
   // Possible SWORD details.
   string sword_module = sword_logic_get_remote_module (resource);
@@ -164,6 +165,7 @@ string resource_logic_get_html (void * webserver_request,
   bool isImage = in_array (resource, images);
   bool isLexicon = in_array (resource, lexicons);
   bool isSword = (!sword_source.empty () && !sword_module.empty ());
+  bool isBibleGateway = in_array (resource, biblegateways);
 
   // Retrieve versification system of the active Bible.
   string bible = request->database_config_user ()->getBible ();
@@ -180,6 +182,8 @@ string resource_logic_get_html (void * webserver_request,
     resource_versification = database_mappings.original ();
     if (resource == KJV_LEXICON_NAME) resource_versification = english ();
   } else if (isSword) {
+    resource_versification = english ();
+  } else if (isBibleGateway) {
     resource_versification = english ();
   } else {
   }
@@ -246,7 +250,7 @@ string resource_logic_get_html (void * webserver_request,
 // This is the most basic version that fetches the text of a $resource.
 // It works on server and on client.
 // It uses the cache.
-string resource_logic_get_verse (void * webserver_request, string resource, int book, int chapter, int verse)
+string resource_logic_get_verse (void * webserver_request, string resource, int book, int chapter, int verse) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -267,6 +271,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
+  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
   
   // Possible SWORD details.
   string sword_module = sword_logic_get_remote_module (resource);
@@ -280,6 +285,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   bool isImage = in_array (resource, images);
   bool isLexicon = in_array (resource, lexicons);
   bool isSword = (!sword_source.empty () && !sword_module.empty ());
+  bool isBibleGateway = in_array (resource, biblegateways);
   
   if (isBible || isLocalUsfm) {
     string chapter_usfm;
@@ -302,7 +308,6 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
     // The server fetches it from the web, via the http cache.
     data.append (resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse));
 #endif
-    
   } else if (isImage) {
     vector <string> images = database_imageresources.get (resource, book, chapter, verse);
     for (auto & image : images) {
@@ -312,6 +317,8 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
     data = lexicon_logic_get_html (request, resource, book, chapter, verse);
   } else if (isSword) {
     data = sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
+  } else if (isBibleGateway) {
+    data = resource_logic_bible_gateway_get (resource, book, chapter, verse);
   } else {
     // Nothing found.
   }
@@ -738,4 +745,147 @@ vector <string> resource_logic_bible_gateway_module_list_get ()
   string path = resource_logic_bible_gateway_module_list_path ();
   string contents = filter_url_file_get_contents (path);
   return filter_string_explode (contents, '\n');
+}
+
+
+string resource_logic_bible_gateway_book (int book) // Todo test them all one by one.
+{
+  // Map Bibledit books to biblegateway.com books as used at the web service.
+  map <int, string> mapping = {
+    make_pair (1, "Genesis"),
+    make_pair (2, "Exodus"),
+    make_pair (3, "Leviticus"),
+    make_pair (4, "Numbers"),
+    make_pair (5, "Deuteronomy"),
+    make_pair (6, "Joshua"),
+    make_pair (7, "Judges"),
+    make_pair (8, "Ruth"),
+    make_pair (9, "1 Samuel"),
+    make_pair (10, "2 Samuel"),
+    make_pair (11, "1 Kings"),
+    make_pair (12, "2 Kings"),
+    make_pair (13, "1 Chronicles"),
+    make_pair (14, "2 Chronicles"),
+    make_pair (15, "Ezra"),
+    make_pair (16, "Nehemiah"),
+    make_pair (17, "Esther"),
+    make_pair (18, "Job"),
+    make_pair (19, "Psalms"),
+    make_pair (20, "Proverbs"),
+    make_pair (21, "Ecclesiastes"),
+    make_pair (22, "Song of Solomon"),
+    make_pair (23, "Isaiah"),
+    make_pair (24, "Jeremiah"),
+    make_pair (25, "Lamentations"),
+    make_pair (26, "Ezekiel"),
+    make_pair (27, "Daniel"),
+    make_pair (28, "Hosea"),
+    make_pair (29, "Joel"),
+    make_pair (30, "Amos"),
+    make_pair (31, "Obadiah"),
+    make_pair (32, "Jonah"),
+    make_pair (33, "Micah"),
+    make_pair (34, "Nahum"),
+    make_pair (35, "Habakkuk"),
+    make_pair (36, "Zephaniah"),
+    make_pair (37, "Haggai"),
+    make_pair (38, "Zechariah"),
+    make_pair (39, "Malachi"),
+    make_pair (40, "Matthew"),
+    make_pair (41, "Mark"),
+    make_pair (42, "Luke"),
+    make_pair (43, "John"),
+    make_pair (44, "Acts"),
+    make_pair (45, "Romans"),
+    make_pair (46, "1 Corinthians"),
+    make_pair (47, "2 Corinthians"),
+    make_pair (48, "Galatians"),
+    make_pair (49, "Ephesians"),
+    make_pair (50, "Philippians"),
+    make_pair (51, "Colossians"),
+    make_pair (52, "1 Thessalonians"),
+    make_pair (53, "2 Thessalonians"),
+    make_pair (54, "1 Timothy"),
+    make_pair (55, "2 Timothy"),
+    make_pair (56, "Titus"),
+    make_pair (57, "Philemon"),
+    make_pair (58, "Hebrews"),
+    make_pair (59, "James"),
+    make_pair (60, "1 Peter"),
+    make_pair (61, "2 Peter"),
+    make_pair (62, "1 John"),
+    make_pair (63, "2 John"),
+    make_pair (64, "3 John"),
+    make_pair (65, "Jude"),
+    make_pair (66, "Revelation")
+  };
+  return filter_url_urlencode (mapping [book]);
+}
+
+
+// Get the clean text of a passage of a BibleGateway resource.
+string resource_logic_bible_gateway_get (string resource, int book, int chapter, int verse) // Todo
+{
+  string result;
+#ifdef HAVE_CLOUD
+  // Convert the resource name to a resource abbreviation for biblegateway.com.
+  size_t pos = resource.find_last_of ("(");
+  if (pos != string::npos) {
+    pos++;
+    resource.erase (0, pos);
+    pos = resource.find_last_of (")");
+    if (pos != string::npos) {
+      resource.erase (pos);
+      // Assemble the URL to fetch the chapter.
+      string bookname = resource_logic_bible_gateway_book (book);
+      string url = "https://www.biblegateway.com/passage/?search=" + bookname + "+" + convert_to_string (chapter) + "&version=" + resource;
+      // Fetch the html.
+      string error;
+      string html = resource_logic_web_cache_get (url, error);
+      // Extract the html that contains the verses content.
+      pos = html.find ("<div class=\"passage-text\">");
+      if (pos != string::npos) {
+        html.erase (0, pos);
+        pos = html.find (".passage-text");
+        if (pos != string::npos) {
+          html.erase (pos);
+          // Parse the html fragment into a DOM.
+          string verse_s = convert_to_string (verse);
+          xml_document document;
+          document.load_string (html.c_str());
+          xml_node passage_text_node = document.first_child ();
+          xml_node passage_wrap_node = passage_text_node.first_child ();
+          xml_node passage_content_node = passage_wrap_node.first_child ();
+          xml_node text_html_node = passage_content_node.first_child ();
+          for (xml_node p_node : text_html_node.children()) {
+            bool verse_match = false;
+            for (xml_node span_node : p_node.children()) {
+              string cls = span_node.attribute ("class").value ();
+              vector <string> bits = filter_string_explode (cls, '-');
+              if (bits.size () == 3) {
+                if (bits[2] == verse_s) {
+                  verse_match = true;
+                }
+              }
+              if (verse_match) {
+                if (!result.empty ()) result.append (" ");
+                for (xml_node child : span_node.children ()) {
+                  string cls = child.attribute ("class").value ();
+                  if (cls == "chapternum") continue;
+                  if (cls == "versenum") continue;
+                  if (child.type() == pugi::node_pcdata) result.append (child.value());
+                  else result.append (child.text ().get ());
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+#endif
+#ifdef HAVE_CLIENT
+  
+#endif
+  return result;
 }
