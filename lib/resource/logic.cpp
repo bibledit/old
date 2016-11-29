@@ -697,7 +697,7 @@ void resource_logic_create_cache ()
 // The path to the list of BibleGateway resources.
 // It is stored in the client files area.
 // Clients will download it from there.
-string resource_logic_bible_gateway_module_list_path () // Todo
+string resource_logic_bible_gateway_module_list_path ()
 {
   return filter_url_create_root_path ("databases", "client", "bible_gateway_modules.txt");
 }
