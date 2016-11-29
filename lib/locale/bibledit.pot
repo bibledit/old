@@ -1437,8 +1437,8 @@ msgid "Description"
 msgstr ""
 
 msgid ""
-"This assists with checking how consistent words have been translated in the "
-"Bible."
+"This assists with checking how consistently words have been translated in "
+"the Bible."
 msgstr ""
 
 msgid "Instructions"
@@ -1447,16 +1447,10 @@ msgstr ""
 msgid "Enter book, chapter and verse in the 'Passages:' box."
 msgstr ""
 
-msgid "System: The web page will load the verse text for the passages."
-msgstr ""
-
 msgid "Enter key word text you want to search for in the 'Translations:' box."
 msgstr ""
 
 msgid "One word per line."
-msgstr ""
-
-msgid "System: The web page will mark the translations in the verse text."
 msgstr ""
 
 msgid "Examples"
@@ -6188,10 +6182,19 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-msgid "USFM resources"
+msgid "USFM"
 msgstr ""
 
-msgid "SWORD resources"
+msgid "Images"
+msgstr ""
+
+msgid "SWORD"
+msgstr ""
+
+msgid "User-defined"
+msgstr ""
+
+msgid "BibleGateway"
 msgstr ""
 
 msgid "Select stylesheet"
@@ -6261,9 +6264,6 @@ msgid "USFM chapter editor"
 msgstr ""
 
 msgid "USFM verse editor"
-msgstr ""
-
-msgid "USFM"
 msgstr ""
 
 msgid "Back"
@@ -7037,6 +7037,15 @@ msgstr ""
 msgid "You can view the conversion process in the Journal."
 msgstr ""
 
+msgid "The list was updated"
+msgstr ""
+
+msgid "BibleGateway resources"
+msgstr ""
+
+msgid "Refresh the list of resources from BibleGateway."
+msgstr ""
+
 msgid "The following resources are being installed:"
 msgstr ""
 
@@ -7330,6 +7339,9 @@ msgid "Resource categories"
 msgstr ""
 
 msgid "Bibles within Bibledit"
+msgstr ""
+
+msgid "USFM resources"
 msgstr ""
 
 msgid "Web resources"

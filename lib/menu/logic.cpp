@@ -61,6 +61,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/cache.h>
 #include <resource/user9edit.h>
 #include <resource/user9view.h>
+#include <resource/biblegateway.h>
 #include <search/index.h>
 #include <search/replace.h>
 #include <search/search2.h>
@@ -887,30 +888,36 @@ string menu_logic_settings_resources_category (void * webserver_request)
 {
   vector <string> html;
   
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   if (resource_manage_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_manage_url (), translate ("USFM resources"), true));
+    html.push_back (menu_logic_create_item (resource_manage_url (), translate ("USFM"), true));
   }
 #endif
   
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   if (resource_images_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_images_url (), menu_logic_resource_images_text (), true));
+    html.push_back (menu_logic_create_item (resource_images_url (), translate ("Images"), true));
   }
 #endif
   
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   if (resource_sword_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD resources"), true));
+    html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD"), true));
   }
 #endif
 
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   if (resource_user9edit_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_user9edit_url (), translate ("User resources"), true));
+    html.push_back (menu_logic_create_item (resource_user9edit_url (), translate ("User-defined"), true));
   }
 #endif
 
+#ifdef HAVE_CLOUD
+  if (resource_biblegateway_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_biblegateway_url (), translate ("BibleGateway"), true));
+  }
+#endif
+  
   (void) webserver_request;
   
   if (!html.empty ()) {

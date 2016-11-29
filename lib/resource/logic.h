@@ -53,5 +53,7 @@ string resource_logic_default_user_url ();
 
 void resource_logic_create_cache ();
 
+string resource_logic_bible_gateway_module_list_path ();
+
 
 #endif

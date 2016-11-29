@@ -692,3 +692,9 @@ void resource_logic_create_cache ()
   // If there's another resource database waiting to be cached, schedule it for caching.
   if (!signatures.empty ()) tasks_logic_queue (CACHERESOURCES);
 }
+
+
+string resource_logic_bible_gateway_module_list_path () // Todo
+{
+  return filter_url_create_root_path ("databases", "client", "bible_gateway_modules.txt");
+}

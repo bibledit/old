@@ -1384,3 +1384,18 @@ string crlf2lf (string str)
 {
   return filter_string_str_replace ("\r\n", "\n", str);
 }
+
+
+// Gets the <element> ... </element> part of the input $html.
+string filter_text_html_get_element (string html, string element)
+{
+  size_t pos = html.find ("<" + element);
+  if (pos != string::npos) {
+    html.erase (0, pos);
+    pos = html.find ("</" + element + ">");
+    if (pos != string::npos) {
+      html.erase (pos + 7);
+    }
+  }
+  return html;
+}
