@@ -212,6 +212,8 @@ void tasks_run_one (string filename)
     resource_logic_create_cache ();
   } else if (command == NOTIFYSOFTWAREUPDATES) {
     user_logic_software_updates_notify ();
+  } else if (command == REFRESHWEBRESOURCES) {
+    resource_logic_bible_gateway_module_list_refresh ();
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

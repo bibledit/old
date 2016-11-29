@@ -706,6 +706,7 @@ string resource_logic_bible_gateway_module_list_path () // Todo
 // Refreshes the list of resources available from BibleGateway.
 string resource_logic_bible_gateway_module_list_refresh ()
 {
+  Database_Logs::log ("Refresh BibleGateway resources");
   string path = resource_logic_bible_gateway_module_list_path ();
   string error;
   string html = filter_url_http_get ("https://www.biblegateway.com/versions/", error, false);
@@ -723,6 +724,9 @@ string resource_logic_bible_gateway_module_list_refresh ()
       resources.push_back (name);
     }
     filter_url_file_put_contents (path, filter_string_implode (resources, "\n"));
+    Database_Logs::log ("Modules: " + convert_to_string (resources.size ()));
+  } else {
+    Database_Logs::log (error);
   }
   return error;
 }

@@ -81,8 +81,9 @@ void setup_conditionally (const char * package)
     }
     
 #ifndef HAVE_CLIENT
-    // Cloud updates the available SWORD modules.
+    // Cloud updates the available SWORD modules and web resources.
     tasks_logic_queue (REFRESHSWORDMODULES);
+    tasks_logic_queue (REFRESHWEBRESOURCES);
 #endif
     
     // Update installed version.

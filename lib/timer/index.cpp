@@ -217,11 +217,12 @@ void timer_index ()
 #endif
 
 #ifndef HAVE_CLIENT
-      // Update SWORD stuff once a week.
+      // Update SWORD modules and other web resources once a week.
       if (weekday == 1) {
-        // Refresh module list.
+        // Refresh.
         if ((hour == 3) && (minute == 5)) {
           tasks_logic_queue (REFRESHSWORDMODULES);
+          tasks_logic_queue (REFRESHWEBRESOURCES);
         }
         // Update installed SWORD modules, shortly after the module list has been refreshed.
         if ((hour == 3) && (minute == 15)) {
