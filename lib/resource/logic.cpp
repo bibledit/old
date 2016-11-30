@@ -345,12 +345,13 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 
 // This runs on the server.
 // It gets the html or text contents for a $resource for serving it to a client.
-string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
+string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse) // Todo
 {
   // Lists of the various types of resources.
   Database_UsfmResources database_usfmresources;
   vector <string> externals = resource_external_names ();
   vector <string> usfms = database_usfmresources.getResources ();
+  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
   
   // Possible SWORD details in case the client requests a SWORD resource.
   string sword_module = sword_logic_get_remote_module (resource);
@@ -360,6 +361,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   bool isExternal = in_array (resource, externals);
   bool isUsfm = in_array (resource, usfms);
   bool isSword = (!sword_source.empty () && !sword_module.empty ());
+  bool isBibleGateway = in_array (resource, biblegateways);
   
   if (isExternal) {
     // The server fetches it from the web.
@@ -383,6 +385,11 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
     return sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
   }
 
+  if (isBibleGateway) {
+    // The server fetches it from the web.
+    return resource_logic_bible_gateway_get (resource, book, chapter, verse);
+  }
+  
   // Nothing found.
   return "Bibledit Cloud could not localize this resource";
 }
@@ -927,7 +934,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
   result = filter_string_trim (result);
 #endif
 #ifdef HAVE_CLIENT
-  
+  result = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
   return result;
 }
