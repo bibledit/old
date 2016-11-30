@@ -607,11 +607,11 @@ string resource_logic_default_user_url ()
 
 
 // This creates a resource database cache and runs in the Cloud.
-void resource_logic_create_cache ()
+void resource_logic_create_cache () // Todo
 {
   // Because clients usually request caches in a quick sequence,
   // the Cloud starts to cache several books in parallel.
-  // Here's some logic to ensure there's only one book cached at a time.
+  // Here's some logic to ensure there's only one book at a time being cached.
   static bool resource_logic_create_cache_running = false;
   if (resource_logic_create_cache_running) return;
   resource_logic_create_cache_running = true;
@@ -628,7 +628,7 @@ void resource_logic_create_cache ()
   string resource = signature.substr (0, pos);
   int book = convert_to_int (signature.substr (pos++));
   string bookname = Database_Books::getEnglishFromId (book);
-
+  
   // Whether it's a SWORD module.
   string sword_module = sword_logic_get_remote_module (resource);
   string sword_source = sword_logic_get_source (resource);
