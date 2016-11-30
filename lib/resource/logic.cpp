@@ -861,13 +861,14 @@ struct bible_gateway_walker: xml_tree_walker
     if (clas == "versenum") {
       skip_next_text = true;
       string versenum = filter_string_trim (filter_string_desanitize_html (node.text ().get ()));
+      if (versenum == "2") return false; // Todo out.
       within_verse = (versenum == verse);
       return true;
     }
     
     // Exclude notes.
     if (name == "sup") {
-      skip_next_text = true;
+      // Todo skip_next_text = true;
       return true;
     }
     
