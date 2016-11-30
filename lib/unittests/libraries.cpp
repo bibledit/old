@@ -4665,7 +4665,7 @@ void test_tasks_logic ()
 }
 
 
-void test_biblegateway () // Todo
+void test_biblegateway ()
 {
   trace_unit_tests (__func__);
   
