@@ -69,6 +69,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/quickbible.h>
 #include <sword/logic.h>
 #include <tasks/logic.h>
+#include <resource/logic.h>
 
 
 using namespace jsonxx;
@@ -4661,6 +4662,60 @@ void test_tasks_logic ()
   evaluate (__LINE__, __func__, false, tasks_logic_queued ("task4", { "parameter1", "parameter3" }));
   evaluate (__LINE__, __func__, false, tasks_logic_queued ("task4", { "parameter2" }));
   
+}
+
+
+void test_biblegateway () // Todo
+{
+  trace_unit_tests (__func__);
+  
+  string resource;
+  int book;
+  string text;
+
+  resource = "21st Century King James Version (KJ21)";
+
+  book = 34; // Nahum.
+  
+  text = resource_logic_bible_gateway_get (resource, book, 1, 0);
+  evaluate (__LINE__, __func__, "", text);
+
+  text = resource_logic_bible_gateway_get (resource, book, 1, 1);
+  evaluate (__LINE__, __func__, "The burden of Nineveh. The book of the vision of Nahum the Elkoshite.", text);
+
+  text = resource_logic_bible_gateway_get (resource, book, 1, 15);
+  evaluate (__LINE__, __func__, "Behold upon the mountains the feet of Him that bringeth good tidings, that publisheth peace! O Judah, keep thy solemn feasts, perform thy vows; for the wicked shall no more pass through thee; he is utterly cut off.", text);
+
+  text = resource_logic_bible_gateway_get (resource, book, 1, 16);
+  evaluate (__LINE__, __func__, "", text);
+
+  book = 64; // 3 John.
+  
+  text = resource_logic_bible_gateway_get (resource, book, 1, 0);
+  evaluate (__LINE__, __func__, "", text);
+  
+  text = resource_logic_bible_gateway_get (resource, book, 1, 1);
+  evaluate (__LINE__, __func__, "The Elder, Unto the well-beloved Gaius, whom I love in the truth:", text);
+
+  text = resource_logic_bible_gateway_get (resource, book, 1, 14);
+  evaluate (__LINE__, __func__, "but I trust I shall shortly see thee, and we shall speak face to face. Peace be to thee. Our friends salute thee. Greet the friends by name.", text);
+
+  text = resource_logic_bible_gateway_get (resource, book, 1, 15);
+  evaluate (__LINE__, __func__, "", text);
+  
+  resource = "Expanded Bible (EXB)";
+
+  book = 34; // Nahum.
+
+  text = resource_logic_bible_gateway_get (resource, book, 1, 0);
+  evaluate (__LINE__, __func__, "", text);
+
+  text = resource_logic_bible_gateway_get (resource, book, 1, 1);
+  evaluate (__LINE__, __func__, "This is the ·message [oracle; burden] for the city of Nineveh [the capital of the Assyrian empire]. This is the book of the vision of Nahum, ·who was from the town of Elkosh [the Elkoshite; of uncertain location].The Lord Is Angry with Nineveh", text);
+
+  text = resource_logic_bible_gateway_get (resource, book, 1, 2);
+  evaluate (__LINE__, __func__, "The Lord is a ·jealous [zealous] God [Ex. 20:5; 34:14; Deut. 4:24; 5:9; Josh. 24:19] who ·punishes [avenges];&nbsp;&nbsp;&nbsp;&nbsp;the Lord ·punishes [avenges] and is filled with ·anger [wrath].The Lord ·punishes [takes vengeance on] ·those who are against him [his adversaries/enemies],&nbsp;&nbsp;&nbsp;&nbsp;and he ·stays angry with [or vents his wrath against] his enemies.", text);
+
 }
 
 

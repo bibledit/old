@@ -7335,6 +7335,9 @@ msgstr ""
 msgid "Select a divider"
 msgstr ""
 
+msgid "Select a BibleGateway resource"
+msgstr ""
+
 msgid "Resource categories"
 msgstr ""
 

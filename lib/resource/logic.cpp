@@ -823,6 +823,56 @@ string resource_logic_bible_gateway_book (int book) // Todo test them all one by
 }
 
 
+
+struct bible_gateway_walker: xml_tree_walker
+{
+  string verse;
+  bool skip_next_text = false;
+  bool within_verse = false;
+  string text;
+
+  virtual bool for_each (xml_node& node)
+  {
+    string clas = node.attribute ("class").value ();
+    string name = node.name ();
+
+    if (skip_next_text) {
+      skip_next_text = false;
+      return true;
+    }
+    
+    if (clas == "chapternum") {
+      skip_next_text = true;
+      if (verse == "1") within_verse = true;
+      return true;
+    }
+      
+    if (clas == "versenum") {
+      skip_next_text = true;
+      string versenum = filter_string_trim (filter_string_desanitize_html (node.text ().get ()));
+      within_verse = (versenum == verse);
+      return true;
+    }
+    
+    if (name == "sup") {
+      skip_next_text = true;
+      return true;
+    }
+    
+    if (name == "div") {
+      within_verse = false;
+      return true;
+    }
+
+    if (within_verse) {
+      text.append (node.value ());
+    }
+    
+    return true;
+  }
+};
+
+
 // Get the clean text of a passage of a BibleGateway resource.
 string resource_logic_bible_gateway_get (string resource, int book, int chapter, int verse) // Todo
 {
@@ -856,29 +906,10 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
           xml_node passage_text_node = document.first_child ();
           xml_node passage_wrap_node = passage_text_node.first_child ();
           xml_node passage_content_node = passage_wrap_node.first_child ();
-          xml_node text_html_node = passage_content_node.first_child ();
-          for (xml_node p_node : text_html_node.children()) {
-            bool verse_match = false;
-            for (xml_node span_node : p_node.children()) {
-              string cls = span_node.attribute ("class").value ();
-              vector <string> bits = filter_string_explode (cls, '-');
-              if (bits.size () == 3) {
-                if (bits[2] == verse_s) {
-                  verse_match = true;
-                }
-              }
-              if (verse_match) {
-                if (!result.empty ()) result.append (" ");
-                for (xml_node child : span_node.children ()) {
-                  string cls = child.attribute ("class").value ();
-                  if (cls == "chapternum") continue;
-                  if (cls == "versenum") continue;
-                  if (child.type() == pugi::node_pcdata) result.append (child.value());
-                  else result.append (child.text ().get ());
-                }
-              }
-            }
-          }
+          bible_gateway_walker walker;
+          walker.verse = convert_to_string (verse);
+          passage_content_node.traverse (walker);
+          result.append (walker.text);
         }
       }
     }
@@ -887,5 +918,8 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
 #ifdef HAVE_CLIENT
   
 #endif
+  result = filter_string_str_replace ("  ", " ", result);
+  result = filter_string_str_replace (" ", " ", result);
+  result = filter_string_trim (result);
   return result;
 }
