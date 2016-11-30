@@ -127,7 +127,7 @@ vector <string> resource_logic_get_names (void * webserver_request)
 
 string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
-                                bool add_verse_numbers) // Todo
+                                bool add_verse_numbers)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -250,7 +250,7 @@ string resource_logic_get_html (void * webserver_request,
 // This is the most basic version that fetches the text of a $resource.
 // It works on server and on client.
 // It uses the cache.
-string resource_logic_get_verse (void * webserver_request, string resource, int book, int chapter, int verse) // Todo
+string resource_logic_get_verse (void * webserver_request, string resource, int book, int chapter, int verse)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -345,7 +345,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 
 // This runs on the server.
 // It gets the html or text contents for a $resource for serving it to a client.
-string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse) // Todo
+string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
 {
   // Lists of the various types of resources.
   Database_UsfmResources database_usfmresources;
@@ -607,7 +607,7 @@ string resource_logic_default_user_url ()
 
 
 // This creates a resource database cache and runs in the Cloud.
-void resource_logic_create_cache () // Todo
+void resource_logic_create_cache ()
 {
   // Because clients usually request caches in a quick sequence,
   // the Cloud starts to cache several books in parallel.
@@ -889,7 +889,7 @@ struct bible_gateway_walker: xml_tree_walker
 
 
 // Get the clean text of a passage of a BibleGateway resource.
-string resource_logic_bible_gateway_get (string resource, int book, int chapter, int verse) // Todo
+string resource_logic_bible_gateway_get (string resource, int book, int chapter, int verse)
 {
   string result;
 #ifdef HAVE_CLOUD
