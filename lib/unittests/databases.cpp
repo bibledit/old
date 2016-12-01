@@ -128,6 +128,7 @@ void test_database_config_user ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
+    database_users.upgrade ();
     database_users.add_user ("username", "password", 5, "");
     request.session_logic ()->attemptLogin ("username", "password", true);
     
@@ -188,6 +189,9 @@ void test_database_config_user ()
     
     // Test getting a Bible that does not exist: It creates one.
     evaluate (__LINE__, __func__, demo_sample_bible_name (), request.database_config_user ()->getBible ());
+    
+    // Filter allowed journal entries.
+    refresh_sandbox (true, {"Creating sample Bible", "Sample Bible was created"});
   }
 }
 

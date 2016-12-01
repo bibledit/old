@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 extern string testing_directory;
 extern int error_count;
-void refresh_sandbox (bool displayjournal);
+void refresh_sandbox (bool displayjournal, vector <string> allowed = {});
 void error_message (int line, string funct, string desired, string actual);
 void evaluate (int line, string func, string desired, string actual);
 void evaluate (int line, string func, int desired, int actual);

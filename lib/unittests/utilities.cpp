@@ -31,7 +31,9 @@ int error_count;
 
 
 // Puts a fresh and clean copy of Bibledit into the sandbox in the testing directory.
-void refresh_sandbox (bool displayjournal)
+// $displayjournal: Whether to display the journal before clearing it.
+// $allowed: Text fragments allowed in the journal: Items containing these won't be displayed.
+void refresh_sandbox (bool displayjournal, vector <string> allowed)
 {
   // Display any old journal entries.
   if (displayjournal) {
@@ -41,8 +43,14 @@ void refresh_sandbox (bool displayjournal)
     for (unsigned int i = 0; i < files.size (); i++) {
       if (files [i] == "gitflag") continue;
       string contents = filter_url_file_get_contents (filter_url_create_path (directory, files [i]));
-      cout << contents << endl;
-      output = true;
+      bool display = true;
+      for (auto & allow : allowed) {
+        if (contents.find (allow) != string::npos) display = false;
+      }
+      if (display) {
+        cout << contents << endl;
+        output = true;
+      }
     }
     if (output) error_count++;
   }
