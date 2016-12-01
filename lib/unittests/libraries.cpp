@@ -102,7 +102,7 @@ void test_sqlite ()
 }
 
 
-void test_session_logic ()
+void test_session_logic () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -111,10 +111,13 @@ void test_session_logic ()
     refresh_sandbox (true);
     
     // The session logic depends on users in the database.
+    Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
+    database_users.upgrade ();
     
-    // In an demo installation, a client is always logged in as user admin, even after logging out.
+    // In a demo installation, a client is always logged in as user admin, even after logging out.
     config_globals_open_installation = true;
     Webserver_Request request = Webserver_Request ();
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
@@ -134,8 +137,11 @@ void test_session_logic ()
   {
     // In a client installation, a client is logged in as admin when there's no user in the database.
     refresh_sandbox (true);
+    Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
+    database_users.upgrade ();
     config_globals_client_prepared = true;
     Webserver_Request request = Webserver_Request ();
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
@@ -146,8 +152,11 @@ void test_session_logic ()
   {
     // In a client installation, a client is logged in as the first user in the database.
     refresh_sandbox (true);
+    Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
+    database_users.upgrade ();
     string username = "ঃইঝম";
     int level = 10;
     database_users.add_user (username, "password", level, "email");
@@ -160,8 +169,11 @@ void test_session_logic ()
   }
   {
     refresh_sandbox (true);
+    Database_State::create ();
+    Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
+    database_users.upgrade ();
     Webserver_Request request = Webserver_Request ();
 
     // Enter a user into the database.
@@ -170,48 +182,61 @@ void test_session_logic ()
     string email = "email@website";
     int level = 10;
     database_users.add_user (username, password, level, email);
-
+    string session = "abcdefgh";
+    
     // Log in by providing username and password.
+    request.session_identifier = session;
     evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, "incorrect", true));
     evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
+    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
 
     // Check whether logged in also from another session.
     request = Webserver_Request ();
+    request.session_identifier = session;
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     evaluate (__LINE__, __func__, username, request.session_logic ()->currentUser ());
     evaluate (__LINE__, __func__, level, request.session_logic ()->currentLevel ());
     
     // Logout in another session, and check it in a subsequent session.
     request = Webserver_Request ();
+    request.session_identifier = session;
     request.session_logic ()->logout ();
     request = Webserver_Request ();
+    request.session_identifier = session;
     evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
     evaluate (__LINE__, __func__, "", request.session_logic ()->currentUser ());
     evaluate (__LINE__, __func__, Filter_Roles::guest(), request.session_logic ()->currentLevel ());
     
     // Login. Then vary the browser's signature for subsequent sessions.
     request = Webserver_Request ();
+    request.session_identifier = session;
     evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     string remote_address = request.remote_address;
     string user_agent = request.user_agent;
     string accept_language = request.accept_language;
     request = Webserver_Request ();
+    request.session_identifier = session;
     request.remote_address = "1.2.3.4";
-    evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
+    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     request = Webserver_Request ();
+    request.session_identifier = session;
     request.remote_address = remote_address;
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     request = Webserver_Request ();
+    request.session_identifier = session;
     request.user_agent = "User's Agent";
-    evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
+    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     request = Webserver_Request ();
+    request.session_identifier = session;
     request.user_agent = user_agent;
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     request = Webserver_Request ();
+    request.session_identifier = session;
     request.accept_language = "xy_ZA";
-    evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
+    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     request = Webserver_Request ();
+    request.session_identifier = session;
     request.accept_language = accept_language;
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
   }

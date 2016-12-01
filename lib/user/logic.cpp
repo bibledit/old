@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/md5.h>
+#include <filter/date.h>
 #include <database/users.h>
 #include <database/config/user.h>
 #include <database/logs.h>
@@ -250,4 +251,25 @@ void user_logic_optional_ldap_authentication (void * webserver_request, string u
       }
     }
   }
+}
+
+
+int user_logic_login_failure_time = 0;
+
+
+bool user_logic_login_failure_check_okay ()
+{
+  // No time set yet: OK.
+  if (!user_logic_login_failure_time) return true;
+  // A login failure was recorded during this very second: Check fails.
+  if (user_logic_login_failure_time == filter_date_seconds_since_epoch ()) return false;
+  // Default: OK.
+  return true;
+}
+
+
+void user_logic_login_failure_register ()
+{
+  // Register a login failure for the current second.
+  user_logic_login_failure_time = filter_date_seconds_since_epoch ();
 }
