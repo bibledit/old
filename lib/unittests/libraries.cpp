@@ -4678,8 +4678,8 @@ void test_biblegateway ()
   book = 1; // Genesis.
 
   text = resource_logic_bible_gateway_get (resource, book, 1, 1);
-  evaluate (__LINE__, __func__, "The burden of Nineveh. The book of the vision of Nahum the Elkoshite.", text);
-  
+  evaluate (__LINE__, __func__, "В началото Бог сътвори небето и земята.", text);
+
   resource = "21st Century King James Version (KJ21)";
 
   book = 34; // Nahum.
@@ -4718,11 +4718,16 @@ void test_biblegateway ()
   evaluate (__LINE__, __func__, "", text);
 
   text = resource_logic_bible_gateway_get (resource, book, 1, 1);
-  evaluate (__LINE__, __func__, "This is the ·message [oracle; burden] for the city of Nineveh [C the capital of the Assyrian empire]. This is the book of the vision of Nahum, ·who was from the town of Elkosh [L the Elkoshite; C of uncertain location].The Lord Is Angry with Nineveh", text);
+  evaluate (__LINE__, __func__, "This is the ·message [oracle; burden] for the city of Nineveh [C the capital of the Assyrian empire]. This is the book of the vision of Nahum, ·who was from the town of Elkosh [L the Elkoshite; C of uncertain location].The Lord Is Angry with Nineveh", text);
 
   text = resource_logic_bible_gateway_get (resource, book, 1, 2);
-  evaluate (__LINE__, __func__, "The Lord is a ·jealous [zealous] God [Ex. 20:5; 34:14; Deut. 4:24; 5:9; Josh. 24:19] who ·punishes [avenges];&nbsp;&nbsp;&nbsp;&nbsp;the Lord ·punishes [avenges] and is filled with ·anger [wrath].The Lord ·punishes [takes vengeance on] ·those who are against him [his adversaries/enemies],&nbsp;&nbsp;&nbsp;&nbsp;and he ·stays angry with [or vents his wrath against] his enemies.", text);
+  evaluate (__LINE__, __func__, "The Lord is a ·jealous [zealous] God [Ex. 20:5; 34:14; Deut. 4:24; 5:9; Josh. 24:19] who ·punishes [avenges]; the Lord ·punishes [avenges] and is filled with ·anger [wrath]. The Lord ·punishes [takes vengeance on] ·those who are against him [his adversaries/enemies], and he ·stays angry with [or vents his wrath against] his enemies.", text);
 
+  text = resource_logic_bible_gateway_get (resource, book, 1, 11);
+  evaluate (__LINE__, __func__, "Someone has come from ·Nineveh [L you] who ·makes evil plans [plots evil] against the Lord and gives wicked ·advice [counsel; strategy].", text);
+
+  text = resource_logic_bible_gateway_get (resource, book, 1, 12);
+  evaluate (__LINE__, __func__, "This is what the Lord says: “Although Assyria ·is strong [or has allies] and has many people, it will be ·defeated [destroyed] and ·brought to an end [pass away]. Although I have ·made you suffer, Judah [L afflicted you], I will ·make you suffer [afflict you] no more.", text);
 }
 
 

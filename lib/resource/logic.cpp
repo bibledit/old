@@ -861,14 +861,7 @@ struct bible_gateway_walker: xml_tree_walker
     if (clas == "versenum") {
       skip_next_text = true;
       string versenum = filter_string_trim (filter_string_desanitize_html (node.text ().get ()));
-      if (versenum == "2") return false; // Todo out.
       within_verse = (versenum == verse);
-      return true;
-    }
-    
-    // Exclude notes.
-    if (name == "sup") {
-      // Todo skip_next_text = true;
       return true;
     }
     
@@ -876,6 +869,12 @@ struct bible_gateway_walker: xml_tree_walker
     if (name == "div") {
       within_verse = false;
       return true;
+    }
+    
+    if (name == "br") {
+      if (within_verse) {
+        text.append (" ");
+      }
     }
 
     // Include node's text content.
@@ -930,8 +929,9 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
       }
     }
   }
-  result = filter_string_str_replace ("  ", " ", result);
-  result = filter_string_str_replace (" ", " ", result);
+  result = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", result);
+  result = filter_string_str_replace (" ", " ", result); // Make special space visible.
+  while (result.find ("  ") != string::npos) result = filter_string_str_replace ("  ", " ", result);
   result = filter_string_trim (result);
 #endif
 #ifdef HAVE_CLIENT
