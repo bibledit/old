@@ -104,7 +104,7 @@ void test_sqlite ()
 }
 
 
-void test_session_logic () // Todo
+void test_session_logic ()
 {
   trace_unit_tests (__func__);
   
@@ -244,7 +244,7 @@ void test_session_logic () // Todo
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
   }
   {
-    // Detection and mitigation of brute force login attack. Todo
+    // Detection and mitigation of brute force login attack.
     refresh_sandbox (true);
     Database_State::create ();
     Database_Login::create ();
