@@ -191,34 +191,34 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	manage/index.$(OBJEXT) manage/users.$(OBJEXT) \
 	manage/exports.$(OBJEXT) manage/hyphenation.$(OBJEXT) \
 	manage/hyphenate.$(OBJEXT) manage/write.$(OBJEXT) \
-	manage/privileges.$(OBJEXT) system/timezone.$(OBJEXT) \
-	system/index.$(OBJEXT) collaboration/index.$(OBJEXT) \
-	collaboration/url.$(OBJEXT) collaboration/link.$(OBJEXT) \
-	collaboration/direction.$(OBJEXT) search/rebibles.$(OBJEXT) \
-	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
-	access/bible.$(OBJEXT) access/logic.$(OBJEXT) \
-	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
-	dialog/yes.$(OBJEXT) dialog/color.$(OBJEXT) \
-	dialog/books.$(OBJEXT) dialog/upload.$(OBJEXT) \
-	fonts/logic.$(OBJEXT) versification/index.$(OBJEXT) \
-	versification/system.$(OBJEXT) versification/logic.$(OBJEXT) \
-	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
-	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
-	editverse/index.$(OBJEXT) editverse/load.$(OBJEXT) \
-	editverse/save.$(OBJEXT) editone/index.$(OBJEXT) \
-	editone/load.$(OBJEXT) editone/save.$(OBJEXT) \
-	editone/verse.$(OBJEXT) editone/logic.$(OBJEXT) \
-	edit/preview.$(OBJEXT) navigation/passage.$(OBJEXT) \
-	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
-	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
-	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
-	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
-	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
-	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
-	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
-	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
-	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
-	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	manage/privileges.$(OBJEXT) system/index.$(OBJEXT) \
+	collaboration/index.$(OBJEXT) collaboration/url.$(OBJEXT) \
+	collaboration/link.$(OBJEXT) collaboration/direction.$(OBJEXT) \
+	search/rebibles.$(OBJEXT) search/renotes.$(OBJEXT) \
+	access/user.$(OBJEXT) access/bible.$(OBJEXT) \
+	access/logic.$(OBJEXT) dialog/entry.$(OBJEXT) \
+	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
+	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
+	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
+	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
+	versification/logic.$(OBJEXT) book/create.$(OBJEXT) \
+	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
+	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
+	editverse/load.$(OBJEXT) editverse/save.$(OBJEXT) \
+	editone/index.$(OBJEXT) editone/load.$(OBJEXT) \
+	editone/save.$(OBJEXT) editone/verse.$(OBJEXT) \
+	editone/logic.$(OBJEXT) edit/preview.$(OBJEXT) \
+	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
+	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
+	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
+	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
+	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
+	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
+	editor/select.$(OBJEXT) edit/edit.$(OBJEXT) \
+	edit/focus.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
+	edit/load.$(OBJEXT) edit/offset.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	editpm/index.$(OBJEXT) editpm/load.$(OBJEXT) \
 	editql/index.$(OBJEXT) editql/load.$(OBJEXT) \
 	editql/position.$(OBJEXT) editql/navigate.$(OBJEXT) \
@@ -712,7 +712,6 @@ libbibledit_a_SOURCES = \
 	manage/hyphenate.cpp \
 	manage/write.cpp \
 	manage/privileges.cpp \
-	system/timezone.cpp \
 	system/index.cpp \
 	collaboration/index.cpp \
 	collaboration/url.cpp \
@@ -1581,8 +1580,6 @@ system/$(am__dirstamp):
 system/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) system/$(DEPDIR)
 	@: > system/$(DEPDIR)/$(am__dirstamp)
-system/timezone.$(OBJEXT): system/$(am__dirstamp) \
-	system/$(DEPDIR)/$(am__dirstamp)
 system/index.$(OBJEXT): system/$(am__dirstamp) \
 	system/$(DEPDIR)/$(am__dirstamp)
 collaboration/$(am__dirstamp):
@@ -3045,7 +3042,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/setup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/usfmresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/index.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/timezone.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/run.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@text/$(DEPDIR)/text.Po@am__quote@

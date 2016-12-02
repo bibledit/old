@@ -42,7 +42,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/hyphenation.h>
 #include <manage/write.h>
 #include <manage/privileges.h>
-#include <system/timezone.h>
 #include <system/index.h>
 #include <collaboration/index.h>
 #include <collaboration/url.h>
@@ -1193,12 +1192,6 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == lexicon_definition_url ()) && browser_request_security_okay (request) && lexicon_definition_acl (request)) {
     request->reply = lexicon_definition (request);
-    return;
-  }
-
-  // Internal settings calls.
-  if ((url == system_timeoffset_url ()) && system_timeoffset_acl (request)) {
-    request->reply = system_timeoffset (request);
     return;
   }
 

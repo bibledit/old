@@ -490,8 +490,6 @@
 		CA97857C1BD24A9E00E13388 /* initialize.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = initialize.sh; sourceTree = "<group>"; };
 		CA97857D1BD24AAA00E13388 /* paths.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = paths.sh; sourceTree = "<group>"; };
 		CA97857E1BD251A600E13388 /* livetest.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; lineEnding = 0; path = livetest.js; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.javascript; };
-		CA9B22741DA01A6200725C04 /* timezone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = timezone.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CA9B22751DA01A6200725C04 /* timezone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timezone.h; sourceTree = "<group>"; };
 		CA9B22771DA0212200725C04 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CA9B22781DA0212200725C04 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA9B22791DA0212200725C04 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -1493,8 +1491,6 @@
 				CA9B22771DA0212200725C04 /* index.cpp */,
 				CA9B22781DA0212200725C04 /* index.h */,
 				CA9B22791DA0212200725C04 /* index.html */,
-				CA9B22741DA01A6200725C04 /* timezone.cpp */,
-				CA9B22751DA01A6200725C04 /* timezone.h */,
 			);
 			name = system;
 			path = ../system;

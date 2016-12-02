@@ -156,7 +156,6 @@ libbibledit_a_SOURCES = \
 	manage/hyphenate.cpp \
 	manage/write.cpp \
 	manage/privileges.cpp \
-	system/timezone.cpp \
 	system/index.cpp \
 	collaboration/index.cpp \
 	collaboration/url.cpp \
