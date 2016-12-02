@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/roles.h>
 #include <config/globals.h>
+#include <user/logic.h>
 
 
 // The username and password for a demo installation, and for a disconnected client installation
@@ -146,18 +147,26 @@ string Session_Logic::fingerprint ()
 // Returns boolean success.
 bool Session_Logic::attemptLogin (string user_or_email, string password, bool touch_enabled)
 {
+  // Brute force attack mitigation.
+  if (!user_logic_login_failure_check_okay ()) {
+    return false;
+  }
+
   Database_Users database = Database_Users ();
   bool login_okay = false;
+
   // Match username and email.
   if (database.matchUserPassword (user_or_email, password)) {
     login_okay = true;
   }
+
   // Match password and email.
   if (database.matchEmailPassword (user_or_email, password)) {
     login_okay = true;
     // Fetch username that belongs to the email address that was used to login.
     user_or_email = database.getEmailToUser (user_or_email);
   }
+  
   if (login_okay) {
     open ();
     setUsername (user_or_email);
@@ -166,7 +175,10 @@ bool Session_Logic::attemptLogin (string user_or_email, string password, bool to
     Database_Login::setTokens (user_or_email, "", "", "", cookie, touch_enabled);
     currentLevel (true);
     return true;
+  } else {
+    user_logic_login_failure_register ();
   }
+  
   return false;
 }
 

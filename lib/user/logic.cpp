@@ -273,3 +273,10 @@ void user_logic_login_failure_register ()
   // Register a login failure for the current second.
   user_logic_login_failure_time = filter_date_seconds_since_epoch ();
 }
+
+
+void user_logic_login_failure_clear ()
+{
+  // Clear login failure tracker.
+  user_logic_login_failure_time = 0;
+}
