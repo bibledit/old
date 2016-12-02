@@ -24,6 +24,7 @@
 #include <database/config/general.h>
 #include <database/users.h>
 #include <sync/logic.h>
+#include <user/logic.h>
 
 
 string sync_setup_url ()
@@ -49,16 +50,19 @@ string sync_setup (void * webserver_request)
   username = hex2bin (username);
   string password = request->query ["pass"];
 
+  // Check the credentials of the client.
   if (request->database_users ()->usernameExists (username)) {
     string md5 = request->database_users ()->get_md5 (username);
     if (password == md5) {
-      // The credentials of the client have been accepted.
-      // Return the level to the client.
-      return convert_to_string (request->database_users ()->get_level (username));
+      // Check brute force attack mitigation.
+      if (user_logic_login_failure_check_okay ()) {
+        // Return the level to the client.
+        return convert_to_string (request->database_users ()->get_level (username));
+      }
     }
   }
   
   // The credentials were not accepted.
-  this_thread::sleep_for (chrono::milliseconds (100));
+  user_logic_login_failure_register ();
   return "Server does not recognize the credentials";
 }

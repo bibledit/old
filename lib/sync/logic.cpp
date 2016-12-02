@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/modifications.h>
 #include <config/globals.h>
 #include <trash/handler.h>
+#include <user/logic.h>
 
 
 mutex sync_logic_mutex;
@@ -65,6 +66,12 @@ bool Sync_Logic::credentials_okay ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  // Brute force attack mitigating?
+  if (!user_logic_login_failure_check_okay ()) {
+    request->response_code = 401;
+    return false;
+  }
+  
   // Get the credentials the client POSTed to the us, the server.
   string username = hex2bin (request->post ["u"]);
   string password = request->post ["p"];
@@ -78,9 +85,9 @@ bool Sync_Logic::credentials_okay ()
   bool level_ok = (level == request->database_users ()->get_level (username));
   if (!level_ok) Database_Logs::log ("Incorrect role: " + Filter_Roles::text (level), Filter_Roles::manager ());
   if (!user_ok || !pass_ok || !level_ok) {
+    // Register possible brute force attack.
+    user_logic_login_failure_register ();
     // Unauthorized.
-    // Delay a while to obstruct a flood of requests with invalid credentials.
-    this_thread::sleep_for (chrono::seconds (1));
     request->response_code = 401;
     return false;
   }
