@@ -189,6 +189,7 @@ void test_session_logic () // Todo
     // Log in by providing username and password.
     request.session_identifier = session;
     evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, "incorrect", true));
+    user_logic_login_failure_clear ();
     evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
 
@@ -243,9 +244,65 @@ void test_session_logic () // Todo
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
   }
   {
-    // Todo
-
+    // Detection and mitigation of brute force login attack. Todo
+    refresh_sandbox (true);
+    Database_State::create ();
+    Database_Login::create ();
+    Database_Users database_users;
+    database_users.create ();
+    database_users.upgrade ();
     
+    // Enter a user into the database.
+    string username = "username";
+    string password = "password";
+    string email = "info@bibledit.org";
+    int level = 5;
+    database_users.add_user (username, password, level, email);
+    Webserver_Request request;
+    string session = "abcdefgh";
+    
+    // To get stable results from the unit tests, run them right from the start of a new second.
+    // The issue is that the failed logins are recorded per second.
+    int now = filter_date_seconds_since_epoch ();
+    while (now == filter_date_seconds_since_epoch ()) this_thread::sleep_for (chrono::milliseconds (10));
+    
+    // Test the brute force detection mechanism.
+    evaluate (__LINE__, __func__, true, user_logic_login_failure_check_okay ());
+    user_logic_login_failure_register ();
+    evaluate (__LINE__, __func__, false, user_logic_login_failure_check_okay ());
+    user_logic_login_failure_clear ();
+    evaluate (__LINE__, __func__, true, user_logic_login_failure_check_okay ());
+    user_logic_login_failure_clear ();
+    
+    // Properly login.
+    request = Webserver_Request ();
+    request.session_identifier = session;
+    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
+    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
+    request.session_logic ()->logout ();
+    
+    // Login with wrong password.
+    request = Webserver_Request ();
+    request.session_identifier = session;
+    evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, password + "wrong", true));
+    evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
+    
+    // Detector kicks in: A proper login now fails also.
+    request = Webserver_Request ();
+    request.session_identifier = session;
+    evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, password, true));
+    evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
+    
+    // Wait till the next second.
+    now = filter_date_seconds_since_epoch ();
+    while (now == filter_date_seconds_since_epoch ()) this_thread::sleep_for (chrono::milliseconds (10));
+    
+    // After a second, a proper login works again.
+    request = Webserver_Request ();
+    request.session_identifier = session;
+    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
+    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
+    request.session_logic ()->logout ();
   }
 }
 
@@ -4766,65 +4823,6 @@ void test_biblegateway ()
 void test_libraries_dev ()
 {
   trace_unit_tests (__func__);
-  // Detection and mitigation of brute force login attack. Todo
-  refresh_sandbox (true);
-  Database_State::create ();
-  Database_Login::create ();
-  Database_Users database_users;
-  database_users.create ();
-  database_users.upgrade ();
-  
-  // Enter a user into the database.
-  string username = "username";
-  string password = "password";
-  string email = "info@bibledit.org";
-  int level = 5;
-  database_users.add_user (username, password, level, email);
-  Webserver_Request request;
-  string session = "abcdefgh";
-  
-  // To get stable results from the unit tests, run them right from the start of a new second.
-  // The issue is that the failed logins are recorded per second.
-  int now = filter_date_seconds_since_epoch ();
-  while (now == filter_date_seconds_since_epoch ()) this_thread::sleep_for (chrono::milliseconds (10));
-  
-  // Test the brute force detection mechanism.
-  evaluate (__LINE__, __func__, true, user_logic_login_failure_check_okay ());
-  user_logic_login_failure_register ();
-  evaluate (__LINE__, __func__, false, user_logic_login_failure_check_okay ());
-  user_logic_login_failure_clear ();
-  evaluate (__LINE__, __func__, true, user_logic_login_failure_check_okay ());
-  user_logic_login_failure_clear ();
- 
-  // Properly login.
-  request = Webserver_Request ();
-  request.session_identifier = session;
-  evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
-  evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-  request.session_logic ()->logout ();
-
-  // Login with wrong password.
-  request = Webserver_Request ();
-  request.session_identifier = session;
-  evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, password + "wrong", true));
-  evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
-  
-  // Detector kicks in: A proper login now fails also.
-  request = Webserver_Request ();
-  request.session_identifier = session;
-  evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, password, true));
-  evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
-
-  // Wait till the next second.
-  now = filter_date_seconds_since_epoch ();
-  while (now == filter_date_seconds_since_epoch ()) this_thread::sleep_for (chrono::milliseconds (10));
-
-  // After a second, a proper login works again.
-  request = Webserver_Request ();
-  request.session_identifier = session;
-  evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
-  evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-  request.session_logic ()->logout ();
 }
 
 
