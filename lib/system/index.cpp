@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <dialog/list.h>
+#include <dialog/entry.h>
 #include <database/config/general.h>
 #include <assets/header.h>
 #include <menu/logic.h>
@@ -101,8 +102,13 @@ string system_index (void * webserver_request)
 
   
   // Entry of time zone offset in hours.
-  if (request->post.count ("savezone")) {
-    string input = request->post ["timezone"];
+  if (request->query.count ("timezone")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a timezone between -12 and +14"), "", "timezone", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("timezone")) {
+    string input = request->post ["entry"];
     input = filter_string_str_replace ("UTC", "", input);
     int timezone = convert_to_int (input);
     bool clipped = false;
