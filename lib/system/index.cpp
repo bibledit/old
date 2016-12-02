@@ -102,7 +102,7 @@ string system_index (void * webserver_request)
   
   // Entry of time zone offset in hours.
   if (request->query.count ("timezone")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a timezone between -12 and +14"), "", "timezone", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate ("Please enter a timezone between -12 and +14"), convert_to_string (Database_Config_General::getTimezone ()), "timezone", "");
     page += dialog_entry.run ();
     return page;
   }
