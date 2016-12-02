@@ -81,12 +81,22 @@ void Session_Logic::open ()
   if (clientAccess ()) return;
 
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   // Work around a weird bug where the user_agent's size is 140735294083184 leading to a crash.
   if (request->user_agent.size () > 10000) return;
+
+  // Discard empty cookies right-away.
+  // Don't regard this as something that triggers the brute force attach mitigation mechanism.
   string cookie = request->session_identifier;
+  if (cookie.empty ()) {
+    setUsername ("");
+    logged_in = false;
+    return;
+  }
+  
   bool daily;
   string username = Database_Login::getUsername (cookie, daily);
-  if (!username.empty () && !cookie.empty ()) {
+  if (!username.empty ()) {
     setUsername (username);
     logged_in = true;
     if (daily) request->resend_cookie = true;
