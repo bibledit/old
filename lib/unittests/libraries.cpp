@@ -72,6 +72,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tasks/logic.h>
 #include <resource/logic.h>
 #include <user/logic.h>
+#include <rss/logic.h>
 
 
 using namespace jsonxx;
@@ -4817,6 +4818,37 @@ void test_biblegateway ()
 
   text = resource_logic_bible_gateway_get (resource, book, 1, 12);
   evaluate (__LINE__, __func__, "This is what the Lord says: “Although Assyria ·is strong [or has allies] and has many people, it will be ·defeated [destroyed] and ·brought to an end [pass away]. Although I have ·made you suffer, Judah [L afflicted you], I will ·make you suffer [afflict you] no more.", text);
+}
+
+
+void test_rss_feed ()
+{
+  trace_unit_tests (__func__);
+  refresh_sandbox (true);
+  
+  string path = rss_logic_xml_path ();
+  Database_Config_General::setSiteURL ("http://localhost:8080/");
+  
+  // Write two items.
+  Database_Config_General::setMaxRssFeedItems (10);
+  rss_logic_update_xml ({ "one", "two" }, { "description one", "description two"} );
+  evaluate (__LINE__, __func__, 361, filter_url_filesize (path));
+  
+  // Set maximum number of items to 0: Should remove the file.
+  Database_Config_General::setMaxRssFeedItems (0);
+  rss_logic_update_xml ({ "one", "two" }, { "description one", "description two"} );
+  evaluate (__LINE__, __func__, 0, filter_url_filesize (path));
+
+  // Add many entries and clipping their number.
+  Database_Config_General::setMaxRssFeedItems (10);
+  vector <string> titles;
+  vector <string> descriptions;
+  for (size_t i = 0; i < 100; i++) {
+    titles.push_back ("title " + convert_to_string (i));
+    descriptions.push_back ("description " + convert_to_string (i));
+  }
+  rss_logic_update_xml (titles, descriptions);
+  evaluate (__LINE__, __func__, 1049, filter_url_filesize (path));
 }
 
 

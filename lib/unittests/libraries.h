@@ -51,6 +51,7 @@ void test_http ();
 void test_memory ();
 void test_tasks_logic ();
 void test_biblegateway ();
+void test_rss_feed ();
 void test_libraries_dev ();
 
 

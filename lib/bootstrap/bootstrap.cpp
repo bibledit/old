@@ -209,6 +209,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <public/comment.h>
 #include <basic/index.h>
 #include <editor/select.h>
+#include <rss/feed.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -1195,6 +1196,12 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
+  // RSS feed.
+  if ((url == rss_feed_url ()) && browser_request_security_okay (request) && rss_feed_acl (request)) {
+    request->reply = rss_feed (request);
+    return;
+  }
+  
   // Forward the browser to the default home page.
   redirect_browser (request, index_index_url ());
 }

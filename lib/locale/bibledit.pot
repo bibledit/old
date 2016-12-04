@@ -7456,6 +7456,9 @@ msgstr ""
 msgid "It displays a web page based on the focused passage within Bibledit."
 msgstr ""
 
+msgid "Recent changes in the Bible text"
+msgstr ""
+
 msgid "Search all Bibles and consultation notes:"
 msgstr ""
 
@@ -8541,10 +8544,22 @@ msgstr ""
 msgid "Set the language for Bibledit"
 msgstr ""
 
+msgid "Please enter a timezone between -12 and +14"
+msgstr ""
+
 msgid "The timezone was clipped"
 msgstr ""
 
 msgid "The timezone was saved"
+msgstr ""
+
+msgid "Please enter the maximum number of items in the RSS feed"
+msgstr ""
+
+msgid "The number was clipped"
+msgstr ""
+
+msgid "The number was saved"
 msgstr ""
 
 msgid "Language"
@@ -8575,9 +8590,22 @@ msgstr ""
 msgid "Timezone"
 msgstr ""
 
-msgid ""
-"Set the timezone for Bibledit as an offset from UTC in whole hours from -12 "
-"till +14."
+msgid "The timezone for Bibledit as an offset from UTC in hours"
+msgstr ""
+
+msgid "hours"
+msgstr ""
+
+msgid "RSS feed"
+msgstr ""
+
+msgid "The RSS feed lists the most recent changes in the text of the Bible."
+msgstr ""
+
+msgid "It is available here:"
+msgstr ""
+
+msgid "Maximum number of changes it displays:"
 msgstr ""
 
 msgid "ABC"

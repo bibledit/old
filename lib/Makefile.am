@@ -441,7 +441,9 @@ libbibledit_a_SOURCES = \
 	related/logic.cpp \
 	sqlite/sqlite3.c \
 	ldap/logic.cpp \
-	quill/logic.cpp
+	quill/logic.cpp \
+	rss/logic.cpp \
+	rss/feed.cpp
 
 bin_PROGRAMS = server unittest generate
 

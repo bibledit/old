@@ -1127,6 +1127,10 @@
 		CACCF5A61D1DB31F00AFBC52 /* oshb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = oshb.cpp; sourceTree = "<group>"; };
 		CACCF5A71D1DB31F00AFBC52 /* oshb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oshb.h; sourceTree = "<group>"; };
 		CACCF5A81D1DB31F00AFBC52 /* oshb.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = oshb.txt; sourceTree = "<group>"; };
+		CACDF3CB1DF1E74E00C198A2 /* feed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = feed.cpp; sourceTree = "<group>"; };
+		CACDF3CC1DF1E74E00C198A2 /* feed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = feed.h; sourceTree = "<group>"; };
+		CACDF3CD1DF1E74E00C198A2 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CACDF3CE1DF1E74E00C198A2 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CACF05A51DEC83A600AB2C25 /* biblegateway.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = biblegateway.cpp; sourceTree = "<group>"; };
 		CACF05A61DEC83A600AB2C25 /* biblegateway.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = biblegateway.h; sourceTree = "<group>"; };
 		CACF05A71DEC83A600AB2C25 /* biblegateway.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = biblegateway.html; sourceTree = "<group>"; };
@@ -3267,6 +3271,7 @@
 				CA607B641D3FF41500FC5792 /* related */,
 				CAA4D2B91A45A648003ABA25 /* resource */,
 				CAA4D2ED1A45A648003ABA25 /* revisions */,
+				CACDF3C51DF1E74E00C198A2 /* rss */,
 				CAA4D2F31A45A648003ABA25 /* search */,
 				CAA4D3201A45A648003ABA25 /* sendreceive */,
 				CAA4D32E1A45A648003ABA25 /* session */,
@@ -3511,6 +3516,18 @@
 			);
 			name = public;
 			path = ../public;
+			sourceTree = "<group>";
+		};
+		CACDF3C51DF1E74E00C198A2 /* rss */ = {
+			isa = PBXGroup;
+			children = (
+				CACDF3CB1DF1E74E00C198A2 /* feed.cpp */,
+				CACDF3CC1DF1E74E00C198A2 /* feed.h */,
+				CACDF3CD1DF1E74E00C198A2 /* logic.cpp */,
+				CACDF3CE1DF1E74E00C198A2 /* logic.h */,
+			);
+			name = rss;
+			path = ../rss;
 			sourceTree = "<group>";
 		};
 		CAECFB821B84E30100B3634F /* sources */ = {
