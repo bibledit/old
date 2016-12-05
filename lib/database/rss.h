@@ -24,6 +24,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
+#ifdef HAVE_CLOUD
+
+
 class Database_Rss
 {
 public:
@@ -37,6 +40,9 @@ public:
 private:
   static const char * name ();
 };
+
+
+#endif
 
 
 #endif
