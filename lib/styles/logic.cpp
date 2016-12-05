@@ -311,9 +311,9 @@ bool styles_logic_paragraph_treats_are_relevant (int type, int subtype)
 // Returns the $value as human readable text.
 string styles_logic_alignment_text (int value)
 {
-  if (value == AlignmentLeft   ) return translate ("Start (Left in left-to-right script)");
+  if (value == AlignmentLeft   ) return translate ("Left align");
   if (value == AlignmentCenter ) return translate ("Center");
-  if (value == AlignmentRight  ) return translate ("End (Right in left-to-right script)");
+  if (value == AlignmentRight  ) return translate ("Right align");
   if (value == AlignmentJustify) return translate ("Justify");
   return "--";
 }
