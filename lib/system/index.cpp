@@ -163,7 +163,7 @@ string system_index (void * webserver_request)
     rss_logic_update_xml ({}, {});
   }
   view.set_variable ("rsscount", convert_to_string (Database_Config_General::getMaxRssFeedItems ()));
-  view.set_variable ("rssfeed", Database_Config_General::getSiteURL () + rss_feed_url ());
+  view.set_variable ("rssfeed", "/" + rss_feed_url ());
 #endif
 
   
