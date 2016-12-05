@@ -151,6 +151,7 @@ string edit_save (void * webserver_request)
   Database_Modifications database_modifications;
   database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
   Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
+  //Database_Rss::store (username, bible, book, chapter, oldText, newText); // Todo test
 #else
   (void) oldID;
 #endif

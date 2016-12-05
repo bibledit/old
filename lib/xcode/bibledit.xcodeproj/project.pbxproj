@@ -1223,8 +1223,6 @@
 		CAF475A91C96D00A00B6C659 /* switch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = switch.cpp; sourceTree = "<group>"; };
 		CAF475AA1C96D00A00B6C659 /* switch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = switch.h; sourceTree = "<group>"; };
 		CAF475AB1C96D00A00B6C659 /* switch.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = switch.html; sourceTree = "<group>"; };
-		CAF4E1C91DF553B700449EE9 /* rss.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rss.cpp; sourceTree = "<group>"; };
-		CAF4E1CA1DF553B700449EE9 /* rss.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rss.h; sourceTree = "<group>"; };
 		CAF54BCC1D100EA70058FABA /* flate3.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = flate3.html; sourceTree = "<group>"; };
 		CAF6DBEA1A72583700E5389F /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAF6DBEB1A72583700E5389F /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
@@ -1831,8 +1829,6 @@
 				CAA4D0301A45A647003ABA25 /* notes.h */,
 				CA6501B41C80746900844364 /* privileges.cpp */,
 				CA6501B51C80746900844364 /* privileges.h */,
-				CAF4E1C91DF553B700449EE9 /* rss.cpp */,
-				CAF4E1CA1DF553B700449EE9 /* rss.h */,
 				CAA4D0351A45A647003ABA25 /* sblgnt.cpp */,
 				CAA4D0361A45A647003ABA25 /* sblgnt.h */,
 				CAA4D03A1A45A647003ABA25 /* sprint.cpp */,

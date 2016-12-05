@@ -120,6 +120,9 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
     Database_Modifications database_modifications;
     database_modifications.recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);
     Database_Git::store_chapter (username, bible, book, chapter, old_text, new_text);
+#ifdef HAVE_CLOUD
+    //Database_Rss::store (username, bible, book, chapter, old_text, new_text); // Todo test it.
+#endif
   }
 
 

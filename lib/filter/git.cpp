@@ -249,6 +249,9 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
                   // Log it.
                   string message = translate("A translator added chapter") + " " + bible + " " + bookname + " " + chapterfile;
                   Database_Logs::log (message);
+#ifdef HAVE_CLOUD
+                  //Database_Rss::store ("collaborator", bible, book, chapter, "", usfm); // Todo test it.
+#endif
                 }
               }
             }
@@ -281,6 +284,9 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
           if (contents != usfm) {
             bible_logic_store_chapter (bible, book, chapter, contents);
             Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
+#ifdef HAVE_CLOUD
+            //Database_Rss::store ("collaborator", bible, book, chapter, usfm, contents); // Todo test it.
+#endif
           }
         } else {
           bible_logic_delete_chapter (bible, book, chapter);

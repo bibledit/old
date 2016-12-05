@@ -64,7 +64,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/git.h>
 #include <database/userresources.h>
 #include <database/statistics.h>
-#include <database/rss.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -4771,49 +4770,6 @@ void test_database_statistics ()
       evaluate (__LINE__, __func__, 41, changes[1].second);
     }
   }
-}
-
-
-void test_database_rss () // Todo
-{
-  trace_unit_tests (__func__);
-  
-  refresh_sandbox (true);
-  
-  // Create the database.
-  Database_Rss::create ();
-
-  // Check it's empty.
-  evaluate (__LINE__, __func__, 0, Database_Rss::size());
-  
-  string user = "user";
-  string bible = "bible";
-
-  // Store one chapter, and check its size.
-  Database_Rss::store (user, bible, 1, 2, "old1", "new1");
-  evaluate (__LINE__, __func__, 1, Database_Rss::size());
-  
-  // Store more chapters.
-  Database_Rss::store (user, bible, 2, 5, "old2", "new2");
-  Database_Rss::store (user, bible, 3, 6, "old3", "new3");
-  Database_Rss::store (user, bible, 4, 7, "old4", "new4");
-  evaluate (__LINE__, __func__, 4, Database_Rss::size());
-
-  // Check fetched data and reduced row count.
-  string userget, bibleget;
-  int book, chapter;
-  string oldusfm, newusfm;
-  Database_Rss::fetch (userget, bibleget, book, chapter, oldusfm, newusfm);
-  evaluate (__LINE__, __func__, user, userget);
-  evaluate (__LINE__, __func__, bible, bibleget);
-  evaluate (__LINE__, __func__, 1, book);
-  evaluate (__LINE__, __func__, 2, chapter);
-  evaluate (__LINE__, __func__, "old1", oldusfm);
-  evaluate (__LINE__, __func__, "new1", newusfm);
-  evaluate (__LINE__, __func__, 3, Database_Rss::size());
-
-  Database_Rss::optimize ();
-  evaluate (__LINE__, __func__, 3, Database_Rss::size());
 }
 
 

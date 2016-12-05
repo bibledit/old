@@ -38,7 +38,6 @@
 #include <database/privileges.h>
 #include <database/git.h>
 #include <database/statistics.h>
-#include <database/rss.h>
 #include <styles/sheets.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -238,10 +237,6 @@ void setup_initialize_data ()
   config_globals_setup_message = "statistics";
   Database_Statistics::create ();
   Database_Statistics::optimize ();
-#ifdef HAVE_CLOUD
-  Database_Rss::create ();
-  Database_Rss::optimize ();
-#endif
 
   // Create stylesheets.
   config_globals_setup_message = "stylesheets";

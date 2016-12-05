@@ -67,7 +67,6 @@ void test_database_privileges ();
 void test_database_git ();
 void test_database_userresources ();
 void test_database_statistics ();
-void test_database_rss ();
 void test_database_develop ();
 
 

@@ -150,11 +150,11 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/morphgnt.$(OBJEXT) database/etcbc4.$(OBJEXT) \
 	database/hebrewlexicon.$(OBJEXT) database/cache.$(OBJEXT) \
 	database/login.$(OBJEXT) database/privileges.$(OBJEXT) \
-	database/git.$(OBJEXT) database/rss.$(OBJEXT) \
-	database/userresources.$(OBJEXT) database/statistics.$(OBJEXT) \
-	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
-	session/logout.$(OBJEXT) session/password.$(OBJEXT) \
-	session/signup.$(OBJEXT) session/switch.$(OBJEXT) \
+	database/git.$(OBJEXT) database/userresources.$(OBJEXT) \
+	database/statistics.$(OBJEXT) session/logic.$(OBJEXT) \
+	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
+	session/password.$(OBJEXT) session/signup.$(OBJEXT) \
+	session/switch.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
@@ -632,7 +632,6 @@ libbibledit_a_SOURCES = \
 	database/login.cpp \
 	database/privileges.cpp \
 	database/git.cpp \
-	database/rss.cpp \
 	database/userresources.cpp \
 	database/statistics.cpp \
 	session/logic.cpp \
@@ -1295,8 +1294,6 @@ database/login.$(OBJEXT): database/$(am__dirstamp) \
 database/privileges.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/git.$(OBJEXT): database/$(am__dirstamp) \
-	database/$(DEPDIR)/$(am__dirstamp)
-database/rss.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/userresources.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -2731,7 +2728,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/oshb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/privileges.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/rss.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sblgnt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sprint.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sqlite.Po@am__quote@
