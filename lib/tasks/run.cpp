@@ -67,6 +67,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/logic.h>
 #include <client/logic.h>
 #include <user/logic.h>
+#include <rss/logic.h>
 
 
 mutex mutex_tasks; 
@@ -109,6 +110,16 @@ void tasks_run_one (string filename)
   string parameter4;
   if (!lines.empty ()) {
     parameter4 = lines [0];
+    lines.erase (lines.begin ());
+  }
+  string parameter5;
+  if (!lines.empty ()) {
+    parameter5 = lines [0];
+    lines.erase (lines.begin ());
+  }
+  string parameter6;
+  if (!lines.empty ()) {
+    parameter6 = lines [0];
     lines.erase (lines.begin ());
   }
   
@@ -214,6 +225,8 @@ void tasks_run_one (string filename)
     user_logic_software_updates_notify ();
   } else if (command == REFRESHWEBRESOURCES) {
     resource_logic_bible_gateway_module_list_refresh ();
+  } else if (command == RSSFEEDUPDATECHAPTER) {
+    rss_logic_execute_update (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4), parameter5, parameter6);
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

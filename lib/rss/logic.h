@@ -24,6 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
+void rss_logic_schedule_update (string user, string bible, int book, int chapter,
+                                string oldusfm, string newusfm);
+void rss_logic_execute_update (string user, string bible, int book, int chapter,
+                               string oldusfm, string newusfm);
 string rss_logic_xml_path ();
 void rss_logic_update_xml (vector <string> titles, vector <string> descriptions);
 
