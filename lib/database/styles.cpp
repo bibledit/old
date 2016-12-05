@@ -45,7 +45,7 @@ typedef struct
   int underline;
   int smallcaps;
   int superscript;
-  int justification; // Todo
+  int justification;
   float spacebefore;
   float spaceafter;
   float leftmargin;

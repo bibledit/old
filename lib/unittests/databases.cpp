@@ -407,7 +407,7 @@ void test_database_users ()
 }
 
 
-void test_database_styles () // Todo
+void test_database_styles ()
 {
   trace_unit_tests (__func__);
   
