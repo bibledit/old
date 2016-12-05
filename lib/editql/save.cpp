@@ -154,7 +154,7 @@ string editql_save (void * webserver_request)
   Database_Modifications database_modifications;
   database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
   Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
-  rss_logic_schedule_update (username, bible, book, chapter, oldText, newText); // Todo test
+  rss_logic_schedule_update (username, bible, book, chapter, oldText, newText);
 #else
   (void) oldID;
 #endif

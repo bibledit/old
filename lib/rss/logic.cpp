@@ -43,7 +43,7 @@ string rss_logic_new_line ()
 
 
 void rss_logic_schedule_update (string user, string bible, int book, int chapter,
-                                string oldusfm, string newusfm) // Todo
+                                string oldusfm, string newusfm)
 {
   // If the RSS feed system is off, bail out.
   int size = Database_Config_General::getMaxRssFeedItems ();
@@ -66,7 +66,7 @@ void rss_logic_schedule_update (string user, string bible, int book, int chapter
 
 
 void rss_logic_execute_update (string user, string bible, int book, int chapter,
-                               string oldusfm, string newusfm) // Todo
+                               string oldusfm, string newusfm)
 {
   // Bail out if there's no changes.
   if (oldusfm == newusfm) return;

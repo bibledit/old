@@ -122,7 +122,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
     database_modifications.recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);
     Database_Git::store_chapter (username, bible, book, chapter, old_text, new_text);
 #ifdef HAVE_CLOUD
-    rss_logic_schedule_update (username, bible, book, chapter, old_text, new_text); // Todo test it.
+    rss_logic_schedule_update (username, bible, book, chapter, old_text, new_text);
 #endif
   }
 
