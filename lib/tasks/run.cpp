@@ -226,7 +226,9 @@ void tasks_run_one (string filename)
   } else if (command == REFRESHWEBRESOURCES) {
     resource_logic_bible_gateway_module_list_refresh ();
   } else if (command == RSSFEEDUPDATECHAPTER) {
+#ifdef HAVE_CLOUD
     rss_logic_execute_update (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4), parameter5, parameter6);
+#endif
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

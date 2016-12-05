@@ -39,7 +39,10 @@ bool rss_feed_acl (void * webserver_request)
 string rss_feed (void * webserver_request)
 {
   (void) webserver_request;
+  string xml;
+#ifdef HAVE_CLOUD
   string path = rss_logic_xml_path ();
-  string xml = filter_url_file_get_contents (path);
+  xml = filter_url_file_get_contents (path);
+#endif
   return xml;
 }

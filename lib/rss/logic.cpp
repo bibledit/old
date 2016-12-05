@@ -33,6 +33,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace pugi;
 
 
+#ifdef HAVE_CLOUD
+
+
 string rss_logic_new_line ()
 {
   return "rss_new_line";
@@ -168,3 +171,6 @@ void rss_logic_update_xml (vector <string> titles, vector <string> descriptions)
     filter_url_file_put_contents (path, output.str ());
   }
 }
+
+
+#endif
