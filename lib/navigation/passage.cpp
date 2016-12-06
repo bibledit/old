@@ -231,17 +231,11 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
 }
 
 
-string Navigation_Passage::code (string bible, bool header)
+string Navigation_Passage::code (string bible)
 {
-  string code = "";
-  if (header) {
-    code += "<script type=\"text/javascript\" src=\"/navigation/passage.js\"></script>";
-    code += "\n";
-  }
+  string code;
   code += "<script type=\"text/javascript\">";
-  code += "\n";
   code += "navigationBible = \"" + bible + "\";";
-  code += "\n";
   code += "</script>";
   code += "\n";
   return code;

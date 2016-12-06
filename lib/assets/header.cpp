@@ -242,7 +242,7 @@ string Assets_Header::run ()
       // string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
       // The clamping above does not work for public feedback as it would reset the Bible always.
       string bible = request->database_config_user()->getBible ();
-      view->set_variable ("navigation_code", Navigation_Passage::code (bible, true));
+      view->set_variable ("navigation_code", Navigation_Passage::code (bible));
     }
   }
 
