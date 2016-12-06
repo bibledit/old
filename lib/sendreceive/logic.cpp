@@ -62,27 +62,27 @@ void sendreceive_queue_sync (int minute)
     if (client_logic_client_enabled ()) {
       
       if (tasks_logic_queued (SYNCBIBLES)) {
-        Database_Logs::log ("Still synchronizing Bibles");
+        Database_Logs::log ("About to start synchronizing Bibles");
       } else {
         tasks_logic_queue (SYNCBIBLES);
       }
       if (tasks_logic_queued (SYNCNOTES)) {
-        Database_Logs::log ("Still synchronizing Notes");
+        Database_Logs::log ("About to start synchronizing Notes");
       } else {
         tasks_logic_queue (SYNCNOTES);
       }
       if (tasks_logic_queued (SYNCSETTINGS)) {
-        Database_Logs::log ("Still synchronizing Settings");
+        Database_Logs::log ("About to start synchronizing Settings");
       } else {
         tasks_logic_queue (SYNCSETTINGS);
       }
       if (tasks_logic_queued (SYNCCHANGES)) {
-        Database_Logs::log ("Still synchronizing Changes");
+        Database_Logs::log ("About to start synchronizing Changes");
       } else {
         tasks_logic_queue (SYNCCHANGES);
       }
       if (tasks_logic_queued (SYNCFILES)) {
-        Database_Logs::log ("Still synchronizing Files");
+        Database_Logs::log ("About to start synchronizing Files");
       } else {
         tasks_logic_queue (SYNCFILES);
       }
@@ -114,7 +114,7 @@ void sendreceive_queue_paratext ()
 {
 #ifdef HAVE_PARATEXT
   if (sendreceive_paratext_queued ()) {
-    Database_Logs::log ("Still synchronizing with Paratext");
+    Database_Logs::log ("About to start synchronizing with Paratext");
   } else {
     tasks_logic_queue (SYNCPARATEXT);
   }
