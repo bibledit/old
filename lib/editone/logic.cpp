@@ -33,7 +33,12 @@ void editone_logic_prefix_html_stage_one (string usfm, string stylesheet, string
     html = editor_usfm2html.get ();
     // No identical id's in the same DOM.
     html = filter_string_str_replace (" id=\"notes\"", " id=\"prefixnotes\"", html);
+    // The last paragraph style in this USFM fragment, the prefix to the editable fragment.
+    // If the last paragraph has any content in it,
+    // for correct visual representation of the editable fragment, that follows this,
+    // clear that style.
     last_p_style = editor_usfm2html.currentParagraphStyle;
+    if (!editor_usfm2html.currentParagraphContent.empty ()) last_p_style.clear ();
   }
 }
 
