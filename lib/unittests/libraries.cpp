@@ -997,6 +997,7 @@ void test_editor_usfm2html ()
       editor_usfm2html.run ();
       evaluate (__LINE__, __func__, 60, (int)editor_usfm2html.textLength);
       evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 1) }, editor_usfm2html.verseStartOffsets);
+      evaluate (__LINE__, __func__, "1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.currentParagraphContent);
     }
     {
       // Quill-based editor.
@@ -1007,6 +1008,7 @@ void test_editor_usfm2html ()
       editor_usfm2html.run ();
       evaluate (__LINE__, __func__, 61, (int)editor_usfm2html.textLength);
       evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 2) }, editor_usfm2html.verseStartOffsets);
+      evaluate (__LINE__, __func__, "1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.currentParagraphContent);
     }
   }
   // Test text length for several verses.
@@ -1039,6 +1041,7 @@ void test_editor_usfm2html ()
                                       make_pair (6, 673),
                                       make_pair (7, 755) },
                                       editor_usfm2html.verseStartOffsets);
+      evaluate (__LINE__, __func__, 550, editor_usfm2html.currentParagraphContent.size ());
     }
     {
       // Quill-based editor.
@@ -1057,6 +1060,7 @@ void test_editor_usfm2html ()
                                       make_pair (6, 676),
                                       make_pair (7, 758) },
                                       editor_usfm2html.verseStartOffsets);
+      evaluate (__LINE__, __func__, 550, editor_usfm2html.currentParagraphContent.size ());
     }
   }
   // Space after starting marker
@@ -1107,6 +1111,25 @@ void test_editor_usfm2html ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     evaluate (__LINE__, __func__, "q2", editor_usfm2html.currentParagraphStyle);
+    evaluate (__LINE__, __func__, "2 Two 3 Three", editor_usfm2html.currentParagraphContent);
+  }
+  // Most recent paragraph style and length 0.
+  {
+    string usfm =
+    "\\c 2\n"
+    "\\p\n"
+    "\\v 1 One\n"
+    "\\q2\n"
+    "\\v 2 Two\n"
+    "\\v 3 Three\n"
+    "\\q3\n";
+    Webserver_Request request;
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.run ();
+    evaluate (__LINE__, __func__, "q3", editor_usfm2html.currentParagraphStyle);
+    evaluate (__LINE__, __func__, "", editor_usfm2html.currentParagraphContent);
   }
   // Convert styles for Quill-based editor.
   {
