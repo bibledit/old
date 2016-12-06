@@ -347,19 +347,25 @@ void http_server ()
   WSADATA wsa_data;
   result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
   if (result != 0) {
-    cerr << "Could not initialize Windows Sockets with error " << result << endl;
+    string error = "Could not initialize Windows Sockets with error " + convert_to_string (result);
+    cerr << error << endl;
+    Database_Logs::log (error);
     listener_healthy = false;
   }
   // Check for the correct requested Windows Sockets interface version.
   if (LOBYTE(wsa_data.wVersion) != 2 || HIBYTE(wsa_data.wVersion) != 2) {
-    cerr << "Incorrect Windows Sockets version" << endl;
+    string error = "Incorrect Windows Sockets version";
+    cerr << error << endl;
+    Database_Logs::log (error);
     listener_healthy = false;
   }
   
   // Create a socket for listening for incoming connections.
   SOCKET listen_socket = socket(AF_INET, SOCK_STREAM, 0);
   if (listen_socket == INVALID_SOCKET) {
-    cerr << "Socket failed with error " << WSAGetLastError() << endl;
+    string error = "Socket failed with error " + convert_to_string (WSAGetLastError());
+    cerr << error << endl;
+    Database_Logs::log (error);
     listener_healthy = false;
   }
 
@@ -373,14 +379,18 @@ void http_server ()
   serveraddr.sin_port = htons(convert_to_int(config_logic_http_network_port()));
   result = mybind(listen_socket, (SA *)&serveraddr, sizeof(serveraddr));
   if (result == SOCKET_ERROR) {
-	  cerr << "Error binding server to socket" << endl;
+	  string error = "Error binding server to socket";
+    cerr << error << endl;
+    Database_Logs::log (error);
 	  listener_healthy = false;
   }
 
   // Listen for multiple connections.
   result = listen(listen_socket, SOMAXCONN);
   if (result == SOCKET_ERROR) {
-    cerr << "Listen failed with error " << WSAGetLastError() << endl;
+    string error = "Listen failed with error " + convert_to_string (WSAGetLastError());
+    cerr << error << endl;
+    Database_Logs::log (error);
     listener_healthy = false;
   }
   
