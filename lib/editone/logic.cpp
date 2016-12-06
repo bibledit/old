@@ -31,7 +31,7 @@ void editone_logic_prefix_html_stage_one (string usfm, string stylesheet, string
     editor_usfm2html.stylesheet (stylesheet);
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
-    // No identical id in the same DOM.
+    // No identical id's in the same DOM.
     html = filter_string_str_replace (" id=\"notes\"", " id=\"prefixnotes\"", html);
     last_p_style = editor_usfm2html.currentParagraphStyle;
   }
