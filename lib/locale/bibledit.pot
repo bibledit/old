@@ -2885,7 +2885,7 @@ msgid "After that, synchronizing will send and receive the changes only."
 msgstr ""
 
 msgid ""
-"The client mode is useful in a situation where the Internect connection is "
+"The client mode is useful in a situation where the Internet connection is "
 "not optimal."
 msgstr ""
 
@@ -3756,7 +3756,7 @@ msgstr ""
 
 msgid ""
 "Without a clear goal, the team may still do a lot of things and work hard, "
-"but the produced results may have the desired value."
+"but the produced results may not have the desired value."
 msgstr ""
 
 msgid "Team"
@@ -5666,7 +5666,7 @@ msgstr ""
 msgid "You will receive email with further details."
 msgstr ""
 
-msgid "Go to Bibledit Cloud to submit the Bible there"
+msgid "Go to Bibledit Cloud to submit the Bible there."
 msgstr ""
 
 msgid "Go to Bibledit Cloud for exports to OpenDocument."
@@ -8246,13 +8246,13 @@ msgstr ""
 msgid "Toggle"
 msgstr ""
 
-msgid "Start (Left in left-to-right script)"
+msgid "Left align"
 msgstr ""
 
 msgid "Center"
 msgstr ""
 
-msgid "End (Right in left-to-right script)"
+msgid "Right align"
 msgstr ""
 
 msgid "Justify"
@@ -8599,13 +8599,13 @@ msgstr ""
 msgid "RSS feed"
 msgstr ""
 
-msgid "The RSS feed lists the most recent changes in the text of the Bible."
+msgid "RSS feed for the recent changes in the text of the Bible."
 msgstr ""
 
-msgid "It is available here:"
+msgid "Maximum number of changes it feeds:"
 msgstr ""
 
-msgid "Maximum number of changes it displays:"
+msgid "To switch the feed off, set the number of changes to zero."
 msgstr ""
 
 msgid "ABC"
