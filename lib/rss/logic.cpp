@@ -165,7 +165,9 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
   for (size_t i = 0; i < titles.size(); i++) {
     xml_node item = channel.append_child ("item");
     string guid2 = guid + convert_to_string (i);
-    item.append_child ("guid").text () = guid2.c_str();
+    xml_node guid_node = item.append_child ("guid");
+    guid_node.append_attribute ("isPermaLink") = "false";
+    guid_node.text () = guid2.c_str();
     item.append_child ("title").text () = titles [i].c_str();
     item.append_child ("author").text () = authors [i].c_str();
     item.append_child ("description").text () = descriptions [i].c_str();
