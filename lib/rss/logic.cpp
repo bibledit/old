@@ -169,7 +169,8 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
     guid_node.append_attribute ("isPermaLink") = "false";
     guid_node.text () = guid2.c_str();
     item.append_child ("title").text () = titles [i].c_str();
-    item.append_child ("author").text () = authors [i].c_str();
+    string author = authors[i] + "@site.org (" + authors[i] + ")";
+    item.append_child ("author").text () = author.c_str();
     item.append_child ("description").text () = descriptions [i].c_str();
     document_updated = true;
   }
