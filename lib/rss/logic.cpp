@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <pugixml/pugixml.hpp>
 #include <locale/translate.h>
 #include <tasks/logic.h>
+#include <rss/feed.h>
 
 
 using namespace pugi;
@@ -137,15 +138,27 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
   document.load_file (path.c_str());
   xml_node rss_node = document.first_child ();
   if (strcmp (rss_node.name (), "rss") != 0) {
+    // RSS node.
     rss_node = document.append_child ("rss");
     rss_node.append_attribute ("version") = "2.0";
+    rss_node.append_attribute ("xmlns:atom") = "http://www.w3.org/2005/Atom";
     xml_node channel = rss_node.append_child ("channel");
+    // Title.
     xml_node node = channel.append_child ("title");
     node.text () = "Bibledit";
+    // Link to website.
     node = channel.append_child ("link");
     node.text () = Database_Config_General::getSiteURL().c_str();
+    // Description.
     node = channel.append_child ("description");
     node.text () = translate ("Recent changes in the Bible text").c_str ();
+    // Feed's URL.
+    node = channel.append_child ("atom:link");
+    string link = Database_Config_General::getSiteURL() + rss_feed_url ();
+    node.append_attribute ("href") = link.c_str();
+    node.append_attribute ("rel") = "self";
+    node.append_attribute ("type") = "application/rss+xml";
+    // Updated.
     document_updated = true;
   }
   xml_node channel = rss_node.child ("channel");
