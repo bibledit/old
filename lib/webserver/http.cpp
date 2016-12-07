@@ -218,6 +218,8 @@ void http_assemble_response (Webserver_Request * request)
   else if (extension == "")         content_type = "text/html";
   else if (extension == "download") content_type = "application/octet-stream";
   else                              content_type = "application/octet-stream";
+  // If already defined, take that.
+  if (!request->response_content_type.empty ()) content_type = request->response_content_type;
 
   // Assemble the complete response for the browser.
   vector <string> response;

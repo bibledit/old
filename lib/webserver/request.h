@@ -54,6 +54,7 @@ public:
   string reply; // Body to be sent back to the browser.
   int response_code; // Response code to be sent to the browser.
   string etag; // The requested file's size for browser caching.
+  string response_content_type; // The content type of the response.
   Session_Logic * session_logic ();
   Database_Config_User * database_config_user ();
   Database_Users * database_users ();
