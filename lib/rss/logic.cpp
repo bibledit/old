@@ -76,7 +76,7 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
   newusfm = filter_string_str_replace (rss_logic_new_line (), "\n", newusfm);
   
   // Storage for the feed update.
-  vector <string> titles, descriptions;
+  vector <string> titles, authors, descriptions;
   
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
@@ -104,14 +104,15 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
       string new_text = filter_text_new.text_text->get ();
       if (old_text != new_text) {
         string modification = filter_diff_diff (old_text, new_text);
-        titles.push_back (filter_passage_display (book, chapter, convert_to_string (verse)) + " " + user);
+        titles.push_back (filter_passage_display (book, chapter, convert_to_string (verse)));
+        authors.push_back (user);
         descriptions.push_back ("<div>" + modification + "</div>");
       }
     }
   }
   
   // Update the feed.
-  rss_logic_update_xml (titles, descriptions);
+  rss_logic_update_xml (titles, authors, descriptions);
 }
 
 
@@ -121,7 +122,7 @@ string rss_logic_xml_path ()
 }
 
 
-void rss_logic_update_xml (vector <string> titles, vector <string> descriptions)
+void rss_logic_update_xml (vector <string> titles, vector <string> authors, vector <string> descriptions)
 {
   string path = rss_logic_xml_path ();
   int size = Database_Config_General::getMaxRssFeedItems ();
@@ -149,7 +150,7 @@ void rss_logic_update_xml (vector <string> titles, vector <string> descriptions)
   for (size_t i = 0; i < titles.size(); i++) {
     xml_node item = channel.append_child ("item");
     item.append_child ("title").text () = titles [i].c_str();
-    item.append_child ("link");
+    item.append_child ("author").text () = authors [i].c_str();
     item.append_child ("description").text () = descriptions [i].c_str();
     document_updated = true;
   }

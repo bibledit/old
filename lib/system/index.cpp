@@ -160,7 +160,7 @@ string system_index (void * webserver_request)
     if (clipped) error = translate ("The number was clipped");
     Database_Config_General::setMaxRssFeedItems (count);
     success = translate ("The number was saved");
-    rss_logic_update_xml ({}, {});
+    rss_logic_update_xml ({}, {}, {});
   }
   view.set_variable ("rsscount", convert_to_string (Database_Config_General::getMaxRssFeedItems ()));
   view.set_variable ("rssfeed", "/" + rss_feed_url ());

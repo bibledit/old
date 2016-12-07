@@ -30,7 +30,7 @@ void rss_logic_schedule_update (string user, string bible, int book, int chapter
 void rss_logic_execute_update (string user, string bible, int book, int chapter,
                                string oldusfm, string newusfm);
 string rss_logic_xml_path ();
-void rss_logic_update_xml (vector <string> titles, vector <string> descriptions);
+void rss_logic_update_xml (vector <string> titles, vector <string> authors, vector <string> descriptions);
 #endif
 
 
