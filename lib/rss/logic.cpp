@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <filter/text.h>
 #include <filter/diff.h>
+#include <filter/date.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <pugixml/pugixml.hpp>
@@ -130,6 +131,7 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
     if (file_or_dir_exists (path)) filter_url_unlink (path);
     return;
   }
+  string guid = convert_to_string (filter_date_seconds_since_epoch ());
   bool document_updated = false;
   xml_document document;
   document.load_file (path.c_str());
@@ -149,6 +151,8 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
   xml_node channel = rss_node.child ("channel");
   for (size_t i = 0; i < titles.size(); i++) {
     xml_node item = channel.append_child ("item");
+    string guid2 = guid + convert_to_string (i);
+    item.append_child ("guid").text () = guid2.c_str();
     item.append_child ("title").text () = titles [i].c_str();
     item.append_child ("author").text () = authors [i].c_str();
     item.append_child ("description").text () = descriptions [i].c_str();
