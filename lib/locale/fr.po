@@ -7,97 +7,105 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2015-07-04 12:03+0000\n"
-"Last-Translator: Launchpad Translations Administrators <Unknown>\n"
+"PO-Revision-Date: 2016-12-06 16:32+0000\n"
+"Last-Translator: Teus Benschop <teusjannette@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 17686)\n"
+"X-Generator: Launchpad (build 18292)\n"
 
 msgid "Set the language for Bibledit"
-msgstr ""
+msgstr "Choisissez une langue pour Bibledit"
 
 msgid "Language"
-msgstr ""
+msgstr "Langue"
 
 msgid "The language for Bibledit:"
-msgstr ""
+msgstr "Langue pour Bibledit :"
 
 msgid "change"
 msgstr "modifier"
 
 msgid "Your preferred language is not listed?"
-msgstr ""
+msgstr "Votre langue favorite n'est pas dans la liste ?"
 
 msgid ""
 "Use your translation skills to assist with bringing another language to "
 "Bibledit."
 msgstr ""
+"Utilisez vos talents de traduction pour nous assister en offrant à Bibledit "
+"une nouvelle langue."
 
 msgid "Start translating right away."
-msgstr ""
+msgstr "Commencer à traduire immédiatement."
 
 msgid ""
 "It is possible to translate only the most important phrases to get your "
 "translation team going in their own language."
 msgstr ""
+"Il est possible de traduire uniquement les phrases les plus importantes pour "
+"encourager votre équipe de traduction dans sa propre langue."
 
 msgid "Your translation will be included with the next Bibledit release."
-msgstr ""
+msgstr "Votre traduction sera incluse avec la prochaine édition de Bibledit"
 
 msgid "Timezone"
-msgstr ""
+msgstr "Fuseau horaire"
 
 msgid "The timezone was clipped"
-msgstr ""
+msgstr "Le fuseau horaire a été interrompu"
 
 msgid "The timezone was saved"
-msgstr ""
+msgstr "Le fuseau horaire a été enregistré"
 
 msgid "Site timezone"
-msgstr ""
+msgstr "Fuseau horaire du lieu"
 
 msgid ""
 "Set the timezone for Bibledit as an offset from UTC in whole hours from -12 "
 "till +14."
 msgstr ""
+"Configurez le décalage du fuseau horaire pour Bibledit par rapport aux "
+"heures entières de -12 à 14."
 
 msgid "Submit"
 msgstr "Soumettre"
 
 msgid "Search"
-msgstr ""
+msgstr "Rechercher"
 
 msgid "Searching"
-msgstr ""
+msgstr "Recherche en cours"
 
 msgid "Abbreviations"
-msgstr ""
+msgstr "Abbréviations"
 
 msgid "The abbreviations were saved."
-msgstr ""
+msgstr "Les abréviations ont été sauvées."
 
 msgid "Please supply valid Unicode UTF-8 text."
-msgstr ""
+msgstr "Veuillez fournir un texte unicode UTF-8 valide."
 
 msgid "Nothing was saved."
-msgstr ""
+msgstr "Rien n'a été sauvé."
 
 msgid "Book abbreviations"
-msgstr ""
+msgstr "Abréviations du livre"
 
 msgid "Bible"
 msgstr "Bible"
 
 msgid "Update the abbreviations."
-msgstr ""
+msgstr "Mise à jour des abréviations."
 
 msgid "One line per book."
-msgstr ""
+msgstr "Une ligne par livre."
 
 msgid "Book lines may repeat with different abbreviations for the same book."
 msgstr ""
+"Les lignes de livre peuvent se répéter avec des abréviations différentes "
+"pour le même livre."
 
 msgid "Save"
 msgstr "Enregistrer"
@@ -106,96 +114,101 @@ msgid ""
 "Book abbreviations are used while copying cross references from a source "
 "Bible to a target Bible."
 msgstr ""
+"Les abréviations de livre sont utilisées tout en copiant des références "
+"croisées d'une Bible source à une Bible cible."
 
 msgid "Book"
-msgstr ""
+msgstr "Livre"
 
 msgid "Would you like to delete this chapter?"
-msgstr ""
+msgstr "Souhaitez-vous supprimer ce chapitre ?"
 
 msgid "Please enter the number for the new chapter"
-msgstr ""
+msgstr "Veuillez entrer le nombre du nouveau chapitre"
 
 msgid "This chapter already exists"
-msgstr ""
+msgstr "Ce chapitre existe déjà"
 
 msgid "Chapters:"
-msgstr ""
+msgstr "Chapitres :"
 
 msgid "Create chapter"
-msgstr ""
+msgstr "Créer un chapitre"
 
 msgid "Delete this book"
-msgstr ""
+msgstr "Supprimer ce livre"
 
 msgid "Chapter"
-msgstr ""
+msgstr "Chapitre"
 
 msgid "Delete this chapter"
-msgstr ""
+msgstr "Supprimer ce chapitre"
 
 msgid "Font and text direction"
-msgstr ""
+msgstr "Orientation des polices et du texte"
 
 msgid "Font and text settings"
-msgstr ""
+msgstr "Paramètres de police et de texte"
 
 msgid "Make settings for font and text for the Bible editors."
 msgstr ""
+"Effectuez les réglages de la police et du texte pour les éditeurs de la "
+"Bible."
 
 msgid "Font"
-msgstr ""
+msgstr "Police"
 
 msgid "Enter the name of a locally available font."
-msgstr ""
+msgstr "Entrez le nom d'une police locale disponible."
 
 msgid "Example:"
-msgstr ""
+msgstr "Exemple :"
 
 msgid "Upload a font file."
-msgstr ""
+msgstr "Téléverser un fichier de police."
 
 msgid "Then enter its name."
-msgstr ""
+msgstr "Alors entrez son nom."
 
 msgid "Enter the name of a font available on the Internet."
-msgstr ""
+msgstr "Entrez le nom d'une police disponible sur interne."
 
 msgid "If the font is empty, it takes the font entered in Bibledit Cloud."
 msgstr ""
+"Si la police est vide, elle prend la police saisie dans Bibledit Cloud."
 
 msgid "Direction"
-msgstr ""
+msgstr "Orientation"
 
 msgid "Unspecified"
-msgstr ""
+msgstr "Non spécifiée"
 
 msgid "Left-to-right"
-msgstr ""
+msgstr "De gauche à droite"
 
 msgid "Right-to-left"
-msgstr ""
+msgstr "De droite à gauche"
 
 msgid "Writing mode"
-msgstr ""
+msgstr "Mode d'écriture"
 
 msgid "Top to bottom and left to right"
-msgstr ""
+msgstr "De haut en bas et de gauche à droite"
 
 msgid "Top to bottom and right to left"
-msgstr ""
+msgstr "De haut en bas et de droite à gauche"
 
 msgid "Bottom to top and left to right"
-msgstr ""
+msgstr "De bas en haut et de gauche à droite"
 
 msgid "Bottom to top and right to left"
-msgstr ""
+msgstr "De bas en haut et de droite à gauche"
 
 msgid "Line height"
-msgstr ""
+msgstr "Hauteur de ligne"
 
 msgid "Letter spacing"
-msgstr ""
+msgstr "Espacement des lettres"
 
 msgid ""
 "After saving, the settings will be applied to the editable sample text below."
