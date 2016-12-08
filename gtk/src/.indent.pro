@@ -1,5 +1,0 @@
---line-length500
---no-tabs
---k-and-r-style
---linux-style
---indent-level2

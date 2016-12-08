@@ -1,3 +1,0 @@
-#! /bin/sh
-export PATH=/home/buildslave/bibledit-win32/build/fake-bin:$PATH
-make $*
