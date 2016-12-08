@@ -1094,6 +1094,8 @@
 		CAC0E0451BE284CD00640BFE /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAC0F0C81B81F1C000D3E989 /* morphgnt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = morphgnt.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAC0F0C91B81F1C000D3E989 /* morphgnt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = morphgnt.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CAC1A6D91DF9904A005D6889 /* i18n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = i18n.cpp; sourceTree = "<group>"; };
+		CAC1A6DB1DF9904A005D6889 /* i18n.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = i18n.sh; sourceTree = "<group>"; };
 		CAC1FC9A1C60C18100869A40 /* swiping.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = swiping.html; sourceTree = "<group>"; };
 		CAC518A11B9EDFC5006F6D70 /* edit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = edit.js; sourceTree = "<group>"; };
 		CAC61E201B4C3C5400700C8D /* write.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = write.cpp; sourceTree = "<group>"; };
@@ -3237,6 +3239,7 @@
 				CAA4D1261A45A647003ABA25 /* git */,
 				CAA4D1281A45A647003ABA25 /* help */,
 				CAA4D1581A45A647003ABA25 /* html */,
+				CAC1A6D81DF9904A005D6889 /* i18n */,
 				CAA4D1601A45A647003ABA25 /* index */,
 				CAA4D1701A45A647003ABA25 /* ipc */,
 				CAA4D1791A45A647003ABA25 /* jobs */,
@@ -3516,6 +3519,16 @@
 			);
 			name = public;
 			path = ../public;
+			sourceTree = "<group>";
+		};
+		CAC1A6D81DF9904A005D6889 /* i18n */ = {
+			isa = PBXGroup;
+			children = (
+				CAC1A6D91DF9904A005D6889 /* i18n.cpp */,
+				CAC1A6DB1DF9904A005D6889 /* i18n.sh */,
+			);
+			name = i18n;
+			path = ../i18n;
 			sourceTree = "<group>";
 		};
 		CACDF3C51DF1E74E00C198A2 /* rss */ = {
