@@ -50,6 +50,7 @@ echo Clean temporal files.
 rm gettextfiles*
 rm /tmp/bibledit.pot
 rm translatables.cpp
+rm i18n.html
 
 
 echo Pull translations from launchpad.net
