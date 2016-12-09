@@ -142,7 +142,7 @@ int main ()
         // The English string.
         string english = contents.substr (position, pos - position);
         
-        // Wrap it and store it.
+        // Wrap it in calls recognizable as gettext calls, and store it.
         english.insert (0, "translate(\"");
         english.append ("\")");
         translatables.push_back (english);
