@@ -81,8 +81,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/offset.h>
 #include <edit/save.h>
 #include <edit/styles.h>
-#include <editpm/index.h>
-#include <editpm/load.h>
 #include <editql/index.h>
 #include <editql/load.h>
 #include <editql/position.h>
@@ -377,16 +375,6 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == edit_index_url ()) && browser_request_security_okay (request) && edit_index_acl (request)) {
     request->reply = edit_index (request);
-    return;
-  }
-  
-  if ((url == editpm_index_url ()) && browser_request_security_okay (request) && editpm_index_acl (request)) {
-    request->reply = editpm_index (request);
-    return;
-  }
-  
-  if ((url == editpm_load_url ()) && browser_request_security_okay (request) && editpm_load_acl (request)) {
-    request->reply = editpm_load (request);
     return;
   }
   

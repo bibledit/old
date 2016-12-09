@@ -135,10 +135,6 @@
 		CA143C291B5E595000242915 /* bibledropbox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bibledropbox.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA143C2A1B5E595000242915 /* bibledropbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibledropbox.h; sourceTree = "<group>"; };
 		CA14EFBC1C4A757D0031BBC7 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
-		CA1506941DD4A55B00EA7FB0 /* main.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
-		CA1506951DD4AE5700EA7FB0 /* bundle.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = bundle.sh; sourceTree = "<group>"; };
-		CA1506961DD4AEE900EA7FB0 /* load.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = load.cpp; sourceTree = "<group>"; };
-		CA1506971DD4AEE900EA7FB0 /* load.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = load.h; sourceTree = "<group>"; };
 		CA1506AC1DD4FBFC00EA7FB0 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CA1506AD1DD4FBFC00EA7FB0 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA1506AE1DD4FBFC00EA7FB0 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -161,10 +157,6 @@
 		CA1CF0071D5DF45E007FD089 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA1F74A61D2D602C00C45586 /* workspacewrapper_finish.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = workspacewrapper_finish.html; sourceTree = "<group>"; };
 		CA1F74A71D2D602C00C45586 /* workspacewrapper_start.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = workspacewrapper_start.html; sourceTree = "<group>"; };
-		CA1F8A961DBF5C73002501BD /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
-		CA1F8A971DBF5C73002501BD /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		CA1F8A981DBF5C73002501BD /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		CA1F8A991DBF5C73002501BD /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CA201E941C88763400646D98 /* privileges.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = privileges.cpp; sourceTree = "<group>"; };
 		CA201E951C88763400646D98 /* privileges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = privileges.h; sourceTree = "<group>"; };
 		CA201E961C88763400646D98 /* privileges.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = privileges.html; sourceTree = "<group>"; };
@@ -1343,22 +1335,6 @@
 			);
 			name = editql;
 			path = ../editql;
-			sourceTree = "<group>";
-		};
-		CA1F8A891DBF5C73002501BD /* editpm */ = {
-			isa = PBXGroup;
-			children = (
-				CA1506951DD4AE5700EA7FB0 /* bundle.sh */,
-				CA1F8A961DBF5C73002501BD /* index.cpp */,
-				CA1F8A971DBF5C73002501BD /* index.h */,
-				CA1F8A981DBF5C73002501BD /* index.html */,
-				CA1F8A991DBF5C73002501BD /* index.js */,
-				CA1506961DD4AEE900EA7FB0 /* load.cpp */,
-				CA1506971DD4AEE900EA7FB0 /* load.h */,
-				CA1506941DD4A55B00EA7FB0 /* main.js */,
-			);
-			name = editpm;
-			path = ../editpm;
 			sourceTree = "<group>";
 		};
 		CA2F06D91AE568E2008B8BDB /* editone */ = {
@@ -3224,7 +3200,6 @@
 				CAA4D08A1A45A647003ABA25 /* edit */,
 				CA2F06D91AE568E2008B8BDB /* editone */,
 				CAA4D0961A45A647003ABA25 /* editor */,
-				CA1F8A891DBF5C73002501BD /* editpm */,
 				CA1506A41DD4FBFC00EA7FB0 /* editql */,
 				CAA4D09A1A45A647003ABA25 /* editusfm */,
 				CAA4D0A41A45A647003ABA25 /* editverse */,
