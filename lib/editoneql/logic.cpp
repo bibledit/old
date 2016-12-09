@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editor/usfm2html.h>
 #include <editor/html2usfm.h>
 #include <filter/string.h>
+#include <quill/logic.h>
 
 
 void editoneql_logic_prefix_html_stage_one (string usfm, string stylesheet, string & html, string & last_p_style)
@@ -29,6 +30,7 @@ void editoneql_logic_prefix_html_stage_one (string usfm, string stylesheet, stri
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (stylesheet);
+    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
     // No identical id's in the same DOM.
@@ -37,7 +39,7 @@ void editoneql_logic_prefix_html_stage_one (string usfm, string stylesheet, stri
     // If the last paragraph has any content in it,
     // for correct visual representation of the editable fragment, that follows this,
     // clear that style.
-    last_p_style = editor_usfm2html.currentParagraphStyle;
+    last_p_style = quill_logic_class_prefix_block () + editor_usfm2html.currentParagraphStyle;
     if (!editor_usfm2html.currentParagraphContent.empty ()) last_p_style.clear ();
   }
 }
@@ -49,6 +51,7 @@ void editoneql_logic_editable_html (string prefix_last_p_style, string usfm, str
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (stylesheet);
+    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
     editable_last_p_style = editor_usfm2html.currentParagraphStyle;
@@ -87,6 +90,7 @@ void editoneql_logic_suffix_html (string editable_last_p_style, string usfm, str
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (stylesheet);
+    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
     // No identical id in the same DOM.
