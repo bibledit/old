@@ -188,7 +188,6 @@ libbibledit_a_SOURCES = \
 	editone/save.cpp \
 	editone/verse.cpp \
 	editone/logic.cpp \
-	edit/preview.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
@@ -213,11 +212,17 @@ libbibledit_a_SOURCES = \
 	edit/save.cpp \
 	edit/styles.cpp \
 	edit/logic.cpp \
+	edit/preview.cpp \
 	editql/index.cpp \
 	editql/load.cpp \
 	editql/position.cpp \
 	editql/navigate.cpp \
 	editql/save.cpp \
+	editoneql/index.cpp \
+	editoneql/load.cpp \
+	editoneql/save.cpp \
+	editoneql/verse.cpp \
+	editoneql/logic.cpp \
 	search/all.cpp \
 	search/index.cpp \
 	search/replace.cpp \

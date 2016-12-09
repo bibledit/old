@@ -81,11 +81,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/offset.h>
 #include <edit/save.h>
 #include <edit/styles.h>
+#include <edit/preview.h>
 #include <editql/index.h>
 #include <editql/load.h>
 #include <editql/position.h>
 #include <editql/navigate.h>
 #include <editql/save.h>
+#include <editone/index.h>
+#include <editone/load.h>
+#include <editone/save.h>
+#include <editone/verse.h>
+#include <editoneql/index.h>
+#include <editoneql/load.h>
+#include <editoneql/save.h>
+#include <editoneql/verse.h>
 #include <search/all.h>
 #include <search/index.h>
 #include <search/replace.h>
@@ -185,11 +194,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <xrefs/move.h>
 #include <xrefs/next.h>
 #include <webbible/search.h>
-#include <editone/index.h>
-#include <editone/load.h>
-#include <editone/save.h>
-#include <editone/verse.h>
-#include <edit/preview.h>
 #include <developer/index.h>
 #include <paratext/index.h>
 #include <personalize/index.h>
@@ -402,7 +406,12 @@ void bootstrap_index (void * webserver_request)
     request->reply = editql_save (request);
     return;
   }
-  
+
+  if ((url == editoneql_index_url ()) && browser_request_security_okay (request) && editoneql_index_acl (request)) {
+    request->reply = editoneql_index (request);
+    return;
+  }
+
   if ((url == search_index_url ()) && browser_request_security_okay (request) && search_index_acl (request)) {
     request->reply = search_index (request);
     return;
@@ -1036,6 +1045,38 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == editone_verse_url ()) && browser_request_security_okay (request) && editone_verse_acl (request)) {
     request->reply = editone_verse (request);
+    return;
+  }
+
+  
+  
+  if ((url == editone_load_url ()) && browser_request_security_okay (request) && editone_load_acl (request)) {
+    request->reply = editone_load (request);
+    return;
+  }
+  
+  if ((url == editone_save_url ()) && browser_request_security_okay (request) && editone_save_acl (request)) {
+    request->reply = editone_save (request);
+    return;
+  }
+  
+  if ((url == editone_verse_url ()) && browser_request_security_okay (request) && editone_verse_acl (request)) {
+    request->reply = editone_verse (request);
+    return;
+  }
+  
+  if ((url == editoneql_load_url ()) && browser_request_security_okay (request) && editoneql_load_acl (request)) {
+    request->reply = editoneql_load (request);
+    return;
+  }
+  
+  if ((url == editoneql_save_url ()) && browser_request_security_okay (request) && editoneql_save_acl (request)) {
+    request->reply = editoneql_save (request);
+    return;
+  }
+  
+  if ((url == editoneql_verse_url ()) && browser_request_security_okay (request) && editoneql_verse_acl (request)) {
+    request->reply = editoneql_verse (request);
     return;
   }
   
