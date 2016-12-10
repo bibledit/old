@@ -4854,24 +4854,26 @@ void test_rss_feed ()
   
   // Write two items.
   Database_Config_General::setMaxRssFeedItems (10);
-  rss_logic_update_xml ({ "one", "two" }, { "description one", "description two"} );
-  evaluate (__LINE__, __func__, 361, filter_url_filesize (path));
+  rss_logic_update_xml ({ "titleone", "titletwo" }, { "authorone", "authortwo" }, { "description one", "description two"} );
+  evaluate (__LINE__, __func__, 667, filter_url_filesize (path));
   
   // Set maximum number of items to 0: Should remove the file.
   Database_Config_General::setMaxRssFeedItems (0);
-  rss_logic_update_xml ({ "one", "two" }, { "description one", "description two"} );
+  rss_logic_update_xml ({ "titleone", "titletwo" }, { "authorone", "authortwo" }, { "description one", "description two"} );
   evaluate (__LINE__, __func__, 0, filter_url_filesize (path));
 
   // Add many entries and clipping their number.
   Database_Config_General::setMaxRssFeedItems (10);
   vector <string> titles;
+  vector <string> authors;
   vector <string> descriptions;
   for (size_t i = 0; i < 100; i++) {
     titles.push_back ("title " + convert_to_string (i));
+    authors.push_back ("author " + convert_to_string (i));
     descriptions.push_back ("description " + convert_to_string (i));
   }
-  rss_logic_update_xml (titles, descriptions);
-  evaluate (__LINE__, __func__, 1049, filter_url_filesize (path));
+  rss_logic_update_xml (titles, authors, descriptions);
+  evaluate (__LINE__, __func__, 1850, filter_url_filesize (path));
 }
 
 

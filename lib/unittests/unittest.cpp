@@ -58,7 +58,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  test_editor_usfm2html (); refresh_sandbox (true); exit (0);
+  test_rss_feed (); /* test_editor_roundtrip (); */ refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();
