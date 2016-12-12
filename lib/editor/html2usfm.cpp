@@ -450,3 +450,32 @@ string editor_export_verse (string stylesheet, string html)
   
   return usfm;
 }
+
+
+// This function takes the html from a Quill-based editor that edits one verse,
+// and converts it to USFM.
+// It properly deals with cases when a verse does not start a new paragraph.
+string editor_export_verse_quill (string stylesheet, string html) // Todo
+{
+  // When the $html starts with a paragraph without a style,
+  // put a recognizable style there.
+  string style = "oneversestyle";
+  size_t pos = html.find ("<p>");
+  if (pos == 0) {
+    html.insert (2, " class=\"" + quill_logic_class_prefix_block () + style + "\"");
+  }
+  
+  // Convert html to USFM.
+  Editor_Html2Usfm editor_export;
+  editor_export.load (html);
+  editor_export.stylesheet (stylesheet);
+  editor_export.quill ();
+  editor_export.run ();
+  string usfm = editor_export.get ();
+  
+  // Remove that recognizable style converted to USFM.
+  usfm = filter_string_str_replace ("\\" + style, "", usfm);
+  usfm = filter_string_trim (usfm);
+  
+  return usfm;
+}

@@ -64,6 +64,7 @@ private:
 
 
 string editor_export_verse (string stylesheet, string html);
+string editor_export_verse_quill (string stylesheet, string html);
 
 
 #endif

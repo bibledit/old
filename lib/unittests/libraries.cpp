@@ -2868,6 +2868,16 @@ void test_editor_roundtrip ()
     }
     {
       // Quill-based editor (not yet implemented for one verse).
+      string html = "<p><span class=\"i-v\">1</span><span> </span><span>God created</span></p>";
+      Editor_Usfm2Html editor_usfm2html;
+      editor_usfm2html.load (usfm);
+      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+      editor_usfm2html.quill ();
+      editor_usfm2html.run ();
+      string output = editor_usfm2html.get ();
+      evaluate (__LINE__, __func__, html, output);
+      output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
+      evaluate (__LINE__, __func__, usfm, output);
     }
   }
   // Testing editing one verse: The chapter number, or verse 0.
@@ -2890,6 +2900,18 @@ void test_editor_roundtrip ()
     }
     {
       // Quill-based editor (not yet implemented).
+      Editor_Usfm2Html editor_usfm2html;
+      editor_usfm2html.load (usfm);
+      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+      editor_usfm2html.quill ();
+      editor_usfm2html.run ();
+      string output = editor_usfm2html.get ();
+      
+      string html = "<p class=\"b-c\"><span>1</span></p><p class=\"b-p\" />";
+      evaluate (__LINE__, __func__, html, output);
+      
+      output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
+      evaluate (__LINE__, __func__, usfm, output);
     }
   }
   // One-verse editor, testing chapter 0 verse 0.
@@ -2915,6 +2937,18 @@ void test_editor_roundtrip ()
     }
     {
       // Quill-based editor (not yet implemented for one verse.
+      Editor_Usfm2Html editor_usfm2html;
+      editor_usfm2html.load (usfm);
+      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+      editor_usfm2html.quill ();
+      editor_usfm2html.run ();
+      string output = editor_usfm2html.get ();
+      
+      string html = "<p class=\"b-mono\"><span>\\id </span><span>GEN Genesis</span></p><p class=\"b-mono\"><span>\\h </span><span>Genesis</span></p><p class=\"b-mono\"><span>\\toc1 </span><span>The First Book of Moses, called Genesis</span></p><p class=\"b-mt1\"><span>The First Book of Moses, called Genesis</span></p>";
+      evaluate (__LINE__, __func__, html, output);
+      
+      output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
+      evaluate (__LINE__, __func__, usfm, output);
     }
   }
   // Testing one verse: a paragraph with content.
@@ -2936,6 +2970,18 @@ void test_editor_roundtrip ()
     }
     {
       // Quill-based editor (not yet implemented for one verse).
+      Editor_Usfm2Html editor_usfm2html;
+      editor_usfm2html.load (usfm);
+      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+      editor_usfm2html.quill ();
+      editor_usfm2html.run ();
+      string output = editor_usfm2html.get ();
+      
+      string html = "<p class=\"b-p\"><span>And God called the firmament Heaven</span></p>";
+      evaluate (__LINE__, __func__, html, output);
+      
+      output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
+      evaluate (__LINE__, __func__, usfm, output);
     }
   }
   // Testing \add ..\add* markup in a footnote.
