@@ -2705,7 +2705,7 @@ msgstr ""
 msgid "Trust God."
 msgstr ""
 
-msgid "He takes care of His Word,"
+msgid "He takes care of His Word."
 msgstr ""
 
 msgid "He deals with anyone who might abuse it."
@@ -3031,7 +3031,7 @@ msgstr ""
 msgid "Multiple translation teams"
 msgstr ""
 
-msgid "There are two ways to have multiple translation teams on one server. "
+msgid "There are two ways to have multiple translation teams on one server."
 msgstr ""
 
 msgid "Install multiple parallel copies of Bibledit on one server."
