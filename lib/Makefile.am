@@ -221,7 +221,6 @@ libbibledit_a_SOURCES = \
 	editoneql/index.cpp \
 	editoneql/load.cpp \
 	editoneql/save.cpp \
-	editoneql/verse.cpp \
 	editoneql/logic.cpp \
 	search/all.cpp \
 	search/index.cpp \

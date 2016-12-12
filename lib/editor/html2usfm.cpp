@@ -455,7 +455,7 @@ string editor_export_verse (string stylesheet, string html)
 // This function takes the html from a Quill-based editor that edits one verse,
 // and converts it to USFM.
 // It properly deals with cases when a verse does not start a new paragraph.
-string editor_export_verse_quill (string stylesheet, string html) // Todo
+string editor_export_verse_quill (string stylesheet, string html)
 {
   // When the $html starts with a paragraph without a style,
   // put a recognizable style there.

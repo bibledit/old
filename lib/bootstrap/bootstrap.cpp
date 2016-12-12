@@ -94,7 +94,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editoneql/index.h>
 #include <editoneql/load.h>
 #include <editoneql/save.h>
-#include <editoneql/verse.h>
 #include <search/all.h>
 #include <search/index.h>
 #include <search/replace.h>
@@ -1072,11 +1071,6 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == editoneql_save_url ()) && browser_request_security_okay (request) && editoneql_save_acl (request)) {
     request->reply = editoneql_save (request);
-    return;
-  }
-  
-  if ((url == editoneql_verse_url ()) && browser_request_security_okay (request) && editoneql_verse_acl (request)) {
-    request->reply = editoneql_verse (request);
     return;
   }
   

@@ -57,9 +57,6 @@ string editoneql_save (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
-  Database_Modifications database_modifications;
-
-  
   // Check on information about where to save the verse.
   bool save = (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("verse") && request->post.count ("html"));
   if (!save) {
@@ -113,7 +110,9 @@ string editoneql_save (void * webserver_request)
   
   // Collect some data about the changes for this user.
   string username = request->session_logic()->currentUser ();
+#ifdef HAVE_CLOUD
   int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
+#endif
   string oldText = request->database_bibles()->getChapter (bible, book, chapter);
 
   
@@ -122,17 +121,15 @@ string editoneql_save (void * webserver_request)
   string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm, explanation);
   bible_logic_unsafe_save_mail (message, explanation, username, usfm);
   if (message.empty ()) {
-    // Server: Store details for the user's changes.
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
+    // The Cloud stores details of the user's changes.
     int newID = request->database_bibles()->getChapterId (bible, book, chapter);
     string newText = request->database_bibles()->getChapter (bible, book, chapter);
+    Database_Modifications database_modifications;
     database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
     Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
     rss_logic_schedule_update (username, bible, book, chapter, oldText, newText);
-#else
-    (void) oldID;
 #endif
-    (void) database_modifications;
 
     return locale_logic_text_saved ();
   }

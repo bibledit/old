@@ -27,6 +27,7 @@
 #include <pugixml/pugixml.hpp>
 #include <config/globals.h>
 #include <access/bible.h>
+#include <editone/logic.h>
 #include <editoneql/logic.h>
 
 
@@ -73,7 +74,7 @@ string editoneql_load (void * webserver_request)
   string prefix_last_p_style;
 
   string prefix_html;
-  editoneql_logic_prefix_html_stage_one (prefix_usfm, stylesheet, prefix_html, prefix_last_p_style);
+  editone_logic_prefix_html_stage_one (prefix_usfm, stylesheet, prefix_html, prefix_last_p_style);
   
   // Last paragraph style of the focused verse: For the starting visual style of the suffix.
   string focused_verse_last_p_style;
@@ -86,7 +87,7 @@ string editoneql_load (void * webserver_request)
   editoneql_logic_editable_html (prefix_last_p_style, editable_usfm, stylesheet, focused_verse_html, focused_verse_last_p_style, focused_verse_applied_p_style);
   
   string suffix_html;
-  editoneql_logic_suffix_html (focused_verse_last_p_style, suffix_usfm, stylesheet, suffix_html);
+  editone_logic_suffix_html (focused_verse_last_p_style, suffix_usfm, stylesheet, suffix_html);
   
   // If the verse was empty, ensure that it has a non-breaking space as the last character,
   // for easier text entry in the verse.
@@ -101,7 +102,7 @@ string editoneql_load (void * webserver_request)
   }
 
   // Moves any notes from the prefix to the suffix.
-  editoneql_logic_move_notes (prefix_html, suffix_html);
+  editone_logic_move_notes (prefix_html, suffix_html);
   
   string data;
   data.append (focused_verse_applied_p_style);

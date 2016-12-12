@@ -222,19 +222,19 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	editql/load.$(OBJEXT) editql/position.$(OBJEXT) \
 	editql/navigate.$(OBJEXT) editql/save.$(OBJEXT) \
 	editoneql/index.$(OBJEXT) editoneql/load.$(OBJEXT) \
-	editoneql/save.$(OBJEXT) editoneql/verse.$(OBJEXT) \
-	editoneql/logic.$(OBJEXT) search/all.$(OBJEXT) \
-	search/index.$(OBJEXT) search/replace.$(OBJEXT) \
-	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
-	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
-	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
-	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
-	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
-	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
-	tmp/tmp.$(OBJEXT) workspace/index.$(OBJEXT) \
-	workspace/logic.$(OBJEXT) workspace/settings.$(OBJEXT) \
-	workspace/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
-	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
+	editoneql/save.$(OBJEXT) editoneql/logic.$(OBJEXT) \
+	search/all.$(OBJEXT) search/index.$(OBJEXT) \
+	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
+	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
+	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
+	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
+	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
+	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
+	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
+	workspace/index.$(OBJEXT) workspace/logic.$(OBJEXT) \
+	workspace/settings.$(OBJEXT) workspace/organize.$(OBJEXT) \
+	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
+	sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/notes.$(OBJEXT) sendreceive/changes.$(OBJEXT) \
 	sendreceive/files.$(OBJEXT) sendreceive/resources.$(OBJEXT) \
@@ -779,7 +779,6 @@ libbibledit_a_SOURCES = \
 	editoneql/index.cpp \
 	editoneql/load.cpp \
 	editoneql/save.cpp \
-	editoneql/verse.cpp \
 	editoneql/logic.cpp \
 	search/all.cpp \
 	search/index.cpp \
@@ -1828,8 +1827,6 @@ editoneql/load.$(OBJEXT): editoneql/$(am__dirstamp) \
 	editoneql/$(DEPDIR)/$(am__dirstamp)
 editoneql/save.$(OBJEXT): editoneql/$(am__dirstamp) \
 	editoneql/$(DEPDIR)/$(am__dirstamp)
-editoneql/verse.$(OBJEXT): editoneql/$(am__dirstamp) \
-	editoneql/$(DEPDIR)/$(am__dirstamp)
 editoneql/logic.$(OBJEXT): editoneql/$(am__dirstamp) \
 	editoneql/$(DEPDIR)/$(am__dirstamp)
 search/all.$(OBJEXT): search/$(am__dirstamp) \
@@ -2781,7 +2778,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@editoneql/$(DEPDIR)/load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editoneql/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editoneql/$(DEPDIR)/save.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@editoneql/$(DEPDIR)/verse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/html2usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/select.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/styles.Po@am__quote@

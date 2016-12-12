@@ -24,11 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-void editoneql_logic_prefix_html_stage_one (string usfm, string stylesheet, string & html, string & last_p_style);
 void editoneql_logic_editable_html (string prefix_last_p_style, string usfm, string stylesheet, string & html, string & editable_last_p_style, string & editable_first_applied_p_style);
-void editoneql_logic_suffix_html (string editable_last_p_style, string usfm, string stylesheet, string & html);
 string editoneql_logic_html_to_usfm (string stylesheet, string html, string applied_p_style);
-void editoneql_logic_move_notes (string & prefix, string & suffix);
 
 
 #endif
