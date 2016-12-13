@@ -27,31 +27,6 @@
   translate("Backup can be safely done during that time.")
 </p>
 
-<h3>translate("Creating SWORD modules on shared hosting")</h3>
-<p>
-  translate("Bibledit can create a SWORD module from the USFM Bible text.")
-  translate("It uses the following program for that:")
-  <code>osis2mod</code>.
-  <a href="http://www.crosswire.org/sword/index.jsp">translate("It is part of the SWORD library.")</a>
-  translate("Installing this on shared hosting requires some steps.")
-  translate("If for example the shared hosting account runs on Ubuntu 12.04 64 bits, then the following helps.")
-  translate("Install the Ubuntu server version in a virtual machine.")
-  translate("Install the following packages:")
-  <code>sudo apt-get install libsword*</code>.
-  translate("Change to the following directory:")
-  <code>cd /var/cache/apt/archives</code>.
-  translate("Look for the following packages:")
-  <code>ls libsword*</code>.
-  translate("There will be five packages.")
-  translate("Unpack them to a target directory:")
-  <code>dpkg-deb -x libsword9*.deb /path/to/target/dir/</code>.
-  translate("Copy all unpacked files to the following sample target directory on the shared hosting account:")
-  <code>~/domains/yourdomain.org/htdocs/www/bibledit-web/sword</code>.
-  translate("Do the same for the following libraries:")
-  <code>libclucene*</code>.
-  <code>libicu48</code>.
-</p>
-
 <h3>translate("Syncing")</h3>
 <p>
   translate("If syncing no longer works, check the Journal for clues.")

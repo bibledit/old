@@ -4237,52 +4237,6 @@ msgstr ""
 msgid "Backup can be safely done during that time."
 msgstr ""
 
-msgid "Creating SWORD modules on shared hosting"
-msgstr ""
-
-msgid "Bibledit can create a SWORD module from the USFM Bible text."
-msgstr ""
-
-msgid "It uses the following program for that:"
-msgstr ""
-
-msgid "It is part of the SWORD library."
-msgstr ""
-
-msgid "Installing this on shared hosting requires some steps."
-msgstr ""
-
-msgid ""
-"If for example the shared hosting account runs on Ubuntu 12.04 64 bits, then "
-"the following helps."
-msgstr ""
-
-msgid "Install the Ubuntu server version in a virtual machine."
-msgstr ""
-
-msgid "Install the following packages:"
-msgstr ""
-
-msgid "Change to the following directory:"
-msgstr ""
-
-msgid "Look for the following packages:"
-msgstr ""
-
-msgid "There will be five packages."
-msgstr ""
-
-msgid "Unpack them to a target directory:"
-msgstr ""
-
-msgid ""
-"Copy all unpacked files to the following sample target directory on the "
-"shared hosting account:"
-msgstr ""
-
-msgid "Do the same for the following libraries:"
-msgstr ""
-
 msgid "Syncing"
 msgstr ""
 
