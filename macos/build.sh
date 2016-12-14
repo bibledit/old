@@ -30,7 +30,7 @@ pushd webroot
 if [ $? != 0 ]; then exit; fi
 
 
-echo Sychronize the libbibledit data files in the source tree to macOS.
+echo Synchronize the libbibledit data files in the source tree to macOS.
 rsync -a --delete ../../lib/ .
 if [ $? != 0 ]; then exit; fi
 echo Dist-clean the Bibledit library.
