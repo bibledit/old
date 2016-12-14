@@ -171,10 +171,19 @@ body,
 #editorinnerheader {
   background-color: #F3F3F3;
 }
+
 div[contenteditable=true],
-.bibleeditor {
-  background: #FFF;
+.bibleeditor
+{
+  background: #FFFFFF;
 }
+#oneeditor .ql-editor,
+#oneeditor,
+.focusedverse
+{
+  background: lightyellow;
+}
+
 h1,
 h2,
 h3,
@@ -296,11 +305,6 @@ textarea {
 .greek {
   font-family: Cardo;
   /* font-size: normal; : dynamically generated */
-}
-#oneeditor,
-span[contenteditable=true],
-.focusedverse {
-  background: lightyellow;
 }
 .clearfix {
   clear: both;
