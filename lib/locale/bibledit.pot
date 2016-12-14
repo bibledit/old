@@ -4225,7 +4225,7 @@ msgid "This applies to any database software, not just SQLite."
 msgstr ""
 
 msgid ""
-"To accomodate backup, Bibledit does not access databases from 0:00 to 0:05 "
+"To accommodate backup, Bibledit does not access databases from 0:00 to 0:05 "
 "at midnight."
 msgstr ""
 
