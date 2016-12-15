@@ -5420,7 +5420,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Notice that the paragraph style for these headings is called 'Heading 1'. "
+"Notice that the paragraph style for these headings is called 'Heading 1'."
 msgstr ""
 
 msgid ""
@@ -6608,7 +6608,7 @@ msgstr ""
 msgid "Resources to print:"
 msgstr ""
 
-msgid "Set range: "
+msgid "Set range:"
 msgstr ""
 
 msgid "From"

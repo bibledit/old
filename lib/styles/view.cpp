@@ -663,7 +663,7 @@ string styles_view (void * webserver_request)
       if (userint1 == NoteNumberingUser) {
         view.enable_zone ("userstring1_numberingsequence");
         userstring1_question = translate("Please enter a new note numbering sequence");
-        userstring1_help = translate("This gives a sequence for numbering the notes. When for example § † * is entered, the numbering goes like §, †, *, §, †, *, and so forth. Any sequence of characters can be used. Spaces should separate the characters");
+        userstring1_help = translate("This gives a sequence for numbering the notes. When for example § † * is entered, the numbering goes like §, †, *, §, †, *, and so forth. Any sequence of characters can be used. Spaces should separate the characters.");
       }
       break;
     case UserString1WordListEntryAddition :

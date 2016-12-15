@@ -110,7 +110,7 @@ string user_account (void * webserver_request)
         string subsequent_body = translate("The email address that belongs to your account has been changed successfully.");
         confirm_worker.setup (newemail, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
         actions_taken = true;
-        success_messages.push_back (translate("A verification email was sent to ") + newemail);
+        success_messages.push_back (translate("A verification email was sent to") + " " + newemail);
       }
     }
   
