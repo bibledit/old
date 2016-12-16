@@ -7455,7 +7455,9 @@ msgstr ""
 msgid "Add the following to each of them:"
 msgstr ""
 
-msgid "For example, if one of the Bible would be a Bible called "
+msgid ""
+"For example, if one of the Bibles would be a Bible called 'Ndebele Bible', "
+"then the URL would be:"
 msgstr ""
 
 msgid "The Notes editor has some preset selectors."
@@ -9151,7 +9153,7 @@ msgstr ""
 msgid ""
 "This gives a sequence for numbering the notes. When for example § † * is "
 "entered, the numbering goes like §, †, *, §, †, *, and so forth. Any "
-"sequence of characters can be used. Spaces should separate the characters"
+"sequence of characters can be used. Spaces should separate the characters."
 msgstr ""
 
 msgid "Please enter a new addition to the word list entry"
@@ -9232,7 +9234,7 @@ msgid ""
 "The email address that belongs to your account has been changed successfully."
 msgstr ""
 
-msgid "A verification email was sent to "
+msgid "A verification email was sent to"
 msgstr ""
 
 msgid "No changes were made"
