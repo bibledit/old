@@ -4641,10 +4641,9 @@ msgstr ""
 msgid "They should be larger than any note citations in the text."
 msgstr ""
 
-#, c-format
 msgid ""
-"The size of the superscript would be between 70 and 80% of the size of the "
-"main text."
+"The size of the superscript would be between 70 and 80 percent of the size "
+"of the main text."
 msgstr ""
 
 msgid ""
@@ -5010,7 +5009,7 @@ msgid "Press OK. The grid is now set up."
 msgstr ""
 
 msgid ""
-"Optionally, to make it visible, go to menu View / Grids & Guides / Show "
+"Optionally, to make it visible, go to menu View / Grids and Guides / Show "
 "Baseline Grid."
 msgstr ""
 
@@ -5178,10 +5177,9 @@ msgstr ""
 msgid "We suppose that the singable Psalms take up no more than 200 pages."
 msgstr ""
 
-#, c-format
 msgid ""
-"Usually the inclusion of the singable Psalms in a Bible will add about "
-"10% to the number of pages."
+"Usually the inclusion of the singable Psalms in a Bible will add about 10 "
+"percent to the number of pages."
 msgstr ""
 
 msgid ""
