@@ -49,12 +49,17 @@ string workspace_organize (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   
+  string success;
+  string error;
+
+  
   if (request->post.count ("add")) {
     string add = request->post["add"];
     request->database_config_user()->setActiveWorkspace (add);
     workspace_set_urls    (request, workspace_get_default_urls (0));
     workspace_set_widths  (request, workspace_get_default_widths (0));
     workspace_set_heights (request, workspace_get_default_heights (0));
+    success = translate ("The workspace was added");
   }
   
   
@@ -64,18 +69,21 @@ string workspace_organize (void * webserver_request)
     vector <string> desktops = workspace_get_names (request);
     array_move_up_down (desktops, item, true);
     workspace_reorder (request, desktops);
+    success = translate ("The workspace was moved up");
   }
   if (request->query.count ("down")) {
     size_t item = convert_to_int (request->query ["down"]);
     vector <string> desktops = workspace_get_names (request);
     array_move_up_down (desktops, item, false);
     workspace_reorder (request, desktops);
+    success = translate ("The workspace was moved down");
   }
   
   
   // Create and reset all default desktops.
   if (request->query.count ("defaults")) {
     workspace_create_defaults (webserver_request);
+    success = translate ("The default workspaces were created");
   }
   
   
@@ -98,6 +106,7 @@ string workspace_organize (void * webserver_request)
     }
     if (confirm == "yes") {
       workspace_delete (request, remove);
+      success = translate ("The workspace was removed");
     }
   }
   
@@ -114,6 +123,7 @@ string workspace_organize (void * webserver_request)
     string source = request->query ["source"];
     string destination = request->post ["entry"];
     workspace_copy (webserver_request, source, destination);
+    success = translate ("The workspace was copied");
   }
 
   
@@ -127,6 +137,7 @@ string workspace_organize (void * webserver_request)
         workspace_send (webserver_request, send, user);
       }
     }
+    success = translate ("The workspace was sent to all users");
   }
 
   
@@ -163,7 +174,11 @@ string workspace_organize (void * webserver_request)
 #ifndef HAVE_CLIENT
     view.enable_zone ("cloud");
 #endif
+
   
+  view.set_variable ("success", success);
+  view.set_variable ("error", error);
+
 
   page += view.render ("workspace", "organize");
   
