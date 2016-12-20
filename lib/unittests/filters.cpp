@@ -378,14 +378,19 @@ void test_filters_usfm () // Todo
     evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
     evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
   }
+  // Testing getting USFM for verse, basic and intuitive.
   {
     string usfm =
     "\\p\n"
     "\\v 1 One";
-    evaluate (__LINE__, __func__, "\\v 1 One", usfm_get_verse_text (usfm, 1));
     evaluate (__LINE__, __func__, "\\p", usfm_get_verse_text (usfm, 0));
+    evaluate (__LINE__, __func__, "", usfm_get_verse_text_quill (usfm, 0));
+    evaluate (__LINE__, __func__, "\\v 1 One", usfm_get_verse_text (usfm, 1));
+    evaluate (__LINE__, __func__, usfm, usfm_get_verse_text_quill (usfm, 1));
     evaluate (__LINE__, __func__, "", usfm_get_verse_text (usfm, 2));
+    evaluate (__LINE__, __func__, "", usfm_get_verse_text_quill (usfm, 2));
   }
+  // Testing getting USFM for verse, basic and intuitive.
   {
     string usfm =
     "\\c 1\n"
@@ -413,14 +418,52 @@ void test_filters_usfm () // Todo
     "\\v 13 Bengilezinto\n"
     "\\v 14 kodwa\n"
     "\\p Ukuthula";
-    string result = "\\c 1\n\\s Isibingelelo\n\\p";
+
+    string result =
+    "\\c 1\n"
+    "\\s Isibingelelo\n"
+    "\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0));
-    result = "\\v 1 Umdala\n\\p";
+    result =
+    "\\c 1\n"
+    "\\s Isibingelelo";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 0));
+    
+    result =
+    "\\v 1 Umdala\n"
+    "\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1));
-    result = "\\v 12 NgoDemetriyu\n\\s Isicino\n\\p";
+    result =
+    "\\p\n"
+    "\\v 1 Umdala";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 1));
+
+    result =
+    "\\v 2 Sithandwa";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 2));
+    result =
+    "\\p\n"
+    "\\v 2 Sithandwa";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 2));
+
+    result =
+    "\\v 3 Ngoba";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 3));
+    result =
+    "\\v 3 Ngoba";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 3));
+
+    result =
+    "\\v 12 NgoDemetriyu\n"
+    "\\s Isicino\n"
+    "\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 12));
+    result =
+    "\\v 12 NgoDemetriyu\n"
+    "\\s Isicino";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 12));
   }
-  {
+  { // Todo intuitive version also
     string usfm =
     "\\v 1 Verse 1.\n"
     "\\v 2-4 Verse 2, 3, and 4.\n"
@@ -433,7 +476,7 @@ void test_filters_usfm () // Todo
     result = usfm_get_verse_text (usfm, 4);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
   }
-  {
+  { // Todo intuitive version also
     string usfm =
     "\\c 1\n"
     "\\p\n"

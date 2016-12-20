@@ -363,6 +363,60 @@ string usfm_get_verse_text (string usfm, int verse_number)
 }
 
 
+// Gets the USFM for the $verse number for a Quill-based verse editor.
+// This means that preceding empty paragraphs will be included also.
+// And that empty paragraphs at the end will be omitted.
+string usfm_get_verse_text_quill (string usfm, int verse) // Todo
+{
+  // Get the raw USFM for the verse, that is, the bit between the \v... markers.
+  string verse_usfm = usfm_get_verse_text (usfm, verse);
+  
+  // Bail out if empty.
+  if (verse_usfm.empty ()) {
+    return verse_usfm;
+  }
+
+  // Omit new paragraphs at the end.
+  // In this context that is taken as opening USFM markers without content.
+  vector <string> markers_and_text = usfm_get_markers_and_text (verse_usfm);
+  if (!markers_and_text.empty ()) {
+    string code = markers_and_text.back ();
+    if (usfm_is_usfm_marker (code)) {
+      if (usfm_is_opening_marker (code)) {
+        verse_usfm.erase (verse_usfm.size () - code.size ());
+        verse_usfm = filter_string_trim (verse_usfm);
+      }
+    }
+  }
+
+  // Bail out if empty USFM for the verse.
+  if (verse_usfm.empty ()) {
+    return verse_usfm;
+  }
+  
+  // Get the raw USFM for the previous verse for verses greater than 0, in the same way.
+  // Any empty paragraphs at the end of the previous verse USFM,
+  // add them to the current verse's USFM.
+  if (verse) {
+    string previous_verse_usfm = usfm_get_verse_text (usfm, verse - 1);
+    if (!previous_verse_usfm.empty ()) {
+      vector <string> markers_and_text = usfm_get_markers_and_text (previous_verse_usfm);
+      if (!markers_and_text.empty ()) {
+        string code = markers_and_text.back ();
+        if (usfm_is_usfm_marker (code)) {
+          if (usfm_is_opening_marker (code)) {
+            verse_usfm.insert (0, code + "\n");
+          }
+        }
+      }
+    }
+  }
+  
+  // Done.
+  return verse_usfm;
+}
+
+
 // Gets the chapter text given a book of $usfm code, and the $chapter_number.
 string usfm_get_chapter_text (string usfm, int chapter_number)
 {
