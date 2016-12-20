@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <filter/usfm.h>
 #include <filter/string.h>
+#include <filter/url.h>
 #include <filter/diff.h>
 #include <database/books.h>
 #include <database/styles.h>
@@ -808,9 +809,14 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
     // Doing it at the word level is more than 650 times faster.
     percentage = filter_diff_word_similarity (oldtext, newtext);
   } else {
+    cout << __LINE__ << endl; // Todo
     // For shorter texts, work at the character level, for better accuracy.
+    filter_url_file_put_contents ("/tmp/old.txt", oldtext); // Todo
+    filter_url_file_put_contents ("/tmp/new.txt", newtext); // Todo
     percentage = filter_diff_character_similarity (oldtext, newtext);
+    cout << __LINE__ << endl; // Todo
   }
+  cout << __LINE__ << endl; // Todo
   if (percentage < (100 - allowed_percentage)) {
     explanation.append (explanation1);
     explanation.append (" ");
@@ -821,6 +827,7 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
     return translate ("Text content differs too much");
   }
   
+  cout << __LINE__ << endl; // Todo
   // Safety checks have passed.
   return "";
 }
@@ -931,6 +938,7 @@ string usfm_safely_store_verse (void * webserver_request,
   if (!message.empty ()) return message;
   
   // Store the new verse USFM in the existing chapter USFM.
+  cout << __LINE__ << endl; // Todo
   size_t pos = chapter_usfm.find (existing_verse_usfm);
   size_t length = existing_verse_usfm.length ();
   chapter_usfm.erase (pos, length);

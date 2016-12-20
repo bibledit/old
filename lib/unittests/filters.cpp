@@ -3015,7 +3015,7 @@ void test_filter_custom_css ()
 }
 
 
-void test_filter_diff ()
+void test_filter_diff () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -3048,22 +3048,29 @@ void test_filter_diff ()
     string standard = filter_url_file_get_contents (filter_url_create_root_path ("unittests", "tests", "diff.txt"));
     evaluate (__LINE__, __func__, standard, output);
   }
-  // Similarity 1.
+  // Character similarity 1.
   {
     int similarity = filter_diff_character_similarity ("Old text", "New text");
     evaluate (__LINE__, __func__, 45, similarity);
-  }
-  // Similarity 2.
-  {
-    int similarity = filter_diff_character_similarity ("New text", "New text");
+
+    similarity = filter_diff_character_similarity ("New text", "New text");
     evaluate (__LINE__, __func__, 100, similarity);
-  }
-  // Similarity 3.
-  {
-    int similarity = filter_diff_character_similarity ("ABCDEFGH", "IJKLMNOPQRST");
+
+    similarity = filter_diff_character_similarity ("ABCDEFGH", "IJKLMNOPQRST");
     evaluate (__LINE__, __func__, 0, similarity);
   }
-  // Similarity 4.
+  // Similarity with text that used to crash the routine but was fixed.
+  {
+    string path = filter_url_create_root_path ("unittests", "tests");
+    string oldtext = filter_url_file_get_contents (filter_url_create_path (path, "invalid-utf8-old.txt"));
+    string newtext = filter_url_file_get_contents (filter_url_create_path (path, "invalid-utf8-new.txt"));
+    int similarity = filter_diff_character_similarity (oldtext, newtext);
+    // Invalid UTF8 results in 0% similarity.
+    evaluate (__LINE__, __func__, 0, similarity);
+    
+
+  }
+  // Similarity.
   {
     string first =
     "\\c 29\n"
