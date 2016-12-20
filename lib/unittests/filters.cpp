@@ -276,28 +276,30 @@ void test_filters_various2 ()
 }
 
 
-void test_filters_usfm1 ()
+void test_filters_usfm () // Todo
 {
   trace_unit_tests (__func__);
-  
+  refresh_sandbox (true);
+  Database_Styles database_styles;
+  database_styles.create ();
   {
-    string usfm;
-    string result;
-
-    usfm =
+    string usfm =
     "\\id MIC";
     evaluate (__LINE__, __func__, {0}, usfm_linenumber_to_versenumber (usfm, 0));
-
-    usfm =
+  }
+  {
+    string usfm =
     "\\id MIC\n"
     "\\v 1 Verse";
     evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 1));
-
-    usfm =
+  }
+  {
+    string usfm =
     "\\v 1 Verse";
     evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 0));
-    
-    usfm =
+  }
+  {
+    string usfm =
     "\\p\n"
     "\\v 3 Verse 3 (out of order).\n"
     "\\v 1 Verse 1. \n"
@@ -306,56 +308,63 @@ void test_filters_usfm1 ()
     evaluate (__LINE__, __func__, {3}, usfm_linenumber_to_versenumber (usfm, 1));
     evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 2));
     evaluate (__LINE__, __func__, {2}, usfm_linenumber_to_versenumber (usfm, 3));
-
-    usfm =
+  }
+  {
+    string usfm =
     "\\id MIC\n"
     "\\v 1-2 Verse";
     evaluate (__LINE__, __func__, {1, 2}, usfm_linenumber_to_versenumber (usfm, 1));
-
-    usfm = "\\id MIC";
+  }
+  {
+    string usfm = "\\id MIC";
     evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 0));
     evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
     evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 17));
-
-    usfm =
+  }
+  {
+    string usfm =
     "\\id MIC\n"
     "\\v 1 Verse";
     evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
     evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 8));
-
-    usfm =
+  }
+  {
+    string usfm =
     "\\id MIC\n"
     "\\v 1-3 Verse";
     evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
     evaluate (__LINE__, __func__, {1, 2, 3}, usfm_offset_to_versenumber (usfm, 8));
-    
-    usfm =
+  }
+  {
+    string usfm =
     "\\v 1 Verse";
     evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 0));
     evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 2));
-
-    usfm =
+  }
+  {
+    string usfm =
     "\\p\n"
     "\\v 3 Verse 3 (out of order).\n"
     "\\v 1 Verse 1.\n"
     "\\v 2 Verse 2.";
-
+    
     evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 0));
     evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 1));
-
+    
     evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 2));
     evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 3));
     evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 4));
-
+    
     evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 31));
     evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 32));
     evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 33));
-
+    
     evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 45));
     evaluate (__LINE__, __func__, {2}, usfm_offset_to_versenumber (usfm, 46));
     evaluate (__LINE__, __func__, {2}, usfm_offset_to_versenumber (usfm, 47));
-
-    usfm =
+  }
+  {
+    string usfm =
     "\\p\n"
     "\\v 1 Verse 1.\n"
     "\\v 2 Verse 2.\n"
@@ -368,15 +377,17 @@ void test_filters_usfm1 ()
     evaluate (__LINE__, __func__, 45, usfm_versenumber_to_offset (usfm, 5));
     evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
     evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
-
-    usfm =
+  }
+  {
+    string usfm =
     "\\p\n"
     "\\v 1 One";
     evaluate (__LINE__, __func__, "\\v 1 One", usfm_get_verse_text (usfm, 1));
     evaluate (__LINE__, __func__, "\\p", usfm_get_verse_text (usfm, 0));
     evaluate (__LINE__, __func__, "", usfm_get_verse_text (usfm, 2));
-
-    usfm =
+  }
+  {
+    string usfm =
     "\\c 1\n"
     "\\s Isibingelelo\n"
     "\\p\n"
@@ -402,46 +413,41 @@ void test_filters_usfm1 ()
     "\\v 13 Bengilezinto\n"
     "\\v 14 kodwa\n"
     "\\p Ukuthula";
-    result = "\\c 1\n\\s Isibingelelo\n\\p";
+    string result = "\\c 1\n\\s Isibingelelo\n\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0));
     result = "\\v 1 Umdala\n\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1));
     result = "\\v 12 NgoDemetriyu\n\\s Isicino\n\\p";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 12));
-    
-    usfm =
+  }
+  {
+    string usfm =
     "\\v 1 Verse 1.\n"
     "\\v 2-4 Verse 2, 3, and 4.\n"
     "\\v 5 Verse 5.\n"
     "\\v 6 Verse 6.";
-    result = usfm_get_verse_text (usfm, 2);
+    string result = usfm_get_verse_text (usfm, 2);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
     result = usfm_get_verse_text (usfm, 3);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
     result = usfm_get_verse_text (usfm, 4);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
-    
-    usfm =
+  }
+  {
+    string usfm =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 One\n"
     "\\v 2-3 Two three\n"
     "\\v 4 Four\n"
     "\\v 5 Five";
-    result = "\\v 1 One\n\\v 2-3 Two three";
+    string result = "\\v 1 One\n\\v 2-3 Two three";
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, ""));
     result = "\\v 1 One\n\\v 2-3 Two three";
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, ""));
     result = "\\v 4 Four";
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three"));
   }
-}
-
-
-void test_filters_usfm2 ()
-{
-  trace_unit_tests (__func__);
-  
   {
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\id"));
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\c "));
@@ -530,13 +536,6 @@ void test_filters_usfm2 ()
     chapters = usfm_get_chapter_numbers (modified_book_usfm);
     evaluate (__LINE__, __func__, all_chapters, chapters);
   }
-}
-
-
-void test_filters_usfm3 ()
-{
-  trace_unit_tests (__func__);
-  
   // Test the USFM filter functions.
   {
     evaluate (__LINE__, __func__, "", usfm_one_string (""));
@@ -568,8 +567,6 @@ void test_filters_usfm3 ()
     evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add"));
     evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add*"));
   }
-  Database_Styles database_styles;
-  database_styles.create ();
   {
     evaluate (__LINE__, __func__, 0, (int)usfm_import ("", styles_logic_standard_sheet ()).size());
     vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
@@ -590,13 +587,6 @@ void test_filters_usfm3 ()
     vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 6, (int)import.size());
   }
-}
-
-
-void test_filters_usfm4 ()
-{
-  trace_unit_tests (__func__);
-  
   {
     evaluate (__LINE__, __func__, "\\id ", usfm_get_opening_usfm ("id"));
     evaluate (__LINE__, __func__, "\\add ", usfm_get_opening_usfm ("add"));
@@ -712,13 +702,6 @@ void test_filters_usfm4 ()
     string standard = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa njengomhlambi, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**, khanyisa.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
-}
-
-
-void test_filters_usfm5 ()
-{
-  trace_unit_tests (__func__);
-  
   {
     // Test inserting empty notes
     UsfmNote usfmnote (1, "");
@@ -865,7 +848,8 @@ void test_filters_usfm5 ()
     usfm = "\\v 1 \n"
     "\\v 2 ";
     evaluate (__LINE__, __func__, true, usfm_contains_empty_verses (usfm));
-}
+  }
+  refresh_sandbox (true);
 }
 
 
