@@ -3015,7 +3015,7 @@ void test_filter_custom_css ()
 }
 
 
-void test_filter_diff () // Todo
+void test_filter_diff ()
 {
   trace_unit_tests (__func__);
   
