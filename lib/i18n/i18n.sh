@@ -28,6 +28,7 @@ fi
 
 echo Remove files not to be processed.
 sed -i.bak '/utf8/d' gettextfiles.txt
+sed -i.bak '/unittests/d' gettextfiles.txt
 
 
 echo Remove bibledit.pot in case there are some strings in it which are no longer in use.

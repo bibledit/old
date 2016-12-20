@@ -9194,18 +9194,6 @@ msgstr ""
 msgid "The number was saved"
 msgstr ""
 
-msgid "ABC"
-msgstr ""
-
-msgid "--X"
-msgstr ""
-
-msgid "Hebrew Greek"
-msgstr ""
-
-msgid "ABA"
-msgstr ""
-
 msgid "Passwords do not match"
 msgstr ""
 
