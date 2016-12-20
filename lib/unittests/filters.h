@@ -25,13 +25,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-void test_filters_various1 ();
-void test_filters_various2 ();
-void test_filters_usfm ();
-void test_filters_export1 ();
-void test_filters_export2 ();
+void test_filter_various1 ();
+void test_filter_various2 ();
+void test_filter_usfm ();
+void test_filter_export1 ();
+void test_filter_export2 ();
 void test_html_text ();
-void test_filters_archive ();
+void test_filter_archive ();
 void test_odf_text ();
 void test_filter_text1 ();
 void test_filter_text2 ();
@@ -52,7 +52,6 @@ void test_ipc_notes ();
 void test_filter_date ();
 void test_filter_string ();
 void test_filter_string_text2html ();
-void test_filter_archive ();
 void test_filter_shell ();
 void test_filter_memory ();
 void test_filter_ldap ();

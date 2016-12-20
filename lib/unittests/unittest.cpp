@@ -58,7 +58,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  test_filters_usfm (); refresh_sandbox (true); exit (0);
+  test_filter_usfm (); refresh_sandbox (true); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -66,13 +66,13 @@ int main (int argc, char **argv)
   test_database_config_user ();
   test_sqlite ();
   test_database_logs ();
-  test_filters_various1 ();
-  test_filters_various2 ();
-  test_filters_usfm ();
-  test_filters_export1 ();
-  test_filters_export2 ();
+  test_filter_various1 ();
+  test_filter_various2 ();
+  test_filter_usfm ();
+  test_filter_export1 ();
+  test_filter_export2 ();
   test_html_text ();
-  test_filters_archive ();
+  test_filter_archive ();
   test_odf_text ();
   test_filter_text1 ();
   test_filter_text2 ();
@@ -144,7 +144,6 @@ int main (int argc, char **argv)
   test_database_hebrewlexicon ();
   test_filter_string_text2html ();
   test_database_cache ();
-  test_filter_archive ();
   test_search_logic ();
   test_filter_shell ();
   test_database_login ();

@@ -65,7 +65,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_UNITTESTS
 
 
-void test_filters_various1 ()
+void test_filter_various1 ()
 {
   trace_unit_tests (__func__);
   
@@ -221,7 +221,7 @@ void test_filters_various1 ()
 }
 
 
-void test_filters_various2 ()
+void test_filter_various2 ()
 {
   trace_unit_tests (__func__);
   
@@ -276,7 +276,7 @@ void test_filters_various2 ()
 }
 
 
-void test_filters_usfm () // Todo
+void test_filter_usfm () // Todo
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
@@ -896,7 +896,7 @@ void test_filters_usfm () // Todo
 }
 
 
-void test_filters_export1 ()
+void test_filter_export1 ()
 {
   trace_unit_tests (__func__);
   
@@ -993,7 +993,7 @@ void test_filters_export1 ()
   }
 }
 
-void test_filters_export2 ()
+void test_filter_export2 ()
 {
   trace_unit_tests (__func__);
   
@@ -1197,7 +1197,7 @@ void test_html_text ()
 }
 
 
-void test_filters_archive ()
+void test_filter_archive ()
 {
   trace_unit_tests (__func__);
   
@@ -1295,6 +1295,15 @@ void test_filters_archive ()
     // Test that unzipping garbage returns NULL.
     folder = filter_archive_untar_gzip ("xxxxx");
     evaluate (__LINE__, __func__, "", folder);
+  }
+  {
+    string plain = "This is data that is data to be compressed.";
+    string compressed = filter_archive_compress (plain);
+    string output = filter_archive_decompress (compressed);
+    evaluate (__LINE__, __func__, plain, output);
+    
+    evaluate (__LINE__, __func__, true, filter_archive_can_zip ());
+    evaluate (__LINE__, __func__, true, filter_archive_can_unzip ());
   }
   // Clear up data used for the archive tests.
   refresh_sandbox (false);
@@ -4932,20 +4941,6 @@ void test_filter_string ()
     string desanitized = filter_string_desanitize_html (html);
     evaluate (__LINE__, __func__, html, desanitized);
   }
-}
-
-
-void test_filter_archive ()
-{
-  trace_unit_tests (__func__);
-  
-  string plain = "This is data that is data to be compressed.";
-  string compressed = filter_archive_compress (plain);
-  string output = filter_archive_decompress (compressed);
-  evaluate (__LINE__, __func__, plain, output);
-
-  evaluate (__LINE__, __func__, true, filter_archive_can_zip ());
-  evaluate (__LINE__, __func__, true, filter_archive_can_unzip ());
 }
 
 
