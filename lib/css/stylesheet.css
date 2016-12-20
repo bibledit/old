@@ -532,3 +532,11 @@ table.interlinear.rtl {
   float: right;
   margin-right: 0.5em;
 }
+
+#toolbar-container,
+.ql-clipboard,
+.ql-tooltip
+{
+  position: absolute;
+  left: 150%;
+}
