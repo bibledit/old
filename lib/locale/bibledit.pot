@@ -9262,10 +9262,31 @@ msgstr ""
 msgid "Visual editor and USFM editor"
 msgstr ""
 
+msgid "The workspace was added"
+msgstr ""
+
+msgid "The workspace was moved up"
+msgstr ""
+
+msgid "The workspace was moved down"
+msgstr ""
+
+msgid "The default workspaces were created"
+msgstr ""
+
 msgid "Would you like to delete this desktop configuration?"
 msgstr ""
 
+msgid "The workspace was removed"
+msgstr ""
+
 msgid "Please enter a name for the new desktop"
+msgstr ""
+
+msgid "The workspace was copied"
+msgstr ""
+
+msgid "The workspace was sent to all users"
 msgstr ""
 
 msgid "Delete desktop"
