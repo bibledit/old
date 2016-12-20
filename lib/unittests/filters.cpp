@@ -4898,6 +4898,13 @@ void test_filter_string ()
     evaluate (__LINE__, __func__, 21109, unicode_string_convert_to_codepoint ("創"));
     evaluate (__LINE__, __func__, 97, unicode_string_convert_to_codepoint ("a"));
   }
+  
+  {
+    // Check that the function to desanitize html no longer corrupts UTF-8.
+    string html = "<p>“Behold”, from “הִנֵּה”, means look at</p>";
+    string desanitized = filter_string_desanitize_html (html);
+    evaluate (__LINE__, __func__, html, desanitized);
+  }
 }
 
 

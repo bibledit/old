@@ -317,7 +317,7 @@ string filter_string_desanitize_html (string html)
   html = filter_string_str_replace ("&gt;", ">", html);
   html = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", html);
   html = filter_string_str_replace (non_breaking_space_utf8_c2a0 (), " ", html);
-  html = filter_string_str_replace (non_breaking_space_utf8_a0 (), " ", html);
+  html = filter_string_str_replace (non_breaking_space_utf8_00a0 (), " ", html);
   return html;
 }
 
@@ -330,10 +330,10 @@ string soft_hyphen ()
 }
 
 
-// Returns a no-break space (NBSP) (xA0).
-string non_breaking_space_utf8_a0 ()
+// Returns a no-break space (NBSP) (x00A0).
+string non_breaking_space_utf8_00a0 ()
 {
-  unsigned char c[1] = { 0xa0 };
+  unsigned char c[2] = { 0x00, 0xa0 };
   return string (c, c + sizeof c / sizeof c[0]);
 }
 
