@@ -3061,14 +3061,12 @@ void test_filter_diff () // Todo
   }
   // Similarity with text that used to crash the routine but was fixed.
   {
+    // Invalid UTF8 results in 0% similarity.
     string path = filter_url_create_root_path ("unittests", "tests");
     string oldtext = filter_url_file_get_contents (filter_url_create_path (path, "invalid-utf8-old.txt"));
     string newtext = filter_url_file_get_contents (filter_url_create_path (path, "invalid-utf8-new.txt"));
     int similarity = filter_diff_character_similarity (oldtext, newtext);
-    // Invalid UTF8 results in 0% similarity.
     evaluate (__LINE__, __func__, 0, similarity);
-    
-
   }
   // Similarity.
   {
