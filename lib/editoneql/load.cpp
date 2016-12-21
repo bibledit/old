@@ -73,18 +73,15 @@ string editoneql_load (void * webserver_request)
   string prefix_usfm = usfm_get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
   string suffix_usfm = usfm_get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
   
-  // Last paragraph style of the prefix: To be used for the starting visual style for the focused verse.
-  string prefix_last_p_style;
-
   string prefix_html;
-  editone_logic_prefix_html_stage_one (prefix_usfm, stylesheet, prefix_html, prefix_last_p_style);
+  string not_used;
+  editone_logic_prefix_html_stage_one (prefix_usfm, stylesheet, prefix_html, not_used);
   
   // The focused editable verse also has any footnotes contained in that verse.
   // It is convenient to have the footnote as near as possible to the verse text.
   // This is helpful for editing the verse and note.
   string focused_verse_html;
-  string focused_verse_applied_p_style;
-  editoneql_logic_editable_html (prefix_last_p_style, editable_usfm, stylesheet, focused_verse_html, focused_verse_applied_p_style);
+  editoneql_logic_editable_html (editable_usfm, stylesheet, focused_verse_html);
   
   string suffix_html;
   editone_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);
@@ -105,8 +102,6 @@ string editoneql_load (void * webserver_request)
   editone_logic_move_notes (prefix_html, suffix_html);
   
   string data;
-  data.append (focused_verse_applied_p_style);
-  data.append ("#_be_#");
   data.append (prefix_html);
   data.append ("#_be_#");
   data.append (focused_verse_html);

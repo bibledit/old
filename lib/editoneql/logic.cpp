@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <quill/logic.h>
 
 
-void editoneql_logic_editable_html (string prefix_last_p_style, string usfm, string stylesheet, string & html, string & editable_first_applied_p_style)
+void editoneql_logic_editable_html (string usfm, string stylesheet, string & html)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -33,33 +33,6 @@ void editoneql_logic_editable_html (string prefix_last_p_style, string usfm, str
     editor_usfm2html.quill ();
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
-  }
-  
-  // If the first paragraph of the editable verse does not have a paragraph style applied,
-  // apply the last paragraph style of the prefix to the first paragraph of the focused verse.
-  // For example, html like this:
-  // <p><span class="v">7</span><span> </span><span>For Yahweh knows the way of the righteous,</span></p><p class="q2"><span>but the way of the wicked shall perish.</span></p>
-  // ... becomes like this:
-  // <p class="q1"><span class="v">7</span><span /><span>For Yahweh knows the way of the righteous,</span></p><p class="q2"><span>but the way of the wicked shall perish.</span></p>
-  if (!html.empty ()) {
-    if (!prefix_last_p_style.empty ()) {
-      xml_document document;
-      html = html2xml (html);
-      document.load_string (html.c_str(), parse_ws_pcdata_single);
-      xml_node p_node = document.first_child ();
-      string p_style = p_node.attribute ("class").value ();
-      if (p_style.empty ()) {
-        // Add the Quill-based prefix for paragraphs.
-        p_style = quill_logic_class_prefix_block () + prefix_last_p_style;
-        p_node.append_attribute ("class") = p_style.c_str ();
-        // Send the applied paragraph style to the browser,
-        // for later use when it saves the modified verse text.
-        editable_first_applied_p_style = prefix_last_p_style;
-      }
-      stringstream output;
-      document.print (output, "", format_raw);
-      html = output.str ();
-    }
   }
 }
 

@@ -70,7 +70,6 @@ string editoneql_save (void * webserver_request)
   int verse = convert_to_int (request->post["verse"]);
   string html = request->post["html"];
   string checksum = request->post["checksum"];
-  string added_style = request->post["style"]; // Todo can go out.
 
   
   // Checksum.
