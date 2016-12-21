@@ -857,31 +857,58 @@ void test_store_bible_data ()
   "\\p\n"
   "\\v 1 Verse 1.\n"
   "\\v 2-3 Verse 2 and 3.\n"
+  "\\p\n"
   "\\v 4-5 Verse 4 and 5.\n"
   "\\v 6 Verse 6.";
   // Safely store combined verse without any change.
   {
-    test_store_bible_data_safely_setup (&request, usfm);
-    string data = "\\v 2-3 Verse 2 and 3.\n";
-    string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false); // Todo
-    evaluate (__LINE__, __func__, "", stored);
-    evaluate (__LINE__, __func__, "", explanation);
-    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-    evaluate (__LINE__, __func__, usfm, result);
+    {
+      test_store_bible_data_safely_setup (&request, usfm);
+      string data = "\\v 2-3 Verse 2 and 3.\n\\p\n";
+      string explanation;
+      string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
+      evaluate (__LINE__, __func__, "", stored);
+      evaluate (__LINE__, __func__, "", explanation);
+      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      evaluate (__LINE__, __func__, usfm, result);
+    }
+    {
+      test_store_bible_data_safely_setup (&request, usfm);
+      string data = "\\v 2-3 Verse 2 and 3.\n";
+      string explanation;
+      string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
+      evaluate (__LINE__, __func__, "", stored);
+      evaluate (__LINE__, __func__, "", explanation);
+      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      evaluate (__LINE__, __func__, usfm, result);
+    }
   }
-  // Safely store combined verse with a change.
+  // Safely store combined verse before the \p with a change. Todo test saving before and after the \p
   {
-    test_store_bible_data_safely_setup (&request, usfm);
-    string data = "\\v 2-3 Verse 2 andx 3.\n";
-    string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, false); // Todo
-    evaluate (__LINE__, __func__, "", stored);
-    evaluate (__LINE__, __func__, "", explanation);
-    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-    string newusfm = filter_string_str_replace ("2 and 3", "2 andx 3", usfm);
-    evaluate (__LINE__, __func__, newusfm, result);
-    refresh_sandbox (false);
+    { // Todo temporal location.
+      test_store_bible_data_safely_setup (&request, usfm);
+      string data = "\\v 2-3 Verse 2 andx 3.\n\\p\n";
+      string explanation;
+      string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, false); // Todo
+      evaluate (__LINE__, __func__, "", stored);
+      evaluate (__LINE__, __func__, "", explanation);
+      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      string newusfm = filter_string_str_replace ("2 and 3", "2 andx 3", usfm);
+      evaluate (__LINE__, __func__, newusfm, result);
+      refresh_sandbox (false);
+    }
+    {
+      test_store_bible_data_safely_setup (&request, usfm);
+      string data = "\\v 2-3 Verse 2 andx 3.\n";
+      string explanation;
+      string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, true); // Todo
+      evaluate (__LINE__, __func__, "", stored);
+      evaluate (__LINE__, __func__, "", explanation);
+      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      string newusfm = filter_string_str_replace ("2 and 3", "2 andx 3", usfm);
+      evaluate (__LINE__, __func__, newusfm, result);
+      refresh_sandbox (false);
+    }
   }
   // Safely store combined verse with a change and wrong verses: Fails.
   {
@@ -5066,6 +5093,31 @@ void test_rss_feed ()
 void test_libraries_dev ()
 {
   trace_unit_tests (__func__);
+  
+  Webserver_Request request;
+  string usfm =
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 Verse 1.\n"
+  "\\v 2-3 Verse 2 and 3.\n"
+  "\\p\n"
+  "\\v 4-5 Verse 4 and 5.\n"
+  "\\v 6 Verse 6.";
+  
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data = "\\v 2-3 Verse 2 andx 3.\n";
+    string explanation;
+    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, true); // Todo
+    evaluate (__LINE__, __func__, "", stored);
+    evaluate (__LINE__, __func__, "", explanation);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    string newusfm = filter_string_str_replace ("2 and 3", "2 andx 3", usfm);
+    evaluate (__LINE__, __func__, newusfm, result);
+    refresh_sandbox (false);
+  }
+  
+  exit (0); // Todo
 }
 
 
