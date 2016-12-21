@@ -369,7 +369,11 @@ string usfm_get_verse_text (string usfm, int verse_number)
 string usfm_get_verse_text_quill (string usfm, int verse) // Todo
 {
   // Get the raw USFM for the verse, that is, the bit between the \v... markers.
+  //cout << "verse: " << verse << ", usfm:" << endl; // Todo
+  //cout << usfm << endl; // Todo
   string verse_usfm = usfm_get_verse_text (usfm, verse);
+  //cout << __LINE__ << endl; // Todo
+  //cout << verse_usfm << endl; // Todo
   
   // Bail out if empty.
   if (verse_usfm.empty ()) {
@@ -379,15 +383,19 @@ string usfm_get_verse_text_quill (string usfm, int verse) // Todo
   // Omit new paragraphs at the end.
   // In this context that is taken as opening USFM markers without content.
   vector <string> markers_and_text = usfm_get_markers_and_text (verse_usfm);
-  if (!markers_and_text.empty ()) {
+  while (true) {
+    if (markers_and_text.empty ()) break;
     string code = markers_and_text.back ();
-    if (usfm_is_usfm_marker (code)) {
-      if (usfm_is_opening_marker (code)) {
-        verse_usfm.erase (verse_usfm.size () - code.size ());
-        verse_usfm = filter_string_trim (verse_usfm);
-      }
-    }
+    markers_and_text.pop_back ();
+    if (!usfm_is_usfm_marker (code)) break;
+    if (!usfm_is_opening_marker (code)) break;
+    verse_usfm.erase (verse_usfm.size () - code.size ());
+    verse_usfm = filter_string_trim (verse_usfm);
+    if (verse_usfm.empty ()) break;
   }
+
+  //cout << __LINE__ << endl; // Todo
+  //cout << verse_usfm << endl; // Todo
 
   // Bail out if empty USFM for the verse.
   if (verse_usfm.empty ()) {
@@ -400,18 +408,21 @@ string usfm_get_verse_text_quill (string usfm, int verse) // Todo
   if (verse) {
     string previous_verse_usfm = usfm_get_verse_text (usfm, verse - 1);
     if (!previous_verse_usfm.empty ()) {
-      vector <string> markers_and_text = usfm_get_markers_and_text (previous_verse_usfm);
-      if (!markers_and_text.empty ()) {
+      markers_and_text = usfm_get_markers_and_text (previous_verse_usfm);
+      while (true) {
+        if (markers_and_text.empty ()) break;
         string code = markers_and_text.back ();
-        if (usfm_is_usfm_marker (code)) {
-          if (usfm_is_opening_marker (code)) {
-            verse_usfm.insert (0, code + "\n");
-          }
-        }
+        markers_and_text.pop_back ();
+        if (!usfm_is_usfm_marker (code)) break;
+        if (!usfm_is_opening_marker (code)) break;
+        verse_usfm.insert (0, code + "\n");
       }
     }
   }
-  
+
+  //cout << __LINE__ << endl; // Todo
+  //cout << verse_usfm << endl; // Todo
+
   // Done.
   return verse_usfm;
 }

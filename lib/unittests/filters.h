@@ -55,6 +55,7 @@ void test_filter_string_text2html ();
 void test_filter_shell ();
 void test_filter_memory ();
 void test_filter_ldap ();
+void test_filter_dev ();
 
 
 #endif

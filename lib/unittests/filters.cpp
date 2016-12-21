@@ -551,16 +551,73 @@ void test_filter_usfm () // Todo
     "\\v 4 Four";
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", true));
   }
-  { // Todo
+  {
+    // Testing USFM extraction for visual verse editor with more than one empty paragraph in sequence. Todo
     string usfm =
     "\\c 1\n"
+    "\\b\n"
     "\\p\n"
     "\\v 1 One\n"
-    "\\v 2-3 Two three\n"
+    "\\v 2 Two\n"
+    "\\b\n"
+    "\\p\n"
+    "\\v 3 Three\n"
     "\\v 4 Four\n"
-    "\\v 5 Five";
+    "";
     string result;
+
+    result =
+    "\\c 1\n"
+    "\\b\n"
+    "\\p"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0));
+    result =
+    "\\c 1"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 0));
+
+    result =
+    "\\v 1 One"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1));
+    result =
+    "\\b\n"
+    "\\p\n"
+    "\\v 1 One"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 1));
+
+    result =
+    "\\v 2 Two\n"
+    "\\b\n"
+    "\\p"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 2));
+    result =
+    "\\v 2 Two"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 2));
+
+    result =
+    "\\v 3 Three"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 3));
+    result =
+    "\\b\n"
+    "\\p\n"
+    "\\v 3 Three"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 3));
     
+    result =
+    "\\v 4 Four"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 4));
+    result =
+    "\\v 4 Four"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 4));
   }
   {
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\id"));
@@ -5082,6 +5139,13 @@ void test_filter_ldap ()
   // Clear LDAP settings.
   ldap_logic_clear ();
   refresh_sandbox (false);
+}
+
+
+void test_filter_dev () // Todo
+{
+  trace_unit_tests (__func__);
+  
 }
 
 
