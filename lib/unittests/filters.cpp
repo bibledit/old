@@ -524,12 +524,43 @@ void test_filter_usfm () // Todo
     "\\v 5 Five";
     string result;
     
-    result = "\\v 1 One\n\\v 2-3 Two three";
+    result =
+    "\\v 1 One\n"
+    "\\v 2-3 Two three";
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, ""));
-    result = "\\v 1 One\n\\v 2-3 Two three";
+    result =
+    "\\p\n"
+    "\\v 1 One\n"
+    "\\v 2-3 Two three";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, "", true));
+
+    result =
+    "\\v 1 One\n"
+    "\\v 2-3 Two three";
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, ""));
-    result = "\\v 4 Four";
+    result =
+    "\\p\n"
+    "\\v 1 One\n"
+    "\\v 2-3 Two three";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, "", true));
+    
+    result =
+    "\\v 4 Four";
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three"));
+    result =
+    "\\v 4 Four";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", true));
+  }
+  { // Todo
+    string usfm =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 One\n"
+    "\\v 2-3 Two three\n"
+    "\\v 4 Four\n"
+    "\\v 5 Five";
+    string result;
+    
   }
   {
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\id"));

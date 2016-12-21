@@ -55,7 +55,7 @@ int usfm_versenumber_to_offset (string usfm, int verse);
 string usfm_get_verse_text (string usfm, int verse);
 string usfm_get_verse_text_quill (string usfm, int verse_number);
 string usfm_get_chapter_text (string usfm, int chapter_number);
-string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm);
+string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm, bool quill = false);
 bool usfm_is_usfm_marker (string code);
 bool usfm_is_opening_marker (string usfm);
 bool usfm_is_embedded_marker (string usfm);

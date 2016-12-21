@@ -461,12 +461,16 @@ string usfm_get_chapter_text (string usfm, int chapter_number)
 // Returns the USFM text for a range of verses for the input $usfm code.
 // It handles combined verses.
 // It ensures that the $exclude_usfm does not make it to the output of the function.
-string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm)
+// In case of $quill, it uses an routine optimized for a Quill-based editor.
+// This means that empty paragraphs at the end of the extracted USFM fragment are not included.
+string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm, bool quill)
 {
   vector <string> bits;
   string previous_usfm;
   for (int vs = verse_from; vs <= verse_to; vs++) {
-    string verse_usfm = usfm_get_verse_text (usfm, vs);
+    string verse_usfm;
+    if (quill) verse_usfm = usfm_get_verse_text_quill (usfm, vs);
+    else verse_usfm = usfm_get_verse_text (usfm, vs);
     // Do not include repeating USFM in the case of combined verse numbers in the input USFM code.
     if (verse_usfm == previous_usfm) continue;
     previous_usfm = verse_usfm;
