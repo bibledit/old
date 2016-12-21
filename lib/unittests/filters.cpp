@@ -514,7 +514,7 @@ void test_filter_usfm () // Todo
     result = usfm_get_verse_text_quill (usfm, 4);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
   }
-  { // Todo intuitive version also
+  {
     string usfm =
     "\\c 1\n"
     "\\p\n"
@@ -527,7 +527,7 @@ void test_filter_usfm () // Todo
     result =
     "\\v 1 One\n"
     "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, ""));
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, "", false));
     result =
     "\\p\n"
     "\\v 1 One\n"
@@ -537,7 +537,7 @@ void test_filter_usfm () // Todo
     result =
     "\\v 1 One\n"
     "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, ""));
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, "", false));
     result =
     "\\p\n"
     "\\v 1 One\n"
@@ -546,7 +546,7 @@ void test_filter_usfm () // Todo
     
     result =
     "\\v 4 Four";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three"));
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", false));
     result =
     "\\v 4 Four";
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", true));

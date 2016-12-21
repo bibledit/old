@@ -106,8 +106,8 @@ string editoneql_save (void * webserver_request)
  
   
   string usfm = editoneql_logic_html_to_usfm (stylesheet, html, added_style);
+  cout << usfm << endl; // Todo
 
-  
   // Collect some data about the changes for this user.
   string username = request->session_logic()->currentUser ();
 #ifdef HAVE_CLOUD
@@ -118,7 +118,7 @@ string editoneql_save (void * webserver_request)
   
   // Safely store the verse.
   string explanation;
-  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm, explanation);
+  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm, explanation, true); // Todo for Quill..
   bible_logic_unsafe_save_mail (message, explanation, username, usfm);
   if (message.empty ()) {
 #ifdef HAVE_CLOUD

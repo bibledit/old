@@ -116,7 +116,7 @@ string editone_save (void * webserver_request)
   
   // Safely store the verse.
   string explanation;
-  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm, explanation);
+  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm, explanation, false);
   bible_logic_unsafe_save_mail (message, explanation, username, usfm);
   if (message.empty ()) {
 #ifdef HAVE_CLOUD

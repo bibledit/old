@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <quill/logic.h>
 
 
-void editoneql_logic_editable_html (string prefix_last_p_style, string usfm, string stylesheet, string & html, string & editable_last_p_style, string & editable_first_applied_p_style)
+void editoneql_logic_editable_html (string prefix_last_p_style, string usfm, string stylesheet, string & html, string & editable_first_applied_p_style)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -33,7 +33,6 @@ void editoneql_logic_editable_html (string prefix_last_p_style, string usfm, str
     editor_usfm2html.quill ();
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
-    editable_last_p_style = editor_usfm2html.currentParagraphStyle;
   }
   
   // If the first paragraph of the editable verse does not have a paragraph style applied,
@@ -67,7 +66,10 @@ void editoneql_logic_editable_html (string prefix_last_p_style, string usfm, str
 
 string editoneql_logic_html_to_usfm (string stylesheet, string html, string applied_p_style)
 {
-  // If an initial style was added to the first paragraph, remove it again.
+  cout << endl; // Todo
+  cout << applied_p_style << endl; // Todo
+  cout << html << endl; // Todo
+  // If an initial style was added to the first paragraph, remove it again. Todo could it go out?
   if (!applied_p_style.empty ()) {
     // Convert to Quill-based style.
     applied_p_style.insert (0, quill_logic_class_prefix_block ());

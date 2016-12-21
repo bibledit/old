@@ -55,7 +55,7 @@ int usfm_versenumber_to_offset (string usfm, int verse);
 string usfm_get_verse_text (string usfm, int verse);
 string usfm_get_verse_text_quill (string usfm, int verse_number);
 string usfm_get_chapter_text (string usfm, int chapter_number);
-string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm, bool quill = false);
+string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm, bool quill);
 bool usfm_is_usfm_marker (string code);
 bool usfm_is_opening_marker (string usfm);
 bool usfm_is_embedded_marker (string usfm);
@@ -74,7 +74,8 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
 string usfm_safely_store_chapter (void * webserver_request,
                                   string bible, int book, int chapter, string usfm, string & explanation);
 string usfm_safely_store_verse (void * webserver_request,
-                                string bible, int book, int chapter, int verse, string usfm, string & explanation);
+                                string bible, int book, int chapter, int verse, string usfm,
+                                string & explanation, bool quill);
 bool usfm_contains_empty_verses (string usfm);
 bool usfm_handle_verse_range (string verse, vector <int> & verses);
 bool usfm_handle_verse_sequence (string verse, vector <int> & verses);

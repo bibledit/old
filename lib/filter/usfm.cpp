@@ -940,7 +940,8 @@ string usfm_safely_store_chapter (void * webserver_request,
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
 // It handles combined verses.
 string usfm_safely_store_verse (void * webserver_request,
-                                string bible, int book, int chapter, int verse, string usfm, string & explanation)
+                                string bible, int book, int chapter, int verse, string usfm,
+                                string & explanation, bool quill) // Todo update unit tests.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
