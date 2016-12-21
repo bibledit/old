@@ -369,11 +369,7 @@ string usfm_get_verse_text (string usfm, int verse_number)
 string usfm_get_verse_text_quill (string usfm, int verse) // Todo
 {
   // Get the raw USFM for the verse, that is, the bit between the \v... markers.
-  //cout << "verse: " << verse << ", usfm:" << endl; // Todo
-  //cout << usfm << endl; // Todo
   string verse_usfm = usfm_get_verse_text (usfm, verse);
-  //cout << __LINE__ << endl; // Todo
-  //cout << verse_usfm << endl; // Todo
   
   // Bail out if empty.
   if (verse_usfm.empty ()) {
@@ -393,9 +389,6 @@ string usfm_get_verse_text_quill (string usfm, int verse) // Todo
     verse_usfm = filter_string_trim (verse_usfm);
     if (verse_usfm.empty ()) break;
   }
-
-  //cout << __LINE__ << endl; // Todo
-  //cout << verse_usfm << endl; // Todo
 
   // Bail out if empty USFM for the verse.
   if (verse_usfm.empty ()) {
@@ -419,9 +412,6 @@ string usfm_get_verse_text_quill (string usfm, int verse) // Todo
       }
     }
   }
-
-  //cout << __LINE__ << endl; // Todo
-  //cout << verse_usfm << endl; // Todo
 
   // Done.
   return verse_usfm;
@@ -1006,6 +996,11 @@ string usfm_safely_store_verse (void * webserver_request,
   // Store the new verse USFM in the existing chapter USFM.
   size_t pos = chapter_usfm.find (existing_verse_usfm);
   size_t length = existing_verse_usfm.length ();
+  if (pos == string::npos) {
+    explanation = "Cannot find the exact location in the chapter where to save this USFM fragment";
+    Database_Logs::log (explanation + ": " + usfm);
+    return translate ("Doesn't know where to save");
+  }
   chapter_usfm.erase (pos, length);
   chapter_usfm.insert (pos, usfm);
   
