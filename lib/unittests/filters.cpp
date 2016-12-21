@@ -552,7 +552,7 @@ void test_filter_usfm () // Todo
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", true));
   }
   {
-    // Testing USFM extraction for visual verse editor with more than one empty paragraph in sequence. Todo
+    // Testing USFM extraction for Quill-based visual verse editor with more than one empty paragraph in sequence.
     string usfm =
     "\\c 1\n"
     "\\b\n"
@@ -618,6 +618,76 @@ void test_filter_usfm () // Todo
     "\\v 4 Four"
     "";
     evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 4));
+    
+    result.clear ();
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 5));
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 5));
+  }
+  {
+    // Testing USFM extraction for Quill-based visual verse editor with empty verses.
+    string usfm =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1\n"
+    "\\v 2\n"
+    "\\p\n"
+    "\\v 3\n"
+    "\\v 4\n"
+    "";
+    string result;
+    
+    result =
+    "\\c 1\n"
+    "\\p"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0));
+    result =
+    "\\c 1"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 0));
+    
+    result =
+    "\\v 1"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1));
+    result =
+    "\\p\n"
+    "\\v 1"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 1));
+    
+    result =
+    "\\v 2\n"
+    "\\p"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 2));
+    result =
+    "\\v 2"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 2));
+    
+    result =
+    "\\v 3"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 3));
+    result =
+    "\\p\n"
+    "\\v 3"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 3));
+    
+    result =
+    "\\v 4"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 4));
+    result =
+    "\\v 4"
+    "";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 4));
+    
+    result.clear ();
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 5));
+    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 5));
   }
   {
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\id"));
