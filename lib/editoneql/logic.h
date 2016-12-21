@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 void editoneql_logic_editable_html (string prefix_last_p_style, string usfm, string stylesheet, string & html, string & editable_first_applied_p_style);
-string editoneql_logic_html_to_usfm (string stylesheet, string html, string applied_p_style);
+string editoneql_logic_html_to_usfm (string stylesheet, string html);
 
 
 #endif

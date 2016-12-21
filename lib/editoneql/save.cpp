@@ -70,7 +70,7 @@ string editoneql_save (void * webserver_request)
   int verse = convert_to_int (request->post["verse"]);
   string html = request->post["html"];
   string checksum = request->post["checksum"];
-  string added_style = request->post["style"];
+  string added_style = request->post["style"]; // Todo can go out.
 
   
   // Checksum.
@@ -105,7 +105,7 @@ string editoneql_save (void * webserver_request)
   string stylesheet = request->database_config_user()->getStylesheet();
  
   
-  string usfm = editoneql_logic_html_to_usfm (stylesheet, html, added_style);
+  string usfm = editoneql_logic_html_to_usfm (stylesheet, html);
 
   // Collect some data about the changes for this user.
   string username = request->session_logic()->currentUser ();

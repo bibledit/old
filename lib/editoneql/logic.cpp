@@ -64,31 +64,14 @@ void editoneql_logic_editable_html (string prefix_last_p_style, string usfm, str
 }
 
 
-string editoneql_logic_html_to_usfm (string stylesheet, string html, string applied_p_style)
+string editoneql_logic_html_to_usfm (string stylesheet, string html)
 {
-  // If an initial style was added to the first paragraph, remove it again. Todo could it go out?
-  if (!applied_p_style.empty ()) {
-    // Convert to Quill-based style.
-    applied_p_style.insert (0, quill_logic_class_prefix_block ());
-    // First do a html to xml conversion to avoid a mismatched tag error later in the save chain.
-    html = html2xml (html);
-    xml_document document;
-    document.load_string (html.c_str(), parse_ws_pcdata_single);
-    xml_node p_node = document.first_child ();
-    string p_style = p_node.attribute ("class").value ();
-    if (applied_p_style == p_style) {
-      p_node.remove_attribute ("class");
-    }
-    stringstream output;
-    document.print (output, "", format_raw);
-    html = output.str ();
-  }
-  
   // Convert xml entities to normal characters.
   html = filter_string_desanitize_html (html);
   
   // Convert the html back to USFM in the special way for editing one verse.
   string usfm = editor_export_verse_quill (stylesheet, html);
   
+  // Done.
   return usfm;
 }
