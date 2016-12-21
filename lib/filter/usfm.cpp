@@ -969,7 +969,9 @@ string usfm_safely_store_verse (void * webserver_request,
   string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
   
   // Get the existing USFM fragment for the verse to save.
-  string existing_verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+  string existing_verse_usfm;
+  if (quill) existing_verse_usfm = usfm_get_verse_text_quill (chapter_usfm, verse); // Todo
+  else existing_verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
   
   // Check that there is a match between the existing verse numbers and the verse numbers to save.

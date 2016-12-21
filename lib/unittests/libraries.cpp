@@ -517,6 +517,7 @@ void test_store_bible_data ()
   "\\p\n"
   "\\v 1 Verse 1.\n"
   "\\v 2 Verse 2.\n"
+  "\\p\n"
   "\\v 3 Verse 3.\n"
   "\\v 4 Verse 4.\n"
   "\\v 5 Verse 5.";
@@ -547,6 +548,7 @@ void test_store_bible_data ()
     "\\p\n"
     "\\v 1 Verse 1.\n"
     "\\v 2 Verse 2.\n"
+    "\\p\n"
     "\\v 3 Verse 3.\n"
     "\\v 4 Verse 4.";
     string explanation;
@@ -569,7 +571,7 @@ void test_store_bible_data ()
     string explanation;
     string stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
     evaluate (__LINE__, __func__, "Text length differs too much", stored);
-    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The length differs 35% from the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
+    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The length differs 37% from the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
     evaluate (__LINE__, __func__, usfm, result);
     refresh_sandbox (false);
@@ -587,7 +589,7 @@ void test_store_bible_data ()
     string explanation;
     string stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
     evaluate (__LINE__, __func__, "Text content differs too much", stored);
-    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The new text is 56% similar to the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
+    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The new text is 54% similar to the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
     evaluate (__LINE__, __func__, usfm, result);
     refresh_sandbox (false);
@@ -608,17 +610,31 @@ void test_store_bible_data ()
   }
   // Safely store verse 0 without a change.
   {
-    test_store_bible_data_safely_setup (&request, usfm);
-    string data =
-    "\\c 1\n"
-    "\\p\n";
-    string explanation;
-    string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, false); // Todo
-    evaluate (__LINE__, __func__, "", stored);
-    evaluate (__LINE__, __func__, "", explanation);
-    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-    evaluate (__LINE__, __func__, usfm, result);
-    refresh_sandbox (false);
+    {
+      test_store_bible_data_safely_setup (&request, usfm);
+      string data =
+      "\\c 1\n"
+      "\\p\n";
+      string explanation;
+      string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, false); // Todo
+      evaluate (__LINE__, __func__, "", stored);
+      evaluate (__LINE__, __func__, "", explanation);
+      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      evaluate (__LINE__, __func__, usfm, result);
+      refresh_sandbox (false);
+    }
+    {
+      test_store_bible_data_safely_setup (&request, usfm);
+      string data =
+      "\\c 1\n";
+      string explanation;
+      string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, true); // Todo
+      evaluate (__LINE__, __func__, "", stored);
+      evaluate (__LINE__, __func__, "", explanation);
+      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      evaluate (__LINE__, __func__, usfm, result);
+      refresh_sandbox (false);
+    }
   }
   // Safely store verse 0 with a change.
   {
@@ -631,14 +647,14 @@ void test_store_bible_data ()
     evaluate (__LINE__, __func__, "", stored);
     evaluate (__LINE__, __func__, "", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-    string newusfm = filter_string_str_replace ("\\p", "\\p xx", usfm);
+    string newusfm = filter_string_str_replace ("\\p\n\\v 1", "\\p xx\n\\v 1", usfm);
     evaluate (__LINE__, __func__, newusfm, result);
     refresh_sandbox (false);
   }
   // Safely store verse two with a change.
   {
     test_store_bible_data_safely_setup (&request, usfm);
-    string data = "\\v 2 Verse two.\n";
+    string data = "\\v 2 Verse two.\n\\p\n";
     string explanation;
     string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false); // Todo
     evaluate (__LINE__, __func__, "", stored);
@@ -663,11 +679,11 @@ void test_store_bible_data ()
   // Safely store a verse with too much length difference: Fails.
   {
     test_store_bible_data_safely_setup (&request, usfm);
-    string data = "\\v 2 Verse two two two.\n";
+    string data = "\\v 2 Verse two two to to two.\n";
     string explanation;
     string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false); // Todo
     evaluate (__LINE__, __func__, "Text length differs too much", stored);
-    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The length differs 76% from the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
+    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The length differs 81% from the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
     evaluate (__LINE__, __func__, usfm, result);
     refresh_sandbox (false);
@@ -680,7 +696,7 @@ void test_store_bible_data ()
     string explanation;
     string stored = usfm_safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false); // Todo
     evaluate (__LINE__, __func__, "Text content differs too much", stored);
-    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The new text is 44% similar to the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
+    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The new text is 38% similar to the existing text. Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.", explanation);
     string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
     evaluate (__LINE__, __func__, usfm, result);
     refresh_sandbox (false);
