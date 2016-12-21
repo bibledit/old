@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2016-12-19 19:03+0000\n"
+"PO-Revision-Date: 2016-12-20 12:25+0000\n"
 "Last-Translator: L'Africain <lafricain79@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Generator: Launchpad (build 18298)\n"
 
 msgid "Select which Bible to make the active one for editing"
-msgstr ""
+msgstr "Sélectionnez quelle Bible rendre active pour l'édition"
 
 msgid "Abbreviations"
 msgstr "Abbréviations"
@@ -67,12 +67,16 @@ msgid ""
 "It has been some time ago that changes in the Bible text were received from "
 "the Cloud."
 msgstr ""
+"Il y a déjà quelque temps que les changements dans le texte de la Bible ont "
+"été reçus du Nuage."
 
 msgid "Please do a Send/receive action to receive them from the Cloud."
 msgstr ""
+"Veuillez effectuer une action Envoyer/recevoir pour les recevoir à partir du "
+"Cloud."
 
 msgid "Please do a Send/receive to the Cloud"
-msgstr ""
+msgstr "Faites un envoi / réception au Cloud"
 
 msgid ""
 "There are pending changes in the Bible text that have not yet been sent to "
@@ -143,7 +147,7 @@ msgid "Would you like to delete this book?"
 msgstr "Souhaitez-vous supprimer ce livre ?"
 
 msgid "Select a resource to import into the Bible"
-msgstr ""
+msgstr "Sélectionnez une ressource à importer dans la Bible"
 
 msgid "The resource will be imported."
 msgstr "La ressource va être importée."
@@ -507,6 +511,7 @@ msgstr "Génère des listes de modifications"
 
 msgid "You have entered the changes below in a Bible editor."
 msgstr ""
+"Vous avez entré les modifications ci-dessous dans un éditeur de Bible."
 
 msgid "You may check if it made its way into the Bible text."
 msgstr ""
@@ -10814,10 +10819,10 @@ msgid "Delete desktop"
 msgstr "Supprimer le bureau"
 
 msgid "Move desktop up"
-msgstr ""
+msgstr "Déplacer le bureau vers le haut"
 
 msgid "Move desktop down"
-msgstr ""
+msgstr "Déplacer le bureau vers le bas"
 
 msgid "Edit desktop"
 msgstr "Éditer le bureau"
@@ -10830,6 +10835,7 @@ msgstr "Envoyer le bureau à tous les utilisateurs"
 
 msgid "See the help below for information about what to enter"
 msgstr ""
+"Voir l'aide ci-dessous pour des informations sur ce qu'il faut entrer"
 
 msgid ""
 "Select which Bible to use as the source where to read the cross references "

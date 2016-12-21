@@ -1038,6 +1038,9 @@ msgstr ""
 msgid "Cannot overwrite another verse"
 msgstr ""
 
+msgid "Doesn't know where to save"
+msgstr ""
+
 msgid "Saving verse"
 msgstr ""
 

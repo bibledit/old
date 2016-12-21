@@ -64,6 +64,14 @@ echo Could not pull translations from launchpad.net
 fi
 
 
+echo Push new translatable messages to Launchpad.
+cd
+cd dev/bibledit.pot
+cp ../bibledit/lib/locale/bibledit.pot gtk/po/
+bzr add gtk/po/bibledit.pot
+bzr commit --message "updated bibledit.pot"
+
+
 echo Synchronize translations to Bibledit
 cd
 cd dev/bibledit.pot/gtk/po
