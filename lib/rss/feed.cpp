@@ -45,5 +45,6 @@ string rss_feed (void * webserver_request)
   string path = rss_logic_xml_path ();
   xml = filter_url_file_get_contents (path);
 #endif
+  (void) webserver_request;
   return xml;
 }
