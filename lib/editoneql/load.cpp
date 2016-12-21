@@ -66,6 +66,8 @@ string editoneql_load (void * webserver_request)
   int highest_verse = 0;
   if (!verses.empty ()) highest_verse = verses.back ();
   
+  // The Quill-based editor removes empty paragraphs at the end.
+  // Therefore it does not include them.
   string editable_usfm = usfm_get_verse_text_quill (chapter_usfm, verse);
   
   string prefix_usfm = usfm_get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
