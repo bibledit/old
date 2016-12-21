@@ -83,9 +83,6 @@ string editoneql_load (void * webserver_request)
   string focused_verse_html;
   string focused_verse_applied_p_style;
   editoneql_logic_editable_html (prefix_last_p_style, editable_usfm, stylesheet, focused_verse_html, focused_verse_applied_p_style);
-  cout << endl; // Todo
-  cout << editable_usfm << endl; // Todo
-  cout << focused_verse_html << endl; // Todo
   
   string suffix_html;
   editone_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);

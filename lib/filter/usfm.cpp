@@ -366,18 +366,19 @@ string usfm_get_verse_text (string usfm, int verse_number)
 // Gets the USFM for the $verse number for a Quill-based verse editor.
 // This means that preceding empty paragraphs will be included also.
 // And that empty paragraphs at the end will be omitted.
-string usfm_get_verse_text_quill (string usfm, int verse) // Todo
+string usfm_get_verse_text_quill (string usfm, int verse)
 {
   // Get the raw USFM for the verse, that is, the bit between the \v... markers.
-  string verse_usfm = usfm_get_verse_text (usfm, verse);
+  string raw_verse_usfm = usfm_get_verse_text (usfm, verse);
   
   // Bail out if empty.
-  if (verse_usfm.empty ()) {
-    return verse_usfm;
+  if (raw_verse_usfm.empty ()) {
+    return raw_verse_usfm;
   }
 
   // Omit new paragraphs at the end.
   // In this context that is taken as opening USFM markers without content.
+  string verse_usfm (raw_verse_usfm);
   vector <string> markers_and_text = usfm_get_markers_and_text (verse_usfm);
   while (true) {
     if (markers_and_text.empty ()) break;
@@ -400,15 +401,18 @@ string usfm_get_verse_text_quill (string usfm, int verse) // Todo
   // add them to the current verse's USFM.
   if (verse) {
     string previous_verse_usfm = usfm_get_verse_text (usfm, verse - 1);
-    if (!previous_verse_usfm.empty ()) {
-      markers_and_text = usfm_get_markers_and_text (previous_verse_usfm);
-      while (true) {
-        if (markers_and_text.empty ()) break;
-        string code = markers_and_text.back ();
-        markers_and_text.pop_back ();
-        if (!usfm_is_usfm_marker (code)) break;
-        if (!usfm_is_opening_marker (code)) break;
-        verse_usfm.insert (0, code + "\n");
+    // For combined verses: The raw USFM fragments should differ to make sense.
+    if (previous_verse_usfm != raw_verse_usfm) {
+      if (!previous_verse_usfm.empty ()) {
+        markers_and_text = usfm_get_markers_and_text (previous_verse_usfm);
+        while (true) {
+          if (markers_and_text.empty ()) break;
+          string code = markers_and_text.back ();
+          markers_and_text.pop_back ();
+          if (!usfm_is_usfm_marker (code)) break;
+          if (!usfm_is_opening_marker (code)) break;
+          verse_usfm.insert (0, code + "\n");
+        }
       }
     }
   }
@@ -931,7 +935,7 @@ string usfm_safely_store_chapter (void * webserver_request,
 // It handles combined verses.
 string usfm_safely_store_verse (void * webserver_request,
                                 string bible, int book, int chapter, int verse, string usfm,
-                                string & explanation, bool quill) // Todo update unit tests.
+                                string & explanation, bool quill)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -960,7 +964,7 @@ string usfm_safely_store_verse (void * webserver_request,
   
   // Get the existing USFM fragment for the verse to save.
   string existing_verse_usfm;
-  if (quill) existing_verse_usfm = usfm_get_verse_text_quill (chapter_usfm, verse); // Todo
+  if (quill) existing_verse_usfm = usfm_get_verse_text_quill (chapter_usfm, verse);
   else existing_verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
   

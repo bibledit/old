@@ -276,7 +276,7 @@ void test_filter_various2 ()
 }
 
 
-void test_filter_usfm () // Todo
+void test_filter_usfm ()
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
@@ -5212,10 +5212,9 @@ void test_filter_ldap ()
 }
 
 
-void test_filter_dev () // Todo
+void test_filter_dev ()
 {
   trace_unit_tests (__func__);
-  
 }
 
 

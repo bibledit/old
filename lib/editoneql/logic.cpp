@@ -66,9 +66,6 @@ void editoneql_logic_editable_html (string prefix_last_p_style, string usfm, str
 
 string editoneql_logic_html_to_usfm (string stylesheet, string html, string applied_p_style)
 {
-  cout << endl; // Todo
-  cout << applied_p_style << endl; // Todo
-  cout << html << endl; // Todo
   // If an initial style was added to the first paragraph, remove it again. Todo could it go out?
   if (!applied_p_style.empty ()) {
     // Convert to Quill-based style.
