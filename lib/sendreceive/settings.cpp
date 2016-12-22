@@ -174,6 +174,9 @@ void sendreceive_settings ()
 #ifdef HAVE_CHROMEOS
     platform_id = PLATFORM_CHROMEOS;
 #endif
+#ifdef HAVE_CHROMEAPP
+    platform_id = PLATFORM_CHROMEOS;
+#endif
     post ["v"] = convert_to_string (platform_id);
     string error;
     sync_logic.post (post, url, error);

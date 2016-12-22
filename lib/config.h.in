@@ -3,6 +3,9 @@
 /* Define whether to compile for Android */
 #undef HAVE_ANDROID
 
+/* Define whether to compile for Chrome App */
+#undef HAVE_CHROMEAPP
+
 /* Define whether to compile for Chrome OS */
 #undef HAVE_CHROMEOS
 

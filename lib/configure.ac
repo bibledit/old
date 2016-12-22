@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.655],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.656],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -164,6 +164,16 @@ ENABLECHROMEOS=yes
 ]
 )
 
+# Chrome App.
+ENABLECHROMEAPP=no
+AC_ARG_ENABLE(chromeapp,
+[  --enable-chromeapp Compile for Chrome App],
+[
+AC_DEFINE([HAVE_CHROMEAPP], [1], [Define whether to compile for Chrome App])
+ENABLECHROMEAPP=yes
+]
+)
+
 AC_OUTPUT(Makefile)
 
 echo "
@@ -177,4 +187,5 @@ Mac        (--enable-mac)       : ${ENABLEMAC}
 Linux      (--enable-linux)     : ${ENABLELINUX}
 iOS        (--enable-ios)       : ${ENABLEIOS}
 Chrome OS  (--enable-chromeos)  : ${ENABLECHROMEOS}
+Chrome App (--enable-chromeapp) : ${ENABLECHROMEAPP}
 "

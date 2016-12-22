@@ -1158,6 +1158,9 @@ bool Database_Config_User::getBasicInterfaceModeDefault ()
 #ifdef HAVE_CHROMEOS
   return true;
 #endif
+#ifdef HAVE_CHROMEAPP
+  return true;
+#endif
   // The app running on a desktop or laptop have default to basic mode for a lower role.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   int level = request->session_logic ()->currentLevel ();
