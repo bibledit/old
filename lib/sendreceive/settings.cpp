@@ -181,9 +181,7 @@ void sendreceive_settings ()
     string error;
     sync_logic.post (post, url, error);
   }
-  
-  
-  
+    
   // The client will now synchronize its settings with the server's settings.
 
   // The script requests the checksum of all relevant settings from the server.
