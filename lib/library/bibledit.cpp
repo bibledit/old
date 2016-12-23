@@ -107,7 +107,11 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   time_t t = time (NULL);
   struct tm lt = {};
   localtime_r (&t, &lt);
+#ifndef HAVE_CHROMEAPP
+  // Chrome NaCl API does not have field "tm_gmtoff".
+  // To be fixed in a future version.
   hours = round (lt.tm_gmtoff / 3600);
+#endif
 #endif
   config_globals_timezone_offset_utc = hours;
   Database_Logs::log ("Timezone offset in hours: " + convert_to_string (hours));

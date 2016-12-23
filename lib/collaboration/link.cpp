@@ -35,6 +35,7 @@
 
 void collaboration_link (string object, int jobid, string direction)
 {
+#ifdef HAVE_CLOUD
   // Repository details for local and remote.
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   string path = filter_git_directory (object);
@@ -231,9 +232,7 @@ void collaboration_link (string object, int jobid, string direction)
   }
   
   // Just in case it uses a removable flash disk for the repository, flush any pending writes to disk.
-#ifndef HAVE_WINDOWS
   sync ();
-#endif
  
   // Ready linking the repository.
   page = collaboration_link_header ();
@@ -249,6 +248,7 @@ void collaboration_link (string object, int jobid, string direction)
   page += view.render ("collaboration", "link");
   page += Assets_Page::footer ();
   database_jobs.setResult (jobid, page);
+#endif
 }
 
 
