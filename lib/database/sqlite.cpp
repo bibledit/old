@@ -139,10 +139,14 @@ string database_sqlite_no_sql_injection (string sql)
 void database_sqlite_exec (sqlite3 * db, string sql)
 {
   char *error = NULL;
-  sqlite_execute_mutex.lock ();
-  int rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
-  sqlite_execute_mutex.unlock ();
-  if (rc != SQLITE_OK) database_sqlite_error (db, sql, error);
+  if (db) {
+    sqlite_execute_mutex.lock ();
+    int rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
+    sqlite_execute_mutex.unlock ();
+    if (rc != SQLITE_OK) database_sqlite_error (db, sql, error);
+  } else {
+    database_sqlite_error (db, sql, error);
+  }
   if (error) sqlite3_free (error);
 }
 
@@ -151,10 +155,14 @@ map <string, vector <string> > database_sqlite_query (sqlite3 * db, string sql)
 {
   char * error = NULL;
   SqliteReader reader (0);
-  sqlite_execute_mutex.lock ();
-  int rc = sqlite3_exec (db, sql.c_str(), reader.callback, &reader, &error);
-  sqlite_execute_mutex.unlock ();
-  if (rc != SQLITE_OK) database_sqlite_error (db, sql, error);
+  if (db) {
+    sqlite_execute_mutex.lock ();
+    int rc = sqlite3_exec (db, sql.c_str(), reader.callback, &reader, &error);
+    sqlite_execute_mutex.unlock ();
+    if (rc != SQLITE_OK) database_sqlite_error (db, sql, error);
+  } else {
+    database_sqlite_error (db, sql, error);
+  }
   if (error) sqlite3_free (error);
   return reader.result;
 }
@@ -162,7 +170,7 @@ map <string, vector <string> > database_sqlite_query (sqlite3 * db, string sql)
 
 void database_sqlite_disconnect (sqlite3 * database)
 {
-  sqlite3_close (database);
+  if (database) sqlite3_close (database);
 }
 
 
@@ -197,26 +205,31 @@ void database_sqlite_error (sqlite3 * database, const string & prefix, char * er
     message.append (" - ");
     message.append (error);
   }
-  int errcode = sqlite3_errcode (database);
-  const char * errstr = sqlite3_errstr (errcode);
-  string error_string;
-  if (errstr) error_string.assign (errstr);
-  int x_errcode = sqlite3_extended_errcode (database);
-  const char * x_errstr = sqlite3_errstr (x_errcode);
-  string extended_error_string;
-  if (x_errstr) extended_error_string.assign (x_errstr);
-  if (!error_string.empty ()) {
-    message.append (" - ");
-    message.append (error_string);
-  }
-  if (extended_error_string != error_string) {
-    message.append (" - ");
-    message.append (extended_error_string);
-  }
-  const char * filename = sqlite3_db_filename (database, "main");
-  if (filename) {
-    message.append (" - ");
-    message.append (filename);
+  if (database) {
+    int errcode = sqlite3_errcode (database);
+    const char * errstr = sqlite3_errstr (errcode);
+    string error_string;
+    if (errstr) error_string.assign (errstr);
+    int x_errcode = sqlite3_extended_errcode (database);
+    const char * x_errstr = sqlite3_errstr (x_errcode);
+    string extended_error_string;
+    if (x_errstr) extended_error_string.assign (x_errstr);
+    if (!error_string.empty ()) {
+      message.append (" - ");
+      message.append (error_string);
+    }
+    if (extended_error_string != error_string) {
+      message.append (" - ");
+      message.append (extended_error_string);
+    }
+    const char * filename = sqlite3_db_filename (database, "main");
+    if (filename) {
+      message.append (" - ");
+      message.append (filename);
+    }
+  } else {
+    if (!message.empty ()) message.append (" - ");
+    message.append ("No database connection");
   }
   Database_Logs::log (message);
 }
