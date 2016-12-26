@@ -52,24 +52,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 int get_line (int sock, char *buf, int size)
 {
   int i = 0;
-  char c = '\0';
+  char character = '\0';
   int n = 0;
-  while ((i < size - 1) && (c != '\n')) {
-    n = recv (sock, &c, 1, 0);
+  while ((i < size - 1) && (character != '\n')) {
+    n = recv (sock, &character, 1, 0);
     if (n > 0) {
-      if (c == '\r') {
-        n = recv (sock, &c, 1, MSG_PEEK);
-        if ((n > 0) && (c == '\n')) recv (sock, &c, 1, 0);
-        else c = '\n';
+      if (character == '\r') {
+        n = recv (sock, &character, 1, MSG_PEEK);
+        if ((n > 0) && (character == '\n')) {
+          recv (sock, &character, 1, 0);
+        } else {
+          character = '\n';
+        }
       }
-      buf[i] = c;
+      buf[i] = character;
       i++;
+    } else {
+      character = '\n';
     }
-    else
-    c = '\n';
   }
   buf[i] = '\0';
-  return(i);
+  return i;
 }
 
 
