@@ -85,7 +85,7 @@ void Checks_Sentences::initialize ()
 void Checks_Sentences::check (map <int, string> texts)
 {
   vector <int> verse_numbers;
-  vector <string> graphemes;
+  vector <string> characters;
   int iterations = 0;
   for (auto element : texts) {
     int verse = element.first;
@@ -94,41 +94,41 @@ void Checks_Sentences::check (map <int, string> texts)
     // because this is what is supposed to happen in USFM.
     if (iterations > 0) {
       verse_numbers.push_back (verse);
-      graphemes.push_back (" ");
+      characters.push_back (" ");
       fullText += " ";
     }
-    // Split the UTF-8 text into graphemes and add them to the arrays of verse_numbers/graphemes.
+    // Split the UTF-8 text into characters and add them to the arrays of verse_numbers / characters.
     int count = unicode_string_length (text);
     for (int i = 0; i < count; i++) {
-      grapheme = unicode_string_substr (text, i, 1);
+      character = unicode_string_substr (text, i, 1);
       // Skip graphemes to be disregarded.
-      if (find (disregards.begin(), disregards.end (), grapheme) != disregards.end()) continue;
+      if (in_array (character, disregards)) continue;
       // Store verse numbers and graphemes.
       verse_numbers.push_back (verse);
-      graphemes.push_back (grapheme);
-      fullText += grapheme;
+      characters.push_back (character);
+      fullText += character;
     }
     // Next iteration.
     iterations++;
   }
   
-  // Go through the graphemes.
-  int graphemeCount = graphemes.size ();
+  // Go through the characters.
+  int graphemeCount = characters.size ();
   for (int i = 0; i < graphemeCount; i++) {
     // Store current verse number in the object.
     verseNumber = verse_numbers [i];
     // Get the current grapheme.
-    grapheme = graphemes [i];
+    character = characters [i];
     // Analyze the grapheme.
-    analyzeGrapheme ();
+    analyzeCharacters ();
     // Run the checks.
     checkUnknownCharacter ();
-    checkGrapheme ();
+    checkCharacter ();
   }
 }
 
 
-void Checks_Sentences::checkGrapheme ()
+void Checks_Sentences::checkCharacter ()
 {
   // Handle a capital after a comma: ... He said, Go ...
   if (this->isCapital)
@@ -174,7 +174,7 @@ void Checks_Sentences::checkGrapheme ()
 }
 
 
-void Checks_Sentences::paragraphs (map <int, string> texts, vector <int> paragraphs)
+void Checks_Sentences::paragraphs (map <int, string> texts, vector <int> paragraphs) // Todo
 {
   vector <int> verses;
   vector <string> graphemes;
@@ -274,17 +274,17 @@ void Checks_Sentences::addResult (string text, int modifier)
   }
   // Check whether the result can be skipped due to a name being involved.
   if (modifier == skipNames) {
-    string haystack = grapheme + nextFragment;
+    string haystack = character + nextFragment;
     for (auto name : names) {
       if (haystack.find (name) == 0) return;
     }
   }
   // Assemble text for checking result.
-  if (modifier == displayGraphemeOnly) {
-    text += ": " + grapheme;
+  if (modifier == displayCharacterOnly) {
+    text += ": " + character;
   }
   if ((modifier == displayContext) || (modifier == skipNames)) {
-    text += ": " + previousFragment + grapheme + nextFragment;
+    text += ": " + previousFragment + character + nextFragment;
   }
   // Store checking result.
   checkingResults.push_back (make_pair (verseNumber, text));
@@ -298,37 +298,37 @@ void Checks_Sentences::checkUnknownCharacter ()
   if (isSmallLetter) return;
   if (isEndMark) return;
   if (isCenterMark) return;
-  addResult ("Unknown character", Checks_Sentences::displayGraphemeOnly);
+  addResult ("Unknown character", Checks_Sentences::displayCharacterOnly);
 }
 
 
-void Checks_Sentences::analyzeGrapheme ()
+void Checks_Sentences::analyzeCharacters ()
 {
   currentPosition++;
   
-  isSpace = (grapheme == " ");
+  isSpace = (character == " ");
   if (isSpace) {
     spacePosition = currentPosition;
   }
   
-  isCapital = find (capitals.begin (), capitals.end (), grapheme) != capitals.end ();
+  isCapital = in_array (character, capitals);
   if (isCapital) {
     capitalPosition = currentPosition;
   }
   
-  isSmallLetter = find (small_letters.begin(), small_letters.end(), grapheme) != small_letters.end ();
+  isSmallLetter = in_array (character, small_letters);
   if (isSmallLetter) {
     smallLetterPosition = currentPosition;
   }
   
-  isEndMark = find (end_marks.begin (), end_marks.end (), grapheme) != end_marks.end ();
+  isEndMark = in_array (character, end_marks);
   if (isEndMark) {
     endMarkPosition = currentPosition;
     previousMarkPosition = punctuationMarkPosition;
     punctuationMarkPosition = currentPosition;
   }
   
-  isCenterMark = find (center_marks.begin (), center_marks.end (), grapheme) != center_marks.end();
+  isCenterMark = in_array (character, center_marks);
   if (isCenterMark) {
     centerMarkPosition = currentPosition;
     previousMarkPosition = punctuationMarkPosition;

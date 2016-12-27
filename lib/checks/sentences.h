@@ -52,7 +52,7 @@ private:
   int currentPosition;
   
   // Grapheme analysis.
-  string grapheme;
+  string character;
   bool isSpace;
   int spacePosition;
   bool isCapital;
@@ -71,14 +71,14 @@ private:
   
   // Results of the checks.
   vector <pair<int, string>> checkingResults;
-  const int displayGraphemeOnly = 1;
+  const int displayCharacterOnly = 1;
   const int displayContext = 2;
   const int skipNames = 3;
   
   void addResult (string text, int modifier);
   void checkUnknownCharacter ();
-  void analyzeGrapheme ();
-  void checkGrapheme ();
+  void analyzeCharacters ();
+  void checkCharacter ();
 };
 
 
