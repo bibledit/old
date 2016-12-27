@@ -3447,7 +3447,7 @@ void test_client_logic ()
 }
 
 
-Checks_Sentences test_check_sentences_setup ()
+Checks_Sentences test_check_sentences_setup () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -3467,7 +3467,7 @@ void test_check_sentences ()
 {
   trace_unit_tests (__func__);
   
-  // Test Unknown Character
+  // Test unknown character.
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({make_pair (1, "Abc ζ abc.")});
@@ -3475,7 +3475,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard = {make_pair (1, "Unknown character: ζ")};
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Capital After Mid Sentence Punctuation Mark
+  // Test capital after mid-sentence punctuation mark. Todo
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({make_pair (2, "He said, Go.")});
@@ -3483,7 +3483,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard = {make_pair (2, "Capital follows mid-sentence punctuation mark: He said, Go.")};
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Capital Straight After Mid Sentence Punctuation Mark
+  // Test Capital Straight After Mid Sentence Punctuation Mark. Todo
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({make_pair (2, "He said,Go.")});
@@ -3491,7 +3491,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard = { make_pair (2, "Capital follows straight after a mid-sentence punctuation mark: He said,Go.")};
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Small Letter Straight After Mid Sentence Punctuation Mark
+  // Test Small Letter Straight After Mid Sentence Punctuation Mark.
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({make_pair (2, "He said,go.")});
@@ -3507,7 +3507,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard;
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Name After Comma Several Verses Okay
+  // Test Name After Comma Several Verses Okay Todo
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({
@@ -3530,7 +3530,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard;
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test No Space After Full Stop
+  // Test No Space After Full Stop Todo
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({ make_pair (2, "He did that.He went.")});
@@ -3541,7 +3541,7 @@ void test_check_sentences ()
     };
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Capital Full Stop
+  // Test Capital Full Stop Todo
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({ make_pair (2, "He did that. he went.")});
@@ -3549,7 +3549,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard = { make_pair (2, "No capital after an end-sentence punctuation mark: did that. he went.")};
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Paragraph One
+  // Test Paragraph One Todo
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.paragraphs ({ make_pair (1, "he said")}, {0});
@@ -3560,7 +3560,7 @@ void test_check_sentences ()
     };
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Paragraph Two
+  // Test Paragraph Two Todo
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.paragraphs ({ make_pair (1, "εὐθέως")}, {0});
@@ -3571,7 +3571,7 @@ void test_check_sentences ()
     };
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Paragraph Three
+  // Test Paragraph Three Todo
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.paragraphs ({ make_pair (1, "Immediately εὐθέως.")}, {0});
@@ -3579,7 +3579,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard;
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test  Two Punctuation Marks One
+  // Test two punctuation marks.
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({ make_pair (2, "He did that..")});
@@ -3587,7 +3587,6 @@ void test_check_sentences ()
     vector <pair<int, string>> standard = { make_pair (2, "Two punctuation marks in sequence: He did that..")};
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Two Punctuation Marks Two
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({ make_pair (2, "He did ;. That.")});
