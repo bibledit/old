@@ -127,12 +127,40 @@ void setup_conditionally (const char * package)
 }
 
 
+// Copies the library from $package to the webroot.
+// On a Chrome App, this works a bit different.
 void setup_copy_library (const char * package)
 {
+#ifdef HAVE_CHROMEAPP
+  // The nacl_io library fails to read the contents of a directory in the httpfs, that is, in the packaged app.
+  // It also fails to distinguish between folders and regular files in the httpfs.
+  // Therefore there is a list of directories and another one of files in the httpfs.
+  size_t package_length = 1;
+  // Read all directories and create them in the persistent webroot.
+  string path = filter_url_create_path (package, "package_directories.txt");
+  string contents = filter_url_file_get_contents (path);
+  vector <string> paths = filter_string_explode (contents, '\n');
+  for (auto path : paths) {
+    path = config_globals_document_root + path.substr (package_length);
+    if (path.empty ()) continue;
+    config_globals_setup_message = path;
+    filter_url_mkdir (path);
+  }
+  // Read all files and copy them from the package to the persistent webroot.
+  path = filter_url_create_path (package, "package_files.txt");
+  contents = filter_url_file_get_contents (path);
+  paths = filter_string_explode (contents, '\n');
+  for (auto path : paths) {
+    string package_path = package + path.substr (package_length);
+    string destination_path = config_globals_document_root + path.substr (package_length);
+    config_globals_setup_message = destination_path;
+    filter_url_file_cp (package_path, destination_path);
+  }
+#else
   size_t package_length = strlen (package);
   filter_url_mkdir (config_globals_document_root);
-  vector <string> package_paths;
   config_globals_setup_message = "scanning";
+  vector <string> package_paths;
   filter_url_recursive_scandir (package, package_paths);
   for (auto package_path : package_paths) {
     string dest_path = config_globals_document_root + package_path.substr (package_length);
@@ -143,6 +171,7 @@ void setup_copy_library (const char * package)
       filter_url_file_cp (package_path, dest_path);
     }
   }
+#endif
 }
 
 
