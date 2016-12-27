@@ -174,7 +174,7 @@ void Checks_Sentences::checkCharacter ()
 }
 
 
-void Checks_Sentences::paragraphs (map <int, string> texts, vector <int> paragraphs) // Todo
+void Checks_Sentences::paragraphs (map <int, string> texts, vector <int> paragraphs)
 {
   vector <int> verses;
   vector <string> graphemes;

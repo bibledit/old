@@ -3447,7 +3447,7 @@ void test_client_logic ()
 }
 
 
-Checks_Sentences test_check_sentences_setup () // Todo
+Checks_Sentences test_check_sentences_setup ()
 {
   trace_unit_tests (__func__);
   
@@ -3475,7 +3475,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard = {make_pair (1, "Unknown character: ζ")};
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test capital after mid-sentence punctuation mark. Todo
+  // Test capital after mid-sentence punctuation mark.
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({make_pair (2, "He said, Go.")});
@@ -3483,7 +3483,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard = {make_pair (2, "Capital follows mid-sentence punctuation mark: He said, Go.")};
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Capital Straight After Mid Sentence Punctuation Mark. Todo
+  // Test Capital Straight After Mid Sentence Punctuation Mark.
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({make_pair (2, "He said,Go.")});
@@ -3507,7 +3507,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard;
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Name After Comma Several Verses Okay Todo
+  // Test Name After Comma Several Verses Okay
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({
@@ -3530,7 +3530,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard;
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test No Space After Full Stop Todo
+  // Test No Space After Full Stop
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({ make_pair (2, "He did that.He went.")});
@@ -3541,7 +3541,7 @@ void test_check_sentences ()
     };
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Capital Full Stop Todo
+  // Test Capital Full Stop
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.check ({ make_pair (2, "He did that. he went.")});
@@ -3549,7 +3549,7 @@ void test_check_sentences ()
     vector <pair<int, string>> standard = { make_pair (2, "No capital after an end-sentence punctuation mark: did that. he went.")};
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Paragraph One Todo
+  // Test Paragraph One
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.paragraphs ({ make_pair (1, "he said")}, {0});
@@ -3560,7 +3560,7 @@ void test_check_sentences ()
     };
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Paragraph Two Todo
+  // Test Paragraph Two
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.paragraphs ({ make_pair (1, "εὐθέως")}, {0});
@@ -3571,7 +3571,7 @@ void test_check_sentences ()
     };
     evaluate (__LINE__, __func__, standard, results);
   }
-  // Test Paragraph Three Todo
+  // Test Paragraph Three
   {
     Checks_Sentences check = test_check_sentences_setup ();
     check.paragraphs ({ make_pair (1, "Immediately εὐθέως.")}, {0});
@@ -4110,9 +4110,10 @@ void test_check_verses ()
     map <int, string> verses = {
       make_pair (2, "He said."),
       make_pair (3, "He didn't say"),
-      make_pair (4, "He said.")
+      make_pair (4, "He said."),
+      make_pair (5, "He said: “Jesus.”")
     };
-    Checks_Verses::missingPunctuationAtEnd ("1", 1, 1, verses, ", ;", ". ! ? :");
+    Checks_Verses::missingPunctuationAtEnd ("1", 1, 1, verses, ", ;", ". ! ? :", "”");
     vector <Database_Check_Hit> results = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, (int)results.size());
     if (results.size ()) {

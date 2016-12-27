@@ -72,7 +72,8 @@ void checks_run (string bible)
   checks_sentences.enterEndMarks (end_marks);
   string center_marks = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
   checks_sentences.enterCenterMarks (center_marks);
-  checks_sentences.enterDisregards (Database_Config_Bible::getSentenceStructureDisregards (bible));
+  string disregards = Database_Config_Bible::getSentenceStructureDisregards (bible);
+  checks_sentences.enterDisregards (disregards);
   checks_sentences.enterNames (Database_Config_Bible::getSentenceStructureNames (bible));
   bool check_books_versification = Database_Config_Bible::getCheckBooksVersification (bible);
   bool check_chapters_verses_versification = Database_Config_Bible::getCheckChaptesVersesVersification (bible);
@@ -167,7 +168,7 @@ void checks_run (string bible)
 
 
       if (check_missing_punctuation_end_verse) {
-        Checks_Verses::missingPunctuationAtEnd (bible, book, chapter, verses_text, center_marks, end_marks);
+        Checks_Verses::missingPunctuationAtEnd (bible, book, chapter, verses_text, center_marks, end_marks, disregards);
       }
       
       

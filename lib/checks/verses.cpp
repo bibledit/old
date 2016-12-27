@@ -28,16 +28,20 @@
 
 
 void Checks_Verses::missingPunctuationAtEnd (string bible, int book, int chapter, map <int, string> verses,
-                                             string center_marks, string end_marks)
+                                             string center_marks, string end_marks, string disregards)
 {
   vector <string> centermarks = filter_string_explode (center_marks, ' ');
   vector <string> endmarks = filter_string_explode (end_marks, ' ');
+  vector <string> ignores = filter_string_explode (disregards, ' ');
   Database_Check database_check;
   for (auto element : verses) {
     int verse = element.first;
     string text = element.second;
     if (verse == 0) continue;
     if (text.empty ()) continue;
+    for (auto ignore : ignores) {
+      text = filter_string_str_replace (ignore, "", text);
+    }
     size_t text_length = unicode_string_length (text);
     string lastCharacter = unicode_string_substr (text, text_length - 1, 1);
     if (in_array (lastCharacter, centermarks)) continue;
