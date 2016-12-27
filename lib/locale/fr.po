@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2016-12-23 19:07+0000\n"
+"PO-Revision-Date: 2016-12-25 19:14+0000\n"
 "Last-Translator: L'Africain <lafricain79@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -526,7 +526,7 @@ msgid "The following passage has no change in the text."
 msgstr "Le passage suivant n'a pas de modification dans le texte."
 
 msgid "The change is in the formatting only."
-msgstr ""
+msgstr "Le changement n'est que dans le formatage."
 
 msgid "The USFM code is given for reference."
 msgstr "Le code USFM est donné comme référence."
@@ -578,7 +578,7 @@ msgid "A pair should consist of two characters:"
 msgstr "Une paire est constitué de deux caractères :"
 
 msgid "The pairs were stored"
-msgstr ""
+msgstr "Les paires de caractères ont été enregistrées."
 
 msgid "Patterns"
 msgstr "Motifs"
@@ -1693,6 +1693,8 @@ msgstr ""
 
 msgid "Enter all possible matching pairs in the text of the Bible."
 msgstr ""
+"Entrez toutes les possibilités de correspondances de paires de caractères "
+"dans le texte de la Bible."
 
 msgid "Separate each pair by a space."
 msgstr "Sépare chaque paire par une espace."
@@ -1782,7 +1784,7 @@ msgid "Connected to Bibledit Cloud."
 msgstr "Connecté au nuage Bibledit."
 
 msgid "Disconnect and log out."
-msgstr ""
+msgstr "Deconnexion et quitter."
 
 msgid "Internet address"
 msgstr "Adresse internet"
@@ -1885,7 +1887,7 @@ msgstr ""
 "qui les a fait et à quel moment."
 
 msgid "This needs to be set up per Bible."
-msgstr ""
+msgstr "Ceci doit être configurer pour chaque Bible."
 
 msgid "Select Bible."
 msgstr "Sélectionner une Bible."
@@ -7156,6 +7158,7 @@ msgstr "Bible :"
 
 msgid "Toggle the modification privileges for entire Testaments"
 msgstr ""
+"Activez les privilèges de modification pour les testaments en entier."
 
 msgid "Old Testament"
 msgstr "Ancien Testament"
@@ -7672,10 +7675,11 @@ msgid "Show breadcrumbs"
 msgstr "Montrer le fil d'ariane (chemin)"
 
 msgid "Workspace menu fade out delay"
-msgstr ""
+msgstr "Delai du fondu enchaîné du menu de l'espace de travail"
 
 msgid "How long it takes for the desktop menu to start fading out."
 msgstr ""
+"Combien de temps faut-il pour que le menu du bureau commence à disparaître."
 
 msgid ""
 "While editing the Bible text and saving it, Bibledit looks at how much the "
@@ -7718,13 +7722,13 @@ msgid "Active Bible editors:"
 msgstr "Activer les éditeurs biblique :"
 
 msgid "Visual editors:"
-msgstr ""
+msgstr "Editeurs d'aperçu (WYSIWYG) :"
 
 msgid "USFM editors:"
 msgstr "Éditeurs USFM :"
 
 msgid "Enable the Styles button in the visual Bible editors"
-msgstr ""
+msgstr "Activer le bouton Styles dans l'éditeur d'aperçu de Bible"
 
 msgid "Back to chapter"
 msgstr "Retour au chapitre"
@@ -7975,7 +7979,7 @@ msgid "Resources to print:"
 msgstr "Ressources à imprimer :"
 
 msgid "Set range:"
-msgstr ""
+msgstr "Définir une plage :"
 
 msgid "From"
 msgstr "Depuis"
@@ -8544,6 +8548,7 @@ msgstr "Fuseau horaire"
 
 msgid "The timezone for Bibledit as an offset from UTC in hours"
 msgstr ""
+"Le fuseau horaire pour Bibledit compris  comme un décalage UTC en heures"
 
 msgid "hours"
 msgstr "heures"
@@ -9529,13 +9534,13 @@ msgid "Edit stylesheet"
 msgstr "Éditer la feuille de style"
 
 msgid "Both the visual chapter and visual verse editors"
-msgstr ""
+msgstr "Les éditeurs l'aperçu de chapitre et de verset"
 
 msgid "Only the visual chapter editor"
-msgstr ""
+msgstr "Seulement l'éditeur d'aperçu de chapitre"
 
 msgid "Only the visual verse editor"
-msgstr ""
+msgstr "Seulement l'éditeur d'aperçu de verset"
 
 msgid "Both the USFM chapter and USFM verse editors"
 msgstr "Les éditeurs de chapitre et de verset USFM"
@@ -9547,10 +9552,10 @@ msgid "Only the USFM verse editor"
 msgstr "Seulement l'éditeur de verset USFM"
 
 msgid "Visual chapter editor"
-msgstr ""
+msgstr "Éditeur d'aperçu de chapitre"
 
 msgid "Visual verse editor"
-msgstr ""
+msgstr "Éditeur d'aperçu de verset"
 
 msgid "Text"
 msgstr "Texte"
@@ -9762,12 +9767,14 @@ msgstr "Position en pourcentages du caret incorrecte"
 msgid ""
 "Please enter a fade out delay between 1 and 100 seconds or 0 to disable"
 msgstr ""
+"Veuillez entrer un délai pour le fondu enchaîné entre 1 et 100 secondes ou "
+"de 0 pour le désactiver"
 
 msgid "Incorrect fade out delay in seconds"
-msgstr ""
+msgstr "Délai en second du fondu enchaîné incorrect"
 
 msgid "Which visual Bible editors to enable?"
-msgstr ""
+msgstr "Quel éditeur d'aperçu de Bible activer ?"
 
 msgid "Select which Bible to display"
 msgstr "Sélectionnez la Bible à afficher"
@@ -9957,6 +9964,8 @@ msgstr "pour être mis à jour"
 
 msgid "Number of books saved of this user-defined resource definition:"
 msgstr ""
+"Nombre de livres enregistrés dans cette définition de ressource définie par "
+"l'utilisateur :"
 
 msgid "Please enter a name for the new user-defined resource"
 msgstr ""
@@ -10782,7 +10791,7 @@ msgid "Please enter the maximum number of items in the RSS feed"
 msgstr "Veuillez entrer le nombre maximum d'éléments dans le flux RSS"
 
 msgid "The number was clipped"
-msgstr ""
+msgstr "le numéro a été réduit"
 
 msgid "The number was saved"
 msgstr "Le nombre a été enregistré"
