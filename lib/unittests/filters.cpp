@@ -2055,7 +2055,7 @@ void test_filter_text2 ()
   string TextTestHtml = "/tmp/TextTest.html";
   string TextTestTxt  = "/tmp/TextTest.txt";
   string bible = "phpunit";
-  // Test Clear Text Export 1
+  // Test clear text export.
   {
     string usfm = 
       "\\id GEN\n"
@@ -2086,7 +2086,7 @@ void test_filter_text2 ()
       "Test: Heb. Note at the very end.";
     evaluate (__LINE__, __func__, standardnotes, notes);
   }
-  // Test Clear Text Export 2
+  // Test clear text export.
   {
     string usfm = 
       "\\id GEN\n"
@@ -2112,7 +2112,7 @@ void test_filter_text2 ()
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (output));
     evaluate (__LINE__, __func__, "", notes);
   }
-  // Test Verses Headings 1
+  // Test verses headings.
   {
     string usfm =
       "\\id GEN\n"
@@ -2140,7 +2140,7 @@ void test_filter_text2 ()
     map <int, string> standard = { {0, "Heading three"}, {2, "Heading one"}, {3, "Heading two"} };
     evaluate (__LINE__, __func__, standard, output);
   }
-  // Test Verses Headings 2
+  // Test verses headings.
   {
     string usfm = 
       "\\id GEN\n"
@@ -2162,7 +2162,7 @@ void test_filter_text2 ()
     map <int, string> standard = { {1, "Usuku lweNkosi luyeza masinyane"}, {2, "Heading two"} };
     evaluate (__LINE__, __func__, standard, output);
   }
-  // Test Verses Text 1
+  // Test verses text.
   {
     string usfm = 
       "\\id GEN\n"
@@ -2197,7 +2197,7 @@ void test_filter_text2 ()
     };
     evaluate (__LINE__, __func__, standard, output);
   }
-  // Test Verses Text 2
+  // Test verses text.
   {
     string usfm = 
       "\\c 15\n"
@@ -2217,7 +2217,7 @@ void test_filter_text2 ()
     };
     evaluate (__LINE__, __func__, standard, output);
   }
-  // Test Paragraph Positions 1
+  // Test paragraph positions.
   {
     string usfm = 
       "\\c 1\n"
@@ -2235,7 +2235,7 @@ void test_filter_text2 ()
     vector <int> standard = {0, 9, 58};
     evaluate (__LINE__, __func__, standard, output);
   }
-  // Test Embedded Text 1
+  // Test embedded text.
   {
     string usfm = 
       "\\c 1\n"
@@ -2253,7 +2253,7 @@ void test_filter_text2 ()
     };
     evaluate (__LINE__, __func__, standard, output);
   }
-  // Test Embedded Html One
+  // Test embedded html.
   {
     // Open character style, and embedded character style, and close both normally.
     string usfm =
@@ -2275,7 +2275,7 @@ void test_filter_text2 ()
       "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
-  // Test Embedded Html Two
+  // Test embedded html.
   {
     // Open character style, open embedded character style, close embedded one, then close the outer one.
     string usfm = 
@@ -2298,7 +2298,7 @@ void test_filter_text2 ()
       "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
-  // Test Embedded Html Three.
+  // Test embedded html.
   {
     // Open character style, open embedded character style, then closing the outer one closes the embedded one also.
     string usfm = 
@@ -2320,7 +2320,7 @@ void test_filter_text2 ()
       "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
-  // Test Embedded Open Document One
+  // Test embedded OpenDocument.
   {
     // Open character style, and embedded character style, and close both normally.
     string usfm = 
@@ -2363,7 +2363,7 @@ void test_filter_text2 ()
       "1 Text 1a text1 text1.";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  // TestEmbeddedOpenDocumentTwo
+  // Test embedded OpenDocument.
   {
     // Open character style, open embedded character style, close embedded one, then close the outer one.
     string usfm = 
@@ -2388,7 +2388,7 @@ void test_filter_text2 ()
       "1 I will sing to the Lord God.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  // Test EmbeddedOpenDocumentThree
+  // Test embedded OpenDocument.
   {
     // Open character style, open embedded character style, then closing the outer one closes the embedded one also.
     string usfm = 
