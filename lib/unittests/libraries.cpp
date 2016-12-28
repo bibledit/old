@@ -3552,13 +3552,25 @@ void test_check_sentences ()
   // Test paragraph
   {
     Checks_Sentences check = test_check_sentences_setup ();
-    check.paragraphs ({ make_pair (1, "he said")}, {0}, {"p"}, {"q"}); // Todo add more cases.
+    check.paragraphs ({ make_pair (1, "he said")}, {0}, {"p"}, {""});
     vector <pair<int, string>> results = check.getResults ();
+    for (auto element : results) cout << element.first << " " << element.second << endl; // Todo
+    //exit (0); // Todo
     vector <pair<int, string>> standard = {
                        make_pair (1, "Paragraph does not start with a capital: h"),
                        make_pair (1, "Paragraph does not end with an end marker: d")
     };
     evaluate (__LINE__, __func__, standard, results);
+  }
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.paragraphs ({ make_pair (1, "he said")}, {0}, {"q"}, {"q"}); // Todo add more cases.
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = {
+      make_pair (1, "Paragraph does not start with a capital: h"),
+      make_pair (1, "Paragraph does not end with an end marker: d")
+    };
+    //evaluate (__LINE__, __func__, standard, results);
   }
   {
     Checks_Sentences check = test_check_sentences_setup ();

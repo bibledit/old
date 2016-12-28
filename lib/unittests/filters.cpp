@@ -270,6 +270,12 @@ void test_filter_various2 ()
     vector <string> haystack = {"needle"};
     string needle = "needle";
     evaluate (__LINE__, __func__, true, in_array (needle, haystack));
+    needle.clear ();
+    evaluate (__LINE__, __func__, false, in_array (needle, haystack));
+    haystack.clear ();
+    evaluate (__LINE__, __func__, false, in_array (needle, haystack));
+    needle = "needle";
+    evaluate (__LINE__, __func__, false, in_array (needle, haystack));
     evaluate (__LINE__, __func__, true, in_array (1, {1, 2, 3}));
     evaluate (__LINE__, __func__, false, in_array (1, {2, 3}));
   }

@@ -245,9 +245,9 @@ void Checks_Sentences::paragraphs (map <int, string> texts,
     if (offset) if (offset < graphemes.size ()) previousGrapheme = graphemes [offset - 1];
     isEndMark = in_array (grapheme, this->end_marks) || in_array (previousGrapheme, this->end_marks);
     if (!isEndMark) {
-      if (!in_array (next_paragraph_marker, within_sentence_markers)) {
+      //if (!in_array (next_paragraph_marker, within_sentence_markers)) {
         checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + grapheme));
-      }
+      //}
     }
   }
   
