@@ -1754,19 +1754,21 @@ void test_odf_text ()
 }
 
 
-void test_filter_text1 ()
+void test_filter_text ()
 {
   trace_unit_tests (__func__);
   
+  Database_Styles database_styles;
+  database_styles.create ();
+
   string TextTestOdt  = "/tmp/TextTest.odt";
   string TextTestHtml = "/tmp/TextTest.html";
   string TextTestTxt  = "/tmp/TextTest.txt";
+  
   string bible = "phpunit";
 
-  // The unittests depend on known settings and values.
+  // The unittests depend on known settings.
   Database_Config_Bible::setExportChapterDropCapsFrames (bible, true);
-  Database_Styles database_styles;
-  database_styles.create ();
 
   // Test extraction of all sorts of information from USFM code
   // Test basic formatting into OpenDocument.
@@ -2038,23 +2040,6 @@ void test_filter_text1 ()
       "\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  filter_url_unlink (TextTestOdt);
-  filter_url_unlink (TextTestHtml);
-  filter_url_unlink (TextTestTxt);
-}
-
-
-void test_filter_text2 ()
-{
-  trace_unit_tests (__func__);
-  
-  refresh_sandbox (true);
-  Database_Styles database_styles;
-  database_styles.create ();
-  string TextTestOdt  = "/tmp/TextTest.odt";
-  string TextTestHtml = "/tmp/TextTest.html";
-  string TextTestTxt  = "/tmp/TextTest.txt";
-  string bible = "phpunit";
   // Test clear text export.
   {
     string usfm = 
