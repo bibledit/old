@@ -284,6 +284,16 @@ void Database_Config_Bible::setSentenceStructureNames (string bible, string valu
 }
 
 
+string Database_Config_Bible::getSentenceStructureWithinSentenceMarkers (string bible)
+{
+  return getValue (bible, "sentence-structure-within_sentence-markers", "q q1 q2 q3");
+}
+void Database_Config_Bible::setSentenceStructureWithinSentenceMarkers (string bible, string value)
+{
+  setValue (bible, "sentence-structure-within_sentence-markers", value);
+}
+
+
 bool Database_Config_Bible::getCheckMatchingPairs (string bible)
 {
   return getBValue (bible, "check-matching-pairs", false);

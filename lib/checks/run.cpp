@@ -75,6 +75,7 @@ void checks_run (string bible)
   string disregards = Database_Config_Bible::getSentenceStructureDisregards (bible);
   checks_sentences.enterDisregards (disregards);
   checks_sentences.enterNames (Database_Config_Bible::getSentenceStructureNames (bible));
+  vector <string> within_sentence_markers = filter_string_explode (Database_Config_Bible::getSentenceStructureWithinSentenceMarkers (bible), ' ');
   bool check_books_versification = Database_Config_Bible::getCheckBooksVersification (bible);
   bool check_chapters_verses_versification = Database_Config_Bible::getCheckChaptesVersesVersification (bible);
   bool check_well_formed_usfm = Database_Config_Bible::getCheckWellFormedUsfm (bible);
@@ -144,7 +145,15 @@ void checks_run (string bible)
       if (check_sentence_structure || check_paragraph_structure) {
         checks_sentences.initialize ();
         if (check_sentence_structure) checks_sentences.check (verses_text);
-        if (check_paragraph_structure) checks_sentences.paragraphs (verses_text, filter_text.paragraph_start_positions);
+        if (check_paragraph_structure) {
+          checks_sentences.paragraphs (verses_text,
+                                       filter_text.paragraph_start_positions,
+                                       filter_text.paragraph_start_position_markers,
+                                       within_sentence_markers); // Todo
+        }
+          
+          
+          
         vector <pair<int, string>> results = checks_sentences.getResults ();
         for (auto result : results) {
           int verse = result.first;

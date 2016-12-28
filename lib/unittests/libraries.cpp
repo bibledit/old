@@ -3552,7 +3552,7 @@ void test_check_sentences ()
   // Test paragraph
   {
     Checks_Sentences check = test_check_sentences_setup ();
-    check.paragraphs ({ make_pair (1, "he said")}, {0});
+    check.paragraphs ({ make_pair (1, "he said")}, {0}, {"p"}, {"q"}); // Todo add more cases.
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
                        make_pair (1, "Paragraph does not start with a capital: h"),
@@ -3562,7 +3562,7 @@ void test_check_sentences ()
   }
   {
     Checks_Sentences check = test_check_sentences_setup ();
-    check.paragraphs ({ make_pair (1, "εὐθέως")}, {0});
+    check.paragraphs ({ make_pair (1, "εὐθέως")}, {0}, {"p"}, {"q"}); // Todo add more cases.
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
                        make_pair (1, "Paragraph does not start with a capital: ε"),
@@ -3572,7 +3572,7 @@ void test_check_sentences ()
   }
   {
     Checks_Sentences check = test_check_sentences_setup ();
-    check.paragraphs ({ make_pair (1, "Immediately εὐθέως.")}, {0});
+    check.paragraphs ({ make_pair (1, "Immediately εὐθέως.")}, {0}, {"p"}, {"q"}); // Todo add more cases.
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard;
     evaluate (__LINE__, __func__, standard, results);

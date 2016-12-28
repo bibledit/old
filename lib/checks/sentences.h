@@ -36,7 +36,10 @@ public:
   void initialize ();
   vector <pair<int, string>> getResults ();
   void check (map <int, string> texts);
-  void paragraphs (map <int, string> texts, vector <int> paragraphs);
+  void paragraphs (map <int, string> texts,
+                   vector <int> paragraph_start_positions,
+                   vector <string> paragraph_start_markers,
+                   vector <string> within_sentence_markers);
 
 private:
   // Sentence structure parameters.

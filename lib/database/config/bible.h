@@ -64,6 +64,8 @@ public:
   static void setSentenceStructureDisregards (string bible, string value);
   static string getSentenceStructureNames (string bible);
   static void setSentenceStructureNames (string bible, string value);
+  static string getSentenceStructureWithinSentenceMarkers (string bible);
+  static void setSentenceStructureWithinSentenceMarkers (string bible, string value);
   static bool getCheckMatchingPairs (string bible);
   static void setCheckMatchingPairs (string bible, bool value);
   static string getMatchingPairs (string bible);

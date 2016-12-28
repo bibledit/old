@@ -104,8 +104,14 @@ string checks_settingssentences (void * webserver_request)
     Database_Config_Bible::setSentenceStructureNames (bible, request->post["names"]);
     view.set_variable ("success", translate("The names that may occur after mid-sentence punctuation were stored"));
   }
+
   
-                       
+  if (request->post.count ("within_sentence_markers")) {
+    Database_Config_Bible::setSentenceStructureWithinSentenceMarkers (bible, request->post["within_sentence_markers"]);
+    view.set_variable ("success", translate("The markers that start a new line but not necessarily a new sentence were saved"));
+  }
+
+  
   view.set_variable ("bible", bible);
   view.set_variable ("capitals", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureCapitals (bible)));
   view.set_variable ("smallletters", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureSmallLetters (bible)));
@@ -113,6 +119,7 @@ string checks_settingssentences (void * webserver_request)
   view.set_variable ("middlepunctuationmarks", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible)));
   view.set_variable ("disregards", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureDisregards (bible)));
   view.set_variable ("names", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureNames (bible)));
+  view.set_variable ("within_sentence_markers", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureWithinSentenceMarkers (bible)));
   
   
   page += view.render ("checks", "settingssentences");

@@ -174,7 +174,10 @@ void Checks_Sentences::checkCharacter ()
 }
 
 
-void Checks_Sentences::paragraphs (map <int, string> texts, vector <int> paragraphs)
+void Checks_Sentences::paragraphs (map <int, string> texts,
+                                   vector <int> paragraph_start_positions,
+                                   vector <string> paragraph_start_markers,
+                                   vector <string> within_sentence_markers) // Todo
 {
   vector <int> verses;
   vector <string> graphemes;
@@ -192,39 +195,44 @@ void Checks_Sentences::paragraphs (map <int, string> texts, vector <int> paragra
   }
   
   // Correct the positions where the paragraphs start.
-  for (unsigned int i = 1; i < paragraphs.size(); i++) {
-    unsigned int offset = paragraphs [i];
+  for (unsigned int i = 1; i < paragraph_start_positions.size(); i++) {
+    unsigned int offset = paragraph_start_positions [i];
     int paragraphVerse = 0;
     if (offset < verses.size()) paragraphVerse = verses [offset];
     int twoVersesBack = 0;
     if ((offset - 2) < verses.size ()) twoVersesBack = verses [offset - 2];
     if (paragraphVerse != twoVersesBack) {
-      for (unsigned int i2 = i; i2 < paragraphs.size(); i2++) {
-        paragraphs [i2] = paragraphs [i2] - 1;
+      for (unsigned int i2 = i; i2 < paragraph_start_positions.size(); i2++) {
+        paragraph_start_positions [i2] = paragraph_start_positions [i2] - 1;
       }
     }
   }
   
-  int paragraphCount = paragraphs.size();
+  int paragraphCount = paragraph_start_positions.size();
   
-  // Go through the paragraphs to see whether they start with capitals.
+  // Go through the paragraphs to see whether they start with capitals. Todo
   for (int i = 0; i < paragraphCount; i++) {
-    unsigned int offset = paragraphs [i];
+    unsigned int offset = paragraph_start_positions [i];
     int verse = 0;
     if (offset < verses.size()) verse = verses [offset];
     string grapheme;
     if (offset < graphemes.size ()) grapheme = graphemes [offset];
     isCapital = find (capitals.begin(), capitals.end(), grapheme) != capitals.end ();
     if (!isCapital) {
-      checkingResults.push_back (make_pair (verse, "Paragraph does not start with a capital: " + grapheme));
+      string paragraph_marker = paragraph_start_markers [i];
+      if (!in_array (paragraph_marker, within_sentence_markers)) {
+        checkingResults.push_back (make_pair (verse, "Paragraph does not start with a capital: " + grapheme));
+      }
     }
   }
   
-  // Go through the paragraphs to see whether they end with proper punctuation.
+  // Go through the paragraphs to see whether they end with proper punctuation. Todo
   for (int i = 0; i < paragraphCount; i++) {
     unsigned int offset = 0;
+    string next_paragraph_marker;
     if (i < (paragraphCount - 1)) {
-      offset = paragraphs [i + 1];
+      offset = paragraph_start_positions [i + 1];
+      next_paragraph_marker = paragraph_start_markers [i + 1];
     } else {
       offset = graphemes.size();
     }
@@ -237,7 +245,9 @@ void Checks_Sentences::paragraphs (map <int, string> texts, vector <int> paragra
     if (offset) if (offset < graphemes.size ()) previousGrapheme = graphemes [offset - 1];
     isEndMark = in_array (grapheme, this->end_marks) || in_array (previousGrapheme, this->end_marks);
     if (!isEndMark) {
-      checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + grapheme));
+      if (!in_array (next_paragraph_marker, within_sentence_markers)) {
+        checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + grapheme));
+      }
     }
   }
   
