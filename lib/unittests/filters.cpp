@@ -1770,7 +1770,7 @@ void test_filter_text ()
   // The unittests depend on known settings.
   Database_Config_Bible::setExportChapterDropCapsFrames (bible, true);
 
-  // Test extraction of all sorts of information from USFM code
+  // Test extraction of all sorts of information from USFM code.
   // Test basic formatting into OpenDocument.
   {
     string usfm = ""
@@ -2202,23 +2202,22 @@ void test_filter_text ()
     };
     evaluate (__LINE__, __func__, standard, output);
   }
-  // Test paragraph positions.
+  // Test paragraph positions and starting markers.
   {
     string usfm = 
       "\\c 1\n"
       "\\s Heading\n"
       "\\p\n"
       "\\v 1 He said:\n"
-      "\\p I will sing to the Lord.\n"
+      "\\q1 I will sing to the Lord.\n"
       "\\v 2 The Lord is my strength.\n"
-      "\\p I trust in Him.\n";
+      "\\q2 I trust in Him.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
-    vector <int> output = filter_text.paragraph_start_positions;
-    vector <int> standard = {0, 9, 58};
-    evaluate (__LINE__, __func__, standard, output);
+    evaluate (__LINE__, __func__, {0, 9, 58}, filter_text.paragraph_start_positions);
+    evaluate (__LINE__, __func__, {"p", "q1", "q2"}, filter_text.paragraph_start_position_markers);
   }
   // Test embedded text.
   {

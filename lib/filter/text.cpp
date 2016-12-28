@@ -528,6 +528,8 @@ void Filter_Text::processUsfm ()
                     string contents;
                     for (auto & element : verses_text) contents.append (element.second);
                     paragraph_start_positions.push_back (unicode_string_length (contents));
+                    // Record the style that started this new paragraph.
+                    paragraph_start_position_markers.push_back (style.marker);
                   }
                   break;
                 }

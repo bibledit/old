@@ -156,6 +156,7 @@ public:
   map <int, string> getVersesText ();
   map <int, string> verses_headings; // Vector with objects to hold verse numbers and the text of the headings.
   vector <int> paragraph_start_positions; // Positions, in unicode characters, where paragraphs start in verses_text.
+  vector <string> paragraph_start_position_markers; // Markers that started the above paragraph start positions.
 private:
   bool headings_text_per_verse_active;
   bool heading_started; // Flag for headings per verse processor.
