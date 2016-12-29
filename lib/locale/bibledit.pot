@@ -592,6 +592,11 @@ msgstr ""
 msgid "The names that may occur after mid-sentence punctuation were stored"
 msgstr ""
 
+msgid ""
+"The markers that start a new line but not necessarily a new sentence were "
+"saved"
+msgstr ""
+
 msgid "Suppressed check results"
 msgstr ""
 
@@ -1638,10 +1643,9 @@ msgid ""
 "punctuation."
 msgstr ""
 
-msgid "Separate the names by a space."
-msgstr ""
-
-msgid "For example"
+msgid ""
+"Enter all possible markers that start a new line but do not necessarily "
+"start a new sentence."
 msgstr ""
 
 msgid "back"
