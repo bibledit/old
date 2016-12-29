@@ -174,10 +174,15 @@ void Checks_Sentences::checkCharacter ()
 }
 
 
+// Checks paragraphs of text whether they are start and end with correct capitalization and punctuation.
+// $texts: fragments of texts per verse number.
+// $paragraph_start_positions: The character positions where new paragraphs start.
+// $paragraph_start_markers: The USFM markers that started the new paragraphs in $paragraph_start_positions.
+// $within_sentence_paragraph_markers: The USFM markers that start paragraphs that do not need to start with the correct capitalization. Usually such markers are poetic markers like \q1 and so on.
 void Checks_Sentences::paragraphs (map <int, string> texts,
                                    vector <int> paragraph_start_positions,
                                    vector <string> paragraph_start_markers,
-                                   vector <string> within_sentence_markers) // Todo
+                                   vector <string> within_sentence_paragraph_markers) // Todo
 {
   vector <int> verses;
   vector <string> graphemes;
@@ -220,7 +225,7 @@ void Checks_Sentences::paragraphs (map <int, string> texts,
     isCapital = find (capitals.begin(), capitals.end(), grapheme) != capitals.end ();
     if (!isCapital) {
       string paragraph_marker = paragraph_start_markers [i];
-      if (!in_array (paragraph_marker, within_sentence_markers)) {
+      if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
         checkingResults.push_back (make_pair (verse, "Paragraph does not start with a capital: " + grapheme));
       }
     }
@@ -245,8 +250,9 @@ void Checks_Sentences::paragraphs (map <int, string> texts,
     if (offset) if (offset < graphemes.size ()) previousGrapheme = graphemes [offset - 1];
     isEndMark = in_array (grapheme, this->end_marks) || in_array (previousGrapheme, this->end_marks);
     if (!isEndMark) {
-      //if (!in_array (next_paragraph_marker, within_sentence_markers)) {
-        checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + grapheme));
+      //if (!in_array (next_paragraph_marker, within_sentence_paragraph_markers)) { // Todo enable again - run unit tests.
+        checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + grapheme)); // Todo
+        // Todo add a bit of context.
       //}
     }
   }

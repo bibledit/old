@@ -106,8 +106,8 @@ string checks_settingssentences (void * webserver_request)
   }
 
   
-  if (request->post.count ("within_sentence_markers")) {
-    Database_Config_Bible::setSentenceStructureWithinSentenceMarkers (bible, request->post["within_sentence_markers"]);
+  if (request->post.count ("within_sentence_paragraph_markers")) {
+    Database_Config_Bible::setSentenceStructureWithinSentenceMarkers (bible, request->post["within_sentence_paragraph_markers"]);
     view.set_variable ("success", translate("The markers that start a new line but not necessarily a new sentence were saved"));
   }
 
@@ -119,7 +119,7 @@ string checks_settingssentences (void * webserver_request)
   view.set_variable ("middlepunctuationmarks", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible)));
   view.set_variable ("disregards", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureDisregards (bible)));
   view.set_variable ("names", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureNames (bible)));
-  view.set_variable ("within_sentence_markers", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureWithinSentenceMarkers (bible)));
+  view.set_variable ("within_sentence_paragraph_markers", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureWithinSentenceMarkers (bible)));
   
   
   page += view.render ("checks", "settingssentences");
