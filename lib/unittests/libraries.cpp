@@ -3555,8 +3555,8 @@ void test_check_sentences ()
     check.paragraphs ({ make_pair (1, "he said")}, {0}, {"p"}, {""});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
-                       make_pair (1, "Paragraph does not start with a capital: h"),
-                       make_pair (1, "Paragraph does not end with an end marker: d")
+                       make_pair (1, "Paragraph does not start with a capital: he said"),
+                       make_pair (1, "Paragraph does not end with an end marker: he said")
     };
     evaluate (__LINE__, __func__, standard, results);
   }
@@ -3566,7 +3566,7 @@ void test_check_sentences ()
     check.paragraphs ({ make_pair (1, "he said")}, {0}, {"q"}, {"q"});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
-      make_pair (1, "Paragraph does not end with an end marker: d")
+      make_pair (1, "Paragraph does not end with an end marker: he said")
     };
     evaluate (__LINE__, __func__, standard, results);
   }
@@ -3576,8 +3576,8 @@ void test_check_sentences ()
     check.paragraphs ({ make_pair (1, "εὐθέως")}, {0}, {"p"}, {"q"});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
-                       make_pair (1, "Paragraph does not start with a capital: ε"),
-                       make_pair (1, "Paragraph does not end with an end marker: ς")
+                       make_pair (1, "Paragraph does not start with a capital: εὐθέως"),
+                       make_pair (1, "Paragraph does not end with an end marker: εὐθέως")
     };
     evaluate (__LINE__, __func__, standard, results);
   }

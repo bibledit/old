@@ -222,11 +222,15 @@ void Checks_Sentences::paragraphs (map <int, string> texts,
     if (offset < verses.size()) verse = verses [offset];
     string character;
     if (offset < characters.size ()) character = characters [offset];
-    isCapital = find (capitals.begin(), capitals.end(), character) != capitals.end ();
+    isCapital = in_array (character, capitals);
     if (!isCapital) {
       string paragraph_marker = paragraph_start_markers [i];
       if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
-        checkingResults.push_back (make_pair (verse, "Paragraph does not start with a capital: " + character));
+        string context;
+        for (unsigned int i2 = offset; i2 < offset + 10; i2++) {
+          if (i2 < characters.size ()) context.append (characters[i2]);
+        }
+        checkingResults.push_back (make_pair (verse, "Paragraph does not start with a capital: " + context));
       }
     }
   }
@@ -251,7 +255,11 @@ void Checks_Sentences::paragraphs (map <int, string> texts,
     isEndMark = in_array (character, this->end_marks) || in_array (previous_character, this->end_marks);
     if (!isEndMark) {
       if (next_paragraph_marker.empty () || (!in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
-        checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + character));
+        string context;
+        for (int i2 = offset - 10; i2 <= (int)offset; i2++) {
+          if (i2 >= 0) context.append (characters[i2]);
+        }
+        checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + context));
       }
     }
   }
