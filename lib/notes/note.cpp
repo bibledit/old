@@ -77,8 +77,17 @@ string notes_note (void * webserver_request)
   // When a note is opened, then the passage navigator should go to the passage that belongs to that note.
   vector <Passage> passages = database_notes.getPassages (id);
   if (!passages.empty ()) {
-    Ipc_Focus::set (webserver_request, passages[0].book, passages[0].chapter, convert_to_int (passages[0].verse));
-    Navigation_Passage::recordHistory (webserver_request, passages[0].book, passages[0].chapter, convert_to_int (passages[0].verse));
+    int desired_book = passages[0].book;
+    int desired_chapter = passages[0].chapter;
+    int desired_verse = convert_to_int (passages[0].verse);
+    int focused_book = Ipc_Focus::getBook (webserver_request);
+    int focused_chapter = Ipc_Focus::getChapter (webserver_request);
+    int focused_verse = Ipc_Focus::getVerse (webserver_request);
+    // Only set passage and track history if the desired passage differs from the focused passage.
+    if ((desired_book != focused_book) || (desired_chapter != focused_chapter) || (desired_verse != focused_verse)) {
+      Ipc_Focus::set (webserver_request, desired_book, desired_chapter, desired_verse);
+      Navigation_Passage::recordHistory (webserver_request, desired_book, desired_chapter, desired_verse);
+    }
   }
   
   
