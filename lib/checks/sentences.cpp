@@ -101,9 +101,9 @@ void Checks_Sentences::check (map <int, string> texts)
     int count = unicode_string_length (text);
     for (int i = 0; i < count; i++) {
       character = unicode_string_substr (text, i, 1);
-      // Skip graphemes to be disregarded.
+      // Skip characters to be disregarded.
       if (in_array (character, disregards)) continue;
-      // Store verse numbers and graphemes.
+      // Store verse numbers and characters.
       verse_numbers.push_back (verse);
       characters.push_back (character);
       fullText += character;
@@ -113,13 +113,13 @@ void Checks_Sentences::check (map <int, string> texts)
   }
   
   // Go through the characters.
-  int graphemeCount = characters.size ();
-  for (int i = 0; i < graphemeCount; i++) {
+  int characterCount = characters.size ();
+  for (int i = 0; i < characterCount; i++) {
     // Store current verse number in the object.
     verseNumber = verse_numbers [i];
-    // Get the current grapheme.
+    // Get the current character.
     character = characters [i];
-    // Analyze the grapheme.
+    // Analyze the character.
     analyzeCharacters ();
     // Run the checks.
     checkUnknownCharacter ();
@@ -182,20 +182,20 @@ void Checks_Sentences::checkCharacter ()
 void Checks_Sentences::paragraphs (map <int, string> texts,
                                    vector <int> paragraph_start_positions,
                                    vector <string> paragraph_start_markers,
-                                   vector <string> within_sentence_paragraph_markers) // Todo
+                                   vector <string> within_sentence_paragraph_markers)
 {
   vector <int> verses;
-  vector <string> graphemes;
+  vector <string> characters;
   
-  // Put the UTF-8 text into the arrays of verses and graphemes.
+  // Put the UTF-8 text into the arrays of verses and characters.
   for (auto element : texts) {
     int verse = element.first;
     string text = element.second;
     int count = unicode_string_length (text);
     for (int i = 0; i < count; i++) {
-      string grapheme = unicode_string_substr (text, i, 1);
+      string character = unicode_string_substr (text, i, 1);
       verses.push_back (verse);
-      graphemes.push_back (grapheme);
+      characters.push_back (character);
     }
   }
   
@@ -215,23 +215,23 @@ void Checks_Sentences::paragraphs (map <int, string> texts,
   
   int paragraphCount = paragraph_start_positions.size();
   
-  // Go through the paragraphs to see whether they start with capitals. Todo
+  // Go through the paragraphs to see whether they start with capitals.
   for (int i = 0; i < paragraphCount; i++) {
     unsigned int offset = paragraph_start_positions [i];
     int verse = 0;
     if (offset < verses.size()) verse = verses [offset];
-    string grapheme;
-    if (offset < graphemes.size ()) grapheme = graphemes [offset];
-    isCapital = find (capitals.begin(), capitals.end(), grapheme) != capitals.end ();
+    string character;
+    if (offset < characters.size ()) character = characters [offset];
+    isCapital = find (capitals.begin(), capitals.end(), character) != capitals.end ();
     if (!isCapital) {
       string paragraph_marker = paragraph_start_markers [i];
       if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
-        checkingResults.push_back (make_pair (verse, "Paragraph does not start with a capital: " + grapheme));
+        checkingResults.push_back (make_pair (verse, "Paragraph does not start with a capital: " + character));
       }
     }
   }
   
-  // Go through the paragraphs to see whether they end with proper punctuation. Todo
+  // Go through the paragraphs to see whether they end with proper punctuation.
   for (int i = 0; i < paragraphCount; i++) {
     unsigned int offset = 0;
     string next_paragraph_marker;
@@ -239,21 +239,20 @@ void Checks_Sentences::paragraphs (map <int, string> texts,
       offset = paragraph_start_positions [i + 1];
       next_paragraph_marker = paragraph_start_markers [i + 1];
     } else {
-      offset = graphemes.size();
+      offset = characters.size();
     }
     offset--;
     int verse = 0;
     if (offset < verses.size()) verse = verses [offset];
-    string grapheme;
-    if (offset < graphemes.size ()) grapheme = graphemes [offset];
-    string previousGrapheme;
-    if (offset) if (offset < graphemes.size ()) previousGrapheme = graphemes [offset - 1];
-    isEndMark = in_array (grapheme, this->end_marks) || in_array (previousGrapheme, this->end_marks);
+    string character;
+    if (offset < characters.size ()) character = characters [offset];
+    string previous_character;
+    if (offset) if (offset < characters.size ()) previous_character = characters [offset - 1];
+    isEndMark = in_array (character, this->end_marks) || in_array (previous_character, this->end_marks);
     if (!isEndMark) {
-      //if (!in_array (next_paragraph_marker, within_sentence_paragraph_markers)) { // Todo enable again - run unit tests.
-        checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + grapheme)); // Todo
-        // Todo add a bit of context.
-      //}
+      if (next_paragraph_marker.empty () || (!in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
+        checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + character));
+      }
     }
   }
   

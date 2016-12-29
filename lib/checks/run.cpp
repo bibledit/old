@@ -149,7 +149,7 @@ void checks_run (string bible)
           checks_sentences.paragraphs (verses_text,
                                        filter_text.paragraph_start_positions,
                                        filter_text.paragraph_start_position_markers,
-                                       within_sentence_paragraph_markers); // Todo
+                                       within_sentence_paragraph_markers);
         }
           
           
