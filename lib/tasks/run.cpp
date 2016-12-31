@@ -225,6 +225,7 @@ void tasks_run_one (string filename)
     user_logic_software_updates_notify ();
   } else if (command == REFRESHWEBRESOURCES) {
     resource_logic_bible_gateway_module_list_refresh ();
+    resource_logic_study_light_module_list_refresh ();
   } else if (command == RSSFEEDUPDATECHAPTER) {
 #ifdef HAVE_CLOUD
     rss_logic_execute_update (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4), parameter5, parameter6);
