@@ -2022,7 +2022,9 @@ msgstr ""
 msgid "Copy all Bibledit-Web data:"
 msgstr ""
 
-msgid "It may be unable to copy one or more files in the "
+msgid ""
+"It may be unable to copy one or more files in the 'tmp' folder, but that is "
+"fine."
 msgstr ""
 
 msgid "Copying may take a while."
