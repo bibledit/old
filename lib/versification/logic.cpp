@@ -22,7 +22,7 @@
 #include <filter/url.h>
 
 
-// Get the names of the available default versification systems that come with Bibledit.
+// Get the names of the available versification systems that come with Bibledit.
 vector <string> versification_logic_names ()
 {
   vector <string> names;
