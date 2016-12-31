@@ -98,15 +98,11 @@ string developer_index (void * webserver_request)
     view.set_variable ("success", "Task disabled");
   }
 
-  // It is cleaner and easier to move the following task to the binary ./generate.
-  if (debug == "studylightcommentaries") {
-    // code = resource_external_studylight_code ();
-    view.set_variable ("success", "Task disabled");
-  }
-
   if (debug == "crash") {
-    // int *foo = (int*)-1; // make a bad pointer
-    // printf ("%d\n", *foo); // cause segmentation fault
+    // Make a bad pointer.
+    // int *foo = (int*)-1;
+    // Cause segmentation fault.
+    // printf ("%d\n", *foo);
     view.set_variable ("success", "Task disabled");
   }
   

@@ -1931,7 +1931,7 @@ string resource_external_convert_book_bibleserver (int book)
 }
 
 
-string resource_external_studylight_code ()
+string resource_external_studylight_code () // Todo
 {
   string error;
   string html = resource_logic_web_cache_get ("http://www.studylight.org/commentaries", error);
