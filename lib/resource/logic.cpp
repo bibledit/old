@@ -830,7 +830,6 @@ string resource_logic_bible_gateway_book (int book)
 }
 
 
-
 struct bible_gateway_walker: xml_tree_walker
 {
   string verse;
@@ -922,6 +921,271 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
           xml_node passage_wrap_node = passage_text_node.first_child ();
           xml_node passage_content_node = passage_wrap_node.first_child ();
           bible_gateway_walker walker;
+          walker.verse = convert_to_string (verse);
+          passage_content_node.traverse (walker);
+          result.append (walker.text);
+        }
+      }
+    }
+  }
+  result = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", result);
+  result = filter_string_str_replace (" ", " ", result); // Make special space visible.
+  while (result.find ("  ") != string::npos) result = filter_string_str_replace ("  ", " ", result);
+  result = filter_string_trim (result);
+#endif
+#ifdef HAVE_CLIENT
+  result = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
+#endif
+  return result;
+}
+
+
+// The path to the list of StudyLight resources.
+// It is stored in the client files area.
+// Clients will download it from there.
+string resource_logic_study_light_module_list_path () // Todo
+{
+  return filter_url_create_root_path ("databases", "client", "study_light_modules.txt");
+}
+
+
+struct study_light_listing_walker: xml_tree_walker // Todo
+{
+  string verse;
+  bool skip_next_text = false;
+  bool within_verse = false;
+  string text;
+  
+  virtual bool for_each (xml_node& node)
+  {
+    // Details of the current node.
+    string clas = node.attribute ("class").value ();
+    string name = node.name ();
+    string text = filter_string_desanitize_html (node.text ().get ());
+    cout << name << " " << clas << " " << text << endl; // Todo
+    
+    // Continue parsing.
+    return true;
+  }
+};
+
+
+// Refreshes the list of resources available from StudyLight.
+string resource_logic_study_light_module_list_refresh () // Todo
+{
+  Database_Logs::log ("Refresh StudyLight resources");
+  string path = resource_logic_study_light_module_list_path ();
+  string error;
+  string html = filter_url_http_get ("http://www.studylight.org/commentaries", error, false);
+  if (error.empty ()) {
+    vector <string> resources;
+    // Example commentary fragment:
+    // <h3><a class="emphasis" href="//www.studylight.org/commentaries/gsb.html">Geneva Study Bible</a></h3>
+    do {
+      string fragment = "<a class=\"emphasis\"";
+      size_t pos = html.find (fragment);
+      if (pos == string::npos) break;
+      html.erase (0, pos + fragment.size ());
+      fragment = "commentaries";
+      pos = html.find (fragment);
+      if (pos == string::npos) break;
+      html.erase (0, pos + fragment.size () + 1);
+      fragment = ".html";
+      pos = html.find (fragment);
+      if (pos == string::npos) break;
+      string abbreviation = html.substr (0, pos);
+      html.erase (0, pos + fragment.size () + 2);
+      pos = html.find ("</a>");
+      if (pos == string::npos) break;
+      string name = html.substr (0, pos);
+      resources.push_back (name + " (" + abbreviation + ")");
+    } while (true);
+    // Store the resources in a file.
+    filter_url_file_put_contents (path, filter_string_implode (resources, "\n"));
+    // Done.
+    Database_Logs::log ("Modules: " + convert_to_string (resources.size ()));
+  } else {
+    Database_Logs::log (error);
+  }
+  return error;
+}
+
+
+// Get the list of StudyLight resources.
+vector <string> resource_logic_study_light_module_list_get () // Todo
+{
+  string path = resource_logic_study_light_module_list_path ();
+  string contents = filter_url_file_get_contents (path);
+  return filter_string_explode (contents, '\n');
+}
+
+
+string resource_logic_study_light_book (int book) // Todo
+{
+  // Map Bibledit books to StudyLight.com books as used at the web service.
+  map <int, string> mapping = {
+    make_pair (1, "Genesis"),
+    make_pair (2, "Exodus"),
+    make_pair (3, "Leviticus"),
+    make_pair (4, "Numbers"),
+    make_pair (5, "Deuteronomy"),
+    make_pair (6, "Joshua"),
+    make_pair (7, "Judges"),
+    make_pair (8, "Ruth"),
+    make_pair (9, "1 Samuel"),
+    make_pair (10, "2 Samuel"),
+    make_pair (11, "1 Kings"),
+    make_pair (12, "2 Kings"),
+    make_pair (13, "1 Chronicles"),
+    make_pair (14, "2 Chronicles"),
+    make_pair (15, "Ezra"),
+    make_pair (16, "Nehemiah"),
+    make_pair (17, "Esther"),
+    make_pair (18, "Job"),
+    make_pair (19, "Psalms"),
+    make_pair (20, "Proverbs"),
+    make_pair (21, "Ecclesiastes"),
+    make_pair (22, "Song of Solomon"),
+    make_pair (23, "Isaiah"),
+    make_pair (24, "Jeremiah"),
+    make_pair (25, "Lamentations"),
+    make_pair (26, "Ezekiel"),
+    make_pair (27, "Daniel"),
+    make_pair (28, "Hosea"),
+    make_pair (29, "Joel"),
+    make_pair (30, "Amos"),
+    make_pair (31, "Obadiah"),
+    make_pair (32, "Jonah"),
+    make_pair (33, "Micah"),
+    make_pair (34, "Nahum"),
+    make_pair (35, "Habakkuk"),
+    make_pair (36, "Zephaniah"),
+    make_pair (37, "Haggai"),
+    make_pair (38, "Zechariah"),
+    make_pair (39, "Malachi"),
+    make_pair (40, "Matthew"),
+    make_pair (41, "Mark"),
+    make_pair (42, "Luke"),
+    make_pair (43, "John"),
+    make_pair (44, "Acts"),
+    make_pair (45, "Romans"),
+    make_pair (46, "1 Corinthians"),
+    make_pair (47, "2 Corinthians"),
+    make_pair (48, "Galatians"),
+    make_pair (49, "Ephesians"),
+    make_pair (50, "Philippians"),
+    make_pair (51, "Colossians"),
+    make_pair (52, "1 Thessalonians"),
+    make_pair (53, "2 Thessalonians"),
+    make_pair (54, "1 Timothy"),
+    make_pair (55, "2 Timothy"),
+    make_pair (56, "Titus"),
+    make_pair (57, "Philemon"),
+    make_pair (58, "Hebrews"),
+    make_pair (59, "James"),
+    make_pair (60, "1 Peter"),
+    make_pair (61, "2 Peter"),
+    make_pair (62, "1 John"),
+    make_pair (63, "2 John"),
+    make_pair (64, "3 John"),
+    make_pair (65, "Jude"),
+    make_pair (66, "Revelation")
+  };
+  return filter_url_urlencode (mapping [book]);
+}
+
+
+struct study_light_get_walker: xml_tree_walker // Todo
+{
+  string verse;
+  bool skip_next_text = false;
+  bool within_verse = false;
+  string text;
+  
+  virtual bool for_each (xml_node& node)
+  {
+    // Details of the current node.
+    string clas = node.attribute ("class").value ();
+    string name = node.name ();
+    
+    // Don't include this node's text content.
+    if (skip_next_text) {
+      skip_next_text = false;
+      return true;
+    }
+    
+    // The chapter number signals verse 1.
+    if (clas == "chapternum") {
+      skip_next_text = true;
+      if (verse == "1") within_verse = true;
+      return true;
+    }
+    
+    // The verse number to know where the parser is.
+    if (clas == "versenum") {
+      skip_next_text = true;
+      string versenum = filter_string_trim (filter_string_desanitize_html (node.text ().get ()));
+      within_verse = (versenum == verse);
+      return true;
+    }
+    
+    // This really signals the parser is at the end of the chapter.
+    if (name == "div") {
+      within_verse = false;
+      return true;
+    }
+    
+    if (name == "br") {
+      if (within_verse) {
+        text.append (" ");
+      }
+    }
+    
+    // Include node's text content.
+    if (within_verse) {
+      text.append (node.value ());
+    }
+    
+    // Continue parsing.
+    return true;
+  }
+};
+
+
+// Get the clean text of a passage of a StudyLight resource.
+string resource_logic_study_light_get (string resource, int book, int chapter, int verse) // Todo
+{
+  string result;
+#ifdef HAVE_CLOUD
+  // Convert the resource name to a resource abbreviation for StudyLight.com.
+  size_t pos = resource.find_last_of ("(");
+  if (pos != string::npos) {
+    pos++;
+    resource.erase (0, pos);
+    pos = resource.find_last_of (")");
+    if (pos != string::npos) {
+      resource.erase (pos);
+      // Assemble the URL to fetch the chapter.
+      string bookname = resource_logic_study_light_book (book);
+      string url = "https://www.StudyLight.com/passage/?search=" + bookname + "+" + convert_to_string (chapter) + "&version=" + resource;
+      // Fetch the html.
+      string error;
+      string html = resource_logic_web_cache_get (url, error);
+      // Extract the html that contains the verses content.
+      pos = html.find ("<div class=\"passage-text\">");
+      if (pos != string::npos) {
+        html.erase (0, pos);
+        pos = html.find (".passage-text");
+        if (pos != string::npos) {
+          html.erase (pos);
+          // Parse the html fragment into a DOM.
+          string verse_s = convert_to_string (verse);
+          xml_document document;
+          document.load_string (html.c_str());
+          xml_node passage_text_node = document.first_child ();
+          xml_node passage_wrap_node = passage_text_node.first_child ();
+          xml_node passage_content_node = passage_wrap_node.first_child ();
+          study_light_get_walker walker;
           walker.verse = convert_to_string (verse);
           passage_content_node.traverse (walker);
           result.append (walker.text);

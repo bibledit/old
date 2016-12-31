@@ -287,6 +287,7 @@ libbibledit_a_SOURCES = \
 	resource/user9view.cpp \
 	resource/user1view.cpp \
 	resource/biblegateway.cpp \
+	resource/studylight.cpp \
 	jsonxx/jsonxx.cpp \
 	mapping/index.cpp \
 	mapping/map.cpp \

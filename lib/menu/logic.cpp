@@ -62,6 +62,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/user9edit.h>
 #include <resource/user9view.h>
 #include <resource/biblegateway.h>
+#include <resource/studylight.h>
 #include <search/index.h>
 #include <search/replace.h>
 #include <search/search2.h>
@@ -914,10 +915,16 @@ string menu_logic_settings_resources_category (void * webserver_request)
 
 #ifdef HAVE_CLOUD
   if (resource_biblegateway_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_biblegateway_url (), translate ("BibleGateway"), true));
+    html.push_back (menu_logic_create_item (resource_biblegateway_url (), "BibleGateway", true));
   }
 #endif
-  
+
+#ifdef HAVE_CLOUD
+  if (resource_studylight_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_studylight_url (), "StudyLight", true));
+  }
+#endif
+
   (void) webserver_request;
   
   if (!html.empty ()) {

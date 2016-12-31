@@ -142,6 +142,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/user9view.h>
 #include <resource/user1view.h>
 #include <resource/biblegateway.h>
+#include <resource/studylight.h>
 #include <mapping/index.h>
 #include <mapping/map.h>
 #include <notes/index.h>
@@ -618,6 +619,11 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
+  if ((url == resource_studylight_url ()) && browser_request_security_okay (request) && resource_studylight_acl (request)) {
+    request->reply = resource_studylight (request);
+    return;
+  }
+  
   // Changes menu.
   if ((url == journal_index_url ()) && browser_request_security_okay (request) && journal_index_acl (request)) {
     request->reply = journal_index (request);

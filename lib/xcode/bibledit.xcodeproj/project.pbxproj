@@ -486,6 +486,9 @@
 		CA9DB7991AA8E4B500D6B549 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA9DB79A1AA8E4B500D6B549 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA9F197A1A8BB28B004FF341 /* libgit2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = libgit2.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
+		CA9F784C1E17DD8E005040C6 /* studylight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = studylight.cpp; sourceTree = "<group>"; };
+		CA9F784D1E17DD8E005040C6 /* studylight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = studylight.h; sourceTree = "<group>"; };
+		CA9F784E1E17DD8E005040C6 /* studylight.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = studylight.html; sourceTree = "<group>"; };
 		CA9FAD891B4414FD00B43C76 /* changes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = changes.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA9FAD8A1B4414FD00B43C76 /* changes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changes.h; sourceTree = "<group>"; };
 		CA9FAD8B1B44356A00B43C76 /* changes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = changes.cpp; sourceTree = "<group>"; };
@@ -2684,6 +2687,9 @@
 				CAC74C281BB0937C00301C0D /* select.cpp */,
 				CAC74C291BB0937C00301C0D /* select.h */,
 				CAC74C2A1BB0937C00301C0D /* select.html */,
+				CA9F784C1E17DD8E005040C6 /* studylight.cpp */,
+				CA9F784D1E17DD8E005040C6 /* studylight.h */,
+				CA9F784E1E17DD8E005040C6 /* studylight.html */,
 				CAF0A8EF1BAD76E40066723D /* sword.cpp */,
 				CAF0A8F01BAD76E40066723D /* sword.h */,
 				CAF0A8F11BAD76E40066723D /* sword.html */,
