@@ -217,7 +217,19 @@ string resource_select (void * webserver_request)
     page += dialog_list.run ();
     return page;
   }
-
+  
+  
+  if (request->query.count ("studylight")) {
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a StudyLight resource"), "", "", true);
+    dialog_list.add_query ("page", request->query["page"]);
+    vector <string> resources = resource_logic_study_light_module_list_get ();
+    for (auto resource : resources) {
+      dialog_list.add_row (resource, "add", resource);
+    }
+    page += dialog_list.run ();
+    return page;
+  }
+  
   
   page += view.render ("resource", "select");
   page += Assets_Page::footer ();

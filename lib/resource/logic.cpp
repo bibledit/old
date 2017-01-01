@@ -152,7 +152,7 @@ string resource_logic_get_html (void * webserver_request,
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
-  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
+  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get (); // Todo do for studylight also
 
   // Possible SWORD details.
   string sword_module = sword_logic_get_remote_module (resource);
@@ -271,7 +271,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
-  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
+  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get (); // Todo do for studylight also
   
   // Possible SWORD details.
   string sword_module = sword_logic_get_remote_module (resource);
@@ -351,7 +351,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   Database_UsfmResources database_usfmresources;
   vector <string> externals = resource_external_names ();
   vector <string> usfms = database_usfmresources.getResources ();
-  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
+  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get (); // Todo do for studylight also
   
   // Possible SWORD details in case the client requests a SWORD resource.
   string sword_module = sword_logic_get_remote_module (resource);
@@ -943,35 +943,14 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
 // The path to the list of StudyLight resources.
 // It is stored in the client files area.
 // Clients will download it from there.
-string resource_logic_study_light_module_list_path () // Todo
+string resource_logic_study_light_module_list_path ()
 {
   return filter_url_create_root_path ("databases", "client", "study_light_modules.txt");
 }
 
 
-struct study_light_listing_walker: xml_tree_walker // Todo
-{
-  string verse;
-  bool skip_next_text = false;
-  bool within_verse = false;
-  string text;
-  
-  virtual bool for_each (xml_node& node)
-  {
-    // Details of the current node.
-    string clas = node.attribute ("class").value ();
-    string name = node.name ();
-    string text = filter_string_desanitize_html (node.text ().get ());
-    cout << name << " " << clas << " " << text << endl; // Todo
-    
-    // Continue parsing.
-    return true;
-  }
-};
-
-
 // Refreshes the list of resources available from StudyLight.
-string resource_logic_study_light_module_list_refresh () // Todo
+string resource_logic_study_light_module_list_refresh ()
 {
   Database_Logs::log ("Refresh StudyLight resources");
   string path = resource_logic_study_light_module_list_path ();
@@ -1012,7 +991,7 @@ string resource_logic_study_light_module_list_refresh () // Todo
 
 
 // Get the list of StudyLight resources.
-vector <string> resource_logic_study_light_module_list_get () // Todo
+vector <string> resource_logic_study_light_module_list_get ()
 {
   string path = resource_logic_study_light_module_list_path ();
   string contents = filter_url_file_get_contents (path);

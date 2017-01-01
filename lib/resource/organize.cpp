@@ -170,7 +170,7 @@ string resource_organize (void * webserver_request)
     vector <string> commentary_resources = resource_external_get_commentaries ();
     vector <string> general_resources = resource_external_get_general_resources ();
     vector <string> sword_resources = sword_logic_get_available ();
-    vector <string> biblegateway_resources = resource_logic_bible_gateway_module_list_get ();
+    vector <string> biblegateway_resources = resource_logic_bible_gateway_module_list_get (); // Todo do for studylight also
     vector <string> installable_resources;
     installable_resources.insert (installable_resources.end (), usfm_resources.begin (), usfm_resources.end ());
     installable_resources.insert (installable_resources.end (), original_language_resources.begin (), original_language_resources.end ());
