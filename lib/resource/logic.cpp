@@ -1083,63 +1083,6 @@ string resource_logic_study_light_book (int book) // Todo out?
 }
 
 
-struct study_light_get_walker: xml_tree_walker // Todo out?
-{
-  string verse;
-  bool skip_next_text = false;
-  bool within_verse = false;
-  string text;
-  
-  virtual bool for_each (xml_node& node)
-  {
-    // Details of the current node.
-    string clas = node.attribute ("class").value ();
-    string name = node.name ();
-    
-    // Don't include this node's text content.
-    if (skip_next_text) {
-      skip_next_text = false;
-      return true;
-    }
-    
-    // The chapter number signals verse 1.
-    if (clas == "chapternum") {
-      skip_next_text = true;
-      if (verse == "1") within_verse = true;
-      return true;
-    }
-    
-    // The verse number to know where the parser is.
-    if (clas == "versenum") {
-      skip_next_text = true;
-      string versenum = filter_string_trim (filter_string_desanitize_html (node.text ().get ()));
-      within_verse = (versenum == verse);
-      return true;
-    }
-    
-    // This really signals the parser is at the end of the chapter.
-    if (name == "div") {
-      within_verse = false;
-      return true;
-    }
-    
-    if (name == "br") {
-      if (within_verse) {
-        text.append (" ");
-      }
-    }
-    
-    // Include node's text content.
-    if (within_verse) {
-      text.append (node.value ());
-    }
-    
-    // Continue parsing.
-    return true;
-  }
-};
-
-
 // Get the clean text of a passage of a StudyLight resource.
 string resource_logic_study_light_get (string resource, int book, int chapter, int verse) // Todo
 {
