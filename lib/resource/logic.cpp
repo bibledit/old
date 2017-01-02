@@ -1009,7 +1009,7 @@ vector <string> resource_logic_study_light_module_list_get ()
 
 
 // Get the clean text of a passage of a StudyLight resource.
-string resource_logic_study_light_get (string resource, int book, int chapter, int verse) // Todo
+string resource_logic_study_light_get (string resource, int book, int chapter, int verse)
 {
   string result;
 
