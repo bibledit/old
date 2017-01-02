@@ -8434,6 +8434,9 @@ msgstr ""
 msgid "Select a BibleGateway resource"
 msgstr ""
 
+msgid "Select a StudyLight resource"
+msgstr ""
+
 msgid "installed"
 msgstr ""
 

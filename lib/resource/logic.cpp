@@ -152,7 +152,8 @@ string resource_logic_get_html (void * webserver_request,
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
-  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get (); // Todo do for studylight also
+  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
+  vector <string> studylights = resource_logic_study_light_module_list_get ();
 
   // Possible SWORD details.
   string sword_module = sword_logic_get_remote_module (resource);
@@ -166,6 +167,7 @@ string resource_logic_get_html (void * webserver_request,
   bool isLexicon = in_array (resource, lexicons);
   bool isSword = (!sword_source.empty () && !sword_module.empty ());
   bool isBibleGateway = in_array (resource, biblegateways);
+  bool isStudyLight = in_array (resource, studylights);
 
   // Retrieve versification system of the active Bible.
   string bible = request->database_config_user ()->getBible ();
@@ -184,6 +186,8 @@ string resource_logic_get_html (void * webserver_request,
   } else if (isSword) {
     resource_versification = english ();
   } else if (isBibleGateway) {
+    resource_versification = english ();
+  } else if (isStudyLight) {
     resource_versification = english ();
   } else {
   }
@@ -271,7 +275,8 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
-  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get (); // Todo do for studylight also
+  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
+  vector <string> studylights = resource_logic_study_light_module_list_get ();
   
   // Possible SWORD details.
   string sword_module = sword_logic_get_remote_module (resource);
@@ -286,6 +291,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   bool isLexicon = in_array (resource, lexicons);
   bool isSword = (!sword_source.empty () && !sword_module.empty ());
   bool isBibleGateway = in_array (resource, biblegateways);
+  bool isStudyLight = in_array (resource, studylights);
   
   if (isBible || isLocalUsfm) {
     string chapter_usfm;
@@ -319,6 +325,8 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
     data = sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
   } else if (isBibleGateway) {
     data = resource_logic_bible_gateway_get (resource, book, chapter, verse);
+  } else if (isStudyLight) {
+    data = resource_logic_study_light_get (resource, book, chapter, verse);
   } else {
     // Nothing found.
   }
@@ -347,6 +355,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 // It gets the html or text contents for a $resource for serving it to a client.
 string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
 {
+  cout << "resource_logic_get_contents_for_client" << endl; // Todo
   // Lists of the various types of resources.
   Database_UsfmResources database_usfmresources;
   vector <string> externals = resource_external_names ();
@@ -999,7 +1008,7 @@ vector <string> resource_logic_study_light_module_list_get ()
 }
 
 
-string resource_logic_study_light_book (int book) // Todo
+string resource_logic_study_light_book (int book) // Todo out?
 {
   // Map Bibledit books to StudyLight.com books as used at the web service.
   map <int, string> mapping = {
@@ -1074,7 +1083,7 @@ string resource_logic_study_light_book (int book) // Todo
 }
 
 
-struct study_light_get_walker: xml_tree_walker // Todo
+struct study_light_get_walker: xml_tree_walker // Todo out?
 {
   string verse;
   bool skip_next_text = false;
@@ -1135,50 +1144,52 @@ struct study_light_get_walker: xml_tree_walker // Todo
 string resource_logic_study_light_get (string resource, int book, int chapter, int verse) // Todo
 {
   string result;
+
 #ifdef HAVE_CLOUD
-  // Convert the resource name to a resource abbreviation for StudyLight.com.
+  // Transform the full name to the abbreviation for the website, e.g.:
+  // "Adam Clarke Commentary (acc)" becomes "acc".
   size_t pos = resource.find_last_of ("(");
   if (pos != string::npos) {
-    pos++;
-    resource.erase (0, pos);
-    pos = resource.find_last_of (")");
+    resource.erase (0, pos + 1);
+    pos = resource.find (")");
     if (pos != string::npos) {
       resource.erase (pos);
-      // Assemble the URL to fetch the chapter.
-      string bookname = resource_logic_study_light_book (book);
-      string url = "https://www.StudyLight.com/passage/?search=" + bookname + "+" + convert_to_string (chapter) + "&version=" + resource;
-      // Fetch the html.
+
+      // On StudyLight.org, Genesis equals book 0, Exodus book 1, and so on.
+      book--;
+      
+      string url = "http://www.studylight.org/com/" + resource + "/view.cgi?bk=" + convert_to_string (book) + "&ch=" + convert_to_string (chapter);
+
+      // Get the html from the server, and tidy it up.
       string error;
       string html = resource_logic_web_cache_get (url, error);
-      // Extract the html that contains the verses content.
-      pos = html.find ("<div class=\"passage-text\">");
-      if (pos != string::npos) {
-        html.erase (0, pos);
-        pos = html.find (".passage-text");
-        if (pos != string::npos) {
-          html.erase (pos);
-          // Parse the html fragment into a DOM.
-          string verse_s = convert_to_string (verse);
-          xml_document document;
-          document.load_string (html.c_str());
-          xml_node passage_text_node = document.first_child ();
-          xml_node passage_wrap_node = passage_text_node.first_child ();
-          xml_node passage_content_node = passage_wrap_node.first_child ();
-          study_light_get_walker walker;
-          walker.verse = convert_to_string (verse);
-          passage_content_node.traverse (walker);
-          result.append (walker.text);
-        }
+      string tidy = html_tidy (html);
+      vector <string> tidied = filter_string_explode (tidy, '\n');
+      
+      vector <string> relevant_lines;
+      bool relevant_flag = false;
+      
+      for (auto & line : tidied) {
+        
+        if (relevant_flag) relevant_lines.push_back (line);
+        
+        size_t pos = line.find ("</div>");
+        if (pos != string::npos) relevant_flag = false;
+        
+        pos = line.find ("name=\"" + convert_to_string (verse) + "\"");
+        if (pos != string::npos) relevant_flag = true;
       }
+      
+      result = filter_string_implode (relevant_lines, "\n");
+      html.append ("<p><a href=\"" + url + "\">" + url + "</a></p>\n");
+    
     }
   }
-  result = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", result);
-  result = filter_string_str_replace (" ", " ", result); // Make special space visible.
-  while (result.find ("  ") != string::npos) result = filter_string_str_replace ("  ", " ", result);
-  result = filter_string_trim (result);
 #endif
+
 #ifdef HAVE_CLIENT
   result = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
+
   return result;
 }

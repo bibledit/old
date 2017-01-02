@@ -432,7 +432,7 @@ string gbs_digitaal_plus_processor (string url, int chapter, int verse)
 
 
 // This function retrieves commentaries from www.studylight.org.
-string resource_external_studylight_processor (string directory, int book, int chapter, int verse)
+string resource_external_studylight_processor (string directory, int book, int chapter, int verse) // Todo out from external.cpp
 {
   // On StudyLight.org, Genesis equals book 0, Exodus book 1, and so on.
   book--;
