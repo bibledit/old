@@ -355,12 +355,12 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 // It gets the html or text contents for a $resource for serving it to a client.
 string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
 {
-  cout << "resource_logic_get_contents_for_client" << endl; // Todo
   // Lists of the various types of resources.
   Database_UsfmResources database_usfmresources;
   vector <string> externals = resource_external_names ();
   vector <string> usfms = database_usfmresources.getResources ();
-  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get (); // Todo do for studylight also
+  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
+  vector <string> studylights = resource_logic_study_light_module_list_get ();
   
   // Possible SWORD details in case the client requests a SWORD resource.
   string sword_module = sword_logic_get_remote_module (resource);
@@ -371,6 +371,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   bool isUsfm = in_array (resource, usfms);
   bool isSword = (!sword_source.empty () && !sword_module.empty ());
   bool isBibleGateway = in_array (resource, biblegateways);
+  bool isStudyLight = in_array (resource, studylights);
   
   if (isExternal) {
     // The server fetches it from the web.
@@ -398,7 +399,12 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
     // The server fetches it from the web.
     return resource_logic_bible_gateway_get (resource, book, chapter, verse);
   }
-  
+
+  if (isStudyLight) {
+    // The server fetches it from the web.
+    return resource_logic_study_light_get (resource, book, chapter, verse);
+  }
+
   // Nothing found.
   return "Bibledit Cloud could not localize this resource";
 }

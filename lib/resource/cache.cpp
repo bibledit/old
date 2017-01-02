@@ -116,7 +116,15 @@ string resource_cache (void * webserver_request)
     block.append ("</p>\n");
   }
   // Display the available BibleGateway resources.
-  resources = resource_logic_bible_gateway_module_list_get (); // Todo do for studylight also
+  resources = resource_logic_bible_gateway_module_list_get ();
+  for (auto & resource : resources) {
+    block.append ("<p>");
+    block.append ("<a href=\"download?name=" + resource + "\">" + resource + "</a>");
+    block.append ("</p>\n");
+  }
+  listed_resources.insert (listed_resources.end (), resources.begin (), resources.end ());
+  // Display the available StudyLight resources.
+  resources = resource_logic_study_light_module_list_get ();
   for (auto & resource : resources) {
     block.append ("<p>");
     block.append ("<a href=\"download?name=" + resource + "\">" + resource + "</a>");
