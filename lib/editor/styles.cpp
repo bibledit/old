@@ -42,7 +42,7 @@ string Editor_Styles::getRecentlyUsed (void * webserver_request)
     if (data.marker.empty ()) continue;
     string name = data.name + " (" + marker + ")";
     string info = data.info;
-    fragment += "<a href=\"" + marker + "\" title=\"" + info + "\">" + name + "</a>";
+    fragment += "<a href=\"" + marker + "\" title=\"" + info + "\" unselectable=\"on\" class=\"unselectable\" tabindex=\"-1\">" + name + "</a>";
   }
   
   // Links for cancelling and for all styles.
