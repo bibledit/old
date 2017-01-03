@@ -36,11 +36,6 @@ Database_Config_User::Database_Config_User (void * webserver_request_in)
 }
 
 
-Database_Config_User::~Database_Config_User ()
-{
-}
-
-
 // Functions for getting and setting values or lists of values.
 
 
@@ -199,6 +194,8 @@ void Database_Config_User::trim ()
     string filename = file (users[i], keySprintMonth ());
     if (file_or_dir_exists (filename)) {
       if (filter_url_file_modification_time (filename) < time) {
+        filter_url_unlink (filename);
+        filename = file (users[i], keySprintYear ());
         filter_url_unlink (filename);
       }
     }

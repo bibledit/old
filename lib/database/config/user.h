@@ -29,7 +29,6 @@ class Database_Config_User
 {
 public:
   Database_Config_User (void * webserver_request_in);
-  ~Database_Config_User ();
   void trim ();
   void remove (string username);
   string getStylesheet ();
