@@ -155,13 +155,16 @@ public:
   void initializeHeadingsAndTextPerVerse (bool start_text_now);
   map <int, string> getVersesText ();
   map <int, string> verses_headings; // Vector with objects to hold verse numbers and the text of the headings.
-  vector <int> paragraph_start_positions; // Positions, in unicode characters, where paragraphs start in verses_text.
-  vector <string> paragraph_start_position_markers; // Markers that started the above paragraph start positions.
+  vector <int> paragraph_start_positions; // Positions, in unicode characters, where paragraphs start in verses_text. Todo out.
+  vector <string> paragraph_starting_markers; // Markers that started the above paragraph start positions.
+  vector <map <int, string>> verses_paragraphs; // Todo new container, gradually move it into use.
 private:
   bool headings_text_per_verse_active;
   bool heading_started; // Flag for headings per verse processor.
   map <int, string> verses_text; // Holds verse numbers and the plain text in that verse, without anything extra.
   bool text_started; // Flag for text per verse processor.
+  void storeVersesParagraphs ();
+  map <int, string> actual_verses_paragraph; // Todo move into use.
 };
 
 

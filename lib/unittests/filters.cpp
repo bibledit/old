@@ -2208,7 +2208,7 @@ void test_filter_text ()
     };
     evaluate (__LINE__, __func__, standard, output);
   }
-  // Test paragraph positions and starting markers.
+  // Test paragraph positions and starting markers. Todo
   {
     string usfm = 
       "\\c 1\n"
@@ -2222,8 +2222,8 @@ void test_filter_text ()
     filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, {0, 9, 58}, filter_text.paragraph_start_positions);
-    evaluate (__LINE__, __func__, {"p", "q1", "q2"}, filter_text.paragraph_start_position_markers);
+    evaluate (__LINE__, __func__, {0, 9, 58}, filter_text.paragraph_start_positions); // Todo
+    evaluate (__LINE__, __func__, {"p", "q1", "q2"}, filter_text.paragraph_starting_markers);
   }
   // Test embedded text.
   {
@@ -5202,9 +5202,68 @@ void test_filter_ldap ()
 }
 
 
-void test_filter_dev ()
+void test_filter_dev () // Todo
 {
   trace_unit_tests (__func__);
+
+  string path = filter_url_create_root_path ("unittests", "tests", "ShonaNumbers23.usfm");
+  string usfm = filter_url_file_get_contents (path);
+  Filter_Text filter_text = Filter_Text ("");
+  filter_text.initializeHeadingsAndTextPerVerse (false);
+  filter_text.addUsfmCode (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  for (size_t i = 0; i < filter_text.verses_paragraphs.size (); i++) {
+    map <int, string> verses_paragraph = filter_text.verses_paragraphs [i];
+    map <int, string> standard;
+    if (i == 0) {
+      standard = {
+        make_pair (1, "Zvino Bharamu wakati kuna Bharaki: Ndivakire pano aritari nomwe, ugondigadzirire pano nzombe nomwe nemakondohwe manomwe."),
+        make_pair (2, "Bharaki ndokuita Bharamu sezvakataura; Bharaki naBharamu ndokupa nzombe diki negondohwe paaritari imwe neimwe."),
+        make_pair (3, "Zvino Bharamu wakati kuna Bharaki: Mira pachipo chako chinopiswa, asi ini ndichaenda; zvimwe Jehovha achauya kuzosangana neni; zvino chinhu chaanondiratidza ndichakuudza. Zvino wakaenda pakakwirira."),
+        make_pair (4, "Zvino Mwari wakasangana naBharamu, iye ndokuti kwaari: Ndagadzira aritari nomwe uye ndapa nzombe diki negondohwe paaritari imwe neimwe. "),
+        make_pair (5, "Jehovha ndokuisa shoko mumuromo waBharamu, ndokuti: Dzokera kuna Bharaki ugotaura seizvi."),
+        make_pair (6, "Zvino wakadzokera kwaari, uye tarira, amire pachipo chake chinopiswa, iye nemachinda ese aMoabhu."),
+        make_pair (7, "Zvino wakasimudza mufananidzo wake ndokuti: Bharaki mambo waMoabhu wakandivinga kubva Siriya, pamakomo ekumabvazuva achiti: Uya nditukire Jakove, uye uya unyombe Israeri."),
+        make_pair (8, "Ini ndingatuka sei Mwari waasina kutuka; uye ndinganyomba sei Jehovha waasina kunyomba?"),
+        make_pair (9, "Nokuti kubva panhongonya yemabwe ndinomuona, uye kubva pazvikomo ndinomutarisa; tarira, vanhu vachagara vega, uye havangaverengwi pakati pendudzi."),
+        make_pair (10, "Ndiani angaverenga guruva raJakove, nekuverenga chechina chaIsraeri? Mweya wangu ngaufe rufu rwevakarurama, uye magumo angu ngaave seake!"),
+        make_pair (11, "Zvino Bharaki wakati kuna Bharamu: Wandiitei? Ndakutora kuti utuke vavengi vangu; zvino tarira, wavaropafadza nekuvaropafadza."),
+        make_pair (12, "Zvino wakapindura ndokuti: Handifaniri kuchenjerera kutaura izvo Jehovha zvaanoisa mumuromo mangu here?"),
+        make_pair (13, "Zvino Bharaki wakati kwaari: Uya hako neni kune imwe nzvimbo paungavaona kubvapo; uchaona kuguma kwavo chete, uye haungavaoni vese; ugonditukira ivo kubva ipapo.")
+      };
+    }
+    if (i == 1) {
+      standard = {
+        make_pair (14, "Zvino wakamutora akamuisa mumunda weZofimu, panhongonya yePisiga, ndokuvaka aritari nomwe, ndokupa nzombe diki negondohwe paaritari imwe neimwe."),
+        make_pair (15, "Zvino wakati kuna Bharaki: Mira pano pachipo chako chinopiswa, zvino ini ndichasangana naJehovha uko."),
+        make_pair (16, "Zvino Jehovha wakasangana naBharamu, ndokuisa shoko mumuromo make, ndokuti: Dzokera kuna Bharaki ugotaura seizvi."),
+        make_pair (17, "Zvino asvika kwaari, tarira, amire pachipo chake chinopiswa, nemachinda aMoabhu anaye. Bharaki ndokuti kwaari: Jehovha wataurei?"),
+        make_pair (18, "Zvino wakasimudza mufananidzo wake ndokuti: Simuka Bharaki, ugonzwa; urereke nzeve kwandiri, iwe mwanakomana waZipori:"),
+        make_pair (19, "Mwari haasi munhu kuti areve nhema, kana mwanakomana wemunhu kuti ashanduke. Iye wakareva, haangaiti kanhi? Kana wakareva, haangasimbisi kanhi?"),
+        make_pair (20, "Tarira, ndagamuchira kuti ndiropafadze; zvino waropafadza, uye handigoni kuzvidzosa."),
+        make_pair (21, "Haana kutarisira chakaipa kuna Jakove; uye haana kuona kutsauka kuna Israeri; Jehovha Mwari wake anaye, nekudanidzira kwamambo kuri pakati pavo."),
+        make_pair (22, "Mwari wakavabudisa Egipita, ane sesimba renyati."),
+        make_pair (23, "Zvirokwazvo hakuna un'anga hunopikisa Jakove, kana kuvuka kunopikisa Israeri. Ikozvino zvicharehwa pamusoro paJakove nepamusoro paIsraeri kuti Mwari wakazviita."),
+        make_pair (24, "Tarirai, vanhu vachasimuka seshumbakadzi, vazvisimudze seshumba. Havangarari pasi kusvika vadya chakajimbiwa, uye vanwa ropa revakaurawa.")
+      };
+    }
+    if (i == 2) {
+      standard = {
+        make_pair (25, "Zvino Bharaki wakati kuna Bharamu: Zvino usatongovatuka kana kutongovaropafadza."),
+        make_pair (26, "Asi Bharamu wakapindura, ndokuti kuna Bharaki: Handina kukuudza here ndichiti: Zvese Jehovha zvaanotaura, ndizvo zvandichaita?")
+      };
+    }
+    if (i == 3) {
+      standard = {
+        make_pair (27, "Zvino Bharaki wakati kuna Bharamu: Uya hako, ndichakuendesa kune imwe nzvimbo; zvimwe zvingarurama pameso aMwari kuti unditukire ivo kubva ipapo."),
+        make_pair (28, "Zvino Bharaki wakatora ndokuisa Bharamu panhongonya yePeori, pakatarisa pasi pachiso cherenje."),
+        make_pair (29, "Zvino Bharamu wakati kuna Bharaki: Ndivakire pano aritari nomwe, undigadzirire pano nzombe diki nomwe nemakondohwe manomwe."),
+        make_pair (30, "Bharaki ndokuita Bharamu sezvaakataura, ndokupa nzombe diki negondohwe paaritari imwe neimwe.")
+      };
+    }
+    evaluate (__LINE__, __func__, standard, verses_paragraph);
+  }
+  evaluate (__LINE__, __func__, {"p", "p", "p", "p"}, filter_text.paragraph_starting_markers);
 }
 
 

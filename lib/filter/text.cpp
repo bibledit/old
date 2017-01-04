@@ -124,6 +124,8 @@ void Filter_Text::run (string stylesheet)
   // Process data.
   processUsfm ();
 
+  storeVersesParagraphs ();
+  
   // Clear USFM and styles.
   usfmMarkersAndText.clear();
   usfmMarkersAndTextPointer = 0;
@@ -521,15 +523,19 @@ void Filter_Text::processUsfm ()
                     // If a new paragraph starts within an existing verse,
                     // add a space to the text already in that verse.
                     int iverse = convert_to_int (currentVerseNumber);
-                    if (verses_text.find (iverse) != verses_text.end()) {
+                    if (verses_text.count (iverse) && !verses_text [iverse].empty ()) { // Todo
                       verses_text [iverse].append (" ");
                     }
                     // Record the position within the text where this new paragraph starts.
                     string contents;
                     for (auto & element : verses_text) contents.append (element.second);
-                    paragraph_start_positions.push_back (unicode_string_length (contents));
+                    paragraph_start_positions.push_back (unicode_string_length (contents)); // Todo
                     // Record the style that started this new paragraph.
-                    paragraph_start_position_markers.push_back (style.marker);
+                    paragraph_starting_markers.push_back (style.marker);
+                    
+                    storeVersesParagraphs ();
+                    
+                    
                   }
                   break;
                 }
@@ -971,12 +977,15 @@ void Filter_Text::processUsfm ()
         }
         if (headings_text_per_verse_active && text_started) {
           int iverse = convert_to_int (currentVerseNumber);
-          if (verses_text.find (iverse) != verses_text.end ()) {
+          //if (verses_text.find (iverse) != verses_text.end ()) { // Todo old code.
+          if (verses_text.count (iverse) && !verses_text [iverse].empty ()) {
             verses_text [iverse].append (currentItem);
+            actual_verses_paragraph [iverse].append (currentItem); // Todo
           } else {
             // The verse text straight after the \v starts with an enSpace. Remove it.
             string item = filter_string_str_replace (en_space (), " ", currentItem);
             verses_text [iverse] = filter_string_ltrim (item);
+            actual_verses_paragraph [iverse] = filter_string_ltrim (item);
           }
         }
       }
@@ -1635,3 +1644,10 @@ map <int, string> Filter_Text::getVersesText ()
 }
 
 
+void Filter_Text::storeVersesParagraphs ()
+{
+  if (!actual_verses_paragraph.empty ()) {
+    verses_paragraphs.push_back (actual_verses_paragraph); // Todo
+    actual_verses_paragraph.clear ();
+  }
+}
