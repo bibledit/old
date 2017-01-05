@@ -134,7 +134,7 @@ void checks_run (string bible)
       filter_text.run (stylesheet);
       map <int, string>  verses_headings = filter_text.verses_headings;
       map <int, string> verses_text = filter_text.getVersesText ();
-      vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs; // Todo
+      vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
       if (check_full_stop_in_headings) {
         Checks_Headers::noPunctuationAtEnd (bible, book, chapter, verses_headings, center_marks, end_marks);
       }

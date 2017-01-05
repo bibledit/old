@@ -175,14 +175,14 @@ void Checks_Sentences::checkCharacter ()
 
 
 // Checks paragraphs of text whether they are start and end with correct capitalization and punctuation.
-// $paragraph_start_markers: The USFM markers that started the new paragraphs in $paragraph_start_positions.
+// $paragraph_start_markers: The USFM markers that started the new paragraphs.
 // $within_sentence_paragraph_markers:
 // The USFM markers that start paragraphs that do not need to start with the correct capitalization.
 // Usually such markers are poetic markers like \q1 and so on.
 // $verses_paragraphs: The entire paragraphs, with verse number as their keys.
 void Checks_Sentences::paragraphs (vector <string> paragraph_start_markers,
                                    vector <string> within_sentence_paragraph_markers,
-                                   vector <map <int, string>> verses_paragraphs) // Todo
+                                   vector <map <int, string>> verses_paragraphs)
 {
   // Iterate over the paragraphs.
   for (unsigned int p = 0; p < verses_paragraphs.size (); p++) {

@@ -2208,7 +2208,7 @@ void test_filter_text ()
     };
     evaluate (__LINE__, __func__, standard, output);
   }
-  // Test paragraph positions and starting markers.
+  // Test paragraph starting markers.
   {
     string usfm = 
       "\\c 1\n"
@@ -2222,7 +2222,6 @@ void test_filter_text ()
     filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, {0, 9, 58}, filter_text.paragraph_start_positions); // Todo
     evaluate (__LINE__, __func__, {"p", "q1", "q2"}, filter_text.paragraph_starting_markers);
   }
   // Test improved paragraph detection.
