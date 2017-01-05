@@ -147,9 +147,7 @@ void checks_run (string bible)
         checks_sentences.initialize ();
         if (check_sentence_structure) checks_sentences.check (verses_text);
         if (check_paragraph_structure) {
-          checks_sentences.paragraphs (verses_text,
-                                       filter_text.paragraph_start_positions,
-                                       filter_text.paragraph_starting_markers,
+          checks_sentences.paragraphs (filter_text.paragraph_starting_markers,
                                        within_sentence_paragraph_markers,
                                        verses_paragraphs);
         }
