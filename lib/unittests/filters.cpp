@@ -5263,10 +5263,9 @@ void test_filter_ldap ()
 }
 
 
-void test_filter_dev () // Todo
+void test_filter_dev ()
 {
   trace_unit_tests (__func__);
-
 }
 
 
