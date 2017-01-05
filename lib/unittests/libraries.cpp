@@ -3333,9 +3333,9 @@ void test_workspace_logic ()
   request.database_users ()->create ();
   request.session_logic ()->setUsername ("phpunit");
   {
-    evaluate (__LINE__, __func__, "100%", workspace_process_units ("100"));
-    evaluate (__LINE__, __func__, "100%", workspace_process_units ("100 %"));
-    evaluate (__LINE__, __func__, "100px", workspace_process_units ("100 px"));
+    evaluate (__LINE__, __func__, "100", workspace_process_units ("100"));
+    evaluate (__LINE__, __func__, "1", workspace_process_units ("100 %"));
+    evaluate (__LINE__, __func__, "1", workspace_process_units ("100 px"));
   }
   {
     evaluate (__LINE__, __func__, "Default", workspace_get_active_name (&request));
@@ -3343,7 +3343,7 @@ void test_workspace_logic ()
     evaluate (__LINE__, __func__, "unittest", workspace_get_active_name (&request));
   }
   {
-    map <int, string> standard = { make_pair (0, "edit/index"), make_pair (5, "resource/index")};
+    map <int, string> standard = { make_pair (0, "editone/index"), make_pair (5, "resource/index")};
     evaluate (__LINE__, __func__, standard, workspace_get_default_urls (1));
   }
   {
@@ -3353,7 +3353,7 @@ void test_workspace_logic ()
     evaluate (__LINE__, __func__, urls, result);
   }
   {
-    map <int, string> widths = { make_pair (0, "24%"), make_pair (1, "24%"), make_pair (2, "24%"), make_pair (3, "24%")};
+    map <int, string> widths = { make_pair (0, "1"), make_pair (1, "1"), make_pair (2, "1"), make_pair (3, "1")};
     map <int, string> result = workspace_get_widths (&request);
     evaluate (__LINE__, __func__, widths, result);
   }
