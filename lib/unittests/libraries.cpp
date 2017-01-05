@@ -3575,8 +3575,6 @@ void test_check_sentences ()
     Checks_Sentences check = test_check_sentences_setup ();
     check.paragraphs ({"p", "q"}, {"q"}, {{ make_pair (1, "He said,")}, { make_pair (1, "he is Jesus.")}});
     vector <pair<int, string>> results = check.getResults ();
-    for (auto element : results) cout << element.first << " " << element.second << endl; // Todo
-    exit (0); // Todo
     vector <pair<int, string>> standard = {};
     evaluate (__LINE__, __func__, standard, results);
   }
