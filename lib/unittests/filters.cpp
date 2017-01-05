@@ -1546,14 +1546,14 @@ void test_odf_text ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-    "  Paragraph One\n"
+    "Paragraph One\n"
     "\n"
-    "  Paragraph Two\n"
+    "Paragraph Two\n"
     "\n"
-    "  Heading One\n"
-    "  ===========\n"
+    "Heading One\n"
+    "===========\n"
     "\n"
-    "  Paragraph Three\n";
+    "Paragraph Three\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1587,11 +1587,11 @@ void test_odf_text ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-    "  Text†\n"
+    "Text†\n"
     "\n"
-    "  Note\n"
+    "Note\n"
     "\n"
-    "  .\n";
+    ".\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1639,11 +1639,11 @@ void test_odf_text ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-      "  Text𐌰\n"
+      "Text𐌰\n"
       "\n"
-      "  Addnormal\n"
+      "Addnormal\n"
       "\n"
-      "  .\n";
+      ".\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1721,11 +1721,11 @@ void test_odf_text ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-    "  text𐌰\n"
+    "text𐌰\n"
     "\n"
-    "  addndnormal\n"
+    "addndnormal\n"
     "\n"
-    "  .\n";
+    ".\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1748,9 +1748,9 @@ void test_odf_text ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-    "  Paragraph with d style\n"
+    "Paragraph with d style\n"
     "\n"
-    "  Paragraph with d style at first, then Standard\n"
+    "Paragraph with d style at first, then Standard\n"
     "";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
