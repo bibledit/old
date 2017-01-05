@@ -4168,7 +4168,7 @@ void test_filter_git ()
 
     // There should be no modified paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working directory clean"}, paths);
+    evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working tree clean"}, paths);
 
     // Remove both Psalms chapters.
     filter_url_rmdir (filter_url_create_path (repository, "Psalms"));
@@ -4195,7 +4195,7 @@ void test_filter_git ()
     
     // There should be no modified paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working directory clean"}, paths);
+    evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working tree clean"}, paths);
 
     // Remove journal entries.
     refresh_sandbox (false);
