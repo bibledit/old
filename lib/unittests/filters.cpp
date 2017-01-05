@@ -1133,8 +1133,8 @@ void test_filter_export1 ()
     vector <string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
       {"PRAGMA synchronous=OFF;"},
-      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
-      {"INSERT INTO Details VALUES ('The Word of the Lord Jesus Christ', 'The Word of the Lord Jesus Christ', 'The Word of the Lord Jesus Christ', 1, 'DEFAULT', 0, 1, 1, 0, 0);"},
+      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
+      {"INSERT INTO Details VALUES ('The Word of the Lord Jesus Christ', 'The Word of the Lord Jesus Christ', 'The Word of the Lord Jesus Christ', 1, 'UNICODE', 1, 0, 1, 1, 0, 0);"},
       {"CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);"}
     };
     evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
@@ -1147,10 +1147,10 @@ void test_filter_export1 ()
     vector <string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
       {"PRAGMA synchronous=OFF;"},
-      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
-      {"INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);"},
+      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
+      {"INSERT INTO Details VALUES ('', '', '', 1, 'UNICODE', 1, 0, 1, 1, 0, 0);"},
       {"CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);"},
-      {"INSERT INTO Bible VALUES (0, 0, 0, 'The Word of God');"},
+      {"INSERT INTO Bible VALUES (0, 0, 0, '\\u84?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u32?\\u111?\\u102?\\u32?\\u71?\\u111?\\u100?');"},
       {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
     };
     evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
@@ -1166,10 +1166,10 @@ void test_filter_export1 ()
     vector <string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
       {"PRAGMA synchronous=OFF;"},
-      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
-      {"INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);"},
+      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
+      {"INSERT INTO Details VALUES ('', '', '', 1, 'UNICODE', 1, 0, 1, 1, 0, 0);"},
       {"CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);"},
-      {"INSERT INTO Bible VALUES (43, 2, 3, 'In the beginning was the Word, and the Word was with God, and the Word was God.');"},
+      {"INSERT INTO Bible VALUES (43, 2, 3, '\\u73?\\u110?\\u32?\\u116?\\u104?\\u101?\\u32?\\u98?\\u101?\\u103?\\u105?\\u110?\\u110?\\u105?\\u110?\\u103?\\u32?\\u119?\\u97?\\u115?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u44?\\u32?\\u97?\\u110?\\u100?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u32?\\u119?\\u97?\\u115?\\u32?\\u119?\\u105?\\u116?\\u104?\\u32?\\u71?\\u111?\\u100?\\u44?\\u32?\\u97?\\u110?\\u100?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u32?\\u119?\\u97?\\u115?\\u32?\\u71?\\u111?\\u100?\\u46?');"},
       {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
     };
     evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
@@ -1187,10 +1187,10 @@ void test_filter_export1 ()
     vector <string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
       {"PRAGMA synchronous=OFF;"},
-      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
-      {"INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);"},
+      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
+      {"INSERT INTO Details VALUES ('', '', '', 1, 'UNICODE', 1, 0, 1, 1, 0, 0);"},
       {"CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);"},
-      {"INSERT INTO Bible VALUES (43, 1, 1, 'In the beginning was the Word, and the Word was with God, and the Word was God.');"},
+      {"INSERT INTO Bible VALUES (43, 1, 1, '\\u73?\\u110?\\u32?\\u116?\\u104?\\u101?\\u32?\\u98?\\u101?\\u103?\\u105?\\u110?\\u110?\\u105?\\u110?\\u103?\\u32?\\u119?\\u97?\\u115?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u44?\\u32?\\u97?\\u110?\\u100?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u32?\\u119?\\u97?\\u115?\\u32?\\u119?\\u105?\\u116?\\u104?\\u32?\\u71?\\u111?\\u100?\\u44?\\u32?\\u97?\\u110?\\u100?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u32?\\u119?\\u97?\\u115?\\u32?\\u71?\\u111?\\u100?\\u46?');"},
       {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
     };
     evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
