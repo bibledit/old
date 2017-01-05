@@ -61,7 +61,7 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   // The previous line is a signature for automated unit testing: Do not change it.
   
-  test_database_cache (); refresh_sandbox (true); exit (0);
+  test_filter_string_text2html (); refresh_sandbox (true); exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
   // Automated Unit Tests End Removing Code Here.

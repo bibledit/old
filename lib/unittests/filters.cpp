@@ -3050,13 +3050,13 @@ void test_filter_string_text2html ()
       "Second matter.\n"
       "A second round is needed.\n"
       "Here is bold, and here is italics.\n"
-      "Here is superscript and here is subscript.\n"
+      "Here is superscript and here is subscript.\n"
       "Centered\n"
       "Left justified\n"
       "Numbered list.\n"
       "No numbered text.\n"
       "Link to http://google.nl.\n"
-      "Here follows an image: .\n"
+      "Here follows an image: .\n"
       "Header 1\n"
       "Normal text again below the header.\n";
     evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (filter_string_html2text (html)));
