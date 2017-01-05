@@ -3551,60 +3551,60 @@ void test_check_sentences ()
   }
   // Test paragraph
   {
-    /*
     Checks_Sentences check = test_check_sentences_setup ();
-    check.paragraphs ({ make_pair (1, "he said")}, {0}, {"p"}, {""}, {}); // Todo update
+    check.paragraphs ({"p"}, {""}, {{make_pair (1, "he said")}});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
                        make_pair (1, "Paragraph does not start with a capital: he said"),
                        make_pair (1, "Paragraph does not end with an end marker: he said")
     };
     evaluate (__LINE__, __func__, standard, results);
-     */
   }
   // Test that a paragraph started by \q and starting with a small letter, is not flagged.
   {
-    /*
     Checks_Sentences check = test_check_sentences_setup ();
-    check.paragraphs ({ make_pair (1, "he said")}, {0}, {"q"}, {"q"}, {}); // Todo update.
+    check.paragraphs ({"q"}, {"q"}, {{ make_pair (1, "he said")}});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
       make_pair (1, "Paragraph does not end with an end marker: he said")
     };
     evaluate (__LINE__, __func__, standard, results);
-     */
+  }
+  // Test that a paragraph without proper ending, where the next paragraph starts with e.g. \q, is not flagged.
+  {
+    Checks_Sentences check = test_check_sentences_setup ();
+    check.paragraphs ({"p", "q"}, {"q"}, {{ make_pair (1, "He said,")}, { make_pair (1, "he is Jesus.")}});
+    vector <pair<int, string>> results = check.getResults ();
+    for (auto element : results) cout << element.first << " " << element.second << endl; // Todo
+    exit (0); // Todo
+    vector <pair<int, string>> standard = {};
+    evaluate (__LINE__, __func__, standard, results);
   }
   // Test flagging a paragraph that starts with a Greek small letter.
   {
-    /*
     Checks_Sentences check = test_check_sentences_setup ();
-    check.paragraphs ({ make_pair (1, "εὐθέως")}, {0}, {"p"}, {"q"}, {}); // Todo update
+    check.paragraphs ({"p"}, {"q"}, {{ make_pair (1, "εὐθέως")}});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
-                       make_pair (1, "Paragraph does not start with a capital: εὐθέως"),
-                       make_pair (1, "Paragraph does not end with an end marker: εὐθέως")
+      make_pair (1, "Paragraph does not start with a capital: εὐθέως"),
+      make_pair (1, "Paragraph does not end with an end marker: εὐθέως")
     };
     evaluate (__LINE__, __func__, standard, results);
-     */
   }
   // Test a correct paragraph.
   {
-    /*
     Checks_Sentences check = test_check_sentences_setup ();
-    check.paragraphs ({ make_pair (1, "Immediately εὐθέως.")}, {0}, {"p"}, {"q"}, {}); // Todo update.
+    check.paragraphs ({"p"}, {"q"}, {{ make_pair (1, "Immediately εὐθέως.")}});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard;
     evaluate (__LINE__, __func__, standard, results);
-     */
   }
   {
-    /*
     Checks_Sentences check = test_check_sentences_setup ();
-    check.paragraphs ({ make_pair (1, "Immediately εὐθέως.")}, {0}, {"q1"}, {"q1", "q"}, {}); // Todo update
+    check.paragraphs ({"q1"}, {"q1", "q"}, {{ make_pair (1, "Immediately εὐθέως.")}});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard;
     evaluate (__LINE__, __func__, standard, results);
-     */
   }
   // Test two punctuation marks.
   {

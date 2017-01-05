@@ -231,14 +231,20 @@ void Checks_Sentences::paragraphs (vector <string> paragraph_start_markers,
     // Check that the paragraph ends with correct punctuation.
     isEndMark = in_array (character, this->end_marks) || in_array (previous_character, this->end_marks);
     if (!isEndMark) {
-      string next_paragraph_marker; // Todo define it.
+      // If the next paragraph starts with a marker that indicates it should not necessarily be capitalized,
+      // then the current paragraph may have punctuation that would be incorrect otherwise.
+      string next_paragraph_marker;
+      size_t p2 = p + 1;
+      if (p2 < paragraph_start_markers.size ()) {
+        next_paragraph_marker = paragraph_start_markers [p2];
+      }
       if (next_paragraph_marker.empty () || (!in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
         string context = verses_paragraph.rbegin()->second;
         int length = unicode_string_length (character);
         if (length >= 15) {
           context = unicode_string_substr (context, length - 15, 15);
         }
-        checkingResults.push_back (make_pair (verse, "Todo Paragraph does not end with an end marker: " + context));
+        checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + context));
       }
     }
     
