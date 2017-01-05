@@ -58,8 +58,8 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  // The next line is a signature for automated unit testing: Do not change it.
   // Automated Unit Tests Start Removing Code Here.
+  // The previous line is a signature for automated unit testing: Do not change it.
   
   test_filter_dev (); test_filter_text (); test_check_sentences (); refresh_sandbox (true); exit (0);
   
