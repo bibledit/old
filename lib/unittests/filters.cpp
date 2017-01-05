@@ -1216,11 +1216,11 @@ void test_filter_export2 ()
     vector <string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
       {"PRAGMA synchronous=OFF;"},
-      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
-      {"INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);"},
+      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
+      {"INSERT INTO Details VALUES ('', '', '', 1, 'UNICODE', 1, 0, 1, 1, 0, 0);"},
       {"CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);"},
-      {"INSERT INTO Bible VALUES (1, 2, 3, 'But as many as received him, to them gave he power to become the sons of God, even to them that believe on his name.');"},
-      {"INSERT INTO Bible VALUES (4, 5, 6, 'Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.');"},
+      {"INSERT INTO Bible VALUES (1, 2, 3, '\\u66?\\u117?\\u116?\\u32?\\u97?\\u115?\\u32?\\u109?\\u97?\\u110?\\u121?\\u32?\\u97?\\u115?\\u32?\\u114?\\u101?\\u99?\\u101?\\u105?\\u118?\\u101?\\u100?\\u32?\\u104?\\u105?\\u109?\\u44?\\u32?\\u116?\\u111?\\u32?\\u116?\\u104?\\u101?\\u109?\\u32?\\u103?\\u97?\\u118?\\u101?\\u32?\\u104?\\u101?\\u32?\\u112?\\u111?\\u119?\\u101?\\u114?\\u32?\\u116?\\u111?\\u32?\\u98?\\u101?\\u99?\\u111?\\u109?\\u101?\\u32?\\u116?\\u104?\\u101?\\u32?\\u115?\\u111?\\u110?\\u115?\\u32?\\u111?\\u102?\\u32?\\u71?\\u111?\\u100?\\u44?\\u32?\\u101?\\u118?\\u101?\\u110?\\u32?\\u116?\\u111?\\u32?\\u116?\\u104?\\u101?\\u109?\\u32?\\u116?\\u104?\\u97?\\u116?\\u32?\\u98?\\u101?\\u108?\\u105?\\u101?\\u118?\\u101?\\u32?\\u111?\\u110?\\u32?\\u104?\\u105?\\u115?\\u32?\\u110?\\u97?\\u109?\\u101?\\u46?');"},
+      {"INSERT INTO Bible VALUES (4, 5, 6, '\\u87?\\u104?\\u105?\\u99?\\u104?\\u32?\\u119?\\u101?\\u114?\\u101?\\u32?\\u98?\\u111?\\u114?\\u110?\\u44?\\u32?\\u110?\\u111?\\u116?\\u32?\\u111?\\u102?\\u32?\\u98?\\u108?\\u111?\\u111?\\u100?\\u44?\\u32?\\u110?\\u111?\\u114?\\u32?\\u111?\\u102?\\u32?\\u116?\\u104?\\u101?\\u32?\\u119?\\u105?\\u108?\\u108?\\u32?\\u111?\\u102?\\u32?\\u116?\\u104?\\u101?\\u32?\\u102?\\u108?\\u101?\\u115?\\u104?\\u44?\\u32?\\u110?\\u111?\\u114?\\u32?\\u111?\\u102?\\u32?\\u116?\\u104?\\u101?\\u32?\\u119?\\u105?\\u108?\\u108?\\u32?\\u111?\\u102?\\u32?\\u109?\\u97?\\u110?\\u44?\\u32?\\u98?\\u117?\\u116?\\u32?\\u111?\\u102?\\u32?\\u71?\\u111?\\u100?\\u46?');"},
       {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
     };
     evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
@@ -1233,7 +1233,7 @@ void test_filter_export2 ()
     string filename = "/tmp/module.bblx";
     esword_text.createModule (filename);
     int filesize = filter_url_filesize (filename);
-    evaluate (__LINE__, __func__, 4096, filesize);
+    evaluate (__LINE__, __func__, 16384, filesize);
     filter_url_unlink (filename);
   }
   // Test class OnlineBible_Text.
