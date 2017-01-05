@@ -3136,6 +3136,8 @@ void test_styles_css ()
   trace_unit_tests (__func__);
   
   Webserver_Request request;
+  Database_State database_state;
+  database_state.create ();
   // Basic.
   {
     refresh_sandbox (true);
