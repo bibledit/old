@@ -178,92 +178,74 @@ void Checks_Sentences::checkCharacter ()
 // $texts: fragments of texts per verse number.
 // $paragraph_start_positions: The character positions where new paragraphs start.
 // $paragraph_start_markers: The USFM markers that started the new paragraphs in $paragraph_start_positions.
-// $within_sentence_paragraph_markers: The USFM markers that start paragraphs that do not need to start with the correct capitalization. Usually such markers are poetic markers like \q1 and so on.
+// $within_sentence_paragraph_markers:
+// The USFM markers that start paragraphs that do not need to start with the correct capitalization.
+// Usually such markers are poetic markers like \q1 and so on.
 void Checks_Sentences::paragraphs (map <int, string> texts,
                                    vector <int> paragraph_start_positions,
                                    vector <string> paragraph_start_markers,
-                                   vector <string> within_sentence_paragraph_markers)
+                                   vector <string> within_sentence_paragraph_markers,
+                                   vector <map <int, string>> verses_paragraphs) // Todo
 {
-  vector <int> verses;
-  vector <string> characters;
-  
-  // Put the UTF-8 text into the arrays of verses and characters.
-  for (auto element : texts) {
-    int verse = element.first;
-    string text = element.second;
-    int count = unicode_string_length (text);
-    for (int i = 0; i < count; i++) {
-      string character = unicode_string_substr (text, i, 1);
-      verses.push_back (verse);
-      characters.push_back (character);
+  // Iterate over the paragraphs.
+  for (unsigned int p = 0; p < verses_paragraphs.size (); p++) {
+    
+    // Container with verse numbers and the whole paragraph.
+    map <int, string> verses_paragraph = verses_paragraphs [p];
+    
+    // Skip empty container.
+    if (verses_paragraph.empty ()) continue;
+
+    // Get the first character of the paragraph.
+    int verse = verses_paragraph.begin()->first;
+    string character = verses_paragraph.begin()->second;
+    if (!character.empty ()) {
+      character = unicode_string_substr (character, 0, 1);
     }
-  }
-  
-  // Correct the positions where the paragraphs start.
-  for (unsigned int i = 1; i < paragraph_start_positions.size(); i++) {
-    unsigned int offset = paragraph_start_positions [i];
-    int paragraphVerse = 0;
-    if (offset < verses.size()) paragraphVerse = verses [offset];
-    int twoVersesBack = 0;
-    if ((offset - 2) < verses.size ()) twoVersesBack = verses [offset - 2];
-    if (paragraphVerse != twoVersesBack) {
-      for (unsigned int i2 = i; i2 < paragraph_start_positions.size(); i2++) {
-        paragraph_start_positions [i2] = paragraph_start_positions [i2] - 1;
-      }
-    }
-  }
-  
-  int paragraphCount = paragraph_start_positions.size();
-  
-  // Go through the paragraphs to see whether they start with capitals.
-  for (int i = 0; i < paragraphCount; i++) {
-    unsigned int offset = paragraph_start_positions [i];
-    int verse = 0;
-    if (offset < verses.size()) verse = verses [offset];
-    string character;
-    if (offset < characters.size ()) character = characters [offset];
+    
+    // Check that the paragraph starts with a capital.
     isCapital = in_array (character, capitals);
     if (!isCapital) {
-      string paragraph_marker = paragraph_start_markers [i];
+      string paragraph_marker = paragraph_start_markers [p];
       if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
-        string context;
-        for (unsigned int i2 = offset; i2 < offset + 10; i2++) {
-          if (i2 < characters.size ()) context.append (characters[i2]);
-        }
+        string context = verses_paragraph.begin()->second;
+        context = unicode_string_substr (context, 0, 15);
         checkingResults.push_back (make_pair (verse, "Paragraph does not start with a capital: " + context));
       }
     }
-  }
-  
-  // Go through the paragraphs to see whether they end with proper punctuation.
-  for (int i = 0; i < paragraphCount; i++) {
-    unsigned int offset = 0;
-    string next_paragraph_marker;
-    if (i < (paragraphCount - 1)) {
-      offset = paragraph_start_positions [i + 1];
-      next_paragraph_marker = paragraph_start_markers [i + 1];
-    } else {
-      offset = characters.size();
+    
+    // Get the last two characters of the paragraph.
+    verse = verses_paragraph.rbegin()->first;
+    character = verses_paragraph.rbegin()->second;
+    if (!character.empty ()) {
+      size_t length = unicode_string_length (character);
+      character = unicode_string_substr (character, length - 1, 1);
     }
-    offset--;
-    int verse = 0;
-    if (offset < verses.size()) verse = verses [offset];
-    string character;
-    if (offset < characters.size ()) character = characters [offset];
-    string previous_character;
-    if (offset) if (offset < characters.size ()) previous_character = characters [offset - 1];
-    isEndMark = in_array (character, this->end_marks) || in_array (previous_character, this->end_marks);
-    if (!isEndMark) {
-      if (next_paragraph_marker.empty () || (!in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
-        string context;
-        for (int i2 = offset - 10; i2 <= (int)offset; i2++) {
-          if (i2 >= 0) context.append (characters[i2]);
-        }
-        checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + context));
+    string previous_character = verses_paragraph.rbegin()->second;
+    if (!previous_character.empty ()) {
+      size_t length = unicode_string_length (character);
+      if (length >= 2) {
+        previous_character = unicode_string_substr (previous_character, length - 2, 1);
+      } else {
+        previous_character.clear ();
       }
     }
+    
+    // Check that the paragraph ends with correct punctuation.
+    isEndMark = in_array (character, this->end_marks) || in_array (previous_character, this->end_marks);
+    if (!isEndMark) {
+      string next_paragraph_marker; // Todo define it.
+      if (next_paragraph_marker.empty () || (!in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
+        string context = verses_paragraph.rbegin()->second;
+        int length = unicode_string_length (character);
+        if (length >= 15) {
+          context = unicode_string_substr (context, length - 15, 15);
+        }
+        checkingResults.push_back (make_pair (verse, "Todo Paragraph does not end with an end marker: " + context));
+      }
+    }
+    
   }
-  
 }
 
 
