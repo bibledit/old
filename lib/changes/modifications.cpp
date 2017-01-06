@@ -424,6 +424,7 @@ void changes_modifications ()
   config_globals_change_notifications_available = true;
 
   
+#ifdef HAVE_CLOUD
   // Store the statistics in the database.
   if (modification_time_count) {
     // Take average timestamp of all timestamps.
@@ -435,6 +436,7 @@ void changes_modifications ()
       Database_Statistics::store_changes (timestamp, user, count);
     }
   }
+#endif
   
 
   Database_Logs::log ("Change notifications: Ready", Filter_Roles::translator ());

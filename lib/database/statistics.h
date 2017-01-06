@@ -24,7 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-class Database_Statistics // Todo
+#ifdef HAVE_CLOUD
+
+
+class Database_Statistics
 {
 public:
   static void create ();
@@ -36,6 +39,9 @@ private:
   static const char * name ();
   static int year_ago ();
 };
+
+
+#endif
 
 
 #endif

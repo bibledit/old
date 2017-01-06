@@ -268,10 +268,10 @@ void setup_initialize_data ()
 #ifdef HAVE_CLOUD
   config_globals_setup_message = "git";
   Database_Git::create ();
-#endif
   config_globals_setup_message = "statistics";
   Database_Statistics::create ();
   Database_Statistics::optimize ();
+#endif
 
   // Create stylesheets.
   config_globals_setup_message = "stylesheets";

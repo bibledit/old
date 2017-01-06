@@ -59,6 +59,13 @@ void changes_statistics_add (Assets_View & view, const string & date, int count)
 
 string changes_statistics (void * webserver_request)
 {
+#ifdef HAVE_CLIENT
+  (void) webserver_request;
+  return "";
+#endif
+
+#ifdef HAVE_CLOUD
+
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
 
@@ -111,4 +118,5 @@ string changes_statistics (void * webserver_request)
   
   page += Assets_Page::footer ();
   return page;
+#endif
 }

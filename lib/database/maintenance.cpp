@@ -143,7 +143,9 @@ void database_maintenance ()
 #endif
 
   
+#ifdef HAVE_CLOUD
   Database_Statistics::optimize ();
+#endif
 
   
   // Only maintain it when it does not yet exist, to avoid unnecessary downloads by the clients.
