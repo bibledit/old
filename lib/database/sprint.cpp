@@ -30,6 +30,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //    This is acceptable, because translation work can still continue.
 
 
+#ifdef HAVE_CLOUD
+
+
 sqlite3 * Database_Sprint::connect ()
 {
   return database_sqlite_connect ("sprint");
@@ -282,3 +285,4 @@ void Database_Sprint::clearHistory (const string& bible, int year, int month)
 }
 
 
+#endif

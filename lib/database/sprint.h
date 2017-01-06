@@ -25,7 +25,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/passage.h>
 
 
-class Database_Sprint_Item // Todo
+#ifdef HAVE_CLOUD
+
+
+class Database_Sprint_Item
 {
 public:
   int day;
@@ -52,6 +55,9 @@ public:
 private:
   sqlite3 * connect ();
 };
+
+
+#endif
 
 
 #endif

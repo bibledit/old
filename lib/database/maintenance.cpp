@@ -111,8 +111,10 @@ void database_maintenance ()
   database_check.optimize ();
   
   
+#ifdef HAVE_CLOUD
   Database_Sprint database_sprint = Database_Sprint ();
   database_sprint.optimize ();
+#endif
   
   
   filter_url_unlink (filter_url_create_root_path ("databases", "navigation.sqlite"));

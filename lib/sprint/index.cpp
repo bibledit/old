@@ -51,6 +51,13 @@ bool sprint_index_acl (void * webserver_request)
 
 string sprint_index (void * webserver_request)
 {
+#ifdef HAVE_CLIENT
+  (void) webserver_request;
+  return "";
+#endif
+
+#ifdef HAVE_CLOUD
+  
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Sprint database_sprint;
 
@@ -251,4 +258,5 @@ string sprint_index (void * webserver_request)
   page += view.render ("sprint", "index");
   page += Assets_Page::footer ();
   return page;
+#endif
 }

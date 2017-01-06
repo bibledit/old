@@ -38,6 +38,9 @@
 // If $mail is false, it decides on its own whether to mail the chart to the users.
 void sprint_burndown (string bible, bool email)
 {
+  (void) bible;
+  (void) email;
+#ifdef HAVE_CLOUD
   int localseconds = filter_date_local_seconds (filter_date_seconds_since_epoch ());
   int year = filter_date_numerical_year (localseconds);
   int month = filter_date_numerical_month (localseconds);
@@ -164,12 +167,22 @@ void sprint_burndown (string bible, bool email)
       }
     }
   }
+#endif
 }
 
 
 // This function creates a text-based burndown chart for sprint $bible / $year / $month.
 string sprint_create_burndown_chart (string bible, int year, int month)
 {
+#ifdef HAVE_CLIENT
+  (void) bible;
+  (void) year;
+  (void) month;
+  return "";
+#endif
+  
+#ifdef HAVE_CLOUD
+  
   // Get the seconds for the first of the month.
   int seconds = filter_date_seconds_since_epoch (year, month, 1);
   
@@ -231,5 +244,6 @@ string sprint_create_burndown_chart (string bible, int year, int month)
                                                                       
   string chart = filter_string_implode (lines, "\n");
   return chart;
+#endif
 }
 

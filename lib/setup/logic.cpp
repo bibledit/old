@@ -232,9 +232,11 @@ void setup_initialize_data ()
   config_globals_setup_message = "jobs";
   Database_Jobs database_jobs = Database_Jobs ();
   database_jobs.create ();
+#ifdef HAVE_CLOUD
   config_globals_setup_message = "sprint";
   Database_Sprint database_sprint = Database_Sprint ();
   database_sprint.create ();
+#endif
   config_globals_setup_message = "mail";
   Database_Mail database_mail = Database_Mail (&request);
   database_mail.create ();
