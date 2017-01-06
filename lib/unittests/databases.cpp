@@ -212,27 +212,26 @@ void test_database_logs ()
     // Get the items from the SQLite database.
     string lastfilename;
     vector <string> result = Database_Logs::get (lastfilename);
-    evaluate (__LINE__, __func__, 3, (int)result.size ());
+    evaluate (__LINE__, __func__, 3, result.size ());
     refresh_sandbox (false);
   }
   {
     // Test huge journal entry.
     refresh_sandbox (true);
-    string huge (10000, 'x');
+    string huge (60000, 'x');
     Database_Logs::log (huge);
     Database_Logs::rotate ();
     string s = "0";
     vector <string> result = Database_Logs::get (s);
     if (result.size () == 1) {
-      string s = result[0];
-      size_t pos = s.find ("This entry was too large and has been truncated: 10000 bytes");
-      if (pos == string::npos) {
-        error_message (__LINE__, __func__, "Should be truncated", s);
-      }
+      s = result [0];
+      string path = filter_url_create_path (Database_Logs::folder (), s);
+      string contents = filter_url_file_get_contents (path);
+      evaluate (__LINE__, __func__, 50006, contents.find ("This entry was too large and has been truncated: 60000 bytes"));
     } else {
       evaluate (__LINE__, __func__, 1, (int)result.size ());
     }
-    refresh_sandbox (false);
+    refresh_sandbox (true, {"This entry was too large and has been truncated"});
   }
   {
     // Test the getNext function of the Journal.
