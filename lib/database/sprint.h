@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/passage.h>
 
 
-class Database_Sprint_Item
+class Database_Sprint_Item // Todo
 {
 public:
   int day;

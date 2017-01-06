@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-class Database_Login
+class Database_Login // Todo
 {
 public:
   static const char * database ();
