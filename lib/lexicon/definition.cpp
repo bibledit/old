@@ -52,115 +52,81 @@ string lexicon_definition (void * webserver_request)
   if (!id.empty ()) {
     
     string letter = id.substr (0, 1);
-    if (letter == HEBREW_ETCBC4_PREFIX) {
-      
-      // ETCBC4 database.
-      // When a defintion is clicked for the second time, it gets erased.
-      if (id != request->database_config_user ()->getRequestedEtcbc4Definition ()) {
-        renderings.push_back (lexicon_logic_render_etcbc4_morphology (id));
-      } else {
-        id.clear ();
-      }
-      request->database_config_user ()->setRequestedEtcbc4Definition (id);
-                                                                
-    } else if (letter == KJV_LEXICON_PREFIX) {
-      
-      // King James Bible with Strong's numbers.
-      if (id != request->database_config_user ()->getRequestedKjvDefinition ()) {
-        Database_Kjv database_kjv;
-        string strong = database_kjv.strong (convert_to_int (id.substr (1)));
-        string rendering = lexicon_logic_render_definition (strong);
-        if (!rendering.empty ()) renderings.push_back (rendering);
-      } else {
-        id.clear ();
-      }
-      request->database_config_user ()->setRequestedKjvDefinition (id);
-      
-    } else if (letter == OSHB_PREFIX) {
     
-      // Open Scriptures Hebrew with Strong's numbers and morphology.
-      if (id != request->database_config_user ()->getRequestedOsHbDefinition ()) {
-        int rowid = convert_to_int (id.substr (1));
-        Database_OsHb database_oshb;
-        string morph = database_oshb.morph (rowid);
-        renderings.push_back (lexicon_logic_hebrew_morphology_render (morph));
-        string lemma = database_oshb.lemma (rowid);
-        vector <string> strongs;
-        vector <string> bdbs;
-        lexicon_logic_convert_morphhb_parsing_to_strong (lemma, strongs, bdbs);
-        for (size_t i = 0; i < strongs.size (); i++) {
-          string rendering = lexicon_logic_render_definition (strongs[i]);
-          if (!rendering.empty ()) renderings.push_back (rendering);
-          rendering = "<a href=\"" BDB_PREFIX + bdbs[i] + "\">Brown Driver Briggs</a>";
-          renderings.push_back (rendering);
-        }
-      } else {
-        id.clear ();
-      }
-      request->database_config_user ()->setRequestedOsHbDefinition (id);
-      
-    } else if (letter == SBLGNT_PREFIX) {
-      
-      // SBL Greek New Testament plus morphology.
-      if (id != request->database_config_user ()->getRequestedSblGntDefinition ()) {
-        Database_MorphGnt database_morphgnt;
-        Database_Strong database_strong;
-        int rowid = convert_to_int (id.substr (1));
-        // The part of speech.
-        string pos = database_morphgnt.pos (rowid);
-        string rendering = lexicon_logic_render_morphgnt_part_of_speech (pos);
-        rendering.append (" ");
-        // The parsing.
-        string parsing = database_morphgnt.parsing (rowid);
-        rendering.append (lexicon_logic_render_morphgnt_parsing_code (parsing));
+    // ETCBC4 database.
+    if (letter == HEBREW_ETCBC4_PREFIX) {
+      renderings.push_back (lexicon_logic_render_etcbc4_morphology (id));
+    }
+    
+    // King James Bible with Strong's numbers.
+    else if (letter == KJV_LEXICON_PREFIX) {
+      Database_Kjv database_kjv;
+      string strong = database_kjv.strong (convert_to_int (id.substr (1)));
+      string rendering = lexicon_logic_render_definition (strong);
+      if (!rendering.empty ()) renderings.push_back (rendering);
+    }
+    
+    // Open Scriptures Hebrew with Strong's numbers and morphology.
+    else if (letter == OSHB_PREFIX) {
+      int rowid = convert_to_int (id.substr (1));
+      Database_OsHb database_oshb;
+      string morph = database_oshb.morph (rowid);
+      renderings.push_back (lexicon_logic_hebrew_morphology_render (morph));
+      string lemma = database_oshb.lemma (rowid);
+      vector <string> strongs;
+      vector <string> bdbs;
+      lexicon_logic_convert_morphhb_parsing_to_strong (lemma, strongs, bdbs);
+      for (size_t i = 0; i < strongs.size (); i++) {
+        string rendering = lexicon_logic_render_definition (strongs[i]);
+        if (!rendering.empty ()) renderings.push_back (rendering);
+        rendering = "<a href=\"" BDB_PREFIX + bdbs[i] + "\">Brown Driver Briggs</a>";
         renderings.push_back (rendering);
-        // The lemma.
-        string lemma = database_morphgnt.lemma (rowid);
-        vector <string> strongs = database_strong.strong (lemma);
-        for (auto & id : strongs) {
-          rendering = lexicon_logic_render_definition (id);
-          if (!rendering.empty ()) renderings.push_back (rendering);
-        }
-
-      } else {
-        id.clear ();
       }
-      request->database_config_user ()->setRequestedSblGntDefinition (id);
-      
-    } else if (letter == "H") {
-      
-      // Strong's Hebrew.
-      if (id != request->database_config_user ()->getRequestedHDefinition ()) {
-        string rendering = lexicon_logic_render_definition (id);
+    }
+    
+    // SBL Greek New Testament plus morphology.
+    else if (letter == SBLGNT_PREFIX) {
+      Database_MorphGnt database_morphgnt;
+      Database_Strong database_strong;
+      int rowid = convert_to_int (id.substr (1));
+      // The part of speech.
+      string pos = database_morphgnt.pos (rowid);
+      string rendering = lexicon_logic_render_morphgnt_part_of_speech (pos);
+      rendering.append (" ");
+      // The parsing.
+      string parsing = database_morphgnt.parsing (rowid);
+      rendering.append (lexicon_logic_render_morphgnt_parsing_code (parsing));
+      renderings.push_back (rendering);
+      // The lemma.
+      string lemma = database_morphgnt.lemma (rowid);
+      vector <string> strongs = database_strong.strong (lemma);
+      for (auto & id : strongs) {
+        rendering = lexicon_logic_render_definition (id);
         if (!rendering.empty ()) renderings.push_back (rendering);
-      } else {
-        id.clear ();
       }
-      request->database_config_user ()->setRequestedHDefinition (id);
-      
-    } else if (letter == "G") {
-      
-      // Strong's Greek.
-      if (id != request->database_config_user ()->getRequestedGDefinition ()) {
-        string rendering = lexicon_logic_render_definition (id);
-        if (!rendering.empty ()) renderings.push_back (rendering);
-      } else {
-        id.clear ();
-      }
-      request->database_config_user ()->setRequestedGDefinition (id);
-      
-    } else if (letter == BDB_PREFIX) {
-      
-      // Brown Driver Briggs lexicon.
+    }
+    
+    // Strong's Hebrew.
+    else if (letter == "H") {
+      string rendering = lexicon_logic_render_definition (id);
+      if (!rendering.empty ()) renderings.push_back (rendering);
+    }
+    
+    // Strong's Greek.
+    else if (letter == "G") {
+      string rendering = lexicon_logic_render_definition (id);
+      if (!rendering.empty ()) renderings.push_back (rendering);
+    }
+    
+    // Brown Driver Briggs lexicon.
+    else if (letter == BDB_PREFIX) {
       string rendering = lexicon_logic_render_bdb_entry (id.substr (1));
       if (!rendering.empty ()) renderings.push_back (rendering);
-      request->database_config_user ()->setRequestedOsHbDefinition ("");
-      
-    } else {
-
-      // Unknown definition request.
+    }
+    
+    // Unknown definition request.
+    else {
       renderings.push_back (id);
-      
     }
     
   }

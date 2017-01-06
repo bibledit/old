@@ -1033,66 +1033,6 @@ void Database_Config_User::setGreekFontSize (int size)
 }
 
 
-void Database_Config_User::setRequestedEtcbc4Definition (string value)
-{
-  setValue ("requested-etcbc4-def", value);
-}
-string Database_Config_User::getRequestedEtcbc4Definition ()
-{
-  return getValue ("requested-etcbc4-def", "");
-}
-
-
-void Database_Config_User::setRequestedKjvDefinition (string value)
-{
-  setValue ("requested-kjv-def", value);
-}
-string Database_Config_User::getRequestedKjvDefinition ()
-{
-  return getValue ("requested-kjv-def", "");
-}
-
-
-void Database_Config_User::setRequestedOsHbDefinition (string value)
-{
-  setValue ("requested-oshb-def", value);
-}
-string Database_Config_User::getRequestedOsHbDefinition ()
-{
-  return getValue ("requested-oshb-def", "");
-}
-
-
-void Database_Config_User::setRequestedSblGntDefinition (string value)
-{
-  setValue ("requested-sblgnt-def", value);
-}
-string Database_Config_User::getRequestedSblGntDefinition ()
-{
-  return getValue ("requested-sblgnt-def", "");
-}
-
-
-void Database_Config_User::setRequestedHDefinition (string value)
-{
-  setValue ("requested-h-def", value);
-}
-string Database_Config_User::getRequestedHDefinition ()
-{
-  return getValue ("requested-h-def", "");
-}
-
-
-void Database_Config_User::setRequestedGDefinition (string value)
-{
-  setValue ("requested-g-def", value);
-}
-string Database_Config_User::getRequestedGDefinition ()
-{
-  return getValue ("requested-g-def", "");
-}
-
-
 int Database_Config_User::getVerticalCaretPosition ()
 {
   return getIValue ("vertical-caret-position", 50);

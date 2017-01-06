@@ -184,18 +184,6 @@ public:
   int getHebrewFontSize ();
   void setGreekFontSize (int size);
   int getGreekFontSize ();
-  void setRequestedEtcbc4Definition (string value);
-  string getRequestedEtcbc4Definition ();
-  void setRequestedKjvDefinition (string value);
-  string getRequestedKjvDefinition ();
-  void setRequestedOsHbDefinition (string value);
-  string getRequestedOsHbDefinition ();
-  void setRequestedSblGntDefinition (string value);
-  string getRequestedSblGntDefinition ();
-  void setRequestedHDefinition (string value);
-  string getRequestedHDefinition ();
-  void setRequestedGDefinition (string value);
-  string getRequestedGDefinition ();
   void setVerticalCaretPosition (int position);
   int getVerticalCaretPosition ();
   bool getDisplayBreadcrumbs ();

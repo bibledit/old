@@ -58,12 +58,11 @@ vector <string> lexicon_logic_resource_names ()
 // Gets the HTMl for displaying the book/chapter/verse of the $lexicon.
 string lexicon_logic_get_html (void * webserver_request, string lexicon, int book, int chapter, int verse)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  (void) webserver_request;
 
   string html;
   
   if (lexicon == HEBREW_ETCBC4_NAME) {
-    request->database_config_user ()->setRequestedEtcbc4Definition ("");
     string prefix = HEBREW_ETCBC4_PREFIX;
     Database_Etcbc4 database_etcbc4;
     // Data from the ETCBC4 database.
@@ -95,9 +94,6 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
   }
 
   if (lexicon == KJV_LEXICON_NAME) {
-    request->database_config_user ()->setRequestedKjvDefinition ("");
-    request->database_config_user ()->setRequestedHDefinition ("");
-    request->database_config_user ()->setRequestedGDefinition ("");
     string prefix = KJV_LEXICON_PREFIX;
     Database_Kjv database_kjv;
     vector <int> rowids = database_kjv.rowids (book, chapter, verse);
@@ -116,8 +112,6 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
   }
 
   if (lexicon == OSHB_NAME) {
-    request->database_config_user ()->setRequestedOsHbDefinition ("");
-    request->database_config_user ()->setRequestedHDefinition ("");
     string prefix = OSHB_PREFIX;
     Database_OsHb database_oshb;
     vector <int> rowids = database_oshb.rowids (book, chapter, verse);
@@ -138,8 +132,6 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
   }
   
   if (lexicon == SBLGNT_NAME) {
-    request->database_config_user ()->setRequestedSblGntDefinition ("");
-    request->database_config_user ()->setRequestedGDefinition ("");
     string prefix = SBLGNT_PREFIX;
     Database_MorphGnt database_morphgnt;
     vector <int> rowids = database_morphgnt.rowids (book, chapter, verse);
@@ -165,30 +157,60 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
 // The script to put into the html for a lexicon's defined $prefix.
 string lexicon_logic_get_script (string prefix)
 {
-  string txtid = "lexicontxt" + prefix;
   string defid = "lexicondef" + prefix;
-  string script;
-  script.append ("<div id=\"" + defid + "\" style=\"clear:both\">\n");
-  script.append ("</div>\n");
-  script.append ("<script>\n");
-  //script.append ("console.log (\"" + defid + "\");\n");
-  script.append ("$(\"#" + txtid + ", #" + defid + "\").on (\"click\", function (event) {\n");
-  script.append ("  event.preventDefault ();\n");
-  script.append ("  var href = event.target.href;\n");
-  script.append ("  href = href.substring (href.lastIndexOf ('/') + 1);\n");
-  //script.append ("console.log (href);\n");
-  script.append ("  $.ajax ({\n");
-  script.append ("  url: \"/lexicon/definition\",\n");
-  script.append ("  type: \"GET\",\n");
-  script.append ("  data: { id: href },\n");
-  script.append ("  success: function (response) {\n");
-  script.append ("    var element = $ (\"#" + defid + "\");\n");
-  script.append ("    element.empty ();\n");
-  script.append ("    element.append (response);\n");
-  script.append ("  }\n");
-  script.append ("  });\n");
-  script.append ("});\n");
-  script.append ("</script>\n");
+  string txtid = "lexicontxt" + prefix;
+
+  string script = R"(
+<div id="defid" style="clear:both"></div>
+<script>
+
+  function get_defid (event) {
+    leave_defid (event);
+    var href = event.target.href;
+    href = href.substring (href.lastIndexOf ('/') + 1);
+    $.ajax ({
+      url: "/lexicon/definition",
+      type: "GET",
+      data: { id: href },
+      success: function (response) {
+        var element = $ ("#defid");
+        element.empty ();
+        element.append (response);
+        $("#defid a").hover (enter_defid, leave_defid);
+      }
+    });
+  }
+  
+  var timer_defid = null;
+  
+  function click_defid (event) {
+    event.preventDefault ();
+    get_defid (event);
+  }
+  
+  function enter_defid (event) {
+    leave_defid (event);
+    timer_defid = setTimeout (function () {
+      get_defid (event);
+    }, 500);
+  }
+
+  function leave_defid (event) {
+    if (timer_defid) {
+      clearTimeout (timer_defid);
+      timer_defid = null;
+    }
+  }
+
+  $("#txtid, #defid").on ("click", click_defid);
+  $("#txtid a").hover (enter_defid, leave_defid);
+
+</script>
+  )";
+
+  script = filter_string_str_replace ("defid", defid, script);
+  script = filter_string_str_replace ("txtid", txtid, script);
+  
   return script;
 }
 
