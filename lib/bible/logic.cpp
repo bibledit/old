@@ -161,11 +161,13 @@ void bible_logic_delete_bible (const string& bible)
     Database_Modifications database_modifications;
     database_modifications.storeTeamDiffBible (bible);
     
+#ifdef HAVE_CLOUD
     // Possible git repository.
     string gitdirectory = filter_git_directory (bible);
     if (file_or_dir_exists (gitdirectory)) {
       filter_url_rmdir (gitdirectory);
     }
+#endif
 
   }
 

@@ -25,6 +25,7 @@
 #include <filter/passage.h>
 
 
+#ifdef HAVE_CLOUD
 string filter_git_directory (string object);
 bool filter_git_init (string directory, bool bare = false);
 void filter_git_sync_modifications_to_git (string bible, string repository);
@@ -47,6 +48,7 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
 void filter_git_config (string repository);
 string filter_git_user (string user);
 string filter_git_email (string user);
+#endif
 
 
 #endif

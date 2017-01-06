@@ -24,7 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-class Database_Git // Todo
+#ifdef HAVE_CLOUD
+
+
+class Database_Git
 {
 public:
   static void create ();
@@ -41,6 +44,9 @@ public:
 private:
   static const char * name ();
 };
+
+
+#endif
 
 
 #endif

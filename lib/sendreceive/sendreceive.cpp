@@ -29,6 +29,7 @@
 
 void sendreceive_sendreceive (string bible)
 {
+#ifdef HAVE_CLOUD
   // Check on Bible.
   if (bible.empty ()) {
     Database_Logs::log ("No Bible to send and receive", Filter_Roles::translator ());
@@ -176,6 +177,7 @@ void sendreceive_sendreceive (string bible)
     Database_Logs::log ("Failure during sending and receiving", Filter_Roles::translator ());
   }
   Database_Logs::log (sendreceive_sendreceive_up_to_date_text () + bible, Filter_Roles::translator ());
+#endif
 }
 
 

@@ -28,6 +28,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // It is checked and optionally recreated at least once a day.
 
 
+#ifdef HAVE_CLOUD
+
+
 void Database_Git::create ()
 {
   SqliteDatabase sql = SqliteDatabase (name ());
@@ -178,3 +181,6 @@ const char * Database_Git::name ()
 {
   return "git";
 }
+
+
+#endif

@@ -261,8 +261,10 @@ void setup_initialize_data ()
   Database_Privileges::create ();
   Database_Privileges::upgrade ();
   Database_Privileges::optimize ();
+#ifdef HAVE_CLOUD
   config_globals_setup_message = "git";
   Database_Git::create ();
+#endif
   config_globals_setup_message = "statistics";
   Database_Statistics::create ();
   Database_Statistics::optimize ();

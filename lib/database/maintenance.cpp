@@ -134,7 +134,9 @@ void database_maintenance ()
   Database_Privileges::optimize ();
   
   
+#ifdef HAVE_CLOUD
   Database_Git::optimize ();
+#endif
 
   
   Database_Statistics::optimize ();

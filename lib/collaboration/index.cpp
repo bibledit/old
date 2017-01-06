@@ -78,8 +78,10 @@ string collaboration_index (void * webserver_request)
   
   if (request->query.count ("disable")) {
     Database_Config_Bible::setRemoteRepositoryUrl (object, "");
+#ifdef HAVE_CLOUD
     string repository = filter_git_directory (object);
     filter_url_rmdir (repository);
+#endif
   }
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   view.set_variable ("url", url);
