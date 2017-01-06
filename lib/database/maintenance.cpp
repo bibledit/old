@@ -74,9 +74,11 @@ void database_maintenance ()
   database_mail.optimize ();
   
   
+#ifdef HAVE_CLOUD
   Database_Confirm database_confirm = Database_Confirm ();
   database_confirm.trim ();
   database_confirm.optimize ();
+#endif
   
   
   // No need to optimize the following because it is hardly ever written to.

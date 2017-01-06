@@ -24,6 +24,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
+#ifdef HAVE_CLOUD
+
+
 class Confirm_Worker
 {
 public:
@@ -35,6 +38,9 @@ public:
 private:
   void * webserver_request;
 };
+
+
+#endif
 
 
 #endif

@@ -224,9 +224,11 @@ void setup_initialize_data ()
   config_globals_setup_message = "checks";
   request.database_check ()->create ();
   setup_generate_locale_databases (false);
+#ifdef HAVE_CLOUD
   config_globals_setup_message = "confirmations";
   Database_Confirm database_confirm = Database_Confirm ();
   database_confirm.create ();
+#endif
   config_globals_setup_message = "jobs";
   Database_Jobs database_jobs = Database_Jobs ();
   database_jobs.create ();

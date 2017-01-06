@@ -27,6 +27,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <email/send.h>
 
 
+#ifdef HAVE_CLOUD
+
+
 Confirm_Worker::Confirm_Worker (void * webserver_request_in)
 {
   webserver_request = webserver_request_in;
@@ -91,3 +94,6 @@ bool Confirm_Worker::handleEmail (string from, string subject, string body)
 void Confirm_Worker::handleVisit ()
 {
 }
+
+
+#endif

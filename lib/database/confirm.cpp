@@ -29,6 +29,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // It does not contain essential information.
 
 
+#ifdef HAVE_CLOUD
+
+
 const char * Database_Confirm::filename ()
 {
   return "confirm";
@@ -192,3 +195,6 @@ void Database_Confirm::trim ()
   sql.add (";");
   sql.execute ();
 }
+
+
+#endif

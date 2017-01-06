@@ -52,9 +52,13 @@ bool session_signup_acl (void * webserver_request)
 
 string session_signup (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-
+  (void) webserver_request;
+  
   string page;
+
+#ifdef HAVE_CLOUD
+
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   Assets_Header header = Assets_Header (translate ("Signup"), webserver_request);
   header.touchCSSOn ();
@@ -148,6 +152,8 @@ string session_signup (void * webserver_request)
   else page += view.render ("session", "signup");
 
   page += Assets_Page::footer ();
+
+#endif
 
   return page;
 }

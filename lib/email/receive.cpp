@@ -100,6 +100,7 @@ void email_dissect (string & body, string & from, string & subject)
 
 void email_receive ()
 {
+#ifdef HAVE_CLOUD
   // Bail out when the mail storage host has not been defined, rather than giving an error message.
   if (Database_Config_General::getMailStorageHost () == "") return;
   
@@ -148,6 +149,7 @@ void email_receive ()
   }
 
   config_globals_mail_receive_running = false;
+#endif
 }
 
 
