@@ -35,6 +35,11 @@
 
 void collaboration_link (string object, int jobid, string direction)
 {
+#ifdef HAVE_CLIENT
+  (void) object;
+  (void) jobid;
+  (void) direction;
+#endif
 #ifdef HAVE_CLOUD
   // Repository details for local and remote.
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
