@@ -13,6 +13,12 @@ echo Cannot find source files
 fi
 
 
+echo Remove files not to be processed.
+sed -i.bak '/unittests/d' i18n.html
+rm *.bak
+
+
+echo Transfer translatable strings from the html files to a .cpp file.
 g++ -std=c++11 i18n.cpp -o i18n
 ./i18n
 rm i18n
@@ -70,6 +76,9 @@ cd dev/bibledit.pot
 cp ../bibledit/lib/locale/bibledit.pot gtk/po/
 bzr add gtk/po/bibledit.pot
 bzr commit --message "updated bibledit.pot"
+
+
+exit
 
 
 echo Synchronize translations to Bibledit
