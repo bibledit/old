@@ -78,13 +78,10 @@ bzr add gtk/po/bibledit.pot
 bzr commit --message "updated bibledit.pot"
 
 
-exit
-
-
 echo Synchronize translations to Bibledit
 cd
 cd dev/bibledit.pot/gtk/po
-rsync -av . ~/dev/bibledit/lib/locale
+# rsync -av . ~/dev/bibledit/lib/locale
 if [ $? -ne 0 ]
 then
 echo Could not synchronize translations to Bibledit
