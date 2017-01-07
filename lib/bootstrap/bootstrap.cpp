@@ -75,10 +75,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editusfm/save.h>
 #include <edit/index.h>
 #include <edit/edit.h>
-#include <edit/focus.h>
 #include <edit/id.h>
 #include <edit/load.h>
-#include <edit/offset.h>
 #include <edit/save.h>
 #include <edit/styles.h>
 #include <edit/preview.h>
@@ -1102,11 +1100,6 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == edit_focus_url ()) && browser_request_security_okay (request) && edit_focus_acl (request)) {
-    request->reply = edit_focus (request);
-    return;
-  }
-  
   if ((url == edit_id_url ()) && browser_request_security_okay (request) && edit_id_acl (request)) {
     request->reply = edit_id (request);
     return;
@@ -1114,11 +1107,6 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == edit_load_url ()) && browser_request_security_okay (request) && edit_load_acl (request)) {
     request->reply = edit_load (request);
-    return;
-  }
-  
-  if ((url == edit_offset_url ()) && browser_request_security_okay (request) && edit_offset_acl (request)) {
-    request->reply = edit_offset (request);
     return;
   }
   

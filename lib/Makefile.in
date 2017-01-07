@@ -215,27 +215,26 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
 	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
 	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
-	edit/edit.$(OBJEXT) edit/focus.$(OBJEXT) edit/id.$(OBJEXT) \
-	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/offset.$(OBJEXT) \
-	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
-	edit/preview.$(OBJEXT) edit/position.$(OBJEXT) \
-	edit/navigate.$(OBJEXT) editoneql/index.$(OBJEXT) \
-	editoneql/load.$(OBJEXT) editoneql/save.$(OBJEXT) \
-	editoneql/logic.$(OBJEXT) editold/index.$(OBJEXT) \
-	editold/load.$(OBJEXT) editold/save.$(OBJEXT) \
-	editold/offset.$(OBJEXT) editold/focus.$(OBJEXT) \
-	search/all.$(OBJEXT) search/index.$(OBJEXT) \
-	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
-	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
-	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
-	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
-	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
-	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
-	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
-	workspace/index.$(OBJEXT) workspace/logic.$(OBJEXT) \
-	workspace/settings.$(OBJEXT) workspace/organize.$(OBJEXT) \
-	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
-	sendreceive/sendreceive.$(OBJEXT) \
+	edit/edit.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
+	edit/load.$(OBJEXT) edit/save.$(OBJEXT) edit/styles.$(OBJEXT) \
+	edit/logic.$(OBJEXT) edit/preview.$(OBJEXT) \
+	edit/position.$(OBJEXT) edit/navigate.$(OBJEXT) \
+	editoneql/index.$(OBJEXT) editoneql/load.$(OBJEXT) \
+	editoneql/save.$(OBJEXT) editoneql/logic.$(OBJEXT) \
+	editold/index.$(OBJEXT) editold/load.$(OBJEXT) \
+	editold/save.$(OBJEXT) editold/offset.$(OBJEXT) \
+	editold/focus.$(OBJEXT) search/all.$(OBJEXT) \
+	search/index.$(OBJEXT) search/replace.$(OBJEXT) \
+	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
+	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
+	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
+	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
+	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
+	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
+	tmp/tmp.$(OBJEXT) workspace/index.$(OBJEXT) \
+	workspace/logic.$(OBJEXT) workspace/settings.$(OBJEXT) \
+	workspace/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
+	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/notes.$(OBJEXT) sendreceive/changes.$(OBJEXT) \
 	sendreceive/files.$(OBJEXT) sendreceive/resources.$(OBJEXT) \
@@ -763,11 +762,9 @@ libbibledit_a_SOURCES = \
 	editor/usfm2html.cpp \
 	editor/select.cpp \
 	edit/edit.cpp \
-	edit/focus.cpp \
 	edit/id.cpp \
 	edit/index.cpp \
 	edit/load.cpp \
-	edit/offset.cpp \
 	edit/save.cpp \
 	edit/styles.cpp \
 	edit/logic.cpp \
@@ -1786,14 +1783,10 @@ edit/$(DEPDIR)/$(am__dirstamp):
 	@: > edit/$(DEPDIR)/$(am__dirstamp)
 edit/edit.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
-edit/focus.$(OBJEXT): edit/$(am__dirstamp) \
-	edit/$(DEPDIR)/$(am__dirstamp)
 edit/id.$(OBJEXT): edit/$(am__dirstamp) edit/$(DEPDIR)/$(am__dirstamp)
 edit/index.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
 edit/load.$(OBJEXT): edit/$(am__dirstamp) \
-	edit/$(DEPDIR)/$(am__dirstamp)
-edit/offset.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
 edit/save.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
@@ -2770,13 +2763,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/upload.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/yes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/edit.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/focus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/id.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/navigate.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/offset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/position.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/preview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/save.Po@am__quote@

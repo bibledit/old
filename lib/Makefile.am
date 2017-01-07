@@ -204,11 +204,9 @@ libbibledit_a_SOURCES = \
 	editor/usfm2html.cpp \
 	editor/select.cpp \
 	edit/edit.cpp \
-	edit/focus.cpp \
 	edit/id.cpp \
 	edit/index.cpp \
 	edit/load.cpp \
-	edit/offset.cpp \
 	edit/save.cpp \
 	edit/styles.cpp \
 	edit/logic.cpp \
