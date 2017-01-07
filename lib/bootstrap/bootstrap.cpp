@@ -94,6 +94,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editoneql/index.h>
 #include <editoneql/load.h>
 #include <editoneql/save.h>
+#include <editold/index.h>
+#include <editold/load.h>
+#include <editold/save.h>
+#include <editold/offset.h>
+#include <editold/focus.h>
 #include <search/all.h>
 #include <search/index.h>
 #include <search/replace.h>
@@ -412,6 +417,11 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
+  if ((url == editold_index_url ()) && browser_request_security_okay (request) && editold_index_acl (request)) {
+    request->reply = editold_index (request);
+    return;
+  }
+  
   if ((url == search_index_url ()) && browser_request_security_okay (request) && search_index_acl (request)) {
     request->reply = search_index (request);
     return;
@@ -1140,6 +1150,26 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
+  if ((url == editold_load_url ()) && browser_request_security_okay (request) && editold_load_acl (request)) {
+    request->reply = editold_load (request);
+    return;
+  }
+  
+  if ((url == editold_save_url ()) && browser_request_security_okay (request) && editold_save_acl (request)) {
+    request->reply = editold_save (request);
+    return;
+  }
+  
+  if ((url == editold_offset_url ()) && browser_request_security_okay (request) && editold_offset_acl (request)) {
+    request->reply = editold_offset (request);
+    return;
+  }
+
+  if ((url == editold_focus_url ()) && browser_request_security_okay (request) && editold_focus_acl (request)) {
+    request->reply = editold_focus (request);
+    return;
+  }
+
   if ((url == search_getids_url ()) && browser_request_security_okay (request) && search_getids_acl (request)) {
     request->reply = search_getids (request);
     return;
