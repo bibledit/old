@@ -82,11 +82,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/save.h>
 #include <edit/styles.h>
 #include <edit/preview.h>
-#include <editql/index.h>
-#include <editql/load.h>
-#include <editql/position.h>
-#include <editql/navigate.h>
-#include <editql/save.h>
+#include <edit/position.h>
+#include <edit/navigate.h>
 #include <editone/index.h>
 #include <editone/load.h>
 #include <editone/save.h>
@@ -387,31 +384,16 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == editql_index_url ()) && browser_request_security_okay (request) && editql_index_acl (request)) {
-    request->reply = editql_index (request);
+  if ((url == edit_position_url ()) && browser_request_security_okay (request) && edit_position_acl (request)) {
+    request->reply = edit_position (request);
+    return;
+  }
+
+  if ((url == edit_navigate_url ()) && browser_request_security_okay (request) && edit_navigate_acl (request)) {
+    request->reply = edit_navigate (request);
     return;
   }
   
-  if ((url == editql_load_url ()) && browser_request_security_okay (request) && editql_load_acl (request)) {
-    request->reply = editql_load (request);
-    return;
-  }
-
-  if ((url == editql_position_url ()) && browser_request_security_okay (request) && editql_position_acl (request)) {
-    request->reply = editql_position (request);
-    return;
-  }
-
-  if ((url == editql_navigate_url ()) && browser_request_security_okay (request) && editql_navigate_acl (request)) {
-    request->reply = editql_navigate (request);
-    return;
-  }
-  
-  if ((url == editql_save_url ()) && browser_request_security_okay (request) && editql_save_acl (request)) {
-    request->reply = editql_save (request);
-    return;
-  }
-
   if ((url == editoneql_index_url ()) && browser_request_security_okay (request) && editoneql_index_acl (request)) {
     request->reply = editoneql_index (request);
     return;

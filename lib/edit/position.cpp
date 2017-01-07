@@ -17,7 +17,7 @@
  */
 
 
-#include <editql/position.h>
+#include <edit/position.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
@@ -27,13 +27,13 @@
 #include <access/bible.h>
 
 
-string editql_position_url ()
+string edit_position_url ()
 {
-  return "editql/position";
+  return "edit/position";
 }
 
 
-bool editql_position_acl (void * webserver_request)
+bool edit_position_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
@@ -42,7 +42,7 @@ bool editql_position_acl (void * webserver_request)
 }
 
 
-string editql_position (void * webserver_request)
+string edit_position (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
  
@@ -96,4 +96,3 @@ string editql_position (void * webserver_request)
   
   return data;
 }
-

@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_EDITQL_POSITION_H
-#define INCLUDED_EDITQL_POSITION_H
+#ifndef INCLUDED_EDIT_POSITION_H
+#define INCLUDED_EDIT_POSITION_H
 
 
 #include <config/libraries.h>
 
 
-string editql_position_url ();
-bool editql_position_acl (void * webserver_request);
-string editql_position (void * webserver_request);
+string edit_position_url ();
+bool edit_position_acl (void * webserver_request);
+string edit_position (void * webserver_request);
 
 
 #endif

@@ -36,6 +36,7 @@
 #include <edit/logic.h>
 #include <access/bible.h>
 #include <bible/logic.h>
+#include <quill/logic.h>
 #include <rss/logic.h>
 
 
@@ -90,16 +91,17 @@ string edit_save (void * webserver_request)
   if (!access_bible_book_write (request, "", bible, book)) {
     return translate("No write access");
   }
-  
+
   string stylesheet = request->database_config_user()->getStylesheet();
   
   Editor_Html2Usfm editor_export;
+  editor_export.quill ();
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
   editor_export.run ();
   string user_usfm = editor_export.get ();
   
-  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "edit");
+  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editql");
   
   vector <BookChapterData> book_chapter_text = usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {
@@ -158,7 +160,7 @@ string edit_save (void * webserver_request)
 #endif
   
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm (webserver_request, bible, book, chapter, "edit");
+  storeLoadedUsfm (webserver_request, bible, book, chapter, "editql");
   
   // Convert the stored USFM to html.
   // This converted html should be the same as the saved html.

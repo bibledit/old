@@ -28,6 +28,7 @@
 #include <access/bible.h>
 #include <locale/translate.h>
 #include <database/logs.h>
+#include <quill/logic.h>
 
 
 string edit_load_url ()
@@ -54,7 +55,7 @@ string edit_load (void * webserver_request)
   int chapter = convert_to_int (request->query ["chapter"]);
   
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm (webserver_request, bible, book, chapter, "edit");
+  storeLoadedUsfm (webserver_request, bible, book, chapter, "editql");
   
   string stylesheet = request->database_config_user()->getStylesheet ();
   
@@ -63,6 +64,7 @@ string edit_load (void * webserver_request)
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (stylesheet);
+  editor_usfm2html.quill ();
   editor_usfm2html.run ();
   
   string html = editor_usfm2html.get ();
@@ -79,4 +81,3 @@ string edit_load (void * webserver_request)
   
   return Checksum_Logic::send (html, write);
 }
-

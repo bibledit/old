@@ -17,7 +17,7 @@
  */
 
 
-#include <editql/navigate.h>
+#include <edit/navigate.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
@@ -27,13 +27,13 @@
 #include <access/bible.h>
 
 
-string editql_navigate_url ()
+string edit_navigate_url ()
 {
-  return "editql/navigate";
+  return "edit/navigate";
 }
 
 
-bool editql_navigate_acl (void * webserver_request)
+bool edit_navigate_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
@@ -42,7 +42,7 @@ bool editql_navigate_acl (void * webserver_request)
 }
 
 
-string editql_navigate (void * webserver_request)
+string edit_navigate (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 

@@ -213,11 +213,8 @@ libbibledit_a_SOURCES = \
 	edit/styles.cpp \
 	edit/logic.cpp \
 	edit/preview.cpp \
-	editql/index.cpp \
-	editql/load.cpp \
-	editql/position.cpp \
-	editql/navigate.cpp \
-	editql/save.cpp \
+	edit/position.cpp \
+	edit/navigate.cpp \
 	editoneql/index.cpp \
 	editoneql/load.cpp \
 	editoneql/save.cpp \
