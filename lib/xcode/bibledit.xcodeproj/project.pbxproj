@@ -1216,7 +1216,6 @@
 		CAEF4D071D6EF82600FBB688 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAEF4D081D6EF82600FBB688 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAEF4D091D6EF82600FBB688 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
-		CAEF4D0A1D6EF82600FBB688 /* index.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = index.o; sourceTree = "<group>"; };
 		CAEF4D0B1D6EF82600FBB688 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAEF4D0C1D6EF82600FBB688 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAEFFBF31C747AEE0035B1BE /* wikipedia.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = wikipedia.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
@@ -3602,7 +3601,6 @@
 				CAEF4D071D6EF82600FBB688 /* index.h */,
 				CAEF4D081D6EF82600FBB688 /* index.html */,
 				CAEF4D091D6EF82600FBB688 /* index.js */,
-				CAEF4D0A1D6EF82600FBB688 /* index.o */,
 				CAEF4D0B1D6EF82600FBB688 /* logic.cpp */,
 				CAEF4D0C1D6EF82600FBB688 /* logic.h */,
 			);
