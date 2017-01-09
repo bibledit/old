@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.672],[http://bibledit.org])
+AC_INIT([bibledit],[1.0.674],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -66,6 +66,10 @@ AC_SUBST(OPENSSL_LIBS)
 # Tag2 (leave in place)
 # Tag3 (leave in place)
 # Tag4 (leave in place)
+# Tag5 (leave in place)
+# Tag6 (leave in place)
+# Tag7 (leave in place)
+# Tag8 (leave in place)
 
 
 AC_CHECK_HEADER(pthread.h,AC_DEFINE([HAVE_PTHREAD],[1],[Define whether pthread.h is present]),)
