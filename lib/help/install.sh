@@ -56,6 +56,7 @@ $DRYECHO apt-get --yes install libcurl4-openssl-dev
 $DRYECHO apt-get --yes install libssl-dev
 $DRYECHO apt-get --yes install libatspi2.0-dev
 $DRYECHO apt-get --yes install libgtk-3-dev
+$DRYECHO apt-get --yes install libwebkit2gtk-4.0-dev
 fi
 
 which dnf > /dev/null
