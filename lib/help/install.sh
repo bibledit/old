@@ -11,7 +11,7 @@ UNAME=`uname -a`
 echo -n "Installing Bibledit on "
 echo $UNAME
 RUNSU=1;
-if [ "$UNAME" == "*Ubuntu*" ]; then
+if [ "$UNAME" = "*Ubuntu*" ]; then
   RUNSU=0;
 fi
 
