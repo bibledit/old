@@ -61,6 +61,16 @@ PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development ve
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
 
+dnl linux PKG_CHECK_MODULES(GTK, gtk+-3.0,,AC_MSG_ERROR(Gtk3 development version is needed.))
+dnl linux AC_SUBST(GTK_LIBS)
+dnl linux AC_SUBST(GTK_CFLAGS)
+
+dnl linux PKG_CHECK_MODULES([WEBKIT2GTK], [webkit2gtk-4.0],, [
+dnl linux   PKG_CHECK_MODULES([WEBKIT2GTK], [webkit2gtk-3.0],,AC_MSG_ERROR(Webkit2Gtk development version is needed.))
+dnl linux ])
+dnl linux AC_SUBST(WEBKIT2GTK_LIBS)
+dnl linux AC_SUBST(WEBKIT2GTK_CFLAGS)
+
 
 # Tag1 (leave in place)
 # Tag2 (leave in place)
