@@ -85,6 +85,7 @@ $DRYECHO yum --assumeyes install libcurl-devel
 $DRYECHO yum --assumeyes install openssl-devel
 $DRYECHO yum --assumeyes install gtk3-devel
 $DRYECHO yum --assumeyes install webkitgtk3-devel
+$DRYECHO yum --assumeyes install libwebkit2gtk-devel
 fi
 
 # openSUSE
