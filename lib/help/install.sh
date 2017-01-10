@@ -73,6 +73,7 @@ $DRYECHO dnf --assumeyes install gtk3-devel
 $DRYECHO dnf --assumeyes install webkitgtk4-devel
 fi
 
+# CentOS
 which yum > /dev/null
 if [ $? -eq 0 ]
 then
@@ -83,7 +84,7 @@ $DRYECHO yum --assumeyes install pkgconfig
 $DRYECHO yum --assumeyes install libcurl-devel
 $DRYECHO yum --assumeyes install openssl-devel
 $DRYECHO yum --assumeyes install gtk3-devel
-$DRYECHO yum --assumeyes install webkitgtk4-devel
+$DRYECHO yum --assumeyes install webkitgtk3-devel
 fi
 
 # openSUSE
