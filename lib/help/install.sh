@@ -161,7 +161,7 @@ cat index.html | grep "bibledit-" | grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]'
 rm index.html
 TARBALL=`cat tarball.txt`
 rm tarball.txt
-rm $TARBALL.*
+rm -f $TARBALL.*
 $DRYECHO wget --continue --tries=100 http://bibledit.org/linux/$TARBALL
 if [ $? -ne 0 ]
 then
