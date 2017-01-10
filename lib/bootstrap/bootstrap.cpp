@@ -94,6 +94,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editold/save.h>
 #include <editold/offset.h>
 #include <editold/focus.h>
+#include <editoneold/index.h>
+#include <editoneold/load.h>
+#include <editoneold/save.h>
+#include <editoneold/verse.h>
 #include <search/all.h>
 #include <search/index.h>
 #include <search/replace.h>
@@ -399,6 +403,11 @@ void bootstrap_index (void * webserver_request)
 
   if ((url == editold_index_url ()) && browser_request_security_okay (request) && editold_index_acl (request)) {
     request->reply = editold_index (request);
+    return;
+  }
+  
+  if ((url == editoneold_index_url ()) && browser_request_security_okay (request) && editoneold_index_acl (request)) {
+    request->reply = editoneold_index (request);
     return;
   }
   
@@ -1042,16 +1051,14 @@ void bootstrap_index (void * webserver_request)
     request->reply = editone_verse (request);
     return;
   }
-
   
-  
-  if ((url == editone_load_url ()) && browser_request_security_okay (request) && editone_load_acl (request)) {
-    request->reply = editone_load (request);
+  if ((url == editoneold_load_url ()) && browser_request_security_okay (request) && editoneold_load_acl (request)) {
+    request->reply = editoneold_load (request);
     return;
   }
   
-  if ((url == editone_save_url ()) && browser_request_security_okay (request) && editone_save_acl (request)) {
-    request->reply = editone_save (request);
+  if ((url == editoneold_save_url ()) && browser_request_security_okay (request) && editoneold_save_acl (request)) {
+    request->reply = editoneold_save (request);
     return;
   }
   
@@ -1059,7 +1066,12 @@ void bootstrap_index (void * webserver_request)
     request->reply = editone_verse (request);
     return;
   }
-  
+
+  if ((url == editoneold_verse_url ()) && browser_request_security_okay (request) && editoneold_verse_acl (request)) {
+    request->reply = editoneold_verse (request);
+    return;
+  }
+
   if ((url == editoneql_load_url ()) && browser_request_security_okay (request) && editoneql_load_acl (request)) {
     request->reply = editoneql_load (request);
     return;
