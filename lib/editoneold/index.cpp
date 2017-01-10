@@ -145,10 +145,3 @@ string editoneold_index (void * webserver_request)
   
   return page;
 }
-
-// Tests for the editor:
-// * Autosave on going to another passage.
-// * Autosave on document unload.
-// * Autosave shortly after any change.
-// * Save the + sign of a note.
-// * No loss of white space right after the verse number.

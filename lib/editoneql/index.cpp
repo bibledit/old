@@ -123,10 +123,10 @@ string editoneql_index (void * webserver_request)
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
   view.set_variable ("custom_class", cls);
   view.set_variable ("custom_css", Filter_Css::getCss (cls,
-                                                             Fonts_Logic::getFontPath (font),
-                                                             direction,
-                                                             lineheight,
-                                                             letterspacing));
+                                                       Fonts_Logic::getFontPath (font),
+                                                       direction,
+                                                       lineheight,
+                                                       letterspacing));
   
   // Whether to enable fast Bible editor switching.
   if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
