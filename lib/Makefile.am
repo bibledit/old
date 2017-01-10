@@ -473,10 +473,14 @@ AM_CFLAGS += $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
+AM_CXXFLAGS += $(GTK_CFLAGS)
+AM_CXXFLAGS += $(WEBKIT2GTK_CFLAGS)
 
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl
 LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
+LIBS += $(GTK_LIBS)
+LIBS += $(WEBKIT2GTK_LIBS)
 
 EXTRA_DIST = a* basic bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w* x*
 

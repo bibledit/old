@@ -484,7 +484,7 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl $(CURL_LIBS) \
-	$(OPENSSL_LIBS)
+	$(OPENSSL_LIBS) $(GTK_LIBS) $(WEBKIT2GTK_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -1020,7 +1020,8 @@ generate_SOURCES = executable/generate.cpp
 generate_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wextra -pedantic -g $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
-	$(CURL_CFLAGS) $(OPENSSL_CFLAGS)
+	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
+	$(WEBKIT2GTK_CFLAGS)
 EXTRA_DIST = a* basic bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: config.h
