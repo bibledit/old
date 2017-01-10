@@ -195,9 +195,6 @@ fi
 rm $SCRIPTPATH/install.sh
 
 echo If there were no errors, Bibledit should be working now.
-echo Bibledit works best with the Google Chrome browser.
-echo Install the browser.
-echo To automatically open Bibledit in Chrome, set Chrome as the default browser.
 echo --
 echo To start Bibledit, open a terminal, and type:
 echo bibledit
