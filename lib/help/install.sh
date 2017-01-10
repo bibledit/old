@@ -83,6 +83,7 @@ $DRYECHO yum --assumeyes install openssl-devel
 $DRYECHO yum --assumeyes install gtk3-devel
 fi
 
+# openSUSE
 which zypper > /dev/null
 if [ $? -eq 0 ]
 then
@@ -94,6 +95,7 @@ $DRYECHO zypper --non-interactive install libcurl-devel
 $DRYECHO zypper --non-interactive install libopenssl-devel
 $DRYECHO zypper --non-interactive install cairo-devel
 $DRYECHO zypper --non-interactive install gtk3-devel
+$DRYECHO zypper --non-interactive install webkit2gtk3-devel
 fi
 
 # Create the script to start bibledit.
