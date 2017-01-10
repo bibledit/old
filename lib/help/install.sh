@@ -59,6 +59,7 @@ $DRYECHO apt-get --yes install libgtk-3-dev
 $DRYECHO apt-get --yes install libwebkit2gtk-4.0-dev
 fi
 
+# Fedora.
 which dnf > /dev/null
 if [ $? -eq 0 ]
 then
@@ -69,6 +70,7 @@ $DRYECHO dnf --assumeyes install pkgconfig
 $DRYECHO dnf --assumeyes install libcurl-devel
 $DRYECHO dnf --assumeyes install openssl-devel
 $DRYECHO dnf --assumeyes install gtk3-devel
+$DRYECHO dnf --assumeyes install webkitgtk4-devel
 fi
 
 which yum > /dev/null
@@ -81,6 +83,7 @@ $DRYECHO yum --assumeyes install pkgconfig
 $DRYECHO yum --assumeyes install libcurl-devel
 $DRYECHO yum --assumeyes install openssl-devel
 $DRYECHO yum --assumeyes install gtk3-devel
+$DRYECHO yum --assumeyes install webkitgtk4-devel
 fi
 
 # openSUSE
