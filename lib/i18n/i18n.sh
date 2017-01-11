@@ -49,13 +49,12 @@ echo Failure running xgettext
 fi
 
 
-echo Copying bibledit.pot into place
+echo Copying bibledit.pot into place.
 cp /tmp/bibledit.pot ../locale
 
 
 echo Clean temporal files.
 rm gettextfiles*
-rm /tmp/bibledit.pot
 rm translatables.cpp
 rm i18n.html
 
@@ -64,7 +63,7 @@ rm i18n.html
 export LC_ALL=C
 
 
-echo Pull translations from launchpad.net
+echo Pull translations from launchpad.net.
 cd
 cd dev/launchpad/po
 rm -f .DS_Store
@@ -75,7 +74,7 @@ echo Could not pull translations from launchpad.net
 fi
 
 
-echo Synchronize translations to Bibledit
+echo Synchronize translations to Bibledit.
 cd
 cd dev/launchpad/po
 cp *.po ~/dev/bibledit/lib/locale
@@ -85,9 +84,19 @@ echo Could not synchronize translations to Bibledit
 fi
 
 
-echo Clean dates out.
+echo Push new translatable messages to Launchpad.
+cd
+cd dev/launchpad/pot
+cp /tmp/bibledit.pot .
+bzr add bibledit.pot
+bzr commit --message "updated bibledit.pot"
+bzr push
+
+
+echo Clean up.
+# Remove dates so they don't appear as daily changes.
 sed -i.bak '/POT-Creation-Date/d' ~/dev/bibledit/lib/locale/*.po ~/dev/bibledit/lib/locale/bibledit.pot
 sed -i.bak '/X-Launchpad-Export-Date/d' ~/dev/bibledit/lib/locale/*.po ~/dev/bibledit/lib/locale/bibledit.pot
 rm ~/dev/bibledit/lib/locale/*.bak
-
-
+# Remove temporal .pot.
+rm /tmp/bibledit.pot
