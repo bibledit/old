@@ -39,6 +39,7 @@
 #include <checks/verses.h>
 #include <checks/pairs.h>
 #include <checks/index.h>
+#include <checks/settings.h>
 #include <email/send.h>
 
 
@@ -209,7 +210,8 @@ void checks_run (string bible)
   // Add a link to the online checking results.
   if (!emailBody.empty ()) {
     string siteUrl = config_logic_site_url (NULL);
-    emailBody.push_back ("<p><a href=\"" + siteUrl + checks_index_url () + "\">" + translate("The checking results are also available online, plus checking settings.") + "</a></p>");
+    emailBody.push_back ("<p><a href=\"" + siteUrl + checks_index_url () + "\">" + translate("Checking results online") + "</a></p>");
+    emailBody.push_back ("<p><a href=\"" + siteUrl + checks_settings_url () + "\">" + translate ("Settings") + "</a></p>");
   }
   
   
