@@ -31,4 +31,8 @@ string editone_logic_html_to_usfm (string stylesheet, string html, string applie
 void editone_logic_move_notes (string & prefix, string & suffix);
 
 
+void editoneql_logic_editable_html (string usfm, string stylesheet, string & html);
+string editoneql_logic_html_to_usfm (string stylesheet, string html);
+
+
 #endif

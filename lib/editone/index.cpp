@@ -57,7 +57,7 @@ string editone_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   bool touch = request->session_logic ()->touchEnabled ();
-
+  
   if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
     int switchbook = convert_to_int (request->query ["switchbook"]);
     int switchchapter = convert_to_int (request->query ["switchchapter"]);
@@ -111,7 +111,6 @@ string editone_index (void * webserver_request)
   "var oneverseEditorVerseSaving = '" + chapterSaving + "';\n"
   "var oneverseEditorVerseSaved = '" + chapterSaved + "';\n"
   "var oneverseEditorVerseRetrying = '" + chapterRetrying + "';\n"
-  "var oneverseEditorWriteAccess = true;"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
   "var unsentBibleDataTimeoutWarning = '" + bible_logic_unsent_unreceived_data_warning (false) + "';\n";
   config_logic_swipe_enabled (webserver_request, script);
@@ -124,21 +123,21 @@ string editone_index (void * webserver_request)
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
   view.set_variable ("custom_class", cls);
   view.set_variable ("custom_css", Filter_Css::getCss (cls,
-                                                             Fonts_Logic::getFontPath (font),
-                                                             direction,
-                                                             lineheight,
-                                                             letterspacing));
+                                                       Fonts_Logic::getFontPath (font),
+                                                       direction,
+                                                       lineheight,
+                                                       letterspacing));
   
   // Whether to enable fast Bible editor switching.
   if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
-
+  
   // Whether to enable the styles button.
   if (request->database_config_user ()->getEnableStylesButtonVisualEditors ()) {
     view.enable_zone ("stylesbutton");
   }
-
+  
   page += view.render ("editone", "index");
   
   page += Assets_Page::footer ();

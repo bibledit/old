@@ -70,7 +70,6 @@ string editone_save (void * webserver_request)
   int verse = convert_to_int (request->post["verse"]);
   string html = request->post["html"];
   string checksum = request->post["checksum"];
-  string added_style = request->post["style"];
 
   
   // Checksum.
@@ -105,34 +104,34 @@ string editone_save (void * webserver_request)
   string stylesheet = request->database_config_user()->getStylesheet();
  
   
-  string usfm = editone_logic_html_to_usfm (stylesheet, html, added_style);
+  string usfm = editoneql_logic_html_to_usfm (stylesheet, html);
 
-  
   // Collect some data about the changes for this user.
   string username = request->session_logic()->currentUser ();
+#ifdef HAVE_CLOUD
   int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
+#endif
   string oldText = request->database_bibles()->getChapter (bible, book, chapter);
 
   
   // Safely store the verse.
   string explanation;
-  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm, explanation, false);
+  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm, explanation, true);
   bible_logic_unsafe_save_mail (message, explanation, username, usfm);
   if (message.empty ()) {
 #ifdef HAVE_CLOUD
-    // Server: Store details for the user's changes.
+    // The Cloud stores details of the user's changes.
     int newID = request->database_bibles()->getChapterId (bible, book, chapter);
     string newText = request->database_bibles()->getChapter (bible, book, chapter);
     Database_Modifications database_modifications;
     database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
     Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
     rss_logic_schedule_update (username, bible, book, chapter, oldText, newText);
-#else
-    (void) oldID;
 #endif
 
     return locale_logic_text_saved ();
   }
 
+  
   return message;
 }

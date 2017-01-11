@@ -219,3 +219,29 @@ void editone_logic_move_notes (string & prefix, string & suffix)
     suffix = ss.str ();
   }
 }
+
+
+void editoneql_logic_editable_html (string usfm, string stylesheet, string & html)
+{
+  if (!usfm.empty ()) {
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (stylesheet);
+    editor_usfm2html.quill ();
+    editor_usfm2html.run ();
+    html = editor_usfm2html.get ();
+  }
+}
+
+
+string editoneql_logic_html_to_usfm (string stylesheet, string html)
+{
+  // Convert xml entities to normal characters.
+  html = filter_string_desanitize_html (html);
+  
+  // Convert the html back to USFM in the special way for editing one verse.
+  string usfm = editor_export_verse_quill (stylesheet, html);
+  
+  // Done.
+  return usfm;
+}

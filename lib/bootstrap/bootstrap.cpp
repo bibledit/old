@@ -86,9 +86,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/load.h>
 #include <editone/save.h>
 #include <editone/verse.h>
-#include <editoneql/index.h>
-#include <editoneql/load.h>
-#include <editoneql/save.h>
 #include <editold/index.h>
 #include <editold/load.h>
 #include <editold/save.h>
@@ -396,11 +393,6 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == editoneql_index_url ()) && browser_request_security_okay (request) && editoneql_index_acl (request)) {
-    request->reply = editoneql_index (request);
-    return;
-  }
-
   if ((url == editold_index_url ()) && browser_request_security_okay (request) && editold_index_acl (request)) {
     request->reply = editold_index (request);
     return;
@@ -1072,16 +1064,6 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
-  if ((url == editoneql_load_url ()) && browser_request_security_okay (request) && editoneql_load_acl (request)) {
-    request->reply = editoneql_load (request);
-    return;
-  }
-  
-  if ((url == editoneql_save_url ()) && browser_request_security_okay (request) && editoneql_save_acl (request)) {
-    request->reply = editoneql_save (request);
-    return;
-  }
-  
   if ((url == edit_preview_url ()) && browser_request_security_okay (request) && edit_preview_acl (request)) {
     request->reply = edit_preview (request);
     return;
