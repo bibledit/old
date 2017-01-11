@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2015-07-04 12:03+0000\n"
-"Last-Translator: Launchpad Translations Administrators <Unknown>\n"
+"PO-Revision-Date: 2017-01-10 17:27+0000\n"
+"Last-Translator: Teus Benschop <teusjannette@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18298)\n"
+"X-Generator: Launchpad (build 18302)\n"
 
 msgid "Select which Bible to make the active one for editing"
 msgstr ""
@@ -592,6 +592,11 @@ msgstr ""
 msgid "The names that may occur after mid-sentence punctuation were stored"
 msgstr ""
 
+msgid ""
+"The markers that start a new line but not necessarily a new sentence were "
+"saved"
+msgstr ""
+
 msgid "Suppressed check results"
 msgstr ""
 
@@ -1036,6 +1041,9 @@ msgid "Verse mismatch"
 msgstr ""
 
 msgid "Cannot overwrite another verse"
+msgstr ""
+
+msgid "Doesn't know where to save"
 msgstr ""
 
 msgid "Saving verse"
@@ -1636,10 +1644,9 @@ msgid ""
 "punctuation."
 msgstr ""
 
-msgid "Separate the names by a space."
-msgstr ""
-
-msgid "For example"
+msgid ""
+"Enter all possible markers that start a new line but do not necessarily "
+"start a new sentence."
 msgstr ""
 
 msgid "back"
@@ -2017,7 +2024,9 @@ msgstr ""
 msgid "Copy all Bibledit-Web data:"
 msgstr ""
 
-msgid "It may be unable to copy one or more files in the "
+msgid ""
+"It may be unable to copy one or more files in the 'tmp' folder, but that is "
+"fine."
 msgstr ""
 
 msgid "Copying may take a while."
@@ -6669,6 +6678,12 @@ msgstr ""
 msgid "Dividers"
 msgstr ""
 
+msgid "StudyLight resources"
+msgstr ""
+
+msgid "Refresh the list of resources from StudyLight."
+msgstr ""
+
 msgid ""
 "Refresh the list of modules from the SWORD servers and view the progress in "
 "the journal."
@@ -7164,12 +7179,6 @@ msgid "Maximum number of changes it feeds:"
 msgstr ""
 
 msgid "To switch the feed off, set the number of changes to zero."
-msgstr ""
-
-msgid "LocalizeOne"
-msgstr ""
-
-msgid "LocalizeTwo"
 msgstr ""
 
 msgid "Account"
@@ -8000,9 +8009,6 @@ msgstr ""
 msgid "User-defined"
 msgstr ""
 
-msgid "BibleGateway"
-msgstr ""
-
 msgid "Select stylesheet"
 msgstr ""
 
@@ -8446,6 +8452,9 @@ msgid "Select a divider"
 msgstr ""
 
 msgid "Select a BibleGateway resource"
+msgstr ""
+
+msgid "Select a StudyLight resource"
 msgstr ""
 
 msgid "installed"
@@ -9221,18 +9230,6 @@ msgstr ""
 msgid "The number was saved"
 msgstr ""
 
-msgid "ABC"
-msgstr ""
-
-msgid "--X"
-msgstr ""
-
-msgid "Hebrew Greek"
-msgstr ""
-
-msgid "ABA"
-msgstr ""
-
 msgid "Passwords do not match"
 msgstr ""
 
@@ -9289,10 +9286,31 @@ msgstr ""
 msgid "Visual editor and USFM editor"
 msgstr ""
 
+msgid "The workspace was added"
+msgstr ""
+
+msgid "The workspace was moved up"
+msgstr ""
+
+msgid "The workspace was moved down"
+msgstr ""
+
+msgid "The default workspaces were created"
+msgstr ""
+
 msgid "Would you like to delete this desktop configuration?"
 msgstr ""
 
+msgid "The workspace was removed"
+msgstr ""
+
 msgid "Please enter a name for the new desktop"
+msgstr ""
+
+msgid "The workspace was copied"
+msgstr ""
+
+msgid "The workspace was sent to all users"
 msgstr ""
 
 msgid "Delete desktop"

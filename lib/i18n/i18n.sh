@@ -78,7 +78,7 @@ fi
 echo Synchronize translations to Bibledit
 cd
 cd dev/bibledit.pot
-# rsync -av . ~/dev/bibledit/lib/locale
+cp *.po ~/dev/bibledit/lib/locale
 if [ $? -ne 0 ]
 then
 echo Could not synchronize translations to Bibledit

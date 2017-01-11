@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2016-12-26 18:50+0000\n"
-"Last-Translator: L'Africain <lafricain79@gmail.com>\n"
+"PO-Revision-Date: 2017-01-10 17:09+0000\n"
+"Last-Translator: Teus Benschop <teusjannette@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18298)\n"
+"X-Generator: Launchpad (build 18302)\n"
 
 msgid "Select which Bible to make the active one for editing"
 msgstr "Sélectionnez quelle Bible rendre active pour l'édition"
@@ -613,6 +613,11 @@ msgstr ""
 "Les noms qui peuvent survenir après la ponctuation en milieu de phrase ont "
 "été stockés"
 
+msgid ""
+"The markers that start a new line but not necessarily a new sentence were "
+"saved"
+msgstr ""
+
 msgid "Suppressed check results"
 msgstr "Résultats des vérifications"
 
@@ -1069,6 +1074,9 @@ msgstr "Verset incohérent"
 
 msgid "Cannot overwrite another verse"
 msgstr "Impossible d'écraser un autre verset"
+
+msgid "Doesn't know where to save"
+msgstr ""
 
 msgid "Saving verse"
 msgstr "Enregistrement du verset"
@@ -1762,11 +1770,10 @@ msgstr ""
 "Entre les noms, commençant par une majuscule, qui peut survenir après la "
 "ponctuation en milieu de phrase."
 
-msgid "Separate the names by a space."
-msgstr "Séparer les noms par des espaces."
-
-msgid "For example"
-msgstr "Par exemple"
+msgid ""
+"Enter all possible markers that start a new line but do not necessarily "
+"start a new sentence."
+msgstr ""
 
 msgid "back"
 msgstr "retour"
@@ -2200,10 +2207,10 @@ msgstr "Ouvrez un terminal."
 msgid "Copy all Bibledit-Web data:"
 msgstr "Copier toute les données de Bibledit-Web :"
 
-msgid "It may be unable to copy one or more files in the "
+msgid ""
+"It may be unable to copy one or more files in the 'tmp' folder, but that is "
+"fine."
 msgstr ""
-"Il est peut-être impossible de copier un ou plusieurs fichiers dans le "
-"dossier "
 
 msgid "Copying may take a while."
 msgstr "La copie peut prendre un certain temps."
@@ -8031,6 +8038,12 @@ msgstr "Modules SWORD"
 msgid "Dividers"
 msgstr "Séparateurs"
 
+msgid "StudyLight resources"
+msgstr ""
+
+msgid "Refresh the list of resources from StudyLight."
+msgstr ""
+
 msgid ""
 "Refresh the list of modules from the SWORD servers and view the progress in "
 "the journal."
@@ -8576,12 +8589,6 @@ msgstr "Nombre maximal de modifications apportées :"
 msgid "To switch the feed off, set the number of changes to zero."
 msgstr ""
 "Pour désactiver les contributions, réglez le nombre de modifications à zéro."
-
-msgid "LocalizeOne"
-msgstr "LocalizeOne"
-
-msgid "LocalizeTwo"
-msgstr "LocalizeTwo"
 
 msgid "Account"
 msgstr "Compte"
@@ -9519,9 +9526,6 @@ msgstr "SWORD"
 msgid "User-defined"
 msgstr "Défini par l'utilisateur"
 
-msgid "BibleGateway"
-msgstr "BibleGateway"
-
 msgid "Select stylesheet"
 msgstr "Sélectionner une feuille de style"
 
@@ -9968,6 +9972,9 @@ msgstr "Sélectionner un séparateur"
 
 msgid "Select a BibleGateway resource"
 msgstr "Sélectionner une ressource BibleGateway"
+
+msgid "Select a StudyLight resource"
+msgstr ""
 
 msgid "installed"
 msgstr "installé"
@@ -10809,18 +10816,6 @@ msgstr "le numéro a été réduit"
 msgid "The number was saved"
 msgstr "Le nombre a été enregistré"
 
-msgid "ABC"
-msgstr "ABC"
-
-msgid "--X"
-msgstr "--X"
-
-msgid "Hebrew Greek"
-msgstr "Hébreu et Grec"
-
-msgid "ABA"
-msgstr "ABA"
-
 msgid "Passwords do not match"
 msgstr "Les mots de passe ne correspondent pas"
 
@@ -10877,11 +10872,32 @@ msgstr "Éditeur et outil de cohérence"
 msgid "Visual editor and USFM editor"
 msgstr "Éditeur visuel et éditeur USFM"
 
+msgid "The workspace was added"
+msgstr ""
+
+msgid "The workspace was moved up"
+msgstr ""
+
+msgid "The workspace was moved down"
+msgstr ""
+
+msgid "The default workspaces were created"
+msgstr ""
+
 msgid "Would you like to delete this desktop configuration?"
 msgstr "Voulez-vous supprimer cette configuration de bureau ?"
 
+msgid "The workspace was removed"
+msgstr ""
+
 msgid "Please enter a name for the new desktop"
 msgstr "Entrez un nom pour le nouveau bureau"
+
+msgid "The workspace was copied"
+msgstr ""
+
+msgid "The workspace was sent to all users"
+msgstr ""
 
 msgid "Delete desktop"
 msgstr "Supprimer le bureau"
