@@ -60,9 +60,14 @@ rm translatables.cpp
 rm i18n.html
 
 
+# Fix bzr: warning: unsupported locale setting on macOS.
+export LC_ALL=C
+
+
 echo Pull translations from launchpad.net
 cd
 cd dev/bibledit.pot
+rm -f .DS_Store
 bzr pull lp:~teusbenschop/bibledit/translations
 if [ $? -ne 0 ]
 then
@@ -70,17 +75,9 @@ echo Could not pull translations from launchpad.net
 fi
 
 
-echo Push new translatable messages to Launchpad.
-cd
-cd dev/bibledit.pot
-cp ../bibledit/lib/locale/bibledit.pot gtk/po/
-bzr add gtk/po/bibledit.pot
-bzr commit --message "updated bibledit.pot"
-
-
 echo Synchronize translations to Bibledit
 cd
-cd dev/bibledit.pot/gtk/po
+cd dev/bibledit.pot
 # rsync -av . ~/dev/bibledit/lib/locale
 if [ $? -ne 0 ]
 then
