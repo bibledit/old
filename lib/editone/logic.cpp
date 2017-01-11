@@ -43,7 +43,7 @@ void editone_logic_prefix_html_stage_one (string usfm, string stylesheet, string
 }
 
 
-void editone_logic_editable_html (string prefix_last_p_style, string usfm, string stylesheet, string & html, string & editable_last_p_style, string & editable_first_applied_p_style)
+void editone_old_logic_editable_html (string prefix_last_p_style, string usfm, string stylesheet, string & html, string & editable_last_p_style, string & editable_first_applied_p_style)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -77,6 +77,19 @@ void editone_logic_editable_html (string prefix_last_p_style, string usfm, strin
       document.print (output, "", format_raw);
       html = output.str ();
     }
+  }
+}
+
+
+void editone_logic_editable_html (string usfm, string stylesheet, string & html)
+{
+  if (!usfm.empty ()) {
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (stylesheet);
+    editor_usfm2html.quill ();
+    editor_usfm2html.run ();
+    html = editor_usfm2html.get ();
   }
 }
 
@@ -117,7 +130,7 @@ void editone_logic_suffix_html (string editable_last_p_style, string usfm, strin
 }
 
 
-string editone_logic_html_to_usfm (string stylesheet, string html, string applied_p_style)
+string editone_old_logic_html_to_usfm (string stylesheet, string html, string applied_p_style)
 {
   // If an initial style was added to the first paragraph, remove it again.
   if (!applied_p_style.empty ()) {
@@ -141,6 +154,19 @@ string editone_logic_html_to_usfm (string stylesheet, string html, string applie
   // Convert the html back to USFM in the special way for editing one verse.
   string usfm = editor_export_verse (stylesheet, html);
   
+  return usfm;
+}
+
+
+string editone_logic_html_to_usfm (string stylesheet, string html)
+{
+  // Convert xml entities to normal characters.
+  html = filter_string_desanitize_html (html);
+  
+  // Convert the html back to USFM in the special way for editing one verse.
+  string usfm = editor_export_verse_quill (stylesheet, html);
+  
+  // Done.
   return usfm;
 }
 
@@ -221,27 +247,3 @@ void editone_logic_move_notes (string & prefix, string & suffix)
 }
 
 
-void editoneql_logic_editable_html (string usfm, string stylesheet, string & html)
-{
-  if (!usfm.empty ()) {
-    Editor_Usfm2Html editor_usfm2html;
-    editor_usfm2html.load (usfm);
-    editor_usfm2html.stylesheet (stylesheet);
-    editor_usfm2html.quill ();
-    editor_usfm2html.run ();
-    html = editor_usfm2html.get ();
-  }
-}
-
-
-string editoneql_logic_html_to_usfm (string stylesheet, string html)
-{
-  // Convert xml entities to normal characters.
-  html = filter_string_desanitize_html (html);
-  
-  // Convert the html back to USFM in the special way for editing one verse.
-  string usfm = editor_export_verse_quill (stylesheet, html);
-  
-  // Done.
-  return usfm;
-}

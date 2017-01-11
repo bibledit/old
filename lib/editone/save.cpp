@@ -104,7 +104,7 @@ string editone_save (void * webserver_request)
   string stylesheet = request->database_config_user()->getStylesheet();
  
   
-  string usfm = editoneql_logic_html_to_usfm (stylesheet, html);
+  string usfm = editone_logic_html_to_usfm (stylesheet, html);
 
   // Collect some data about the changes for this user.
   string username = request->session_logic()->currentUser ();

@@ -81,7 +81,7 @@ string editone_load (void * webserver_request)
   // It is convenient to have the footnote as near as possible to the verse text.
   // This is helpful for editing the verse and note.
   string focused_verse_html;
-  editoneql_logic_editable_html (editable_usfm, stylesheet, focused_verse_html);
+  editone_logic_editable_html (editable_usfm, stylesheet, focused_verse_html);
   
   string suffix_html;
   editone_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);

@@ -83,7 +83,7 @@ string editoneold_load (void * webserver_request)
   // This is helpful for editing the verse and note.
   string focused_verse_html;
   string focused_verse_applied_p_style;
-  editone_logic_editable_html (prefix_last_p_style, editable_usfm, stylesheet, focused_verse_html, focused_verse_last_p_style, focused_verse_applied_p_style);
+  editone_old_logic_editable_html (prefix_last_p_style, editable_usfm, stylesheet, focused_verse_html, focused_verse_last_p_style, focused_verse_applied_p_style);
   
   string suffix_html;
   editone_logic_suffix_html (focused_verse_last_p_style, suffix_usfm, stylesheet, suffix_html);

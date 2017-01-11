@@ -4634,14 +4634,14 @@ void test_editone_logic ()
     string html;
     string last_paragraph_style;
     string focused_verse_applied_p_style;
-    editone_logic_editable_html ("p", usfm, stylesheet, html, last_paragraph_style, focused_verse_applied_p_style);
+    editone_old_logic_editable_html ("p", usfm, stylesheet, html, last_paragraph_style, focused_verse_applied_p_style);
     string standard = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_2.html"));
     evaluate (__LINE__, __func__, standard, html);
     evaluate (__LINE__, __func__, "p", last_paragraph_style);
     evaluate (__LINE__, __func__, "p", focused_verse_applied_p_style);
     
     // Convert the html back to USFM again.
-    string round_tripped_usfm = editone_logic_html_to_usfm (stylesheet, html, focused_verse_applied_p_style);
+    string round_tripped_usfm = editone_old_logic_html_to_usfm (stylesheet, html, focused_verse_applied_p_style);
     evaluate (__LINE__, __func__, usfm, round_tripped_usfm);
   }
   
@@ -4652,14 +4652,14 @@ void test_editone_logic ()
     string html;
     string last_paragraph_style;
     string focused_verse_applied_p_style;
-    editone_logic_editable_html ("p", usfm, stylesheet, html, last_paragraph_style, focused_verse_applied_p_style);
+    editone_old_logic_editable_html ("p", usfm, stylesheet, html, last_paragraph_style, focused_verse_applied_p_style);
     string standard = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_4.html"));
     evaluate (__LINE__, __func__, standard, html);
     evaluate (__LINE__, __func__, "q1", last_paragraph_style);
     evaluate (__LINE__, __func__, "p", focused_verse_applied_p_style);
     
     // Convert the html back to USFM again.
-    string round_tripped_usfm = editone_logic_html_to_usfm (stylesheet, html, focused_verse_applied_p_style);
+    string round_tripped_usfm = editone_old_logic_html_to_usfm (stylesheet, html, focused_verse_applied_p_style);
     evaluate (__LINE__, __func__, usfm, round_tripped_usfm);
   }
 
