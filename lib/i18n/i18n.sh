@@ -25,7 +25,7 @@ rm i18n
 
 
 echo Create a temporal file containing all the files for internationalization.
-find ~/dev/bibledit/lib -iname "*.cpp" -o -iname "books.h" > gettextfiles.txt
+find .. -iname "*.cpp" -o -iname "books.h" > gettextfiles.txt
 if [ $? -ne 0 ]
 then
 echo Cannot find source files
@@ -37,7 +37,7 @@ sed -i.bak '/utf8/d' gettextfiles.txt
 sed -i.bak '/unittests/d' gettextfiles.txt
 
 
-echo Remove bibledit.pot in case there are some strings in it which are no longer in use.
+echo Remove any previous bibledit.pot because it could have strings no longer in use.
 rm -f /tmp/bibledit.pot
 
 
@@ -66,7 +66,7 @@ export LC_ALL=C
 
 echo Pull translations from launchpad.net
 cd
-cd dev/bibledit.pot
+cd dev/launchpad/po
 rm -f .DS_Store
 bzr pull lp:~teusbenschop/bibledit/translations
 if [ $? -ne 0 ]
@@ -77,7 +77,7 @@ fi
 
 echo Synchronize translations to Bibledit
 cd
-cd dev/bibledit.pot
+cd dev/launchpad/po
 cp *.po ~/dev/bibledit/lib/locale
 if [ $? -ne 0 ]
 then
