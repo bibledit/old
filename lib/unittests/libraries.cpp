@@ -988,6 +988,7 @@ void test_editor_html2usfm ()
       Editor_Html2Usfm editor_html2usfm;
       editor_html2usfm.load (html);
       editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.quill ();
       editor_html2usfm.run ();
       string usfm = editor_html2usfm.get ();
       evaluate (__LINE__, __func__, standard, usfm);
@@ -1006,7 +1007,7 @@ void test_editor_html2usfm ()
       string usfm = editor_html2usfm.get ();
       evaluate (__LINE__, __func__, standard, usfm);
     }
-    // Test Quill-based editor.
+    // Test Quill-based editor. Todo Enable Quill.
     html = filter_string_str_replace ("<span>", "", html);
     html = filter_string_str_replace ("</span>", "", html);
     {
@@ -1031,7 +1032,7 @@ void test_editor_html2usfm ()
       string usfm = editor_html2usfm.get ();
       evaluate (__LINE__, __func__, standard, usfm);
     }
-    // Test Quill-based editor.
+    // Test Quill-based editor. Todo enable Quill.
     html = "<p class=\"p\">The <span class=\"add\"><span class=\"nd\">Lord God</span> is calling</span> you.</p>";
     {
       Editor_Html2Usfm editor_html2usfm;
@@ -2488,7 +2489,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
-  // Nested text markup.
+  // Nested text markup. Todo test well.
   {
     string input_usfm =
     "\\p\n"
@@ -2535,7 +2536,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
-  // Nested text markup.
+  // Nested text markup. Todo test it.
   {
     string input_usfm =
     "\\p\n"
@@ -2582,7 +2583,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
-  // Nested text markup.
+  // Nested text markup. Todo test it.
   {
     string input_usfm = "\\p The \\add \\+nd Lord God\\+nd* is\\add* calling you";
     string output_usfm = "\\p The \\add \\+nd Lord God\\+nd*\\add*\\add  is\\add* calling you";
@@ -2625,7 +2626,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
-  // Nested note markup.
+  // Nested note markup. Todo test it.
   {
     string input_usfm =
     "\\p\n"
@@ -2680,7 +2681,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
-  // Nested note markup.
+  // Nested note markup. Todo.
   {
     string input_usfm =
     "\\p"
@@ -3071,7 +3072,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, usfm, output);
     }
     {
-      // Quill-based editor (not yet implemented for one verse).
+      // Quill-based editor (not yet implemented for one verse). Todo check this one.
       string html = "<p><span class=\"i-v\">1</span><span> </span><span>God created</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
@@ -3103,7 +3104,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, usfm, output);
     }
     {
-      // Quill-based editor (not yet implemented).
+      // Quill-based editor (not yet implemented). Todo test it.
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -3140,7 +3141,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, usfm, output);
     }
     {
-      // Quill-based editor (not yet implemented for one verse.
+      // Quill-based editor (not yet implemented for one verse. Todo now to implement it.
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -3173,7 +3174,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, usfm, output);
     }
     {
-      // Quill-based editor (not yet implemented for one verse).
+      // Quill-based editor (not yet implemented for one verse). Todo fix.
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -3287,7 +3288,7 @@ void test_editor_roundtrip ()
       editor_html2usfm.run ();
       string output_usfm = editor_html2usfm.get ();
       evaluate (__LINE__, __func__, standard_usfm, output_usfm);
-   }
+    }
     {
       // Quill-based editor.
       string standard_html = "<p class=\"b-p\"><span class=\"i-notecall1\">1</span><span>tokie parodo savo širdyse įrašytą įstatymo </span><span class=\"i-notecall2\">2</span><span>darbą, jų sąžinei kartu </span><span class=\"i-add\">tiems dalykams</span><span> paliudijant, ir </span><span class=\"i-add\">jų</span><span> mintims </span><span class=\"i-notecall3\">3</span><span>tuo tarpu </span><span class=\"i-add\">juos</span><span> kaltinant arba net ginant) –</span></p><p class=\"b-notes\"><br /></p><p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„tokie“ – t. „kurie“</span></p><p class=\"b-f\"><span class=\"i-notebody2\">2</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„darbą“ – arba „poveikį“</span></p><p class=\"b-f\"><span class=\"i-notebody3\">3</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„tuo tarpu </span><span class=\"i-add\">juos</span><span> kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą </span><span class=\"i-add\">juos</span><span> kaltindamos arba net gindamos“; žr. - </span><span class=\"i-xt\">Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones</span></p>";
