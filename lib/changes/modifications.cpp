@@ -338,7 +338,7 @@ void changes_modifications ()
             if (old_text != new_text) {
               email_changes.push_back (passage  + modification);
             } else {
-              email_changes.push_back (translate ("The following passage has no change in the text.") + " " + translate ("The change is in the formatting only.") + " " + translate ("The USFM code is given for reference."));
+              email_changes.push_back (translate ("The following passage has no change in the text.") + " " + translate ("Only the formatting was changed.") + " " + translate ("The USFM code is given for reference."));
               email_changes.push_back (passage);
               email_changes.push_back (translate ("Old code:") + " " + old_verse_usfm);
               email_changes.push_back (translate ("New code:") + " " + new_verse_usfm);

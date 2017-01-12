@@ -85,7 +85,7 @@ string checks_settingspairs (void * webserver_request)
     }
     if (okay) {
       Database_Config_Bible::setMatchingPairs (bible, fragment);
-      view.set_variable ("success", translate("The pairs were stored"));
+      view.set_variable ("success", translate("The pairs were saved"));
     } else {
       view.set_variable ("error", filter_string_implode (errors, " | "));
     }

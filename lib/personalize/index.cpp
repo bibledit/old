@@ -247,9 +247,9 @@ string personalize_index (void * webserver_request)
   view.set_variable ("breadcrumbs", on_off);
 
   
-  // Workspace menu fade out delay.
+  // Workspace menu fade-out delay.
   if (request->query.count ("desktopfadeoutdelay")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a fade out delay between 1 and 100 seconds or 0 to disable"), convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()), "desktopfadeoutdelay", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a value between 1 and 100 seconds, or 0 to disable"), convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()), "desktopfadeoutdelay", "");
     page += dialog_entry.run ();
     return page;
   }
@@ -258,7 +258,7 @@ string personalize_index (void * webserver_request)
     if ((value >= 0) && (value <= 100)) {
       request->database_config_user ()->setWorkspaceMenuFadeoutDelay (value);
     } else {
-      error = translate ("Incorrect fade out delay in seconds");
+      error = translate ("Incorrect fade-out delay in seconds");
     }
   }
   view.set_variable ("desktopfadeoutdelay", convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()));

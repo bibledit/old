@@ -57,7 +57,7 @@ string notes_actions (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Note actions"), request);
+  Assets_Header header = Assets_Header (translate("Actions"), request);
   header.setNavigator ();
   page += header.run ();
   Assets_View view;

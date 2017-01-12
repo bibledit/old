@@ -94,7 +94,7 @@ string resource_user1edit (void * webserver_request)
       }
       count++;
     }
-    success = translate ("Number of books saved of this user-defined resource definition:") + " " + convert_to_string (bookcount);
+    success = translate ("Number of defined books:") + " " + convert_to_string (bookcount);
   }
   
   

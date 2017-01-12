@@ -157,7 +157,7 @@ string system_index (void * webserver_request)
       count = 2000;
       clipped = true;
     }
-    if (clipped) error = translate ("The number was clipped");
+    if (clipped) error = translate ("The number was trimmed");
     Database_Config_General::setMaxRssFeedItems (count);
     success = translate ("The number was saved");
     rss_logic_update_xml ({}, {}, {});
