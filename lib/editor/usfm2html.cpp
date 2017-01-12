@@ -141,10 +141,8 @@ void Editor_Usfm2Html::preprocess ()
   current_p_open = false;
   note_p_open = false;
 
-  /*
-  XPath crashes on Android with libxml2 2.9.2 compiled through the Android NDK.
-  After the move to pugixml, this no longer applies.
-  */
+  // XPath crashes on Android with libxml2 2.9.2 compiled through the Android NDK.
+  // After the move to pugixml, this no longer applies.
 
   body_node = document.append_child ("body");
   
