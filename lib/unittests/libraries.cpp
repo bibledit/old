@@ -1030,7 +1030,7 @@ void test_editor_html2usfm ()
       evaluate (__LINE__, __func__, standard, usfm);
     }
   }
-  // Test embedded <span> elements. Todo
+  // Test embedded <span> elements.
   {
     string html = "<p class=\"p\"><span>The <span class=\"add\"><span class=\"nd\">Lord God</span> is calling</span> you</span><span>.</span></p>";
     string standard = "\\p The \\add \\+nd Lord God\\+nd* is calling\\add* you.";
@@ -2501,7 +2501,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
-  // Nested text markup. Todo test well.
+  // Nested text markup.
   {
     string input_usfm =
     "\\p\n"
@@ -2530,7 +2530,7 @@ void test_editor_roundtrip ()
     {
       // Quill-based editor.
       string html =
-      "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span class=\"i-add\">add</span><span class=\"i-add i-nd\">addnd</span><span>.</span></p>";
+      "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span class=\"i-add\">add</span><span class=\"i-add_i-nd\">addnd</span><span>.</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (input_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2548,7 +2548,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
-  // Nested text markup. Todo test it.
+  // Nested text markup.
   {
     string input_usfm =
     "\\p\n"
@@ -2577,7 +2577,7 @@ void test_editor_roundtrip ()
     {
       // Quill-based editor.
       string html =
-      "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span class=\"i-add\">add</span><span class=\"i-add i-nd\">addnd</span><span>.</span></p>";
+      "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span class=\"i-add\">add</span><span class=\"i-add_i-nd\">addnd</span><span>.</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (input_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2595,9 +2595,9 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
-  // Nested text markup. Todo test it.
+  // Nested text markup.
   {
-    string input_usfm = "\\p The \\add \\+nd Lord God\\+nd* is\\add* calling you";
+    string input_usfm  = "\\p The \\add \\+nd Lord God\\+nd* is\\add* calling you";
     string output_usfm = "\\p The \\add \\+nd Lord God\\+nd*\\add*\\add  is\\add* calling you";
     {
       // DOM-based editor.
@@ -2620,7 +2620,7 @@ void test_editor_roundtrip ()
     {
       // Quill-based editor.
       string html =
-      "<p class=\"b-p\"><span>The </span><span class=\"i-add i-nd\">Lord God</span><span class=\"i-add\"> is</span><span> calling you</span></p>";
+      "<p class=\"b-p\"><span>The </span><span class=\"i-add_i-nd\">Lord God</span><span class=\"i-add\"> is</span><span> calling you</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (input_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2638,7 +2638,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
-  // Nested note markup. Todo test it.
+  // Nested note markup.
   {
     string input_usfm =
     "\\p\n"
@@ -2675,7 +2675,7 @@ void test_editor_roundtrip ()
       "<p class=\"b-notes\">"
       "<br />"
       "</p>"
-      "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk i-fdc\">key-fdc</span><span> normal</span></p>";
+      "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk_i-fdc\">key-fdc</span><span> normal</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (input_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2693,7 +2693,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
-  // Nested note markup. Todo.
+  // Nested note markup.
   {
     string input_usfm =
     "\\p"
@@ -2730,7 +2730,7 @@ void test_editor_roundtrip ()
       "<p class=\"b-notes\">"
       "<br />"
       "</p>"
-      "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk i-fdc\">key-fdc</span><span> normal</span></p>";
+      "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk_i-fdc\">key-fdc</span><span> normal</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (input_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());

@@ -30,11 +30,11 @@
 
 void Editor_Html2Usfm::load (string html)
 {
-  // The web editor may insert non-breaking spaces. Convert them to normal ones.
+  // The web editor may insert non-breaking spaces. Convert them to normal spaces.
   html = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", html);
   
   // The web editor produces <hr> and other elements following the HTML specs,
-  // but Bibledit's XML parser needs <hr/> and similar elements.
+  // but the pugixml XML parser needs <hr/> and similar elements.
   html = html2xml (html);
   
   // The user may add several spaces in sequence. Convert them to single spaces.
@@ -239,7 +239,10 @@ void Editor_Html2Usfm::closeElementNode (xml_node node)
     // Do nothing if no endmarkers are supposed to be produced.
     if (suppressEndMarkers.find (className) != suppressEndMarkers.end()) return;
     // Add closing USFM, optionally closing embedded tags in reverse order.
-    vector <string> classes = filter_string_explode (className, ' ');
+    char separator;
+    if (quill_enabled) separator = '_';
+    else separator = ' ';
+    vector <string> classes = filter_string_explode (className, separator);
     characterStyles = filter_string_array_diff (characterStyles, classes);
     reverse (classes.begin(), classes.end());
     for (unsigned int offset = 0; offset < classes.size(); offset++) {
@@ -262,7 +265,10 @@ void Editor_Html2Usfm::openInline (string className)
   // The <span class="add">
   //   <span class="nd">Lord God</span>
   // is calling</span> you</span><span>.</span>
-  vector <string> classes = filter_string_explode (className, ' ');
+  char separator;
+  if (quill_enabled) separator = '_';
+  else separator = ' ';
+  vector <string> classes = filter_string_explode (className, separator);
   for (unsigned int offset = 0; offset < classes.size(); offset++) {
     bool embedded = (characterStyles.size () + offset) > 0;
     currentLine += usfm_get_opening_usfm (classes[offset], embedded);

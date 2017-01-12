@@ -473,7 +473,10 @@ void Editor_Usfm2Html::addText (string text)
       // Take character style(s) as specified in this object.
       string textstyle;
       for (auto & style : currentTextStyles) {
-        if (!textstyle.empty ()) textstyle.append (" ");
+        if (!textstyle.empty ()) {
+          if (quill_enabled) textstyle.append ("_");
+          else textstyle.append (" ");
+        }
         if (quill_enabled) textstyle.append (quill_logic_class_prefix_inline ());
         textstyle.append (style);
       }
@@ -561,7 +564,13 @@ void Editor_Usfm2Html::addNoteText (string text)
         style.insert (0, quill_logic_class_prefix_inline ());
       }
     }
-    spanDomElement.append_attribute ("class") = filter_string_implode (currentNoteTextStyles2, " ").c_str();
+    string classs;
+    if (quill_enabled) {
+      classs = filter_string_implode (currentNoteTextStyles2, "_");
+    } else {
+      classs = filter_string_implode (currentNoteTextStyles2, " ");
+    }
+    spanDomElement.append_attribute ("class") = classs.c_str();
   }
 }
 
