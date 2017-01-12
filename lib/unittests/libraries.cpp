@@ -982,6 +982,16 @@ void test_editor_html2usfm ()
       evaluate (__LINE__, __func__, standard, usfm);
     }
     // Quill-based editor test.
+    {
+      Editor_Html2Usfm editor_html2usfm;
+      editor_html2usfm.load (html);
+      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.quill ();
+      editor_html2usfm.run ();
+      string usfm = editor_html2usfm.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
+    // The Quill library uses <span> only when needed, so remove them for testing.
     html = filter_string_str_replace ("<span>", "", html);
     html = filter_string_str_replace ("</span>", "", html);
     {
@@ -1007,19 +1017,20 @@ void test_editor_html2usfm ()
       string usfm = editor_html2usfm.get ();
       evaluate (__LINE__, __func__, standard, usfm);
     }
-    // Test Quill-based editor. Todo Enable Quill.
+    // Test Quill-based editor.
     html = filter_string_str_replace ("<span>", "", html);
     html = filter_string_str_replace ("</span>", "", html);
     {
       Editor_Html2Usfm editor_html2usfm;
       editor_html2usfm.load (html);
       editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.quill ();
       editor_html2usfm.run ();
       string usfm = editor_html2usfm.get ();
       evaluate (__LINE__, __func__, standard, usfm);
     }
   }
-  // Test embedded <span> elements
+  // Test embedded <span> elements. Todo
   {
     string html = "<p class=\"p\"><span>The <span class=\"add\"><span class=\"nd\">Lord God</span> is calling</span> you</span><span>.</span></p>";
     string standard = "\\p The \\add \\+nd Lord God\\+nd* is calling\\add* you.";
@@ -1032,12 +1043,13 @@ void test_editor_html2usfm ()
       string usfm = editor_html2usfm.get ();
       evaluate (__LINE__, __func__, standard, usfm);
     }
-    // Test Quill-based editor. Todo enable Quill.
+    // Test Quill-based editor.
     html = "<p class=\"p\">The <span class=\"add\"><span class=\"nd\">Lord God</span> is calling</span> you.</p>";
     {
       Editor_Html2Usfm editor_html2usfm;
       editor_html2usfm.load (html);
       editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.quill ();
       editor_html2usfm.run ();
       string usfm = editor_html2usfm.get ();
       evaluate (__LINE__, __func__, standard, usfm);
