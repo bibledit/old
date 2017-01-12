@@ -106,17 +106,6 @@ int i = stoi ("string");
   [AC_MSG_RESULT([no])]
 )
 
-# Enable unit tests.
-UNITTESTS=no
-AC_ARG_ENABLE(unittests,
-[  --enable-unittests Enable unit tests],
-[AC_DEFINE([HAVE_UNITTESTS], [1], [Define whether to enable unit tests])]
-UNITTESTS=yes
-)
-AC_DEFINE([UNITTESTS], [], [Define whether unit tests are enabled])
-AC_DEFINE_UNQUOTED(UNITTESTS, "$UNITTESTS")
-AC_SUBST(UNITTESTS)
-
 # Windows.
 ENABLEWINDOWS=no
 AC_ARG_ENABLE(windows,
@@ -194,7 +183,6 @@ echo "
 Bibledit $VERSION configuration summary:
 
 Installation prefix             : ${prefix}
-Unit tests (--enable-unittests) : ${UNITTESTS}
 Windows    (--enable-windows)   : ${ENABLEWINDOWS}
 Android    (--enable-android)   : ${ENABLEANDROID}
 Mac        (--enable-mac)       : ${ENABLEMAC}

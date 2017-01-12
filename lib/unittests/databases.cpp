@@ -73,9 +73,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <demo/logic.h>
 
 
-#ifdef HAVE_UNITTESTS
-
-
 void test_database_config_general ()
 {
   trace_unit_tests (__func__);
@@ -4775,6 +4772,3 @@ void test_database_develop ()
 {
   trace_unit_tests (__func__);
 }
-
-
-#endif

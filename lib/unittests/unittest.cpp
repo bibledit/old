@@ -42,8 +42,6 @@ int main (int argc, char **argv)
   (void) argc;
   (void) argv;
 
-#ifdef HAVE_UNITTESTS
-
   cout << "Running unittests" << endl;
 
   // Directory where the unit tests will run.
@@ -179,14 +177,6 @@ int main (int argc, char **argv)
 
   // Ready.
   return (error_count == 0) ? 0 : 1;
-
-#else
-  
-  cout << "Unit tests have been disabled" << endl;
-  cout << "Enable them through ./configure --enable-unittests" << endl;
-  return 0;
-
-#endif
 }
 
 

@@ -78,9 +78,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace jsonxx;
 
 
-#ifdef HAVE_UNITTESTS
-
-
 void test_sqlite ()
 {
   trace_unit_tests (__func__);
@@ -5161,6 +5158,3 @@ void test_libraries_dev ()
 {
   trace_unit_tests (__func__);
 }
-
-
-#endif

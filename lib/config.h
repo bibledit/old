@@ -67,9 +67,6 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* Define whether to enable unit tests */
-/* #undef HAVE_UNITTESTS */
-
 /* Define whether to compile on Windows */
 /* #undef HAVE_WINDOWS */
 
@@ -96,9 +93,6 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
-
-/* Define whether unit tests are enabled */
-#define UNITTESTS "no"
 
 /* Version number of package */
 #define VERSION "1.0.677"

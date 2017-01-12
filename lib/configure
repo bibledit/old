@@ -625,7 +625,6 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
-UNITTESTS
 OPENSSL_LIBS
 OPENSSL_CFLAGS
 EGREP
@@ -742,7 +741,6 @@ ac_user_opts='
 enable_option_checking
 enable_silent_rules
 enable_dependency_tracking
-enable_unittests
 enable_windows
 enable_android
 enable_mac
@@ -1393,7 +1391,6 @@ Optional Features:
                           do not reject slow dependency extractors
   --disable-dependency-tracking
                           speeds up one-time build
-  --enable-unittests Enable unit tests
   --enable-windows Compile for Windows
   --enable-android Compile for Android
   --enable-mac Compile for Mac
@@ -6570,26 +6567,6 @@ $as_echo "no" >&6; }
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 
-# Enable unit tests.
-UNITTESTS=no
-# Check whether --enable-unittests was given.
-if test "${enable_unittests+set}" = set; then :
-  enableval=$enable_unittests;
-$as_echo "#define HAVE_UNITTESTS 1" >>confdefs.h
-
-UNITTESTS=yes
-
-fi
-
-
-$as_echo "#define UNITTESTS /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define UNITTESTS "$UNITTESTS"
-_ACEOF
-
-
-
 # Windows.
 ENABLEWINDOWS=no
 # Check whether --enable-windows was given.
@@ -8172,7 +8149,6 @@ echo "
 Bibledit $VERSION configuration summary:
 
 Installation prefix             : ${prefix}
-Unit tests (--enable-unittests) : ${UNITTESTS}
 Windows    (--enable-windows)   : ${ENABLEWINDOWS}
 Android    (--enable-android)   : ${ENABLEANDROID}
 Mac        (--enable-mac)       : ${ENABLEMAC}

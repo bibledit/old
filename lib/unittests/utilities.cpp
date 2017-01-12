@@ -23,9 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/shell.h>
 
 
-#ifdef HAVE_UNITTESTS
-
-
 string testing_directory;
 int error_count;
 
@@ -225,6 +222,3 @@ void trace_unit_tests (string func)
     cout << func << endl;
   }
 }
-
-
-#endif
