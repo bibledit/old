@@ -3084,7 +3084,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, usfm, output);
     }
     {
-      // Quill-based editor (not yet implemented for one verse). Todo check this one.
+      // Quill-based editor.
       string html = "<p><span class=\"i-v\">1</span><span> </span><span>God created</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
@@ -3116,7 +3116,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, usfm, output);
     }
     {
-      // Quill-based editor (not yet implemented). Todo test it.
+      // Quill-based editor.
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -3153,7 +3153,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, usfm, output);
     }
     {
-      // Quill-based editor (not yet implemented for one verse. Todo now to implement it.
+      // Quill-based editor.
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -3186,7 +3186,7 @@ void test_editor_roundtrip ()
       evaluate (__LINE__, __func__, usfm, output);
     }
     {
-      // Quill-based editor (not yet implemented for one verse). Todo fix.
+      // Quill-based editor.
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
