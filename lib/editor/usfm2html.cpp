@@ -120,7 +120,7 @@ string Editor_Usfm2Html::get ()
   if (quill_enabled) clas.insert (0, quill_logic_class_prefix_block ());
   html = filter_string_str_replace ("<p class=\"" + clas + "\" />", "<p class=\"" + clas + "\"><br></p>", html);
   
-  // Currently libxml2 produces hexadecimal character entities.
+  // Currently the XML library produces hexadecimal character entities.
   // This is unwanted behaviour: Convert them to normal characters.
   html = convert_xml_character_entities_to_characters (html);
   
