@@ -541,8 +541,10 @@ msgstr ""
 msgid "The entry was deleted for just now."
 msgstr ""
 
-msgid ""
-"The checking results are also available online, plus checking settings."
+msgid "Checking results online"
+msgstr ""
+
+msgid "Settings"
 msgstr ""
 
 msgid "Bible Checks"
@@ -1235,18 +1237,12 @@ msgstr ""
 msgid "It recognizes Unified Standard Format Markers text."
 msgstr ""
 
-msgid "More information about this format:"
+msgid "More information about that."
 msgstr ""
 
-msgid "Source 1: Paratext."
-msgstr "1-asis šaltinis: Paratext./Source 1: Paratext."
-
-msgid "Source 2: UBS ICAP."
-msgstr "2-asis šaltinis: UBS ICAP/Source 2: UBS ICAP"
-
 msgid ""
-"Bibledit will recognize books through the id markup and chapters through the "
-"c markup."
+"Bibledit recognizes books through the id markup and chapters through the c "
+"markup."
 msgstr ""
 
 msgid "It also recognizes plain text."
@@ -1256,8 +1252,8 @@ msgid "It does that one chapter at a time."
 msgstr ""
 
 msgid ""
-"It imports the text into the book and chapter of the passage navigator at "
-"the top of the window."
+"It imports the text into the book and chapter indicated by the passage "
+"navigator at the top of the window."
 msgstr ""
 
 msgid ""
@@ -1267,11 +1263,10 @@ msgstr ""
 msgid "It does not discover verse numbers somewhere else in the text."
 msgstr ""
 
-msgid "After importing some text, it helps to run the checks on it."
+msgid "After importing some text, it is recommended to run the checks on it."
 msgstr ""
 
-msgid ""
-"The data to be imported will overwrite similar data already in the Bible."
+msgid "An imported chapter overwrites the chapter already in the Bible."
 msgstr ""
 
 msgid ""
@@ -4624,7 +4619,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"It means that they should all line up with each other all the way down the "
+"It means that all lines should line up with each other all the way down the "
 "page and across all pages."
 msgstr ""
 
@@ -4651,8 +4646,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The verse numbers should be set closer to the text that follows rather than "
-"half-way between."
+"The verse numbers should be set closer to the text that follows than to the "
+"preceding text."
 msgstr ""
 
 msgid ""
@@ -4856,9 +4851,9 @@ msgid ""
 msgstr ""
 
 msgid ""
-"At times a word that is now hyphenated could be forced down onto the next "
-"line without opening up the gaps between the words too much on the line "
-"above."
+"At times a word that is now hyphenated can be forced down onto the next "
+"line, and become a non-hyphenated word there, without opening up the gaps "
+"between the words too much on the line where the word came from."
 msgstr ""
 
 msgid ""
@@ -5478,7 +5473,8 @@ msgid "Repaginate and notice the page count. In our case this is 1750."
 msgstr ""
 
 msgid ""
-"This figure is not accurate since it applies to a column count of one."
+"This is not accurate since it applies to a column count of one rather than "
+"two."
 msgstr ""
 
 msgid "Set the whole document to have two columns."
@@ -7266,8 +7262,8 @@ msgid "Receive email about a deleted consultation note."
 msgstr ""
 
 msgid ""
-"Emails generated when you create a consultation note, hold on to them for a "
-"while, and send them in the evening."
+"Emails that would normally be sent right after you have created a "
+"consultation note, delay them till the evening."
 msgstr ""
 
 msgid "This setting may be useful in the following scenario:"
@@ -8036,9 +8032,6 @@ msgid "Translate"
 msgstr ""
 
 msgid "Tools"
-msgstr ""
-
-msgid "Settings"
 msgstr ""
 
 msgid "Feedback"
@@ -9358,3 +9351,9 @@ msgstr ""
 
 msgid "Select which Bible to insert the cross references into"
 msgstr ""
+
+#~ msgid "Source 1: Paratext."
+#~ msgstr "1-asis šaltinis: Paratext./Source 1: Paratext."
+
+#~ msgid "Source 2: UBS ICAP."
+#~ msgstr "2-asis šaltinis: UBS ICAP/Source 2: UBS ICAP"
