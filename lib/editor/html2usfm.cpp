@@ -240,7 +240,7 @@ void Editor_Html2Usfm::closeElementNode (xml_node node)
     if (suppressEndMarkers.find (className) != suppressEndMarkers.end()) return;
     // Add closing USFM, optionally closing embedded tags in reverse order.
     char separator;
-    if (quill_enabled) separator = '_';
+    if (quill_enabled) separator = '0';
     else separator = ' ';
     vector <string> classes = filter_string_explode (className, separator);
     characterStyles = filter_string_array_diff (characterStyles, classes);
@@ -266,7 +266,7 @@ void Editor_Html2Usfm::openInline (string className)
   //   <span class="nd">Lord God</span>
   // is calling</span> you</span><span>.</span>
   char separator;
-  if (quill_enabled) separator = '_';
+  if (quill_enabled) separator = '0';
   else separator = ' ';
   vector <string> classes = filter_string_explode (className, separator);
   for (unsigned int offset = 0; offset < classes.size(); offset++) {

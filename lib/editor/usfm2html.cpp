@@ -474,12 +474,18 @@ void Editor_Usfm2Html::addText (string text)
       string textstyle;
       for (auto & style : currentTextStyles) {
         if (!textstyle.empty ()) {
-          if (quill_enabled) textstyle.append ("_");
+          // The Quill library is fussy about class names.
+          // It accepts class="i-add" but not class="i-add-nd". It fails on that second hyphen.
+          // It also does not accept an underscore as part of the class name.
+          // That causes the whole class to be removed.
+          // Right now the way to deal with a class with two styles is like this "i-add0nd".
+          // It has one hyphen. And a "0" to separate the two styles.
+          if (quill_enabled) textstyle.append ("0");
           else textstyle.append (" ");
         }
-        if (quill_enabled) textstyle.append (quill_logic_class_prefix_inline ());
         textstyle.append (style);
       }
+      if (quill_enabled) textstyle.insert (0, quill_logic_class_prefix_inline ());
       spanDomElement.append_attribute ("class") = textstyle.c_str();
     }
     currentParagraphContent.append (text);
@@ -558,17 +564,14 @@ void Editor_Usfm2Html::addNoteText (string text)
   spanDomElement.text ().set (text.c_str());
   if (!currentNoteTextStyles.empty()) {
     // Take character style(s) as specified in this object.
-    vector <string> currentNoteTextStyles2 (currentNoteTextStyles);
-    if (quill_enabled) {
-      for (auto & style : currentNoteTextStyles2) {
-        style.insert (0, quill_logic_class_prefix_inline ());
-      }
-    }
     string classs;
     if (quill_enabled) {
-      classs = filter_string_implode (currentNoteTextStyles2, "_");
+      classs = filter_string_implode (currentNoteTextStyles, "0");
     } else {
-      classs = filter_string_implode (currentNoteTextStyles2, " ");
+      classs = filter_string_implode (currentNoteTextStyles, " ");
+    }
+    if (quill_enabled) {
+      classs.insert (0, quill_logic_class_prefix_inline ());
     }
     spanDomElement.append_attribute ("class") = classs.c_str();
   }

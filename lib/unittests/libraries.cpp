@@ -2530,7 +2530,7 @@ void test_editor_roundtrip ()
     {
       // Quill-based editor.
       string html =
-      "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span class=\"i-add\">add</span><span class=\"i-add_i-nd\">addnd</span><span>.</span></p>";
+      "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span class=\"i-add\">add</span><span class=\"i-add0nd\">addnd</span><span>.</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (input_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2577,7 +2577,7 @@ void test_editor_roundtrip ()
     {
       // Quill-based editor.
       string html =
-      "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span class=\"i-add\">add</span><span class=\"i-add_i-nd\">addnd</span><span>.</span></p>";
+      "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span class=\"i-add\">add</span><span class=\"i-add0nd\">addnd</span><span>.</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (input_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2620,7 +2620,7 @@ void test_editor_roundtrip ()
     {
       // Quill-based editor.
       string html =
-      "<p class=\"b-p\"><span>The </span><span class=\"i-add_i-nd\">Lord God</span><span class=\"i-add\"> is</span><span> calling you</span></p>";
+      "<p class=\"b-p\"><span>The </span><span class=\"i-add0nd\">Lord God</span><span class=\"i-add\"> is</span><span> calling you</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (input_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2675,7 +2675,7 @@ void test_editor_roundtrip ()
       "<p class=\"b-notes\">"
       "<br />"
       "</p>"
-      "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk_i-fdc\">key-fdc</span><span> normal</span></p>";
+      "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk0fdc\">key-fdc</span><span> normal</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (input_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2730,7 +2730,7 @@ void test_editor_roundtrip ()
       "<p class=\"b-notes\">"
       "<br />"
       "</p>"
-      "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk_i-fdc\">key-fdc</span><span> normal</span></p>";
+      "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk0fdc\">key-fdc</span><span> normal</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (input_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
