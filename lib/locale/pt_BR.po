@@ -509,7 +509,7 @@ msgstr ""
 msgid "The following passage has no change in the text."
 msgstr ""
 
-msgid "The change is in the formatting only."
+msgid "Only the formatting was changed."
 msgstr ""
 
 msgid "The USFM code is given for reference."
@@ -563,7 +563,7 @@ msgstr ""
 msgid "A pair should consist of two characters:"
 msgstr ""
 
-msgid "The pairs were stored"
+msgid "The pairs were saved"
 msgstr ""
 
 msgid "Patterns"
@@ -1747,9 +1747,6 @@ msgstr ""
 msgid ""
 "It keeps track of all changes made to the Bible text, who made those "
 "changes, and when."
-msgstr ""
-
-msgid "This needs to be set up per Bible."
 msgstr ""
 
 msgid "Select Bible."
@@ -3620,7 +3617,7 @@ msgstr ""
 
 msgid ""
 "Using iterative translation, it releases portions of translated Scripture "
-"every iteration, that is, every month."
+"every iteration, say, every month."
 msgstr ""
 
 msgid ""
@@ -4116,9 +4113,10 @@ msgstr ""
 msgid "The Translators may demonstrate features."
 msgstr ""
 
-msgid ""
-"The Team owns up to deficiencies with the translation, helping to build "
-"trust with the Product Owner."
+msgid "The Team owns up to deficiencies with the translation."
+msgstr ""
+
+msgid "This attitude helps to build trust with the Product Owner."
 msgstr ""
 
 msgid "Sprint Retrospective"
@@ -4526,7 +4524,7 @@ msgstr ""
 msgid "Go to the stylesheet, and choose the 'v' style."
 msgstr ""
 
-msgid "Switch 'Restart paragraph' on."
+msgid "Set 'Restart paragraph' on."
 msgstr ""
 
 msgid "Export again."
@@ -4893,9 +4891,17 @@ msgid ""
 msgstr ""
 
 msgid ""
-"This first page of Scripture starts on the recto (right side of a two page "
-"spread) for left to right reading scripts and the verso (left side of a two "
-"page spread) for right to left scripts."
+"This first page of Scripture starts on the recto for left to right reading "
+"scripts."
+msgstr ""
+
+msgid "The recto is the right side of a two page spread."
+msgstr ""
+
+msgid "For right to left scripts it starts on the verso."
+msgstr ""
+
+msgid "This is the left side of a two page spread."
 msgstr ""
 
 msgid ""
@@ -6359,7 +6365,7 @@ msgstr ""
 msgid "Show breadcrumbs"
 msgstr ""
 
-msgid "Workspace menu fade out delay"
+msgid "Workspace menu fade-out delay"
 msgstr ""
 
 msgid "How long it takes for the desktop menu to start fading out."
@@ -6632,10 +6638,7 @@ msgstr ""
 msgid "Resources to print:"
 msgstr ""
 
-msgid "Set range:"
-msgstr ""
-
-msgid "From"
+msgid "Print from"
 msgstr ""
 
 msgid "Generate the document."
@@ -7125,7 +7128,7 @@ msgstr ""
 msgid "Addition after word list entry"
 msgstr ""
 
-msgid "Dump endnotes when encountering marker"
+msgid "Place endnotes when encountering marker"
 msgstr ""
 
 msgid "System"
@@ -7159,7 +7162,9 @@ msgstr ""
 msgid "Timezone"
 msgstr ""
 
-msgid "The timezone for Bibledit as an offset from UTC in hours"
+msgid ""
+"The timezone for Bibledit as an offset from Coordinated Universal Time in "
+"hours"
 msgstr ""
 
 msgid "hours"
@@ -7442,7 +7447,12 @@ msgstr ""
 
 msgid ""
 "For example use factors of 1 and 2 respectively on two panes to get a split "
-"⅓/⅔ layout or 1, 1, and 2 respectively on three panes for a ¼/¼/½ layout."
+"⅓ / ⅔ layout."
+msgstr ""
+
+msgid ""
+"Or use factors 1, 1, and 2 respectively on three panes for a ¼ / ¼ / ½ "
+"layout."
 msgstr ""
 
 msgid ""
@@ -7453,6 +7463,9 @@ msgstr ""
 msgid ""
 "Enter their relative widths as an integer factor relative to the overall "
 "width and other panes."
+msgstr ""
+
+msgid "The factors for the widths work the same as for the heights."
 msgstr ""
 
 msgid ""
@@ -7512,18 +7525,6 @@ msgid "Display subscribed notes that have been idle for a day."
 msgstr ""
 
 msgid "Display subscribed notes that have been idle for a week."
-msgstr ""
-
-msgid "The workspace configurations will work as expected on most devices."
-msgstr ""
-
-msgid "But on iOS the pages within the workspace do not scroll."
-msgstr ""
-
-msgid "Instead the pages take the full height."
-msgstr ""
-
-msgid "It may be needed to create workspaces specifically for iOS."
 msgstr ""
 
 msgid "You can set the width of the entire workspace."
@@ -8080,9 +8081,6 @@ msgstr ""
 msgid "Go to next verse"
 msgstr ""
 
-msgid "Note actions"
-msgstr ""
-
 msgid "The note will be deleted after a week."
 msgstr ""
 
@@ -8215,7 +8213,7 @@ msgstr ""
 msgid "Unassign notes"
 msgstr ""
 
-msgid "Note passages"
+msgid "Passages"
 msgstr ""
 
 msgid "Please enter the name of the Paratext projects folder"
@@ -8257,11 +8255,10 @@ msgstr ""
 msgid "Incorrect caret position in percents"
 msgstr ""
 
-msgid ""
-"Please enter a fade out delay between 1 and 100 seconds or 0 to disable"
+msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
 msgstr ""
 
-msgid "Incorrect fade out delay in seconds"
+msgid "Incorrect fade-out delay in seconds"
 msgstr ""
 
 msgid "Which visual Bible editors to enable?"
@@ -8456,7 +8453,7 @@ msgstr ""
 msgid "to be updated"
 msgstr ""
 
-msgid "Number of books saved of this user-defined resource definition:"
+msgid "Number of defined books:"
 msgstr ""
 
 msgid "Please enter a name for the new user-defined resource"
@@ -9217,7 +9214,7 @@ msgstr ""
 msgid "Please enter the maximum number of items in the RSS feed"
 msgstr ""
 
-msgid "The number was clipped"
+msgid "The number was trimmed"
 msgstr ""
 
 msgid "The number was saved"
