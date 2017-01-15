@@ -29,6 +29,9 @@
 
 void sendreceive_sendreceive (string bible)
 {
+#ifdef HAVE_CLIENT
+  (void) bible;
+#endif
 #ifdef HAVE_CLOUD
   // Check on Bible.
   if (bible.empty ()) {

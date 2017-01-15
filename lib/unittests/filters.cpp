@@ -3682,6 +3682,15 @@ void test_filter_markup ()
 void test_filter_git_setup (Webserver_Request * request, string bible, string newbible,
                             string psalms_0_data, string psalms_11_data, string song_of_solomon_2_data)
 {
+#ifdef HAVE_CLIENT
+  (void) request;
+  (void) bible;
+  (void) newbible;
+  (void) psalms_0_data;
+  (void) psalms_11_data;
+  (void) song_of_solomon_2_data;
+#endif
+#ifdef HAVE_CLOUD
   trace_unit_tests (__func__);
   
   refresh_sandbox (true);
@@ -3723,11 +3732,13 @@ void test_filter_git_setup (Webserver_Request * request, string bible, string ne
   filter_url_file_put_contents (filter_url_create_path (newrepository, "Psalms", "0", "data"), psalms_0_data);
   filter_url_file_put_contents (filter_url_create_path (newrepository, "Psalms", "11", "data"), psalms_11_data);
   filter_url_file_put_contents (filter_url_create_path (newrepository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
+#endif
 }
 
 
 void test_filter_git ()
 {
+#ifdef HAVE_CLOUD
   trace_unit_tests (__func__);
   
   string bible = "localrepo";
@@ -4495,7 +4506,7 @@ void test_filter_git ()
     // Remove journal entries.
     refresh_sandbox (false);
   }
-
+#endif
 }
 
 

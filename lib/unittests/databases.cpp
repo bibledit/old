@@ -762,6 +762,7 @@ void test_database_localization ()
 
 void test_database_confirm ()
 {
+#ifdef HAVE_CLOUD
   trace_unit_tests (__func__);
   
   refresh_sandbox (true);
@@ -799,6 +800,7 @@ void test_database_confirm ()
   database_confirm.erase (id);
   query = database_confirm.getQuery (id);
   evaluate (__LINE__, __func__,"", query);
+#endif
 }
 
 
@@ -1133,6 +1135,7 @@ void test_database_sblgnt ()
 
 void test_database_sprint ()
 {
+#ifdef HAVE_CLOUD
   trace_unit_tests (__func__);
   
   // Maintenance.
@@ -1221,6 +1224,7 @@ void test_database_sprint ()
     evaluate (__LINE__, __func__, 16, history[1].tasks);
     evaluate (__LINE__, __func__, 55, history[1].complete);
   }
+#endif
 }
 
 
@@ -4606,6 +4610,7 @@ void test_database_privileges ()
 
 void test_database_git ()
 {
+#ifdef HAVE_CLOUD
   trace_unit_tests (__func__);
   
   refresh_sandbox (true);
@@ -4669,6 +4674,7 @@ void test_database_git ()
   Database_Git::store_chapter ("user2", bible, 2, 5, "old", "new");
   vector <string> users = Database_Git::get_users (bible);
   evaluate (__LINE__, __func__, {user, "user2"}, users);
+#endif
 }
 
 
@@ -4720,6 +4726,7 @@ void test_database_userresources ()
 
 void test_database_statistics ()
 {
+#ifdef HAVE_CLOUD
   trace_unit_tests (__func__);
   
   {
@@ -4765,6 +4772,7 @@ void test_database_statistics ()
       evaluate (__LINE__, __func__, 41, changes[1].second);
     }
   }
+#endif
 }
 
 
