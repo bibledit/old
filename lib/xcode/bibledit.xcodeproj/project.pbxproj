@@ -242,6 +242,7 @@
 		CA333CF41ABD6E1300D3D4B6 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA333CF91ABDF10500D3D4B6 /* date.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = date.cpp; sourceTree = "<group>"; };
 		CA333CFA1ABDF10500D3D4B6 /* date.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = date.h; sourceTree = "<group>"; };
+		CA34514D1E2CE38300948360 /* embed.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = embed.js; sourceTree = "<group>"; };
 		CA35A1381A9F3EE100221B89 /* manage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = manage.cpp; sourceTree = "<group>"; };
 		CA35A1391A9F3EE100221B89 /* manage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = manage.h; sourceTree = "<group>"; };
 		CA35A13A1A9F3EE100221B89 /* manage.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = manage.html; sourceTree = "<group>"; };
@@ -2036,6 +2037,7 @@
 			children = (
 				CA2841291A616B040046C073 /* edit.cpp */,
 				CA28412A1A616B040046C073 /* edit.h */,
+				CA34514D1E2CE38300948360 /* embed.js */,
 				CA28411F1A6168310046C073 /* id.cpp */,
 				CA2841201A6168310046C073 /* id.h */,
 				CA28411A1A614BAF0046C073 /* index.cpp */,
