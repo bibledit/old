@@ -68,7 +68,6 @@ typedef struct
 #define UNKNOWN "u"
 #define ORIGINAL "o"
 #define BIBLE "b"
-#define COMMENTARY "c"
 
 
 // Implementation:
@@ -654,20 +653,6 @@ vector <string> resource_external_get_bibles ()
   vector <string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     if (strcmp (resource_table [i].type, BIBLE) == 0) {
-      names.push_back (resource_table [i].name);
-    }
-  }
-  sort (names.begin (), names.end ());
-  return names;
-}
-
-
-// Get the names of the Web resources which are commentaries.
-vector <string> resource_external_get_commentaries ()
-{
-  vector <string> names;
-  for (unsigned int i = 0; i < resource_external_count (); i++) {
-    if (strcmp (resource_table [i].type, COMMENTARY) == 0) {
       names.push_back (resource_table [i].name);
     }
   }

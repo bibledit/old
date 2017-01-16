@@ -127,18 +127,6 @@ string resource_select (void * webserver_request)
   }
   
   
-  if (request->query.count ("web_commentaries")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a commentary"), "", "", true);
-    dialog_list.add_query ("page", request->query["page"]);
-    vector <string> resources = resource_external_get_commentaries ();
-    for (auto resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
-  }
-  
-  
   if (request->query.count ("image")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select an image resource"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
