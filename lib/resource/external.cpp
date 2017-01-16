@@ -65,10 +65,10 @@ typedef struct
 } resource_record;
 
 
+#define UNKNOWN "u"
 #define ORIGINAL "o"
 #define BIBLE "b"
 #define COMMENTARY "c"
-#define GENERAL "g"
 
 
 // Implementation:
@@ -676,20 +676,6 @@ vector <string> resource_external_get_commentaries ()
 }
 
 
-// Get the names of the Web resources which are other resources.
-vector <string> resource_external_get_general_resources ()
-{
-  vector <string> names;
-  for (unsigned int i = 0; i < resource_external_count (); i++) {
-    if (strcmp (resource_table [i].type, GENERAL) == 0) {
-      names.push_back (resource_table [i].name);
-    }
-  }
-  sort (names.begin (), names.end ());
-  return names;
-}
-
-
 // Returns the versification for the resource.
 string resource_external_versification (string name)
 {
@@ -721,7 +707,7 @@ string resource_external_mapping (string name)
 // Returns what type the Web resource $name is.
 string resource_external_type (string name)
 {
-  string type = GENERAL;
+  string type = UNKNOWN;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     string resource = resource_table [i].name;
     if (name == resource) {

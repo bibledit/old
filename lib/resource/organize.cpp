@@ -168,7 +168,6 @@ string resource_organize (void * webserver_request)
     vector <string> original_language_resources = resource_external_get_original_language_resources ();
     vector <string> bible_resources = resource_external_get_bibles ();
     vector <string> commentary_resources = resource_external_get_commentaries ();
-    vector <string> general_resources = resource_external_get_general_resources ();
     vector <string> sword_resources = sword_logic_get_available ();
     vector <string> biblegateway_resources = resource_logic_bible_gateway_module_list_get ();
     vector <string> studylight_resources = resource_logic_study_light_module_list_get ();
@@ -177,7 +176,6 @@ string resource_organize (void * webserver_request)
     installable_resources.insert (installable_resources.end (), original_language_resources.begin (), original_language_resources.end ());
     installable_resources.insert (installable_resources.end (), bible_resources.begin (), bible_resources.end ());
     installable_resources.insert (installable_resources.end (), commentary_resources.begin (), commentary_resources.end ());
-    installable_resources.insert (installable_resources.end (), general_resources.begin (), general_resources.end ());
     installable_resources.insert (installable_resources.end (), sword_resources.begin (), sword_resources.end ());
     installable_resources.insert (installable_resources.end (), biblegateway_resources.begin (), biblegateway_resources.end ());
     installable_resources.insert (installable_resources.end (), studylight_resources.begin (), studylight_resources.end ());

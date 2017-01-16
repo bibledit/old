@@ -28,7 +28,6 @@ vector <string> resource_external_names ();
 vector <string> resource_external_get_original_language_resources ();
 vector <string> resource_external_get_bibles ();
 vector <string> resource_external_get_commentaries ();
-vector <string> resource_external_get_general_resources ();
 string resource_external_versification (string name);
 string resource_external_mapping (string name);
 string resource_external_type (string name);
