@@ -191,7 +191,7 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
     decl.append_attribute("version") = "1.0";
     decl.append_attribute("encoding") = "UTF-8";
     stringstream output;
-    document.print (output, "", format_raw);
+    document.print (output, " ", format_default);
     filter_url_file_put_contents (path, output.str ());
   }
 }
