@@ -132,7 +132,9 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
     if (file_or_dir_exists (path)) filter_url_unlink (path);
     return;
   }
-  string guid = convert_to_string (filter_date_seconds_since_epoch ());
+  int seconds = filter_date_seconds_since_epoch ();
+  string rfc822time = filter_date_rfc822 (seconds);
+  string guid = convert_to_string (seconds);
   bool document_updated = false;
   xml_document document;
   document.load_file (path.c_str());
@@ -171,6 +173,7 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
     item.append_child ("title").text () = titles [i].c_str();
     string author = authors[i] + "@site.org (" + authors[i] + ")";
     item.append_child ("author").text () = author.c_str();
+    item.append_child ("pubDate").text () = rfc822time.c_str();
     item.append_child ("description").text () = descriptions [i].c_str();
     document_updated = true;
   }
