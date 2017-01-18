@@ -250,9 +250,16 @@ string filter_date_month_rfc822 (int month)
 string filter_date_rfc822 (int seconds)
 {
   string rfc822;
-  int weekday = filter_date_numerical_week_day (seconds);
-  rfc822.append (filter_date_day_rfc822 (weekday));
-  rfc822.append (", ");
+  // The feed validator at https://validator.w3.org/feed/ says:
+  // <pubDate>Wed, 18 Feb 2017 12:26:39 +0100</pubDate>
+  // This feed does not validate: Incorrect day of week: Wed (2 occurrences).
+  // Yes, 18 February 2017 is on a Wednesday.
+  // It continues to say that:
+  // If it turns out that computing the correct day of week is impractical using the software you have available, then RFC 822 permits omitting both the day of the week and the subsequent comma from the value.
+  // So: The day of the week is left out.
+  // int weekday = filter_date_numerical_week_day (seconds);
+  // rfc822.append (filter_date_day_rfc822 (weekday));
+  // rfc822.append (", ");
   string monthday = convert_to_string (filter_date_numerical_month_day (seconds));
   rfc822.append (filter_string_fill (monthday, 2, '0'));
   rfc822.append (" ");
