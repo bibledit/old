@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2017-01-10 17:09+0000\n"
-"Last-Translator: Teus Benschop <teusjannette@gmail.com>\n"
+"PO-Revision-Date: 2017-01-16 07:39+0000\n"
+"Last-Translator: L'Africain <lafricain79@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,13 +67,13 @@ msgid ""
 "It has been some time ago that changes in the Bible text were received from "
 "the Cloud."
 msgstr ""
-"Il y a déjà quelque temps que les changements dans le texte de la Bible ont "
-"été reçus du Nuage."
+"Il y a déjà quelque temps que les changements dans le texte biblique ont été "
+"récupérés du Nuage."
 
 msgid "Please do a Send/receive action to receive them from the Cloud."
 msgstr ""
 "Veuillez effectuer une action Envoyer/recevoir pour les recevoir à partir du "
-"Cloud."
+"Nuage."
 
 msgid "Please do a Send/receive to the Cloud"
 msgstr "Faites un envoi / réception au Cloud"
@@ -779,7 +779,7 @@ msgid "Unknown passage"
 msgstr "Passage inconnu"
 
 msgid "New"
-msgstr "Nouvelle"
+msgstr "Nouveau"
 
 msgid "Pending"
 msgstr "En attente"
@@ -788,10 +788,10 @@ msgid "In progress"
 msgstr "En cours"
 
 msgid "Done"
-msgstr "Faite"
+msgstr "Fait"
 
 msgid "Reopened"
-msgstr "Réouverte"
+msgstr "Réouvert"
 
 msgid "Wish"
 msgstr "Souhait"
@@ -900,7 +900,7 @@ msgid "cancel"
 msgstr "annuler"
 
 msgid "all"
-msgstr "toutes"
+msgstr "Tous"
 
 msgid "Edit USFM"
 msgstr "Éditer l'USFM"
@@ -1460,7 +1460,7 @@ msgstr "Vos collègues ont leurs propres listes."
 msgid ""
 "Changes in the text of the Bibles will be added to the list the next day."
 msgstr ""
-"Tous changements dans le texte des Bibles sera ajouté à la liste le jour "
+"Tout changement dans le texte des Bibles sera ajouté à la liste le jour "
 "suivant."
 
 msgid "The change notifications fall into several categories:"
@@ -1487,7 +1487,7 @@ msgid ""
 "They have been made either by yourself or by someone else working on this "
 "Bible."
 msgstr ""
-"\"Elles peuvent avoir été faites par vous-même ou bien par n'importe qui "
+"Elles peuvent avoir été faites par vous-même ou bien par n'importe qui "
 "travaillant sur cette Bible."
 
 msgid ""
@@ -6944,7 +6944,7 @@ msgstr "Soumettez la Bible à Bible Drop Box maintenant."
 
 msgid "Hyphenation can be used when preparing a Bible for printing."
 msgstr ""
-"La césure peut être utilisé pour la préparation d'une Bible à l'impression."
+"La césure peut être utilisée pour la préparation d'une Bible à l'impression."
 
 msgid ""
 "It allows for more efficient usage of paper, and for more regular appearance "
@@ -6968,13 +6968,13 @@ msgid ""
 msgstr ""
 "La césure n'a pas forcément d'importance lors de la préparation d'une Bible "
 "pour la relecture. Elle est généralement considérée comme importante pour "
-"les Bibles destinées la production."
+"les Bibles destinées à la production."
 
 msgid ""
 "When preparing a Bible in LibreOffice, OpenOffice, AbiWord, en so on, the "
 "wordprocessor itself provides hyphenation algorithms for many languages."
 msgstr ""
-"Lors de la préparation d'une Bible dans LibreOffice, OpenOffice, AbiWord, en "
+"Lors de la préparation d'une Bible dans LibreOffice, OpenOffice, AbiWord, et "
 "ainsi de suite, le traitement de texte lui-même fournit des algorithmes de "
 "césure pour de nombreuses langues."
 
@@ -7022,7 +7022,7 @@ msgid "First set of characters"
 msgstr "Premier jeu de caractères"
 
 msgid "Second set of characters"
-msgstr "Secong jeu de caractères"
+msgstr "Second jeu de caractères"
 
 msgid "Enter the sets of characters, and press Save."
 msgstr "Entrez les jeux de caractères et appuyez sur Enregistrer."
@@ -7332,7 +7332,7 @@ msgid "Create consultation note for"
 msgstr "Créer une note de consultation pour"
 
 msgid "Body"
-msgstr "Corps"
+msgstr "Corps de la note"
 
 msgid "Edit note contents"
 msgstr "Éditer les notes de contenus"
@@ -7398,10 +7398,10 @@ msgid "today"
 msgstr "aujourd'hui"
 
 msgid "Select notes that have not been edited for:"
-msgstr "Sélectionnez les notes qui n'ont pas été modifiées depuis :"
+msgstr "Sélectionner les notes qui n'ont pas été modifiées depuis :"
 
 msgid "any time"
-msgstr "à tout moment"
+msgstr "toujours"
 
 msgid "a day"
 msgstr "un jour"
@@ -7419,19 +7419,19 @@ msgid "a year"
 msgstr "un an"
 
 msgid "Select notes that have a certain status:"
-msgstr "Sélectionnez les notes qui ont un certain statut :"
+msgstr "Sélectionner les notes qui ont un certain statut :"
 
 msgid "Any"
 msgstr "Toute"
 
 msgid "Select notes that belong to:"
-msgstr "Sélectionnez les notes qui appartiennent à :"
+msgstr "Sélectionner les notes qui appartiennent à :"
 
 msgid "any Bible"
-msgstr "toute Bible"
+msgstr "toute les Bible"
 
 msgid "Select notes that have been assigned to somebody:"
-msgstr "Sélectionnez les notes qui ont été attribuées à quelqu'un :"
+msgstr "Sélectionner les notes qui ont été attribuées à quelqu'un :"
 
 msgid "do not care about this"
 msgstr "ne pas se soucier au sujet de cela"
@@ -7440,16 +7440,16 @@ msgid "Currently looking for notes assigned to:"
 msgstr "À l'heure actuelle rechercher des notes attribuées à :"
 
 msgid "Select notes by subscription:"
-msgstr "Sélectionnez les notes par abonnement :"
+msgstr "Sélectionner les notes par abonnement :"
 
 msgid "notes I am subscribed to"
 msgstr "notes auxquelles je suis abonné"
 
 msgid "Select notes that have a severity of:"
-msgstr "Sélectionnez les notes qui ont une importance de:"
+msgstr "Sélectionner les notes qui ont une importance de :"
 
 msgid "Select notes that contain text:"
-msgstr "Sélectionnez les notes qui contiennent le texte :"
+msgstr "Sélectionner les notes qui contiennent le texte :"
 
 msgid "Specific text or words:"
 msgstr "Texte ou mots spécifiques :"
@@ -7962,7 +7962,7 @@ msgid "Number of verses to display after the focused verse:"
 msgstr "Nombre de versets à afficher après le verset ciblé :"
 
 msgid "Display related passages"
-msgstr "Afficher les passages en lien"
+msgstr "Afficher les passages en lien avec"
 
 msgid "Install all the above resources on the device."
 msgstr "Installer toutes les ressources ci-dessus sur le périphérique."
@@ -7996,12 +7996,6 @@ msgstr "Textes en langues originales"
 
 msgid "Bibles (translations)"
 msgstr "Bibles (tranductions)"
-
-msgid "Commentaries"
-msgstr "Commentaires"
-
-msgid "Other"
-msgstr "Autres"
 
 msgid "Lexicons"
 msgstr "Lexiques"
@@ -8105,10 +8099,11 @@ msgstr ""
 "Elles affichent une page Web basée sur le passage ciblé dans Bibledit."
 
 msgid "Search all Bibles and consultation notes:"
-msgstr "Rechercher dans toutes les Bibles et dans notes de consultation :"
+msgstr ""
+"Rechercher dans toutes les Bibles et dans toutes les notes de consultation :"
 
 msgid "Search for"
-msgstr "Rechercher"
+msgstr ""
 
 msgid "notes"
 msgstr "notes"
@@ -8120,7 +8115,7 @@ msgid "Search"
 msgstr "Rechercher"
 
 msgid "Search in active Bible."
-msgstr "Rechercher dans la Bible active"
+msgstr "Rechercher dans la Bible active."
 
 msgid "Enter the search term."
 msgstr "Entrez le terme recherché."
@@ -8200,13 +8195,14 @@ msgstr "Les supprimer de ceux déjà sur la page"
 
 msgid "Display the intersection of them and the ones already on the page"
 msgstr ""
-"Affichez l'intersection entre ceux qui sont déjà sur la page et les nouveaux"
+"Afficher ceux dont la recherche se croise entre les recherches déjà "
+"présentes sur la page et le celle des nouveaux mots recherchés"
 
 msgid "Search for verses similar to the focused verse in:"
 msgstr "Rechercher des versets semblables au verset ciblé dans :"
 
 msgid "Search for verses with a certain Strong's number in:"
-msgstr "Rechercher des verset avec un certain nombre de strong dans  :"
+msgstr "Rechercher des verset avec un certain nombre de Strong dans  :"
 
 msgid ""
 "Search for verses with most Strong's numbers similar to the focused verse in:"
@@ -9435,16 +9431,16 @@ msgid "Advanced search"
 msgstr "Recherche avancée"
 
 msgid "Advanced replace"
-msgstr "Remplacement avancée"
+msgstr "Remplacement avancé"
 
 msgid "Search all Bibles and notes"
-msgstr "Rechercher toutes les Bibles et les notes"
+msgstr "Rechercher dans toutes les Bibles et les notes"
 
 msgid "Search Bible for similar verses"
-msgstr "Rechercher des Bibles avec des versets similaires."
+msgstr "Rechercher des Bibles avec des versets similaires"
 
 msgid "Search Bible for similar Strong's numbers"
-msgstr "Rechercher des Bibles avec des nombres de Strong similaires."
+msgstr "Rechercher des Bibles avec des nombres de Strong similaires"
 
 msgid "Search Bible for Strong's number"
 msgstr "Rechercher des nombres de Strong dans la Bible"
@@ -9552,7 +9548,7 @@ msgid "Forward"
 msgstr "Suivant"
 
 msgid "Select book"
-msgstr "Choisissez un livre"
+msgstr "Choisir un livre"
 
 msgid "Select chapter"
 msgstr "Sélectionner un chapitre"
@@ -9684,7 +9680,7 @@ msgid "Select notes"
 msgstr "Sélectionner les notes"
 
 msgid "Search text saved"
-msgstr "Rechercer un texte sauvegardé"
+msgstr "Rechercher un texte sauvegardé"
 
 msgid "Note status"
 msgstr "État de la note"
@@ -9907,12 +9903,6 @@ msgstr "Sélectionner un texte en langue original"
 
 msgid "Select a Bible translation"
 msgstr "Sélectionner une traduction biblique"
-
-msgid "Select a commentary"
-msgstr "Sélectionner un commentaire"
-
-msgid "Select a general resource"
-msgstr "Sélectionner une ressource générale"
 
 msgid "Select an image resource"
 msgstr "Sélectionner une ressource d'image"
@@ -10884,3 +10874,15 @@ msgstr ""
 
 msgid "Select which Bible to insert the cross references into"
 msgstr "Sélectionnez la Bible dans laquelle insérer les références croisées"
+
+#~ msgid "Commentaries"
+#~ msgstr "Commentaires"
+
+#~ msgid "Other"
+#~ msgstr "Autres"
+
+#~ msgid "Select a commentary"
+#~ msgstr "Sélectionner un commentaire"
+
+#~ msgid "Select a general resource"
+#~ msgstr "Sélectionner une ressource générale"

@@ -6662,12 +6662,6 @@ msgstr ""
 msgid "Bibles (translations)"
 msgstr ""
 
-msgid "Commentaries"
-msgstr ""
-
-msgid "Other"
-msgstr ""
-
 msgid "Lexicons"
 msgstr ""
 
@@ -8421,12 +8415,6 @@ msgid "Select an original language text"
 msgstr ""
 
 msgid "Select a Bible translation"
-msgstr ""
-
-msgid "Select a commentary"
-msgstr ""
-
-msgid "Select a general resource"
 msgstr ""
 
 msgid "Select an image resource"
