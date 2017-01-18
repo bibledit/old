@@ -18,6 +18,7 @@
 
 
 #include <filter/date.h>
+#include <filter/string.h>
 #include <database/config/general.h>
 
 
@@ -209,4 +210,72 @@ void filter_date_get_next_month (int & month, int & year)
     month = 1;
     year++;
   }
+}
+
+
+string filter_date_day_rfc822 (int day)
+{
+  if (day == 0) return "Sun";
+  if (day == 1) return "Mon";
+  if (day == 2) return "Tue";
+  if (day == 3) return "Wed";
+  if (day == 4) return "Thu";
+  if (day == 5) return "Fri";
+  if (day == 6) return "Sat";
+  return "";
+}
+
+
+string filter_date_month_rfc822 (int month)
+{
+  if (month ==  0) return "Jan";
+  if (month ==  1) return "Feb";
+  if (month ==  2) return "Mar";
+  if (month ==  3) return "Apr";
+  if (month ==  4) return "May";
+  if (month ==  5) return "Jun";
+  if (month ==  6) return "Jul";
+  if (month ==  7) return "Aug";
+  if (month ==  8) return "Sep";
+  if (month ==  9) return "Oct";
+  if (month == 10) return "Nov";
+  if (month == 11) return "Dec";
+  return "";
+}
+
+
+// Converts the number of $seconds since the Unix epoch
+// to date and time values according to RFC 822,
+// e.g.: Wed, 02 Oct 2002 15:00:00 +0200.
+string filter_date_rfc822 (int seconds)
+{
+  string rfc822;
+  int weekday = filter_date_numerical_week_day (seconds);
+  rfc822.append (filter_date_day_rfc822 (weekday));
+  rfc822.append (", ");
+  string monthday = convert_to_string (filter_date_numerical_month_day (seconds));
+  rfc822.append (filter_string_fill (monthday, 2, '0'));
+  rfc822.append (" ");
+  int month = filter_date_numerical_month (seconds);
+  rfc822.append (filter_date_month_rfc822 (month));
+  rfc822.append (" ");
+  int year = filter_date_numerical_year (seconds);
+  rfc822.append (convert_to_string (year));
+  rfc822.append (" ");
+  string hour = convert_to_string (filter_date_numerical_hour (seconds));
+  rfc822.append (filter_string_fill (hour, 2, '0'));
+  rfc822.append (":");
+  string minute = convert_to_string (filter_date_numerical_minute (seconds));
+  rfc822.append (filter_string_fill (minute, 2, '0'));
+  rfc822.append (":");
+  string second = convert_to_string (filter_date_numerical_second (seconds));
+  rfc822.append (filter_string_fill (second, 2, '0'));
+  rfc822.append (" ");
+  int timezone = Database_Config_General::getTimezone ();
+  if (timezone >= 0) rfc822.append ("+");
+  else rfc822.append ("-");
+  if (timezone < 0) timezone = 0 - timezone;
+  rfc822.append (filter_string_fill (convert_to_string (timezone), 2, '0'));
+  rfc822.append ("00");
+  return rfc822;
 }

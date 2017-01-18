@@ -40,6 +40,9 @@ int filter_date_get_last_business_day_of_month (int year, int month);
 bool filter_date_is_business_day (int year, int month, int day);
 void filter_date_get_previous_month (int & month, int & year);
 void filter_date_get_next_month (int & month, int & year);
+string filter_date_day_rfc822 (int day);
+string filter_date_month_rfc822 (int month);
+string filter_date_rfc822 (int seconds);
 
 
 #endif
