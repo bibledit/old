@@ -92,7 +92,7 @@ style_record styles_table [] =
     /* spaceafter */ 0,
     /* leftmargin */ 0,
     /* rightmargin */ 0,
-    /* firstlineindent */ 0
+    /* firstlineindent */ 0,
     /* spancolumns */ 0,
     /* color */ "#000000",
     /* print */ 1,
