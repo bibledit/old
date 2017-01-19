@@ -73,12 +73,31 @@ font-weight: bold;
 .fv, .i-fv {
 }
 .ib, .b-ib {
-font-size: 42%;
 }
 .iex, .b-iex {
 margin-top: 4mm;
 margin-bottom: 4mm;
 text-indent: 3.2mm;
+}
+.ili, .b-ili {
+margin-left: 15.9mm;
+margin-right: -9.3mm;
+}
+.ili1, .b-ili1 {
+margin-left: 12.7mm;
+text-indent: -6.4mm;
+}
+.ili2, .b-ili2 {
+margin-left: 19.1mm;
+text-indent: -6.4mm;
+}
+.ili3, .b-ili3 {
+margin-left: 25.4mm;
+text-indent: -6.4mm;
+}
+.ili4, .b-ili4 {
+margin-left: 31.8mm;
+text-indent: -6.4mm;
 }
 .im, .b-im {
 }
@@ -131,6 +150,18 @@ page-break-inside: avoid;
 }
 .imte, .b-imte {
 font-size: 167%;
+font-weight: bold;
+text-align: center;
+page-break-inside: avoid;
+}
+.imte1, .b-imte1 {
+font-size: 167%;
+font-weight: bold;
+text-align: center;
+page-break-inside: avoid;
+}
+.imte2, .b-imte2 {
+font-size: 150%;
 font-weight: bold;
 text-align: center;
 page-break-inside: avoid;
@@ -204,6 +235,8 @@ font-style: italic;
 margin-left: 25.4mm;
 text-indent: -6.4mm;
 }
+.iqt, .i-iqt {
+}
 .is, .b-is {
 font-weight: bold;
 text-align: center;
@@ -237,6 +270,12 @@ page-break-inside: avoid;
 .k2, .b-k2 {
 page-break-inside: avoid;
 }
+.lf, .b-lf {
+margin-left: 10mm;
+}
+.lh, .b-lh {
+margin-left: 10mm;
+}
 .li, .b-li {
 margin-left: 15.9mm;
 margin-right: -9.3mm;
@@ -257,8 +296,24 @@ text-indent: -6.4mm;
 margin-left: 31.8mm;
 text-indent: -6.4mm;
 }
+.lik, .i-lik {
+}
+.lim, .b-lim {
+margin-left: 15.9mm;
+margin-right: -9.3mm;
+}
+.lim1, .b-lim1 {
+margin-left: 12.7mm;
+text-indent: -6.4mm;
+}
 .lit, .i-lit {
 font-weight: bold;
+}
+.litl, .i-litl {
+}
+.liv, .i-liv {
+}
+.liv1, .i-liv1 {
 }
 .m, .b-m {
 }
@@ -424,6 +479,8 @@ margin-right: 6.4mm;
 font-weight: bold;
 text-decoration: underline;
 }
+.po, .b-po {
+}
 .q, .b-q {
 margin-left: 25.4mm;
 text-indent: -19.1mm;
@@ -448,6 +505,8 @@ font-style: italic;
 }
 .qc, .b-qc {
 text-align: center;
+}
+.qd, .b-qd {
 }
 .qm, .b-qm {
 margin-left: 25.4mm;
@@ -520,6 +579,15 @@ page-break-inside: avoid;
 }
 .sc, .i-sc {
 font-variant: small-caps;
+}
+.sd, .b-sd {
+font-size: 167%;
+}
+.sd1, .b-sd1 {
+font-size: 167%;
+}
+.sd2, .b-sd2 {
+font-size: 133%;
 }
 .sig, .i-sig {
 font-style: italic;
