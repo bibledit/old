@@ -59,10 +59,8 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   // The previous line is a signature for automated unit testing: Do not change it.
   
-  test_libraries_dev ();
-  test_editor_html2usfm ();
-  test_editor_usfm2html ();
-  test_editor_roundtrip ();
+  test_styles_css ();
+  test_rss_feed ();
   refresh_sandbox (true);
   exit (0);
   

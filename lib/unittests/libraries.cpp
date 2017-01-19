@@ -5146,7 +5146,7 @@ void test_rss_feed ()
   // Write two items.
   Database_Config_General::setMaxRssFeedItems (10);
   rss_logic_update_xml ({ "titleone", "titletwo" }, { "authorone", "authortwo" }, { "description one", "description two"} );
-  evaluate (__LINE__, __func__, 667, filter_url_filesize (path));
+  evaluate (__LINE__, __func__, 828, filter_url_filesize (path));
   
   // Set maximum number of items to 0: Should remove the file.
   Database_Config_General::setMaxRssFeedItems (0);
@@ -5164,7 +5164,7 @@ void test_rss_feed ()
     descriptions.push_back ("description " + convert_to_string (i));
   }
   rss_logic_update_xml (titles, authors, descriptions);
-  evaluate (__LINE__, __func__, 1850, filter_url_filesize (path));
+  evaluate (__LINE__, __func__, 2508, filter_url_filesize (path));
 #endif
 }
 
