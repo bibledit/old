@@ -2,6 +2,9 @@
 .add, .i-add {
 font-style: italic;
 }
+.addpn, .i-addpn {
+font-style: italic;
+}
 .b, .b-b {
 }
 .bd, .i-bd {
@@ -17,6 +20,9 @@ font-style: italic;
 .c, .b-c {
 font-size: 250%;
 font-weight: bold;
+}
+.cat, .i-cat {
+font-style: italic;
 }
 .cd, .b-cd {
 font-size: 92%;
@@ -36,8 +42,18 @@ page-break-inside: avoid;
 .dc, .i-dc {
 font-style: italic;
 }
+.ef, .b-ef {
+}
 .em, .i-em {
 font-style: italic;
+}
+.esb, .b-esb {
+text-indent: 3.2mm;
+}
+.esbe, .b-esbe {
+text-indent: 3.2mm;
+}
+.ex, .b-ex {
 }
 .f, .b-f {
 }
@@ -261,14 +277,10 @@ page-break-inside: avoid;
 .it, .i-it {
 font-style: italic;
 }
+.jmp, .i-jmp {
+}
 .k, .i-k {
 font-style: italic;
-}
-.k1, .b-k1 {
-page-break-inside: avoid;
-}
-.k2, .b-k2 {
-page-break-inside: avoid;
 }
 .lf, .b-lf {
 margin-left: 10mm;
@@ -306,7 +318,7 @@ margin-right: -9.3mm;
 margin-left: 12.7mm;
 text-indent: -6.4mm;
 }
-.lit, .i-lit {
+.lit, .b-lit {
 font-weight: bold;
 }
 .litl, .i-litl {
@@ -425,15 +437,6 @@ vertical-align: super;
 .p, .b-p {
 text-indent: 3.2mm;
 }
-.p1, .b-p1 {
-text-indent: 3.2mm;
-page-break-inside: avoid;
-}
-.p2, .b-p2 {
-margin-left: 3.2mm;
-text-indent: 3.2mm;
-page-break-inside: avoid;
-}
 .pc, .b-pc {
 text-align: center;
 }
@@ -476,6 +479,10 @@ margin-left: 6.4mm;
 margin-right: 6.4mm;
 }
 .pn, .i-pn {
+font-weight: bold;
+text-decoration: underline;
+}
+.png, .i-png {
 font-weight: bold;
 text-decoration: underline;
 }
@@ -539,10 +546,14 @@ text-align: center;
 margin-bottom: 4mm;
 page-break-inside: avoid;
 }
+.rb, .i-rb {
+}
 .rq, .b-rq {
 font-style: italic;
 text-align: right;
 margin-bottom: 4mm;
+}
+.rt, .i-rt {
 }
 .s, .b-s {
 font-weight: bold;
@@ -628,11 +639,19 @@ color: #FF0000;
 .xk, .i-xk {
 font-style: italic;
 }
+.xnt, .i-xnt {
+}
 .xo, .i-xo {
 font-weight: bold;
+}
+.xop, .i-xop {
+}
+.xot, .i-xot {
 }
 .xq, .i-xq {
 font-style: italic;
 }
 .xt, .i-xt {
+}
+.xta, .i-xta {
 }
