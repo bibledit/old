@@ -78,30 +78,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace jsonxx;
 
 
-void test_sqlite ()
-{
-  trace_unit_tests (__func__);
-  
-  // Tests for SQLite.
-  sqlite3 * db = database_sqlite_connect ("sqlite");
-  if (!db) error_message (__LINE__, __func__, "pointer", "NULL");
-  database_sqlite_exec (db, "CREATE TABLE test (column1 integer, column2 integer, column3 integer);");
-  database_sqlite_exec (db, "INSERT INTO test VALUES (123, 456, 789);");
-  database_sqlite_exec (db, "INSERT INTO test VALUES (234, 567, 890);");
-  database_sqlite_exec (db, "INSERT INTO test VALUES (345, 678, 901);");
-  map <string, vector <string> > actual = database_sqlite_query (db, "SELECT column1, column2, column3 FROM test;");
-  evaluate (__LINE__, __func__, "567", actual ["column2"] [1]);
-  database_sqlite_disconnect (db);
-  database_sqlite_disconnect (NULL);
-
-  evaluate (__LINE__, __func__, true, database_sqlite_healthy ("sqlite"));
-  unlink (database_sqlite_file ("sqlite").c_str());
-  evaluate (__LINE__, __func__, false, database_sqlite_healthy ("sqlite"));
-
-  evaluate (__LINE__, __func__, "He''s", database_sqlite_no_sql_injection ("He's"));
-}
-
-
 void test_session_logic ()
 {
   trace_unit_tests (__func__);

@@ -349,7 +349,8 @@ server_OBJECTS = $(am_server_OBJECTS)
 server_DEPENDENCIES = libbibledit.a
 am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/utilities.$(OBJEXT) unittests/libraries.$(OBJEXT) \
-	unittests/filters.$(OBJEXT) unittests/databases.$(OBJEXT)
+	unittests/filters.$(OBJEXT) unittests/databases.$(OBJEXT) \
+	unittests/sqlite.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -1012,7 +1013,8 @@ unittest_SOURCES = \
 	unittests/utilities.cpp \
 	unittests/libraries.cpp \
 	unittests/filters.cpp \
-	unittests/databases.cpp
+	unittests/databases.cpp \
+	unittests/sqlite.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = executable/generate.cpp
@@ -2556,6 +2558,8 @@ unittests/filters.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/databases.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/sqlite.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3078,6 +3082,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/databases.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/filters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/libraries.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/utilities.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/account.Po@am__quote@

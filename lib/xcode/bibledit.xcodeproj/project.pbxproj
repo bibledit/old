@@ -56,6 +56,8 @@
 		CA05B0251AC4505400488ECE /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA05B0261AC4505400488ECE /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA05B0271AC4505400488ECE /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		CA05DD2C1E33731700EA2EDF /* sqlite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sqlite.cpp; sourceTree = "<group>"; };
+		CA05DD2D1E33731700EA2EDF /* sqlite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sqlite.h; sourceTree = "<group>"; };
 		CA060B981CF89E8C000839FF /* privileges.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = privileges.js; sourceTree = "<group>"; };
 		CA06BDCF1A56871E00A051FF /* abbreviations.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = abbreviations.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA06BDD01A56871E00A051FF /* abbreviations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = abbreviations.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -2978,6 +2980,8 @@
 				CAA4D3C41A45A648003ABA25 /* filters.h */,
 				CAA4D3C51A45A648003ABA25 /* libraries.cpp */,
 				CAA4D3C61A45A648003ABA25 /* libraries.h */,
+				CA05DD2C1E33731700EA2EDF /* sqlite.cpp */,
+				CA05DD2D1E33731700EA2EDF /* sqlite.h */,
 				CAA4D3C71A45A648003ABA25 /* stress */,
 				CAA4D3C81A45A648003ABA25 /* tests */,
 				CAA4D4361A45A648003ABA25 /* unittest.cpp */,

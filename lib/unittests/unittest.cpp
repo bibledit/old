@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/usfm.h>
 #include <session/logic.h>
+#include <unittests/sqlite.h>
 
 
 int main (int argc, char **argv) 
@@ -59,11 +60,8 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   // The previous line is a signature for automated unit testing: Do not change it.
   
-  test_styles_css ();
-  test_rss_feed ();
-  test_database_styles ();
-  refresh_sandbox (true);
-  exit (0);
+  //refresh_sandbox (true);
+  //exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
   // Automated Unit Tests End Removing Code Here.
