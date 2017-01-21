@@ -61,6 +61,7 @@ int main (int argc, char **argv)
   
   test_styles_css ();
   test_rss_feed ();
+  test_database_styles ();
   refresh_sandbox (true);
   exit (0);
   
