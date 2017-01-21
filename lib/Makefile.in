@@ -360,7 +360,11 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/workspace_logic.$(OBJEXT) \
 	unittests/client_logic.$(OBJEXT) \
 	unittests/check_sentences.$(OBJEXT) \
-	unittests/check_versification.$(OBJEXT)
+	unittests/check_versification.$(OBJEXT) \
+	unittests/check_usfm.$(OBJEXT) \
+	unittests/check_verses.$(OBJEXT) \
+	unittests/check_pairs.$(OBJEXT) unittests/hyphenate.$(OBJEXT) \
+	unittests/search_logic.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -1036,7 +1040,12 @@ unittest_SOURCES = \
 	unittests/workspace_logic.cpp \
 	unittests/client_logic.cpp \
 	unittests/check_sentences.cpp \
-	unittests/check_versification.cpp
+	unittests/check_versification.cpp \
+	unittests/check_usfm.cpp \
+	unittests/check_verses.cpp \
+	unittests/check_pairs.cpp \
+	unittests/hyphenate.cpp \
+	unittests/search_logic.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = executable/generate.cpp
@@ -2606,6 +2615,16 @@ unittests/check_sentences.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/check_versification.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/check_usfm.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/check_verses.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/check_pairs.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/hyphenate.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/search_logic.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3125,7 +3144,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@timer/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tmp/$(DEPDIR)/tmp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@trash/$(DEPDIR)/handler.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/check_pairs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/check_sentences.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/check_usfm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/check_verses.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/check_versification.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/checksum_logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/client_logic.Po@am__quote@
@@ -3136,7 +3158,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/empty_folders.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/filters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/flate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/hyphenate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/libraries.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/search_logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/session_logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/store_bible_data.Po@am__quote@

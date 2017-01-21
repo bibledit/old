@@ -48,6 +48,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/client_logic.h>
 #include <unittests/check_sentences.h>
 #include <unittests/check_versification.h>
+#include <unittests/check_usfm.h>
+#include <unittests/check_verses.h>
+#include <unittests/check_pairs.h>
+#include <unittests/hyphenate.h>
+#include <unittests/search_logic.h>
 
 
 int main (int argc, char **argv) 

@@ -472,7 +472,12 @@ unittest_SOURCES = \
 	unittests/workspace_logic.cpp \
 	unittests/client_logic.cpp \
 	unittests/check_sentences.cpp \
-	unittests/check_versification.cpp
+	unittests/check_versification.cpp \
+	unittests/check_usfm.cpp \
+	unittests/check_verses.cpp \
+	unittests/check_pairs.cpp \
+	unittests/hyphenate.cpp \
+	unittests/search_logic.cpp
 
 unittest_LDADD = libbibledit.a
 
