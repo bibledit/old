@@ -45,6 +45,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/editor_usfm2html.h>
 #include <unittests/editor_roundtrip.h>
 #include <unittests/workspace_logic.h>
+#include <unittests/client_logic.h>
+#include <unittests/check_sentences.h>
+#include <unittests/check_versification.h>
 
 
 int main (int argc, char **argv) 

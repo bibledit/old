@@ -469,7 +469,10 @@ unittest_SOURCES = \
 	unittests/editor_html2usfm.cpp \
 	unittests/editor_usfm2html.cpp \
 	unittests/editor_roundtrip.cpp \
-	unittests/workspace_logic.cpp
+	unittests/workspace_logic.cpp \
+	unittests/client_logic.cpp \
+	unittests/check_sentences.cpp \
+	unittests/check_versification.cpp
 
 unittest_LDADD = libbibledit.a
 
