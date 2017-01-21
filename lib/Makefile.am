@@ -465,7 +465,11 @@ unittest_SOURCES = \
 	unittests/empty_folders.cpp \
 	unittests/flate.cpp \
 	unittests/checksum_logic.cpp \
-	unittests/store_bible_data.cpp
+	unittests/store_bible_data.cpp \
+	unittests/editor_html2usfm.cpp \
+	unittests/editor_usfm2html.cpp \
+	unittests/editor_roundtrip.cpp \
+	unittests/workspace_logic.cpp
 
 unittest_LDADD = libbibledit.a
 

@@ -41,6 +41,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/flate.h>
 #include <unittests/checksum_logic.h>
 #include <unittests/store_bible_data.h>
+#include <unittests/editor_html2usfm.h>
+#include <unittests/editor_usfm2html.h>
+#include <unittests/editor_roundtrip.h>
+#include <unittests/workspace_logic.h>
 
 
 int main (int argc, char **argv) 
@@ -131,7 +135,6 @@ int main (int argc, char **argv)
   test_editor_html2usfm ();
   test_editor_usfm2html ();
   test_editor_roundtrip ();
-  test_editor_development ();
   test_filter_markup ();
   test_workspace_logic ();
   test_filter_git ();

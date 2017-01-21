@@ -353,7 +353,11 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/sqlite.$(OBJEXT) unittests/session_logic.$(OBJEXT) \
 	unittests/empty_folders.$(OBJEXT) unittests/flate.$(OBJEXT) \
 	unittests/checksum_logic.$(OBJEXT) \
-	unittests/store_bible_data.$(OBJEXT)
+	unittests/store_bible_data.$(OBJEXT) \
+	unittests/editor_html2usfm.$(OBJEXT) \
+	unittests/editor_usfm2html.$(OBJEXT) \
+	unittests/editor_roundtrip.$(OBJEXT) \
+	unittests/workspace_logic.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -1022,7 +1026,11 @@ unittest_SOURCES = \
 	unittests/empty_folders.cpp \
 	unittests/flate.cpp \
 	unittests/checksum_logic.cpp \
-	unittests/store_bible_data.cpp
+	unittests/store_bible_data.cpp \
+	unittests/editor_html2usfm.cpp \
+	unittests/editor_usfm2html.cpp \
+	unittests/editor_roundtrip.cpp \
+	unittests/workspace_logic.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = executable/generate.cpp
@@ -2578,6 +2586,14 @@ unittests/checksum_logic.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/store_bible_data.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/editor_html2usfm.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/editor_usfm2html.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/editor_roundtrip.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/workspace_logic.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3099,6 +3115,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@trash/$(DEPDIR)/handler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/checksum_logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/databases.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editor_html2usfm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editor_roundtrip.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editor_usfm2html.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/empty_folders.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/filters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/flate.Po@am__quote@
@@ -3108,6 +3127,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/store_bible_data.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/utilities.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/workspace_logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/account.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/notifications.Po@am__quote@
