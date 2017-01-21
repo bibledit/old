@@ -35,15 +35,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <session/logic.h>
 #include <unittests/sqlite.h>
-#include <unittests/session_logic.h>
-#include <unittests/empty_folders.h>
+#include <unittests/session.h>
+#include <unittests/folders.h>
 #include <unittests/flate.h>
 #include <unittests/checksum_logic.h>
-#include <unittests/store_bible_data.h>
+#include <unittests/bibles.h>
 #include <unittests/editor_html2usfm.h>
 #include <unittests/editor_usfm2html.h>
 #include <unittests/editor_roundtrip.h>
-#include <unittests/workspace_logic.h>
+#include <unittests/workspaces.h>
 #include <unittests/client_logic.h>
 #include <unittests/check_sentences.h>
 #include <unittests/check_versification.h>
@@ -51,7 +51,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/check_verses.h>
 #include <unittests/check_pairs.h>
 #include <unittests/hyphenate.h>
-#include <unittests/search_logic.h>
+#include <unittests/search.h>
 #include <unittests/json.h>
 #include <unittests/related.h>
 #include <unittests/editone.h>
@@ -111,8 +111,8 @@ int main (int argc, char **argv)
   test_email ();
   test_replace ();
   test_database_users ();
-  test_session_logic ();
-  test_empty_folders ();
+  test_session ();
+  test_folders ();
   test_flate ();
   test_database_styles ();
   test_database_bibles ();
@@ -146,12 +146,12 @@ int main (int argc, char **argv)
   test_filter_diff ();
   test_filter_abbreviations ();
   test_checksum_logic ();
-  test_store_bible_data ();
+  test_bibles ();
   test_editor_html2usfm ();
   test_editor_usfm2html ();
   test_editor_roundtrip ();
   test_filter_markup ();
-  test_workspace_logic ();
+  test_workspaces ();
   test_filter_git ();
   test_filter_merge ();
   test_filter_tidy ();
@@ -172,7 +172,7 @@ int main (int argc, char **argv)
   test_database_hebrewlexicon ();
   test_filter_string_text2html ();
   test_database_cache ();
-  test_search_logic ();
+  test_search ();
   test_filter_shell ();
   test_database_login ();
   test_database_privileges ();

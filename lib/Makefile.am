@@ -460,15 +460,15 @@ unittest_SOURCES = \
 	unittests/filters.cpp \
 	unittests/databases.cpp \
 	unittests/sqlite.cpp \
-	unittests/session_logic.cpp \
-	unittests/empty_folders.cpp \
+	unittests/session.cpp \
+	unittests/folders.cpp \
 	unittests/flate.cpp \
 	unittests/checksum_logic.cpp \
-	unittests/store_bible_data.cpp \
+	unittests/bibles.cpp \
 	unittests/editor_html2usfm.cpp \
 	unittests/editor_usfm2html.cpp \
 	unittests/editor_roundtrip.cpp \
-	unittests/workspace_logic.cpp \
+	unittests/workspaces.cpp \
 	unittests/client_logic.cpp \
 	unittests/check_sentences.cpp \
 	unittests/check_versification.cpp \
@@ -476,7 +476,7 @@ unittest_SOURCES = \
 	unittests/check_verses.cpp \
 	unittests/check_pairs.cpp \
 	unittests/hyphenate.cpp \
-	unittests/search_logic.cpp \
+	unittests/search.cpp \
 	unittests/json.cpp \
 	unittests/related.cpp \
 	unittests/editone.cpp \

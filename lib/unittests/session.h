@@ -17,20 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/empty_folders.h>
-#include <unittests/utilities.h>
-#include <filter/url.h>
+#ifndef INCLUDED_UNITTESTS_SESSION_H
+#define INCLUDED_UNITTESTS_SESSION_H
 
 
-void test_empty_folders ()
-{
-  trace_unit_tests (__func__);
-  
-  // There should be no empty folders in the library, because git does not include them.
-  int result = system ("find . -type d -empty > /tmp/bibledittest.txt");
-  evaluate (__LINE__, __func__, 0, result);
-  string contents = filter_url_file_get_contents ("/tmp/bibledittest.txt");
-  evaluate (__LINE__, __func__, "", contents);
-  filter_url_unlink ("/tmp/bibledittest.txt");
-}
+#include <config/libraries.h>
 
+
+void test_session ();
+
+
+#endif

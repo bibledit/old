@@ -17,14 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/search_logic.h>
+#include <unittests/search.h>
 #include <unittests/utilities.h>
 #include <database/state.h>
 #include <database/bibles.h>
 #include <search/logic.h>
 
 
-void test_search_logic_setup ()
+void test_search_setup ()
 {
   string standardUSFM1 =  "\\c 1\n"
                           "\\p\n"
@@ -61,21 +61,21 @@ void test_search_logic_setup ()
 }
 
 
-void test_search_logic ()
+void test_search ()
 {
   trace_unit_tests (__func__);
   
   // Test updating search fields.
   {
     refresh_sandbox (true);
-    test_search_logic_setup ();
+    test_search_setup ();
     search_logic_index_chapter ("phpunit", 2, 3);
   }
 
   // Test searching and getting Bible passage
   {
     refresh_sandbox (true);
-    test_search_logic_setup ();
+    test_search_setup ();
     vector <Passage> passages = search_logic_search_text ("sixth", {"phpunit"});
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     if (!passages.empty ()) {
@@ -89,7 +89,7 @@ void test_search_logic ()
   // Search in combined verses.
   {
     refresh_sandbox (true);
-    test_search_logic_setup ();
+    test_search_setup ();
     vector <Passage> passages = search_logic_search_text ("ALLAH", {"phpunit3"});
     evaluate (__LINE__, __func__, 4, (int)passages.size());
     if (passages.size () == 4) {
@@ -106,7 +106,7 @@ void test_search_logic ()
   // Test search Bible
   {
     refresh_sandbox (true);
-    test_search_logic_setup ();
+    test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_text ("phpunit", "sixth");
     evaluate (__LINE__, __func__, 1, (int)passages.size ());
     passages = search_logic_search_bible_text ("phpunit2", "sixth");
@@ -118,7 +118,7 @@ void test_search_logic ()
   // Test search Bible case sensitive.
   {
     refresh_sandbox (true);
-    test_search_logic_setup ();
+    test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_text_case_sensitive ("phpunit", "Verse");
     evaluate (__LINE__, __func__, 3, (int)passages.size ());
     passages = search_logic_search_bible_text_case_sensitive ("phpunit", "sixth");
@@ -130,7 +130,7 @@ void test_search_logic ()
   // Searching in USFM.
   {
     refresh_sandbox (true);
-    test_search_logic_setup ();
+    test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_usfm ("phpunit", "\\Add");
     evaluate (__LINE__, __func__, 2, (int)passages.size ());
   }
@@ -138,7 +138,7 @@ void test_search_logic ()
   // Searching in USFM case-sensitive.
   {
     refresh_sandbox (true);
-    test_search_logic_setup ();
+    test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_usfm_case_sensitive ("phpunit", "\\Add");
     evaluate (__LINE__, __func__, 0, (int)passages.size ());
     passages = search_logic_search_bible_usfm_case_sensitive ("phpunit", "\\add");
@@ -148,7 +148,7 @@ void test_search_logic ()
   // Test getting Bible verse text.
   {
     refresh_sandbox (true);
-    test_search_logic_setup ();
+    test_search_setup ();
     // Plain.
     string text = search_logic_get_bible_verse_text ("phpunit", 2, 3, 5);
     evaluate (__LINE__, __func__, "Text of the 5th fifth verse is this: Verse five ✆.", text);
@@ -161,7 +161,7 @@ void test_search_logic ()
   {
     refresh_sandbox (true);
     
-    test_search_logic_setup ();
+    test_search_setup ();
     
     vector <Passage> passages = search_logic_search_bible_text ("phpunit", "e");
     evaluate (__LINE__, __func__, 10, (int)passages.size());
@@ -169,7 +169,7 @@ void test_search_logic ()
     passages = search_logic_search_bible_text ("phpunit", "e");
     evaluate (__LINE__, __func__, 0, (int)passages.size());
     
-    test_search_logic_setup ();
+    test_search_setup ();
 
     search_logic_delete_book ("phpunit", 3);
     passages = search_logic_search_bible_text ("phpunit", "e");
@@ -178,7 +178,7 @@ void test_search_logic ()
     passages = search_logic_search_bible_text ("phpunit", "e");
     evaluate (__LINE__, __func__, 0, (int)passages.size());
     
-    test_search_logic_setup ();
+    test_search_setup ();
 
     search_logic_delete_chapter ("phpunit", 3, 3);
     passages = search_logic_search_bible_text ("phpunit", "e");
@@ -191,7 +191,7 @@ void test_search_logic ()
   // Test total verse count in Bible.
   {
     refresh_sandbox (true);
-    test_search_logic_setup ();
+    test_search_setup ();
     int count = search_logic_get_verse_count ("phpunit");
     evaluate (__LINE__, __func__, 11, count);
   }

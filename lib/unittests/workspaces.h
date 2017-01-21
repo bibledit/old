@@ -17,14 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_STORE_BIBLE_DATA_H
-#define INCLUDED_UNITTESTS_STORE_BIBLE_DATA_H
+#ifndef INCLUDED_UNITTESTS_WORKSPACES_H
+#define INCLUDED_UNITTESTS_WORKSPACES_H
 
 
 #include <config/libraries.h>
 
 
-void test_store_bible_data ();
+void test_workspaces ();
 
 
 #endif

@@ -17,14 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_SEARCH_LOGIC_H
-#define INCLUDED_UNITTESTS_SEARCH_LOGIC_H
+#ifndef INCLUDED_UNITTESTS_SEARCH_H
+#define INCLUDED_UNITTESTS_SEARCH_H
 
 
 #include <config/libraries.h>
 
 
-void test_search_logic ();
+void test_search ();
 
 
 #endif

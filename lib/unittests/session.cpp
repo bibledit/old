@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/session_logic.h>
+#include <unittests/session.h>
 #include <unittests/utilities.h>
 #include <database/state.h>
 #include <database/login.h>
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 
 
-void test_session_logic ()
+void test_session ()
 {
   trace_unit_tests (__func__);
   

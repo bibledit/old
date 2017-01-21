@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/store_bible_data.h>
+#include <unittests/bibles.h>
 #include <unittests/utilities.h>
 #include <webserver/request.h>
 #include <database/state.h>
@@ -36,7 +36,7 @@ void test_store_bible_data_safely_setup (Webserver_Request * request, string usf
 }
 
 
-void test_store_bible_data ()
+void test_bibles ()
 {
   trace_unit_tests (__func__);
   

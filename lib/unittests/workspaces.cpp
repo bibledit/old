@@ -17,13 +17,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/workspace_logic.h>
+#include <unittests/workspaces.h>
 #include <unittests/utilities.h>
 #include <webserver/request.h>
 #include <workspace/logic.h>
 
 
-void test_workspace_logic ()
+void test_workspaces ()
 {
   trace_unit_tests (__func__);
   
