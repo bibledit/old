@@ -17,13 +17,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/check_verses.h>
+#include <unittests/verses.h>
 #include <unittests/utilities.h>
 #include <database/check.h>
 #include <checks/verses.h>
 
 
-void test_check_verses ()
+void test_verses ()
 {
   trace_unit_tests (__func__);
   

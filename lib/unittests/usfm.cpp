@@ -17,13 +17,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/check_usfm.h>
+#include <unittests/usfm.h>
 #include <unittests/utilities.h>
 #include <database/styles.h>
 #include <checks/usfm.h>
 
 
-void test_check_usfm ()
+void test_usfm ()
 {
   trace_unit_tests (__func__);
   

@@ -17,14 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_CHECK_PAIRS_H
-#define INCLUDED_UNITTESTS_CHECK_PAIRS_H
+#ifndef INCLUDED_UNITTESTS_SENTENCES_H
+#define INCLUDED_UNITTESTS_SENTENCES_H
 
 
 #include <config/libraries.h>
 
 
-void test_check_pairs ();
+void test_sentences ();
 
 
 #endif

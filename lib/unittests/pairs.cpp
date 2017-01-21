@@ -17,13 +17,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/check_pairs.h>
+#include <unittests/pairs.h>
 #include <unittests/utilities.h>
 #include <database/check.h>
 #include <checks/pairs.h>
 
 
-void test_check_pairs ()
+void test_pairs ()
 {
   trace_unit_tests (__func__);
   

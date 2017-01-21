@@ -17,13 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/check_sentences.h>
+#include <unittests/sentences.h>
 #include <unittests/utilities.h>
 #include <checks/sentences.h>
-#include <checks/sentences.h>
 
 
-Checks_Sentences test_check_sentences_setup ()
+Checks_Sentences test_sentences_setup ()
 {
   trace_unit_tests (__func__);
   
@@ -39,13 +38,13 @@ Checks_Sentences test_check_sentences_setup ()
 }
 
 
-void test_check_sentences ()
+void test_sentences ()
 {
   trace_unit_tests (__func__);
   
   // Test unknown character.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.check ({make_pair (1, "Abc ζ abc.")});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {make_pair (1, "Unknown character: ζ")};
@@ -53,7 +52,7 @@ void test_check_sentences ()
   }
   // Test capital after mid-sentence punctuation mark.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.check ({make_pair (2, "He said, Go.")});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {make_pair (2, "Capital follows mid-sentence punctuation mark: He said, Go.")};
@@ -61,7 +60,7 @@ void test_check_sentences ()
   }
   // Test capital straight after mid-sentence punctuation mark.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.check ({make_pair (2, "He said,Go.")});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = { make_pair (2, "Capital follows straight after a mid-sentence punctuation mark: He said,Go.")};
@@ -69,7 +68,7 @@ void test_check_sentences ()
   }
   // Test small letter straight after mid-sentence punctuation mark.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.check ({make_pair (2, "He said,go.")});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = { make_pair (2, "Small letter follows straight after a mid-sentence punctuation mark: He said,go.")};
@@ -77,7 +76,7 @@ void test_check_sentences ()
   }
   // Test two verses okay.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.check ({ make_pair (17, "Jezus kwam naar de wereld,"), make_pair (18, "dat hij zou lijden.")});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard;
@@ -85,7 +84,7 @@ void test_check_sentences ()
   }
   // Test name after comma several verses okay.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.check ({
       make_pair (17, "Kwasekusithi esebakhuphele ngaphandle, yathi: Baleka ngenxa yempilo yakho, ungakhangeli ngemva kwakho, ungemi egcekeni lonke; balekela entabeni hlezi ubhujiswe."),
       make_pair (18, "ULothi wasesithi kuwo: Kakungabi njalo, Nkosi yami."),
@@ -100,7 +99,7 @@ void test_check_sentences ()
   }
   // Test long name.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.check ({make_pair (17, "O, Longnamelongnamelongname.")});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard;
@@ -108,7 +107,7 @@ void test_check_sentences ()
   }
   // Test no space after full stop.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.check ({ make_pair (2, "He did that.He went.")});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
@@ -119,7 +118,7 @@ void test_check_sentences ()
   }
   // Test capital full stop.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.check ({ make_pair (2, "He did that. he went.")});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = { make_pair (2, "No capital after an end-sentence punctuation mark: did that. he went.")};
@@ -127,7 +126,7 @@ void test_check_sentences ()
   }
   // Test paragraph
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.paragraphs ({"p"}, {""}, {{make_pair (1, "he said")}});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
@@ -138,7 +137,7 @@ void test_check_sentences ()
   }
   // Test that a paragraph started by \q and starting with a small letter, is not flagged.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.paragraphs ({"q"}, {"q"}, {{ make_pair (1, "he said")}});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
@@ -148,7 +147,7 @@ void test_check_sentences ()
   }
   // Test that a paragraph without proper ending, where the next paragraph starts with e.g. \q, is not flagged.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.paragraphs ({"p", "q"}, {"q"}, {{ make_pair (1, "He said,")}, { make_pair (1, "he is Jesus.")}});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {};
@@ -156,7 +155,7 @@ void test_check_sentences ()
   }
   // Test flagging a paragraph that starts with a Greek small letter.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.paragraphs ({"p"}, {"q"}, {{ make_pair (1, "εὐθέως")}});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
@@ -167,14 +166,14 @@ void test_check_sentences ()
   }
   // Test a correct paragraph.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.paragraphs ({"p"}, {"q"}, {{ make_pair (1, "Immediately εὐθέως.")}});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard;
     evaluate (__LINE__, __func__, standard, results);
   }
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.paragraphs ({"q1"}, {"q1", "q"}, {{ make_pair (1, "Immediately εὐθέως.")}});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard;
@@ -182,14 +181,14 @@ void test_check_sentences ()
   }
   // Test two punctuation marks.
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.check ({ make_pair (2, "He did that..")});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = { make_pair (2, "Two punctuation marks in sequence: He did that..")};
     evaluate (__LINE__, __func__, standard, results);
   }
   {
-    Checks_Sentences check = test_check_sentences_setup ();
+    Checks_Sentences check = test_sentences_setup ();
     check.check ({ make_pair (2, "He did ;. That.")});
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = { make_pair (2, "Two punctuation marks in sequence: He did ;. That.")};

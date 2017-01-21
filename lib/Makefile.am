@@ -463,18 +463,18 @@ unittest_SOURCES = \
 	unittests/session.cpp \
 	unittests/folders.cpp \
 	unittests/flate.cpp \
-	unittests/checksum_logic.cpp \
+	unittests/checksum.cpp \
 	unittests/bibles.cpp \
 	unittests/html2usfm.cpp \
 	unittests/usfm2html.cpp \
 	unittests/usfm2html2usfm.cpp \
 	unittests/workspaces.cpp \
 	unittests/client.cpp \
-	unittests/check_sentences.cpp \
-	unittests/check_versification.cpp \
-	unittests/check_usfm.cpp \
-	unittests/check_verses.cpp \
-	unittests/check_pairs.cpp \
+	unittests/sentences.cpp \
+	unittests/versification.cpp \
+	unittests/usfm.cpp \
+	unittests/verses.cpp \
+	unittests/pairs.cpp \
 	unittests/hyphenate.cpp \
 	unittests/search.cpp \
 	unittests/json.cpp \

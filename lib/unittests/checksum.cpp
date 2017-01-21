@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/checksum_logic.h>
+#include <unittests/checksum.h>
 #include <unittests/utilities.h>
 #include <checksum/logic.h>
 #include <database/state.h>
@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 
 
-void test_checksum_logic ()
+void test_checksum ()
 {
   trace_unit_tests (__func__);
   

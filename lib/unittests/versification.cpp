@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/check_versification.h>
+#include <unittests/versification.h>
 #include <unittests/utilities.h>
 #include <database/versifications.h>
 #include <database/check.h>
@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/versification.h>
 
 
-void test_check_versification ()
+void test_versification ()
 {
   trace_unit_tests (__func__);
   

@@ -64,8 +64,8 @@
 		CA05DD311E33858800EA2EDF /* folders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = folders.h; sourceTree = "<group>"; };
 		CA05DD321E33872D00EA2EDF /* flate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = flate.cpp; sourceTree = "<group>"; };
 		CA05DD331E33872D00EA2EDF /* flate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = flate.h; sourceTree = "<group>"; };
-		CA05DD341E338A6B00EA2EDF /* checksum_logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = checksum_logic.cpp; sourceTree = "<group>"; };
-		CA05DD351E338A6B00EA2EDF /* checksum_logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = checksum_logic.h; sourceTree = "<group>"; };
+		CA05DD341E338A6B00EA2EDF /* checksum.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = checksum.cpp; sourceTree = "<group>"; };
+		CA05DD351E338A6B00EA2EDF /* checksum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = checksum.h; sourceTree = "<group>"; };
 		CA05DD361E338E9F00EA2EDF /* bibles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibles.cpp; sourceTree = "<group>"; };
 		CA05DD371E338E9F00EA2EDF /* bibles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibles.h; sourceTree = "<group>"; };
 		CA05DD381E339C9F00EA2EDF /* html2usfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = html2usfm.cpp; sourceTree = "<group>"; };
@@ -78,16 +78,16 @@
 		CA05DD3F1E33A71700EA2EDF /* workspaces.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = workspaces.h; sourceTree = "<group>"; };
 		CA05DD401E33ABA400EA2EDF /* client.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = client.cpp; sourceTree = "<group>"; };
 		CA05DD411E33ABA400EA2EDF /* client.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = client.h; sourceTree = "<group>"; };
-		CA05DD421E33AE3700EA2EDF /* check_sentences.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = check_sentences.cpp; sourceTree = "<group>"; };
-		CA05DD431E33AE3700EA2EDF /* check_sentences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = check_sentences.h; sourceTree = "<group>"; };
-		CA05DD441E33AF2B00EA2EDF /* check_versification.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = check_versification.cpp; sourceTree = "<group>"; };
-		CA05DD451E33AF2B00EA2EDF /* check_versification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = check_versification.h; sourceTree = "<group>"; };
-		CA05DD461E33B1B100EA2EDF /* check_usfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = check_usfm.cpp; sourceTree = "<group>"; };
-		CA05DD471E33B1B100EA2EDF /* check_usfm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = check_usfm.h; sourceTree = "<group>"; };
-		CA05DD481E33B46600EA2EDF /* check_verses.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = check_verses.cpp; sourceTree = "<group>"; };
-		CA05DD491E33B46600EA2EDF /* check_verses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = check_verses.h; sourceTree = "<group>"; };
-		CA05DD4A1E33B64C00EA2EDF /* check_pairs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = check_pairs.cpp; sourceTree = "<group>"; };
-		CA05DD4B1E33B64C00EA2EDF /* check_pairs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = check_pairs.h; sourceTree = "<group>"; };
+		CA05DD421E33AE3700EA2EDF /* sentences.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sentences.cpp; sourceTree = "<group>"; };
+		CA05DD431E33AE3700EA2EDF /* sentences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sentences.h; sourceTree = "<group>"; };
+		CA05DD441E33AF2B00EA2EDF /* versification.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = versification.cpp; sourceTree = "<group>"; };
+		CA05DD451E33AF2B00EA2EDF /* versification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = versification.h; sourceTree = "<group>"; };
+		CA05DD461E33B1B100EA2EDF /* usfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = usfm.cpp; sourceTree = "<group>"; };
+		CA05DD471E33B1B100EA2EDF /* usfm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfm.h; sourceTree = "<group>"; };
+		CA05DD481E33B46600EA2EDF /* verses.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = verses.cpp; sourceTree = "<group>"; };
+		CA05DD491E33B46600EA2EDF /* verses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = verses.h; sourceTree = "<group>"; };
+		CA05DD4A1E33B64C00EA2EDF /* pairs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pairs.cpp; sourceTree = "<group>"; };
+		CA05DD4B1E33B64C00EA2EDF /* pairs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pairs.h; sourceTree = "<group>"; };
 		CA05DD4C1E33B87500EA2EDF /* hyphenate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hyphenate.cpp; sourceTree = "<group>"; };
 		CA05DD4D1E33B87500EA2EDF /* hyphenate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hyphenate.h; sourceTree = "<group>"; };
 		CA05DD4E1E33BB0800EA2EDF /* search.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = search.cpp; sourceTree = "<group>"; };
@@ -3007,36 +3007,24 @@
 			children = (
 				CA05DD5C1E33C3C600EA2EDF /* biblegateway.cpp */,
 				CA05DD5D1E33C3C600EA2EDF /* biblegateway.h */,
-				CA05DD4A1E33B64C00EA2EDF /* check_pairs.cpp */,
-				CA05DD4B1E33B64C00EA2EDF /* check_pairs.h */,
-				CA05DD421E33AE3700EA2EDF /* check_sentences.cpp */,
-				CA05DD431E33AE3700EA2EDF /* check_sentences.h */,
-				CA05DD461E33B1B100EA2EDF /* check_usfm.cpp */,
-				CA05DD471E33B1B100EA2EDF /* check_usfm.h */,
-				CA05DD481E33B46600EA2EDF /* check_verses.cpp */,
-				CA05DD491E33B46600EA2EDF /* check_verses.h */,
-				CA05DD441E33AF2B00EA2EDF /* check_versification.cpp */,
-				CA05DD451E33AF2B00EA2EDF /* check_versification.h */,
-				CA05DD341E338A6B00EA2EDF /* checksum_logic.cpp */,
-				CA05DD351E338A6B00EA2EDF /* checksum_logic.h */,
+				CA05DD361E338E9F00EA2EDF /* bibles.cpp */,
+				CA05DD371E338E9F00EA2EDF /* bibles.h */,
+				CA05DD341E338A6B00EA2EDF /* checksum.cpp */,
+				CA05DD351E338A6B00EA2EDF /* checksum.h */,
 				CA05DD401E33ABA400EA2EDF /* client.cpp */,
 				CA05DD411E33ABA400EA2EDF /* client.h */,
 				CAA4D3C11A45A648003ABA25 /* databases.cpp */,
 				CAA4D3C21A45A648003ABA25 /* databases.h */,
 				CA05DD541E33BF8800EA2EDF /* editone.cpp */,
 				CA05DD551E33BF8800EA2EDF /* editone.h */,
-				CA05DD381E339C9F00EA2EDF /* html2usfm.cpp */,
-				CA05DD391E339C9F00EA2EDF /* html2usfm.h */,
-				CA05DD3C1E33A59A00EA2EDF /* usfm2html2usfm.cpp */,
-				CA05DD3D1E33A59A00EA2EDF /* usfm2html2usfm.h */,
-				CA05DD3A1E339E5A00EA2EDF /* usfm2html.cpp */,
-				CA05DD3B1E339E5A00EA2EDF /* usfm2html.h */,
-				CA05DD301E33858800EA2EDF /* folders.cpp */,
-				CA05DD311E33858800EA2EDF /* folders.h */,
 				CAA4D3C31A45A648003ABA25 /* filters.cpp */,
 				CAA4D3C41A45A648003ABA25 /* filters.h */,
 				CA05DD321E33872D00EA2EDF /* flate.cpp */,
 				CA05DD331E33872D00EA2EDF /* flate.h */,
+				CA05DD301E33858800EA2EDF /* folders.cpp */,
+				CA05DD311E33858800EA2EDF /* folders.h */,
+				CA05DD381E339C9F00EA2EDF /* html2usfm.cpp */,
+				CA05DD391E339C9F00EA2EDF /* html2usfm.h */,
 				CA05DD561E33C05000EA2EDF /* http.cpp */,
 				CA05DD571E33C05000EA2EDF /* http.h */,
 				CA05DD4C1E33B87500EA2EDF /* hyphenate.cpp */,
@@ -3045,25 +3033,37 @@
 				CA05DD511E33BD9500EA2EDF /* json.h */,
 				CA05DD581E33C10900EA2EDF /* memory.cpp */,
 				CA05DD591E33C10900EA2EDF /* memory.h */,
+				CA05DD4A1E33B64C00EA2EDF /* pairs.cpp */,
+				CA05DD4B1E33B64C00EA2EDF /* pairs.h */,
 				CA05DD521E33BE7000EA2EDF /* related.cpp */,
 				CA05DD531E33BE7000EA2EDF /* related.h */,
 				CA05DD5E1E33C47C00EA2EDF /* rss.cpp */,
 				CA05DD5F1E33C47C00EA2EDF /* rss.h */,
 				CA05DD4E1E33BB0800EA2EDF /* search.cpp */,
 				CA05DD4F1E33BB0800EA2EDF /* search.h */,
+				CA05DD421E33AE3700EA2EDF /* sentences.cpp */,
+				CA05DD431E33AE3700EA2EDF /* sentences.h */,
 				CA05DD2E1E33747700EA2EDF /* session.cpp */,
 				CA05DD2F1E33747700EA2EDF /* session.h */,
 				CA05DD2C1E33731700EA2EDF /* sqlite.cpp */,
 				CA05DD2D1E33731700EA2EDF /* sqlite.h */,
-				CA05DD361E338E9F00EA2EDF /* bibles.cpp */,
-				CA05DD371E338E9F00EA2EDF /* bibles.h */,
 				CAA4D3C71A45A648003ABA25 /* stress */,
 				CA05DD5A1E33C32C00EA2EDF /* tasks.cpp */,
 				CA05DD5B1E33C32C00EA2EDF /* tasks.h */,
 				CAA4D4361A45A648003ABA25 /* unittest.cpp */,
 				CAA4D4371A45A648003ABA25 /* unittest.h */,
+				CA05DD461E33B1B100EA2EDF /* usfm.cpp */,
+				CA05DD471E33B1B100EA2EDF /* usfm.h */,
+				CA05DD3A1E339E5A00EA2EDF /* usfm2html.cpp */,
+				CA05DD3B1E339E5A00EA2EDF /* usfm2html.h */,
+				CA05DD3C1E33A59A00EA2EDF /* usfm2html2usfm.cpp */,
+				CA05DD3D1E33A59A00EA2EDF /* usfm2html2usfm.h */,
 				CAA4D4381A45A648003ABA25 /* utilities.cpp */,
 				CAA4D4391A45A648003ABA25 /* utilities.h */,
+				CA05DD481E33B46600EA2EDF /* verses.cpp */,
+				CA05DD491E33B46600EA2EDF /* verses.h */,
+				CA05DD441E33AF2B00EA2EDF /* versification.cpp */,
+				CA05DD451E33AF2B00EA2EDF /* versification.h */,
 				CA05DD3E1E33A71700EA2EDF /* workspaces.cpp */,
 				CA05DD3F1E33A71700EA2EDF /* workspaces.h */,
 			);

@@ -17,14 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_CHECKSUM_LOGIC_H
-#define INCLUDED_UNITTESTS_CHECKSUM_LOGIC_H
+#ifndef INCLUDED_UNITTESTS_PAIRS_H
+#define INCLUDED_UNITTESTS_PAIRS_H
 
 
 #include <config/libraries.h>
 
 
-void test_checksum_logic ();
+void test_pairs ();
 
 
 #endif

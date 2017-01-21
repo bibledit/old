@@ -38,18 +38,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/session.h>
 #include <unittests/folders.h>
 #include <unittests/flate.h>
-#include <unittests/checksum_logic.h>
+#include <unittests/checksum.h>
 #include <unittests/bibles.h>
 #include <unittests/html2usfm.h>
 #include <unittests/usfm2html.h>
 #include <unittests/usfm2html2usfm.h>
 #include <unittests/workspaces.h>
 #include <unittests/client.h>
-#include <unittests/check_sentences.h>
-#include <unittests/check_versification.h>
-#include <unittests/check_usfm.h>
-#include <unittests/check_verses.h>
-#include <unittests/check_pairs.h>
+#include <unittests/sentences.h>
+#include <unittests/versification.h>
+#include <unittests/usfm.h>
+#include <unittests/verses.h>
+#include <unittests/pairs.h>
 #include <unittests/hyphenate.h>
 #include <unittests/search.h>
 #include <unittests/json.h>
@@ -145,7 +145,7 @@ int main (int argc, char **argv)
   test_filter_custom_css ();
   test_filter_diff ();
   test_filter_abbreviations ();
-  test_checksum_logic ();
+  test_checksum ();
   test_bibles ();
   test_editor_html2usfm ();
   test_usfm2html ();
@@ -156,13 +156,13 @@ int main (int argc, char **argv)
   test_filter_merge ();
   test_filter_tidy ();
   test_ipc_notes ();
-  test_check_verses ();
+  test_verses ();
   test_filter_date ();
   test_client ();
-  test_check_sentences ();
-  test_check_versification ();
-  test_check_usfm ();
-  test_check_pairs ();
+  test_sentences ();
+  test_versification ();
+  test_usfm ();
+  test_pairs ();
   test_hyphenate ();
   test_filter_string ();
   test_database_noteassignment ();
