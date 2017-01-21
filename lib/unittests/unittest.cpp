@@ -38,6 +38,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/sqlite.h>
 #include <unittests/session_logic.h>
 #include <unittests/empty_folders.h>
+#include <unittests/flate.h>
+#include <unittests/checksum_logic.h>
+#include <unittests/store_bible_data.h>
 
 
 int main (int argc, char **argv) 

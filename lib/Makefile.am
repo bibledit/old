@@ -462,7 +462,10 @@ unittest_SOURCES = \
 	unittests/databases.cpp \
 	unittests/sqlite.cpp \
 	unittests/session_logic.cpp \
-	unittests/empty_folders.cpp
+	unittests/empty_folders.cpp \
+	unittests/flate.cpp \
+	unittests/checksum_logic.cpp \
+	unittests/store_bible_data.cpp
 
 unittest_LDADD = libbibledit.a
 

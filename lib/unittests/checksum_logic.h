@@ -17,36 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_LIBRARIES_H
-#define INCLUDED_UNITTESTS_LIBRARIES_H
+#ifndef INCLUDED_UNITTESTS_CHECKSUM_LOGIC_H
+#define INCLUDED_UNITTESTS_CHECKSUM_LOGIC_H
 
 
 #include <config/libraries.h>
 
 
-void test_editor_html2usfm ();
-void test_editor_usfm2html ();
-void test_editor_roundtrip ();
-void test_editor_development ();
-void test_workspace_logic ();
-void test_client_logic ();
-void test_check_sentences ();
-void test_check_versification ();
-void test_check_usfm ();
-void test_check_verses ();
-void test_check_pairs ();
-void test_hyphenate ();
-void test_search_logic ();
-void test_libraries_temporal ();
-void test_json ();
-void test_related ();
-void test_editone_logic ();
-void test_http ();
-void test_memory ();
-void test_tasks_logic ();
-void test_biblegateway ();
-void test_rss_feed ();
-void test_libraries_dev ();
+void test_checksum_logic ();
 
 
 #endif
