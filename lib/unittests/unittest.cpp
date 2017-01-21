@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
-#include <unittests/libraries.h>
 #include <unittests/filters.h>
 #include <unittests/databases.h>
 #include <config/libraries.h>
@@ -55,6 +54,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/search_logic.h>
 #include <unittests/json.h>
 #include <unittests/related.h>
+#include <unittests/editone.h>
+#include <unittests/http.h>
+#include <unittests/memory.h>
+#include <unittests/tasks.h>
+#include <unittests/biblegateway.h>
+#include <unittests/rss.h>
 
 
 int main (int argc, char **argv) 
@@ -183,7 +188,6 @@ int main (int argc, char **argv)
   test_filter_ldap ();
   test_database_statistics ();
   test_tasks_logic ();
-  test_libraries_dev ();
   test_biblegateway ();
   test_rss_feed ();
   test_filter_dev ();

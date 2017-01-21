@@ -457,7 +457,6 @@ server_LDADD = libbibledit.a
 unittest_SOURCES = \
 	unittests/unittest.cpp \
 	unittests/utilities.cpp \
-	unittests/libraries.cpp \
 	unittests/filters.cpp \
 	unittests/databases.cpp \
 	unittests/sqlite.cpp \
@@ -479,7 +478,13 @@ unittest_SOURCES = \
 	unittests/hyphenate.cpp \
 	unittests/search_logic.cpp \
 	unittests/json.cpp \
-	unittests/related.cpp
+	unittests/related.cpp \
+	unittests/editone.cpp \
+	unittests/http.cpp \
+	unittests/memory.cpp \
+	unittests/tasks.cpp \
+	unittests/biblegateway.cpp \
+	unittests/rss.cpp
 
 unittest_LDADD = libbibledit.a
 

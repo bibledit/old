@@ -17,20 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_LIBRARIES_H
-#define INCLUDED_UNITTESTS_LIBRARIES_H
+#ifndef INCLUDED_UNITTESTS_TASKS_H
+#define INCLUDED_UNITTESTS_TASKS_H
 
 
 #include <config/libraries.h>
 
 
-void test_editone_logic ();
-void test_http ();
-void test_memory ();
 void test_tasks_logic ();
-void test_biblegateway ();
-void test_rss_feed ();
-void test_libraries_dev ();
 
 
 #endif

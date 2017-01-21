@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
-#include <unittests/libraries.h>
 #include <config/libraries.h>
 #include <library/bibledit.h>
 #include <database/config/user.h>
