@@ -36,6 +36,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <session/logic.h>
 #include <unittests/sqlite.h>
+#include <unittests/session_logic.h>
+#include <unittests/empty_folders.h>
 
 
 int main (int argc, char **argv) 
