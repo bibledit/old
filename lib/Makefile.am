@@ -477,7 +477,9 @@ unittest_SOURCES = \
 	unittests/check_verses.cpp \
 	unittests/check_pairs.cpp \
 	unittests/hyphenate.cpp \
-	unittests/search_logic.cpp
+	unittests/search_logic.cpp \
+	unittests/json.cpp \
+	unittests/related.cpp
 
 unittest_LDADD = libbibledit.a
 

@@ -92,6 +92,10 @@
 		CA05DD4D1E33B87500EA2EDF /* hyphenate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hyphenate.h; sourceTree = "<group>"; };
 		CA05DD4E1E33BB0800EA2EDF /* search_logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = search_logic.cpp; sourceTree = "<group>"; };
 		CA05DD4F1E33BB0800EA2EDF /* search_logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = search_logic.h; sourceTree = "<group>"; };
+		CA05DD501E33BD9500EA2EDF /* json.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = json.cpp; sourceTree = "<group>"; };
+		CA05DD511E33BD9500EA2EDF /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		CA05DD521E33BE7000EA2EDF /* related.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = related.cpp; sourceTree = "<group>"; };
+		CA05DD531E33BE7000EA2EDF /* related.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = related.h; sourceTree = "<group>"; };
 		CA060B981CF89E8C000839FF /* privileges.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = privileges.js; sourceTree = "<group>"; };
 		CA06BDCF1A56871E00A051FF /* abbreviations.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = abbreviations.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA06BDD01A56871E00A051FF /* abbreviations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = abbreviations.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -3021,8 +3025,12 @@
 				CA05DD331E33872D00EA2EDF /* flate.h */,
 				CA05DD4C1E33B87500EA2EDF /* hyphenate.cpp */,
 				CA05DD4D1E33B87500EA2EDF /* hyphenate.h */,
+				CA05DD501E33BD9500EA2EDF /* json.cpp */,
+				CA05DD511E33BD9500EA2EDF /* json.h */,
 				CAA4D3C51A45A648003ABA25 /* libraries.cpp */,
 				CAA4D3C61A45A648003ABA25 /* libraries.h */,
+				CA05DD521E33BE7000EA2EDF /* related.cpp */,
+				CA05DD531E33BE7000EA2EDF /* related.h */,
 				CA05DD4E1E33BB0800EA2EDF /* search_logic.cpp */,
 				CA05DD4F1E33BB0800EA2EDF /* search_logic.h */,
 				CA05DD2E1E33747700EA2EDF /* session_logic.cpp */,

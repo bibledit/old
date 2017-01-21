@@ -53,6 +53,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/check_pairs.h>
 #include <unittests/hyphenate.h>
 #include <unittests/search_logic.h>
+#include <unittests/json.h>
+#include <unittests/related.h>
 
 
 int main (int argc, char **argv) 
