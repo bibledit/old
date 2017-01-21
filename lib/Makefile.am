@@ -465,11 +465,11 @@ unittest_SOURCES = \
 	unittests/flate.cpp \
 	unittests/checksum_logic.cpp \
 	unittests/bibles.cpp \
-	unittests/editor_html2usfm.cpp \
-	unittests/editor_usfm2html.cpp \
-	unittests/editor_roundtrip.cpp \
+	unittests/html2usfm.cpp \
+	unittests/usfm2html.cpp \
+	unittests/usfm2html2usfm.cpp \
 	unittests/workspaces.cpp \
-	unittests/client_logic.cpp \
+	unittests/client.cpp \
 	unittests/check_sentences.cpp \
 	unittests/check_versification.cpp \
 	unittests/check_usfm.cpp \

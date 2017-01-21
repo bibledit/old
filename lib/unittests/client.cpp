@@ -17,12 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/client_logic.h>
+#include <unittests/client.h>
 #include <unittests/utilities.h>
 #include <client/logic.h>
 
 
-void test_client_logic ()
+void test_client ()
 {
   trace_unit_tests (__func__);
   

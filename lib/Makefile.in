@@ -352,12 +352,10 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/databases.$(OBJEXT) unittests/sqlite.$(OBJEXT) \
 	unittests/session.$(OBJEXT) unittests/folders.$(OBJEXT) \
 	unittests/flate.$(OBJEXT) unittests/checksum_logic.$(OBJEXT) \
-	unittests/bibles.$(OBJEXT) \
-	unittests/editor_html2usfm.$(OBJEXT) \
-	unittests/editor_usfm2html.$(OBJEXT) \
-	unittests/editor_roundtrip.$(OBJEXT) \
-	unittests/workspaces.$(OBJEXT) \
-	unittests/client_logic.$(OBJEXT) \
+	unittests/bibles.$(OBJEXT) unittests/html2usfm.$(OBJEXT) \
+	unittests/usfm2html.$(OBJEXT) \
+	unittests/usfm2html2usfm.$(OBJEXT) \
+	unittests/workspaces.$(OBJEXT) unittests/client.$(OBJEXT) \
 	unittests/check_sentences.$(OBJEXT) \
 	unittests/check_versification.$(OBJEXT) \
 	unittests/check_usfm.$(OBJEXT) \
@@ -1036,11 +1034,11 @@ unittest_SOURCES = \
 	unittests/flate.cpp \
 	unittests/checksum_logic.cpp \
 	unittests/bibles.cpp \
-	unittests/editor_html2usfm.cpp \
-	unittests/editor_usfm2html.cpp \
-	unittests/editor_roundtrip.cpp \
+	unittests/html2usfm.cpp \
+	unittests/usfm2html.cpp \
+	unittests/usfm2html2usfm.cpp \
 	unittests/workspaces.cpp \
-	unittests/client_logic.cpp \
+	unittests/client.cpp \
 	unittests/check_sentences.cpp \
 	unittests/check_versification.cpp \
 	unittests/check_usfm.cpp \
@@ -2609,15 +2607,15 @@ unittests/checksum_logic.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/bibles.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/editor_html2usfm.$(OBJEXT): unittests/$(am__dirstamp) \
+unittests/html2usfm.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/editor_usfm2html.$(OBJEXT): unittests/$(am__dirstamp) \
+unittests/usfm2html.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/editor_roundtrip.$(OBJEXT): unittests/$(am__dirstamp) \
+unittests/usfm2html2usfm.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/workspaces.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/client_logic.$(OBJEXT): unittests/$(am__dirstamp) \
+unittests/client.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/check_sentences.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
@@ -3176,15 +3174,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/check_verses.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/check_versification.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/checksum_logic.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/client_logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/client.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/databases.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editone.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editor_html2usfm.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editor_roundtrip.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editor_usfm2html.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/filters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/flate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/folders.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html2usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/http.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/hyphenate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/json.Po@am__quote@
@@ -3196,6 +3192,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/tasks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/usfm2html.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/usfm2html2usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/utilities.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/workspaces.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@user/$(DEPDIR)/account.Po@am__quote@

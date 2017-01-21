@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/editor_usfm2html.h>
+#include <unittests/usfm2html.h>
 #include <unittests/utilities.h>
 #include <database/state.h>
 #include <editor/usfm2html.h>
@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-void test_editor_usfm2html ()
+void test_usfm2html ()
 {
   trace_unit_tests (__func__);
   Database_State::create ();

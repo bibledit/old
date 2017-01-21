@@ -40,11 +40,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/flate.h>
 #include <unittests/checksum_logic.h>
 #include <unittests/bibles.h>
-#include <unittests/editor_html2usfm.h>
-#include <unittests/editor_usfm2html.h>
-#include <unittests/editor_roundtrip.h>
+#include <unittests/html2usfm.h>
+#include <unittests/usfm2html.h>
+#include <unittests/usfm2html2usfm.h>
 #include <unittests/workspaces.h>
-#include <unittests/client_logic.h>
+#include <unittests/client.h>
 #include <unittests/check_sentences.h>
 #include <unittests/check_versification.h>
 #include <unittests/check_usfm.h>
@@ -148,8 +148,8 @@ int main (int argc, char **argv)
   test_checksum_logic ();
   test_bibles ();
   test_editor_html2usfm ();
-  test_editor_usfm2html ();
-  test_editor_roundtrip ();
+  test_usfm2html ();
+  test_usfm2html2usfm ();
   test_filter_markup ();
   test_workspaces ();
   test_filter_git ();
@@ -158,7 +158,7 @@ int main (int argc, char **argv)
   test_ipc_notes ();
   test_check_verses ();
   test_filter_date ();
-  test_client_logic ();
+  test_client ();
   test_check_sentences ();
   test_check_versification ();
   test_check_usfm ();

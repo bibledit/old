@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/editor_roundtrip.h>
+#include <unittests/usfm2html2usfm.h>
 #include <unittests/utilities.h>
 #include <editor/html2usfm.h>
 #include <editor/usfm2html.h>
@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-void test_editor_roundtrip ()
+void test_usfm2html2usfm ()
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
