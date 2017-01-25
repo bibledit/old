@@ -484,7 +484,8 @@ unittest_SOURCES = \
 	unittests/memory.cpp \
 	unittests/tasks.cpp \
 	unittests/biblegateway.cpp \
-	unittests/rss.cpp
+	unittests/rss.cpp \
+	unittests/space.cpp
 
 unittest_LDADD = libbibledit.a
 

@@ -363,7 +363,8 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/json.$(OBJEXT) unittests/related.$(OBJEXT) \
 	unittests/editone.$(OBJEXT) unittests/http.$(OBJEXT) \
 	unittests/memory.$(OBJEXT) unittests/tasks.$(OBJEXT) \
-	unittests/biblegateway.$(OBJEXT) unittests/rss.$(OBJEXT)
+	unittests/biblegateway.$(OBJEXT) unittests/rss.$(OBJEXT) \
+	unittests/space.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -1051,7 +1052,8 @@ unittest_SOURCES = \
 	unittests/memory.cpp \
 	unittests/tasks.cpp \
 	unittests/biblegateway.cpp \
-	unittests/rss.cpp
+	unittests/rss.cpp \
+	unittests/space.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = executable/generate.cpp
@@ -2645,6 +2647,8 @@ unittests/biblegateway.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/rss.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/space.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3184,6 +3188,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sentences.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/session.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/space.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/tasks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@

@@ -60,6 +60,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/tasks.h>
 #include <unittests/biblegateway.h>
 #include <unittests/rss.h>
+#include <unittests/space.h>
 
 
 int main (int argc, char **argv) 
@@ -84,8 +85,9 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   // The previous line is a signature for automated unit testing: Do not change it.
   
-  //refresh_sandbox (true);
-  //exit (0);
+  refresh_sandbox (true);
+  test_space ();
+  exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
   // Automated Unit Tests End Removing Code Here.
@@ -191,6 +193,7 @@ int main (int argc, char **argv)
   test_biblegateway ();
   test_rss_feed ();
   test_filter_dev ();
+  test_space ();
   
   // Output possible journal entries.
   refresh_sandbox (true);
