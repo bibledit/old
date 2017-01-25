@@ -69,9 +69,14 @@ void Checks_Space::spaceEndVerse (string bible, int book, int chapter, string us
   Database_Check database_check;
   vector <int> verses = usfm_get_verse_numbers (usfm);
   for (auto verse : verses) {
+    if (!verse) continue;
     string text = usfm_get_verse_text (usfm, verse);
-    filter_string_replace_between (text, "\\", "*", "");
-    filter_string_replace_between (text, "\\", " ", "");
+    vector <string> items = usfm_get_markers_and_text (text);
+    for (auto item : items) {
+      if (usfm_is_usfm_marker (item)) {
+        text = filter_string_str_replace (item, "", text);
+      }
+    }
     bool hit = false;
     if (!text.empty ()) {
       string trimmed = filter_string_trim (text);

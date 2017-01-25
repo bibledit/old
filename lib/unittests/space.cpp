@@ -29,31 +29,44 @@ void test_space ()
   refresh_sandbox (true);
   Database_Check database_check;
   database_check.create ();
+  string bible = "unit test";
   
-  // Test space at end of verse.
+  // Test reporting space at end of verse.
   {
+    database_check.truncateOutput (bible);
     string usfm =
     "\\v 2 This is verse 2.\n"
     "\\v 3 This is verse 3.\n"
     ;
-    Checks_Space::spaceEndVerse ("test", 2, 3, usfm);
+    Checks_Space::spaceEndVerse (bible, 2, 3, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 0, hits.size ());
   }
   {
+    database_check.truncateOutput (bible);
     string usfm =
     "\\v 4 This is verse 4. \n"
     ;
-    Checks_Space::spaceEndVerse ("test", 2, 3, usfm);
+    Checks_Space::spaceEndVerse (bible, 2, 3, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, hits.size ());
   }
   {
+    database_check.truncateOutput (bible);
     string usfm =
     "\\v 5 This is verse \\add 5. \\add*\n"
     ;
-    Checks_Space::spaceEndVerse ("test", 2, 3, usfm);
+    Checks_Space::spaceEndVerse (bible, 2, 3, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, hits.size ());
+  }
+  {
+    database_check.truncateOutput (bible);
+    string usfm =
+    "\\v 6 This is verse \\add 6.\\add*\n"
+    ;
+    Checks_Space::spaceEndVerse (bible, 2, 3, usfm);
+    vector <Database_Check_Hit> hits = database_check.getHits ();
+    evaluate (__LINE__, __func__, 0, hits.size ());
   }
 }
