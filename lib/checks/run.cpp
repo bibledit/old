@@ -100,7 +100,7 @@ void checks_run (string bible)
       }
     }
   }
-  bool check_space_end_verse = Database_Config_Bible::getCheckSpaceEndVerse (bible); // Todo
+  bool check_space_end_verse = Database_Config_Bible::getCheckSpaceEndVerse (bible);
 
   
   vector <int> books = request.database_bibles()->getBooks (bible);
@@ -115,7 +115,7 @@ void checks_run (string bible)
     
     
     for (auto chapter : chapters) {
-      string chapterUsfm = request.database_bibles()->getChapter (bible, book, chapter); // Todo
+      string chapterUsfm = request.database_bibles()->getChapter (bible, book, chapter);
       
       
       vector <int> verses = usfm_get_verse_numbers (chapterUsfm);
