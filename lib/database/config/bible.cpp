@@ -314,6 +314,16 @@ void Database_Config_Bible::setMatchingPairs (string bible, string value)
 }
 
 
+bool Database_Config_Bible::getCheckSpaceEndVerse (string bible)
+{
+  return getBValue (bible, "check-space-end-verse", true);
+}
+void Database_Config_Bible::setCheckSpaceEndVerse (string bible, bool value)
+{
+  setBValue (bible, "check-space-end-verse", value);
+}
+
+
 string Database_Config_Bible::getSprintTaskCompletionCategories (string bible)
 {
   return getValue (bible, "sprint-task-completion-categories", "Translate\nCheck\nHebrew/Greek\nDiscussions");

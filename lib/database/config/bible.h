@@ -70,6 +70,8 @@ public:
   static void setCheckMatchingPairs (string bible, bool value);
   static string getMatchingPairs (string bible);
   static void setMatchingPairs (string bible, string value);
+  static bool getCheckSpaceEndVerse (string bible);
+  static void setCheckSpaceEndVerse (string bible, bool value);
   static string getSprintTaskCompletionCategories (string bible);
   static void setSprintTaskCompletionCategories (string bible, string value);
   static int getRepeatSendReceive (string bible);
