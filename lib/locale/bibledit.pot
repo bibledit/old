@@ -1569,6 +1569,9 @@ msgstr ""
 msgid "matching pairs"
 msgstr ""
 
+msgid "space at the end of a verse"
+msgstr ""
+
 msgid "Settings for the sentence structure"
 msgstr ""
 

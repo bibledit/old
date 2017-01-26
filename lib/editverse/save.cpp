@@ -32,6 +32,7 @@
 #include <access/bible.h>
 #include <bible/logic.h>
 #include <rss/logic.h>
+#include <sendreceive/logic.h>
 
 
 string editverse_save_url ()
@@ -123,7 +124,9 @@ string editverse_save (void * webserver_request)
     string newText = request->database_bibles()->getChapter (bible, book, chapter);
     Database_Modifications database_modifications;
     database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
-    Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
+    if (sendreceive_git_repository_linked (bible)) {
+      Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
+    }
     rss_logic_schedule_update (username, bible, book, chapter, oldText, newText);
 #else
     (void) oldID;

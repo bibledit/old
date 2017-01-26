@@ -39,6 +39,7 @@
 #include <access/bible.h>
 #include <bible/logic.h>
 #include <rss/logic.h>
+#include <sendreceive/logic.h>
 
 
 string sync_bibles_url ()
@@ -121,7 +122,9 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
     Database_Modifications database_modifications;
     database_modifications.recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);
 #ifdef HAVE_CLOUD
-    Database_Git::store_chapter (username, bible, book, chapter, old_text, new_text);
+    if (sendreceive_git_repository_linked (bible)) {
+      Database_Git::store_chapter (username, bible, book, chapter, old_text, new_text);
+    }
     rss_logic_schedule_update (username, bible, book, chapter, old_text, new_text);
 #endif
   }

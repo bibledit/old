@@ -128,13 +128,13 @@ string sendreceive_index (void * webserver_request)
   }
   view.set_variable ("repeatbible", get_checkbox_status (Database_Config_Bible::getRepeatSendReceive (bible)));
   
-  
-  string url = Database_Config_Bible::getRemoteRepositoryUrl (bible);
-  if (url.empty ()) {
-    view.enable_zone ("collab_off");
-  } else {
+    
+  if (sendreceive_git_repository_linked (bible)) {
     view.enable_zone ("collab_on");
+    string url = Database_Config_Bible::getRemoteRepositoryUrl (bible);
     view.set_variable ("url", filter_url_remove_username_password (url));
+  } else {
+    view.enable_zone ("collab_off");
   }
   
   

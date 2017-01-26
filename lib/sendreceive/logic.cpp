@@ -183,3 +183,11 @@ bool sendreceive_logic_prioritized_task_is_active ()
   }
   return false;
 }
+
+
+// Returns true if Bibledit Cloud has been linked to an external git repository.
+bool sendreceive_git_repository_linked (string bible)
+{
+  string url = Database_Config_Bible::getRemoteRepositoryUrl (bible);
+  return !url.empty ();
+}

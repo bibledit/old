@@ -37,5 +37,7 @@ void sendreceive_queue_startup ();
 
 bool sendreceive_logic_prioritized_task_is_active ();
 
+bool sendreceive_git_repository_linked (string bible);
+
 
 #endif
