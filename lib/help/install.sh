@@ -1,9 +1,7 @@
 #!/bin/bash
 
 
-pushd `dirname $0` > /dev/null
-SCRIPTPATH=`pwd`
-popd > /dev/null
+SCRIPTPATH=`readlink -f "$0"`
 
 
 # Some distro's cannot run $ su.
@@ -11,7 +9,7 @@ UNAME=`uname -a`
 echo -n "Installing Bibledit on "
 echo $UNAME
 RUNSU=1;
-if [ "$UNAME" = "*Ubuntu*" ]; then
+if echo "$UNAME" | grep -q Ubuntu
   RUNSU=0;
 fi
 
