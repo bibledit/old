@@ -197,7 +197,7 @@ fi
 
 # Remove the script, so people cannot reuse it.
 # Reusing scripts have given problems in the past as newer scripts were different.
-rm $SCRIPTPATH/install.sh
+rm $SCRIPTPATH
 
 echo If there were no errors, Bibledit should be working now.
 echo --
