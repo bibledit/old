@@ -364,7 +364,8 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/editone.$(OBJEXT) unittests/http.$(OBJEXT) \
 	unittests/memory.$(OBJEXT) unittests/tasks.$(OBJEXT) \
 	unittests/biblegateway.$(OBJEXT) unittests/rss.$(OBJEXT) \
-	unittests/space.$(OBJEXT)
+	unittests/space.$(OBJEXT) unittests/roles.$(OBJEXT) \
+	unittests/md5.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -1053,7 +1054,9 @@ unittest_SOURCES = \
 	unittests/tasks.cpp \
 	unittests/biblegateway.cpp \
 	unittests/rss.cpp \
-	unittests/space.cpp
+	unittests/space.cpp \
+	unittests/roles.cpp \
+	unittests/md5.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = executable/generate.cpp
@@ -2649,6 +2652,10 @@ unittests/rss.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/space.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/roles.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/md5.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3181,9 +3188,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/http.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/hyphenate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/json.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/memory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/pairs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/related.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/roles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/rss.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sentences.Po@am__quote@

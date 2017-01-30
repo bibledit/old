@@ -61,6 +61,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/biblegateway.h>
 #include <unittests/rss.h>
 #include <unittests/space.h>
+#include <unittests/roles.h>
+#include <unittests/md5.h>
 
 
 int main (int argc, char **argv) 
@@ -87,6 +89,8 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_space ();
+  test_roles ();
+  test_md5 ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -194,6 +198,8 @@ int main (int argc, char **argv)
   test_rss_feed ();
   test_filter_dev ();
   test_space ();
+  test_roles ();
+  test_md5 ();
   
   // Output possible journal entries.
   refresh_sandbox (true);

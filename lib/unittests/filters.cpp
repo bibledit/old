@@ -34,7 +34,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
-#include <filter/md5.h>
 #include <filter/usfm.h>
 #include <filter/archive.h>
 #include <filter/text.h>
@@ -61,20 +60,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ldap/logic.h>
 
 
+// Todo move into smaller units.
+
 void test_filter_various1 ()
 {
   trace_unit_tests (__func__);
   
-  refresh_sandbox (true);
-  {
-    // Filter_Roles.
-    evaluate (__LINE__, __func__, 3, Filter_Roles::consultant ());
-    evaluate (__LINE__, __func__, 1, Filter_Roles::lowest ());
-  }
-  {
-    // C++ md5 function as compared to PHP's version.
-    evaluate (__LINE__, __func__, "1f3870be274f6c49b3e31a0c6728957f", md5 ("apple"));
-  }
   {
     // Test filter_string_str_replace.
     // Shows that std::string handles UTF-8 well for simple operations. 

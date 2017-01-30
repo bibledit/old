@@ -485,7 +485,9 @@ unittest_SOURCES = \
 	unittests/tasks.cpp \
 	unittests/biblegateway.cpp \
 	unittests/rss.cpp \
-	unittests/space.cpp
+	unittests/space.cpp \
+	unittests/roles.cpp \
+	unittests/md5.cpp
 
 unittest_LDADD = libbibledit.a
 

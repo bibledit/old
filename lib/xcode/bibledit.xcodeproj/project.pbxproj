@@ -1234,6 +1234,10 @@
 		CAEABB1A1A76BF70008DBBA4 /* shell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shell.h; sourceTree = "<group>"; };
 		CAEB13081E3F5AA100AFC75E /* 0template.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = 0template.cpp; sourceTree = "<group>"; };
 		CAEB13091E3F5AA100AFC75E /* 0template.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = 0template.h; sourceTree = "<group>"; };
+		CAEB130A1E3F5D3800AFC75E /* roles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = roles.cpp; sourceTree = "<group>"; };
+		CAEB130B1E3F5D3800AFC75E /* roles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = roles.h; sourceTree = "<group>"; };
+		CAEB130C1E3F5E6000AFC75E /* md5.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = md5.cpp; sourceTree = "<group>"; };
+		CAEB130D1E3F5E6000AFC75E /* md5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
 		CAECFBDB1B84E30100B3634F /* clean */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clean; sourceTree = "<group>"; };
 		CAECFBDC1B84E30100B3634F /* create_sblgnt_database.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = create_sblgnt_database.php; sourceTree = "<group>"; };
 		CAECFBDD1B84E30100B3634F /* greekstrong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = greekstrong.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -3009,6 +3013,10 @@
 		CAA4D3B41A45A648003ABA25 /* unittests */ = {
 			isa = PBXGroup;
 			children = (
+				CAEB130C1E3F5E6000AFC75E /* md5.cpp */,
+				CAEB130D1E3F5E6000AFC75E /* md5.h */,
+				CAEB130A1E3F5D3800AFC75E /* roles.cpp */,
+				CAEB130B1E3F5D3800AFC75E /* roles.h */,
 				CAEB13081E3F5AA100AFC75E /* 0template.cpp */,
 				CAEB13091E3F5AA100AFC75E /* 0template.h */,
 				CA05DD5C1E33C3C600EA2EDF /* biblegateway.cpp */,

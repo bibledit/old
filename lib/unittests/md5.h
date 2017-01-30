@@ -17,15 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/0template.h>
-#include <unittests/utilities.h>
+#include <config/libraries.h>
 
 
-void test_template ()
-{
-  trace_unit_tests (__func__);
-  refresh_sandbox (true);
-  vector <pair<int, string>> result;
-  vector <pair<int, string>> standard;
-  evaluate (__LINE__, __func__, standard, results);
-}
+void test_md5 ();

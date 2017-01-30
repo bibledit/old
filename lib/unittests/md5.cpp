@@ -17,15 +17,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/0template.h>
+#include <unittests/md5.h>
 #include <unittests/utilities.h>
+#include <filter/md5.h>
 
 
-void test_template ()
+void test_md5 ()
 {
   trace_unit_tests (__func__);
-  refresh_sandbox (true);
-  vector <pair<int, string>> result;
-  vector <pair<int, string>> standard;
-  evaluate (__LINE__, __func__, standard, results);
+
+  // C++ md5 function as compared to PHP's version.
+  evaluate (__LINE__, __func__, "1f3870be274f6c49b3e31a0c6728957f", md5 ("apple"));
 }

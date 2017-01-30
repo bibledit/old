@@ -17,15 +17,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/0template.h>
+#include <unittests/roles.h>
 #include <unittests/utilities.h>
+#include <filter/roles.h>
 
 
-void test_template ()
+void test_roles ()
 {
   trace_unit_tests (__func__);
-  refresh_sandbox (true);
-  vector <pair<int, string>> result;
-  vector <pair<int, string>> standard;
-  evaluate (__LINE__, __func__, standard, results);
+  
+  // Filter_Roles.
+  evaluate (__LINE__, __func__, 3, Filter_Roles::consultant ());
+  evaluate (__LINE__, __func__, 1, Filter_Roles::lowest ());
 }
