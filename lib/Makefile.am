@@ -493,7 +493,10 @@ unittest_SOURCES = \
 	unittests/date.cpp \
 	unittests/export.cpp \
 	unittests/html.cpp \
-	unittests/archive.cpp
+	unittests/archive.cpp \
+	unittests/odf.cpp \
+	unittests/text.cpp \
+	unittests/url.cpp
 
 unittest_LDADD = libbibledit.a
 

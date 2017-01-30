@@ -1250,6 +1250,12 @@
 		CAEB13171E3FB17000AFC75E /* html.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = html.h; sourceTree = "<group>"; };
 		CAEB13181E3FBD9400AFC75E /* archive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = archive.cpp; sourceTree = "<group>"; };
 		CAEB13191E3FBD9400AFC75E /* archive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = archive.h; sourceTree = "<group>"; };
+		CAEB131A1E3FC48800AFC75E /* odf.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = odf.cpp; sourceTree = "<group>"; };
+		CAEB131B1E3FC48800AFC75E /* odf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = odf.h; sourceTree = "<group>"; };
+		CAEB131C1E3FC75F00AFC75E /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
+		CAEB131D1E3FC75F00AFC75E /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
+		CAEB131E1E3FCB1700AFC75E /* url.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = url.cpp; sourceTree = "<group>"; };
+		CAEB131F1E3FCB1700AFC75E /* url.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = url.h; sourceTree = "<group>"; };
 		CAECFBDB1B84E30100B3634F /* clean */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clean; sourceTree = "<group>"; };
 		CAECFBDC1B84E30100B3634F /* create_sblgnt_database.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = create_sblgnt_database.php; sourceTree = "<group>"; };
 		CAECFBDD1B84E30100B3634F /* greekstrong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = greekstrong.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -3025,6 +3031,12 @@
 		CAA4D3B41A45A648003ABA25 /* unittests */ = {
 			isa = PBXGroup;
 			children = (
+				CAEB131E1E3FCB1700AFC75E /* url.cpp */,
+				CAEB131F1E3FCB1700AFC75E /* url.h */,
+				CAEB131C1E3FC75F00AFC75E /* text.cpp */,
+				CAEB131D1E3FC75F00AFC75E /* text.h */,
+				CAEB131A1E3FC48800AFC75E /* odf.cpp */,
+				CAEB131B1E3FC48800AFC75E /* odf.h */,
 				CAEB13181E3FBD9400AFC75E /* archive.cpp */,
 				CAEB13191E3FBD9400AFC75E /* archive.h */,
 				CAEB13161E3FB17000AFC75E /* html.cpp */,
