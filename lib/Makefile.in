@@ -366,7 +366,9 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/biblegateway.$(OBJEXT) unittests/rss.$(OBJEXT) \
 	unittests/space.$(OBJEXT) unittests/roles.$(OBJEXT) \
 	unittests/md5.$(OBJEXT) unittests/string.$(OBJEXT) \
-	unittests/users.$(OBJEXT) unittests/date.$(OBJEXT)
+	unittests/users.$(OBJEXT) unittests/date.$(OBJEXT) \
+	unittests/export.$(OBJEXT) unittests/html.$(OBJEXT) \
+	unittests/archive.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -1060,7 +1062,10 @@ unittest_SOURCES = \
 	unittests/md5.cpp \
 	unittests/string.cpp \
 	unittests/users.cpp \
-	unittests/date.cpp
+	unittests/date.cpp \
+	unittests/export.cpp \
+	unittests/html.cpp \
+	unittests/archive.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = executable/generate.cpp
@@ -2666,6 +2671,12 @@ unittests/users.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/date.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/export.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/html.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/archive.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3185,6 +3196,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@timer/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tmp/$(DEPDIR)/tmp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@trash/$(DEPDIR)/handler.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/archive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/biblegateway.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/checksum.Po@am__quote@
@@ -3192,9 +3204,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/databases.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/date.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editone.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/export.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/filters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/flate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/folders.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html2usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/http.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/hyphenate.Po@am__quote@

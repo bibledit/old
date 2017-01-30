@@ -490,7 +490,10 @@ unittest_SOURCES = \
 	unittests/md5.cpp \
 	unittests/string.cpp \
 	unittests/users.cpp \
-	unittests/date.cpp
+	unittests/date.cpp \
+	unittests/export.cpp \
+	unittests/html.cpp \
+	unittests/archive.cpp
 
 unittest_LDADD = libbibledit.a
 

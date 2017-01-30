@@ -66,6 +66,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/string.h>
 #include <unittests/users.h>
 #include <unittests/date.h>
+#include <unittests/export.h>
+#include <unittests/html.h>
+#include <unittests/archive.h>
 
 
 int main (int argc, char **argv) 
@@ -98,6 +101,9 @@ int main (int argc, char **argv)
   test_users ();
   test_date ();
   test_usfm ();
+  test_export ();
+  test_html ();
+  test_archive ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -109,9 +115,6 @@ int main (int argc, char **argv)
   test_database_config_user ();
   test_sqlite ();
   test_database_logs ();
-  test_filter_export1 ();
-  test_filter_export2 ();
-  test_html_text ();
   test_filter_archive ();
   test_odf_text ();
   test_filter_text ();
@@ -207,6 +210,9 @@ int main (int argc, char **argv)
   test_string ();
   test_users ();
   test_date ();
+  test_export ();
+  test_html ();
+  test_archive ();
   
   // Output possible journal entries.
   refresh_sandbox (true);
