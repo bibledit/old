@@ -17,15 +17,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/0template.h>
+#include <unittests/users.h>
 #include <unittests/utilities.h>
+#include <webserver/request.h>
+#include <filter/string.h>
 
 
-void test_template ()
+void test_users ()
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
-  vector <pair<int, string>> results;
-  vector <pair<int, string>> standard;
-  evaluate (__LINE__, __func__, standard, results);
+
+  // Tests for a user's identifier.
+  {
+    Webserver_Request request;
+    request.database_users ()->create ();
+    request.session_logic()->setUsername ("phpunit");
+    evaluate (__LINE__, __func__, 13683715, filter_string_user_identifier (&request));
+    request.session_logic()->setUsername ("phpunit2");
+    evaluate (__LINE__, __func__, 13767813, filter_string_user_identifier (&request));
+  }
+  refresh_sandbox (true);
 }

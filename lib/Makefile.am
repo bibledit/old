@@ -487,7 +487,10 @@ unittest_SOURCES = \
 	unittests/rss.cpp \
 	unittests/space.cpp \
 	unittests/roles.cpp \
-	unittests/md5.cpp
+	unittests/md5.cpp \
+	unittests/string.cpp \
+	unittests/users.cpp \
+	unittests/date.cpp
 
 unittest_LDADD = libbibledit.a
 

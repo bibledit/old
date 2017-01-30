@@ -1238,6 +1238,12 @@
 		CAEB130B1E3F5D3800AFC75E /* roles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = roles.h; sourceTree = "<group>"; };
 		CAEB130C1E3F5E6000AFC75E /* md5.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = md5.cpp; sourceTree = "<group>"; };
 		CAEB130D1E3F5E6000AFC75E /* md5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		CAEB130E1E3F635100AFC75E /* string.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = string.cpp; sourceTree = "<group>"; };
+		CAEB130F1E3F635100AFC75E /* string.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = string.h; sourceTree = "<group>"; };
+		CAEB13101E3F6E6100AFC75E /* users.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = users.cpp; sourceTree = "<group>"; };
+		CAEB13111E3F6E6100AFC75E /* users.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = users.h; sourceTree = "<group>"; };
+		CAEB13121E3F742A00AFC75E /* date.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = date.cpp; sourceTree = "<group>"; };
+		CAEB13131E3F742A00AFC75E /* date.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = date.h; sourceTree = "<group>"; };
 		CAECFBDB1B84E30100B3634F /* clean */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clean; sourceTree = "<group>"; };
 		CAECFBDC1B84E30100B3634F /* create_sblgnt_database.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = create_sblgnt_database.php; sourceTree = "<group>"; };
 		CAECFBDD1B84E30100B3634F /* greekstrong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = greekstrong.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -3013,6 +3019,12 @@
 		CAA4D3B41A45A648003ABA25 /* unittests */ = {
 			isa = PBXGroup;
 			children = (
+				CAEB13121E3F742A00AFC75E /* date.cpp */,
+				CAEB13131E3F742A00AFC75E /* date.h */,
+				CAEB13101E3F6E6100AFC75E /* users.cpp */,
+				CAEB13111E3F6E6100AFC75E /* users.h */,
+				CAEB130E1E3F635100AFC75E /* string.cpp */,
+				CAEB130F1E3F635100AFC75E /* string.h */,
 				CAEB130C1E3F5E6000AFC75E /* md5.cpp */,
 				CAEB130D1E3F5E6000AFC75E /* md5.h */,
 				CAEB130A1E3F5D3800AFC75E /* roles.cpp */,

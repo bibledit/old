@@ -17,34 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-
 #include <config/libraries.h>
 
 
-void test_filter_export1 ();
-void test_filter_export2 ();
-void test_html_text ();
-void test_filter_archive ();
-void test_odf_text ();
-void test_filter_text ();
-void test_filter_url ();
-void test_filter_string_rand ();
-void test_filter_passage ();
-void test_email ();
-void test_replace ();
-void test_styles_css ();
-void test_filter_custom_css ();
-void test_filter_diff ();
-void test_filter_abbreviations ();
-void test_filter_markup ();
-void test_filter_git ();
-void test_filter_merge ();
-void test_filter_tidy ();
-void test_ipc_notes ();
-void test_filter_date ();
-void test_filter_string ();
-void test_filter_string_text2html ();
-void test_filter_shell ();
-void test_filter_memory ();
-void test_filter_ldap ();
-void test_filter_dev ();
+void test_date ();

@@ -63,6 +63,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/space.h>
 #include <unittests/roles.h>
 #include <unittests/md5.h>
+#include <unittests/string.h>
+#include <unittests/users.h>
+#include <unittests/date.h>
 
 
 int main (int argc, char **argv) 
@@ -91,6 +94,10 @@ int main (int argc, char **argv)
   test_space ();
   test_roles ();
   test_md5 ();
+  test_string ();
+  test_users ();
+  test_date ();
+  test_usfm ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -102,9 +109,6 @@ int main (int argc, char **argv)
   test_database_config_user ();
   test_sqlite ();
   test_database_logs ();
-  test_filter_various1 ();
-  test_filter_various2 ();
-  test_filter_usfm ();
   test_filter_export1 ();
   test_filter_export2 ();
   test_html_text ();
@@ -200,6 +204,9 @@ int main (int argc, char **argv)
   test_space ();
   test_roles ();
   test_md5 ();
+  test_string ();
+  test_users ();
+  test_date ();
   
   // Output possible journal entries.
   refresh_sandbox (true);
