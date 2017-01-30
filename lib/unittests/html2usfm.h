@@ -17,14 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_EDITOR_HTML2USFM_H
-#define INCLUDED_UNITTESTS_EDITOR_HTML2USFM_H
-
-
 #include <config/libraries.h>
 
 
 void test_editor_html2usfm ();
-
-
-#endif

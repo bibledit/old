@@ -18,10 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 
-#ifndef INCLUDED_UNITTESTS_FILTERS_H
-#define INCLUDED_UNITTESTS_FILTERS_H
-
-
 #include <config/libraries.h>
 
 
@@ -55,6 +51,3 @@ void test_filter_shell ();
 void test_filter_memory ();
 void test_filter_ldap ();
 void test_filter_dev ();
-
-
-#endif

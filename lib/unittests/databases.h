@@ -17,10 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_DATABASES_H
-#define INCLUDED_UNITTESTS_DATABASES_H
-
-
 #include <config/libraries.h>
 
 
@@ -68,6 +64,3 @@ void test_database_git ();
 void test_database_userresources ();
 void test_database_statistics ();
 void test_database_develop ();
-
-
-#endif

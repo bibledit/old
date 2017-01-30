@@ -17,14 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_TASKS_H
-#define INCLUDED_UNITTESTS_TASKS_H
-
-
 #include <config/libraries.h>
 
 
 void test_tasks_logic ();
-
-
-#endif
