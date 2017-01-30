@@ -9,7 +9,9 @@ UNAME=`uname -a`
 echo -n "Installing Bibledit on "
 echo $UNAME
 RUNSU=1;
-if echo "$UNAME" | grep -q Ubuntu
+echo "$UNAME" | grep -q Ubuntu
+EXIT_CODE=$?
+if [ $EXIT_CODE -eq 0 ]; then
   RUNSU=0;
 fi
 
