@@ -34,6 +34,8 @@ which apt-get > /dev/null
 if [ $? -eq 0 ]
 then
 echo Installing dependencies through apt-get...
+# On Debian and derivates it is sufficient to use the --yes switch only.
+# The package manager apt-get is also found on openSUSE, and there is also needs --assume-yes. 
 apt-get --yes --assume-yes install build-essential
 apt-get --yes --assume-yes install git
 apt-get --yes --assume-yes install zip
