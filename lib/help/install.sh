@@ -16,31 +16,16 @@ if [ $EXIT_CODE -eq 0 ]; then
 fi
 
 
-# Deal with command line arguments.
-DRYECHO=""
-if [ $# -ne 0 ]; then
-  if [ "$1" = "-dry" ]; then
-    DRYECHO="echo"
-  else
-    echo Pass no arguments to install Bibledit.
-    echo Pass argument -dry to do a dry run.
-    exit 0
-  fi
-fi
-
-
 # Create a script with commands to run with root privileges.
 cat > install2.sh <<'scriptblock'
 
 #!/bin/bash
 
-DRYECHO=$1
-
 clear
 echo Updating the software sources...
 which apt-get > /dev/null
 if [ $? -eq 0 ]; then
-$DRYECHO apt-get update
+apt-get update
 fi
 
 echo Installing the software Bibledit relies on...
@@ -48,59 +33,59 @@ echo Installing the software Bibledit relies on...
 which apt-get > /dev/null
 if [ $? -eq 0 ]
 then
-$DRYECHO apt-get --yes install build-essential
-$DRYECHO apt-get --yes install git
-$DRYECHO apt-get --yes install zip
-$DRYECHO apt-get --yes install pkgconf
-$DRYECHO apt-get --yes install libcurl4-openssl-dev
-$DRYECHO apt-get --yes install libssl-dev
-$DRYECHO apt-get --yes install libatspi2.0-dev
-$DRYECHO apt-get --yes install libgtk-3-dev
-$DRYECHO apt-get --yes install libwebkit2gtk-4.0-dev
+apt-get --yes install build-essential
+apt-get --yes install git
+apt-get --yes install zip
+apt-get --yes install pkgconf
+apt-get --yes install libcurl4-openssl-dev
+apt-get --yes install libssl-dev
+apt-get --yes install libatspi2.0-dev
+apt-get --yes install libgtk-3-dev
+apt-get --yes install libwebkit2gtk-4.0-dev
 fi
 
 # Fedora.
 which dnf > /dev/null
 if [ $? -eq 0 ]
 then
-$DRYECHO dnf --assumeyes install gcc-c++
-$DRYECHO dnf --assumeyes install git
-$DRYECHO dnf --assumeyes install zip
-$DRYECHO dnf --assumeyes install pkgconfig
-$DRYECHO dnf --assumeyes install libcurl-devel
-$DRYECHO dnf --assumeyes install openssl-devel
-$DRYECHO dnf --assumeyes install gtk3-devel
-$DRYECHO dnf --assumeyes install webkitgtk4-devel
+dnf --assumeyes install gcc-c++
+dnf --assumeyes install git
+dnf --assumeyes install zip
+dnf --assumeyes install pkgconfig
+dnf --assumeyes install libcurl-devel
+dnf --assumeyes install openssl-devel
+dnf --assumeyes install gtk3-devel
+dnf --assumeyes install webkitgtk4-devel
 fi
 
 # CentOS
 which yum > /dev/null
 if [ $? -eq 0 ]
 then
-$DRYECHO yum --assumeyes install gcc-c++
-$DRYECHO yum --assumeyes install git
-$DRYECHO yum --assumeyes install zip
-$DRYECHO yum --assumeyes install pkgconfig
-$DRYECHO yum --assumeyes install libcurl-devel
-$DRYECHO yum --assumeyes install openssl-devel
-$DRYECHO yum --assumeyes install gtk3-devel
-$DRYECHO yum --assumeyes install webkitgtk3-devel
-$DRYECHO yum --assumeyes install libwebkit2gtk-devel
+yum --assumeyes install gcc-c++
+yum --assumeyes install git
+yum --assumeyes install zip
+yum --assumeyes install pkgconfig
+yum --assumeyes install libcurl-devel
+yum --assumeyes install openssl-devel
+yum --assumeyes install gtk3-devel
+yum --assumeyes install webkitgtk3-devel
+yum --assumeyes install libwebkit2gtk-devel
 fi
 
 # openSUSE
 which zypper > /dev/null
 if [ $? -eq 0 ]
 then
-$DRYECHO zypper -n --non-interactive --no-gpg-checks install gcc-c++
-$DRYECHO zypper -n --non-interactive --no-gpg-checks install git
-$DRYECHO zypper -n --non-interactive --no-gpg-checks install zip
-$DRYECHO zypper -n --non-interactive --no-gpg-checks install pkg-config
-$DRYECHO zypper -n --non-interactive --no-gpg-checks install libcurl-devel
-$DRYECHO zypper -n --non-interactive --no-gpg-checks install libopenssl-devel
-$DRYECHO zypper -n --non-interactive --no-gpg-checks install cairo-devel
-$DRYECHO zypper -n --non-interactive --no-gpg-checks install gtk3-devel
-$DRYECHO zypper -n --non-interactive --no-gpg-checks install webkit2gtk3-devel
+zypper -n --non-interactive --no-gpg-checks install gcc-c++
+zypper -n --non-interactive --no-gpg-checks install git
+zypper -n --non-interactive --no-gpg-checks install zip
+zypper -n --non-interactive --no-gpg-checks install pkg-config
+zypper -n --non-interactive --no-gpg-checks install libcurl-devel
+zypper -n --non-interactive --no-gpg-checks install libopenssl-devel
+zypper -n --non-interactive --no-gpg-checks install cairo-devel
+zypper -n --non-interactive --no-gpg-checks install gtk3-devel
+zypper -n --non-interactive --no-gpg-checks install webkit2gtk3-devel
 fi
 
 # Create the script to start bibledit.
@@ -124,7 +109,7 @@ chmod +x install2.sh
 # Conditionally run $ su.
 if [ $RUNSU -ne 0 ]; then
   echo Please provide the password for the root user and press Enter
-  su -c ./install2.sh $DRYECHO
+  su -c ./install2.sh
 fi
 
 EXIT_CODE=$?
@@ -136,7 +121,7 @@ fi
 if [ $EXIT_CODE != 0 ]; then
 
   echo Please provide the password for the administrative user and press Enter:
-  sudo ./install2.sh $DRYECHO
+  sudo ./install2.sh
   EXIT_CODE=$?
   if [ $EXIT_CODE != 0 ]; then
     exit
@@ -162,15 +147,15 @@ rm index.html
 TARBALL=`cat tarball.txt`
 rm tarball.txt
 rm -f $TARBALL.*
-$DRYECHO wget --continue --tries=100 http://bibledit.org/linux/$TARBALL
+wget --continue --tries=100 http://bibledit.org/linux/$TARBALL
 if [ $? -ne 0 ]
 then
   echo Failed to download Bibledit
   exit
 fi
 
-$DRYECHO mkdir -p bibledit
-$DRYECHO tar xf $TARBALL -C bibledit --strip-components=1
+mkdir -p bibledit
+tar xf $TARBALL -C bibledit --strip-components=1
 if [ $? -ne 0 ]
 then
   echo Failed to unpack Bibledit
@@ -178,17 +163,17 @@ then
   exit
 fi
 
-$DRYECHO cd bibledit
+cd bibledit
 # Remove bits from any older build that might cause crashes in the new build.
 find . -name "*.o" -delete
-$DRYECHO ./configure
+./configure
 if [ $? -ne 0 ]
 then
   echo Failed to configure Bibledit
   exit
 fi
-$DRYECHO make clean
-$DRYECHO make --jobs=4
+make clean
+make --jobs=4
 if [ $? -ne 0 ]
 then
   echo Failed to build Bibledit
