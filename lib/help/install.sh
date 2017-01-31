@@ -1,7 +1,7 @@
 #!/bin/bash
 
-
 SCRIPTPATH=`readlink -f "$0"`
+echo Running script $SCRIPTPATH
 
 
 # Some distro's cannot run $ su.
@@ -12,7 +12,7 @@ RUNSU=1;
 echo "$UNAME" | grep -q Ubuntu
 EXIT_CODE=$?
 if [ $EXIT_CODE -eq 0 ]; then
-  RUNSU=0;
+RUNSU=0;
 fi
 
 
@@ -33,21 +33,23 @@ echo Installing the software Bibledit relies on...
 which apt-get > /dev/null
 if [ $? -eq 0 ]
 then
-apt-get --yes install build-essential
-apt-get --yes install git
-apt-get --yes install zip
-apt-get --yes install pkgconf
-apt-get --yes install libcurl4-openssl-dev
-apt-get --yes install libssl-dev
-apt-get --yes install libatspi2.0-dev
-apt-get --yes install libgtk-3-dev
-apt-get --yes install libwebkit2gtk-4.0-dev
+echo Installing dependencies through apt-get...
+apt-get --yes --assume-yes install build-essential
+apt-get --yes --assume-yes install git
+apt-get --yes --assume-yes install zip
+apt-get --yes --assume-yes install pkgconf
+apt-get --yes --assume-yes install libcurl4-openssl-dev
+apt-get --yes --assume-yes install libssl-dev
+apt-get --yes --assume-yes install libatspi2.0-dev
+apt-get --yes --assume-yes install libgtk-3-dev
+apt-get --yes --assume-yes install libwebkit2gtk-4.0-dev
 fi
 
 # Fedora.
 which dnf > /dev/null
 if [ $? -eq 0 ]
 then
+echo Installing dependencies through dnf...
 dnf --assumeyes install gcc-c++
 dnf --assumeyes install git
 dnf --assumeyes install zip
@@ -62,6 +64,7 @@ fi
 which yum > /dev/null
 if [ $? -eq 0 ]
 then
+echo Installing dependencies through yum...
 yum --assumeyes install gcc-c++
 yum --assumeyes install git
 yum --assumeyes install zip
@@ -77,6 +80,7 @@ fi
 which zypper > /dev/null
 if [ $? -eq 0 ]
 then
+echo Installing dependencies through zypper...
 zypper -n --non-interactive --no-gpg-checks install gcc-c++
 zypper -n --non-interactive --no-gpg-checks install git
 zypper -n --non-interactive --no-gpg-checks install zip
@@ -88,7 +92,7 @@ zypper -n --non-interactive --no-gpg-checks install gtk3-devel
 zypper -n --non-interactive --no-gpg-checks install webkit2gtk3-devel
 fi
 
-# Create the script to start bibledit.
+echo Creating the script to start bibledit.
 rm -f /usr/bin/bibledit
 echo #!/bin/bash >> /usr/bin/bibledit
 echo cd  >> /usr/bin/bibledit
@@ -108,24 +112,24 @@ chmod +x install2.sh
 
 # Conditionally run $ su.
 if [ $RUNSU -ne 0 ]; then
-  echo Please provide the password for the root user and press Enter
-  su -c ./install2.sh
+echo Please provide the password for the root user and press Enter
+su -c ./install2.sh
 fi
 
 EXIT_CODE=$?
 # If $ su did not run, run $ sudo.
 if [ $RUNSU -eq 0 ]; then
-  EXIT_CODE=1
+EXIT_CODE=1
 fi
 # If $ su ran, but failed, run $ sudo.
 if [ $EXIT_CODE != 0 ]; then
 
-  echo Please provide the password for the administrative user and press Enter:
-  sudo ./install2.sh
-  EXIT_CODE=$?
-  if [ $EXIT_CODE != 0 ]; then
-    exit
-  fi
+echo Please provide the password for the administrative user and press Enter:
+sudo ./install2.sh
+EXIT_CODE=$?
+if [ $EXIT_CODE != 0 ]; then
+exit
+fi
 
 fi
 
@@ -139,8 +143,8 @@ rm -f index.html
 wget http://bibledit.org/linux -q -O index.html
 if [ $? -ne 0 ]
 then
-  echo Failed to list tarballs
-  exit
+echo Failed to list tarballs
+exit
 fi
 cat index.html | grep "bibledit-" | grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//' | tail -n 1 > tarball.txt
 rm index.html
@@ -150,17 +154,17 @@ rm -f $TARBALL.*
 wget --continue --tries=100 http://bibledit.org/linux/$TARBALL
 if [ $? -ne 0 ]
 then
-  echo Failed to download Bibledit
-  exit
+echo Failed to download Bibledit
+exit
 fi
 
 mkdir -p bibledit
 tar xf $TARBALL -C bibledit --strip-components=1
 if [ $? -ne 0 ]
 then
-  echo Failed to unpack Bibledit
-  rm $TARBALL
-  exit
+echo Failed to unpack Bibledit
+rm $TARBALL
+exit
 fi
 
 cd bibledit
@@ -169,15 +173,15 @@ find . -name "*.o" -delete
 ./configure
 if [ $? -ne 0 ]
 then
-  echo Failed to configure Bibledit
-  exit
+echo Failed to configure Bibledit
+exit
 fi
 make clean
 make --jobs=4
 if [ $? -ne 0 ]
 then
-  echo Failed to build Bibledit
-  exit
+echo Failed to build Bibledit
+exit
 fi
 
 # Remove the script, so people cannot reuse it.
