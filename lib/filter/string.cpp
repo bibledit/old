@@ -91,6 +91,17 @@ bool filter_string_replace_between (string& line, const string& start, const str
 }
 
 
+// It replaces a copy of string delimited by the start and length parameters with the string given in replacement.
+// It is similar to PHP's function with the same name.
+string substr_replace (string original, string replacement, size_t start, size_t length)
+{
+  if (length) original.erase (start, length);
+  original.insert (start, replacement);
+  return original;
+}
+
+
+
 // On some platforms the sizeof (unsigned int) is equal to the sizeof (size_t).
 // Then compilation would fail if there were two functions "convert_to_string",
 // one taking the unsigned int, and the other taking the size_t.
@@ -1050,17 +1061,6 @@ void quick_sort (vector <int> & one, vector <int> & two, unsigned int beg, unsig
     quick_sort(one, two, r, end);
   }
 }
-
-
-// It replaces a copy of string delimited by the start and length parameters with the string given in replacement.
-// It is similar to PHP's function with the same name.
-string substr_replace (string original, string replacement, size_t start, size_t length)
-{
-  if (length) original.erase (start, length);
-  original.insert (start, replacement);
-  return original;
-}
-
 
 
 #define MY_NUMBERS "0123456789"

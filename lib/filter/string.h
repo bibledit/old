@@ -29,6 +29,7 @@ vector <string> filter_string_explode (string value, char delimiter);
 string filter_string_implode (vector <string>& values, string delimiter);
 string filter_string_str_replace (string search, string replace, string subject, int * count = NULL);
 bool filter_string_replace_between (string& line, const string& start, const string& end, const string& replacement);
+string substr_replace (string original, string replacement, size_t start, size_t length);
 string convert_to_string (size_t i);
 string convert_to_string (int i);
 string convert_to_string (char * c);
@@ -81,7 +82,6 @@ void quick_sort (vector <string>& one, vector <bool>& two, unsigned int beg, uns
 void quick_sort (vector <string>& one, unsigned int beg, unsigned int end);
 void quick_sort (vector <long unsigned int>& one, vector <long unsigned int>& two, unsigned int beg, unsigned int end);
 void quick_sort (vector <int> & one, vector <int> & two, unsigned int beg, unsigned int end);
-string substr_replace (string original, string replacement, size_t start, size_t length);
 string number_in_string (const string & str);
 string filter_string_markup_words (const vector <string>& words, string text);
 vector <string> filter_string_search_needles (string search, string text);

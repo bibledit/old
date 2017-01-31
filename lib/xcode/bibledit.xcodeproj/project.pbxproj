@@ -1169,6 +1169,12 @@
 		CAC9F0681A5554B200D98092 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAC9F0691A5585BA00D98092 /* compare.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = compare.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAC9F06A1A5585BA00D98092 /* compare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = compare.h; sourceTree = "<group>"; };
+		CACB0B4A1E40929600C98564 /* styles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = styles.cpp; sourceTree = "<group>"; };
+		CACB0B4B1E40929600C98564 /* styles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = styles.h; sourceTree = "<group>"; };
+		CACB0B4C1E4096A100C98564 /* diff.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = diff.cpp; sourceTree = "<group>"; };
+		CACB0B4D1E4096A100C98564 /* diff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = diff.h; sourceTree = "<group>"; };
+		CACB0B4E1E40A43200C98564 /* git.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = git.cpp; sourceTree = "<group>"; };
+		CACB0B4F1E40A43200C98564 /* git.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = git.h; sourceTree = "<group>"; };
 		CACC12ED1AE9660300F5E633 /* keys.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = keys.js; sourceTree = "<group>"; };
 		CACCF5A61D1DB31F00AFBC52 /* oshb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = oshb.cpp; sourceTree = "<group>"; };
 		CACCF5A71D1DB31F00AFBC52 /* oshb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oshb.h; sourceTree = "<group>"; };
@@ -3037,6 +3043,12 @@
 				CAA4D3C41A45A648003ABA25 /* filters.h */,
 				CAA4D4361A45A648003ABA25 /* unittest.cpp */,
 				CAA4D4371A45A648003ABA25 /* unittest.h */,
+				CACB0B4E1E40A43200C98564 /* git.cpp */,
+				CACB0B4F1E40A43200C98564 /* git.h */,
+				CACB0B4C1E4096A100C98564 /* diff.cpp */,
+				CACB0B4D1E4096A100C98564 /* diff.h */,
+				CACB0B4A1E40929600C98564 /* styles.cpp */,
+				CACB0B4B1E40929600C98564 /* styles.h */,
 				CA98A2EC1E40553100654CFC /* passage.cpp */,
 				CA98A2ED1E40553100654CFC /* passage.h */,
 				CAEB131E1E3FCB1700AFC75E /* url.cpp */,

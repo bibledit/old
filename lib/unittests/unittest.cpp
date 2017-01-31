@@ -73,6 +73,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/text.h>
 #include <unittests/url.h>
 #include <unittests/passage.h>
+#include <unittests/styles.h>
+#include <unittests/diff.h>
+#include <unittests/git.h>
 
 
 int main (int argc, char **argv) 
@@ -112,6 +115,10 @@ int main (int argc, char **argv)
   test_text ();
   test_url ();
   test_passage ();
+  test_styles ();
+  test_diff ();
+  test_bibles ();
+  test_git ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -123,7 +130,6 @@ int main (int argc, char **argv)
   test_database_config_user ();
   test_sqlite ();
   test_database_logs ();
-  test_replace ();
   test_database_users ();
   test_session ();
   test_folders ();
@@ -155,18 +161,12 @@ int main (int argc, char **argv)
   test_database_volatile ();
   test_database_state ();
   test_database_imageresources ();
-  test_styles_css ();
-  test_filter_custom_css ();
-  test_filter_diff ();
-  test_filter_abbreviations ();
   test_checksum ();
   test_bibles ();
   test_editor_html2usfm ();
   test_usfm2html ();
   test_usfm2html2usfm ();
-  test_filter_markup ();
   test_workspaces ();
-  test_filter_git ();
   test_filter_merge ();
   test_filter_tidy ();
   test_ipc_notes ();
@@ -217,6 +217,9 @@ int main (int argc, char **argv)
   test_text ();
   test_url ();
   test_passage ();
+  test_styles ();
+  test_diff ();
+  test_git ();
   
   // Output possible journal entries.
   refresh_sandbox (true);
