@@ -202,4 +202,99 @@ void test_string ()
     evaluate (__LINE__, __func__, true, in_array (1, {1, 2, 3}));
     evaluate (__LINE__, __func__, false, in_array (1, {2, 3}));
   }
+
+  // Test random number generator.
+  {
+    int floor = 100000;
+    int ceiling = 999999;
+    int r1 = filter_string_rand (floor, ceiling);
+    if ((r1 < floor) || (r1 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", convert_to_string (r1));
+    int r2 = filter_string_rand (floor, ceiling);
+    if ((r2 < floor) || (r2 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", convert_to_string (r2));
+    if (r1 == r2) evaluate (__LINE__, __func__, "Random generator should generate different values", convert_to_string (r1) + " " + convert_to_string (r2));
+  }
+
+  // Convert html to plain text.
+  {
+    string html =
+    "<p>author</p>\n"
+    "<p>Text 1<div>Text 2</div><div>Text 3</div></p>";
+    string plain =
+    "author\n"
+    "Text 1\n"
+    "Text 2\n"
+    "Text 3";
+    evaluate (__LINE__, __func__, plain, filter_string_html2text (html));
+  }
+  {
+    string html =
+    "<p>writer (15 Nov):</p>\n"
+    "<p>Second note.<div>Second matter.</div><div>A second round is needed.</div></p>\n"
+    "<p>Here is <b>bold</b>, and here is <i>italics</i>.<div>Here is <sup>superscript</sup>&nbsp;and here is <sub>subscript</sub>.</div><div style=\"text-align: center;\">Centered</div><div style=\"text-align: left;\">Left justified</div><div style=\"text-align: left;\"><ol><li>Numbered list.</li></ol>No numbered text.</div><div style=\"text-align: left;\">Link to <a href=\"http://google.nl\">http://google.nl</a>.</div><div style=\"text-align: left;\">Here follows an image:&nbsp;<img src=\"http://localhost/image\">.<br></div><h1>Header 1</h1><div>Normal text again below the header.</div></p>\n";
+    string plain =
+    "writer (15 Nov):\n"
+    "Second note.\n"
+    "Second matter.\n"
+    "A second round is needed.\n"
+    "Here is bold, and here is italics.\n"
+    "Here is superscript and here is subscript.\n"
+    "Centered\n"
+    "Left justified\n"
+    "Numbered list.\n"
+    "No numbered text.\n"
+    "Link to http://google.nl.\n"
+    "Here follows an image: .\n"
+    "Header 1\n"
+    "Normal text again below the header.\n";
+    evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (filter_string_html2text (html)));
+  }
+  {
+    string html =
+    "test notes four\n"
+    "\n"
+    "Logbook:\n"
+    "\n";
+    string plain =
+    "test notes fourLogbook:";
+    evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (filter_string_html2text (html)));
+  }
+  {
+    string html =
+    "Line one.<BR>\n"
+    "\n"
+    "Line two.<BR>\n"
+    "\n"
+    "Line three.<BR>\n";
+    string plain =
+    "Line one.\n"
+    "Line two.\n"
+    "Line three.\n";
+    evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (filter_string_html2text (html)));
+  }
+
+  // Email address extraction.
+  {
+    evaluate (__LINE__, __func__, "foo@bar.eu", filter_string_extract_email ("Foo Bar <foo@bar.eu>"));
+    evaluate (__LINE__, __func__, "foo@bar.eu", filter_string_extract_email ("<foo@bar.eu>"));
+    evaluate (__LINE__, __func__, "foo@bar.eu", filter_string_extract_email ("foo@bar.eu"));
+    
+    string body = "body";
+    evaluate (__LINE__, __func__, body, filter_string_extract_body (body));
+    
+    body =
+    "\n"
+    "test\n"
+    "\n"
+    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:\n"
+    "\n"
+    "> test notes three\n"
+    "\n"
+    "\n"
+    "> test\n"
+    "\n"
+    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:\n"
+    "\n"
+    ">    test notes three \n";
+    evaluate (__LINE__, __func__, "test", filter_string_extract_body (body, "2011", "Bibledit"));
+  }
 }

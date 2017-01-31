@@ -258,6 +258,14 @@ void test_url ()
     evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file1));
     evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file2));
   }
+
+  // Email address validity.
+  {
+    evaluate (__LINE__, __func__, true, filter_url_email_is_valid ("user@web.site"));
+    evaluate (__LINE__, __func__, false, filter_url_email_is_valid ("user@website"));
+    evaluate (__LINE__, __func__, false, filter_url_email_is_valid (" user@web.site"));
+    evaluate (__LINE__, __func__, false, filter_url_email_is_valid ("user @ web.site"));
+  }
   
   refresh_sandbox (true);
 }

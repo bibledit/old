@@ -369,7 +369,8 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/users.$(OBJEXT) unittests/date.$(OBJEXT) \
 	unittests/export.$(OBJEXT) unittests/html.$(OBJEXT) \
 	unittests/archive.$(OBJEXT) unittests/odf.$(OBJEXT) \
-	unittests/text.$(OBJEXT) unittests/url.$(OBJEXT)
+	unittests/text.$(OBJEXT) unittests/url.$(OBJEXT) \
+	unittests/passage.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -1069,7 +1070,8 @@ unittest_SOURCES = \
 	unittests/archive.cpp \
 	unittests/odf.cpp \
 	unittests/text.cpp \
-	unittests/url.cpp
+	unittests/url.cpp \
+	unittests/passage.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = executable/generate.cpp
@@ -2687,6 +2689,8 @@ unittests/text.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/url.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/passage.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3227,6 +3231,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/memory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/odf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/pairs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/passage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/related.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/roles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/rss.Po@am__quote@

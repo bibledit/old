@@ -72,6 +72,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/odf.h>
 #include <unittests/text.h>
 #include <unittests/url.h>
+#include <unittests/passage.h>
 
 
 int main (int argc, char **argv) 
@@ -110,6 +111,7 @@ int main (int argc, char **argv)
   test_odf ();
   test_text ();
   test_url ();
+  test_passage ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -121,10 +123,6 @@ int main (int argc, char **argv)
   test_database_config_user ();
   test_sqlite ();
   test_database_logs ();
-  test_filter_url ();
-  test_filter_string_rand ();
-  test_filter_passage ();
-  test_email ();
   test_replace ();
   test_database_users ();
   test_session ();
@@ -186,7 +184,6 @@ int main (int argc, char **argv)
   test_database_morphgnt ();
   test_database_etcbc4 ();
   test_database_hebrewlexicon ();
-  test_filter_string_text2html ();
   test_database_cache ();
   test_search ();
   test_filter_shell ();
@@ -219,6 +216,7 @@ int main (int argc, char **argv)
   test_odf ();
   test_text ();
   test_url ();
+  test_passage ();
   
   // Output possible journal entries.
   refresh_sandbox (true);

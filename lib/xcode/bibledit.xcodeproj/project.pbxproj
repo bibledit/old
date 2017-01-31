@@ -528,6 +528,8 @@
 		CA97857C1BD24A9E00E13388 /* initialize.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = initialize.sh; sourceTree = "<group>"; };
 		CA97857D1BD24AAA00E13388 /* paths.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = paths.sh; sourceTree = "<group>"; };
 		CA97857E1BD251A600E13388 /* livetest.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; lineEnding = 0; path = livetest.js; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.javascript; };
+		CA98A2EC1E40553100654CFC /* passage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = passage.cpp; sourceTree = "<group>"; };
+		CA98A2ED1E40553100654CFC /* passage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = passage.h; sourceTree = "<group>"; };
 		CA9B22771DA0212200725C04 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CA9B22781DA0212200725C04 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA9B22791DA0212200725C04 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -3031,6 +3033,12 @@
 		CAA4D3B41A45A648003ABA25 /* unittests */ = {
 			isa = PBXGroup;
 			children = (
+				CAA4D3C31A45A648003ABA25 /* filters.cpp */,
+				CAA4D3C41A45A648003ABA25 /* filters.h */,
+				CAA4D4361A45A648003ABA25 /* unittest.cpp */,
+				CAA4D4371A45A648003ABA25 /* unittest.h */,
+				CA98A2EC1E40553100654CFC /* passage.cpp */,
+				CA98A2ED1E40553100654CFC /* passage.h */,
 				CAEB131E1E3FCB1700AFC75E /* url.cpp */,
 				CAEB131F1E3FCB1700AFC75E /* url.h */,
 				CAEB131C1E3FC75F00AFC75E /* text.cpp */,
@@ -3067,8 +3075,6 @@
 				CAA4D3C21A45A648003ABA25 /* databases.h */,
 				CA05DD541E33BF8800EA2EDF /* editone.cpp */,
 				CA05DD551E33BF8800EA2EDF /* editone.h */,
-				CAA4D3C31A45A648003ABA25 /* filters.cpp */,
-				CAA4D3C41A45A648003ABA25 /* filters.h */,
 				CA05DD321E33872D00EA2EDF /* flate.cpp */,
 				CA05DD331E33872D00EA2EDF /* flate.h */,
 				CA05DD301E33858800EA2EDF /* folders.cpp */,
@@ -3102,8 +3108,6 @@
 				CAA4D3C71A45A648003ABA25 /* stress */,
 				CA05DD5A1E33C32C00EA2EDF /* tasks.cpp */,
 				CA05DD5B1E33C32C00EA2EDF /* tasks.h */,
-				CAA4D4361A45A648003ABA25 /* unittest.cpp */,
-				CAA4D4371A45A648003ABA25 /* unittest.h */,
 				CA05DD461E33B1B100EA2EDF /* usfm.cpp */,
 				CA05DD471E33B1B100EA2EDF /* usfm.h */,
 				CA05DD3A1E339E5A00EA2EDF /* usfm2html.cpp */,

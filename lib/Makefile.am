@@ -496,7 +496,8 @@ unittest_SOURCES = \
 	unittests/archive.cpp \
 	unittests/odf.cpp \
 	unittests/text.cpp \
-	unittests/url.cpp
+	unittests/url.cpp \
+	unittests/passage.cpp
 
 unittest_LDADD = libbibledit.a
 
