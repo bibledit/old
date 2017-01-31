@@ -17,13 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-
 #include <config/libraries.h>
 
 
-void test_filter_date ();
-void test_filter_string ();
-void test_filter_shell ();
-void test_filter_memory ();
-void test_filter_ldap ();
-void test_filter_dev ();
+void test_shell ();

@@ -1175,6 +1175,12 @@
 		CACB0B4D1E4096A100C98564 /* diff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = diff.h; sourceTree = "<group>"; };
 		CACB0B4E1E40A43200C98564 /* git.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = git.cpp; sourceTree = "<group>"; };
 		CACB0B4F1E40A43200C98564 /* git.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = git.h; sourceTree = "<group>"; };
+		CACB0B501E40AC4900C98564 /* ipc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ipc.cpp; sourceTree = "<group>"; };
+		CACB0B511E40AC4900C98564 /* ipc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ipc.h; sourceTree = "<group>"; };
+		CACB0B521E40AE8A00C98564 /* shell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shell.cpp; sourceTree = "<group>"; };
+		CACB0B531E40AE8A00C98564 /* shell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shell.h; sourceTree = "<group>"; };
+		CACB0B541E40AF7D00C98564 /* ldap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ldap.cpp; sourceTree = "<group>"; };
+		CACB0B551E40AF7E00C98564 /* ldap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ldap.h; sourceTree = "<group>"; };
 		CACC12ED1AE9660300F5E633 /* keys.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = keys.js; sourceTree = "<group>"; };
 		CACCF5A61D1DB31F00AFBC52 /* oshb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = oshb.cpp; sourceTree = "<group>"; };
 		CACCF5A71D1DB31F00AFBC52 /* oshb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oshb.h; sourceTree = "<group>"; };
@@ -1240,8 +1246,6 @@
 		CAEABB181A76A4F7008DBBA4 /* direction.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = direction.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CAEABB191A76BF70008DBBA4 /* shell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = shell.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAEABB1A1A76BF70008DBBA4 /* shell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shell.h; sourceTree = "<group>"; };
-		CAEB13081E3F5AA100AFC75E /* 0template.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = 0template.cpp; sourceTree = "<group>"; };
-		CAEB13091E3F5AA100AFC75E /* 0template.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = 0template.h; sourceTree = "<group>"; };
 		CAEB130A1E3F5D3800AFC75E /* roles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = roles.cpp; sourceTree = "<group>"; };
 		CAEB130B1E3F5D3800AFC75E /* roles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = roles.h; sourceTree = "<group>"; };
 		CAEB130C1E3F5E6000AFC75E /* md5.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = md5.cpp; sourceTree = "<group>"; };
@@ -3043,6 +3047,12 @@
 				CAA4D3C41A45A648003ABA25 /* filters.h */,
 				CAA4D4361A45A648003ABA25 /* unittest.cpp */,
 				CAA4D4371A45A648003ABA25 /* unittest.h */,
+				CACB0B541E40AF7D00C98564 /* ldap.cpp */,
+				CACB0B551E40AF7E00C98564 /* ldap.h */,
+				CACB0B521E40AE8A00C98564 /* shell.cpp */,
+				CACB0B531E40AE8A00C98564 /* shell.h */,
+				CACB0B501E40AC4900C98564 /* ipc.cpp */,
+				CACB0B511E40AC4900C98564 /* ipc.h */,
 				CACB0B4E1E40A43200C98564 /* git.cpp */,
 				CACB0B4F1E40A43200C98564 /* git.h */,
 				CACB0B4C1E4096A100C98564 /* diff.cpp */,
@@ -3073,8 +3083,6 @@
 				CAEB130D1E3F5E6000AFC75E /* md5.h */,
 				CAEB130A1E3F5D3800AFC75E /* roles.cpp */,
 				CAEB130B1E3F5D3800AFC75E /* roles.h */,
-				CAEB13081E3F5AA100AFC75E /* 0template.cpp */,
-				CAEB13091E3F5AA100AFC75E /* 0template.h */,
 				CA05DD5C1E33C3C600EA2EDF /* biblegateway.cpp */,
 				CA05DD5D1E33C3C600EA2EDF /* biblegateway.h */,
 				CA05DD361E338E9F00EA2EDF /* bibles.cpp */,

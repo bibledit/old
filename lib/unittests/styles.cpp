@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/0template.h>
+#include <unittests/styles.h>
 #include <unittests/utilities.h>
 #include <database/styles.h>
 #include <database/state.h>

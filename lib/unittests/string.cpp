@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/string.h>
 #include <unittests/utilities.h>
 #include <filter/string.h>
+#include <filter/url.h>
 
 
 void test_string ()
@@ -332,6 +333,138 @@ void test_string ()
     vector <string> words;
     string result = filter_string_markup_words (words, text);
     evaluate (__LINE__, __func__, text, result);
+  }
+
+  // Test tidying html.
+  {
+    string folder = filter_url_create_root_path ("unittests", "tests");
+    string html = filter_url_file_get_contents (filter_url_create_path (folder, "/biblehub-john-1-1.html"));
+    vector <string> tidy = filter_string_explode (html_tidy (html), '\n');
+    evaluate (__LINE__, __func__, 752, (int)tidy.size());
+  }
+  
+  {
+    string input = "<span>Praise the LORD&#xB6;, all &amp; you nations</span>";
+    string output = convert_xml_character_entities_to_characters (input);
+    string standard = filter_string_str_replace ("&#xB6;", "¶", input);
+    evaluate (__LINE__, __func__, standard, output);
+    
+    input = "<span>Praise the LORD &#x5D0; all you nations</span>";
+    output = convert_xml_character_entities_to_characters (input);
+    standard = filter_string_str_replace ("&#x5D0;", "א", input);
+    evaluate (__LINE__, __func__, standard, output);
+    
+    input = "Username";
+    output = encrypt_decrypt ("key", input);
+    output = encrypt_decrypt ("key", output);
+    evaluate (__LINE__, __func__, input, output);
+    
+    input = "בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים אֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ";
+    output = encrypt_decrypt ("בְּרֵאשִׁ֖ית", input);
+    output = encrypt_decrypt ("בְּרֵאשִׁ֖ית", output);
+    evaluate (__LINE__, __func__, input, output);
+  }
+  
+  {
+    string one = get_new_random_string ();
+    this_thread::sleep_for (chrono::milliseconds (10));
+    string two = get_new_random_string ();
+    evaluate (__LINE__, __func__, 32, one.length ());
+    evaluate (__LINE__, __func__, true, one != two);
+  }
+  
+  {
+    evaluate (__LINE__, __func__, 4, (int)unicode_string_length ("test"));
+    evaluate (__LINE__, __func__, 4, (int)unicode_string_length ("ᨁᨃᨅᨕ"));
+  }
+  
+  {
+    string hebrew = "אָבּגּדּהּ";
+    evaluate (__LINE__, __func__, "st1234", unicode_string_substr ("test1234", 2));
+    evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr (hebrew, 2));
+    evaluate (__LINE__, __func__, "", unicode_string_substr (hebrew, 5));
+    evaluate (__LINE__, __func__, "", unicode_string_substr (hebrew, 6));
+    evaluate (__LINE__, __func__, "test", unicode_string_substr ("test123456", 0, 4));
+    evaluate (__LINE__, __func__, "12", unicode_string_substr ("test123456", 4, 2));
+    evaluate (__LINE__, __func__, "גּדּ", unicode_string_substr (hebrew, 2, 2));
+    evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr (hebrew, 2, 10));
+  }
+  
+  {
+    string hebrew = "אָבּגּדּהּ";
+    string needle = "דּ";
+    evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos ("012345", "3"));
+    evaluate (__LINE__, __func__, 5, (int)unicode_string_strpos ("012345", "5"));
+    evaluate (__LINE__, __func__, 0, (int)unicode_string_strpos ("012345", "0"));
+    evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos ("012345", "6"));
+    evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos (hebrew, needle));
+    evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos (hebrew, needle, 3));
+    evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos (hebrew, needle, 4));
+    evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos ("", "3"));
+  }
+  
+  {
+    evaluate (__LINE__, __func__, 2, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "c"));
+    evaluate (__LINE__, __func__, 2, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "cD"));
+    evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "ce"));
+  }
+  
+  {
+    evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("test1234"));
+    evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("TEST1234"));
+    evaluate (__LINE__, __func__, "θεος", unicode_string_casefold ("Θεος"));
+    evaluate (__LINE__, __func__, "α α β β", unicode_string_casefold ("Α α Β β"));
+    evaluate (__LINE__, __func__, "אָבּגּדּהּ", unicode_string_casefold ("אָבּגּדּהּ"));
+  }
+  
+  {
+    evaluate (__LINE__, __func__, "TEST1234", unicode_string_uppercase ("test1234"));
+    evaluate (__LINE__, __func__, "TEST1234", unicode_string_uppercase ("TEST1234"));
+    evaluate (__LINE__, __func__, "ΘΕΟΣ", unicode_string_uppercase ("Θεος"));
+    evaluate (__LINE__, __func__, "Α Α Β Β", unicode_string_uppercase ("Α α Β β"));
+    evaluate (__LINE__, __func__, "אָבּגּדּהּ", unicode_string_uppercase ("אָבּגּדּהּ"));
+  }
+  
+  {
+    evaluate (__LINE__, __func__, "ABCDEFG", unicode_string_transliterate ("ABCDEFG"));
+    evaluate (__LINE__, __func__, "Ιησου Χριστου", unicode_string_transliterate ("Ἰησοῦ Χριστοῦ"));
+    evaluate (__LINE__, __func__, "אבגדה", unicode_string_transliterate ("אָבּגּדּהּ"));
+  }
+  
+  {
+    vector <string> needles;
+    needles = filter_string_search_needles ("ABC", "one abc two ABc three aBc four");
+    evaluate (__LINE__, __func__, { "abc", "ABc", "aBc" }, needles);
+    needles = filter_string_search_needles ("abc", "one abc two ABc three aBc four");
+    evaluate (__LINE__, __func__, { "abc", "ABc", "aBc" }, needles);
+  }
+  
+  {
+    evaluate (__LINE__, __func__, false, unicode_string_is_punctuation ("A"));
+    evaluate (__LINE__, __func__, false, unicode_string_is_punctuation ("z"));
+    evaluate (__LINE__, __func__, true, unicode_string_is_punctuation ("."));
+    evaluate (__LINE__, __func__, true, unicode_string_is_punctuation (","));
+  }
+  
+  {
+    evaluate (__LINE__, __func__, false, convert_to_bool ("0"));
+    evaluate (__LINE__, __func__, false, convert_to_bool ("false"));
+    evaluate (__LINE__, __func__, false, convert_to_bool ("FALSE"));
+    evaluate (__LINE__, __func__, true, convert_to_bool ("1"));
+    evaluate (__LINE__, __func__, true, convert_to_bool ("true"));
+    evaluate (__LINE__, __func__, true, convert_to_bool ("TRUE"));
+  }
+  
+  {
+    evaluate (__LINE__, __func__, 21109, unicode_string_convert_to_codepoint ("創"));
+    evaluate (__LINE__, __func__, 97, unicode_string_convert_to_codepoint ("a"));
+  }
+  
+  {
+    // Check that the function to desanitize html no longer corrupts UTF-8.
+    string html = "<p>“Behold”, from “הִנֵּה”, means look at</p>";
+    string desanitized = filter_string_desanitize_html (html);
+    evaluate (__LINE__, __func__, html, desanitized);
   }
 
 }

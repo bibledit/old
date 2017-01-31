@@ -76,6 +76,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/styles.h>
 #include <unittests/diff.h>
 #include <unittests/git.h>
+#include <unittests/ipc.h>
+#include <unittests/shell.h>
 
 
 int main (int argc, char **argv) 
@@ -119,6 +121,8 @@ int main (int argc, char **argv)
   test_diff ();
   test_bibles ();
   test_git ();
+  test_ipc ();
+  test_shell ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -167,9 +171,6 @@ int main (int argc, char **argv)
   test_usfm2html ();
   test_usfm2html2usfm ();
   test_workspaces ();
-  test_filter_merge ();
-  test_filter_tidy ();
-  test_ipc_notes ();
   test_verses ();
   test_filter_date ();
   test_client ();
@@ -220,6 +221,8 @@ int main (int argc, char **argv)
   test_styles ();
   test_diff ();
   test_git ();
+  test_ipc ();
+  test_shell ();
   
   // Output possible journal entries.
   refresh_sandbox (true);

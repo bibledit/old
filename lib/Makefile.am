@@ -500,7 +500,10 @@ unittest_SOURCES = \
 	unittests/passage.cpp \
 	unittests/styles.cpp \
 	unittests/diff.cpp \
-	unittests/git.cpp
+	unittests/git.cpp \
+	unittests/ipc.cpp \
+	unittests/shell.cpp \
+	unittests/ldap.cpp
 
 unittest_LDADD = libbibledit.a
 

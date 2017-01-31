@@ -371,7 +371,9 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/archive.$(OBJEXT) unittests/odf.$(OBJEXT) \
 	unittests/text.$(OBJEXT) unittests/url.$(OBJEXT) \
 	unittests/passage.$(OBJEXT) unittests/styles.$(OBJEXT) \
-	unittests/diff.$(OBJEXT) unittests/git.$(OBJEXT)
+	unittests/diff.$(OBJEXT) unittests/git.$(OBJEXT) \
+	unittests/ipc.$(OBJEXT) unittests/shell.$(OBJEXT) \
+	unittests/ldap.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -1075,7 +1077,10 @@ unittest_SOURCES = \
 	unittests/passage.cpp \
 	unittests/styles.cpp \
 	unittests/diff.cpp \
-	unittests/git.cpp
+	unittests/git.cpp \
+	unittests/ipc.cpp \
+	unittests/shell.cpp \
+	unittests/ldap.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = executable/generate.cpp
@@ -2701,6 +2706,12 @@ unittests/diff.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/git.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/ipc.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/shell.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/ldap.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3238,7 +3249,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html2usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/http.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/hyphenate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/json.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/ldap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/memory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/odf.Po@am__quote@
@@ -3250,6 +3263,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sentences.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/session.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/shell.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/space.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/string.Po@am__quote@
