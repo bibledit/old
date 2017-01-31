@@ -92,15 +92,15 @@ fi
 which zypper > /dev/null
 if [ $? -eq 0 ]
 then
-$DRYECHO zypper -n --non-interactive --no-gpg-checks --quiet install gcc-c++
-$DRYECHO zypper -n --non-interactive --no-gpg-checks --quiet install git
-$DRYECHO zypper -n --non-interactive --no-gpg-checks --quiet install zip
-$DRYECHO zypper -n --non-interactive --no-gpg-checks --quiet install pkg-config
-$DRYECHO zypper -n --non-interactive --no-gpg-checks --quiet install libcurl-devel
-$DRYECHO zypper -n --non-interactive --no-gpg-checks --quiet install libopenssl-devel
-$DRYECHO zypper -n --non-interactive --no-gpg-checks --quiet install cairo-devel
-$DRYECHO zypper -n --non-interactive --no-gpg-checks --quiet install gtk3-devel
-$DRYECHO zypper -n --non-interactive --no-gpg-checks --quiet install webkit2gtk3-devel
+$DRYECHO zypper -n --non-interactive --no-gpg-checks install gcc-c++
+$DRYECHO zypper -n --non-interactive --no-gpg-checks install git
+$DRYECHO zypper -n --non-interactive --no-gpg-checks install zip
+$DRYECHO zypper -n --non-interactive --no-gpg-checks install pkg-config
+$DRYECHO zypper -n --non-interactive --no-gpg-checks install libcurl-devel
+$DRYECHO zypper -n --non-interactive --no-gpg-checks install libopenssl-devel
+$DRYECHO zypper -n --non-interactive --no-gpg-checks install cairo-devel
+$DRYECHO zypper -n --non-interactive --no-gpg-checks install gtk3-devel
+$DRYECHO zypper -n --non-interactive --no-gpg-checks install webkit2gtk3-devel
 fi
 
 # Create the script to start bibledit.
