@@ -39,6 +39,7 @@ typedef struct
   const char * suffix;
   bool join;
   const char * info;
+  const char * installer;
 } platform_record;
 
 
@@ -50,7 +51,8 @@ platform_record platform_table [] =
     "http://bibledit.org/windows",
     "<a href=\"", "\">",
     true,
-    "https://bibledit.org:8081/help/installwindows"
+    "https://bibledit.org:8081/help/installwindows",
+    ""
   },
   {
     PLATFORM_ANDROID,
@@ -58,42 +60,48 @@ platform_record platform_table [] =
     "https://play.google.com/store/apps/details?id=org.bibledit.android",
     "\"softwareVersion\">", "</div>",
     false,
-    "https://bibledit.org:8081/help/installandroid"
+    "https://bibledit.org:8081/help/installandroid",
+    ""
   },
   { PLATFORM_MACOS,
-    "Mac",
-    "https://itunes.apple.com/en/app/bibledit/id996639148",
+    "macOS",
+    "https://itunes.apple.com/us/app/bibledit/id996639148?mt=8",
     "\"softwareVersion\">", "</span>",
     false,
-    "https://bibledit.org:8081/help/installosx"
+    "https://bibledit.org:8081/help/installosx",
+    ""
   },
   { PLATFORM_LINUX,
     "Linux",
     "http://bibledit.org/linux",
     "<a href=\"", "\">",
     true,
-    "https://bibledit.org:8081/help/installlinux"
+    "https://bibledit.org:8081/help/installlinux",
+    "https://bibledit.org:8081/help/install.sh"
   },
   { PLATFORM_IOS,
     "iOS",
-    "https://itunes.apple.com/en/app/bibledit/id967595683",
+    "https://itunes.apple.com/us/app/bibledit/id967595683?mt=8",
     "\"softwareVersion\">", "</span>",
     false,
-    "https://bibledit.org:8081/help/installios"
+    "https://bibledit.org:8081/help/installios",
+    ""
   },
   { PLATFORM_CHROMEOS,
     "Chrome OS",
     "https://chrome.google.com/webstore/detail/bibledit/aiaanakhppdclmabkcnpmnidajanaoda",
     "\"version\" content=\"", "\"",
     false,
-    "https://bibledit.org:8081/help/installchromeos"
+    "https://bibledit.org:8081/help/installchromeos",
+    ""
   },
   { PLATFORM_CLOUD,
     "Cloud",
     "http://bibledit.org/cloud",
     "<a href=\"", "\">",
     true,
-    "https://bibledit.org:8081/help/installcloudubuntu"
+    "https://bibledit.org:8081/help/installcloudubuntu",
+    ""
   }
 };
 
@@ -199,6 +207,8 @@ void user_logic_software_updates_notify ()
             body.push_back ("Download: " + url);
             string info = platform_table[platform].info;
             body.push_back ("Info: " + info);
+            string installer = platform_table[platform].installer;
+            if (!installer.empty ()) body.push_back ("Installer: " + installer);
             email_schedule (user, "Bibledit " + name + " update", filter_string_implode (body, "<br>"));
             user_version_numbers [platform] = online_version_number;
             user_versions_updated = true;
