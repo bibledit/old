@@ -348,12 +348,11 @@ am_server_OBJECTS = executable/bibledit.$(OBJEXT)
 server_OBJECTS = $(am_server_OBJECTS)
 server_DEPENDENCIES = libbibledit.a
 am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
-	unittests/utilities.$(OBJEXT) unittests/filters.$(OBJEXT) \
-	unittests/databases.$(OBJEXT) unittests/sqlite.$(OBJEXT) \
-	unittests/session.$(OBJEXT) unittests/folders.$(OBJEXT) \
-	unittests/flate.$(OBJEXT) unittests/checksum.$(OBJEXT) \
-	unittests/bibles.$(OBJEXT) unittests/html2usfm.$(OBJEXT) \
-	unittests/usfm2html.$(OBJEXT) \
+	unittests/utilities.$(OBJEXT) unittests/databases.$(OBJEXT) \
+	unittests/sqlite.$(OBJEXT) unittests/session.$(OBJEXT) \
+	unittests/folders.$(OBJEXT) unittests/flate.$(OBJEXT) \
+	unittests/checksum.$(OBJEXT) unittests/bibles.$(OBJEXT) \
+	unittests/html2usfm.$(OBJEXT) unittests/usfm2html.$(OBJEXT) \
 	unittests/usfm2html2usfm.$(OBJEXT) \
 	unittests/workspaces.$(OBJEXT) unittests/client.$(OBJEXT) \
 	unittests/sentences.$(OBJEXT) \
@@ -1034,7 +1033,6 @@ server_LDADD = libbibledit.a
 unittest_SOURCES = \
 	unittests/unittest.cpp \
 	unittests/utilities.cpp \
-	unittests/filters.cpp \
 	unittests/databases.cpp \
 	unittests/sqlite.cpp \
 	unittests/session.cpp \
@@ -2618,8 +2616,6 @@ unittests/unittest.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/utilities.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/filters.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/databases.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/sqlite.$(OBJEXT): unittests/$(am__dirstamp) \
@@ -3241,7 +3237,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/diff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editone.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/export.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/filters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/flate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/folders.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/git.Po@am__quote@

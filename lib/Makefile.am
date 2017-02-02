@@ -457,7 +457,6 @@ server_LDADD = libbibledit.a
 unittest_SOURCES = \
 	unittests/unittest.cpp \
 	unittests/utilities.cpp \
-	unittests/filters.cpp \
 	unittests/databases.cpp \
 	unittests/sqlite.cpp \
 	unittests/session.cpp \

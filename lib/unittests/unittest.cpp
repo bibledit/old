@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
-#include <unittests/filters.h>
 #include <unittests/databases.h>
 #include <config/libraries.h>
 #include <library/bibledit.h>
@@ -172,14 +171,12 @@ int main (int argc, char **argv)
   test_usfm2html2usfm ();
   test_workspaces ();
   test_verses ();
-  test_filter_date ();
   test_client ();
   test_sentences ();
   test_versification ();
   test_usfm ();
   test_pairs ();
   test_hyphenate ();
-  test_filter_string ();
   test_database_noteassignment ();
   test_database_strong ();
   test_database_morphgnt ();
@@ -187,7 +184,6 @@ int main (int argc, char **argv)
   test_database_hebrewlexicon ();
   test_database_cache ();
   test_search ();
-  test_filter_shell ();
   test_database_login ();
   test_database_privileges ();
   test_json ();
@@ -197,14 +193,11 @@ int main (int argc, char **argv)
   test_editone_logic ();
   test_database_develop ();
   test_http ();
-  test_filter_memory ();
   test_memory ();
-  test_filter_ldap ();
   test_database_statistics ();
   test_tasks_logic ();
   test_biblegateway ();
   test_rss_feed ();
-  test_filter_dev ();
   test_space ();
   test_roles ();
   test_md5 ();
