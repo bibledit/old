@@ -1,43 +1,58 @@
 #!/bin/bash
 
 
-echo Setting working directory.
 cd "$(dirname "$0")"
+cd "$(dirname "$PWD")"
+SRC=$PWD
+echo "Source directory " $SRC
+TMP=/tmp/bibledit-i18n
+echo Working directory $TMP
+
+
+echo Synchronizing source files to working directory.
+mkdir -p $TMP
+rsync -a --delete $SRC/ $TMP/
+cd $TMP
+
+
+echo Removing files not to be processed.
+rm -rf unittest*
+rm -rf utf8*
+rm -rf mbedtls
 
 
 echo Gathering all the html files for internationalization.
-find .. -iname "*.html" > i18n.html
+find . -iname "*.html" > i18n.html
 if [ $? -ne 0 ]
 then
 echo Cannot find source files
 fi
 
 
-echo Remove files not to be processed.
-sed -i.bak '/unittests/d' i18n.html
-rm *.bak
+echo Transfer translatable strings from the html files to a C++ file.
+g++ -std=c++11 i18n/i18n.cpp
+./a.out
+rm a.out
 
 
-echo Transfer translatable strings from the html files to a .cpp file.
-g++ -std=c++11 i18n.cpp -o i18n
-./i18n
-rm i18n
+echo Cleaning up raw string literals.
+# Removing C++11 raw string literals
+# because xgettext would complain about unterminated string literals in, e.g.:
+# string script = R"(
+# <div id="defid" style="clear:both"></div>
+# )";
+sed -i.bak '/= R"(/,/)";/d' lexicon/logic.cpp
 
 
 echo Create a temporal file containing all the files for internationalization.
-find .. -iname "*.cpp" -o -iname "books.h" > gettextfiles.txt
+find . -iname "*.cpp" -o -iname "books.h" > gettextfiles.txt
 if [ $? -ne 0 ]
 then
 echo Cannot find source files
 fi
 
 
-echo Remove files not to be processed.
-sed -i.bak '/utf8/d' gettextfiles.txt
-sed -i.bak '/unittests/d' gettextfiles.txt
-
-
-echo Remove any previous bibledit.pot because it could have strings no longer in use.
+# Remove any previous bibledit.pot because it could have strings no longer in use.
 rm -f /tmp/bibledit.pot
 
 
@@ -50,13 +65,7 @@ fi
 
 
 echo Copying bibledit.pot into place.
-cp /tmp/bibledit.pot ../locale
-
-
-echo Clean temporal files.
-rm gettextfiles*
-rm translatables.cpp
-rm i18n.html
+cp /tmp/bibledit.pot $SRC/locale
 
 
 # Fix bzr: warning: unsupported locale setting on macOS.
