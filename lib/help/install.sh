@@ -102,6 +102,10 @@ echo cd bibledit >> /usr/bin/bibledit
 echo './bibledit 2>&1 | grep -v WARNING | tr -d 012' >> /usr/bin/bibledit
 chmod +x /usr/bin/bibledit
 
+echo Install launcher to start bibledit.
+cp bibledit.desktop /usr/share/applications
+cp bibledit.png /usr/share/icons
+
 # Act as if the script ran successfully, no matter whether it really did.
 exit 0
 
