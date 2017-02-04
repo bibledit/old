@@ -1057,10 +1057,1632 @@ msgstr ""
 msgid "Search the Bible"
 msgstr ""
 
-msgid "Go back"
+msgid "No files in this folder"
+msgstr ""
+
+msgid "This job does not exist."
+msgstr ""
+
+msgid "This job is not available to you."
+msgstr ""
+
+msgid "The job is scheduled to start shortly."
+msgstr ""
+
+msgid "Journal"
+msgstr ""
+
+msgid "Has been sending and receiving during the past hour"
+msgstr ""
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
+msgstr ""
+
+msgid "Month"
+msgstr ""
+
+msgid "Saving..."
+msgstr ""
+
+msgid "Saved"
+msgstr ""
+
+msgid "Loaded"
+msgstr ""
+
+msgid "Retrying..."
+msgstr ""
+
+msgid "Reformat"
+msgstr ""
+
+msgid "You do not have enough privileges to modify this book."
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Select a Bible"
+msgstr ""
+
+msgid "The export has been removed."
+msgstr ""
+
+msgid "The Bible is being exported to Web format."
+msgstr ""
+
+msgid "The Bible is being exported to Html format."
+msgstr ""
+
+msgid "The Bible is being exported to USFM format."
+msgstr ""
+
+msgid "The Bible is being exported to basic USFM format and text."
+msgstr ""
+
+msgid "The Bible is being exported to OpenDocument format."
+msgstr ""
+
+msgid "Please enter a page width in millimeters"
+msgstr ""
+
+msgid "The width of A4 is 210 mm. The width of Letter is 216 mm."
+msgstr ""
+
+msgid "Please enter a page height in millimeters"
+msgstr ""
+
+msgid "The height of A4 is 297 mm. The width of Letter is 279 mm."
+msgstr ""
+
+msgid "Please enter an inner margin size in millimeters"
+msgstr ""
+
+msgid "Please enter an outer margin size in millimeters"
+msgstr ""
+
+msgid "Please enter an top margin size in millimeters"
+msgstr ""
+
+msgid "Please enter an bottom margin size in millimeters"
+msgstr ""
+
+msgid "The info documents are being generated."
+msgstr ""
+
+msgid "The Bible is being exported to e-Sword format."
+msgstr ""
+
+msgid "The Bible is being exported to Online Bible format."
+msgstr ""
+
+msgid "The Bible is being exported to Quick Bible format."
+msgstr ""
+
+msgid "Would you like to use another stylesheet for the exports?"
+msgstr ""
+
+msgid "The password for securing exports was saved."
+msgstr ""
+
+msgid "The Bible will be submitted to the Bible Drop Box."
+msgstr ""
+
+msgid "You will receive email with further details."
+msgstr ""
+
+msgid "Go to Bibledit Cloud to submit the Bible there."
+msgstr ""
+
+msgid "Go to Bibledit Cloud for exports to OpenDocument."
+msgstr ""
+
+msgid "Hyphenation"
+msgstr ""
+
+msgid "The two sets of characters were saved"
+msgstr ""
+
+msgid "Which Bible would you like to take the data from?"
+msgstr ""
+
+msgid "No first set of characters given"
+msgstr ""
+
+msgid "No second set of characters given"
+msgstr ""
+
+msgid "The Bible is being hyphenated."
+msgstr ""
+
+msgid "See the Journal for details."
+msgstr ""
+
+msgid "The font could not be deleted because it is in use"
+msgstr ""
+
+msgid "The font has been uploaded."
+msgstr ""
+
+msgid "Delete font"
+msgstr ""
+
+msgid "Read/write"
+msgstr ""
+
+msgid "Users"
+msgstr "Користувачі"
+
+msgid "Please enter a name for the new user"
+msgstr ""
+
+msgid "User already exists"
+msgstr ""
+
+msgid "User created"
+msgstr ""
+
+msgid "Cannot remove the last user"
+msgstr ""
+
+msgid "Cannot remove the last administrator"
+msgstr ""
+
+msgid "Select a role for"
+msgstr ""
+
+msgid "Please enter an email address for"
+msgstr ""
+
+msgid "Email address was updated"
+msgstr ""
+
+msgid "The email address is not valid"
+msgstr ""
+
+msgid "Would you like to grant the user access to a Bible?"
+msgstr ""
+
+msgid "The user has been granted access to this Bible"
+msgstr ""
+
+msgid "The user no longer has access to this Bible"
+msgstr ""
+
+msgid "The user account was enabled"
+msgstr ""
+
+msgid "The user account was disabled"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "Disable"
+msgstr ""
+
+msgid "Enable"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Verse Mappings"
+msgstr ""
+
+msgid "Enter a name for the new verse mapping"
+msgstr ""
+
+msgid "This verse mapping already exists"
+msgstr ""
+
+msgid "Would you like to delete this verse mapping?"
+msgstr ""
+
+msgid "The verse mapping was deleted"
+msgstr ""
+
+msgid "Verse mappings"
+msgstr ""
+
+msgid "The verse mapping was saved"
+msgstr ""
+
+msgid "Workspace"
+msgstr ""
+
+msgid "Translation"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+msgid "Resources"
+msgstr ""
+
+msgid "User resources"
+msgstr ""
+
+msgid "Exports"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Replace"
+msgstr ""
+
+msgid "Advanced search"
+msgstr ""
+
+msgid "Advanced replace"
+msgstr ""
+
+msgid "Search all Bibles and notes"
+msgstr ""
+
+msgid "Search Bible for similar verses"
+msgstr ""
+
+msgid "Search Bible for similar Strong's numbers"
+msgstr ""
+
+msgid "Search Bible for Strong's number"
+msgstr ""
+
+msgid "Search Bible for similar Hebrew or Greek words"
+msgstr ""
+
+msgid "Print"
+msgstr ""
+
+msgid "Planning"
+msgstr ""
+
+msgid "Send/receive"
+msgstr ""
+
+msgid "Hyphenate"
+msgstr ""
+
+msgid "Transfer cross-references"
+msgstr ""
+
+msgid "Develop"
+msgstr ""
+
+msgid "Preferences"
+msgstr ""
+
+msgid "Indexes and Fonts"
+msgstr ""
+
+msgid "Cloud"
+msgstr ""
+
+msgid "Paratext"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Basic mode"
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid "USFM"
+msgstr ""
+
+msgid "Images"
+msgstr ""
+
+msgid "SWORD"
+msgstr ""
+
+msgid "User-defined"
+msgstr ""
+
+msgid "Select stylesheet"
+msgstr ""
+
+msgid "Help and About"
 msgstr ""
 
 msgid "Menu"
+msgstr ""
+
+msgid "Translate"
+msgstr ""
+
+msgid "Tools"
+msgstr ""
+
+msgid "Feedback"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Workspaces"
+msgstr ""
+
+msgid "Image resources"
+msgstr ""
+
+msgid "Versifications"
+msgstr ""
+
+msgid "Edit stylesheet"
+msgstr ""
+
+msgid "Styles"
+msgstr ""
+
+msgid "Both the visual chapter and visual verse editors"
+msgstr ""
+
+msgid "Only the visual chapter editor"
+msgstr ""
+
+msgid "Only the visual verse editor"
+msgstr ""
+
+msgid "Both the USFM chapter and USFM verse editors"
+msgstr ""
+
+msgid "Only the USFM chapter editor"
+msgstr ""
+
+msgid "Only the USFM verse editor"
+msgstr ""
+
+msgid "Visual chapter editor"
+msgstr ""
+
+msgid "Visual verse editor"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "USFM chapter editor"
+msgstr ""
+
+msgid "USFM verse editor"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Forward"
+msgstr ""
+
+msgid "Select book"
+msgstr ""
+
+msgid "Select chapter"
+msgstr ""
+
+msgid "Go to previous verse"
+msgstr ""
+
+msgid "Select verse"
+msgstr ""
+
+msgid "Go to next verse"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "The note will be deleted after a week."
+msgstr ""
+
+msgid "Adding a comment to the note cancels the deletion."
+msgstr ""
+
+msgid "unassign"
+msgstr ""
+
+msgid "Assign note"
+msgstr ""
+
+msgid "Assign notes"
+msgstr ""
+
+msgid "Bulk update"
+msgstr ""
+
+msgid "You subscribed to these notes"
+msgstr ""
+
+msgid "You unsubscribed from these notes"
+msgstr ""
+
+msgid "The notes were assigned to the user"
+msgstr ""
+
+msgid "The notes are no longer assigned to the user"
+msgstr ""
+
+msgid "The status of the notes was updated"
+msgstr ""
+
+msgid "The severity of the notes was updated"
+msgstr ""
+
+msgid "The Bible of the notes was updated"
+msgstr ""
+
+msgid "Would you like to delete the notes?"
+msgstr ""
+
+msgid "The notes were deleted"
+msgstr ""
+
+msgid "Query about a change in the text"
+msgstr ""
+
+msgid "Old text:"
+msgstr ""
+
+msgid "Change:"
+msgstr ""
+
+msgid "New text:"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Create note"
+msgstr ""
+
+msgid "Edit Note Source"
+msgstr ""
+
+msgid "Consultation Notes"
+msgstr ""
+
+msgid "Assigned"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Deleted"
+msgstr ""
+
+msgid "Marked for deletion"
+msgstr ""
+
+msgid "View or respond online"
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid "open the desktop online"
+msgstr ""
+
+msgid "Your comment was posted"
+msgstr ""
+
+msgid "Unknown book"
+msgstr ""
+
+msgid "Unknown chapter"
+msgstr ""
+
+msgid "Unknown verse"
+msgstr ""
+
+msgid "Unknown summary"
+msgstr ""
+
+msgid "Your new note could not be posted"
+msgstr ""
+
+msgid "Your new note was posted"
+msgstr ""
+
+msgid "no Bible"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+msgid "This selection does not display any notes."
+msgstr ""
+
+msgid "Select notes"
+msgstr ""
+
+msgid "Search text saved"
+msgstr ""
+
+msgid "Severity"
+msgstr ""
+
+msgid "Note status"
+msgstr ""
+
+msgid "Notes status"
+msgstr ""
+
+msgid "Note summary"
+msgstr ""
+
+msgid "Unassign notes"
+msgstr ""
+
+msgid "Passages"
+msgstr ""
+
+msgid "Please enter the name of the Paratext projects folder"
+msgstr ""
+
+msgid "Paratext projects folder was set."
+msgstr ""
+
+msgid "Paratext projects folder does not exist:"
+msgstr ""
+
+msgid "not found"
+msgstr ""
+
+msgid "Which Paratext project are you going to use?"
+msgstr ""
+
+msgid "Where are you going to take the initial Bible data from?"
+msgstr ""
+
+msgid "The collaboration will be set up"
+msgstr ""
+
+msgid "Paratext: Send/receive"
+msgstr ""
+
+msgid "Paratext: Up to date"
+msgstr ""
+
+msgid "Incorrect font size in percents"
+msgstr ""
+
+msgid "Please enter a font size between 50 and 300 percent"
+msgstr ""
+
+msgid "Please enter a caret position between 20 and 80 percent"
+msgstr ""
+
+msgid "Incorrect caret position in percents"
+msgstr ""
+
+msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
+msgstr ""
+
+msgid "Incorrect fade-out delay in seconds"
+msgstr ""
+
+msgid "Which visual Bible editors to enable?"
+msgstr ""
+
+msgid "Select which Bible to display"
+msgstr ""
+
+msgid "Public feedback"
+msgstr ""
+
+msgid "Public login"
+msgstr ""
+
+msgid "The name should be at least two characters long"
+msgstr ""
+
+msgid "This account needs a password."
+msgstr ""
+
+msgid "Please login the other way, through Menu / Login."
+msgstr ""
+
+msgid "New feedback"
+msgstr ""
+
+msgid "Convert"
+msgstr ""
+
+msgid "A USFM Resource with this name already exists"
+msgstr ""
+
+msgid "An external resource with this name already exists"
+msgstr ""
+
+msgid "Insufficient privileges to complete operation."
+msgstr ""
+
+msgid "The list was updated"
+msgstr ""
+
+msgid "Converting USFM Resource to Bible"
+msgstr ""
+
+msgid "Conversion completed"
+msgstr ""
+
+msgid "Converting Bible to USFM Resource"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+msgid "Download resource"
+msgstr ""
+
+msgid "The file was uploaded and is being processed."
+msgstr ""
+
+msgid "View the Journal for progress"
+msgstr ""
+
+msgid "Would you like to delete this image?"
+msgstr ""
+
+msgid "The image was deleted."
+msgstr ""
+
+msgid "Please enter a name for the new empty image resource"
+msgstr ""
+
+msgid "This image resource already exists"
+msgstr ""
+
+msgid "Please give a name for the image resource"
+msgstr ""
+
+msgid "The image resource was created"
+msgstr ""
+
+msgid "Would you like to delete this resource?"
+msgstr ""
+
+msgid "The resource was deleted"
+msgstr ""
+
+msgid "Unknown starting book."
+msgstr ""
+
+msgid "Negative starting chapter."
+msgstr ""
+
+msgid "High starting chapter."
+msgstr ""
+
+msgid "Negative starting verse."
+msgstr ""
+
+msgid "High starting verse."
+msgstr ""
+
+msgid "Unknown ending book."
+msgstr ""
+
+msgid "Negative ending chapter."
+msgstr ""
+
+msgid "High ending chapter."
+msgstr ""
+
+msgid "Negative ending verse."
+msgstr ""
+
+msgid "High ending verse."
+msgstr ""
+
+msgid "The starting passage is beyond the ending passage."
+msgstr ""
+
+msgid "USFM Resources"
+msgstr ""
+
+msgid "You do not have write access to this resource"
+msgstr ""
+
+msgid "Would you like to convert this resource to a Bible?"
+msgstr ""
+
+msgid "Insufficient privileges"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Please enter the number of verses"
+msgstr ""
+
+msgid "How many verses of context to display before the focused verse."
+msgstr ""
+
+msgid "How many verses of context to display after the focused verse."
+msgstr ""
+
+msgid "Will install the resources."
+msgstr ""
+
+msgid "The journal displays the progress."
+msgstr ""
+
+msgid "Select a book"
+msgstr ""
+
+msgid "Select a chapter"
+msgstr ""
+
+msgid "Select a verse"
+msgstr ""
+
+msgid "The document is being created..."
+msgstr ""
+
+msgid "Select a USFM resource"
+msgstr ""
+
+msgid "Select an original language text"
+msgstr ""
+
+msgid "Select a Bible translation"
+msgstr ""
+
+msgid "Select an image resource"
+msgstr ""
+
+msgid "Select a lexicon resource"
+msgstr ""
+
+msgid "Select a SWORD resource"
+msgstr ""
+
+msgid "Select a divider"
+msgstr ""
+
+msgid "Select a BibleGateway resource"
+msgstr ""
+
+msgid "Select a StudyLight resource"
+msgstr ""
+
+msgid "installed"
+msgstr ""
+
+msgid "to be updated"
+msgstr ""
+
+msgid "User-defined resources"
+msgstr ""
+
+msgid "Number of defined books:"
+msgstr ""
+
+msgid "Please enter a name for the new user-defined resource"
+msgstr ""
+
+msgid "This user-defined resource already exists"
+msgstr ""
+
+msgid "Please give a name for the user-defined resource"
+msgstr ""
+
+msgid "The user-defined resource was created"
+msgstr ""
+
+msgid "Recent changes in the Bible text"
+msgstr ""
+
+msgid ""
+"This text could not be automatically replaced. Click the passage to do it "
+"manually."
+msgstr ""
+
+msgid "Up to date"
+msgstr ""
+
+msgid "Still busy"
+msgstr ""
+
+msgid "Watchdog timeout"
+msgstr ""
+
+msgid "Failure to initiate connection"
+msgstr ""
+
+msgid "No user found"
+msgstr ""
+
+msgid "Sending to server"
+msgstr ""
+
+msgid "Failure getting total checksum"
+msgstr ""
+
+msgid "Failure getting list of Bibles"
+msgstr ""
+
+msgid "Checksum error while receiving list of Bibles"
+msgstr ""
+
+msgid "Deleting Bible because the server did not grant access to it"
+msgstr ""
+
+msgid "Failure getting Bible checksum"
+msgstr ""
+
+msgid "Bible up to date"
+msgstr ""
+
+msgid "Failure getting books"
+msgstr ""
+
+msgid "Checksum error while receiving list of books from server"
+msgstr ""
+
+msgid "Deleting book because the server does not have it"
+msgstr ""
+
+msgid "Failure getting book checksum"
+msgstr ""
+
+msgid "Failure getting list of chapters:"
+msgstr ""
+
+msgid "Checksum error while receiving list of chapters"
+msgstr ""
+
+msgid "Deleting chapter because the server does not have it"
+msgstr ""
+
+msgid "Failure getting checksum:"
+msgstr ""
+
+msgid "Getting chapter:"
+msgstr ""
+
+msgid "Failure getting chapter:"
+msgstr ""
+
+msgid "Checksum error while receiving chapter from server:"
+msgstr ""
+
+msgid "Merging changes on server and client"
+msgstr ""
+
+msgid "Recreate damaged modifications database"
+msgstr ""
+
+msgid "Not downloading change notifications due to communication error"
+msgstr ""
+
+msgid "Files"
+msgstr ""
+
+msgid "Synchronizing"
+msgstr ""
+
+msgid "Sending and receiving:"
+msgstr ""
+
+msgid "Send/Receive"
+msgstr ""
+
+msgid "Starting to send and receive now."
+msgstr ""
+
+msgid "Still sending and receiving from the last time."
+msgstr ""
+
+msgid "Still synchronizing with Paratext."
+msgstr ""
+
+msgid "No local user found"
+msgstr ""
+
+msgid "Sending note to server"
+msgstr ""
+
+msgid "Failure sending and receiving Settings"
+msgstr ""
+
+msgid "Sending settings"
+msgstr ""
+
+msgid "Username should be at least two characters long"
+msgstr ""
+
+msgid "Password should be at least four characters long"
+msgstr ""
+
+msgid "Username or email address or password are not correct"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Username or email address is too short"
+msgstr ""
+
+msgid "Account changed"
+msgstr ""
+
+msgid "Somebody requested a new password for your account."
+msgstr ""
+
+msgid "Here is the new password:"
+msgstr ""
+
+msgid ""
+"It is recommended to log into your account with this new password, and then "
+"change it."
+msgstr ""
+
+msgid ""
+"A message was sent to the email address belonging to this account to help "
+"you getting the password"
+msgstr ""
+
+msgid "Username or email address cannot be found"
+msgstr ""
+
+msgid "Signup"
+msgstr ""
+
+msgid ""
+"To which city was Paul travelling when a light from heaven shone round about "
+"him?"
+msgstr ""
+
+msgid "Damascus"
+msgstr ""
+
+msgid ""
+"And while he travelled, he came near Damascus; and suddenly a light from "
+"heaven shone round about him."
+msgstr ""
+
+msgid "What is the name of the brother of Aaron the high priest?"
+msgstr ""
+
+msgid "Moses"
+msgstr ""
+
+msgid ""
+"And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
+"the Levite your brother?"
+msgstr ""
+
+msgid "What is the name of the city where Jesus was born?"
+msgstr ""
+
+msgid "Bethlehem"
+msgstr ""
+
+msgid ""
+"When Jesus was born in Bethlehem of Judaea in the days of Herod the king, "
+"behold, wise men from the east came to Jerusalem."
+msgstr ""
+
+msgid "What is the name of the island where John was sent to?"
+msgstr ""
+
+msgid "Patmos"
+msgstr ""
+
+msgid ""
+"I, John, your brother and companion in the persecution, and in the kingdom "
+"and endurance of Jesus Christ, was in the island which is called Patmos, "
+"because of the word of God, and because of the testimony of Jesus Christ."
+msgstr ""
+
+msgid "Password should be at least two characters long"
+msgstr ""
+
+msgid "The answer to the question is not correct"
+msgstr ""
+
+msgid ""
+"The username that you have chosen has already been taken. Please choose "
+"another one."
+msgstr ""
+
+msgid ""
+"The email address that you have chosen has already been taken. Please choose "
+"another one."
+msgstr ""
+
+msgid "Signup verification"
+msgstr ""
+
+msgid "There is a request to open an account with this email address."
+msgstr ""
+
+msgid "Account opened"
+msgstr ""
+
+msgid "Welcome! Your account is now active."
+msgstr ""
+
+msgid "Switch user"
+msgstr ""
+
+msgid "Team's progress in Sprint"
+msgstr ""
+
+msgid "Sprint has started"
+msgstr ""
+
+msgid "Sprint has finished"
+msgstr ""
+
+msgid "Sprint Planning and Team's Progress"
+msgstr ""
+
+msgid "Sprint Burndown Chart - Remaining Tasks"
+msgstr ""
+
+msgid "days"
+msgstr ""
+
+msgid "Sprint"
+msgstr ""
+
+msgid "New task added"
+msgstr ""
+
+msgid "The information was mailed to the subscribers"
+msgstr ""
+
+msgid "Select which Bible to display the Sprint for"
+msgstr ""
+
+msgid "The task was removed"
+msgstr ""
+
+msgid "The task was moved to the previous sprint"
+msgstr ""
+
+msgid "The task was moved to the next sprint"
+msgstr ""
+
+msgid "Sending statistics"
+msgstr ""
+
+msgid "statistics"
+msgstr ""
+
+msgid "Number of change notifications"
+msgstr ""
+
+msgid "Number of consultation notes assigned to you awaiting your response"
+msgstr ""
+
+msgid "Number of consultation notes you are subscribed to"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Inactive for a day"
+msgstr ""
+
+msgid "Inactive for a week"
+msgstr ""
+
+msgid "This stylesheet already exists"
+msgstr ""
+
+msgid "The stylesheet has been created"
+msgstr ""
+
+msgid "Please enter the name for the new stylesheet"
+msgstr ""
+
+msgid "The stylesheet has been deleted"
+msgstr ""
+
+msgid "Would you like to delete this stylesheet?"
+msgstr ""
+
+msgid "Would you like to switch to another stylesheet?"
+msgstr ""
+
+msgid "Identification information"
+msgstr ""
+
+msgid "Introduction titles and headings"
+msgstr ""
+
+msgid "Introduction paragraphs and poetry"
+msgstr ""
+
+msgid "Introduction other elements"
+msgstr ""
+
+msgid "Titles"
+msgstr ""
+
+msgid "Headings"
+msgstr ""
+
+msgid "Chapters and verses"
+msgstr ""
+
+msgid "Paragraphs"
+msgstr ""
+
+msgid "Lists"
+msgstr ""
+
+msgid "Poetry elements"
+msgstr ""
+
+msgid "Table elements"
+msgstr ""
+
+msgid "Footnotes"
+msgstr ""
+
+msgid "Crossreferences"
+msgstr ""
+
+msgid "Extended study notes"
+msgstr ""
+
+msgid "Special text"
+msgstr ""
+
+msgid "Character styles"
+msgstr ""
+
+msgid "Spacings and breaks"
+msgstr ""
+
+msgid "Special features"
+msgstr ""
+
+msgid "Peripheral materials"
+msgstr ""
+
+msgid "Extra styles"
+msgstr ""
+
+msgid "is an identifier"
+msgstr ""
+
+msgid "starts a new paragraph"
+msgstr ""
+
+msgid "is inline text with endmarker"
+msgstr ""
+
+msgid "is a chapter number"
+msgstr ""
+
+msgid "is a verse number"
+msgstr ""
+
+msgid "is a footnote or endnote"
+msgstr ""
+
+msgid "is a crossreference"
+msgstr ""
+
+msgid "is a peripheral element"
+msgstr ""
+
+msgid "is a picture"
+msgstr ""
+
+msgid "starts a new page"
+msgstr ""
+
+msgid "is a table element"
+msgstr ""
+
+msgid "is a word list element"
+msgstr ""
+
+msgid "identifies the book"
+msgstr ""
+
+msgid "identifies the encoding"
+msgstr ""
+
+msgid "is a comment"
+msgstr ""
+
+msgid "is a running header"
+msgstr ""
+
+msgid "is long table of contents text"
+msgstr ""
+
+msgid "is short table of contents text"
+msgstr ""
+
+msgid "is the book abbreviation"
+msgstr ""
+
+msgid "is the chapter label"
+msgstr ""
+
+msgid "is the published chapter marker"
+msgstr ""
+
+msgid "is a comment with an endmarker"
+msgstr ""
+
+msgid "is a main title"
+msgstr ""
+
+msgid "is a subtitle"
+msgstr ""
+
+msgid "is a section heading"
+msgstr ""
+
+msgid "is a normal paragraph"
+msgstr ""
+
+msgid "starts a footnote"
+msgstr ""
+
+msgid "starts an endnote"
+msgstr ""
+
+msgid "is standard content"
+msgstr ""
+
+msgid "is content"
+msgstr ""
+
+msgid "is content with endmarker"
+msgstr ""
+
+msgid "starts another paragraph"
+msgstr ""
+
+msgid "starts a crossreference"
+msgstr ""
+
+msgid "starts publication data"
+msgstr ""
+
+msgid "starts table of contents"
+msgstr ""
+
+msgid "starts preface"
+msgstr ""
+
+msgid "starts introduction"
+msgstr ""
+
+msgid "starts concordance"
+msgstr ""
+
+msgid "starts glossary"
+msgstr ""
+
+msgid "starts index"
+msgstr ""
+
+msgid "starts map index"
+msgstr ""
+
+msgid "starts cover"
+msgstr ""
+
+msgid "starts spine"
+msgstr ""
+
+msgid "starts a new row"
+msgstr ""
+
+msgid "is a column heading"
+msgstr ""
+
+msgid "is cell data"
+msgstr ""
+
+msgid "is a wordlist / glossary / dictionary entry"
+msgstr ""
+
+msgid "is a Hebrew wordlist entry"
+msgstr ""
+
+msgid "is a Greek wordlist entry"
+msgstr ""
+
+msgid "is a subject index entry"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Inherit"
+msgstr ""
+
+msgid "Toggle"
+msgstr ""
+
+msgid "Left align"
+msgstr ""
+
+msgid "Center"
+msgstr ""
+
+msgid "Right align"
+msgstr ""
+
+msgid "Justify"
+msgstr ""
+
+msgid "Print chapter number at first verse"
+msgstr ""
+
+msgid "Start on a new page"
+msgstr ""
+
+msgid "Refers to the Apocrypha"
+msgstr ""
+
+msgid "Restart paragraph"
+msgstr ""
+
+msgid ""
+"New page starts with an odd number (not implemented due to limitations in "
+"OpenDocument)"
+msgstr ""
+
+msgid "Print chapter number in the running header of the left page"
+msgstr ""
+
+msgid "Print this in the running header of the left page"
+msgstr ""
+
+msgid "Print chapter number in the running header of the right page"
+msgstr ""
+
+msgid "Print this in the running header of the right page"
+msgstr ""
+
+msgid "User defined sequence"
+msgstr ""
+
+msgid "Never"
+msgstr ""
+
+msgid "Every book"
+msgstr ""
+
+msgid "Every chapter"
+msgstr ""
+
+msgid "After each book"
+msgstr ""
+
+msgid "After everything else"
+msgstr ""
+
+msgid "Upon encountering a certain marker"
+msgstr ""
+
+msgid "Stylesheet"
+msgstr ""
+
+msgid "This style already exists"
+msgstr ""
+
+msgid "The style has been created"
+msgstr ""
+
+msgid "Please enter the name for the new style"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "Style"
+msgstr ""
+
+msgid "Please enter the name for the style"
+msgstr ""
+
+msgid "Please enter the description for the style"
+msgstr ""
+
+msgid "Would you like to change the category of this style?"
+msgstr ""
+
+msgid "Here are the various categories:"
+msgstr ""
+
+msgid "Would you like to change the type of this style?"
+msgstr ""
+
+msgid "Here are the various types:"
+msgstr ""
+
+msgid "Would you like to change the sub type of this style?"
+msgstr ""
+
+msgid "Please enter a fontsize between 5 and 60 points"
+msgstr ""
+
+msgid "The value to enter is just a number, e.g. 12."
+msgstr ""
+
+msgid "Would you like to change whether this style is in italics?"
+msgstr ""
+
+msgid "Would you like to change whether this style is in bold?"
+msgstr ""
+
+msgid "Would you like to change whether this style is underlined?"
+msgstr ""
+
+msgid "Would you like to change whether this style is in small caps?"
+msgstr ""
+
+msgid "Would you like to change the text alignment of this style?"
+msgstr ""
+
+msgid "Please enter a space of between 0 and 100 mm before the paragraph"
+msgstr ""
+
+msgid ""
+"This is the space before, or in other words, above the paragraph. The value "
+"to enter is just a number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a space of between 0 and 100 mm after the paragraph"
+msgstr ""
+
+msgid ""
+"This is the space after, or in other words, below the paragraph. The value "
+"to enter is just a number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a left margin of between -100 and 100 mm"
+msgstr ""
+
+msgid ""
+"This is the left margin of the paragraph. The value to enter is just a "
+"number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a right margin of between -100 and 100 mm"
+msgstr ""
+
+msgid ""
+"This is the right margin of the paragraph. The value to enter is just a "
+"number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a first line indent of between -100 and 100 mm"
+msgstr ""
+
+msgid ""
+"This is the indent of the first line of the the paragraph. The value to "
+"enter is just a number, e.g. 0."
+msgstr ""
+
+msgid "Please specify a new color"
+msgstr ""
+
+msgid "Would you like to change the numbering of the note?"
+msgstr ""
+
+msgid "Please enter a column number between 1 and 4"
+msgstr ""
+
+msgid ""
+"This is the column number for the style. The first columm is number 1."
+msgstr ""
+
+msgid "Would you like to change when the note numbering restarts?"
+msgstr ""
+
+msgid "Would you like to change the position where to dump the endnotes?"
+msgstr ""
+
+msgid "Please enter a new note numbering sequence"
+msgstr ""
+
+msgid ""
+"This gives a sequence for numbering the notes. When for example § † * is "
+"entered, the numbering goes like §, †, *, §, †, *, and so forth. Any "
+"sequence of characters can be used. Spaces should separate the characters."
+msgstr ""
+
+msgid "Please enter a new addition to the word list entry"
+msgstr ""
+
+msgid ""
+"This given an optional string to be added after each definition in the body "
+"of text. In some Bibles the unusual words are marked with an asterisk and "
+"then explained in a glossary. If you would enter the asterisk here, or "
+"indeed any string, Bibledit would include this in the exported documents."
+msgstr ""
+
+msgid "Please enter a marker at which the endnotes should be dumped"
+msgstr ""
+
+msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
+msgstr ""
+
+msgid "Received from client"
+msgstr ""
+
+msgid "Set the language for Bibledit"
+msgstr ""
+
+msgid "Please enter a timezone between -12 and +14"
+msgstr ""
+
+msgid "The timezone was clipped"
+msgstr ""
+
+msgid "The timezone was saved"
+msgstr ""
+
+msgid "Please enter the maximum number of items in the RSS feed"
+msgstr ""
+
+msgid "The number was trimmed"
+msgstr ""
+
+msgid "The number was saved"
+msgstr ""
+
+msgid "Go back"
 msgstr ""
 
 msgid "Select the Bible for editing:"
@@ -1190,9 +2812,6 @@ msgstr ""
 
 msgid ""
 "After saving, the settings will be applied to the editable sample text below."
-msgstr ""
-
-msgid "Journal"
 msgstr ""
 
 msgid "Import Bible text."
@@ -1333,9 +2952,6 @@ msgid "Change"
 msgstr ""
 
 msgid "Date"
-msgstr ""
-
-msgid "Create note"
 msgstr ""
 
 msgid "Change Notifications"
@@ -1685,9 +3301,6 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-msgid "Password"
-msgstr ""
-
 msgid "Connect"
 msgstr ""
 
@@ -1874,9 +3487,6 @@ msgid "Cancel"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
-
-msgid "Style"
 msgstr ""
 
 msgid "editor"
@@ -3262,24 +4872,16 @@ msgstr ""
 msgid "Install Bibledit on Windows"
 msgstr ""
 
-msgid "Bibledit runs on Windows Vista and higher."
+msgid "Bibledit runs on Windows 7 and higher."
 msgstr ""
 
-msgid "Install NET Framework 4.0 or higher on Windows Vista and Windows 7."
-msgstr ""
-
-msgid "Apply all updates through Windows Update."
-msgstr ""
-
-msgid "This is because Bibledit uses recent Windows technology."
+msgid "Install .NET Framework 4.5.2 or higher on Windows 7."
 msgstr ""
 
 msgid "Start it through the menu."
 msgstr ""
 
-msgid ""
-"When the firewall asks whether to block this connection, unblock it and "
-"allow access."
+msgid "Bibledit is now ready for online and offline use."
 msgstr ""
 
 msgid "Bibledit is an application for translating the Bible."
@@ -3766,9 +5368,6 @@ msgid "It is used to determine the work for the next sprints."
 msgstr ""
 
 msgid "Each item has an associated estimated time to complete."
-msgstr ""
-
-msgid "Sprint"
 msgstr ""
 
 msgid "A sprint typically takes one month."
@@ -4369,9 +5968,6 @@ msgid ""
 msgstr ""
 
 msgid "The OpenDocument files are used as a starting point for typesetting."
-msgstr ""
-
-msgid "Hyphenation"
 msgstr ""
 
 msgid ""
@@ -5603,9 +7199,6 @@ msgstr ""
 msgid "Clear the entire journal"
 msgstr ""
 
-msgid "Exports"
-msgstr ""
-
 msgid "Select another Bible"
 msgstr ""
 
@@ -5837,9 +7430,6 @@ msgstr ""
 msgid "Go back."
 msgstr ""
 
-msgid "Users"
-msgstr "Користувачі"
-
 msgid "Role"
 msgstr ""
 
@@ -5879,9 +7469,6 @@ msgstr ""
 msgid "Normally users register their own account."
 msgstr ""
 
-msgid "Read/write"
-msgstr ""
-
 msgid ""
 "On this page you can set whether a user can modify the text of Bible books."
 msgstr ""
@@ -5898,16 +7485,10 @@ msgstr ""
 msgid "New Testament"
 msgstr ""
 
-msgid "Verse Mappings"
-msgstr ""
-
 msgid "This lists the available verse mappings."
 msgstr ""
 
 msgid "Create new."
-msgstr ""
-
-msgid "Verse mappings"
 msgstr ""
 
 msgid "To update the verse mappings, make changes above, and save them."
@@ -5970,12 +7551,6 @@ msgid "Status"
 msgstr ""
 
 msgid "Verses"
-msgstr ""
-
-msgid "edit"
-msgstr ""
-
-msgid "Severity"
 msgstr ""
 
 msgid "This is a general note, it does not apply to any specific Bible"
@@ -6072,16 +7647,10 @@ msgstr ""
 msgid "Then save them."
 msgstr ""
 
-msgid "Notes"
-msgstr ""
-
 msgid "select"
 msgstr ""
 
 msgid "update"
-msgstr ""
-
-msgid "Actions"
 msgstr ""
 
 msgid "Add a comment to this note"
@@ -6309,9 +7878,6 @@ msgstr ""
 msgid "The collaboration is being set up."
 msgstr ""
 
-msgid "Preferences"
-msgstr ""
-
 msgid "General font size for the interface"
 msgstr ""
 
@@ -6420,9 +7986,6 @@ msgstr ""
 msgid "Your feedback"
 msgstr ""
 
-msgid "Public feedback"
-msgstr ""
-
 msgid "Create new"
 msgstr ""
 
@@ -6488,9 +8051,6 @@ msgid "BibleGateway resources"
 msgstr ""
 
 msgid "Refresh the list of resources from BibleGateway."
-msgstr ""
-
-msgid "Resources"
 msgstr ""
 
 msgid "The following resources are being installed:"
@@ -6559,9 +8119,6 @@ msgstr ""
 msgid "Erase this resource."
 msgstr ""
 
-msgid "Image resources"
-msgstr ""
-
 msgid "Create a new empty image resource"
 msgstr ""
 
@@ -6593,9 +8150,6 @@ msgid "Delete this image."
 msgstr ""
 
 msgid "organize"
-msgstr ""
-
-msgid "USFM Resources"
 msgstr ""
 
 msgid ""
@@ -6724,9 +8278,6 @@ msgid ""
 "The chapter and the verse will be replaced with the appropriate numbers."
 msgstr ""
 
-msgid "User-defined resources"
-msgstr ""
-
 msgid "Create a new empty user-defined resource"
 msgstr ""
 
@@ -6747,9 +8298,6 @@ msgid "notes"
 msgstr ""
 
 msgid "verses"
-msgstr ""
-
-msgid "Search"
 msgstr ""
 
 msgid "Search in active Bible."
@@ -6931,9 +8479,6 @@ msgstr ""
 msgid "Password:"
 msgstr ""
 
-msgid "Login"
-msgstr ""
-
 msgid "Forgot password?"
 msgstr ""
 
@@ -6946,9 +8491,6 @@ msgstr ""
 msgid ""
 "Submit your username or email address, and instructions will be emailed to "
 "you."
-msgstr ""
-
-msgid "Signup"
 msgstr ""
 
 msgid "Your account is pending."
@@ -6990,9 +8532,6 @@ msgid ""
 "own credentials."
 msgstr ""
 
-msgid "Sprint Burndown Chart - Remaining Tasks"
-msgstr ""
-
 msgid "Mail information to subscribers"
 msgstr ""
 
@@ -7014,9 +8553,6 @@ msgstr ""
 msgid "Create a new stylesheet."
 msgstr ""
 
-msgid "Styles"
-msgstr ""
-
 msgid ""
 "The various styles for the Bible editor are contained in a stylesheet."
 msgstr ""
@@ -7025,9 +8561,6 @@ msgid "The stylesheet you are currently using is:"
 msgstr ""
 
 msgid "switch"
-msgstr ""
-
-msgid "Stylesheet"
 msgstr ""
 
 msgid "Add a style to the stylesheet."
@@ -7096,9 +8629,6 @@ msgstr ""
 msgid "Background color"
 msgstr ""
 
-msgid "Print"
-msgstr ""
-
 msgid "Note numbering"
 msgstr ""
 
@@ -7118,9 +8648,6 @@ msgid "Addition after word list entry"
 msgstr ""
 
 msgid "Place endnotes when encountering marker"
-msgstr ""
-
-msgid "System"
 msgstr ""
 
 msgid "Language"
@@ -7171,9 +8698,6 @@ msgstr ""
 msgid "To switch the feed off, set the number of changes to zero."
 msgstr ""
 
-msgid "Account"
-msgstr ""
-
 msgid ""
 "You can change your password or your email address. Your current email "
 "address is"
@@ -7189,12 +8713,6 @@ msgid "Again new password"
 msgstr ""
 
 msgid "New email address"
-msgstr ""
-
-msgid "Notifications"
-msgstr ""
-
-msgid "Consultation Notes"
 msgstr ""
 
 msgid ""
@@ -7313,9 +8831,6 @@ msgstr ""
 msgid "Receive mail when updated software is available for any platform."
 msgstr ""
 
-msgid "Versifications"
-msgstr ""
-
 msgid "This lists the currently available versification systems."
 msgstr ""
 
@@ -7343,9 +8858,6 @@ msgid "It will overwrite whatever was there before."
 msgstr ""
 
 msgid "chapters"
-msgstr ""
-
-msgid "Workspaces"
 msgstr ""
 
 msgid "Create"
@@ -7391,9 +8903,6 @@ msgid "Center row"
 msgstr ""
 
 msgid "Bottom row"
-msgstr ""
-
-msgid "Workspace"
 msgstr ""
 
 msgid "width"
@@ -7684,1523 +9193,6 @@ msgid "Enter the abbreviation:"
 msgstr ""
 
 msgid "Remaining book names without an abbreviation:"
-msgstr ""
-
-msgid "No files in this folder"
-msgstr ""
-
-msgid "This job does not exist."
-msgstr ""
-
-msgid "This job is not available to you."
-msgstr ""
-
-msgid "The job is scheduled to start shortly."
-msgstr ""
-
-msgid "Has been sending and receiving during the past hour"
-msgstr ""
-
-msgid "January"
-msgstr ""
-
-msgid "February"
-msgstr ""
-
-msgid "March"
-msgstr ""
-
-msgid "April"
-msgstr ""
-
-msgid "May"
-msgstr ""
-
-msgid "June"
-msgstr ""
-
-msgid "July"
-msgstr ""
-
-msgid "August"
-msgstr ""
-
-msgid "September"
-msgstr ""
-
-msgid "October"
-msgstr ""
-
-msgid "November"
-msgstr ""
-
-msgid "December"
-msgstr ""
-
-msgid "Month"
-msgstr ""
-
-msgid "Saving..."
-msgstr ""
-
-msgid "Saved"
-msgstr ""
-
-msgid "Loaded"
-msgstr ""
-
-msgid "Retrying..."
-msgstr ""
-
-msgid "Reformat"
-msgstr ""
-
-msgid "You do not have enough privileges to modify this book."
-msgstr ""
-
-msgid "Export"
-msgstr ""
-
-msgid "Select a Bible"
-msgstr ""
-
-msgid "The export has been removed."
-msgstr ""
-
-msgid "The Bible is being exported to Web format."
-msgstr ""
-
-msgid "The Bible is being exported to Html format."
-msgstr ""
-
-msgid "The Bible is being exported to USFM format."
-msgstr ""
-
-msgid "The Bible is being exported to basic USFM format and text."
-msgstr ""
-
-msgid "The Bible is being exported to OpenDocument format."
-msgstr ""
-
-msgid "Please enter a page width in millimeters"
-msgstr ""
-
-msgid "The width of A4 is 210 mm. The width of Letter is 216 mm."
-msgstr ""
-
-msgid "Please enter a page height in millimeters"
-msgstr ""
-
-msgid "The height of A4 is 297 mm. The width of Letter is 279 mm."
-msgstr ""
-
-msgid "Please enter an inner margin size in millimeters"
-msgstr ""
-
-msgid "Please enter an outer margin size in millimeters"
-msgstr ""
-
-msgid "Please enter an top margin size in millimeters"
-msgstr ""
-
-msgid "Please enter an bottom margin size in millimeters"
-msgstr ""
-
-msgid "The info documents are being generated."
-msgstr ""
-
-msgid "The Bible is being exported to e-Sword format."
-msgstr ""
-
-msgid "The Bible is being exported to Online Bible format."
-msgstr ""
-
-msgid "The Bible is being exported to Quick Bible format."
-msgstr ""
-
-msgid "Would you like to use another stylesheet for the exports?"
-msgstr ""
-
-msgid "The password for securing exports was saved."
-msgstr ""
-
-msgid "The Bible will be submitted to the Bible Drop Box."
-msgstr ""
-
-msgid "You will receive email with further details."
-msgstr ""
-
-msgid "Go to Bibledit Cloud to submit the Bible there."
-msgstr ""
-
-msgid "Go to Bibledit Cloud for exports to OpenDocument."
-msgstr ""
-
-msgid "The two sets of characters were saved"
-msgstr ""
-
-msgid "Which Bible would you like to take the data from?"
-msgstr ""
-
-msgid "No first set of characters given"
-msgstr ""
-
-msgid "No second set of characters given"
-msgstr ""
-
-msgid "The Bible is being hyphenated."
-msgstr ""
-
-msgid "See the Journal for details."
-msgstr ""
-
-msgid "The font could not be deleted because it is in use"
-msgstr ""
-
-msgid "The font has been uploaded."
-msgstr ""
-
-msgid "Delete font"
-msgstr ""
-
-msgid "Please enter a name for the new user"
-msgstr ""
-
-msgid "User already exists"
-msgstr ""
-
-msgid "User created"
-msgstr ""
-
-msgid "Cannot remove the last user"
-msgstr ""
-
-msgid "Cannot remove the last administrator"
-msgstr ""
-
-msgid "Select a role for"
-msgstr ""
-
-msgid "Please enter an email address for"
-msgstr ""
-
-msgid "Email address was updated"
-msgstr ""
-
-msgid "The email address is not valid"
-msgstr ""
-
-msgid "Would you like to grant the user access to a Bible?"
-msgstr ""
-
-msgid "The user has been granted access to this Bible"
-msgstr ""
-
-msgid "The user no longer has access to this Bible"
-msgstr ""
-
-msgid "The user account was enabled"
-msgstr ""
-
-msgid "The user account was disabled"
-msgstr ""
-
-msgid "Disable"
-msgstr ""
-
-msgid "Enable"
-msgstr ""
-
-msgid "Enter a name for the new verse mapping"
-msgstr ""
-
-msgid "This verse mapping already exists"
-msgstr ""
-
-msgid "Would you like to delete this verse mapping?"
-msgstr ""
-
-msgid "The verse mapping was deleted"
-msgstr ""
-
-msgid "The verse mapping was saved"
-msgstr ""
-
-msgid "Translation"
-msgstr ""
-
-msgid "User resources"
-msgstr ""
-
-msgid "Replace"
-msgstr ""
-
-msgid "Advanced search"
-msgstr ""
-
-msgid "Advanced replace"
-msgstr ""
-
-msgid "Search all Bibles and notes"
-msgstr ""
-
-msgid "Search Bible for similar verses"
-msgstr ""
-
-msgid "Search Bible for similar Strong's numbers"
-msgstr ""
-
-msgid "Search Bible for Strong's number"
-msgstr ""
-
-msgid "Search Bible for similar Hebrew or Greek words"
-msgstr ""
-
-msgid "Planning"
-msgstr ""
-
-msgid "Send/receive"
-msgstr ""
-
-msgid "Hyphenate"
-msgstr ""
-
-msgid "Transfer cross-references"
-msgstr ""
-
-msgid "Develop"
-msgstr ""
-
-msgid "Indexes and Fonts"
-msgstr ""
-
-msgid "Cloud"
-msgstr ""
-
-msgid "Paratext"
-msgstr ""
-
-msgid "Basic mode"
-msgstr ""
-
-msgid "USFM"
-msgstr ""
-
-msgid "Images"
-msgstr ""
-
-msgid "SWORD"
-msgstr ""
-
-msgid "User-defined"
-msgstr ""
-
-msgid "Select stylesheet"
-msgstr ""
-
-msgid "Help and About"
-msgstr ""
-
-msgid "Translate"
-msgstr ""
-
-msgid "Tools"
-msgstr ""
-
-msgid "Feedback"
-msgstr ""
-
-msgid "Logout"
-msgstr ""
-
-msgid "Edit stylesheet"
-msgstr ""
-
-msgid "Both the visual chapter and visual verse editors"
-msgstr ""
-
-msgid "Only the visual chapter editor"
-msgstr ""
-
-msgid "Only the visual verse editor"
-msgstr ""
-
-msgid "Both the USFM chapter and USFM verse editors"
-msgstr ""
-
-msgid "Only the USFM chapter editor"
-msgstr ""
-
-msgid "Only the USFM verse editor"
-msgstr ""
-
-msgid "Visual chapter editor"
-msgstr ""
-
-msgid "Visual verse editor"
-msgstr ""
-
-msgid "Text"
-msgstr ""
-
-msgid "USFM chapter editor"
-msgstr ""
-
-msgid "USFM verse editor"
-msgstr ""
-
-msgid "Back"
-msgstr ""
-
-msgid "Forward"
-msgstr ""
-
-msgid "Select book"
-msgstr ""
-
-msgid "Select chapter"
-msgstr ""
-
-msgid "Go to previous verse"
-msgstr ""
-
-msgid "Select verse"
-msgstr ""
-
-msgid "Go to next verse"
-msgstr ""
-
-msgid "The note will be deleted after a week."
-msgstr ""
-
-msgid "Adding a comment to the note cancels the deletion."
-msgstr ""
-
-msgid "unassign"
-msgstr ""
-
-msgid "Assign note"
-msgstr ""
-
-msgid "Assign notes"
-msgstr ""
-
-msgid "Bulk update"
-msgstr ""
-
-msgid "You subscribed to these notes"
-msgstr ""
-
-msgid "You unsubscribed from these notes"
-msgstr ""
-
-msgid "The notes were assigned to the user"
-msgstr ""
-
-msgid "The notes are no longer assigned to the user"
-msgstr ""
-
-msgid "The status of the notes was updated"
-msgstr ""
-
-msgid "The severity of the notes was updated"
-msgstr ""
-
-msgid "The Bible of the notes was updated"
-msgstr ""
-
-msgid "Would you like to delete the notes?"
-msgstr ""
-
-msgid "The notes were deleted"
-msgstr ""
-
-msgid "Query about a change in the text"
-msgstr ""
-
-msgid "Old text:"
-msgstr ""
-
-msgid "Change:"
-msgstr ""
-
-msgid "New text:"
-msgstr ""
-
-msgid "Comment"
-msgstr ""
-
-msgid "Edit Note Source"
-msgstr ""
-
-msgid "Assigned"
-msgstr ""
-
-msgid "General"
-msgstr ""
-
-msgid "Deleted"
-msgstr ""
-
-msgid "Marked for deletion"
-msgstr ""
-
-msgid "View or respond online"
-msgstr ""
-
-msgid "or"
-msgstr ""
-
-msgid "open the desktop online"
-msgstr ""
-
-msgid "Your comment was posted"
-msgstr ""
-
-msgid "Unknown book"
-msgstr ""
-
-msgid "Unknown chapter"
-msgstr ""
-
-msgid "Unknown verse"
-msgstr ""
-
-msgid "Unknown summary"
-msgstr ""
-
-msgid "Your new note could not be posted"
-msgstr ""
-
-msgid "Your new note was posted"
-msgstr ""
-
-msgid "no Bible"
-msgstr ""
-
-msgid "Note"
-msgstr ""
-
-msgid "This selection does not display any notes."
-msgstr ""
-
-msgid "Select notes"
-msgstr ""
-
-msgid "Search text saved"
-msgstr ""
-
-msgid "Note status"
-msgstr ""
-
-msgid "Notes status"
-msgstr ""
-
-msgid "Note summary"
-msgstr ""
-
-msgid "Unassign notes"
-msgstr ""
-
-msgid "Passages"
-msgstr ""
-
-msgid "Please enter the name of the Paratext projects folder"
-msgstr ""
-
-msgid "Paratext projects folder was set."
-msgstr ""
-
-msgid "Paratext projects folder does not exist:"
-msgstr ""
-
-msgid "not found"
-msgstr ""
-
-msgid "Which Paratext project are you going to use?"
-msgstr ""
-
-msgid "Where are you going to take the initial Bible data from?"
-msgstr ""
-
-msgid "The collaboration will be set up"
-msgstr ""
-
-msgid "Paratext: Send/receive"
-msgstr ""
-
-msgid "Paratext: Up to date"
-msgstr ""
-
-msgid "Incorrect font size in percents"
-msgstr ""
-
-msgid "Please enter a font size between 50 and 300 percent"
-msgstr ""
-
-msgid "Please enter a caret position between 20 and 80 percent"
-msgstr ""
-
-msgid "Incorrect caret position in percents"
-msgstr ""
-
-msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
-msgstr ""
-
-msgid "Incorrect fade-out delay in seconds"
-msgstr ""
-
-msgid "Which visual Bible editors to enable?"
-msgstr ""
-
-msgid "Select which Bible to display"
-msgstr ""
-
-msgid "Public login"
-msgstr ""
-
-msgid "The name should be at least two characters long"
-msgstr ""
-
-msgid "This account needs a password."
-msgstr ""
-
-msgid "Please login the other way, through Menu / Login."
-msgstr ""
-
-msgid "New feedback"
-msgstr ""
-
-msgid "Convert"
-msgstr ""
-
-msgid "A USFM Resource with this name already exists"
-msgstr ""
-
-msgid "An external resource with this name already exists"
-msgstr ""
-
-msgid "Insufficient privileges to complete operation."
-msgstr ""
-
-msgid "The list was updated"
-msgstr ""
-
-msgid "Converting USFM Resource to Bible"
-msgstr ""
-
-msgid "Conversion completed"
-msgstr ""
-
-msgid "Converting Bible to USFM Resource"
-msgstr ""
-
-msgid "Completed"
-msgstr ""
-
-msgid "Download resource"
-msgstr ""
-
-msgid "The file was uploaded and is being processed."
-msgstr ""
-
-msgid "View the Journal for progress"
-msgstr ""
-
-msgid "Would you like to delete this image?"
-msgstr ""
-
-msgid "The image was deleted."
-msgstr ""
-
-msgid "Please enter a name for the new empty image resource"
-msgstr ""
-
-msgid "This image resource already exists"
-msgstr ""
-
-msgid "Please give a name for the image resource"
-msgstr ""
-
-msgid "The image resource was created"
-msgstr ""
-
-msgid "Would you like to delete this resource?"
-msgstr ""
-
-msgid "The resource was deleted"
-msgstr ""
-
-msgid "Unknown starting book."
-msgstr ""
-
-msgid "Negative starting chapter."
-msgstr ""
-
-msgid "High starting chapter."
-msgstr ""
-
-msgid "Negative starting verse."
-msgstr ""
-
-msgid "High starting verse."
-msgstr ""
-
-msgid "Unknown ending book."
-msgstr ""
-
-msgid "Negative ending chapter."
-msgstr ""
-
-msgid "High ending chapter."
-msgstr ""
-
-msgid "Negative ending verse."
-msgstr ""
-
-msgid "High ending verse."
-msgstr ""
-
-msgid "The starting passage is beyond the ending passage."
-msgstr ""
-
-msgid "You do not have write access to this resource"
-msgstr ""
-
-msgid "Would you like to convert this resource to a Bible?"
-msgstr ""
-
-msgid "Insufficient privileges"
-msgstr ""
-
-msgid "Remove"
-msgstr ""
-
-msgid "Please enter the number of verses"
-msgstr ""
-
-msgid "How many verses of context to display before the focused verse."
-msgstr ""
-
-msgid "How many verses of context to display after the focused verse."
-msgstr ""
-
-msgid "Will install the resources."
-msgstr ""
-
-msgid "The journal displays the progress."
-msgstr ""
-
-msgid "Select a book"
-msgstr ""
-
-msgid "Select a chapter"
-msgstr ""
-
-msgid "Select a verse"
-msgstr ""
-
-msgid "The document is being created..."
-msgstr ""
-
-msgid "Select a USFM resource"
-msgstr ""
-
-msgid "Select an original language text"
-msgstr ""
-
-msgid "Select a Bible translation"
-msgstr ""
-
-msgid "Select an image resource"
-msgstr ""
-
-msgid "Select a lexicon resource"
-msgstr ""
-
-msgid "Select a SWORD resource"
-msgstr ""
-
-msgid "Select a divider"
-msgstr ""
-
-msgid "Select a BibleGateway resource"
-msgstr ""
-
-msgid "Select a StudyLight resource"
-msgstr ""
-
-msgid "installed"
-msgstr ""
-
-msgid "to be updated"
-msgstr ""
-
-msgid "Number of defined books:"
-msgstr ""
-
-msgid "Please enter a name for the new user-defined resource"
-msgstr ""
-
-msgid "This user-defined resource already exists"
-msgstr ""
-
-msgid "Please give a name for the user-defined resource"
-msgstr ""
-
-msgid "The user-defined resource was created"
-msgstr ""
-
-msgid "Recent changes in the Bible text"
-msgstr ""
-
-msgid ""
-"This text could not be automatically replaced. Click the passage to do it "
-"manually."
-msgstr ""
-
-msgid "Up to date"
-msgstr ""
-
-msgid "Still busy"
-msgstr ""
-
-msgid "Watchdog timeout"
-msgstr ""
-
-msgid "Failure to initiate connection"
-msgstr ""
-
-msgid "No user found"
-msgstr ""
-
-msgid "Sending to server"
-msgstr ""
-
-msgid "Failure getting total checksum"
-msgstr ""
-
-msgid "Failure getting list of Bibles"
-msgstr ""
-
-msgid "Checksum error while receiving list of Bibles"
-msgstr ""
-
-msgid "Deleting Bible because the server did not grant access to it"
-msgstr ""
-
-msgid "Failure getting Bible checksum"
-msgstr ""
-
-msgid "Bible up to date"
-msgstr ""
-
-msgid "Failure getting books"
-msgstr ""
-
-msgid "Checksum error while receiving list of books from server"
-msgstr ""
-
-msgid "Deleting book because the server does not have it"
-msgstr ""
-
-msgid "Failure getting book checksum"
-msgstr ""
-
-msgid "Failure getting list of chapters:"
-msgstr ""
-
-msgid "Checksum error while receiving list of chapters"
-msgstr ""
-
-msgid "Deleting chapter because the server does not have it"
-msgstr ""
-
-msgid "Failure getting checksum:"
-msgstr ""
-
-msgid "Getting chapter:"
-msgstr ""
-
-msgid "Failure getting chapter:"
-msgstr ""
-
-msgid "Checksum error while receiving chapter from server:"
-msgstr ""
-
-msgid "Merging changes on server and client"
-msgstr ""
-
-msgid "Recreate damaged modifications database"
-msgstr ""
-
-msgid "Not downloading change notifications due to communication error"
-msgstr ""
-
-msgid "Files"
-msgstr ""
-
-msgid "Synchronizing"
-msgstr ""
-
-msgid "Sending and receiving:"
-msgstr ""
-
-msgid "Send/Receive"
-msgstr ""
-
-msgid "Starting to send and receive now."
-msgstr ""
-
-msgid "Still sending and receiving from the last time."
-msgstr ""
-
-msgid "Still synchronizing with Paratext."
-msgstr ""
-
-msgid "No local user found"
-msgstr ""
-
-msgid "Sending note to server"
-msgstr ""
-
-msgid "Failure sending and receiving Settings"
-msgstr ""
-
-msgid "Sending settings"
-msgstr ""
-
-msgid "Username should be at least two characters long"
-msgstr ""
-
-msgid "Password should be at least four characters long"
-msgstr ""
-
-msgid "Username or email address or password are not correct"
-msgstr ""
-
-msgid "Username or email address is too short"
-msgstr ""
-
-msgid "Account changed"
-msgstr ""
-
-msgid "Somebody requested a new password for your account."
-msgstr ""
-
-msgid "Here is the new password:"
-msgstr ""
-
-msgid ""
-"It is recommended to log into your account with this new password, and then "
-"change it."
-msgstr ""
-
-msgid ""
-"A message was sent to the email address belonging to this account to help "
-"you getting the password"
-msgstr ""
-
-msgid "Username or email address cannot be found"
-msgstr ""
-
-msgid ""
-"To which city was Paul travelling when a light from heaven shone round about "
-"him?"
-msgstr ""
-
-msgid "Damascus"
-msgstr ""
-
-msgid ""
-"And while he travelled, he came near Damascus; and suddenly a light from "
-"heaven shone round about him."
-msgstr ""
-
-msgid "What is the name of the brother of Aaron the high priest?"
-msgstr ""
-
-msgid "Moses"
-msgstr ""
-
-msgid ""
-"And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
-"the Levite your brother?"
-msgstr ""
-
-msgid "What is the name of the city where Jesus was born?"
-msgstr ""
-
-msgid "Bethlehem"
-msgstr ""
-
-msgid ""
-"When Jesus was born in Bethlehem of Judaea in the days of Herod the king, "
-"behold, wise men from the east came to Jerusalem."
-msgstr ""
-
-msgid "What is the name of the island where John was sent to?"
-msgstr ""
-
-msgid "Patmos"
-msgstr ""
-
-msgid ""
-"I, John, your brother and companion in the persecution, and in the kingdom "
-"and endurance of Jesus Christ, was in the island which is called Patmos, "
-"because of the word of God, and because of the testimony of Jesus Christ."
-msgstr ""
-
-msgid "Password should be at least two characters long"
-msgstr ""
-
-msgid "The answer to the question is not correct"
-msgstr ""
-
-msgid ""
-"The username that you have chosen has already been taken. Please choose "
-"another one."
-msgstr ""
-
-msgid ""
-"The email address that you have chosen has already been taken. Please choose "
-"another one."
-msgstr ""
-
-msgid "Signup verification"
-msgstr ""
-
-msgid "There is a request to open an account with this email address."
-msgstr ""
-
-msgid "Account opened"
-msgstr ""
-
-msgid "Welcome! Your account is now active."
-msgstr ""
-
-msgid "Switch user"
-msgstr ""
-
-msgid "Team's progress in Sprint"
-msgstr ""
-
-msgid "Sprint has started"
-msgstr ""
-
-msgid "Sprint has finished"
-msgstr ""
-
-msgid "Sprint Planning and Team's Progress"
-msgstr ""
-
-msgid "days"
-msgstr ""
-
-msgid "New task added"
-msgstr ""
-
-msgid "The information was mailed to the subscribers"
-msgstr ""
-
-msgid "Select which Bible to display the Sprint for"
-msgstr ""
-
-msgid "The task was removed"
-msgstr ""
-
-msgid "The task was moved to the previous sprint"
-msgstr ""
-
-msgid "The task was moved to the next sprint"
-msgstr ""
-
-msgid "Sending statistics"
-msgstr ""
-
-msgid "statistics"
-msgstr ""
-
-msgid "Number of change notifications"
-msgstr ""
-
-msgid "Number of consultation notes assigned to you awaiting your response"
-msgstr ""
-
-msgid "Number of consultation notes you are subscribed to"
-msgstr ""
-
-msgid "Total"
-msgstr ""
-
-msgid "Inactive for a day"
-msgstr ""
-
-msgid "Inactive for a week"
-msgstr ""
-
-msgid "This stylesheet already exists"
-msgstr ""
-
-msgid "The stylesheet has been created"
-msgstr ""
-
-msgid "Please enter the name for the new stylesheet"
-msgstr ""
-
-msgid "The stylesheet has been deleted"
-msgstr ""
-
-msgid "Would you like to delete this stylesheet?"
-msgstr ""
-
-msgid "Would you like to switch to another stylesheet?"
-msgstr ""
-
-msgid "Identification information"
-msgstr ""
-
-msgid "Introduction titles and headings"
-msgstr ""
-
-msgid "Introduction paragraphs and poetry"
-msgstr ""
-
-msgid "Introduction other elements"
-msgstr ""
-
-msgid "Titles"
-msgstr ""
-
-msgid "Headings"
-msgstr ""
-
-msgid "Chapters and verses"
-msgstr ""
-
-msgid "Paragraphs"
-msgstr ""
-
-msgid "Lists"
-msgstr ""
-
-msgid "Poetry elements"
-msgstr ""
-
-msgid "Table elements"
-msgstr ""
-
-msgid "Footnotes"
-msgstr ""
-
-msgid "Crossreferences"
-msgstr ""
-
-msgid "Extended study notes"
-msgstr ""
-
-msgid "Special text"
-msgstr ""
-
-msgid "Character styles"
-msgstr ""
-
-msgid "Spacings and breaks"
-msgstr ""
-
-msgid "Special features"
-msgstr ""
-
-msgid "Peripheral materials"
-msgstr ""
-
-msgid "Extra styles"
-msgstr ""
-
-msgid "is an identifier"
-msgstr ""
-
-msgid "starts a new paragraph"
-msgstr ""
-
-msgid "is inline text with endmarker"
-msgstr ""
-
-msgid "is a chapter number"
-msgstr ""
-
-msgid "is a verse number"
-msgstr ""
-
-msgid "is a footnote or endnote"
-msgstr ""
-
-msgid "is a crossreference"
-msgstr ""
-
-msgid "is a peripheral element"
-msgstr ""
-
-msgid "is a picture"
-msgstr ""
-
-msgid "starts a new page"
-msgstr ""
-
-msgid "is a table element"
-msgstr ""
-
-msgid "is a word list element"
-msgstr ""
-
-msgid "identifies the book"
-msgstr ""
-
-msgid "identifies the encoding"
-msgstr ""
-
-msgid "is a comment"
-msgstr ""
-
-msgid "is a running header"
-msgstr ""
-
-msgid "is long table of contents text"
-msgstr ""
-
-msgid "is short table of contents text"
-msgstr ""
-
-msgid "is the book abbreviation"
-msgstr ""
-
-msgid "is the chapter label"
-msgstr ""
-
-msgid "is the published chapter marker"
-msgstr ""
-
-msgid "is a comment with an endmarker"
-msgstr ""
-
-msgid "is a main title"
-msgstr ""
-
-msgid "is a subtitle"
-msgstr ""
-
-msgid "is a section heading"
-msgstr ""
-
-msgid "is a normal paragraph"
-msgstr ""
-
-msgid "starts a footnote"
-msgstr ""
-
-msgid "starts an endnote"
-msgstr ""
-
-msgid "is standard content"
-msgstr ""
-
-msgid "is content"
-msgstr ""
-
-msgid "is content with endmarker"
-msgstr ""
-
-msgid "starts another paragraph"
-msgstr ""
-
-msgid "starts a crossreference"
-msgstr ""
-
-msgid "starts publication data"
-msgstr ""
-
-msgid "starts table of contents"
-msgstr ""
-
-msgid "starts preface"
-msgstr ""
-
-msgid "starts introduction"
-msgstr ""
-
-msgid "starts concordance"
-msgstr ""
-
-msgid "starts glossary"
-msgstr ""
-
-msgid "starts index"
-msgstr ""
-
-msgid "starts map index"
-msgstr ""
-
-msgid "starts cover"
-msgstr ""
-
-msgid "starts spine"
-msgstr ""
-
-msgid "starts a new row"
-msgstr ""
-
-msgid "is a column heading"
-msgstr ""
-
-msgid "is cell data"
-msgstr ""
-
-msgid "is a wordlist / glossary / dictionary entry"
-msgstr ""
-
-msgid "is a Hebrew wordlist entry"
-msgstr ""
-
-msgid "is a Greek wordlist entry"
-msgstr ""
-
-msgid "is a subject index entry"
-msgstr ""
-
-msgid "Off"
-msgstr ""
-
-msgid "On"
-msgstr ""
-
-msgid "Inherit"
-msgstr ""
-
-msgid "Toggle"
-msgstr ""
-
-msgid "Left align"
-msgstr ""
-
-msgid "Center"
-msgstr ""
-
-msgid "Right align"
-msgstr ""
-
-msgid "Justify"
-msgstr ""
-
-msgid "Print chapter number at first verse"
-msgstr ""
-
-msgid "Start on a new page"
-msgstr ""
-
-msgid "Refers to the Apocrypha"
-msgstr ""
-
-msgid "Restart paragraph"
-msgstr ""
-
-msgid ""
-"New page starts with an odd number (not implemented due to limitations in "
-"OpenDocument)"
-msgstr ""
-
-msgid "Print chapter number in the running header of the left page"
-msgstr ""
-
-msgid "Print this in the running header of the left page"
-msgstr ""
-
-msgid "Print chapter number in the running header of the right page"
-msgstr ""
-
-msgid "Print this in the running header of the right page"
-msgstr ""
-
-msgid "User defined sequence"
-msgstr ""
-
-msgid "Never"
-msgstr ""
-
-msgid "Every book"
-msgstr ""
-
-msgid "Every chapter"
-msgstr ""
-
-msgid "After each book"
-msgstr ""
-
-msgid "After everything else"
-msgstr ""
-
-msgid "Upon encountering a certain marker"
-msgstr ""
-
-msgid "This style already exists"
-msgstr ""
-
-msgid "The style has been created"
-msgstr ""
-
-msgid "Please enter the name for the new style"
-msgstr ""
-
-msgid "delete"
-msgstr ""
-
-msgid "Please enter the name for the style"
-msgstr ""
-
-msgid "Please enter the description for the style"
-msgstr ""
-
-msgid "Would you like to change the category of this style?"
-msgstr ""
-
-msgid "Here are the various categories:"
-msgstr ""
-
-msgid "Would you like to change the type of this style?"
-msgstr ""
-
-msgid "Here are the various types:"
-msgstr ""
-
-msgid "Would you like to change the sub type of this style?"
-msgstr ""
-
-msgid "Please enter a fontsize between 5 and 60 points"
-msgstr ""
-
-msgid "The value to enter is just a number, e.g. 12."
-msgstr ""
-
-msgid "Would you like to change whether this style is in italics?"
-msgstr ""
-
-msgid "Would you like to change whether this style is in bold?"
-msgstr ""
-
-msgid "Would you like to change whether this style is underlined?"
-msgstr ""
-
-msgid "Would you like to change whether this style is in small caps?"
-msgstr ""
-
-msgid "Would you like to change the text alignment of this style?"
-msgstr ""
-
-msgid "Please enter a space of between 0 and 100 mm before the paragraph"
-msgstr ""
-
-msgid ""
-"This is the space before, or in other words, above the paragraph. The value "
-"to enter is just a number, e.g. 0."
-msgstr ""
-
-msgid "Please enter a space of between 0 and 100 mm after the paragraph"
-msgstr ""
-
-msgid ""
-"This is the space after, or in other words, below the paragraph. The value "
-"to enter is just a number, e.g. 0."
-msgstr ""
-
-msgid "Please enter a left margin of between -100 and 100 mm"
-msgstr ""
-
-msgid ""
-"This is the left margin of the paragraph. The value to enter is just a "
-"number, e.g. 0."
-msgstr ""
-
-msgid "Please enter a right margin of between -100 and 100 mm"
-msgstr ""
-
-msgid ""
-"This is the right margin of the paragraph. The value to enter is just a "
-"number, e.g. 0."
-msgstr ""
-
-msgid "Please enter a first line indent of between -100 and 100 mm"
-msgstr ""
-
-msgid ""
-"This is the indent of the first line of the the paragraph. The value to "
-"enter is just a number, e.g. 0."
-msgstr ""
-
-msgid "Please specify a new color"
-msgstr ""
-
-msgid "Would you like to change the numbering of the note?"
-msgstr ""
-
-msgid "Please enter a column number between 1 and 4"
-msgstr ""
-
-msgid ""
-"This is the column number for the style. The first columm is number 1."
-msgstr ""
-
-msgid "Would you like to change when the note numbering restarts?"
-msgstr ""
-
-msgid "Would you like to change the position where to dump the endnotes?"
-msgstr ""
-
-msgid "Please enter a new note numbering sequence"
-msgstr ""
-
-msgid ""
-"This gives a sequence for numbering the notes. When for example § † * is "
-"entered, the numbering goes like §, †, *, §, †, *, and so forth. Any "
-"sequence of characters can be used. Spaces should separate the characters."
-msgstr ""
-
-msgid "Please enter a new addition to the word list entry"
-msgstr ""
-
-msgid ""
-"This given an optional string to be added after each definition in the body "
-"of text. In some Bibles the unusual words are marked with an asterisk and "
-"then explained in a glossary. If you would enter the asterisk here, or "
-"indeed any string, Bibledit would include this in the exported documents."
-msgstr ""
-
-msgid "Please enter a marker at which the endnotes should be dumped"
-msgstr ""
-
-msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
-msgstr ""
-
-msgid "Received from client"
-msgstr ""
-
-msgid "Set the language for Bibledit"
-msgstr ""
-
-msgid "Please enter a timezone between -12 and +14"
-msgstr ""
-
-msgid "The timezone was clipped"
-msgstr ""
-
-msgid "The timezone was saved"
-msgstr ""
-
-msgid "Please enter the maximum number of items in the RSS feed"
-msgstr ""
-
-msgid "The number was trimmed"
-msgstr ""
-
-msgid "The number was saved"
 msgstr ""
 
 msgid "Passwords do not match"
