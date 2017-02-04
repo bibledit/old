@@ -75,63 +75,96 @@ string resource_cache (void * webserver_request)
     view.set_variable ("scheduled", filter_string_implode (resources, " | "));
   }
   
+
+  // The first resources listed will be the active one from the resource organizer.
+  // They will be listed in the order the user has determined.
+  // Then there's a horizontal line dividing the rest of the list.
+  // This makes it faster to spot any of the active resources in the long list.
+
   
-  vector <string> listed_resources;
-  string block;
+  map <string, string> resource_types;
+  string sword_type = "sword";
+  string old_type = "old";
   
-  // Display the available USFM resources.
+
+  vector <string> active_resources;
+  resources = request->database_config_user()->getActiveResources ();
+  for (auto & resource : resources) {
+    active_resources.push_back (resource);
+  }
+
+  
+  vector <string> all_resources;
+  // USFM resources.
   resources = client_logic_usfm_resources_get ();
   for (auto & resource : resources) {
-    block.append ("<p>");
-    block.append ("<a href=\"download?name=" + resource + "\">" + resource + "</a>");
-    block.append ("</p>\n");
+    all_resources.push_back (resource);
   }
-  listed_resources.insert (listed_resources.end (), resources.begin (), resources.end ());
-  // Display the available external resources.
+  // External resources.
   resources = resource_external_names ();
   for (auto & resource : resources) {
-    block.append ("<p>");
-    block.append ("<a href=\"download?name=" + resource + "\">" + resource + "</a>");
-    block.append ("</p>\n");
+    all_resources.push_back (resource);
   }
-  listed_resources.insert (listed_resources.end (), resources.begin (), resources.end ());
-  // Display the available SWORD resources.
+  // SWORD resources.
   resources = sword_logic_get_available ();
   for (auto & resource : resources) {
-    string source = sword_logic_get_source (resource);
-    string module = sword_logic_get_remote_module (resource);
-    string name = sword_logic_get_resource_name (source, module);
-    block.append ("<p>");
-    block.append ("<a href=\"download?name=" + name + "\">" + resource + "</a>");
-    block.append ("</p>\n");
+    resource_types [resource] = sword_type;
+    all_resources.push_back (resource);
   }
-  listed_resources.insert (listed_resources.end (), resources.begin (), resources.end ());
-  // Display any old USFM resources still available on the client.
+  // Any old USFM resources still available on the client.
   Database_UsfmResources database_usfmresources;
   resources = database_usfmresources.getResources ();
   for (auto & resource : resources) {
-    if (in_array (resource, listed_resources)) continue;
-    block.append ("<p>");
-    block.append ("<a href=\"download?name=" + resource + "&old=yes\">" + resource + "</a>");
-    block.append ("</p>\n");
+    resource_types [resource] = old_type;
+    all_resources.push_back (resource);
   }
-  // Display the available BibleGateway resources.
+  // BibleGateway resources.
   resources = resource_logic_bible_gateway_module_list_get ();
   for (auto & resource : resources) {
-    block.append ("<p>");
-    block.append ("<a href=\"download?name=" + resource + "\">" + resource + "</a>");
-    block.append ("</p>\n");
+    all_resources.push_back (resource);
   }
-  listed_resources.insert (listed_resources.end (), resources.begin (), resources.end ());
-  // Display the available StudyLight resources.
+  // StudyLight resources.
   resources = resource_logic_study_light_module_list_get ();
   for (auto & resource : resources) {
+    all_resources.push_back (resource);
+  }
+
+  
+  // Generate the resources to be listed.
+  string horizontal_line = "-----";
+  vector <string> listed_resources = active_resources;
+  listed_resources.push_back (horizontal_line);
+  for (auto & resource : all_resources) {
+    if (!in_array (resource, listed_resources)) listed_resources.push_back (resource);
+  }
+  
+  
+  // Generate html block with the resources.
+  vector <string> bibles = request->database_bibles()->getBibles ();
+  string block;
+  for (auto & resource : listed_resources) {
+    // Skip internal Bibles and dividers.
+    if (in_array (resource, bibles)) continue;
+    if (resource_logic_is_divider (resource)) continue;
     block.append ("<p>");
-    block.append ("<a href=\"download?name=" + resource + "\">" + resource + "</a>");
+    if (resource == horizontal_line) block.append ("<hr>");
+    else {
+      string href (resource);
+      string query;
+      if (resource_types [resource] == sword_type) {
+        string source = sword_logic_get_source (resource);
+        string module = sword_logic_get_remote_module (resource);
+        href = sword_logic_get_resource_name (source, module);
+      }
+      if (resource_types [resource] == old_type) {
+        query = "&old=yes";
+      }
+      block.append ("<a href=\"download?name=" + href + query + "\">" + resource + "</a>");
+    }
     block.append ("</p>\n");
   }
-  listed_resources.insert (listed_resources.end (), resources.begin (), resources.end ());
   
+
   // Display the list.
   view.set_variable ("block", block);
 
