@@ -103,8 +103,10 @@ echo './bibledit 2>&1 | grep -v WARNING | tr -d 012' >> /usr/bin/bibledit
 chmod +x /usr/bin/bibledit
 
 echo Install launcher to start bibledit.
-cp bibledit.desktop /usr/share/applications
-cp bibledit.png /usr/share/icons
+# It does that here at this stage in the script, because here it has root privileges.
+wget https://raw.githubusercontent.com/bibledit/linux/master/bibledit.desktop -O /usr/share/applications/bibledit.desktop
+desktop-file-install /usr/share/applications/bibledit.desktop
+wget https://raw.githubusercontent.com/bibledit/linux/master/bibledit.png -O /usr/share/icons/bibledit.png
 
 # Act as if the script ran successfully, no matter whether it really did.
 exit 0
