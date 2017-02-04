@@ -115,7 +115,7 @@ scriptblock
 # This is the end of the script to run with root privileges.
 
 
-# Run the script with root privileges.
+# Make the script executable to be ran with root privileges.
 chmod +x install2.sh
 
 # Conditionally run $ su.
@@ -144,6 +144,12 @@ fi
 
 # Remove the script with commands to run with root privileges.
 rm install2.sh
+
+
+# Remove any possible local launcher.
+# The reason is that a local launcher takes precendence over a system-wide one.
+cd
+rm -f .local/share/applications/bibledit.desktop
 
 
 cd
