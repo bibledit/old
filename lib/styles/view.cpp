@@ -66,9 +66,6 @@ string styles_view (void * webserver_request)
   Assets_View view;
 
 
-  Database_Styles database_styles;
-  
-  
   string sheet = request->query ["sheet"];
   view.set_variable ("sheet", filter_string_sanitize_html (sheet));
   
@@ -77,6 +74,7 @@ string styles_view (void * webserver_request)
   view.set_variable ("style", filter_string_sanitize_html (style));
 
   
+  Database_Styles database_styles;
   Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
   
   
@@ -210,7 +208,7 @@ string styles_view (void * webserver_request)
   if (subtype_text.length () > 2) view.enable_zone ("subtype_text");
   
   
-  // The fontsize.
+  // The fontsize. Todo
   if (styles_logic_fontsize_is_relevant (type, subtype)) view.enable_zone ("fontsize_relevant");
   float fontsize = marker_data.fontsize;
   if (request->query.count ("fontsize")) {
