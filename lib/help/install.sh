@@ -44,6 +44,7 @@ apt-get --yes --assume-yes install libcurl4-openssl-dev
 apt-get --yes --assume-yes install libssl-dev
 apt-get --yes --assume-yes install libatspi2.0-dev
 apt-get --yes --assume-yes install libgtk-3-dev
+apt-get --yes --assume-yes install libwebkit2gtk-3.0-dev
 apt-get --yes --assume-yes install libwebkit2gtk-4.0-dev
 fi
 
