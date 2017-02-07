@@ -6496,7 +6496,7 @@ style_record styles_table [] =
     /* userstring2 */ "",
     /* userstring3 */ "",
     /* backgroundcolor */ "#FFFFFF"
-  }
+  },
 };
 
 
