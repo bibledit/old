@@ -1063,7 +1063,8 @@ style_record styles_table [] =
     /* backgroundcolor */ "#FFFFFF"
   },
   { /* marker */ "ft",
-    /* name */ "Footnote text", /* info */ "The essential (explanatory) text of the footnote.",
+    /* name */ "Footnote text",
+    /* info */ "The essential (explanatory) text of the footnote.",
     /* category */ "f",
     /* type */ 7,
     /* subtype */ 2,
@@ -3687,7 +3688,8 @@ style_record styles_table [] =
     /* backgroundcolor */ "#FFFFFF"
   },
   { /* marker */ "pb",
-    /* name */ "Page break", /* info */ "Page Break used for new reader portions and children's bibles where content is controlled by the page",
+    /* name */ "Page break",
+    /* info */ "Page break used for new reader portions and children's bibles where content is controlled by the page",
     /* category */ "sb",
     /* type */ 11,
     /* subtype */ 0,
