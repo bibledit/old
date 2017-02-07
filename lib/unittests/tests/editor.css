@@ -87,6 +87,8 @@ font-weight: bold;
 .ft, .i-ft {
 }
 .fv, .i-fv {
+font-size: x-small;
+vertical-align: super;
 }
 .ib, .b-ib {
 }
@@ -96,24 +98,16 @@ margin-bottom: 4mm;
 text-indent: 3.2mm;
 }
 .ili, .b-ili {
-margin-left: 15.9mm;
-margin-right: -9.3mm;
+margin-left: 12.2mm;
+text-indent: -9.5mm;
 }
 .ili1, .b-ili1 {
-margin-left: 12.7mm;
-text-indent: -6.4mm;
+margin-left: 12.2mm;
+text-indent: -9.5mm;
 }
 .ili2, .b-ili2 {
 margin-left: 19.1mm;
-text-indent: -6.4mm;
-}
-.ili3, .b-ili3 {
-margin-left: 25.4mm;
-text-indent: -6.4mm;
-}
-.ili4, .b-ili4 {
-margin-left: 31.8mm;
-text-indent: -6.4mm;
+text-indent: -9.5mm;
 }
 .im, .b-im {
 }
@@ -252,8 +246,10 @@ margin-left: 25.4mm;
 text-indent: -6.4mm;
 }
 .iqt, .i-iqt {
+font-style: italic;
 }
 .is, .b-is {
+font-size: 117%;
 font-weight: bold;
 text-align: center;
 margin-top: 8mm;
@@ -261,6 +257,7 @@ margin-bottom: 4mm;
 page-break-inside: avoid;
 }
 .is1, .b-is1 {
+font-size: 117%;
 font-weight: bold;
 text-align: center;
 margin-top: 8mm;
@@ -278,45 +275,54 @@ page-break-inside: avoid;
 font-style: italic;
 }
 .jmp, .i-jmp {
+text-decoration: underline;
+color: #0000FF;
 }
 .k, .i-k {
 font-style: italic;
+font-weight: bold;
 }
 .lf, .b-lf {
 margin-left: 10mm;
 }
 .lh, .b-lh {
-margin-left: 10mm;
+text-indent: 3.8mm;
 }
 .li, .b-li {
-margin-left: 15.9mm;
-margin-right: -9.3mm;
+margin-left: 12.2mm;
+text-indent: -9.2mm;
 }
 .li1, .b-li1 {
-margin-left: 12.7mm;
-text-indent: -6.4mm;
+margin-left: 12.2mm;
+text-indent: -9.2mm;
 }
 .li2, .b-li2 {
 margin-left: 19.1mm;
-text-indent: -6.4mm;
+text-indent: -9.2mm;
 }
 .li3, .b-li3 {
 margin-left: 25.4mm;
-text-indent: -6.4mm;
+text-indent: -9.2mm;
 }
 .li4, .b-li4 {
 margin-left: 31.8mm;
-text-indent: -6.4mm;
+text-indent: -9.2mm;
 }
 .lik, .i-lik {
 }
 .lim, .b-lim {
-margin-left: 15.9mm;
-margin-right: -9.3mm;
+margin-left: 19.1mm;
+margin-right: 6.4mm;
+text-indent: -9.2mm;
 }
 .lim1, .b-lim1 {
-margin-left: 12.7mm;
-text-indent: -6.4mm;
+margin-left: 19.1mm;
+margin-right: 6.4mm;
+text-indent: -9.2mm;
+}
+.lim2, .b-lim2 {
+margin-left: 24.4mm;
+text-indent: -9.2mm;
 }
 .lit, .b-lit {
 font-weight: bold;
