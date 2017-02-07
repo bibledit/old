@@ -356,6 +356,7 @@ libbibledit_a_SOURCES = \
 	sources/morphgnt.cpp \
 	sources/hebrewlexicon.cpp \
 	sources/oshb.cpp \
+	sources/styles.cpp \
 	sword/logic.cpp \
 	pugixml/pugixml.cpp \
 	pugixml/utils.cpp \

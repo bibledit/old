@@ -462,6 +462,8 @@
 		CA72B6A01DB7913A00135808 /* statistics.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = statistics.html; sourceTree = "<group>"; };
 		CA7387141AA49EEA00FE74D8 /* usfmresources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = usfmresources.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA7387151AA49EEA00FE74D8 /* usfmresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfmresources.h; sourceTree = "<group>"; };
+		CA753A401E49CC5400C18ECF /* styles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = styles.cpp; sourceTree = "<group>"; };
+		CA753A411E49CC5400C18ECF /* styles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = styles.h; sourceTree = "<group>"; };
 		CA7594361E21174E00C76B31 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CA7594371E21212D00C76B31 /* navigate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = navigate.cpp; sourceTree = "<group>"; };
 		CA7594381E21212D00C76B31 /* navigate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = navigate.h; sourceTree = "<group>"; };
@@ -3683,9 +3685,9 @@
 				CA605ACF1B876CA400EDDBA4 /* etcbc4.cpp */,
 				CA605AD01B876CA400EDDBA4 /* etcbc4.h */,
 				CA605AD11B876CA400EDDBA4 /* etcbc4.txt */,
-				CA129E421B8F8C1B007B37B4 /* hebrewlexicon.txt */,
 				CA129E431B8F8C1B007B37B4 /* hebrewlexicon.cpp */,
 				CA129E441B8F8C1B007B37B4 /* hebrewlexicon.h */,
+				CA129E421B8F8C1B007B37B4 /* hebrewlexicon.txt */,
 				CA00A3411B8C9925007B95BA /* kjv.cpp */,
 				CA00A3421B8C9925007B95BA /* kjv.h */,
 				CA00A3441B8C9925007B95BA /* kjv.txt */,
@@ -3699,6 +3701,8 @@
 				CACCF5A71D1DB31F00AFBC52 /* oshb.h */,
 				CACCF5A81D1DB31F00AFBC52 /* oshb.txt */,
 				CAECFBDA1B84E30100B3634F /* sblgnt */,
+				CA753A401E49CC5400C18ECF /* styles.cpp */,
+				CA753A411E49CC5400C18ECF /* styles.h */,
 			);
 			name = sources;
 			path = ../sources;

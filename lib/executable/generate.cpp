@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <demo/logic.h>
 #include <sources/morphhb.h>
 #include <sources/oshb.h>
+#include <sources/styles.h>
 
 
 int main (int argc, char **argv)
@@ -55,6 +56,7 @@ int main (int argc, char **argv)
   string versifications_command = "versifications";
   string morphhb_command = "morphhb";
   string oshb_command = "oshb";
+  string stylesheet_command = "styles";
   
   if (command == locale_command) {
   
@@ -86,6 +88,12 @@ int main (int argc, char **argv)
     cout << "Parsing Open Scriptures Hebrew Bible with morphology into the oshb database" << endl;
     sources_oshb_parse ();
     
+  } else if (command == stylesheet_command) {
+    
+    cout << "Parsing style values and importing them into the default styles" << endl;
+    sources_styles_parse ();
+    
+    
   } else {
     
     cerr << "This command is unknown" << endl;
@@ -96,6 +104,7 @@ int main (int argc, char **argv)
     cerr << versifications_command << ": Generate the default versifications database" << endl;
     cerr << morphhb_command << ": Parse Open Scriptures Hebrew with limited morphology into the morphhb database" << endl;
     cerr << oshb_command << ": Parse Open Scriptures Hebrew Bible with morphology into the oshb database" << endl;
+    cerr << stylesheet_command << ": Parse style values and import them into the default styles" << endl;
     
     return EXIT_FAILURE;
     
