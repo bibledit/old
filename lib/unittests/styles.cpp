@@ -77,7 +77,7 @@ void test_styles ()
     evaluate (__LINE__, __func__, standard, css);
   }
   
-  // Direction
+  // Direction.
   {
     evaluate (__LINE__, __func__, "checked", Filter_Css::directionUnspecified (100));
     evaluate (__LINE__, __func__, "", Filter_Css::directionUnspecified (101));
