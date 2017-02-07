@@ -25,7 +25,6 @@ void test_database_config_bible ();
 void test_database_config_user ();
 void test_database_logs ();
 void test_database_users ();
-void test_database_styles ();
 void test_database_books ();
 void test_database_bibleactions ();
 void test_database_check ();

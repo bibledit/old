@@ -102,26 +102,7 @@ int main (int argc, char **argv)
   // The previous line is a signature for automated unit testing: Do not change it.
   
   refresh_sandbox (true);
-  test_space ();
-  test_roles ();
-  test_md5 ();
-  test_string ();
-  test_users ();
-  test_date ();
-  test_usfm ();
-  test_export ();
-  test_html ();
-  test_archive ();
-  test_odf ();
-  test_text ();
-  test_url ();
-  test_passage ();
   test_styles ();
-  test_diff ();
-  test_bibles ();
-  test_git ();
-  test_ipc ();
-  test_shell ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -137,7 +118,6 @@ int main (int argc, char **argv)
   test_session ();
   test_folders ();
   test_flate ();
-  test_database_styles ();
   test_database_bibles ();
   test_database_books ();
   test_database_bibleactions ();

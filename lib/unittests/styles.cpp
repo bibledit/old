@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <webserver/request.h>
 #include <styles/css.h>
+#include <styles/logic.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/css.h>
@@ -194,6 +195,142 @@ void test_styles ()
     string clss = Filter_Css::getClass ("ആഈഘലറ");
     evaluate (__LINE__, __func__, "customf86528", clss);
   }
+  
+  // Creating and deleting stylesheets.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles;
+    
+    vector <string> sheets = database_styles.getSheets ();
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
+    
+    database_styles.createSheet ("phpunit");
+    sheets = database_styles.getSheets ();
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet (), "phpunit" }, sheets);
+    
+    database_styles.deleteSheet ("phpunit");
+    sheets = database_styles.getSheets ();
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
+    
+    database_styles.deleteSheet (styles_logic_standard_sheet ());
+    sheets = database_styles.getSheets ();
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
+  }
+  
+  // Do a spot check on the markers and their associated parameters.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles;
+    database_styles.createSheet ("phpunit");
+    
+    vector <string> markers;
+    
+    markers = database_styles.getMarkers (styles_logic_standard_sheet ());
+    evaluate (__LINE__, __func__, 202, (int)markers.size ());
+    
+    markers = database_styles.getMarkers ("phpunit");
+    evaluate (__LINE__, __func__, 202, (int)markers.size ());
+    
+    string marker = "p";
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
+    marker = "add";
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
+    
+    map <string, string> markers_names = database_styles.getMarkersAndNames ("phpunit");
+    evaluate (__LINE__, __func__, 202, (int)markers_names.size());
+    evaluate (__LINE__, __func__, "Blank line", markers_names ["b"]);
+    evaluate (__LINE__, __func__, "Normal paragraph", markers_names ["p"]);
+    evaluate (__LINE__, __func__, "Translator’s addition", markers_names ["add"]);
+    
+    database_styles.deleteMarker ("phpunit", "p");
+    markers = database_styles.getMarkers ("phpunit");
+    marker = "p";
+    if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
+    marker = "add";
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
+    
+    markers_names = database_styles.getMarkersAndNames ("phpunit");
+    evaluate (__LINE__, __func__, "", markers_names ["p"]);
+    evaluate (__LINE__, __func__, "Translator’s addition", markers_names ["add"]);
+  }
+  
+  // More specific check on a marker.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles;
+    database_styles.createSheet ("phpunit");
+    Database_Styles_Item data = database_styles.getMarkerData ("phpunit", "add");
+    evaluate (__LINE__, __func__, "add", data.marker);
+    evaluate (__LINE__, __func__, "st", data.category);
+  }
+  
+  // Updating a marker.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles;
+    database_styles.createSheet ("phpunit");
+    database_styles.updateName ("phpunit", "add", "Addition");
+    Database_Styles_Item data = database_styles.getMarkerData ("phpunit", "add");
+    evaluate (__LINE__, __func__, "Addition", data.name);
+    database_styles.updateInfo ("phpunit", "p", "Paragraph");
+    data = database_styles.getMarkerData ("phpunit", "p");
+    evaluate (__LINE__, __func__, "Paragraph", data.info);
+  }
+  
+  // Read and write access to the styles database.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles;
+    database_styles.create ();
+    database_styles.createSheet ("phpunit");
+    
+    // A user does not have write access to the stylesheet.
+    bool write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate (__LINE__, __func__, false, write);
+    
+    // Grant write access, and test it for this user, and for another user.
+    database_styles.grantWriteAccess ("user", "phpunit");
+    write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate (__LINE__, __func__, true, write);
+    write = database_styles.hasWriteAccess ("user2", "phpunit");
+    evaluate (__LINE__, __func__, false, write);
+    write = database_styles.hasWriteAccess ("user", "phpunit2");
+    evaluate (__LINE__, __func__, false, write);
+    
+    // Revoke write access for a user, test it in various ways.
+    database_styles.revokeWriteAccess ("user2", "phpunit");
+    write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate (__LINE__, __func__, true, write);
+    database_styles.revokeWriteAccess ("user", "phpunit");
+    write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate (__LINE__, __func__, false, write);
+    
+    // Revoking write access for all users.
+    database_styles.grantWriteAccess ("user1", "phpunit");
+    database_styles.grantWriteAccess ("user2", "phpunit");
+    database_styles.revokeWriteAccess ("", "phpunit");
+    write = database_styles.hasWriteAccess ("user1", "phpunit");
+    evaluate (__LINE__, __func__, false, write);
+  }
+  
+  // Adding a marker.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles;
+    database_styles.create ();
+    database_styles.createSheet ("phpunit");
+    
+    // Get markers.
+    vector <string> markers = database_styles.getMarkers ("phpunit");
+    string marker = "zhq";
+    if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
+    
+    // Add marker.
+    database_styles.addMarker ("phpunit", marker);
+    markers = database_styles.getMarkers ("phpunit");
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "should be there");
+  }
 
+  // Done.
   refresh_sandbox (true);
 }
