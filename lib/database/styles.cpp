@@ -4130,7 +4130,11 @@ style_record styles_table [] =
     /* userint1 */ 0,
     /* userint2 */ 0,
     /* userint3 */ 0,
-    /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "", /* backgroundcolor */ "#FFFFFF" },
+    /* userstring1 */ "",
+    /* userstring2 */ "",
+    /* userstring3 */ "",
+    /* backgroundcolor */ "#FFFFFF"
+  },
   { /* marker */ "q",
     /* name */ "Poetic line",
     /* info */ "Poetry text, level 1 indent (if single level)",
