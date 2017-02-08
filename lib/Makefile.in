@@ -291,31 +291,31 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	lexicon/definition.$(OBJEXT) sources/etcbc4.$(OBJEXT) \
 	sources/kjv.$(OBJEXT) sources/morphhb.$(OBJEXT) \
 	sources/morphgnt.$(OBJEXT) sources/hebrewlexicon.$(OBJEXT) \
-	sources/oshb.$(OBJEXT) sources/styles.$(OBJEXT) \
-	sword/logic.$(OBJEXT) pugixml/pugixml.$(OBJEXT) \
-	pugixml/utils.$(OBJEXT) public/index.$(OBJEXT) \
-	public/logic.$(OBJEXT) public/login.$(OBJEXT) \
-	public/chapter.$(OBJEXT) public/notes.$(OBJEXT) \
-	public/new.$(OBJEXT) public/create.$(OBJEXT) \
-	public/note.$(OBJEXT) public/comment.$(OBJEXT) \
-	utf8proc/utf8proc.$(OBJEXT) search/logic.$(OBJEXT) \
-	basic/index.$(OBJEXT) mbedtls/aes.$(OBJEXT) \
-	mbedtls/aesni.$(OBJEXT) mbedtls/arc4.$(OBJEXT) \
-	mbedtls/asn1parse.$(OBJEXT) mbedtls/asn1write.$(OBJEXT) \
-	mbedtls/base64.$(OBJEXT) mbedtls/bignum.$(OBJEXT) \
-	mbedtls/blowfish.$(OBJEXT) mbedtls/camellia.$(OBJEXT) \
-	mbedtls/ccm.$(OBJEXT) mbedtls/certs.$(OBJEXT) \
-	mbedtls/cipher.$(OBJEXT) mbedtls/cipher_wrap.$(OBJEXT) \
-	mbedtls/ctr_drbg.$(OBJEXT) mbedtls/debug.$(OBJEXT) \
-	mbedtls/des.$(OBJEXT) mbedtls/dhm.$(OBJEXT) \
-	mbedtls/ecdh.$(OBJEXT) mbedtls/ecdsa.$(OBJEXT) \
-	mbedtls/ecjpake.$(OBJEXT) mbedtls/ecp.$(OBJEXT) \
-	mbedtls/ecp_curves.$(OBJEXT) mbedtls/entropy.$(OBJEXT) \
-	mbedtls/entropy_poll.$(OBJEXT) mbedtls/error.$(OBJEXT) \
-	mbedtls/gcm.$(OBJEXT) mbedtls/havege.$(OBJEXT) \
-	mbedtls/hmac_drbg.$(OBJEXT) mbedtls/md.$(OBJEXT) \
-	mbedtls/md2.$(OBJEXT) mbedtls/md4.$(OBJEXT) \
-	mbedtls/md5.$(OBJEXT) mbedtls/md_wrap.$(OBJEXT) \
+	sources/oshb.$(OBJEXT) sword/logic.$(OBJEXT) \
+	pugixml/pugixml.$(OBJEXT) pugixml/utils.$(OBJEXT) \
+	public/index.$(OBJEXT) public/logic.$(OBJEXT) \
+	public/login.$(OBJEXT) public/chapter.$(OBJEXT) \
+	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
+	public/create.$(OBJEXT) public/note.$(OBJEXT) \
+	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT) \
+	search/logic.$(OBJEXT) basic/index.$(OBJEXT) \
+	mbedtls/aes.$(OBJEXT) mbedtls/aesni.$(OBJEXT) \
+	mbedtls/arc4.$(OBJEXT) mbedtls/asn1parse.$(OBJEXT) \
+	mbedtls/asn1write.$(OBJEXT) mbedtls/base64.$(OBJEXT) \
+	mbedtls/bignum.$(OBJEXT) mbedtls/blowfish.$(OBJEXT) \
+	mbedtls/camellia.$(OBJEXT) mbedtls/ccm.$(OBJEXT) \
+	mbedtls/certs.$(OBJEXT) mbedtls/cipher.$(OBJEXT) \
+	mbedtls/cipher_wrap.$(OBJEXT) mbedtls/ctr_drbg.$(OBJEXT) \
+	mbedtls/debug.$(OBJEXT) mbedtls/des.$(OBJEXT) \
+	mbedtls/dhm.$(OBJEXT) mbedtls/ecdh.$(OBJEXT) \
+	mbedtls/ecdsa.$(OBJEXT) mbedtls/ecjpake.$(OBJEXT) \
+	mbedtls/ecp.$(OBJEXT) mbedtls/ecp_curves.$(OBJEXT) \
+	mbedtls/entropy.$(OBJEXT) mbedtls/entropy_poll.$(OBJEXT) \
+	mbedtls/error.$(OBJEXT) mbedtls/gcm.$(OBJEXT) \
+	mbedtls/havege.$(OBJEXT) mbedtls/hmac_drbg.$(OBJEXT) \
+	mbedtls/md.$(OBJEXT) mbedtls/md2.$(OBJEXT) \
+	mbedtls/md4.$(OBJEXT) mbedtls/md5.$(OBJEXT) \
+	mbedtls/md_wrap.$(OBJEXT) \
 	mbedtls/memory_buffer_alloc.$(OBJEXT) mbedtls/net.$(OBJEXT) \
 	mbedtls/oid.$(OBJEXT) mbedtls/padlock.$(OBJEXT) \
 	mbedtls/pem.$(OBJEXT) mbedtls/pk.$(OBJEXT) \
@@ -341,7 +341,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_generate_OBJECTS = executable/generate.$(OBJEXT)
+am_generate_OBJECTS = executable/generate.$(OBJEXT) \
+	sources/styles.$(OBJEXT)
 generate_OBJECTS = $(am_generate_OBJECTS)
 generate_DEPENDENCIES = libbibledit.a
 am_server_OBJECTS = executable/bibledit.$(OBJEXT)
@@ -936,7 +937,6 @@ libbibledit_a_SOURCES = \
 	sources/morphgnt.cpp \
 	sources/hebrewlexicon.cpp \
 	sources/oshb.cpp \
-	sources/styles.cpp \
 	sword/logic.cpp \
 	pugixml/pugixml.cpp \
 	pugixml/utils.cpp \
@@ -1082,7 +1082,10 @@ unittest_SOURCES = \
 	unittests/ldap.cpp
 
 unittest_LDADD = libbibledit.a
-generate_SOURCES = executable/generate.cpp
+generate_SOURCES = \
+	executable/generate.cpp \
+	sources/styles.cpp
+
 generate_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wextra -pedantic -g $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
@@ -2296,8 +2299,6 @@ sources/hebrewlexicon.$(OBJEXT): sources/$(am__dirstamp) \
 	sources/$(DEPDIR)/$(am__dirstamp)
 sources/oshb.$(OBJEXT): sources/$(am__dirstamp) \
 	sources/$(DEPDIR)/$(am__dirstamp)
-sources/styles.$(OBJEXT): sources/$(am__dirstamp) \
-	sources/$(DEPDIR)/$(am__dirstamp)
 sword/$(am__dirstamp):
 	@$(MKDIR_P) sword
 	@: > sword/$(am__dirstamp)
@@ -2599,6 +2600,8 @@ executable/$(DEPDIR)/$(am__dirstamp):
 	@: > executable/$(DEPDIR)/$(am__dirstamp)
 executable/generate.$(OBJEXT): executable/$(am__dirstamp) \
 	executable/$(DEPDIR)/$(am__dirstamp)
+sources/styles.$(OBJEXT): sources/$(am__dirstamp) \
+	sources/$(DEPDIR)/$(am__dirstamp)
 
 generate$(EXEEXT): $(generate_OBJECTS) $(generate_DEPENDENCIES) $(EXTRA_generate_DEPENDENCIES) 
 	@rm -f generate$(EXEEXT)

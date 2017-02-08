@@ -356,7 +356,6 @@ libbibledit_a_SOURCES = \
 	sources/morphgnt.cpp \
 	sources/hebrewlexicon.cpp \
 	sources/oshb.cpp \
-	sources/styles.cpp \
 	sword/logic.cpp \
 	pugixml/pugixml.cpp \
 	pugixml/utils.cpp \
@@ -507,7 +506,9 @@ unittest_SOURCES = \
 
 unittest_LDADD = libbibledit.a
 
-generate_SOURCES = executable/generate.cpp
+generate_SOURCES = \
+	executable/generate.cpp \
+	sources/styles.cpp
 
 generate_LDADD = libbibledit.a
 
