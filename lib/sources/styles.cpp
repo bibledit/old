@@ -310,6 +310,14 @@ void sources_styles_parse ()
       continue;
     }
 
+    // Read and import the space after.
+    if (paratext_line.find (backslash_spaceafter) == 0) {
+      paratext_line.erase (0, backslash_spaceafter.length());
+      string value = filter_string_trim (paratext_line);
+      style_definitions [paratext_marker] [spaceafter_key] = value;
+      continue;
+    }
+
   }
   
 
