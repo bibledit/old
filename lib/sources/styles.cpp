@@ -236,6 +236,7 @@ void sources_styles_parse ()
   string backslash_fontsize = "\\FontSize ";
   string backslash_leftmargin = "\\LeftMargin ";
   string backslash_rightmargin = "\\RightMargin ";
+  string backslash_firstlineindent = "\\FirstLineIndent ";
   
   // Parse the stylesheet.
   for (auto paratext_line : paratext_lines) {
@@ -294,6 +295,16 @@ void sources_styles_parse ()
       int value = round (254 * convert_to_float (inches));
       float millimeters = (float) value / 10;
       style_definitions [paratext_marker] [rightmargin_key] = convert_to_string (millimeters);
+      continue;
+    }
+
+    // Read and import the first line indent.
+    if (paratext_line.find (backslash_firstlineindent) == 0) {
+      paratext_line.erase (0, backslash_firstlineindent.length());
+      string inches = filter_string_trim (paratext_line);
+      int value = round (254 * convert_to_float (inches));
+      float millimeters = (float) value / 10;
+      style_definitions [paratext_marker] [firstlineindent_key] = convert_to_string (millimeters);
       continue;
     }
 
