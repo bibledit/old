@@ -235,6 +235,7 @@ void sources_styles_parse ()
   string backslash_marker = "\\Marker ";
   string backslash_fontsize = "\\FontSize ";
   string backslash_leftmargin = "\\LeftMargin ";
+  string backslash_rightmargin = "\\RightMargin ";
   
   // Parse the stylesheet.
   for (auto paratext_line : paratext_lines) {
@@ -281,13 +282,21 @@ void sources_styles_parse ()
       paratext_line.erase (0, backslash_leftmargin.length());
       string inches = filter_string_trim (paratext_line);
       int value = round (254 * convert_to_float (inches));
-      cout << value << endl;
       float millimeters = (float) value / 10;
       style_definitions [paratext_marker] [leftmargin_key] = convert_to_string (millimeters);
       continue;
-      
     }
-    
+
+    // Read and import the right margin.
+    if (paratext_line.find (backslash_rightmargin) == 0) {
+      paratext_line.erase (0, backslash_rightmargin.length());
+      string inches = filter_string_trim (paratext_line);
+      int value = round (254 * convert_to_float (inches));
+      float millimeters = (float) value / 10;
+      style_definitions [paratext_marker] [rightmargin_key] = convert_to_string (millimeters);
+      continue;
+    }
+
   }
   
 
