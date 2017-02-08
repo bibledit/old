@@ -234,6 +234,7 @@ void sources_styles_parse ()
   // Parser signatures for the Paratext stylesheet usfm.sty.
   string backslash_marker = "\\Marker ";
   string backslash_fontsize = "\\FontSize ";
+  string backslash_leftmargin = "\\LeftMargin ";
   
   // Parse the stylesheet.
   for (auto paratext_line : paratext_lines) {
@@ -273,6 +274,18 @@ void sources_styles_parse ()
       string fontsize = filter_string_trim (paratext_line);
       style_definitions [paratext_marker] [fontsize_key] = fontsize;
       continue;
+    }
+    
+    // Read and import the left margin.
+    if (paratext_line.find (backslash_leftmargin) == 0) {
+      paratext_line.erase (0, backslash_leftmargin.length());
+      string inches = filter_string_trim (paratext_line);
+      int value = round (254 * convert_to_float (inches));
+      cout << value << endl;
+      float millimeters = (float) value / 10;
+      style_definitions [paratext_marker] [leftmargin_key] = convert_to_string (millimeters);
+      continue;
+      
     }
     
   }
