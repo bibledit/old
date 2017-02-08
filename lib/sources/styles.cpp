@@ -262,7 +262,7 @@ void sources_styles_parse ()
     // Check whether the marker in usfm.sty exists in C++.
     if (style_definitions.count (paratext_marker) == 0) {
       if (in_array (paratext_marker, non_existing_markers)) continue;
-      cout << "Marker " << paratext_marker << " does not exist in C++" << endl;
+      cout << "Marker " << paratext_marker << " exists in usfm.sty but not in Bibledit" << endl;
       non_existing_markers.push_back (paratext_marker);
       continue;
     }
@@ -271,7 +271,6 @@ void sources_styles_parse ()
     if (paratext_line.find (backslash_fontsize) == 0) {
       paratext_line.erase (0, backslash_fontsize.length());
       string fontsize = filter_string_trim (paratext_line);
-      //cout << paratext_marker << " | " << fontsize_key << " | " << fontsize << endl; // Todo
       style_definitions [paratext_marker] [fontsize_key] = fontsize;
       continue;
     }
