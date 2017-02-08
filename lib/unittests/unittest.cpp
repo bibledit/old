@@ -105,6 +105,9 @@ int main (int argc, char **argv)
   refresh_sandbox (true);
   test_dev ();
   test_styles ();
+  test_html2usfm ();
+  test_usfm2html ();
+  test_usfm2html2usfm ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -148,7 +151,7 @@ int main (int argc, char **argv)
   test_database_imageresources ();
   test_checksum ();
   test_bibles ();
-  test_editor_html2usfm ();
+  test_html2usfm ();
   test_usfm2html ();
   test_usfm2html2usfm ();
   test_workspaces ();

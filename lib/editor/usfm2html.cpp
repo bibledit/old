@@ -116,9 +116,12 @@ string Editor_Usfm2Html::get ()
   // Therefore convert it to the following:
   // <p class="b"><br></p>
   // This is how the webkit browser naturally represents a new empty line.
-  string clas = "b";
-  if (quill_enabled) clas.insert (0, quill_logic_class_prefix_block ());
-  html = filter_string_str_replace ("<p class=\"" + clas + "\" />", "<p class=\"" + clas + "\"><br></p>", html);
+  // Also do the other markers similar to the blank line.
+  vector <string> blank_lines = { "b", "sd" };
+  for (auto clas : blank_lines) {
+    if (quill_enabled) clas.insert (0, quill_logic_class_prefix_block ());
+    html = filter_string_str_replace ("<p class=\"" + clas + "\" />", "<p class=\"" + clas + "\"><br></p>", html);
+  }
   
   // Currently the XML library produces hexadecimal character entities.
   // This is unwanted behaviour: Convert them to normal characters.

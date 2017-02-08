@@ -27,11 +27,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void test_dev () // Todo
 {
   trace_unit_tests (__func__);
-  return;
+
   // \sd Semantic division.
   {
     string standard_usfm =
-    "\\p aragraph\n"
+    "\\p paragraph\n"
     "\\sd\n"
     "\\p paragraph";
     {
@@ -41,7 +41,7 @@ void test_dev () // Todo
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
       editor_usfm2html.run ();
       string html = editor_usfm2html.get ();
-      string standard_html = "<p class=\"p\"><span>paragraph</span></p><p class=\"b\"><br></p><p class=\"p\"><span>paragraph</span></p>";
+      string standard_html = "<p class=\"p\"><span>paragraph</span></p><p class=\"sd\"><br></p><p class=\"p\"><span>paragraph</span></p>";
       evaluate (__LINE__, __func__, standard_html, html);
       
       Editor_Html2Usfm editor_html2usfm;
@@ -59,7 +59,7 @@ void test_dev () // Todo
       editor_usfm2html.quill ();
       editor_usfm2html.run ();
       string html = editor_usfm2html.get ();
-      string standard_html = "<p class=\"b-p\"><span>paragraph</span></p><p class=\"b-b\"><br></p><p class=\"b-p\"><span>paragraph</span></p>";
+      string standard_html = "<p class=\"b-p\"><span>paragraph</span></p><p class=\"b-sd\"><br></p><p class=\"b-p\"><span>paragraph</span></p>";
       evaluate (__LINE__, __func__, standard_html, html);
       
       Editor_Html2Usfm editor_html2usfm;
