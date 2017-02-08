@@ -117,7 +117,7 @@ string Editor_Usfm2Html::get ()
   // <p class="b"><br></p>
   // This is how the webkit browser naturally represents a new empty line.
   // Also do the other markers similar to the blank line.
-  vector <string> blank_lines = { "b", "sd" };
+  vector <string> blank_lines = { "b", "sd", "sd1", "sd2", "sd3", "sd4" };
   for (auto clas : blank_lines) {
     if (quill_enabled) clas.insert (0, quill_logic_class_prefix_block ());
     html = filter_string_str_replace ("<p class=\"" + clas + "\" />", "<p class=\"" + clas + "\"><br></p>", html);
