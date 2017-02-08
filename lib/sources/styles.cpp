@@ -87,7 +87,7 @@ void sources_styles_parse ()
   contents.erase (pos);
   vector <string> cpp_lines = filter_string_explode (contents, '\n');
 
-  // Parsing signatures.
+  // Parser signatures for the C++ source code.
   const char * marker_key = "marker";
   const char * name_key = "name";
   const char * info_key = "info";
@@ -229,9 +229,11 @@ void sources_styles_parse ()
   
   // Parse state variables.
   string paratext_marker;
+  vector <string> non_existing_markers;
 
-  // Parser signatures.
+  // Parser signatures for the Paratext stylesheet usfm.sty.
   string backslash_marker = "\\Marker ";
+  string backslash_fontsize = "\\FontSize ";
   
   // Parse the stylesheet.
   for (auto paratext_line : paratext_lines) {
@@ -243,8 +245,7 @@ void sources_styles_parse ()
       continue;
     }
     
-    // Look for the start of a style block, like:
-    // \Marker id
+    // Look for the start of a style block trough e.g. "\Marker id".
     if (paratext_line.find (backslash_marker) == 0) {
       paratext_line.erase (0, backslash_marker.length ());
       string marker = filter_string_trim (paratext_line);
@@ -252,7 +253,26 @@ void sources_styles_parse ()
       if (marker [0] == 'z') continue;
       // A new style block starts here.
       paratext_marker = marker;
-      //cout << paratext_marker << endl;
+      continue;
+    }
+
+    // No marker: nothing to parse.
+    if (paratext_marker.empty ()) continue;
+    
+    // Check whether the marker in usfm.sty exists in C++.
+    if (style_definitions.count (paratext_marker) == 0) {
+      if (in_array (paratext_marker, non_existing_markers)) continue;
+      cout << "Marker " << paratext_marker << " does not exist in C++" << endl;
+      non_existing_markers.push_back (paratext_marker);
+      continue;
+    }
+    
+    // Read and import the font size.
+    if (paratext_line.find (backslash_fontsize) == 0) {
+      paratext_line.erase (0, backslash_fontsize.length());
+      string fontsize = filter_string_trim (paratext_line);
+      //cout << paratext_marker << " | " << fontsize_key << " | " << fontsize << endl; // Todo
+      style_definitions [paratext_marker] [fontsize_key] = fontsize;
       continue;
     }
     
