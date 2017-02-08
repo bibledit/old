@@ -6,6 +6,7 @@ font-style: italic;
 font-style: italic;
 }
 .b, .b-b {
+font-size: 83%;
 }
 .bd, .i-bd {
 font-weight: bold;
@@ -18,8 +19,10 @@ font-weight: bold;
 font-style: italic;
 }
 .c, .b-c {
-font-size: 250%;
+font-size: 150%;
 font-weight: bold;
+margin-top: 8mm;
+margin-bottom: 4mm;
 }
 .cat, .i-cat {
 font-style: italic;
@@ -91,6 +94,7 @@ font-size: x-small;
 vertical-align: super;
 }
 .ib, .b-ib {
+font-size: 83%;
 }
 .iex, .b-iex {
 margin-top: 4mm;
@@ -98,11 +102,11 @@ margin-bottom: 4mm;
 text-indent: 3.2mm;
 }
 .ili, .b-ili {
-margin-left: 12.2mm;
+margin-left: 12.7mm;
 text-indent: -9.5mm;
 }
 .ili1, .b-ili1 {
-margin-left: 12.2mm;
+margin-left: 12.7mm;
 text-indent: -9.5mm;
 }
 .ili2, .b-ili2 {
@@ -162,18 +166,23 @@ page-break-inside: avoid;
 font-size: 167%;
 font-weight: bold;
 text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
 page-break-inside: avoid;
 }
 .imte1, .b-imte1 {
 font-size: 167%;
 font-weight: bold;
 text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
 page-break-inside: avoid;
 }
 .imte2, .b-imte2 {
-font-size: 150%;
+font-size: 133%;
 font-weight: bold;
 text-align: center;
+margin-bottom: 2mm;
 page-break-inside: avoid;
 }
 .io, .b-io {
@@ -206,11 +215,11 @@ margin-bottom: 4mm;
 page-break-inside: avoid;
 }
 .ip, .b-ip {
-text-indent: 5mm;
+text-indent: 3.2mm;
 }
 .ipi, .b-ipi {
-margin-left: 6.3mm;
-margin-right: 6.3mm;
+margin-left: 6.4mm;
+margin-right: 6.4mm;
 text-indent: 3.2mm;
 }
 .ipq, .b-ipq {
@@ -286,43 +295,43 @@ font-weight: bold;
 margin-left: 10mm;
 }
 .lh, .b-lh {
-text-indent: 3.8mm;
+text-indent: 3.2mm;
 }
 .li, .b-li {
-margin-left: 12.2mm;
-text-indent: -9.2mm;
+margin-left: 12.7mm;
+text-indent: -9.5mm;
 }
 .li1, .b-li1 {
-margin-left: 12.2mm;
-text-indent: -9.2mm;
+margin-left: 12.7mm;
+text-indent: -9.5mm;
 }
 .li2, .b-li2 {
 margin-left: 19.1mm;
-text-indent: -9.2mm;
+text-indent: -9.5mm;
 }
 .li3, .b-li3 {
 margin-left: 25.4mm;
-text-indent: -9.2mm;
+text-indent: -9.5mm;
 }
 .li4, .b-li4 {
 margin-left: 31.8mm;
-text-indent: -9.2mm;
+text-indent: -9.5mm;
 }
 .lik, .i-lik {
 }
 .lim, .b-lim {
 margin-left: 19.1mm;
 margin-right: 6.4mm;
-text-indent: -9.2mm;
+text-indent: -9.5mm;
 }
 .lim1, .b-lim1 {
 margin-left: 19.1mm;
 margin-right: 6.4mm;
-text-indent: -9.2mm;
+text-indent: -9.5mm;
 }
 .lim2, .b-lim2 {
-margin-left: 24.4mm;
-text-indent: -9.2mm;
+margin-left: 25.4mm;
+text-indent: -9.5mm;
 }
 .lit, .b-lit {
 font-weight: bold;
@@ -476,8 +485,8 @@ margin-left: 6.4mm;
 margin-right: 6.4mm;
 }
 .pmo, .b-pmo {
-margin-left: 3.2mm;
-margin-right: 3.2mm;
+margin-left: 6.4mm;
+margin-right: 6.4mm;
 }
 .pmr, .b-pmr {
 text-align: right;
@@ -493,22 +502,25 @@ font-weight: bold;
 text-decoration: underline;
 }
 .po, .b-po {
+margin-top: 4mm;
+margin-bottom: 4mm;
+text-indent: 3.2mm;
 }
 .q, .b-q {
-margin-left: 25.4mm;
-text-indent: -19.1mm;
+margin-left: 31.8mm;
+text-indent: -25.4mm;
 }
 .q1, .b-q1 {
-margin-left: 24.4mm;
-text-indent: -19.1mm;
+margin-left: 31.8mm;
+text-indent: -25.4mm;
 }
 .q2, .b-q2 {
-margin-left: 25.4mm;
-text-indent: -12.7mm;
+margin-left: 31.8mm;
+text-indent: -19.1mm;
 }
 .q3, .b-q3 {
-margin-left: 25.4mm;
-text-indent: -6.4mm;
+margin-left: 31.8mm;
+text-indent: -12.7mm;
 }
 .qa, .b-qa {
 font-style: italic;
@@ -520,6 +532,7 @@ font-style: italic;
 text-align: center;
 }
 .qd, .b-qd {
+margin-left: 6.4mm;
 }
 .qm, .b-qm {
 margin-left: 25.4mm;
@@ -555,6 +568,7 @@ page-break-inside: avoid;
 .rb, .i-rb {
 }
 .rq, .b-rq {
+font-size: 83%;
 font-style: italic;
 text-align: right;
 margin-bottom: 4mm;
@@ -599,12 +613,18 @@ font-variant: small-caps;
 }
 .sd, .b-sd {
 font-size: 167%;
+margin-top: 24mm;
+margin-bottom: 24mm;
 }
 .sd1, .b-sd1 {
 font-size: 167%;
+margin-top: 24mm;
+margin-bottom: 24mm;
 }
 .sd2, .b-sd2 {
 font-size: 133%;
+margin-top: 18mm;
+margin-bottom: 18mm;
 }
 .sig, .i-sig {
 font-style: italic;

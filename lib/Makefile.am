@@ -502,7 +502,8 @@ unittest_SOURCES = \
 	unittests/git.cpp \
 	unittests/ipc.cpp \
 	unittests/shell.cpp \
-	unittests/ldap.cpp
+	unittests/ldap.cpp \
+	unittests/dev.cpp
 
 unittest_LDADD = libbibledit.a
 

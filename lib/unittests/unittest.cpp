@@ -77,6 +77,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/git.h>
 #include <unittests/ipc.h>
 #include <unittests/shell.h>
+#include <unittests/dev.h>
 
 
 int main (int argc, char **argv) 
@@ -102,6 +103,7 @@ int main (int argc, char **argv)
   // The previous line is a signature for automated unit testing: Do not change it.
   
   refresh_sandbox (true);
+  test_dev ();
   test_styles ();
   exit (0);
   
