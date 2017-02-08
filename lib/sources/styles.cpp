@@ -229,6 +229,8 @@ void sources_styles_parse ()
   string backslash_leftmargin = "\\LeftMargin ";
   string backslash_rightmargin = "\\RightMargin ";
   string backslash_firstlineindent = "\\FirstLineIndent ";
+  string backslash_spacebefore = "\\SpaceBefore ";
+  string backslash_spaceafter = "\\SpaceAfter ";
   
   // Parse the stylesheet.
   for (auto paratext_line : paratext_lines) {
@@ -297,6 +299,14 @@ void sources_styles_parse ()
       int value = round (254 * convert_to_float (inches));
       float millimeters = (float) value / 10;
       style_definitions [paratext_marker] [firstlineindent_key] = convert_to_string (millimeters);
+      continue;
+    }
+
+    // Read and import the space before.
+    if (paratext_line.find (backslash_spacebefore) == 0) {
+      paratext_line.erase (0, backslash_spacebefore.length());
+      string value = filter_string_trim (paratext_line);
+      style_definitions [paratext_marker] [spacebefore_key] = value;
       continue;
     }
 
