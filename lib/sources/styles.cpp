@@ -22,9 +22,6 @@
 #include <filter/url.h>
 
 
-#ifdef HAVE_CLOUD
-
-
 string sources_style_parse_create_c_comment (string key)
 {
   return "/* " + key + " */";
@@ -59,14 +56,9 @@ bool sources_style_parse_cpp_element (string & line, string signature)
 }
 
 
-#endif
-
-
 // Parses usfm.sty (see https://github.com/ubsicap/usfm) and updates values in the default stylesheet.
 void sources_styles_parse ()
 {
-
-#ifdef HAVE_CLOUD
 
   // Read the C++ source files with the default style definitions.
   string cpp_path = filter_url_create_root_path ("database", "styles.cpp");
@@ -411,7 +403,5 @@ void sources_styles_parse ()
   filter_url_file_put_contents (cpp_path, contents);
   
   cout << "Finished parsing style values from the usfm.sty file" << endl;
-
-#endif
 
 }
