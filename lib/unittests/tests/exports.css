@@ -636,6 +636,16 @@ font-size: 133%;
 margin-top: 18mm;
 margin-bottom: 18mm;
 }
+.sd3, .b-sd3 {
+font-size: 133%;
+margin-top: 12mm;
+margin-bottom: 12mm;
+}
+.sd4, .b-sd4 {
+font-size: 133%;
+margin-top: 8mm;
+margin-bottom: 8mm;
+}
 .sig, .i-sig {
 font-style: italic;
 }
