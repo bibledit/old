@@ -538,5 +538,6 @@ dist-hook:
 	rm -f $(distdir)/unittest
 	rm -rf `find $(distdir) -name .dirstamp`
 	rm -rf `find $(distdir) -name .deps`
+	rm -rf `find $(distdir) -name *~`
 
 CLEANFILES = bibledit*.gz *~
