@@ -6065,8 +6065,9 @@ msgstr ""
 
 msgid ""
 "The divine name will be underlined in the OpenDocument files. The divine "
-"name is within \\nd_...\\nd* markup in USFM. Some prefer this in small "
-"capitals, not underlined."
+"name is within \n"
+"d_...\n"
+"d* markup in USFM. Some prefer this in small capitals, not underlined."
 msgstr ""
 
 msgid "This can be changed in the stylesheet."
