@@ -183,7 +183,7 @@ void demo_clean_data ()
   demo_create_sample_notes (&request);
   
   
-  // Create samples for the workspacees.
+  // Create samples for the workspaces.
   demo_create_sample_workspacees (&request);
   
   
@@ -221,7 +221,7 @@ string demo_sample_bible_name ()
 // Creates a sample Bible.
 // Creating a Sample Bible used to take a relatively long time, in particular on low power devices.
 // The new and current method does a simple copy operation and that is fast.
-void demo_create_sample_bible ()
+void demo_create_sample_bible () // Todo
 {
   Database_Logs::log ("Creating sample Bible");
   
@@ -250,7 +250,7 @@ void demo_create_sample_bible ()
 // Prepares a sample Bible.
 // The output of this is supposed to be manually put into the source tree, folder "samples".
 // This will be used to quickly create a sample Bible, that is fast, even on mobile devices.
-void demo_prepare_sample_bible ()
+void demo_prepare_sample_bible () // Todo
 {
   Database_Bibles database_bibles;
   // Remove the Bible to remove all stuff that might have been in it.
