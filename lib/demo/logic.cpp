@@ -256,7 +256,9 @@ void demo_create_sample_bible () // Todo
 
 
 // Prepares a sample Bible.
-// It stores the output in the source tree, folder "samples".
+// It is not supposed to be run in the source tree because it produces unwanted data.
+// The output will be in folder "samples".
+// Copy it to the same folder in the source tree.
 // This will be used to quickly create a sample Bible, that is fast, even on low power devices.
 void demo_prepare_sample_bible () // Todo
 {
@@ -280,7 +282,7 @@ void demo_prepare_sample_bible () // Todo
       // Import the USFM into the Bible.
       vector <BookChapterData> book_chapter_data = usfm_import (usfm, styles_logic_standard_sheet ());
       for (auto data : book_chapter_data) {
-        bible_logic_store_chapter (demo_sample_bible_name (), data.book, data.chapter, data.data);
+        if (data.book) bible_logic_store_chapter (demo_sample_bible_name (), data.book, data.chapter, data.data);
       }
     }
   }
@@ -305,9 +307,6 @@ void demo_prepare_sample_bible () // Todo
       filter_url_file_cp (source_file, destination_file);
     }
   }
-  // Since the sample Bible has now been copied, remove it, plus its search index.
-  database_bibles.deleteBible (demo_sample_bible_name ());
-  search_logic_delete_bible (demo_sample_bible_name ());
 }
 
 
