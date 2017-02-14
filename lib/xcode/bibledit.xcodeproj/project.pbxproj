@@ -774,8 +774,6 @@
 		CAA4D2841A45A648003ABA25 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = text.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4D28A1A45A648003ABA25 /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CAA4D28B1A45A648003ABA25 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
-		CAA4D2921A45A648003ABA25 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
-		CAA4D2931A45A648003ABA25 /* ChangeLog */ = {isa = PBXFileReference; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		CAA4D2941A45A648003ABA25 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		CAA4D2951A45A648003ABA25 /* exampleProgram.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = exampleProgram.cpp; sourceTree = "<group>"; };
 		CAA4D2961A45A648003ABA25 /* ParseMultipartFormData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParseMultipartFormData.cpp; sourceTree = "<group>"; };
@@ -2675,8 +2673,6 @@
 		CAA4D28C1A45A648003ABA25 /* parsewebdata */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D2921A45A648003ABA25 /* AUTHORS */,
-				CAA4D2931A45A648003ABA25 /* ChangeLog */,
 				CAA4D2941A45A648003ABA25 /* COPYING */,
 				CAA4D2951A45A648003ABA25 /* exampleProgram.cpp */,
 				CAA4D2961A45A648003ABA25 /* ParseMultipartFormData.cpp */,
