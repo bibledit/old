@@ -218,6 +218,14 @@ string demo_sample_bible_name ()
 }
 
 
+// Returns the length of the copyright notice for a Bible fragment.
+size_t demo_bible_copyright_length ()
+{
+  string path = filter_url_create_root_path ("demo", "COPYING");
+  return filter_url_filesize (path);
+}
+
+
 // Creates a sample Bible.
 // Creating a Sample Bible used to take a relatively long time, in particular on low power devices.
 // The new and current method does a simple copy operation and that is fast.
@@ -248,17 +256,17 @@ void demo_create_sample_bible () // Todo
 
 
 // Prepares a sample Bible.
-// The output of this is supposed to be manually put into the source tree, folder "samples".
-// This will be used to quickly create a sample Bible, that is fast, even on mobile devices.
+// It stores the output in the source tree, folder "samples".
+// This will be used to quickly create a sample Bible, that is fast, even on low power devices.
 void demo_prepare_sample_bible () // Todo
 {
   Database_Bibles database_bibles;
-  // Remove the Bible to remove all stuff that might have been in it.
+  // Remove the sample Bible plus all related data.
   database_bibles.deleteBible (demo_sample_bible_name ());
   search_logic_delete_bible (demo_sample_bible_name ());
   // Create a new one.
   database_bibles.createBible (demo_sample_bible_name ());
-  // Location of the USFM files for the sample Bible.
+  // Location of the source USFM files for the sample Bible.
   string directory = filter_url_create_root_path ("demo");
   vector <string> files = filter_url_scandir (directory);
   for (auto file : files) {
@@ -297,6 +305,9 @@ void demo_prepare_sample_bible () // Todo
       filter_url_file_cp (source_file, destination_file);
     }
   }
+  // Since the sample Bible has now been copied, remove it, plus its search index.
+  database_bibles.deleteBible (demo_sample_bible_name ());
+  search_logic_delete_bible (demo_sample_bible_name ());
 }
 
 

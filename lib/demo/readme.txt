@@ -23,3 +23,4 @@ After updating the USFM files in this demo folder, the following steps are neede
 * Run copyright.sh to update the copyright notices in the USFM files.
 * Update the imported Bible files in the samples folder, plus their search indices, by running ./generate in the root folder.
 
+Note: The file "COPYING" is important for the copyright notices and logic to add or remove them.
