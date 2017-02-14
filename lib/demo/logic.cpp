@@ -219,10 +219,10 @@ string demo_sample_bible_name ()
 
 
 // Returns the length of the copyright notice for a Bible fragment.
-size_t demo_bible_copyright_length ()
+string demo_bible_copyright_notice ()
 {
   string path = filter_url_create_root_path ("demo", "COPYING");
-  return filter_url_filesize (path);
+  return filter_url_file_get_contents (path);
 }
 
 
@@ -256,10 +256,12 @@ void demo_create_sample_bible () // Todo
 
 
 // Prepares a sample Bible.
-// It is not supposed to be run in the source tree because it produces unwanted data.
+// It is not supposed to be run in the source tree, but in a separate copy of it.
+// This is because it produces unwanted data.
 // The output will be in folder "samples".
 // Copy it to the same folder in the source tree.
-// This will be used to quickly create a sample Bible, that is fast, even on low power devices.
+// This data is for quickly creating a sample Bible.
+// This way it is fast even on low power devices.
 void demo_prepare_sample_bible () // Todo
 {
   Database_Bibles database_bibles;
@@ -282,7 +284,12 @@ void demo_prepare_sample_bible () // Todo
       // Import the USFM into the Bible.
       vector <BookChapterData> book_chapter_data = usfm_import (usfm, styles_logic_standard_sheet ());
       for (auto data : book_chapter_data) {
-        if (data.book) bible_logic_store_chapter (demo_sample_bible_name (), data.book, data.chapter, data.data);
+        if (data.book) {
+          // There is license information at the top of each USFM file.
+          // This results in a book with number 0.
+          // This book gets skipped here, so the license information is skipped as well.
+          bible_logic_store_chapter (demo_sample_bible_name (), data.book, data.chapter, data.data);
+        }
       }
     }
   }
@@ -292,6 +299,21 @@ void demo_prepare_sample_bible () // Todo
   // Copy the Bible data to the destination.
   string source = database_bibles.bibleFolder (demo_sample_bible_name ());
   filter_url_dir_cp (source, destination);
+  // Add license information to the chapters of the Bible.
+  // This is to satisfy Debian policy.
+  // See https://www.debian.org/doc/debian-policy/ch-archive.html#s-pkgcopyright
+  string copyright_notice = demo_bible_copyright_notice ();
+  vector <string> paths;
+  filter_url_recursive_scandir (destination, paths);
+  for (auto path : paths) {
+    string basename = filter_url_basename (path);
+    if (basename.find ("1000000") != string::npos) {
+      // Fetch chapter data only, skipping the directory names.
+      string contents = filter_url_file_get_contents (path);
+      contents.insert (0, copyright_notice);
+      filter_url_file_put_contents (path, contents);
+    }
+  }
   // Clean the destination location for the Bible search index.
   destination = sample_bible_index_path ();
   filter_url_rmdir (destination);
