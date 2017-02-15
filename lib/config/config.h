@@ -38,6 +38,7 @@
 
 // Normally it prepares the Sample Bible during the setup phase.
 // On low-power devices that would take too much time.
+// On Windows it takes a huge lot of time.
 // For such cases, the porting script runs the preparation phase.
 #define SETUP_PREPARE_SAMPLE_BIBLE 1
 
@@ -51,6 +52,7 @@
 #define HAVE_URLSETTINGS 1
 #undef DIRECTORY_SEPARATOR
 #define DIRECTORY_SEPARATOR "\\"
+#undef SETUP_PREPARE_SAMPLE_BIBLE
 #endif
 
 
