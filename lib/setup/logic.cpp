@@ -72,7 +72,7 @@ void setup_conditionally (const char * package)
     // Ensure write access to certain folders.
     setup_write_access ();
     
-    // Create or upgrade the databases.
+    // Create or upgrade the databases and other data.
     messages.push_back ("Initializing and upgrading data");
     setup_initialize_data ();
     
@@ -277,6 +277,11 @@ void setup_initialize_data ()
   config_globals_setup_message = "stylesheets";
   styles_sheets_create_all ();
   
+  // Preparation of data for the sample Bible.
+  config_globals_setup_message = "samples";
+#ifdef SETUP_PREPARE_SAMPLE_BIBLE
+  demo_prepare_sample_bible (&config_globals_setup_message); // Todo test it.
+#endif
   // Schedule creation of sample Bible if there's no Bible yet.
   // In former versions of Bibledit, creation of the sample Bible was not scheduled,
   // but executed right away.
@@ -284,10 +289,9 @@ void setup_initialize_data ()
   // The installation times were so long that user were tempted to think
   // that the install process was stuck.
   // To make installation fast, the creation of the sample Bible is now done in the background.
-  config_globals_setup_message = "samples";
   vector <string> bibles = request.database_bibles()->getBibles ();
   if (bibles.empty ()) {
-    tasks_logic_queue (CREATESAMPLEBIBLE);
+    tasks_logic_queue (CREATESAMPLEBIBLE); // Todo is this still needed?
   }
   
   // Schedule reindexing Bible search data.

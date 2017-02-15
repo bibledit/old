@@ -254,7 +254,8 @@ void demo_create_sample_bible () // Todo
 // Copy it to the same folder in the source tree.
 // This data is for quickly creating a sample Bible.
 // This way it is fast even on low power devices.
-void demo_prepare_sample_bible () // Todo
+// At a later stage the function started to be called in a different way.
+void demo_prepare_sample_bible (string * progress) // Todo
 {
   Database_Bibles database_bibles;
   // Remove the sample Bible plus all related data.
@@ -268,7 +269,8 @@ void demo_prepare_sample_bible () // Todo
   for (auto file : files) {
     // Only process the USFM files.
     if (filter_url_get_extension (file) == "usfm") {
-      cout << file << endl;
+      if (progress) * progress = file;
+      else cout << file << endl;
       // Read the USFM.
       file = filter_url_create_path (directory, file);
       string usfm = filter_url_file_get_contents (file);

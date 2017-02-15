@@ -66,7 +66,7 @@ int main (int argc, char **argv)
   } else if (command == sample_bible_command) {
 
     cout << "Generating the sample Bible" << endl;
-    demo_prepare_sample_bible ();
+    demo_prepare_sample_bible (nullptr);
 
   } else if (command == mappings_command) {
 
