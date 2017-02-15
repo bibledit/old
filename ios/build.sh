@@ -128,16 +128,18 @@ rsync --archive --delete ../ios $BIBLEDITIOS/
 # From now on the working directory is the temporal location.
 cd $BIBLEDITIOS/ios
 
-# Build the locale databases for inclusion with the iOS package.
+# Build several databases and other data for inclusion with the iOS package.
 # The reason for this is that building them on iOS takes a lot of time during the setup phase.
-# So to include pre-built databases speeds up the setup phase of Bibledit on iOS.
-# This gives a better user experience.
+# To include pre-built data, that speeds up the setup phase of Bibledit on iOS.
+# At the end, it removes the journal entries that were logged in the process.
 pushd ../lib
 ./configure
 make --jobs=`sysctl -n hw.ncpu`
 ./generate . locale
 ./generate . mappings
 ./generate . versifications
+./generate . samplebible
+rm logbook/1*
 popd
 
 # Sychronizes the libbibledit data files in the source tree to iOS and cleans them up.
