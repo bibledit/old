@@ -6068,11 +6068,13 @@ msgstr ""
 msgid "Open the books in LibreOffice to see how they look."
 msgstr ""
 
-msgid ""
-"The divine name will be underlined in the OpenDocument files. The divine "
-"name is within \n"
-"d_...\n"
-"d* markup in USFM. Some prefer this in small capitals, not underlined."
+msgid "The divine name will be underlined in the OpenDocument files."
+msgstr ""
+
+msgid "The divine name is within this markup:"
+msgstr ""
+
+msgid "Some prefer this in small capitals, not underlined."
 msgstr ""
 
 msgid "This can be changed in the stylesheet."
