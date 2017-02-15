@@ -946,7 +946,8 @@ void test_usfm ()
   {
     string usfm = filter_url_file_get_contents (filter_url_create_root_path ("demo", "92-1JNeng-web.usfm"));
     vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 6, (int)import.size());
+    // It imports book 0 due to the copyright notices at the top of the USFM file.
+    evaluate (__LINE__, __func__, 7, (int)import.size());
   }
   
   {
