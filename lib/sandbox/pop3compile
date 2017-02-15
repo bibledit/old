@@ -1,4 +1,0 @@
-
-g++ pop3.c -o pop3 -lcurl -Wall -Wextra -pedantic -std=c++11
-
-
