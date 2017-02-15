@@ -299,21 +299,6 @@ void demo_prepare_sample_bible () // Todo
   // Copy the Bible data to the destination.
   string source = database_bibles.bibleFolder (demo_sample_bible_name ());
   filter_url_dir_cp (source, destination);
-  // Add license information to the chapters of the Bible.
-  // This is to satisfy Debian policy.
-  // See https://www.debian.org/doc/debian-policy/ch-archive.html#s-pkgcopyright
-  string copyright_notice = demo_bible_copyright_notice ();
-  vector <string> paths;
-  filter_url_recursive_scandir (destination, paths);
-  for (auto path : paths) {
-    string basename = filter_url_basename (path);
-    if (basename.find ("1000000") != string::npos) {
-      // Fetch chapter data only, skipping the directory names.
-      string contents = filter_url_file_get_contents (path);
-      contents.insert (0, copyright_notice);
-      filter_url_file_put_contents (path, contents);
-    }
-  }
   // Clean the destination location for the Bible search index.
   destination = sample_bible_index_path ();
   filter_url_rmdir (destination);

@@ -93,7 +93,6 @@ int main (int argc, char **argv)
     cout << "Parsing style values and importing them into the default styles" << endl;
     sources_styles_parse ();
     
-    
   } else {
     
     cerr << "This command is unknown" << endl;
