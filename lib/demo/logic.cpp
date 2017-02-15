@@ -218,14 +218,6 @@ string demo_sample_bible_name ()
 }
 
 
-// Returns the length of the copyright notice for a Bible fragment.
-string demo_bible_copyright_notice ()
-{
-  string path = filter_url_create_root_path ("demo", "COPYING");
-  return filter_url_file_get_contents (path);
-}
-
-
 // Creates a sample Bible.
 // Creating a Sample Bible used to take a relatively long time, in particular on low power devices.
 // The new and current method does a simple copy operation and that is fast.
