@@ -19,8 +19,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ebible.org
 World English Bible (WEB)
 
-After updating the USFM files in this demo folder, the following steps are needed to fully integrate the updated data into Bibledit:
-* Run copyright.sh to update the copyright notices in the USFM files.
-* Update the imported Bible files in the samples folder, plus their search indices, by running ./generate in the root folder.
-
-Note: The file "COPYING" is important for the copyright notices and logic to add or remove them.
+After updating the USFM files in this demo folder, run script "copyright.sh" to update the copyright notices in the USFM files. This script inserts file "COPYING" at the top of each USFM file.

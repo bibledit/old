@@ -11,22 +11,31 @@ He gave it to us freely, and we who have worked on this translation freely give 
 
 In case this attempt to disclaim copyright and place the software
 in the public domain is deemed null and void, then the software is
-Copyright (©) 2017 Michael Johnson.
-and it is hereby released to the general public under the following terms:
+Copyright (©) 1995-2017 Michael Paul Johnson and released under a
+Creative Commons CC0 license (https://creativecommons.org/publicdomain/zero/1.0/).
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
+CC0 1.0 Universal (CC0 1.0)
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Public Domain Dedication
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+This is a human-readable summary of the Legal Code
+(https://creativecommons.org/publicdomain/zero/1.0/legalcode).
+
+No Copyright
+
+This license is acceptable for Free Cultural Works.
+
+The person who associated a work with this deed has dedicated the work to the public domain by waiving all of his or her rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law.
+
+You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.
+
+Other Information
+
+In no way are the patent or trademark rights of any person affected by CC0, nor are the rights that other persons may have in the work or in how the work is used, such as publicity or privacy rights.
+
+Unless expressly stated otherwise, the person who associated a work with this deed makes no warranties about the work, and disclaims liability for all uses of the work, to the fullest extent permitted by applicable law.
+
+When using or citing the work, you should not imply endorsement by the author or the affirmer.
 
 \id JOL 29-JOL-web.sfm World English Bible (WEB) 
 \ide UTF-8
@@ -38,8 +47,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 \mt1 Joel 
 \c 1  
 \p
-\v 1 Yahweh’s\f + \fr 1:1  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
-translations.\f* word that came to Joel, the son of Pethuel. 
+\v 1 Yahweh’s\f + \fr 1:1  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other translations.\f* word that came to Joel, the son of Pethuel. 
 \q1
 \v 2 Hear this, you elders, 
 \q2 And listen, all you inhabitants of the land. 
@@ -50,7 +58,7 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \q2 and have your children tell their children, 
 \q2 and their children, another generation. 
 \q1
-\v 4 What the swarming locust has left, the great locust has eaten.
+\v 4 What the swarming locust has left, the great locust has eaten. 
 \q2 What the great locust has left, the grasshopper has eaten. 
 \q2 What the grasshopper has left, the caterpillar has eaten. 
 \q1
@@ -58,7 +66,7 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \q2 Wail, all you drinkers of wine, because of the sweet wine; 
 \q2 for it is cut off from your mouth. 
 \q1
-\v 6 For a nation has come up on my land, strong, and without number.
+\v 6 For a nation has come up on my land, strong, and without number. 
 \q2 His teeth are the teeth of a lion, 
 \q2 and he has the fangs of a lioness. 
 \q1
@@ -67,8 +75,8 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \q2 He has stripped its bark, and thrown it away. 
 \q2 Its branches are made white. 
 \q1
-\v 8 Mourn like a virgin dressed in sackcloth for the husband of her youth!
-\v 9 The meal offering and the drink offering are cut off from Yahweh’s house.
+\v 8 Mourn like a virgin dressed in sackcloth for the husband of her youth! 
+\v 9 The meal offering and the drink offering are cut off from Yahweh’s house. 
 \q2 The priests, Yahweh’s ministers, mourn. 
 \q1
 \v 10 The field is laid waste. 
@@ -82,20 +90,19 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \q2 for the harvest of the field has perished. 
 \q1
 \v 12 The vine has dried up, and the fig tree withered; 
-\q2 the pomegranate tree, the palm tree also, and the apple tree,
+\q2 the pomegranate tree, the palm tree also, and the apple tree, 
 \q2 even all of the trees of the field are withered; 
 \q2 for joy has withered away from the sons of men. 
 \q1
 \v 13 Put on sackcloth and mourn, you priests! 
 \q2 Wail, you ministers of the altar. 
-\q1 Come, lie all night in sackcloth, you ministers of my God,\f + \fr 1:13 
-\ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים” (Elohim).\f* 
-\q2 for the meal offering and the drink offering are withheld from your God’s house.
+\q1 Come, lie all night in sackcloth, you ministers of my God,\f + \fr 1:13  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים” (Elohim).\f* 
+\q2 for the meal offering and the drink offering are withheld from your God’s house. 
 \q1
 \v 14 Sanctify a fast. 
 \q2 Call a solemn assembly. 
 \q2 Gather the elders, 
-\q2 and all the inhabitants of the land, to the house of Yahweh, your God,
+\q2 and all the inhabitants of the land, to the house of Yahweh, your God, 
 \q2 and cry to Yahweh. 
 \q1
 \v 15 Alas for the day! 
@@ -110,7 +117,7 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \q2 The barns are broken down, for the grain has withered. 
 \q1
 \v 18 How the animals groan! 
-\q2 The herds of livestock are perplexed, because they have no pasture.
+\q2 The herds of livestock are perplexed, because they have no pasture. 
 \q2 Yes, the flocks of sheep are made desolate. 
 \q1
 \v 19 Yahweh, I cry to you, 
@@ -121,7 +128,7 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \q2 for the water brooks have dried up, 
 \q2 And the fire has devoured the pastures of the wilderness. 
 \b
-\c 2  
+\c  2  
 \q1
 \v 1 Blow the trumpet in Zion, 
 \q2 and sound an alarm in my holy mountain! 
@@ -146,7 +153,7 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \v 4 Their appearance is as the appearance of horses, 
 \q2 and they run as horsemen. 
 \q1
-\v 5 Like the noise of chariots on the tops of the mountains, they leap,
+\v 5 Like the noise of chariots on the tops of the mountains, they leap, 
 \q2 like the noise of a flame of fire that devours the stubble, 
 \q2 like a strong people set in battle array. 
 \q1
@@ -155,7 +162,7 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \q1
 \v 7 They run like mighty men. 
 \q2 They climb the wall like warriors. 
-\q2 They each march in his line, and they don’t swerve off course.
+\q2 They each march in his line, and they don’t swerve off course. 
 \q1
 \v 8 Neither does one jostle another; 
 \q2 they march everyone in his path, 
@@ -178,7 +185,7 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \q2 for the day of Yahweh is great and very awesome, 
 \q2 and who can endure it? 
 \q1
-\v 12 “Yet even now,” says Yahweh, “turn to me with all your heart,
+\v 12 “Yet even now,” says Yahweh, “turn to me with all your heart, 
 \q2 and with fasting, and with weeping, and with mourning.” 
 \q1
 \v 13 Tear your heart, and not your garments, 
@@ -189,7 +196,7 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \q1
 \v 14 Who knows? He may turn and relent, 
 \q2 and leave a blessing behind him, 
-\q2 even a meal offering and a drink offering to Yahweh, your God.
+\q2 even a meal offering and a drink offering to Yahweh, your God. 
 \q1
 \v 15 Blow the trumpet in Zion! 
 \q2 Sanctify a fast. 
@@ -202,7 +209,7 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \q1 Let the bridegroom go out of his room, 
 \q2 and the bride out of her room. 
 \q1
-\v 17 Let the priests, the ministers of Yahweh, weep between the porch and the altar,
+\v 17 Let the priests, the ministers of Yahweh, weep between the porch and the altar, 
 \q2 and let them say, “Spare your people, Yahweh, 
 \q2 and don’t give your heritage to reproach, 
 \q2 that the nations should rule over them. 
@@ -213,8 +220,7 @@ translations.\f* word that came to Joel, the son of Pethuel.
 \q2 And had pity on his people. 
 \q1
 \v 19 Yahweh answered his people, 
-\q2 “Behold,\f + \fr 2:19  \ft “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often used
-as an interjection.\f* I will send you grain, new wine, and oil,
+\q2 “Behold,\f + \fr 2:19  \ft “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often used as an interjection.\f* I will send you grain, new wine, and oil, 
 \q2 and you will be satisfied with them; 
 \q2 and I will no more make you a reproach among the nations. 
 \q1
@@ -245,7 +251,7 @@ as an interjection.\f* I will send you grain, new wine, and oil,
 \v 24 The threshing floors will be full of wheat, 
 \q2 and the vats will overflow with new wine and oil. 
 \q1
-\v 25 I will restore to you the years that the swarming locust has eaten,
+\v 25 I will restore to you the years that the swarming locust has eaten, 
 \q2 the great locust, the grasshopper, and the caterpillar, 
 \q2 my great army, which I sent among you. 
 \q1
@@ -259,12 +265,12 @@ as an interjection.\f* I will send you grain, new wine, and oil,
 \q2 and my people will never again be disappointed. 
 \b
 \q1
-\v 28 “It will happen afterward, that I will pour out my Spirit on all flesh;
+\v 28 “It will happen afterward, that I will pour out my Spirit on all flesh; 
 \q2 and your sons and your daughters will prophesy. 
 \q2 Your old men will dream dreams. 
 \q2 Your young men will see visions. 
 \q1
-\v 29 And also on the servants and on the handmaids in those days,
+\v 29 And also on the servants and on the handmaids in those days, 
 \q2 I will pour out my Spirit. 
 \q1
 \v 30 I will show wonders in the heavens and in the earth: 
@@ -274,12 +280,12 @@ as an interjection.\f* I will send you grain, new wine, and oil,
 \q2 and the moon into blood, 
 \q2 before the great and terrible day of Yahweh comes. 
 \q1
-\v 32 It will happen that whoever will call on Yahweh’s name shall be saved;
-\q2 for in Mount Zion and in Jerusalem there will be those who escape,
+\v 32 It will happen that whoever will call on Yahweh’s name shall be saved; 
+\q2 for in Mount Zion and in Jerusalem there will be those who escape, 
 \q2 as Yahweh has said, 
 \q2 and among the remnant, those whom Yahweh calls. 
 \b
-\c 3  
+\c  3  
 \q1
 \v 1 “For, behold, in those days, 
 \q2 and in that time, 
@@ -288,7 +294,7 @@ as an interjection.\f* I will send you grain, new wine, and oil,
 \v 2 I will gather all nations, 
 \q2 and will bring them down into the valley of Jehoshaphat; 
 \q2 and I will execute judgment on them there for my people, 
-\q2 and for my heritage, Israel, whom they have scattered among the nations.
+\q2 and for my heritage, Israel, whom they have scattered among the nations. 
 \q2 They have divided my land, 
 \q2
 \v 3 and have cast lots for my people, 
@@ -300,18 +306,18 @@ as an interjection.\f* I will send you grain, new wine, and oil,
 \q2 and all the regions of Philistia? 
 \q1 Will you repay me? 
 \q2 And if you repay me, 
-\q2 I will swiftly and speedily return your repayment on your own head.
+\q2 I will swiftly and speedily return your repayment on your own head. 
 \q1
 \v 5 Because you have taken my silver and my gold, 
 \q2 and have carried my finest treasures into your temples, 
 \q2
-\v 6 and have sold the children of Judah and the children of Jerusalem to the sons of the Greeks,
+\v 6 and have sold the children of Judah and the children of Jerusalem to the sons of the Greeks, 
 \q2 that you may remove them far from their border. 
 \q1
-\v 7 Behold, I will stir them up out of the place where you have sold them,
+\v 7 Behold, I will stir them up out of the place where you have sold them, 
 \q2 and will return your repayment on your own head; 
 \q1
-\v 8 and I will sell your sons and your daughters into the hands of the children of Judah,
+\v 8 and I will sell your sons and your daughters into the hands of the children of Judah, 
 \q2 and they will sell them to the men of Sheba, 
 \q2 to a faraway nation, 
 \q2 for Yahweh has spoken it.” 

@@ -11,22 +11,31 @@ He gave it to us freely, and we who have worked on this translation freely give 
 
 In case this attempt to disclaim copyright and place the software
 in the public domain is deemed null and void, then the software is
-Copyright (©) 2017 Michael Johnson.
-and it is hereby released to the general public under the following terms:
+Copyright (©) 1995-2017 Michael Paul Johnson and released under a
+Creative Commons CC0 license (https://creativecommons.org/publicdomain/zero/1.0/).
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
+CC0 1.0 Universal (CC0 1.0)
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Public Domain Dedication
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+This is a human-readable summary of the Legal Code
+(https://creativecommons.org/publicdomain/zero/1.0/legalcode).
+
+No Copyright
+
+This license is acceptable for Free Cultural Works.
+
+The person who associated a work with this deed has dedicated the work to the public domain by waiving all of his or her rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law.
+
+You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.
+
+Other Information
+
+In no way are the patent or trademark rights of any person affected by CC0, nor are the rights that other persons may have in the work or in how the work is used, such as publicity or privacy rights.
+
+Unless expressly stated otherwise, the person who associated a work with this deed makes no warranties about the work, and disclaims liability for all uses of the work, to the fullest extent permitted by applicable law.
+
+When using or citing the work, you should not imply endorsement by the author or the affirmer.
 
 \id AMO 30-AMO-web.sfm World English Bible (WEB) 
 \ide UTF-8
@@ -38,11 +47,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 \mt1 Amos 
 \c 1  
 \p
-\v 1 The words of Amos, who was among the herdsmen of Tekoa, which he saw concerning Israel in the days of Uzziah king of
-Judah, and in the days of Jeroboam the son of Joash king of Israel, two years before the earthquake.
+\v 1 The words of Amos, who was among the herdsmen of Tekoa, which he saw concerning Israel in the days of Uzziah king of Judah, and in the days of Jeroboam the son of Joash king of Israel, two years before the earthquake. 
 \v 2 He said: 
-\q1 “Yahweh\f + \fr 1:2  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
-translations.\f* will roar from Zion, 
+\q1 “Yahweh\f + \fr 1:2  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other translations.\f* will roar from Zion, 
 \q2 and utter his voice from Jerusalem; 
 \q1 and the pastures of the shepherds will mourn, 
 \q2 and the top of Carmel will wither.” 
@@ -50,7 +57,7 @@ translations.\f* will roar from Zion,
 \v 3 Yahweh says: 
 \q1 “For three transgressions of Damascus, yes, for four, 
 \q2 I will not turn away its punishment; 
-\q2 because they have threshed Gilead with threshing instruments of iron;
+\q2 because they have threshed Gilead with threshing instruments of iron; 
 \q1
 \v 4 but I will send a fire into the house of Hazael, 
 \q2 and it will devour the palaces of Ben Hadad. 
@@ -74,7 +81,7 @@ translations.\f* will roar from Zion,
 \q2 and him who holds the scepter from Ashkelon; 
 \q1 and I will turn my hand against Ekron; 
 \q2 and the remnant of the Philistines will perish,” 
-\p says the Lord\f + \fr 1:8  \ft The word translated “Lord” is “Adonai.”\f* Yahweh.
+\p says the Lord\f + \fr 1:8  \ft The word translated “Lord” is “Adonai.”\f* Yahweh. 
 \p
 \v 9 Yahweh says: 
 \q1 “For three transgressions of Tyre, yes, for four, 
@@ -97,7 +104,7 @@ translations.\f* will roar from Zion,
 \q2 and it will devour the palaces of Bozrah.” 
 \p
 \v 13 Yahweh says: 
-\q1 “For three transgressions of the children of Ammon, yes, for four,
+\q1 “For three transgressions of the children of Ammon, yes, for four, 
 \q2 I will not turn away its punishment; 
 \q2 because they have ripped open the pregnant women of Gilead, 
 \q2 that they may enlarge their border. 
@@ -119,7 +126,7 @@ translations.\f* will roar from Zion,
 \q1
 \v 2 but I will send a fire on Moab, 
 \q2 and it will devour the palaces of Kerioth; 
-\q2 and Moab will die with tumult, with shouting, and with the sound of the trumpet;
+\q2 and Moab will die with tumult, with shouting, and with the sound of the trumpet; 
 \q1
 \v 3 and I will cut off the judge from among them, 
 \q2 and will kill all its princes with him,” 
@@ -142,13 +149,12 @@ translations.\f* will roar from Zion,
 \q2 because they have sold the righteous for silver, 
 \q2 and the needy for a pair of sandals; 
 \q2
-\v 7 They trample on the dust of the earth on the head of the poor,
+\v 7 They trample on the dust of the earth on the head of the poor, 
 \q2 and deny justice to the oppressed; 
-\q2 and a man and his father use the same maiden, to profane my holy name;
+\q2 and a man and his father use the same maiden, to profane my holy name; 
 \q2
-\v 8 and they lay themselves down beside every altar on clothes taken in pledge;
-\q2 and in the house of their God\f + \fr 2:8  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
-(Elohim).\f* they drink the wine of those who have been fined. 
+\v 8 and they lay themselves down beside every altar on clothes taken in pledge; 
+\q2 and in the house of their God\f + \fr 2:8  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים” (Elohim).\f* they drink the wine of those who have been fined. 
 \q1
 \v 9 Yet I destroyed the Amorite before them, 
 \q2 whose height was like the height of the cedars, 
@@ -168,8 +174,7 @@ translations.\f* will roar from Zion,
 \v 12 “But you gave the Nazirites wine to drink, 
 \q2 and commanded the prophets, saying, ‘Don’t prophesy!’ 
 \q1
-\v 13 Behold,\f + \fr 2:13  \ft “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often used
-as an interjection.\f* I will crush you in your place, 
+\v 13 Behold,\f + \fr 2:13  \ft “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often used as an interjection.\f* I will crush you in your place, 
 \q2 as a cart crushes that is full of grain. 
 \q1
 \v 14 Flight will perish from the swift; 
@@ -180,12 +185,11 @@ as an interjection.\f* I will crush you in your place,
 \q2 and he who is swift of foot won’t escape; 
 \q2 neither shall he who rides the horse deliver himself; 
 \q1
-\v 16 and he who is courageous among the mighty will flee away naked on that day,”
+\v 16 and he who is courageous among the mighty will flee away naked on that day,” 
 \p says Yahweh. 
 \c 3  
 \p
-\v 1 Hear this word that Yahweh has spoken against you, children of Israel, against the whole family which I brought up out of
-the land of Egypt, saying: 
+\v 1 Hear this word that Yahweh has spoken against you, children of Israel, against the whole family which I brought up out of the land of Egypt, saying: 
 \q1
 \v 2 “I have only chosen you of all the families of the earth. 
 \q2 Therefore I will punish you for all of your sins.” 
@@ -231,14 +235,14 @@ the land of Egypt, saying:
 \q2 and your fortresses will be plundered.” 
 \p
 \v 12 Yahweh says: 
-\q1 “As the shepherd rescues out of the mouth of the lion two legs,
+\q1 “As the shepherd rescues out of the mouth of the lion two legs, 
 \q2 or a piece of an ear, 
-\q2 so shall the children of Israel be rescued who sit in Samaria on the corner of a couch,
+\q2 so shall the children of Israel be rescued who sit in Samaria on the corner of a couch, 
 \q2 and on the silken cushions of a bed.” 
 \p
-\v 13 “Listen, and testify against the house of Jacob,” says the Lord Yahweh, the God of Armies.
+\v 13 “Listen, and testify against the house of Jacob,” says the Lord Yahweh, the God of Armies. 
 \q1
-\v 14 “For in the day that I visit the transgressions of Israel on him,
+\v 14 “For in the day that I visit the transgressions of Israel on him, 
 \q2 I will also visit the altars of Bethel; 
 \q2 and the horns of the altar will be cut off, 
 \q2 and fall to the ground. 
@@ -249,11 +253,10 @@ the land of Egypt, saying:
 \p says Yahweh. 
 \c 4  
 \p
-\v 1 Listen to this word, you cows of Bashan, who are on the mountain of Samaria, who oppress the poor, who crush the needy,
-who tell their husbands, “Bring us drinks!” 
+\v 1 Listen to this word, you cows of Bashan, who are on the mountain of Samaria, who oppress the poor, who crush the needy, who tell their husbands, “Bring us drinks!” 
 \q1
 \v 2 The Lord Yahweh has sworn by his holiness that behold, 
-\q2 “The days shall come on you that they will take you away with hooks,
+\q2 “The days shall come on you that they will take you away with hooks, 
 \q2 and the last of you with fish hooks. 
 \q1
 \v 3 You will go out at the breaks in the wall, 
@@ -265,11 +268,11 @@ who tell their husbands, “Bring us drinks!”
 \q1 Bring your sacrifices every morning, 
 \q2 your tithes every three days, 
 \q2
-\v 5 offer a sacrifice of thanksgiving of that which is leavened,
+\v 5 offer a sacrifice of thanksgiving of that which is leavened, 
 \q2 and proclaim free will offerings and brag about them: 
-\q2 for this pleases you, you children of Israel,” says the Lord Yahweh.
+\q2 for this pleases you, you children of Israel,” says the Lord Yahweh. 
 \q1
-\v 6 “I also have given you cleanness of teeth in all your cities,
+\v 6 “I also have given you cleanness of teeth in all your cities, 
 \q2 and lack of bread in every town; 
 \q2 yet you haven’t returned to me,” says Yahweh. 
 \q1
@@ -280,12 +283,12 @@ who tell their husbands, “Bring us drinks!”
 \q1 One place was rained on, 
 \q2 and the piece where it didn’t rain withered. 
 \q1
-\v 8 So two or three cities staggered to one city to drink water,
+\v 8 So two or three cities staggered to one city to drink water, 
 \q2 and were not satisfied: 
 \q2 yet you haven’t returned to me,” says Yahweh. 
 \q1
-\v 9 “I struck you with blight and mildew many times in your gardens and your vineyards;
-\q2 and the swarming locusts have devoured your fig trees and your olive trees;
+\v 9 “I struck you with blight and mildew many times in your gardens and your vineyards; 
+\q2 and the swarming locusts have devoured your fig trees and your olive trees; 
 \q2 yet you haven’t returned to me,” says Yahweh. 
 \q1
 \v 10 “I sent plagues among you like I did Egypt. 
@@ -311,7 +314,7 @@ who tell their husbands, “Bring us drinks!”
 \q2 Yahweh, the God of Armies, is his name.” 
 \c 5  
 \p
-\v 1 Listen to this word which I take up for a lamentation over you, O house of Israel.
+\v 1 Listen to this word which I take up for a lamentation over you, O house of Israel. 
 \q1
 \v 2 “The virgin of Israel has fallen; 
 \q2 She shall rise no more. 
@@ -319,8 +322,8 @@ who tell their husbands, “Bring us drinks!”
 \q2 there is no one to raise her up.” 
 \p
 \v 3 For the Lord Yahweh says: 
-\q1 “The city that went out a thousand shall have a hundred left,
-\q2 and that which went out one hundred shall have ten left to the house of Israel.”
+\q1 “The city that went out a thousand shall have a hundred left, 
+\q2 and that which went out one hundred shall have ten left to the house of Israel.” 
 \p
 \v 4 For Yahweh says to the house of Israel: 
 \q1 “Seek me, and you will live; 
@@ -342,7 +345,7 @@ who tell their husbands, “Bring us drinks!”
 \q2 and turns the shadow of death into the morning, 
 \q2 and makes the day dark with night; 
 \q2 who calls for the waters of the sea, 
-\q2 and pours them out on the surface of the earth, Yahweh is his name,
+\q2 and pours them out on the surface of the earth, Yahweh is his name, 
 \q1
 \v 9 who brings sudden destruction on the strong, 
 \q2 so that destruction comes on the fortress. 
@@ -373,7 +376,7 @@ who tell their husbands, “Bring us drinks!”
 \q1
 \v 15 Hate evil, love good, 
 \q2 and establish justice in the courts. 
-\q2 It may be that Yahweh, the God of Armies, will be gracious to the remnant of Joseph.”
+\q2 It may be that Yahweh, the God of Armies, will be gracious to the remnant of Joseph.” 
 \p
 \v 16 Therefore Yahweh, the God of Armies, the Lord, says: 
 \q1 “Wailing will be in all the wide ways; 
@@ -400,9 +403,9 @@ who tell their husbands, “Bring us drinks!”
 \v 21 I hate, I despise your feasts, 
 \q2 and I can’t stand your solemn assemblies. 
 \q1
-\v 22 Yes, though you offer me your burnt offerings and meal offerings,
+\v 22 Yes, though you offer me your burnt offerings and meal offerings, 
 \q2 I will not accept them; 
-\q2 neither will I regard the peace offerings of your fat animals.
+\q2 neither will I regard the peace offerings of your fat animals. 
 \q1
 \v 23 Take away from me the noise of your songs! 
 \q2 I will not listen to the music of your harps. 
@@ -410,10 +413,9 @@ who tell their husbands, “Bring us drinks!”
 \v 24 But let justice roll on like rivers, 
 \q2 and righteousness like a mighty stream. 
 \p
-\v 25 “Did you bring to me sacrifices and offerings in the wilderness forty years, house of Israel?
-\v 26 You also carried the tent of your king and the shrine of your images, the star of your god, which you made for
-yourselves. 
-\v 27 Therefore I will cause you to go into captivity beyond Damascus,” says Yahweh, whose name is the God of Armies.
+\v 25 “Did you bring to me sacrifices and offerings in the wilderness forty years, house of Israel? 
+\v 26 You also carried the tent of your king and the shrine of your images, the star of your god, which you made for yourselves. 
+\v 27 Therefore I will cause you to go into captivity beyond Damascus,” says Yahweh, whose name is the God of Armies. 
 \c 6  
 \p
 \v 1 Woe to those who are at ease in Zion, 
@@ -442,23 +444,21 @@ yourselves.
 \q2 and anoint themselves with the best oils; 
 \q2 but they are not grieved for the affliction of Joseph. 
 \q1
-\v 7 Therefore they will now go captive with the first who go captive;
+\v 7 Therefore they will now go captive with the first who go captive; 
 \q2 and the feasting and lounging will end. 
 \q1
-\v 8 “The Lord Yahweh has sworn by himself,” says Yahweh, the God of Armies:
+\v 8 “The Lord Yahweh has sworn by himself,” says Yahweh, the God of Armies: 
 \q2 “I abhor the pride of Jacob, 
 \q2 and detest his fortresses. 
-\q2 Therefore I will deliver up the city with all that is in it.
+\q2 Therefore I will deliver up the city with all that is in it. 
 \q1
 \v 9 It will happen, if there remain ten men in one house, 
 \q2 that they shall die. 
 \p
-\v 10 “When a man’s relative carries him, even he who burns him, to bring bodies out of the house, and asks him who is in the
-innermost parts of the house, ‘Is there yet any with you?’ And he says, ‘No;’ then he will say, ‘Hush! Indeed we must not
-mention Yahweh’s name.’ 
+\v 10 “When a man’s relative carries him, even he who burns him, to bring bodies out of the house, and asks him who is in the innermost parts of the house, ‘Is there yet any with you?’ And he says, ‘No;’ then he will say, ‘Hush! Indeed we must not mention Yahweh’s name.’ 
 \b
 \q1
-\v 11 “For, behold, Yahweh commands, and the great house will be smashed to pieces,
+\v 11 “For, behold, Yahweh commands, and the great house will be smashed to pieces, 
 \q2 and the little house into bits. 
 \q1
 \v 12 Do horses run on the rocky crags? 
@@ -469,50 +469,40 @@ mention Yahweh’s name.’
 \v 13 you who rejoice in a thing of nothing, who say, 
 \q2 ‘Haven’t we taken for ourselves horns by our own strength?’ 
 \q1
-\v 14 For, behold, I will raise up against you a nation, house of Israel,”
+\v 14 For, behold, I will raise up against you a nation, house of Israel,” 
 \q2 says Yahweh, the God of Armies; 
-\q2 “and they will afflict you from the entrance of Hamath to the brook of the Arabah.”
+\q2 “and they will afflict you from the entrance of Hamath to the brook of the Arabah.” 
 \c 7  
 \p
-\v 1 Thus the Lord Yahweh showed me: and behold, he formed locusts in the beginning of the shooting up of the latter growth;
-and behold, it was the latter growth after the king’s harvest. 
-\v 2 When they finished eating the grass of the land, then I said, “Lord Yahweh, forgive, I beg you! How could Jacob stand? For
-he is small.” 
+\v 1 Thus the Lord Yahweh showed me: and behold, he formed locusts in the beginning of the shooting up of the latter growth; and behold, it was the latter growth after the king’s harvest. 
+\v 2 When they finished eating the grass of the land, then I said, “Lord Yahweh, forgive, I beg you! How could Jacob stand? For he is small.” 
 \p
-\v 3 Yahweh relented concerning this. “It shall not be,” says Yahweh.
+\v 3 Yahweh relented concerning this. “It shall not be,” says Yahweh. 
 \p
-\v 4 Thus the Lord Yahweh showed me and behold, the Lord Yahweh called for judgment by fire; and it dried up the great deep,
-and would have devoured the land. 
-\v 5 Then I said, “Lord Yahweh, stop, I beg you! How could Jacob stand? For he is small.”
+\v 4 Thus the Lord Yahweh showed me and behold, the Lord Yahweh called for judgment by fire; and it dried up the great deep, and would have devoured the land. 
+\v 5 Then I said, “Lord Yahweh, stop, I beg you! How could Jacob stand? For he is small.” 
 \p
-\v 6 Yahweh relented concerning this. “This also shall not be,” says the Lord Yahweh.
+\v 6 Yahweh relented concerning this. “This also shall not be,” says the Lord Yahweh. 
 \p
-\v 7 Thus he showed me and behold, the Lord stood beside a wall made by a plumb line, with a plumb line in his hand.
+\v 7 Thus he showed me and behold, the Lord stood beside a wall made by a plumb line, with a plumb line in his hand. 
 \v 8 Yahweh said to me, “Amos, what do you see?” 
 \p I said, “A plumb line.” 
-\p Then the Lord said, “Behold, I will set a plumb line in the middle of my people Israel. I will not again pass by them any
-more. 
-\v 9 The high places of Isaac will be desolate, the sanctuaries of Israel will be laid waste; and I will rise against the house
-of Jeroboam with the sword.” 
+\p Then the Lord said, “Behold, I will set a plumb line in the middle of my people Israel. I will not again pass by them any more. 
+\v 9 The high places of Isaac will be desolate, the sanctuaries of Israel will be laid waste; and I will rise against the house of Jeroboam with the sword.” 
 \p
-\v 10 Then Amaziah the priest of Bethel sent to Jeroboam king of Israel, saying, “Amos has conspired against you in the middle
-of the house of Israel. The land is not able to bear all his words.
-\v 11 For Amos says, ‘Jeroboam will die by the sword, and Israel shall surely be led away captive out of his land.’”
+\v 10 Then Amaziah the priest of Bethel sent to Jeroboam king of Israel, saying, “Amos has conspired against you in the middle of the house of Israel. The land is not able to bear all his words. 
+\v 11 For Amos says, ‘Jeroboam will die by the sword, and Israel shall surely be led away captive out of his land.’” 
 \p
-\v 12 Amaziah also said to Amos, “You seer, go, flee away into the land of Judah, and there eat bread, and prophesy there:
-\v 13 but don’t prophesy again any more at Bethel; for it is the king’s sanctuary, and it is a royal house!”
+\v 12 Amaziah also said to Amos, “You seer, go, flee away into the land of Judah, and there eat bread, and prophesy there: 
+\v 13 but don’t prophesy again any more at Bethel; for it is the king’s sanctuary, and it is a royal house!” 
 \p
-\v 14 Then Amos answered Amaziah, “I was no prophet, neither was I a prophet’s son; but I was a herdsman, and a farmer of
-sycamore figs; 
-\v 15 and Yahweh took me from following the flock, and Yahweh said to me, ‘Go, prophesy to my people Israel.’
-\v 16 Now therefore listen to Yahweh’s word: ‘You say, Don’t prophesy against Israel, and don’t preach against the house of
-Isaac.’ 
-\v 17 Therefore Yahweh says: ‘Your wife shall be a prostitute in the city, and your sons and your daughters shall fall by the
-sword, and your land shall be divided by line; and you yourself shall die in a land that is unclean, and Israel shall surely be
-led away captive out of his land.’” 
+\v 14 Then Amos answered Amaziah, “I was no prophet, neither was I a prophet’s son; but I was a herdsman, and a farmer of sycamore figs; 
+\v 15 and Yahweh took me from following the flock, and Yahweh said to me, ‘Go, prophesy to my people Israel.’ 
+\v 16 Now therefore listen to Yahweh’s word: ‘You say, Don’t prophesy against Israel, and don’t preach against the house of Isaac.’ 
+\v 17 Therefore Yahweh says: ‘Your wife shall be a prostitute in the city, and your sons and your daughters shall fall by the sword, and your land shall be divided by line; and you yourself shall die in a land that is unclean, and Israel shall surely be led away captive out of his land.’” 
 \c 8  
 \p
-\v 1 Thus the Lord Yahweh showed me: behold, a basket of summer fruit.
+\v 1 Thus the Lord Yahweh showed me: behold, a basket of summer fruit. 
 \p
 \v 2 He said, “Amos, what do you see?” 
 \p I said, “A basket of summer fruit.” 
@@ -520,17 +510,15 @@ led away captive out of his land.’”
 \q1 “The end has come on my people Israel. 
 \q2 I will not again pass by them any more. 
 \q1
-\v 3 The songs of the temple will be wailing in that day,” says the Lord Yahweh.
-\q2 “The dead bodies will be many. In every place they will throw them out with silence.
+\v 3 The songs of the temple will be wailing in that day,” says the Lord Yahweh. 
+\q2 “The dead bodies will be many. In every place they will throw them out with silence. 
 \q1
 \v 4 Hear this, you who desire to swallow up the needy, 
 \q2 and cause the poor of the land to fail, 
 \q2
-\v 5 Saying, ‘When will the new moon be gone, that we may sell grain?
+\v 5 Saying, ‘When will the new moon be gone, that we may sell grain? 
 \q2 And the Sabbath, that we may market wheat, 
-\q2 making the ephah\f + \fr 8:5  \ft 1 ephah is about 22 liters or about 2/3 of a bushel
-\f* small, and the shekel\f + \fr 8:5  \ft a normal shekel is about 10 grams or about 0.35
-ounces.\f* large, 
+\q2 making the ephah\f + \fr 8:5  \ft 1 ephah is about 22 liters or about 2/3 of a bushel \f* small, and the shekel\f + \fr 8:5  \ft a normal shekel is about 10 grams or about 0.35 ounces.\f* large, 
 \q2 and dealing falsely with balances of deceit; 
 \q1
 \v 6 that we may buy the poor for silver, 
@@ -543,7 +531,7 @@ ounces.\f* large,
 \v 8 Won’t the land tremble for this, 
 \q2 and everyone mourn who dwells in it? 
 \q1 Yes, it will rise up wholly like the River; 
-\q2 and it will be stirred up and sink again, like the River of Egypt.
+\q2 and it will be stirred up and sink again, like the River of Egypt. 
 \q1
 \v 9 It will happen in that day,” says the Lord Yahweh, 
 \q2 “that I will cause the sun to go down at noon, 
@@ -576,29 +564,18 @@ ounces.\f* large,
 \q2 they will fall, and never rise up again.” 
 \c 9  
 \p
-\v 1 I saw the Lord standing beside the altar, and he said, “Strike the tops of the pillars, that the thresholds may shake; and
-break them in pieces on the head of all of them; and I will kill the last of them with the sword: there shall not one of them
-flee away, and there shall not one of them escape. 
-\v 2 Though they dig into Sheol,\f + \fr 9:2  \ft Sheol is the place of the
-dead.\f* there my hand will take them; and though they climb up to heaven, there I will bring them down.
-\v 3 Though they hide themselves in the top of Carmel, I will search and take them out there; and though they be hidden from my
-sight in the bottom of the sea, there I will command the serpent, and it will bite them.
-\v 4 Though they go into captivity before their enemies, there I will command the sword, and it will kill them. I will set my
-eyes on them for evil, and not for good. 
-\v 5 For the Lord, Yahweh of Armies, is he who touches the land and it melts, and all who dwell in it will mourn; and it will
-rise up wholly like the River, and will sink again, like the River of Egypt.
-\v 6 It is he who builds his rooms in the heavens, and has founded his vault on the earth; he who calls for the waters of the
-sea, and pours them out on the surface of the earth; Yahweh is his name.
-\v 7 Are you not like the children of the Ethiopians to me, children of Israel?” says Yahweh. “Haven’t I brought up Israel out
-of the land of Egypt, and the Philistines from Caphtor, and the Syrians from Kir?
-\v 8 Behold, the eyes of the Lord Yahweh are on the sinful kingdom, and I will destroy it from off the surface of the earth;
-except that I will not utterly destroy the house of Jacob,” says Yahweh.
-\v 9 “For, behold, I will command, and I will sift the house of Israel among all the nations, as grain is sifted in a sieve,
-yet not the least kernel will fall on the earth. 
-\v 10 All the sinners of my people will die by the sword, who say, ‘Evil won’t overtake nor meet us.’
-\v 11 In that day I will raise up the tent of David who is fallen, and close up its breaches, and I will raise up its ruins,
-and I will build it as in the days of old; 
-\v 12 that they may possess the remnant of Edom, and all the nations who are called by my name,” says Yahweh who does this.
+\v 1 I saw the Lord standing beside the altar, and he said, “Strike the tops of the pillars, that the thresholds may shake; and break them in pieces on the head of all of them; and I will kill the last of them with the sword: there shall not one of them flee away, and there shall not one of them escape. 
+\v 2 Though they dig into Sheol,\f + \fr 9:2  \ft Sheol is the place of the dead.\f* there my hand will take them; and though they climb up to heaven, there I will bring them down. 
+\v 3 Though they hide themselves in the top of Carmel, I will search and take them out there; and though they be hidden from my sight in the bottom of the sea, there I will command the serpent, and it will bite them. 
+\v 4 Though they go into captivity before their enemies, there I will command the sword, and it will kill them. I will set my eyes on them for evil, and not for good. 
+\v 5 For the Lord, Yahweh of Armies, is he who touches the land and it melts, and all who dwell in it will mourn; and it will rise up wholly like the River, and will sink again, like the River of Egypt. 
+\v 6 It is he who builds his rooms in the heavens, and has founded his vault on the earth; he who calls for the waters of the sea, and pours them out on the surface of the earth; Yahweh is his name. 
+\v 7 Are you not like the children of the Ethiopians to me, children of Israel?” says Yahweh. “Haven’t I brought up Israel out of the land of Egypt, and the Philistines from Caphtor, and the Syrians from Kir? 
+\v 8 Behold, the eyes of the Lord Yahweh are on the sinful kingdom, and I will destroy it from off the surface of the earth; except that I will not utterly destroy the house of Jacob,” says Yahweh. 
+\v 9 “For, behold, I will command, and I will sift the house of Israel among all the nations, as grain is sifted in a sieve, yet not the least kernel will fall on the earth. 
+\v 10 All the sinners of my people will die by the sword, who say, ‘Evil won’t overtake nor meet us.’ 
+\v 11 In that day I will raise up the tent of David who is fallen, and close up its breaches, and I will raise up its ruins, and I will build it as in the days of old; 
+\v 12 that they may possess the remnant of Edom, and all the nations who are called by my name,” says Yahweh who does this. 
 \q1
 \v 13 “Behold, the days come,” says Yahweh, 
 \q2 “that the plowman shall overtake the reaper, 
@@ -613,5 +590,5 @@ and I will build it as in the days of old;
 \q2 and eat their fruit. 
 \q1
 \v 15 I will plant them on their land, 
-\q2 and they will no more be plucked up out of their land which I have given them,”
+\q2 and they will no more be plucked up out of their land which I have given them,” 
 \q2 says Yahweh your God. 

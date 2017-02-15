@@ -11,22 +11,31 @@ He gave it to us freely, and we who have worked on this translation freely give 
 
 In case this attempt to disclaim copyright and place the software
 in the public domain is deemed null and void, then the software is
-Copyright (©) 2017 Michael Johnson.
-and it is hereby released to the general public under the following terms:
+Copyright (©) 1995-2017 Michael Paul Johnson and released under a
+Creative Commons CC0 license (https://creativecommons.org/publicdomain/zero/1.0/).
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
+CC0 1.0 Universal (CC0 1.0)
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Public Domain Dedication
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+This is a human-readable summary of the Legal Code
+(https://creativecommons.org/publicdomain/zero/1.0/legalcode).
+
+No Copyright
+
+This license is acceptable for Free Cultural Works.
+
+The person who associated a work with this deed has dedicated the work to the public domain by waiving all of his or her rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law.
+
+You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.
+
+Other Information
+
+In no way are the patent or trademark rights of any person affected by CC0, nor are the rights that other persons may have in the work or in how the work is used, such as publicity or privacy rights.
+
+Unless expressly stated otherwise, the person who associated a work with this deed makes no warranties about the work, and disclaims liability for all uses of the work, to the fullest extent permitted by applicable law.
+
+When using or citing the work, you should not imply endorsement by the author or the affirmer.
 
 \id PS2  
 \h Psalm 151 
@@ -34,11 +43,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 \toc2 Psalm 151 
 \toc3 Ps151 
 \mt1 PSALM 151 
-\ip \bk Psalm 151\bk* is recognized as Deuterocanonical Scripture by the Greek Orthodox and Russian Orthodox Churches.
+\ip \bk Psalm 151\bk* is recognized as Deuterocanonical Scripture by the Greek Orthodox and Russian Orthodox Churches. 
 \c 1  
 \cp 151
-\d This Psalm is a genuine one of David, though extra,\f + \fr 1:0 
-\ft or, supernumerary\f* composed when he fought in single combat with Goliath.
+\d This Psalm is a genuine one of David, though extra,\f + \fr 1:0  \ft or, supernumerary\f* composed when he fought in single combat with Goliath. 
 \q1
 \v 1 I was small among my brothers, 
 \q2 and youngest in my father’s house. 
@@ -50,7 +58,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 \v 3 Who shall tell my Lord? 
 \q2 The Lord himself, he himself hears. 
 \q1
-\v 4 He sent forth his angel and took me from my father’s sheep,
+\v 4 He sent forth his angel and took me from my father’s sheep, 
 \q2 and he anointed me with his anointing oil. 
 \q1
 \v 5 My brothers were handsome and tall; 

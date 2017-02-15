@@ -11,22 +11,31 @@ He gave it to us freely, and we who have worked on this translation freely give 
 
 In case this attempt to disclaim copyright and place the software
 in the public domain is deemed null and void, then the software is
-Copyright (©) 2017 Michael Johnson.
-and it is hereby released to the general public under the following terms:
+Copyright (©) 1995-2017 Michael Paul Johnson and released under a
+Creative Commons CC0 license (https://creativecommons.org/publicdomain/zero/1.0/).
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
+CC0 1.0 Universal (CC0 1.0)
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Public Domain Dedication
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+This is a human-readable summary of the Legal Code
+(https://creativecommons.org/publicdomain/zero/1.0/legalcode).
+
+No Copyright
+
+This license is acceptable for Free Cultural Works.
+
+The person who associated a work with this deed has dedicated the work to the public domain by waiving all of his or her rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law.
+
+You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.
+
+Other Information
+
+In no way are the patent or trademark rights of any person affected by CC0, nor are the rights that other persons may have in the work or in how the work is used, such as publicity or privacy rights.
+
+Unless expressly stated otherwise, the person who associated a work with this deed makes no warranties about the work, and disclaims liability for all uses of the work, to the fullest extent permitted by applicable law.
+
+When using or citing the work, you should not imply endorsement by the author or the affirmer.
 
 \id SIR Ecclesiasticus 
 \h Sirach 
@@ -36,23 +45,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 \mt1 THE WISDOM OF JESUS THE SON OF SIRACH, 
 \mt2 OR 
 \mt1 ECCLESIASTICUS 
-\ip \bk The Wisdom of Jesus the Son of Sirach\bk*, also called \bk Ecclesiasticus\bk*, is recognized as Deuterocanonical
-Scripture by the Roman Catholic, Greek Orthodox, and Russian Orthodox Churches.
+\ip \bk The Wisdom of Jesus the Son of Sirach\bk*, also called \bk Ecclesiasticus\bk*, is recognized as Deuterocanonical Scripture by the Roman Catholic, Greek Orthodox, and Russian Orthodox Churches. 
 \is1 The Prologue of the Wisdom of Jesus the Son of Sirach. 
-\ip WHEREAS many and great things have been delivered to us by the law and the prophets, and by the others that have followed
-in their steps, for which we must give Israel the praise for instruction and wisdom; and since not only the readers need to
-become skillful themselves, but also those who love learning must be able to profit those who are outside, both by speaking and
-writing; my grandfather Jesus, having much given himself to the reading of the law, and the prophets, and the other books of
-our fathers, and having gained great familiarity with them, was also drawn on himself to write somewhat pertaining to
-instruction and wisdom, in order that those who love learning, and are devoted to these things, might make progress much more
-by living according to the law. You are entreated therefore to read with favor and attention, and to pardon us, if in any parts
-of what we have labored to interpret, we may seem to fail in some of the phrases. For things originally spoken in Hebrew don’t
-have the same force in them when they are translated into another language. Not only these, but the law itself, and the
-prophecies, and the rest of the books, have no small difference, when they are spoken in their original language. For having
-come into Egypt in the thirty-eighth year of Energetes the king, and having continued there some time, I found a copy giving no
-small instruction. I thought it therefore most necessary for me to apply some diligence and travail to translate this book,
-applying indeed much watchfulness and skill in that space of time to bring the book to an end and publish for them also, who in
-the land of their travels are desiring to learn, preparing their character in advance, so as to live according to the law.
+\ip WHEREAS many and great things have been delivered to us by the law and the prophets, and by the others that have followed in their steps, for which we must give Israel the praise for instruction and wisdom; and since not only the readers need to become skillful themselves, but also those who love learning must be able to profit those who are outside, both by speaking and writing; my grandfather Jesus, having much given himself to the reading of the law, and the prophets, and the other books of our fathers, and having gained great familiarity with them, was also drawn on himself to write somewhat pertaining to instruction and wisdom, in order that those who love learning, and are devoted to these things, might make progress much more by living according to the law. You are entreated therefore to read with favor and attention, and to pardon us, if in any parts of what we have labored to interpret, we may seem to fail in some of the phrases. For things originally spoken in Hebrew don’t have the same force in them when they are translated into another language. Not only these, but the law itself, and the prophecies, and the rest of the books, have no small difference, when they are spoken in their original language. For having come into Egypt in the thirty-eighth year of Energetes the king, and having continued there some time, I found a copy giving no small instruction. I thought it therefore most necessary for me to apply some diligence and travail to translate this book, applying indeed much watchfulness and skill in that space of time to bring the book to an end and publish for them also, who in the land of their travels are desiring to learn, preparing their character in advance, so as to live according to the law. 
 \c 1  
 \b
 \q1
@@ -69,15 +64,11 @@ the land of their travels are desiring to learn, preparing their character in ad
 \q1
 \v 4 Wisdom has been created before all things, 
 \q2 and the understanding of prudence from everlasting. 
-\v 5  \f + \fr 1:5  \ft Verse 5 is omitted by the best authorities:
-\fqa The source of wisdom is God's word in the highest heaven, and her ways are the eternal
-commandments.\f* 
+\v 5  \f + \fr 1:5  \ft Verse 5 is omitted by the best authorities: \fqa The source of wisdom is God's word in the highest heaven, and her ways are the eternal commandments.\f* 
 \q1
 \v 6 To whom has the root of wisdom been revealed? 
 \q2 Who has known her shrewd counsels? 
-\v 7  \f + \fr 1:7  \ft Verse 7 is omitted by the best authorities:
-\fqa To whom was the knowledge of wisdom manifested? Who has understood her abundant
-experience?\f* 
+\v 7  \f + \fr 1:7  \ft Verse 7 is omitted by the best authorities: \fqa To whom was the knowledge of wisdom manifested? Who has understood her abundant experience?\f* 
 \q1
 \v 8 There is one wise, greatly to be feared, 
 \q2 sitting upon his throne: the Lord. 
@@ -95,13 +86,13 @@ experience?\f*
 \v 12 The fear of the Lord will delight the heart, 
 \q2 and will give gladness, joy, and length of days. 
 \q1
-\v 13 Whoever fears the Lord, it will go well with him at the last.
+\v 13 Whoever fears the Lord, it will go well with him at the last. 
 \q2 He will be blessed in the day of his death . 
 \q1
 \v 14 To fear the Lord is the beginning of wisdom. 
 \q2 It was created together with the faithful in the womb. 
 \q1
-\v 15 She \f + \fr 1:15  \ft Gr. \fqa nested. \f* laid an eternal foundation with men.
+\v 15 She \f + \fr 1:15  \ft Gr. \fqa nested. \f* laid an eternal foundation with men. 
 \q2 She will be trusted among their offspring. 
 \q1
 \v 16 To fear the Lord is the fullness of wisdom. 
@@ -111,10 +102,7 @@ experience?\f*
 \q2 and her storehouses with her produce. 
 \q1
 \v 18 The fear of the Lord is the crown of wisdom, 
-\q2 making peace and \f + \fr 1:18  \ft Gr. \fqa health of cure.
-\f* perfect health to flourish. \f + \fr 1:18  \ft The remainder of this verse is omitted by the best authorities:
-\fqa Both are gifts of God for peace; glory opens out for those who love him. He saw her and took her
-measure.\f* 
+\q2 making peace and \f + \fr 1:18  \ft Gr. \fqa health of cure. \f* perfect health to flourish. \f + \fr 1:18  \ft The remainder of this verse is omitted by the best authorities: \fqa Both are gifts of God for peace; glory opens out for those who love him. He saw her and took her measure.\f* 
 \q1
 \v 19 He both saw and measured her. 
 \q2 He rained down skill and knowledge of understanding, 
@@ -122,9 +110,7 @@ measure.\f*
 \q1
 \v 20 To fear the Lord is the root of wisdom. 
 \q2 Her branches are length of days. 
-\v 21  \f + \fr 1:21  \ft Verse 21 is omitted by the best authorities:
-\fqa The fear of the Lord drives away sins. Where it resides, it will turn away all anger.
-\f* 
+\v 21  \f + \fr 1:21  \ft Verse 21 is omitted by the best authorities: \fqa The fear of the Lord drives away sins. Where it resides, it will turn away all anger. \f* 
 \b
 \q1
 \v 22 Unjust wrath can never be justified, 
@@ -158,7 +144,7 @@ measure.\f*
 \q2 because you didn’t come to the fear of the Lord 
 \q2 and your heart was full of deceit. 
 \b
-\c 2  
+\c  2  
 \q1
 \v 1 My son, if you come to serve the Lord, 
 \q2 prepare your soul for temptation. 
@@ -220,31 +206,30 @@ measure.\f*
 \q1 for as his majesty is, 
 \q2 so also is his mercy. 
 \b
-\c 3  
+\c  3  
 \q1
 \v 1 Hear me, your father, O my children, 
 \q2 and do what you hear, that you all may be saved. 
 \q1
-\v 2 For the Lord has given the father glory concerning the children,
-\q2 and has confirmed the judgement of the mother concerning the sons.
+\v 2 For the Lord has given the father glory concerning the children, 
+\q2 and has confirmed the judgement of the mother concerning the sons. 
 \q1
 \v 3 He who honors his father will make atonement for sins. 
 \q2
-\v 4 He that gives glory to his mother is as one who lays up treasure.
+\v 4 He that gives glory to his mother is as one who lays up treasure. 
 \q1
-\v 5 Whoever honors his father will have joy in his own children.
+\v 5 Whoever honors his father will have joy in his own children. 
 \q2 He will be heard in the day of his prayer. 
 \q1
 \v 6 He who gives glory to his father will have length of days. 
 \q2 He who listens to the Lord will bring rest to his mother, 
 \q1
-\v 7  \f + \fr 3:7  \ft Some manuscripts add \fqa those who fear the Lord honor their
-father,\f* and will serve under his parents, as to masters. 
+\v 7  \f + \fr 3:7  \ft Some manuscripts add \fqa those who fear the Lord honor their father,\f* and will serve under his parents, as to masters. 
 \q1
 \v 8 Honor your father in deed and word, 
 \q2 that a blessing may come upon you from him. 
 \q1
-\v 9 For the blessing of the father establishes the houses of children,
+\v 9 For the blessing of the father establishes the houses of children, 
 \q2 but the curse of the mother roots out the foundations. 
 \b
 \q1
@@ -276,8 +261,7 @@ father,\f* and will serve under his parents, as to masters.
 \q1
 \v 18 The greater you are, humble yourself the more, 
 \q2 and you will find favor before the Lord. 
-\v 19  \f + \fr 3:19  \ft Some manuscripts add \fqa Many are lofty and renowned, but he reveals his secrets to the
-humble.\f* 
+\v 19  \f + \fr 3:19  \ft Some manuscripts add \fqa Many are lofty and renowned, but he reveals his secrets to the humble.\f* 
 \q1
 \v 20 For the power of the Lord is great, 
 \q2 and he is glorified by those who are lowly. 
@@ -294,7 +278,7 @@ humble.\f*
 \v 24 For the conceit of many has led them astray. 
 \q2 Evil opinion has caused their judgement to slip. 
 \q1
-\v 25  \f + \fr 3:25  \ft Some manuscripts omit verse 25.\f*There is no light without eyes.
+\v 25  \f + \fr 3:25  \ft Some manuscripts omit verse 25.\f*There is no light without eyes. 
 \q2 There is no wisdom without knowledge. 
 \b
 \q1
@@ -313,10 +297,10 @@ humble.\f*
 \v 30 Water will quench a flaming fire; 
 \q2 almsgiving will make atonement for sins. 
 \q1
-\v 31 He repays good turns is mindful of that which comes afterward.
+\v 31 He repays good turns is mindful of that which comes afterward. 
 \q2 In the time of his falling he will find a support. 
 \b
-\c 4  
+\c  4  
 \q1
 \v 1 My son, don’t deprive the poor of his living. 
 \q2 Don’t make the needy eyes wait long. 
@@ -343,7 +327,7 @@ humble.\f*
 \v 8 Incline your ear to a poor man. 
 \q2 Answer him with peaceful words in humility. 
 \q1
-\v 9 Deliver him who is wronged from the hand of him that wrongs him;
+\v 9 Deliver him who is wronged from the hand of him that wrongs him; 
 \q2 Don’t be faint-hearted in giving judgement. 
 \q1
 \v 10 Be as a father to the fatherless, 
@@ -359,7 +343,7 @@ humble.\f*
 \q2 Those who seek to her early will be filled with gladness. 
 \q1
 \v 13 He who holds her fast will inherit glory. 
-\q2 Where \f + \fr 4:13  \ft Or, \fqa she \f* he enters, the Lord will bless.
+\q2 Where \f + \fr 4:13  \ft Or, \fqa she \f* he enters, the Lord will bless. 
 \q1
 \v 14 Those who serve her minister to the Holy One. 
 \q2 The Lord loves those who love her. 
@@ -392,7 +376,7 @@ humble.\f*
 \q2 Don’t revere any man to your falling. 
 \q1
 \v 23 Don’t refrain from speaking when it is for safety. 
-\q2 \f + \fr 4:23  \ft Some manuscripts omit this line. \f*Don’t hide your wisdom for the sake of seeming fair.
+\q2 \f + \fr 4:23  \ft Some manuscripts omit this line. \f*Don’t hide your wisdom for the sake of seeming fair. 
 \q1
 \v 24 For wisdom will be known by speech, 
 \q2 and instruction by the word of the tongue. 
@@ -496,7 +480,7 @@ humble.\f*
 \v 6 Let those that are at peace with you be many, 
 \q2 but your advisers one of a thousand. 
 \q1
-\v 7 If you want to gain a friend, get him in a time of testing,
+\v 7 If you want to gain a friend, get him in a time of testing, 
 \q2 and don’t be in a hurry to trust him. 
 \q1
 \v 8 For there is a friend just for an occasion. 
@@ -521,7 +505,7 @@ humble.\f*
 \v 14 A faithful friend is a strong defense. 
 \q2 He who has found him has found a treasure. 
 \q1
-\v 15 There is nothing that can be taken in exchange for a faithful friend.
+\v 15 There is nothing that can be taken in exchange for a faithful friend. 
 \q2 His excellency is beyond price. 
 \q1
 \v 16 A faithful friend is a life-saving medicine. 
@@ -571,7 +555,7 @@ humble.\f*
 \q2 and her chains for a robe of glory. 
 \q1
 \v 30 For there is a golden ornament upon her, 
-\q2 and her bands are \x + \xo 6:30  \xt Numbers 15:38\x* a blue ribbon.
+\q2 and her bands are \x + \xo 6:30  \xt Numbers 15:38\x* a blue ribbon. 
 \q1
 \v 31 You shall put her on as a robe of glory, 
 \q2 and shall put her on as a crown of rejoicing. 
@@ -597,7 +581,7 @@ humble.\f*
 \q1 He will establish your heart 
 \q2 and your desire for wisdom will be given to you. 
 \b
-\c 7  
+\c  7  
 \q1
 \v 1 Do no evil, 
 \q2 so will no evil overtake you. 
@@ -628,16 +612,16 @@ humble.\f*
 \q2 for even in one you will not be unpunished. 
 \q1
 \v 9 Don’t say, “He will look upon the multitude of my gifts. 
-\q2 When I make an offering to the Most High God, he will accept it.”
+\q2 When I make an offering to the Most High God, he will accept it.” 
 \q1
 \v 10 Don’t be faint-hearted in your prayer. 
 \q2 Don’t neglect to give alms. 
 \b
 \q1
-\v 11 Don’t laugh a man to scorn when he is in the bitterness of his soul,
+\v 11 Don’t laugh a man to scorn when he is in the bitterness of his soul, 
 \q2 for there is one who humbles and exalts. 
 \q1
-\v 12  \f + \fr 7:12  \ft Gr. \fqa Don’t plow\f* Don’t devise a lie against your brother,
+\v 12  \f + \fr 7:12  \ft Gr. \fqa Don’t plow\f* Don’t devise a lie against your brother, 
 \q2 or do the same to a friend. 
 \q1
 \v 13 Don’t love to make any manner of lie, 
@@ -679,18 +663,18 @@ humble.\f*
 \v 24 Do you have daughters? Take care of their bodies, 
 \q2 and don’t be overly indulgent toward them. 
 \q1
-\v 25 Give your daughter in marriage, and you will have accomplished a great matter.
+\v 25 Give your daughter in marriage, and you will have accomplished a great matter. 
 \q2 Give her to a man of understanding. 
 \b
 \q1
 \v 26 Do you have a wife after your mind? Don’t cast her out. 
-\q2 \f + \fr 7:26  \ft Many authorities omit this line \f* But don’t trust yourself to one who is hateful.
+\q2 \f + \fr 7:26  \ft Many authorities omit this line \f* But don’t trust yourself to one who is hateful. 
 \q1
 \v 27 Give glory to your father with your whole heart, 
 \q2 and don’t forget the birth pangs of your mother. 
 \q1
 \v 28 Remember that you were born of them. 
-\q2 What will you repay them for the things that they have done for you?
+\q2 What will you repay them for the things that they have done for you? 
 \b
 \q1
 \v 29 Fear the Lord with all your soul; 
@@ -701,8 +685,8 @@ humble.\f*
 \q1
 \v 31 Fear the Lord and honor the priest. 
 \q2 Give him his portion, even as it is commanded you: 
-\q2 the first fruits, the trespass offering, the gift of the shoulders,
-\q2 the sacrifice of sanctification, and the first fruits of holy things.
+\q2 the first fruits, the trespass offering, the gift of the shoulders, 
+\q2 the sacrifice of sanctification, and the first fruits of holy things. 
 \b
 \q1
 \v 32 Also stretch out your hand to the poor man, 
@@ -720,12 +704,12 @@ humble.\f*
 \v 36 In all your words, remember eternity, 
 \q2 and you will never sin. 
 \b
-\c 8  
+\c  8  
 \q1
 \v 1 Don’t contend with a mighty man, 
 \q2 lest perhaps you fall into his hands. 
 \q1
-\v 2 Don’t strive with a rich man, lest perhaps he overpower you;
+\v 2 Don’t strive with a rich man, lest perhaps he overpower you; 
 \q2 for gold has destroyed many, 
 \q2 and turned away the hearts of kings. 
 \q1
@@ -771,7 +755,7 @@ humble.\f*
 \b
 \q1
 \v 14 Don’t go to law with a judge; 
-\q2 for according to his honor they will give judgement for him.
+\q2 for according to his honor they will give judgement for him. 
 \q1
 \v 15 Don’t go in the way with a rash man, 
 \q2 lest he be burdonsome to you; 
@@ -792,7 +776,7 @@ humble.\f*
 \v 19 Don’t open your heart to every man. 
 \q2 Don’t let him return you a favor. 
 \b
-\c 9  
+\c  9  
 \q1
 \v 1 Don’t be jealous over the wife of your bosom, 
 \q2 and don’t teach her an evil lesson against yourself. 
@@ -821,8 +805,7 @@ humble.\f*
 \q2 and with this, affection is kindled as a fire. 
 \q1
 \v 9 Don’t sit at all with a woman who has a husband, 
-\q2 or revel with her at the wine,\f + \fr 9:9  \ft The preceding line of this verse is omitted by the best authorities.
-\f* 
+\q2 or revel with her at the wine,\f + \fr 9:9  \ft The preceding line of this verse is omitted by the best authorities. \f* 
 \q2 lest perhaps your soul turn away to her, 
 \q2 and with your spirit you slide into destruction. 
 \b
@@ -837,12 +820,10 @@ humble.\f*
 \q2 for you don’t know what his overthrow will be. 
 \q1
 \v 12 Don’t delight in the delights of the ungodly. 
-\q2 Remember they will not go unpunished to \f + \fr 9:12  \ft Gr.
-\fqa Hades. \f* the grave. 
+\q2 Remember they will not go unpunished to \f + \fr 9:12  \ft Gr. \fqa Hades. \f* the grave. 
 \b
 \q1
-\v 13 Keep yourself far from the man who has \f + \fr 9:13  \ft Or,
-\fqa authority \f* power to kill, 
+\v 13 Keep yourself far from the man who has \f + \fr 9:13  \ft Or, \fqa authority \f* power to kill, 
 \q2 and you will have no suspicion of the fear of death. 
 \q1 If you come to him, commit no fault, 
 \q2 lest he take away your life. 
@@ -861,474 +842,461 @@ humble.\f*
 \b
 \q1
 \v 17 A work is commended because of the hand of the artisan; 
-\q2 so he who rules the people will be considered wise for his speech.
+\q2 so he who rules the people will be considered wise for his speech. 
 \q1
 \v 18 A talkative man is dangerous in his city. 
 \q2 He who is headlong in his speech will be hated. 
 \b
-\c 10  
+\c  10  
 \q1
-\v 1 A wise judge will instruct his people; 
-\q1 And the government of a man of understanding will be well ordered.
+\v 1 A wise judge will instruct his people. 
+\q2 The government of a man of understanding will be well ordered. 
 \q1
-\v 2 As is the judge of his people, so are his ministers; 
-\q1 And as is the ruler of the city, \add such are \add* all those who dwell therein.
+\v 2 As is the judge of his people, so are his ministers. 
+\q2 As the city’s ruler is, so are all those who dwell in it. 
 \q1
-\v 3 An uninstructed king will destroy his people; 
-\q1 And a city will be established through the understanding of the powerful.
+\v 3 An uninstructed king will destroy his people. 
+\q2 A city will be established through the understanding of the powerful. 
 \q1
-\v 4 In the hand of the Lord is the authority of the earth; 
-\q1 And in due time he will raise up over it one that is profitable.
+\v 4 The authority of the earth is in the Lord’s hand. 
+\q2 In due time, he will raise up over it one who is profitable. 
 \q1
-\v 5 In the hand of the Lord is the prosperity of a man; 
-\q1 And he will lay his honor upon the person of the scribe. 
+\v 5 A man’s prosperity is in the Lord’s hand. 
+\q2 He will lay his honor upon the person of the scribe. 
 \b
 \q1
-\v 6 Be not angry with your neighbor for every wrong; 
-\q1 And do nothing by works of violence. 
+\v 6 Don’t be angry with your neighbor for every wrong. 
+\q2 Do nothing by works of violence. 
 \q1
-\v 7 Pride is hateful before the Lord and \add before \add* men;
-\q1 And in the judgement of both will unrighteousness err. 
+\v 7 Pride is hateful before the Lord and men. 
+\q2 Unrighteousness is abhorrent in the judgement of both. 
 \q1
-\v 8 Sovereignty is transferred from nation to nation, 
-\q1 Because of iniquities, and deeds of violence, and greed of money.
+\v 8 Sovereignty is transferred from nation to nation 
+\q2 because of iniquities, deeds of violence, and greed for money. 
 \q1
-\v 9  \f + \fr 10:9  \ft The text here is uncertain. \f* Why is earth and ashes proud?
-\f + \fr 10:9  \ft Two lines of this verse are here omitted by the best authorities.
-\f* 
-\q1 Because in \add his \add* life he has cast away his bowels. 
+\v 9  Why are dirt and ashes proud? \f + \fr 10:9  \ft Two lines of this verse are here omitted by the best authorities.\f* 
+\q2 Because in life, my body decays. 
 \q1
-\v 10  \add It is \add* a long disease; the physician mocks: 
-\q1 And \add he is \add* a king today, and tomorrow he will die.
+\v 10  A long disease mocks the physician. 
+\q2 He is a king today, and tomorrow he will die. 
 \q1
 \v 11 For when a man is dead, 
-\q1 He will inherit creeping things, and beasts, and worms. 
+\q2 he will inherit creeping things, and beasts, and worms. 
 \q1
-\v 12  \add It is \add* the beginning of pride when a man departs from the Lord;
-\q1 And his heart is departed from him that made him. 
+\v 12  It is the beginning of pride when a man departs from the Lord. 
+\q2 His heart has departed from him who made him. 
 \q1
-\v 13 For the beginning of pride is sin; 
-\q1 And he that keeps it will pour forth abomination. 
-\q1 For this cause the Lord brought upon them strange calamities,
-\q1 And overthrew them utterly. 
+\v 13 For the beginning of pride is sin. 
+\q2 He who keeps it will pour out abomination. 
+\q1 For this cause the Lord brought upon them strange calamities 
+\q2 and utterly overthrew them. 
 \q1
-\v 14 The Lord cast down the thrones of rulers, 
-\q1 And set the meek in their stead. 
+\v 14 The Lord cast down the thrones of rulers 
+\q2 and set the meek in their place. 
 \q1
-\v 15 The Lord plucked up the roots of nations, 
-\q1 And planted the lowly in their stead. 
+\v 15 The Lord plucked up the roots of nations 
+\q2 and planted the lowly in their place. 
 \q1
-\v 16 The Lord overthrew the lands of nations, 
-\q1 And destroyed them to the foundations of the earth. 
+\v 16 The Lord overthrew the lands of nations 
+\q2 and destroyed them to the foundations of the earth. 
 \q1
-\v 17 He took some of them away, and destroyed them, 
-\q1 And made their memorial to cease from the earth. 
+\v 17 He took some of them away and destroyed them, 
+\q2 and made their memorial to cease from the earth. 
 \q1
 \v 18 Pride has not been created for men, 
-\q1 Nor wrathful anger for the offspring of women. 
+\q2 nor wrathful anger for the offspring of women. 
 \b
 \q1
-\v 19  \f + \fr 10:19  \ft The MSS. here greatly differ. The rendering represents the most probable text.
-\f* What manner of seed has honor? the seed of man. 
-\q1 What manner of seed has honor? those who fear the Lord. 
-\q1 What manner of seed has no honor? the seed of man. 
-\q1 What manner of seed has no honor? those who transgress the commandments.
+\v 19  What manner of seed has honor? 
+\q2 The seed of man, those who fear the Lord. 
+\q1 What manner of seed has no honor? 
+\q2 The seed of man, those who transgress the commandments. 
 \q1
-\v 20 In the midst of kindred he that rules them has honor; 
-\q1 And in the eyes of the Lord those who fear him. 
-\v 21  \f + \fr 10:21  \ft Verse 21 is omitted by the best authorities.
-\f* 
+\v 20 In the midst of kindred he who rules them has honor. 
+\q2 Those who fear the Lord have honor in his eyes. 
+\v 21  \f + \fr 10:21  \ft Verse 21 is omitted by the best authorities: Fear of the Lord is the beginning of acceptance, but obstinance and pride are the beginning of rejection.\f* 
 \q1
-\v 22 The rich man, and the honorable, and the poor, 
-\q1 Their glorying is the fear of the Lord. 
+\v 22 The rich man, the honorable, and the poor 
+\q2 all glory in the fear of the Lord. 
 \q1
-\v 23 It is not right to dishonor a poor man that has understanding;
-\q1 And it is not fitting to glorify a man that is a sinner. 
+\v 23 It is not right to dishonor a poor man who has understanding. 
+\q2 It is not fitting to glorify a man who is a sinner. 
 \q1
-\v 24 The great man, and the judge, and the mighty man, will be glorified;
-\q1 And there is not one of them greater than he that fears the Lord.
+\v 24 The great man, the judge, and the mighty man will be glorified. 
+\q2 There is not one of them greater than he who fears the Lord. 
 \q1
-\v 25 Free men will minister to a wise servant; 
-\q1 And a man that has knowledge will not murmur \add thereat. \add*
+\v 25 Free men will minister to a wise servant. 
+\q2 A man who has knowledge will not complain. 
 \b
 \q1
-\v 26 Be not over wise in doing your work; 
-\q1 And glorify not yourself in the time of your distress. 
+\v 26 Don’t flaunt your wisdom in doing your work. 
+\q2 Don’t glorify yourself in the time of your distress. 
 \q1
-\v 27  \f + \fr 10:27  \ft The Greek text of this verse is uncertain.
-\f* Better is he that labors, and abounds in all things, 
-\q1 Than he that glorifies himself, and lacks bread. 
+\v 27  \f + \fr 10:27  \ft The Greek text of this verse is uncertain. \f* Better is he who labors and abounds in all things, 
+\q2 Than he who glorifies himself and lacks bread. 
 \q1
-\v 28 My son, glorify your soul in meekness, 
-\q1 And give it honor according to the worthiness thereof. 
+\v 28 My son, glorify your soul in humility, 
+\q2 and esteem yourself honor according to your worthiness. 
 \q1
-\v 29 Who will justify him that sins against his own soul? 
-\q1 And who will glorify him that dishonors his own life? 
+\v 29 Who will justify him who sins against his own soul? 
+\q2 Who will glorify him who dishonors his own life? 
 \b
 \q1
-\v 30 A poor man is glorified for his knowledge; 
-\q1 And a rich man is glorified for his riches. 
+\v 30 A poor man is glorified for his knowledge. 
+\q2 A rich man is glorified for his riches. 
 \q1
-\v 31 But he that is glorified in poverty, how much more in riches?
-\q1 And he that is inglorious in riches, how much more in poverty?
+\v 31 But he who is glorified in poverty, how much more in riches? 
+\q2 And he who is dishonored in riches, how much more in poverty? 
 \b
-\c 11  
+\c  11  
 \q1
 \v 1 The wisdom of the lowly will lift up his head, 
-\q1 And make him to sit in the midst of great men. 
+\q2 and make him sit in the midst of great men. 
 \b
 \q1
-\v 2 Commend not a man for his beauty; 
-\q1 And abhor not a man for his outward appearance. 
+\v 2 Don’t commend a man for his beauty. 
+\q2 Don’t abhor a man for his outward appearance. 
 \q1
-\v 3 The bee is little among such as fly; 
-\q1 And her fruit is the chief of confections. 
+\v 3 The bee is little among flying creatures, 
+\q2 but what it produces is the best of confections. 
 \q1
-\v 4 Glory not in the putting on of raiment, 
-\q1 And exalt not yourself in the day of honor; 
-\q1 For the works of the Lord are wonderful, 
-\q1 And his works are hidden among men. 
+\v 4 Don’t boast about the clothes you wear, 
+\q2 and don’t exalt yourself in the day of honor; 
+\q1 for the Lord’s works are wonderful, 
+\q2 and his works are hidden among men. 
 \q1
-\v 5 Many \f + \fr 11:5  \ft Gr. \fqa tyrants \f* kings have sat down upon the ground;
-\q1 And one that was never thought of has worn a diadem. 
+\v 5 Many \f + \fr 11:5  \ft Gr. \fqa tyrants \f* kings have sat down upon the ground, 
+\q2 but one who was never thought of has worn a crown. 
 \q1
-\v 6 Many mighty men have been greatly disgraced; 
-\q1 And men of renown have been delivered into other men’s hands.
+\v 6 Many mighty men have been greatly disgraced. 
+\q2 Men of renown have been delivered into other men’s hands. 
 \b
 \q1
-\v 7 Blame not before you have examined: 
-\q1 Understand first, and then rebuke. 
+\v 7 Don’t blame before you investigate. 
+\q2 Understand first, and then rebuke. 
 \q1
-\v 8 Answer not before you have heard; 
-\q1 And interrupt not in the midst of speech. 
+\v 8 Don’t answer before you have heard. 
+\q2 Don’t interrupt while someone else is speaking. 
 \q1
-\v 9 Strive not in a matter that concerns you not; 
-\q1 And where sinners judge, sit not you with them. 
+\v 9 Don’t argue about a matter that doesn’t concern you. 
+\q2 Don’t sit with sinners when they judge. 
 \b
 \q1
-\v 10 My son, be not busy about many matters: 
-\q1 For if you meddle much, you will not be unpunished; 
-\q1 And if you pursue, you will not overtake; 
-\q1 And you will not escape by fleeing. 
+\v 10 My son, don’t be busy about many matters; 
+\q2 for if you meddle much, you will not be unpunished. 
+\q1 If you pursue, you will not overtake, 
+\q2 and you will not escape by fleeing. 
 \q1
-\v 11 There is one who toils, and labors, and makes haste, 
-\q1 And is so much the more behind. 
+\v 11 There is one who toils, labors, and makes haste, 
+\q2 and is even more behind. 
 \q1
-\v 12 There is one that is sluggish, and has need of help, 
-\q1 Lacking in strength, and that abounds in poverty; 
-\q1 And the eyes of the Lord looked upon him for good, 
-\q1 And he set him up from his low estate, 
+\v 12 There is one who is sluggish, and needs help, 
+\q2 lacking in strength, and who abounds in poverty; 
+\q1 But the Lord’s eyes looked upon him for good, 
+\q2 and he raised him up from his low condition, 
 \q1
-\v 13 And lifted up his head; 
-\q1 And many marveled at him. 
+\v 13 and lifted up his head 
+\q2 so that many marveled at him. 
 \b
 \q1
 \v 14 Good things and evil, life and death, 
-\q1 Poverty and riches, are from the Lord. 
-\v 15-16  \f + \fr 11:15-16  \ft Verses 15 and 16 are omitted by the best authorities.
-\f* 
+\q2 poverty and riches, are from the Lord. 
+\v 15-16  \f + \fr 11:15-16  \ft Verses 15 and 16 are omitted by the best authorities. \f* 
 \q1
-\v 17 The gift of the Lord remains with the godly, 
-\q1 And his good pleasure will prosper forever. 
+\v 17 The Lord’s gift remains with the godly. 
+\q2 His good pleasure will prosper forever. 
 \q1
-\v 18 There is that waxes rich by his wariness and pinching, 
-\q1 And this is the portion of his reward: 
+\v 18 One grows rich by his diligence and self-denial, 
+\q2 and this is the portion of his reward: 
 \q1
-\v 19 When he says, I have found rest, 
-\q1 And now I will eat of my goods; 
-\q1 Yet he knows not what time will pass, 
-\q1 And he will leave them to others, and die. 
+\v 19 when he says, “I have found rest, 
+\q2 and now I will eat of my goods!” 
+\q1 he doesn’t know how much time will pass 
+\q2 until he leaves them to others and dies. 
 \q1
-\v 20 Be steadfast in your covenant, and be conversant therein, 
-\q1 And wax old in your work. 
+\v 20 Be steadfast in your covenant and be doing it, 
+\q2 and grow old in your work. 
 \b
 \q1
-\v 21 Marvel not at the works of a sinner; 
-\q1 But trust the Lord, and stay in your labor: 
-\q1 For it is an easy thing in the sight of the Lord swiftly on the sudden to make a poor man rich.
+\v 21 Don’t marvel at the works of a sinner, 
+\q2 but trust the Lord and stay in your labor; 
+\q1 for it is an easy thing in the sight of the Lord 
+\q2 to swiftly and suddenly make a poor man rich. 
 \q1
-\v 22 The blessing of the Lord is in the reward of the godly; 
-\q1 And in an hour that comes swiftly he makes his blessing to flourish.
+\v 22 The Lord’s blessing is in the reward of the godly. 
+\q2 He makes his blessing flourish in an hour that comes swiftly. 
 \q1
-\v 23 Don’t say, What use is there of me? 
-\q1 And what from henceforth will my good things be? 
+\v 23 Don’t say, “What use is there of me? 
+\q2 What further good things can be mine?” 
 \q1
-\v 24 Don’t say, I have sufficient, 
-\q1 And from henceforth what harm will happen to me? 
+\v 24 Don’t say, “I have enough. 
+\q2 What harm could happen to me now?” 
 \q1
-\v 25 In the day of good things there is a forgetfulness of evil things;
-\q1 And in the day of evil things a man will not remember things that are good.
+\v 25 In the day of good things, evil things are forgotten. 
+\q2 In the day of evil things, a man will not remember things that are good. 
 \q1
 \v 26 For it is an easy thing in the sight of the Lord 
-\q1 To reward a man in the day of death according to his ways. 
+\q2 to reward a man in the day of death according to his ways. 
 \q1
-\v 27 The affliction of an hour causes forgetfulness of delight;
-\q1 And in the last end of a man is the revelation of his deeds.
+\v 27 The affliction of an hour causes delights to be forgotten. 
+\q2 In the end, a man’s deeds are revealed. 
 \q1
-\v 28 Call no man blessed before his death; 
-\q1 And a man will be known in his children. 
+\v 28 Call no man happy before his death. 
+\q2 A man will be known in his children. 
 \b
 \q1
-\v 29 Bring not every man into your house; 
-\q1 For many are the plots of the deceitful man. 
+\v 29 Don’t bring every man into your house, 
+\q2 for many are the plots of a deceitful man. 
 \q1
-\v 30  \add As \add* a decoy partridge in a cage, so is the heart of a proud man;
-\q1 And as one that is a spy, he looks upon \add your \add* falling.
+\v 30 Like a decoy partridge in a cage, so is the heart of a proud man. 
+\q2 Like a spy, he looks for your weakness. 
 \q1
-\v 31 For he lies in wait to turn things that are good into evil;
-\q1 And in things that are praiseworthy he will lay blame. 
+\v 31 For he lies in wait to turn things that are good into evil, 
+\q2 and assigns blame in things that are praiseworthy. 
 \q1
-\v 32 From a spark of fire a heap of many coals is kindled; 
-\q1 And a sinful man lies in wait for blood. 
+\v 32 From a spark of fire, a heap of many coals is kindled, 
+\q2 and a sinful man lies in wait for blood. 
 \q1
-\v 33 Take heed of an evil-doer, for he contrives wicked things;
-\q1 Lest perhaps he bring upon you blame forever. 
+\v 33 Take heed of an evil-doer, for he plans wicked things, 
+\q2 lest perhaps he ruin your reputation forever. 
 \q1
-\v 34 Receive a stranger into your house, and he will distract you with brawls,
-\q1 And estrange you from your own. 
+\v 34 Receive a stranger into your house, and he will distract you with arguments 
+\q2 and estrange you from your own. 
 \b
-\c 12  
+\c  12  
 \q1
-\v 1 If you do good, know to whom you do it; 
-\q1 And your good deeds will have thanks. 
+\v 1 If you do good, know to whom you do it, 
+\q2 and your good deeds will have thanks. 
 \q1
-\v 2 Do good to a godly man, and you will find a recompense; 
-\q1 And if not from him, yet from the Most High. 
+\v 2 Do good to a godly man, and you will find a reward— 
+\q2 if not from him, then from the Most High. 
 \q1
-\v 3 There will no good come to him that continues to do evil, 
-\q1 Nor to him that gives no alms. 
+\v 3 No good will come to him who continues to do evil, 
+\q2 nor to him who gives no alms. 
 \q1
 \v 4 Give to the godly man, 
-\q1 And help not the sinner. 
+\q2 and don’t help the sinner. 
 \q1
-\v 5 Do good to one that is lowly, 
-\q1 And give not to an ungodly man: 
-\q1 Keep back his bread, and give it not to him, 
-\q1 Lest he overmaster you by it: 
-\q1 For you will receive twice as much evil 
-\q1 For all the good you will have done to him. 
+\v 5 Do good to one who is lowly. 
+\q2 Don’t give to an ungodly man. 
+\q1 Keep back his bread, and don’t give it to him, 
+\q2 lest he subdue you with it; 
+\q1 for you would receive twice as much evil 
+\q2 for all the good you would have done to him. 
 \q1
 \v 6 For the Most High also hates sinners, 
-\q1 And will repay vengeance to the ungodly. \f + \fr 12:6  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q2 and will repay vengeance to the ungodly. \f + \fr 12:6  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
 \v 7 Give to the good man, 
-\q1 And help not the sinner. 
+\q2 and don’t help the sinner. 
 \b
 \q1
-\v 8 A man’s friend will not be \f + \fr 12:8  \ft Or, \fqa punished
-\f* fully tried in prosperity; 
-\q1 And his enemy will not be hidden in adversity. 
+\v 8 A man’s friend won’t be \f + \fr 12:8  \ft Or, \fqa punished \f* fully tried in prosperity. 
+\q2 His enemy won’t be hidden in adversity. 
 \q1
-\v 9 In a man’s prosperity his enemies are grieved; 
-\q1 And in his adversity even his friend will be separated \add from him.
-\add* 
+\v 9 In a man’s prosperity, his enemies are grieved. 
+\q2 In his adversity, even his friend leaves. 
 \q1
-\v 10 Never trust your enemy: 
-\q1 For like as the brass rusts, so is his wickedness. 
+\v 10 Never trust your enemy, 
+\q2 for his wickedness is like corrosion in copper. 
 \q1
-\v 11 Though he humble himself, and go crouching, 
-\q1 Yet take good heed, and beware of him, 
-\q1 And you will be to him as one that has wiped a mirror, 
-\q1 And you will know that \f + \fr 12:11  \ft Or, \fqa it has not utterly rusted him
-\f* he has not utterly rusted it. 
+\v 11 Though he humbles himself and walks bowed down, 
+\q2 still be careful and beware of him. 
+\q1 You will be to him as one who has wiped a mirror, 
+\q2 to be sure it doesn’t completely tarnish. 
 \q1
-\v 12 Set him not by you, 
-\q1 Lest he overthrow you and stand in your place; 
-\q1 Let him not sit on your right hand, 
-\q1 Lest he seek to take your seat, 
-\q1 And at the last you acknowledge my words, 
-\q1 And be pricked with my sayings. 
+\v 12 Don’t set him next to you, 
+\q2 lest he overthrow you and stand in your place. 
+\q1 Don’t let him sit on your right hand, 
+\q2 lest he seek to take your seat, 
+\q1 and at the last you acknowledge my words, 
+\q2 and be pricked with my sayings. 
 \q1
-\v 13 Who will pity a charmer that is bitten with a serpent, 
-\q1 Or any that come near wild beasts? 
+\v 13 Who will pity a charmer that is bitten by a snake, 
+\q2 or any who come near wild beasts? 
 \q1
-\v 14 Even so \add who will pity \add* him that goes to a sinner,
-\q1 And is associated with him in his sins? 
+\v 14 Even so, who will pity him who goes to a sinner, 
+\q2 and is associated with him in his sins? 
 \q1
 \v 15 For a while he will stay with you, 
-\q1 And if you give way, he will not hold out. 
+\q2 and if you falter, he will not stay. 
 \q1
-\v 16 And the enemy will speak sweetly with his lips, 
-\q1 And in his heart take counsel how to overthrow you into a pit:
-\q1 The enemy will weep with his eyes, 
-\q1 And if he find opportunity, he will not be satiated with blood.
+\v 16 The enemy will speak sweetly with his lips, 
+\q2 and in his heart plan to throw you into a pit. 
+\q1 The enemy may weep with his eyes, 
+\q2 but if he finds opportunity, he will want more blood. 
 \q1
-\v 17 If adversity meet you, you will find him there before you;
-\q1 And as though he would help you, he will trip up your heel. 
+\v 17 If adversity meets you, you will find him there before you. 
+\q2 Pretending to help you, he will trip you. 
 \q1
-\v 18 He will shake his head, and clap his hands, 
-\q1 And whisper much, and change his countenance. 
+\v 18 He will shake his head, clap his hands, 
+\q2 whisper much, and change his countenance. 
 \b
-\c 13  
+\c  13  
 \q1
-\v 1 He that touches pitch will be defiled; 
-\q1 And he that has fellowship with a proud man will become like to him.
+\v 1 He who touches pitch will be defiled. 
+\q2 He who has fellowship with a proud man will become like to him. 
 \q1
-\v 2 Take not up a burden above your strength; 
-\q1 And have no fellowship with one that is mightier and richer than yourself.
-\q1 What fellowship shall the earthen pot have with the kettle? 
-\q1 This will strike, and that will be dashed in pieces. 
+\v 2 Don’t take up a burden above your strength. 
+\q2 Have no fellowship with one that is mightier and richer than yourself. 
+\q1 What fellowship would the earthen pot have with the kettle? 
+\q2 The kettle will strike, and the pot will be dashed in pieces. 
 \q1
-\v 3 The rich man does a wrong, and he threatens withal: 
-\q1 The poor is wronged, and he will entreat withal. 
+\v 3 The rich man does a wrong and threatens. 
+\q2 The poor is wronged and apologizes. 
 \q1
-\v 4 If you be profitable, he will make merchandise of you; 
-\q1 And if you be in lack, he will forsake you. 
+\v 4 If you are profitable, he will make merchandise of you. 
+\q2 If you are in lack, he will forsake you. 
 \q1
-\v 5 If you have substance, he will live with you; 
-\q1 And he will make you bare, and will not be sorry. 
+\v 5 If you own something, he will live with you. 
+\q2 He will drain you bare and will not be sorry. 
 \q1
-\v 6 Does he need of you? then he will deceive you, 
-\q1 And smile upon you, and give you hope: 
-\q1 He will speak you fair, and say, What need you? 
+\v 6 Does he need you? Then he will deceive you, 
+\q2 smile at you, and give you hope. 
+\q2 He will speak kindly to you and say, “What do you need?” 
 \q1
-\v 7 And he will shame you by his meats, 
-\q1 Until he have made you bare twice or thrice, 
-\q1 And at the last he will laugh you to scorn: 
-\q1 Afterward he will see you, and will forsake you, 
-\q1 And shake his head at you. 
+\v 7 He will shame you by his meats 
+\q2 until he has made you bare twice or thrice, 
+\q2 and in the end he will laugh you to scorn. 
+\q1 Afterward he will see you, will forsake you, 
+\q2 and shake his head at you. 
 \q1
-\v 8 Beware that you be not deceived, and brought low in your mirth.
+\v 8 Beware that you are not deceived 
+\q2 and brought low in your mirth. 
 \q1
-\v 9 If a mighty man invites you, be retiring, 
-\q1 And he will invite you so much the more. 
+\v 9 If a mighty man invites you, be reserved, 
+\q2 and he will invite you more. 
 \q1
-\v 10 Press not upon him, lest you be thrust back; 
-\q1 And stand not far off, lest you be forgotten. 
+\v 10 Don’t press him, lest you be thrust back. 
+\q2 Don’t stand far off, lest you be forgotten. 
 \q1
-\v 11 Do not try to speak with him as an equal, 
-\q1 And believe not his many words: 
+\v 11 Don’t try to speak with him as an equal, 
+\q2 and don’t believe his many words; 
 \q1 For he will test you with much talk, 
-\q1 And will search you out in a smiling manner. 
+\q2 and will examine you in a smiling manner. 
 \q1
-\v 12 He that doesn’t keep spoken words to himself is unmerciful;
-\q1 And he will not spare to hurt and to bind. 
+\v 12 He who doesn’t keep secrets to himself is unmerciful. 
+\q2 He won’t hesitate to harm and to bind. 
 \q1
-\v 13 Keep \add them \add* to yourself, and take earnest heed, 
-\q1 For you walk \f + \fr 13:13  \ft Gr. \fqa along with. \f* in peril of your falling.
-\v 14  \f + \fr 13:14  \ft The remainder of verse 13, and verse 14, are omitted by the best authorities.
-\f* 
+\v 13 Keep them to yourself and be careful, 
+\q2 for you walk \f + \fr 13:13  \ft Gr. \fqa along with. \f* in danger of falling. 
+\v 14  \f + \fr 13:14  \ft The remainder of verse 13, and verse 14, are omitted by the best authorities. \f* 
 \q1
-\v 15 Every living creature loves his like, 
-\q1 And every man \add loves \add* his neighbor. 
+\v 15 Every living creature loves his own kind, 
+\q2 and every man loves his neighbor. 
 \q1
-\v 16 All flesh consorts according to kind, 
-\q1 And a man will cleave to his like. 
+\v 16 All flesh associates with their own kind. 
+\q2 A man will stick to people like himself. 
 \q1
-\v 17 What fellowship shall the wolf have with the lamb? 
-\q1 So \add is \add* the sinner to the godly. 
+\v 17 What fellowship would the wolf have with the lamb? 
+\q2 So is the sinner to the godly. 
 \q1
-\v 18 What peace is there between the hyena and the dog? 
-\q1 And what peace between the rich man and the poor? 
+\v 18 What peace is there between a hyena and a dog? 
+\q2 What peace is there between a rich man and the poor? 
 \q1
-\v 19 Wild asses are the prey of lions in the wilderness; 
-\q1 So poor men are pasture for the rich. 
+\v 19 Wild donkeys are the prey of lions in the wilderness; 
+\q2 likewise poor men are feeding grounds for the rich. 
 \q1
 \v 20 Lowliness is an abomination to a proud man; 
-\q1 So a poor man is an abomination to the rich. 
+\q2 likewise a poor man is an abomination to the rich. 
 \b
 \q1
-\v 21 A rich man when he is shaken is held up of his friends; 
-\q1 But one of low degree being down is thrust away also by his friends.
+\v 21 When a rich man is shaken, he is supported by his friends, 
+\q2 but when one of low degree is down, he is pushed away even by his friends. 
 \q1
-\v 22 When a rich man is fallen, there are many helpers; 
-\q1 He speaks \f + \fr 13:22  \ft Or, \fqa secrets, and \f* things not to be spoken, and men justify him:
-\q1 A man of low degree falls, and men rebuke him withal; 
-\q1 He utters wisdom, and no place is allowed him. 
+\v 22 When a rich man falls, there are many helpers. 
+\q2 He speaks things not to be spoken, and men justify him. 
+\q1 A man of low degree falls, and men rebuke him. 
+\q2 He utters wisdom, and is not listened to. 
 \q1
-\v 23 A rich man speaks, and all keep silence; 
-\q1 And what he says they extol to the clouds: 
-\q1 A poor man speaks, and they say, Who is this? 
-\q1 And if he stumble, they will help to overthrow him. 
+\v 23 A rich man speaks, and all keep silence. 
+\q2 They extol what he says extol to the clouds. 
+\q1 A poor man speaks, and they say, “Who is this?” 
+\q2 If he stumbles, they will help to overthrow him. 
 \b
 \q1
-\v 24 Riches are good that have no sin; 
-\q1 And poverty is evil in the mouth of the ungodly. 
+\v 24 Riches are good if they have no sin. 
+\q2 Poverty is evil in the mouth of the ungodly. 
 \q1
 \v 25 The heart of a man changes his countenance, 
-\q1 Whether it be for good or for evil. \f + \fr 13:25  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q2 whether it is for good or for evil. \f + \fr 13:25  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
-\v 26 A cheerful countenance is a token of a heart that is in prosperity;
-\q1 And the finding out of parables is a weariness of thinking. 
+\v 26 A cheerful countenance is a sign of a prosperous heart. 
+\q2 Devising proverbs takes strenuous thinking. 
 \c 14  
 \q1
-\v 1 Blessed is the man that has not slipped with his mouth, 
-\q1 And is not pricked with sorrow for sins. 
+\v 1 Blessed is the man who has not slipped with his mouth, 
+\q2 and doesn’t suffer from sorrow for sins. 
 \q1
 \v 2 Blessed is he whose soul does not condemn him, 
-\q1 And who is not fallen from his hope. 
+\q2 and who has not given up hope. 
 \b
 \q1
-\v 3 Riches are not comely for a stingy person; 
-\q1 And what should an envious man do with money? 
+\v 3 Riches are not appropriate for a stingy person. 
+\q2 What would an envious man do with money? 
 \q1
-\v 4 He that gathers \add by taking \add* from his own soul gathers for others;
-\q1 And others will revel in his goods. 
+\v 4 He who gathers by denying himself gathers for others. 
+\q2 Others will revel in his goods. 
 \q1
-\v 5 He that is evil to himself, to whom will he be good? 
-\q1 And he will not rejoice in his possessions. 
+\v 5 If one is mean to himself, to whom will he be good? 
+\q2 He won’t enjoy his possessions. 
 \q1
-\v 6 There is none more evil than he that envies himself; 
-\q1 And this is a recompense of his wickedness. 
+\v 6 There is none more evil than he who is stingy with himself. 
+\q2 This is a punishment for his wickedness. 
 \q1
-\v 7 Even if he does good, he does it in forgetfulness; 
-\q1 And at the last he shows forth his wickedness. 
+\v 7 Even if he does good, he does it in forgetfulness. 
+\q2 In the end, he reveals his wickedness. 
 \q1
-\v 8 Evil is he that envies with his eye, 
-\q1 Turning away the face, and despising the souls \add of men. \add*
+\v 8 A miser is evil. 
+\q2 He turns away and disregards souls. 
 \q1
-\v 9 A covetous man’s eye is not satisfied with his portion; 
-\q1 And wicked injustice dries up his soul. 
+\v 9 A covetous man’s eye is not satisfied with his portion. 
+\q2 Wicked injustice dries up his soul. 
 \q1
-\v 10 An evil eye is grudging of bread, 
-\q1 And he is miserly at his table. 
+\v 10 A miser begrudges bread, 
+\q2 and it is lacking at his table. 
 \b
 \q1
-\v 11 My son, according as you have, do well to yourself, 
-\q1 And bring offerings to the Lord worthily. 
+\v 11 My son, according to what you have, treat yourself well, 
+\q2 and bring worthy offerings to the Lord. 
 \q1
 \v 12 Remember that death will not wait, 
-\q1 And that the covenant of \f + \fr 14:12  \ft Gr. \fqa Hades.
-\f* the grave is not showed to you. 
+\q2 and that the covenant of Hades hasn’t been shown to you. 
 \q1
-\v 13 Do well to your friend before you die; 
-\q1 And according to your ability stretch out \add your hand \add* and give to him.
+\v 13 Do good to your friend before you die. 
+\q2 According to your ability, reach out and give to him. 
 \q1
-\v 14 Defraud not \add yourself \add* of a good day; 
-\q1 And don’t let the portion of a good desire pass you by. 
+\v 14 Don’t defraud yourself of a good day. 
+\q2 Don’t let the portion of a good desire pass you by. 
 \q1
-\v 15 Shall you not leave your labors to another? 
-\q1 And your toils to be divided by lot? 
+\v 15 Won’t you leave your labors to another, 
+\q2 and your toils be divided by lot? 
 \q1
-\v 16 Give, and take, and deceive your soul; 
-\q1 For there is no seeking of luxury in \f + \fr 14:16  \ft Gr.
-\fqa Hades. \f* the grave. 
+\v 16 Give, take, and treat yourself well, 
+\q2 because there is no seeking of luxury in Hades. 
 \q1
-\v 17 All flesh waxes old as a garment; 
-\q1 For the covenant from the beginning is, You shall die the death.
+\v 17 All flesh grows old like a garment, 
+\q2 for the covenant from the beginning is, “You must die.” 
 \q1
-\v 18 As of the leaves flourishing on a thick tree, 
-\q1 Some it sheds, and some it makes to grow; 
-\q1 So also of the generations of flesh and blood, 
-\q1 One comes to an end, and another is born. 
+\v 18 Like the leaves flourishing on a thick tree, 
+\q2 some it sheds, and some grow, 
+\q1 so also are the generations of flesh and blood: 
+\q2 one comes to an end and another is born. 
 \q1
 \v 19 Every work rots and falls away, 
-\q1 And the worker thereof shall depart with it. 
+\q2 and its builder will depart with it. 
 \b
 \q1
-\v 20 Blessed is the man that shall \f + \fr 14:20  \ft Most authorities read
-\fqa come to an end. \f* meditate in wisdom, 
-\q1 And that shall discourse by his understanding. 
+\v 20 Blessed is the man who meditates on wisdom, 
+\q2 and who reasons by his understanding. 
 \q1
-\v 21 He that considers her ways in his heart 
-\q1 Shall also have knowledge in her secrets. 
+\v 21 He who considers her ways in his heart 
+\q2 will also have knowledge of her secrets. 
 \q1
-\v 22 Go forth after her as one who tracks, 
-\q1 And lie in wait in her ways. 
+\v 22 Go after her like one who tracks, 
+\q2 and lie in wait in her ways. 
 \q1
-\v 23 He that pries in at her windows 
+\v 23 He who pries in at her windows 
 \q1 Shall also listen at her doors. 
 \q1
 \v 24 He that lodges close to her house 
@@ -1357,7 +1325,7 @@ humble.\f*
 \q1 And will rely upon her, and will not be confounded. 
 \q1
 \v 5 And she will exalt him above his neighbors; 
-\q1 And she will open his mouth in the midst of the congregation.
+\q1 And she will open his mouth in the midst of the congregation. 
 \q1
 \v 6 He will inherit joy, and a crown of gladness, 
 \q1 And an everlasting name. 
@@ -1388,7 +1356,7 @@ humble.\f*
 \q1 And left him in the hand of his own counsel. 
 \q1
 \v 15 If you will, you shall keep the commandments; 
-\q1 And to perform faithfulness is of \add your own \add* good pleasure.
+\q1 And to perform faithfulness is of \add your own \add* good pleasure. 
 \q1
 \v 16 He has set fire and water before you: 
 \q1 You will stretch forth your hand to whichever you will. 
@@ -1405,7 +1373,7 @@ humble.\f*
 \v 20 He has not commanded any man to be ungodly; 
 \q1 And he has not given any man licence to sin. 
 \b
-\c 16  
+\c  16  
 \q1
 \v 1 Desire not a multitude of unprofitable children, 
 \q1 Neither delight in ungodly sons. 
@@ -1418,7 +1386,7 @@ humble.\f*
 \q1 For one is better than a thousand; 
 \q1 And to die childless than to have ungodly children. 
 \q1
-\v 4 For from one that has understanding will a city be populated;
+\v 4 For from one that has understanding will a city be populated; 
 \q1 But a race of wicked men will be made desolate. 
 \q1
 \v 5 Many such things I have seen with my eyes; 
@@ -1453,8 +1421,7 @@ humble.\f*
 \q1
 \v 14 He will make room for every work of mercy; 
 \q1 Each man will find according to his works. 
-\v 15-16  \f + \fr 16:15-16  \ft Verses 15 and 16 are omitted by the best authorities.
-\f* 
+\v 15-16  \f + \fr 16:15-16  \ft Verses 15 and 16 are omitted by the best authorities. \f* 
 \b
 \q1
 \v 17 Don’t say, I shall be hidden from the Lord; 
@@ -1472,15 +1439,13 @@ humble.\f*
 \q1 And who shall conceive his ways? 
 \q1
 \v 21 And \add there is \add* a tempest which no man will see; 
-\q1 Yes, the more part of his works are \f + \fr 16:21  \ft Gr. \fqa among hidden things.
-\f* hid. 
+\q1 Yes, the more part of his works are \f + \fr 16:21  \ft Gr. \fqa among hidden things. \f* hid. 
 \q1
-\v 22 Who will declare the works of \add his \add* righteousness?
+\v 22 Who will declare the works of \add his \add* righteousness? 
 \q1 Or who will endure them? 
-\q1 For his covenant is afar off. \f + \fr 16:22  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 For his covenant is afar off. \f + \fr 16:22  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
-\v 23 He that is lacking in \f + \fr 16:23  \ft Gr. \fqa heart. \f* understanding thinks upon these things;
+\v 23 He that is lacking in \f + \fr 16:23  \ft Gr. \fqa heart. \f* understanding thinks upon these things; 
 \q1 And an unwise and erring man thinks follies. 
 \q1
 \v 24 My son, listen to me, and learn knowledge, 
@@ -1489,7 +1454,7 @@ humble.\f*
 \v 25 I will show forth instruction by weight, 
 \q1 And declare knowledge exactly. 
 \q1
-\v 26 In the judgement of the Lord are his works from the beginning;
+\v 26 In the judgement of the Lord are his works from the beginning; 
 \q1 And from the making of them he disposed the parts thereof. 
 \q1
 \v 27 He garnished his works forever, 
@@ -1503,12 +1468,10 @@ humble.\f*
 \v 29 After this also the Lord looked upon the earth, 
 \q1 And filled it with his blessings. 
 \q1
-\v 30  \f + \fr 16:30  \ft The Greek text of this line is uncertain.
-\f* \f + \fr 16:30  \ft Gr. \fqa The soul of every living thing.
-\f* All manner of living things covered the face thereof; 
+\v 30  \f + \fr 16:30  \ft The Greek text of this line is uncertain. \f* \f + \fr 16:30  \ft Gr. \fqa The soul of every living thing. \f* All manner of living things covered the face thereof; 
 \q1 And into it is their return. 
 \b
-\c 17  
+\c  17  
 \q1
 \v 1 The Lord created man of the earth, 
 \q1 And turned him back to it again. 
@@ -1519,10 +1482,9 @@ humble.\f*
 \v 3 He endowed them with strength proper to them; 
 \q1 And made them according to his own image. 
 \q1
-\v 4 He put the fear of \f + \fr 17:4  \ft Gr. \fqa him. \f* man upon all flesh,
-\q1 And \add gave him \add* to have dominion over beasts and fowls.
-\v 5  \f + \fr 17:5  \ft Verse 5 is omitted by the best authorities.
-\f* 
+\v 4 He put the fear of \f + \fr 17:4  \ft Gr. \fqa him. \f* man upon all flesh, 
+\q1 And \add gave him \add* to have dominion over beasts and fowls. 
+\v 5  \f + \fr 17:5  \ft Verse 5 is omitted by the best authorities. \f* 
 \q1
 \v 6 Counsel, and tongue, and eyes, 
 \q1 Ears, and heart, gave he them to understand withal. 
@@ -1532,12 +1494,10 @@ humble.\f*
 \q1
 \v 8 He set his eye upon their hearts, 
 \q1 To show them the majesty of his works. 
-\v 9  \f + \fr 17:9  \ft Verse 9 is omitted by the best authorities.
-\f* 
+\v 9  \f + \fr 17:9  \ft Verse 9 is omitted by the best authorities. \f* 
 \q1
 \v 10 And they will praise the name of \add his \add* holiness, 
-\q1 \f + \fr 17:10  \ft This line is added by the best authorities.
-\f* That they may declare the majesty of his works. 
+\q1 \f + \fr 17:10  \ft This line is added by the best authorities. \f* That they may declare the majesty of his works. 
 \q1
 \v 11 He added to them knowledge, 
 \q1 And gave them a law of life for a heritage. 
@@ -1546,36 +1506,29 @@ humble.\f*
 \q1 And showed them his judgments. 
 \q1
 \v 13 Their eyes saw the majesty of \add his \add* glory; 
-\q1 And their ear heard the glory of \f + \fr 17:13  \ft Some ancient authorities read
-\fqa their. \f* his voice. 
+\q1 And their ear heard the glory of \f + \fr 17:13  \ft Some ancient authorities read \fqa their. \f* his voice. 
 \q1
 \v 14 And he said to them, Beware of all unrighteousness; 
-\q1 And he gave them commandment, each man concerning his neighbor.
+\q1 And he gave them commandment, each man concerning his neighbor. 
 \b
 \q1
 \v 15 Their ways are ever before him; 
 \q1 They will not be hid from his eyes. 
-\v 16  \f + \fr 17:16  \ft Verses 16, 18, and 21 are omitted by the best authorities.
-\f* 
+\v 16  \f + \fr 17:16  \ft Verses 16, 18, and 21 are omitted by the best authorities. \f* 
 \q1
-\v 17  \f + \fr 17:17  \ft The preceding part of this verse is omitted by the best authorities.
-\f* For every nation he appointed a ruler; 
+\v 17  \f + \fr 17:17  \ft The preceding part of this verse is omitted by the best authorities. \f* For every nation he appointed a ruler; 
 \q1 And Israel is the Lord’s portion. 
-\v 18  \f + \fr 17:18  \ft Verses 16, 18, and 21 are omitted by the best authorities.
-\f* 
+\v 18  \f + \fr 17:18  \ft Verses 16, 18, and 21 are omitted by the best authorities. \f* 
 \q1
 \v 19 All their works are as the sun before him; 
 \q1 And his eyes are continually upon their ways. 
 \q1
 \v 20 Their iniquities are not hid from him; 
 \q1 And all their sins are before the Lord. 
-\v 21  \f + \fr 17:21  \ft Verses 16, 18, and 21 are omitted by the best authorities.
-\f* 
+\v 21  \f + \fr 17:21  \ft Verses 16, 18, and 21 are omitted by the best authorities. \f* 
 \q1
 \v 22 With him the alms of a man is as a signet; 
-\q1 And he will keep the bounty of a man as the apple of the eye.
-\f + \fr 17:22  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 And he will keep the bounty of a man as the apple of the eye. \f + \fr 17:22  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
 \v 23 Afterwards he will rise up and recompense them, 
 \q1 And render their recompense upon their head. 
@@ -1585,17 +1538,15 @@ humble.\f*
 \b
 \q1
 \v 25 Return to the Lord, and forsake sins: 
-\q1 Make your prayer before \add his \add* face, and lessen the offence.
+\q1 Make your prayer before \add his \add* face, and lessen the offence. 
 \q1
-\v 26 Turn again to the Most High, and turn away from iniquity; \f + \fr 17:26 
-\ft A line is here omitted by the best authorities. \f* 
+\v 26 Turn again to the Most High, and turn away from iniquity; \f + \fr 17:26  \ft A line is here omitted by the best authorities. \f* 
 \q1 And greatly hate the abominable thing. 
 \q1
-\v 27 Who will give praise to the Most High in \f + \fr 17:27  \ft Gr.
-\fqa Hades. \f* the grave, 
+\v 27 Who will give praise to the Most High in \f + \fr 17:27  \ft Gr. \fqa Hades. \f* the grave, 
 \q1 Instead of them which live and return thanks? 
 \q1
-\v 28 Thanksgiving perishes from the dead, as from one that is not:
+\v 28 Thanksgiving perishes from the dead, as from one that is not: 
 \q1 He that is in life and health will praise the Lord. 
 \q1
 \v 29 How great is the mercy of the Lord, 
@@ -1610,13 +1561,12 @@ humble.\f*
 \v 32 He looks upon the power of the height of heaven: 
 \q1 And all men are earth and ashes. 
 \b
-\c 18  
+\c  18  
 \q1
 \v 1 He that lives forever created all things in common. 
 \q1
 \v 2 The Lord alone will be justified. 
-\v 3  \f + \fr 18:3  \ft The remainder of verse 2, and verse 3, are omitted by the best authorities.
-\f* 
+\v 3  \f + \fr 18:3  \ft The remainder of verse 2, and verse 3, are omitted by the best authorities. \f* 
 \q1
 \v 4 To none has he given power to declare his works: 
 \q1 And who will trace out his mighty deeds? 
@@ -1624,7 +1574,7 @@ humble.\f*
 \v 5 Who shall number the strength of his majesty? 
 \q1 And who shall also tell out his mercies? 
 \q1
-\v 6 As for the wondrous works of the Lord, it is not possible to take from them nor add to them,
+\v 6 As for the wondrous works of the Lord, it is not possible to take from them nor add to them, 
 \q1 Neither is it possible to track them out. 
 \q1
 \v 7 When a man has finished, then he is but at the beginning; 
@@ -1635,7 +1585,7 @@ humble.\f*
 \q1
 \v 9 The number of man’s days at the most are a hundred years. 
 \q1
-\v 10 As a drop of water from the sea, and a pebble from the sand;
+\v 10 As a drop of water from the sea, and a pebble from the sand; 
 \q1 So are a few years in the day of eternity. 
 \q1
 \v 11 For this cause the Lord was patient over them, 
@@ -1681,7 +1631,7 @@ humble.\f*
 \v 23 Before you make a vow, prepare yourself; 
 \q1 And be not as a man that tempts the Lord. 
 \q1
-\v 24 Think upon the wrath \add that will be \add* in the days of the end,
+\v 24 Think upon the wrath \add that will be \add* in the days of the end, 
 \q1 And the time of vengeance, when he turns away his face. 
 \q1
 \v 25 In the days of fullness remember the time of hunger, 
@@ -1691,14 +1641,12 @@ humble.\f*
 \q1 And all things are speedy before the Lord. 
 \q1
 \v 27 A wise man will fear in everything; 
-\q1 And in days of sinning he will beware of offence. \f + \fr 18:27 
-\ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 And in days of sinning he will beware of offence. \f + \fr 18:27  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
 \v 28 Every man of understanding knows wisdom; 
 \q1 And he will give thanks to him that found her. 
 \q1
-\v 29 They that were of understanding in sayings became also wise themselves,
+\v 29 They that were of understanding in sayings became also wise themselves, 
 \q1 And poured forth apt proverbs. 
 \b
 \q1
@@ -1706,23 +1654,21 @@ humble.\f*
 \q1 And refrain yourself from your appetites. 
 \q1
 \v 31 If you give fully to your soul the delight of her desire, 
-\q1 She will make you \f + \fr 18:31  \ft Or, \fqa a rejoicing to
-\f* the laughing stock of your enemies. 
+\q1 She will make you \f + \fr 18:31  \ft Or, \fqa a rejoicing to \f* the laughing stock of your enemies. 
 \q1
 \v 32 Make not merry in much luxury; 
 \q1 Neither be tied to the expense thereof. 
 \q1
 \v 33 Be not made a beggar by banqueting upon borrowing, 
-\q1 When you have nothing in your purse. \f + \fr 18:33  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 When you have nothing in your purse. \f + \fr 18:33  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \b
-\c 19  
+\c  19  
 \q1
 \v 1 A workman that is a drunkard will not become rich: 
-\q1 He that despises small things will fall by little and little.
+\q1 He that despises small things will fall by little and little. 
 \q1
-\v 2 Wine and women will make men of understanding to fall away:
-\q1 And he that joins with prostitutes will be the more reckless.
+\v 2 Wine and women will make men of understanding to fall away: 
+\q1 And he that joins with prostitutes will be the more reckless. 
 \q1
 \v 3 Moths and worms will have him to heritage; 
 \q1 And a reckless soul will be taken away. 
@@ -1731,12 +1677,9 @@ humble.\f*
 \v 4 He that is hasty to trust is light-minded; 
 \q1 And he that sins will offend against his own soul. 
 \q1
-\v 5 He that makes merry in his heart will be condemned: \f + \fr 19:5 
-\ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\v 5 He that makes merry in his heart will be condemned: \f + \fr 19:5  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
-\v 6  \f + \fr 19:6  \ft The preceding part of this verse is omitted by the best authorities.
-\f* And he that hates talk has the less wickedness. 
+\v 6  \f + \fr 19:6  \ft The preceding part of this verse is omitted by the best authorities. \f* And he that hates talk has the less wickedness. 
 \q1
 \v 7 Never repeat what is told you, 
 \q1 And you will fare never the worse. 
@@ -1753,8 +1696,7 @@ humble.\f*
 \v 11 A fool will travail in pain with a word, 
 \q1 As a woman in labor with a child. 
 \q1
-\v 12 As an arrow that sticks in the \f + \fr 19:12  \ft Gr. \fqa thigh of flesh.
-\f* flesh of the thigh, 
+\v 12 As an arrow that sticks in the \f + \fr 19:12  \ft Gr. \fqa thigh of flesh. \f* flesh of the thigh, 
 \q1 So is a word in a fool’s belly. 
 \b
 \q1
@@ -1772,14 +1714,12 @@ humble.\f*
 \q1
 \v 17 Reprove your neighbor before you threaten him; 
 \q1 And give place to the law of the Most High. 
-\v 18-19  \f + \fr 19:18-19  \ft Verses 18 and 19 are omitted by the best authorities.
-\f* 
+\v 18-19  \f + \fr 19:18-19  \ft Verses 18 and 19 are omitted by the best authorities. \f* 
 \b
 \q1
 \v 20 All wisdom is the fear of the Lord; 
 \q1 And in all wisdom is the doing of the law. 
-\v 21  \f + \fr 19:21  \ft The remainder of verse 20, and verse 21, are omitted by the best authorities.
-\f* 
+\v 21  \f + \fr 19:21  \ft The remainder of verse 20, and verse 21, are omitted by the best authorities. \f* 
 \q1
 \v 22 And the knowledge of wickedness is not wisdom; 
 \q1 And the prudence of sinners is not counsel. 
@@ -1791,36 +1731,31 @@ humble.\f*
 \q1 Than one that has much prudence, and transgresses the law. 
 \q1
 \v 25 There is an exquisite subtlety, and it is unjust; 
-\q1 And there is one that perverts favor \f + \fr 19:25  \ft Gr.
-\fqa to bring to light. \f* to gain a judgement. \f + \fr 19:25 
-\ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 And there is one that perverts favor \f + \fr 19:25  \ft Gr. \fqa to bring to light. \f* to gain a judgement. \f + \fr 19:25  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
-\v 26 There is one that does wickedly, that hangs down his head with mourning;
+\v 26 There is one that does wickedly, that hangs down his head with mourning; 
 \q1 But inwardly he is full of deceit, 
 \q1
-\v 27 Bowing down his face, and making as if he were deaf of one ear:
+\v 27 Bowing down his face, and making as if he were deaf of one ear: 
 \q1 Where he is not known, he will be beforehand with you. 
 \q1
 \v 28 And if for lack of power he be hindered from sinning, 
 \q1 If he find opportunity, he will do mischief. 
 \q1
 \v 29 A man will be known by his look, 
-\q1 And one that has understanding will be known by his face, when you meet him.
+\q1 And one that has understanding will be known by his face, when you meet him. 
 \q1
-\v 30 A man’s attire, and \f + \fr 19:30  \ft Gr. \fqa laughter of the teeth.
-\f* grinning laughter, 
+\v 30 A man’s attire, and \f + \fr 19:30  \ft Gr. \fqa laughter of the teeth. \f* grinning laughter, 
 \q1 And gait, show what he is. 
 \b
-\c 20  
+\c  20  
 \q1
 \v 1 There is a reproof that is not comely; 
 \q1 And there is a man that keeps silence, and he is wise. 
 \q1
 \v 2 How good is it to reprove, rather than to be angry; 
 \q1 And he that makes confession will be kept back from hurt. 
-\v 3  \f + \fr 20:3  \ft Verse 3 is omitted by the best authorities.
-\f* 
+\v 3  \f + \fr 20:3  \ft Verse 3 is omitted by the best authorities. \f* 
 \q1
 \v 4 As is the lust of an eunuch to deflower a virgin; 
 \q1 So is he that executes judgments with violence. 
@@ -1828,14 +1763,14 @@ humble.\f*
 \v 5 There is one that keeps silence, and is found wise; 
 \q1 And there is one that is hated for his much talk. 
 \q1
-\v 6 There is one that keeps silence, for he has no answer to make;
+\v 6 There is one that keeps silence, for he has no answer to make; 
 \q1 And there is that keeps silence, as knowing his time. 
 \q1
 \v 7 A wise man will be silent till his time come; 
 \q1 But the braggart and fool will overpass his time. 
 \q1
 \v 8 He that uses many words will be abhorred; 
-\q1 And he that takes to himself authority therein will be hated.
+\q1 And he that takes to himself authority therein will be hated. 
 \b
 \q1
 \v 9 There is a prosperity that a man finds in misfortunes; 
@@ -1853,8 +1788,7 @@ humble.\f*
 \v 13 He that is wise in words will make himself beloved; 
 \q1 But the pleasantries of fools will be wasted. 
 \q1
-\v 14 The gift of a fool will not profit you;\f + \fr 20:14  \ft A line of this verse is here omitted by the best authorities.
-\f* 
+\v 14 The gift of a fool will not profit you;\f + \fr 20:14  \ft A line of this verse is here omitted by the best authorities. \f* 
 \q1 For his eyes are many instead of one. 
 \q1
 \v 15 He will give little, and upbraid much; 
@@ -1866,18 +1800,16 @@ humble.\f*
 \q1 And I have no thanks for my good deeds; 
 \q1 They that eat my bread are of evil tongue. 
 \q1
-\v 17 How often, and of how many, will he be laughed to scorn! \f + \fr 20:17 
-\ft The latter part of verse 17 is omitted by the best authorities.
-\f* 
+\v 17 How often, and of how many, will he be laughed to scorn! \f + \fr 20:17  \ft The latter part of verse 17 is omitted by the best authorities. \f* 
 \b
 \q1
-\v 18 A slip on a pavement is better than \add a slip \add* with the tongue;
+\v 18 A slip on a pavement is better than \add a slip \add* with the tongue; 
 \q1 So the fall of the wicked will come speedily. 
 \q1
-\v 19 A man without grace is \add as \add* a tale out of season:
+\v 19 A man without grace is \add as \add* a tale out of season: 
 \q1 It will be continually in the mouth of the ignorant. 
 \q1
-\v 20 A \f + \fr 20:20  \ft Gr. \fqa parable. \f* wise sentence from a fool’s mouth will be rejected;
+\v 20 A \f + \fr 20:20  \ft Gr. \fqa parable. \f* wise sentence from a fool’s mouth will be rejected; 
 \q1 For he will not speak it in its season. 
 \b
 \q1
@@ -1915,9 +1847,9 @@ humble.\f*
 \q1
 \v 31 Better is a man that hides his folly 
 \q1 Than a man that hides his wisdom. 
-\v 32  \f + \fr 20:32  \ft Verse 32 is omitted by the best authorities.\f*
+\v 32  \f + \fr 20:32  \ft Verse 32 is omitted by the best authorities.\f* 
 \b
-\c 21  
+\c  21  
 \q1
 \v 1 My son, have you sinned? add no more thereto; 
 \q1 And make supplication for your former \add sins. \add* 
@@ -1934,8 +1866,7 @@ humble.\f*
 \v 4 Terror and violence will lay waste riches; 
 \q1 So the house of an arrogant man will be laid waste. 
 \q1
-\v 5 Supplication from a poor man’s mouth reaches to the ears of
-\f + \fr 21:5  \ft Gr. \fqa him. \f* God, 
+\v 5 Supplication from a poor man’s mouth reaches to the ears of \f + \fr 21:5  \ft Gr. \fqa him. \f* God, 
 \q1 And his judgement comes speedily. 
 \q1
 \v 6 One that hates reproof is in the path of the sinner; 
@@ -1948,20 +1879,20 @@ humble.\f*
 \v 8 He that builds his house with other men’s money 
 \q1 Is like one that gathers himself stones against winter. 
 \q1
-\v 9 The congregation of wicked men is \add as \add* tow wrapped together;
+\v 9 The congregation of wicked men is \add as \add* tow wrapped together; 
 \q1 And the end of them is a flame of fire. 
 \q1
 \v 10 The way of sinners is made smooth with stones; 
 \q1 And at the last end thereof is the pit of Hades. 
 \b
 \q1
-\v 11 He that keeps the law becomes master of the intent thereof;
+\v 11 He that keeps the law becomes master of the intent thereof; 
 \q1 And the end of the fear of the Lord is wisdom. 
 \q1
 \v 12 He that is not clever will not be instructed; 
 \q1 And there is a cleverness which makes bitterness to abound. 
 \q1
-\v 13 The knowledge of a wise man will be made to abound as a flood;
+\v 13 The knowledge of a wise man will be made to abound as a flood; 
 \q1 And his counsel as a fountain of life. 
 \q1
 \v 14 The inward parts of a fool are like a broken vessel; 
@@ -1976,15 +1907,14 @@ humble.\f*
 \v 16 The discourse of a fool is like a burden in the way; 
 \q1 But grace will be found on the lips of the wise. 
 \q1
-\v 17 The mouth of the prudent man will be sought for in the congregation;
+\v 17 The mouth of the prudent man will be sought for in the congregation; 
 \q1 And they will ponder his words in their heart. 
 \b
 \q1
 \v 18 As a house that is destroyed, so is wisdom to a fool; 
-\q1 And the knowledge of an unwise man is \add as \add* \f + \fr 21:18 
-\ft Gr. \fqa unexamined words. \f* talk without sense. 
+\q1 And the knowledge of an unwise man is \add as \add* \f + \fr 21:18  \ft Gr. \fqa unexamined words. \f* talk without sense. 
 \q1
-\v 19 Instruction is \add as \add* fetters on the feet of an unwise man,
+\v 19 Instruction is \add as \add* fetters on the feet of an unwise man, 
 \q1 And as manacles on the right hand. 
 \q1
 \v 20 A fool lifts up his voice with laughter; 
@@ -1994,18 +1924,17 @@ humble.\f*
 \q1 And as a bracelet upon his right arm. 
 \b
 \q1
-\v 22 The foot of a fool is soon in \add another man’s \add* house;
+\v 22 The foot of a fool is soon in \add another man’s \add* house; 
 \q1 But a man of experience will be ashamed of entering. 
 \q1
-\v 23 A foolish man peeps in from the door of \add another man’s
-\add* house; 
+\v 23 A foolish man peeps in from the door of \add another man’s \add* house; 
 \q1 But a man that is instructed will stand without. 
 \q1
-\v 24 It is a lack of instruction in a man to listen at the door;
+\v 24 It is a lack of instruction in a man to listen at the door; 
 \q1 But the prudent man will be grieved with the disgrace. 
 \q1
-\v 25  \f + \fr 21:25  \ft The text seems to be uncertain. \f* The lips of strangers will be grieved at these things;
-\q1 But the words of prudent men will be weighed in the balance.
+\v 25  \f + \fr 21:25  \ft The text seems to be uncertain. \f* The lips of strangers will be grieved at these things; 
+\q1 But the words of prudent men will be weighed in the balance. 
 \b
 \q1
 \v 26 The heart of fools is in their mouth; 
@@ -2017,7 +1946,7 @@ humble.\f*
 \v 28 A whisperer defiles his own soul, 
 \q1 And will be hated wherever he travels. 
 \b
-\c 22  
+\c  22  
 \q1
 \v 1 A slothful man is compared to a stone that is defiled; 
 \q1 And every one will hiss him out in his disgrace. 
@@ -2026,8 +1955,7 @@ humble.\f*
 \q1 Every man that takes it up will shake out his hand. 
 \b
 \q1
-\v 3 A father has shame in having begotten an uninstructed \add son;
-\add* 
+\v 3 A father has shame in having begotten an uninstructed \add son; \add* 
 \q1 And a \add foolish \add* daughter is born to his loss. 
 \q1
 \v 4 A prudent daughter will inherit a husband of her own; 
@@ -2040,28 +1968,26 @@ humble.\f*
 \q1 But stripes and correction are wisdom at every season. 
 \b
 \q1
-\v 7 He that teaches a fool is \add as \add* one that glues a potsherd together;
-\q1 \add Even as \add* one that wakes a sleeper out of a deep sleep.
+\v 7 He that teaches a fool is \add as \add* one that glues a potsherd together; 
+\q1 \add Even as \add* one that wakes a sleeper out of a deep sleep. 
 \q1
-\v 8 He who teaches a fool is \add as \add* one who teaches a man who slumbers;
+\v 8 He who teaches a fool is \add as \add* one who teaches a man who slumbers; 
 \q1 And at the end he will say, What is it? 
-\v 9-10  \f + \fr 22:9-10  \ft Verses 9 and 10 are omitted by the best authorities.
-\f* 
+\v 9-10  \f + \fr 22:9-10  \ft Verses 9 and 10 are omitted by the best authorities. \f* 
 \q1
 \v 11 Weep for the dead, for light has failed \add him; \add* 
-\q1 And weep for a fool, for understanding has failed \add him: \add*
+\q1 And weep for a fool, for understanding has failed \add him: \add* 
 \q1 Weep more sweetly for the dead, because he has found rest; 
 \q1 But the life of the fool is worse than death. 
 \q1
-\v 12 Seven days are \add the days of \add* mourning for the dead;
-\q1 But for a fool and an ungodly man, all the days of his life.
+\v 12 Seven days are \add the days of \add* mourning for the dead; 
+\q1 But for a fool and an ungodly man, all the days of his life. 
 \b
 \q1
 \v 13 Talk not much with a foolish man, 
 \q1 And go not to one that has no understanding: 
 \q1 Beware of him, lest you have trouble; 
-\q1 And \add so \add* you shall not be \f + \fr 22:13  \ft Or, \fqa defiled: in his onslaught turn
-\f* defiled in his onslaught: 
+\q1 And \add so \add* you shall not be \f + \fr 22:13  \ft Or, \fqa defiled: in his onslaught turn \f* defiled in his onslaught: 
 \q1 Turn away from him, and you will find rest; 
 \q1 And \add so \add* you shall not be wearied in his madness. 
 \q1
@@ -2072,14 +1998,14 @@ humble.\f*
 \q1 Than a man without understanding. 
 \b
 \q1
-\v 16 Timber girded and bound into a building will not be released with shaking:
-\q1 So a heart established in due season on well advised counsel will not be afraid.
+\v 16 Timber girded and bound into a building will not be released with shaking: 
+\q1 So a heart established in due season on well advised counsel will not be afraid. 
 \q1
 \v 17 A heart settled upon a thoughtful understanding 
 \q1 Is as an ornament of plaster on a polished wall. 
 \q1
-\v 18 Pales set on a high place will not stand against the wind:
-\q1 So a fearful heart in the imagination of a fool will not stand against any fear.
+\v 18 Pales set on a high place will not stand against the wind: 
+\q1 So a fearful heart in the imagination of a fool will not stand against any fear. 
 \b
 \q1
 \v 19 He that pricks the eye will make tears to fall; 
@@ -2093,16 +2019,14 @@ humble.\f*
 \q1
 \v 22 If you have opened your mouth against a friend, fear not; 
 \q1 For there may be a reconciling; 
-\q1 Except it be for upbraiding, and arrogance, and disclosing of a secret, and a treacherous blow:
+\q1 Except it be for upbraiding, and arrogance, and disclosing of a secret, and a treacherous blow: 
 \q1 For these things every friend will flee. 
 \b
 \q1
 \v 23 Gain trust with your neighbor in his poverty, 
 \q1 That in his prosperity you may have gladness: 
 \q1 Stay steadfast to him in the time of his affliction, 
-\q1 That you may be heir with him in his inheritance. \f + \fr 22:23 
-\ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 That you may be heir with him in his inheritance. \f + \fr 22:23  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
 \v 24 Before fire is the vapor and smoke of a furnace; 
 \q1 So revilings before bloodshed. 
@@ -2131,33 +2055,28 @@ humble.\f*
 \v 3 That my ignorances be not multiplied, 
 \q1 And my sins abound not; 
 \q1 And I will fall before my adversaries, 
-\q1 And my enemy rejoice over me. \f + \fr 23:3  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 And my enemy rejoice over me. \f + \fr 23:3  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
 \v 4 O Lord, Father and God of my life, 
-\q1 Give me not a \f + \fr 23:4  \ft Gr. \fqa lifting up of eyes.
-\f* proud look, \f + \fr 23:4  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 Give me not a \f + \fr 23:4  \ft Gr. \fqa lifting up of eyes. \f* proud look, \f + \fr 23:4  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
-\v 5 And turn away concupiscense from me. \f + \fr 23:5  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\v 5 And turn away concupiscense from me. \f + \fr 23:5  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
-\v 6 Let not \f + \fr 23:6  \ft Gr. \fqa appetite of the belly. \f* greediness and chambering overtake me;
+\v 6 Let not \f + \fr 23:6  \ft Gr. \fqa appetite of the belly. \f* greediness and chambering overtake me; 
 \q1 And give me not over to a shameless mind. 
 \b
 \q1
 \v 7 Hear you°, my children, the discipline of the mouth; 
 \q1 And he that keeps it will not be taken. 
 \q1
-\v 8 The sinner will be \f + \fr 23:8  \ft Most authorities read
-\fqa left. \f* overtaken in his lips; 
+\v 8 The sinner will be \f + \fr 23:8  \ft Most authorities read \fqa left. \f* overtaken in his lips; 
 \q1 And the reviler and the proud man will stumble therein. 
 \q1
 \v 9 Accustom not your mouth to an oath; 
 \q1 And be not accustomed to the naming of the Holy One. 
 \q1
-\v 10 For as a servant that is continually scourged will not lack a bruise,
-\q1 So he also that swears and names \add God \add* continually will not be cleansed from sin.
+\v 10 For as a servant that is continually scourged will not lack a bruise, 
+\q1 So he also that swears and names \add God \add* continually will not be cleansed from sin. 
 \q1
 \v 11 A man of many oaths will be filled with iniquity; 
 \q1 And the scourge will not depart from his house: 
@@ -2166,7 +2085,7 @@ humble.\f*
 \q1 And if he has sworn in vain, he will not be justified; 
 \q1 For his house will be filled with calamities. 
 \q1
-\v 12 There is a manner of speech that is clothed about with death:
+\v 12 There is a manner of speech that is clothed about with death: 
 \q1 Let it not be found in the heritage of Jacob; 
 \q1 For all these things will be far from the godly, 
 \q1 And they will not wallow in sins. 
@@ -2187,9 +2106,8 @@ humble.\f*
 \q1
 \v 16 Two sorts \add of men \add* multiply sins, 
 \q1 And the third will bring wrath: 
-\q1 A hot mind, as a burning fire, will not be quenched till it be consumed:
-\q1 A fornicator in the body of his flesh will never cease till he has
-\f + \fr 23:16  \ft Or, \fqa made a fire blaze up \f* burned out the fire.
+\q1 A hot mind, as a burning fire, will not be quenched till it be consumed: 
+\q1 A fornicator in the body of his flesh will never cease till he has \f + \fr 23:16  \ft Or, \fqa made a fire blaze up \f* burned out the fire. 
 \q1
 \v 17 All bread is sweet to a fornicator: 
 \q1 He will not leave off till he die. 
@@ -2201,7 +2119,7 @@ humble.\f*
 \q1 The Most High will not remember my sins; 
 \q1
 \v 19 —And the eyes of men are his terror, 
-\q1 And he knows not that the eyes of the Lord are ten thousand times brighter than the sun,
+\q1 And he knows not that the eyes of the Lord are ten thousand times brighter than the sun, 
 \q1 Beholding all the ways of men, 
 \q1 And looking into secret places. 
 \q1
@@ -2214,7 +2132,7 @@ humble.\f*
 \v 22 So also a wife that leaves her husband, 
 \q1 And brings in an heir by a stranger. 
 \q1
-\v 23 For first, she was disobedient in the law of the Most High;
+\v 23 For first, she was disobedient in the law of the Most High; 
 \q1 And secondly, she trespassed against her own husband; 
 \q1 And thirdly, she played the adulteress in whoredom, 
 \q1 And brought in children by a stranger. 
@@ -2228,16 +2146,15 @@ humble.\f*
 \v 26 She will leave her memory for a curse; 
 \q1 And her reproach will not be blotted out. 
 \q1
-\v 27 And those who are left behind will know that there is nothing better than the fear of the Lord,
-\q1 And nothing sweeter than to take heed to the commandments of the Lord.
-\v 28  \f + \fr 23:28  \ft Verse 28 is omitted by the best authorities.\f*
+\v 27 And those who are left behind will know that there is nothing better than the fear of the Lord, 
+\q1 And nothing sweeter than to take heed to the commandments of the Lord. 
+\v 28  \f + \fr 23:28  \ft Verse 28 is omitted by the best authorities.\f* 
 \c 24  
 \q1
-\v 1 Wisdom will praise \f + \fr 24:1  \ft Gr. \fqa her own soul.
-\f* herself, 
+\v 1 Wisdom will praise \f + \fr 24:1  \ft Gr. \fqa her own soul. \f* herself, 
 \q1 And will glory in the midst of her people. 
 \q1
-\v 2 She will open her mouth in the congregation of the Most High,
+\v 2 She will open her mouth in the congregation of the Most High, 
 \q1 And glory in the presence of his power. 
 \q1
 \v 3 I came forth from the mouth of the Most High, 
@@ -2280,9 +2197,9 @@ humble.\f*
 \q1 And as a fair olive tree in the plain; 
 \q1 And I was exalted as a plane tree. 
 \q1
-\v 15 As cinnamon and aspalathus, I have given a scent of perfumes;
+\v 15 As cinnamon and aspalathus, I have given a scent of perfumes; 
 \q1 And as choice myrrh, I spread abroad a pleasant odour; 
-\q1 As \f + \fr 24:15  \ft See Exodus 30:34. \f* galbanum, and onyx, and stacte,
+\q1 As \f + \fr 24:15  \ft See Exodus 30:34. \f* galbanum, and onyx, and stacte, 
 \q1 And as the fume of frankincense in the tabernacle. 
 \q1
 \v 16 As the terebinth I stretched out my branches; 
@@ -2290,7 +2207,7 @@ humble.\f*
 \q1
 \v 17 As the vine I put forth grace; 
 \q1 And my flowers are the fruit of glory and riches. 
-\v 18  \f + \fr 24:18  \ft Verse 18 is omitted by the best authorities.\f*
+\v 18  \f + \fr 24:18  \ft Verse 18 is omitted by the best authorities.\f* 
 \q1
 \v 19 Come to me, you° that are desirous of me, 
 \q1 And be you° filled with my produce. 
@@ -2305,10 +2222,9 @@ humble.\f*
 \q1 And those who work in me will not do amiss. 
 \b
 \q1
-\v 23 All these things are the book of the covenant of the Most High God,
-\q1 \add Even \add* the law which Moses commanded us for a heritage to the assemblies of Jacob.
-\v 24  \f + \fr 24:24  \ft Verse 24 is omitted by the best authorities.
-\f* 
+\v 23 All these things are the book of the covenant of the Most High God, 
+\q1 \add Even \add* the law which Moses commanded us for a heritage to the assemblies of Jacob. 
+\v 24  \f + \fr 24:24  \ft Verse 24 is omitted by the best authorities. \f* 
 \q1
 \v 25 It is he that makes wisdom abundant, as Pishon, 
 \q1 And as Tigris in the days of new \add fruits; \add* 
@@ -2326,7 +2242,7 @@ humble.\f*
 \q1 And her counsels from the great deep. 
 \b
 \q1
-\v 30 And I came out as a \f + \fr 24:30  \ft Gr. \fqa canal. \f* stream from a river,
+\v 30 And I came out as a \f + \fr 24:30  \ft Gr. \fqa canal. \f* stream from a river, 
 \q1 And as a conduit into a garden. 
 \q1
 \v 31 I said, I will water my garden, 
@@ -2335,7 +2251,7 @@ humble.\f*
 \q1 And my river became a sea. 
 \q1
 \v 32 I will yet bring instruction to light as the morning, 
-\q1 And will make \f + \fr 24:32  \ft Gr. \fqa them. \f* these things to shine forth afar off.
+\q1 And will make \f + \fr 24:32  \ft Gr. \fqa them. \f* these things to shine forth afar off. 
 \q1
 \v 33 I will yet pour out doctrine as prophecy, 
 \q1 And leave it to generations of ages. 
@@ -2343,17 +2259,17 @@ humble.\f*
 \v 34 Behold that I have not labored for myself only, 
 \q1 But for all those who diligently seek her. 
 \b
-\c 25  
+\c  25  
 \q1
 \v 1 In three things I was beautified, 
 \q1 And stood up beautiful before the Lord and men: 
 \q1 The concord of kindred, and friendship of neighbors, 
-\q1 And a woman and her husband that walk together in agreement.
+\q1 And a woman and her husband that walk together in agreement. 
 \q1
 \v 2 But three sorts \add of men \add* my soul hates, 
 \q1 And I am greatly offended at their life: 
 \q1 A poor man that is arrogant, and a rich man that is a liar, 
-\q1 \add And \add* an old man that is an adulterer lacking understanding.
+\q1 \add And \add* an old man that is an adulterer lacking understanding. 
 \b
 \q1
 \v 3 In \add your \add* youth you have not gathered, 
@@ -2369,7 +2285,7 @@ humble.\f*
 \q1 And their glorying is the fear of the Lord. 
 \b
 \q1
-\v 7 There be nine things that I have thought of, and in my heart counted happy;
+\v 7 There be nine things that I have thought of, and in my heart counted happy; 
 \q1 And the tenth I will utter with my tongue: 
 \q1 A man that has joy of his children; 
 \q1 A man that lives and looks upon the fall of his enemies: 
@@ -2386,11 +2302,10 @@ humble.\f*
 \q1
 \v 11 The fear of the Lord passes all things: 
 \q1 He that holds it, to whom shall he be likened? 
-\v 12  \f + \fr 25:12  \ft Verse 12 is omitted by the best authorities.
-\f* 
+\v 12  \f + \fr 25:12  \ft Verse 12 is omitted by the best authorities. \f* 
 \b
 \q1
-\v 13  \add Give me \add* any plague but the plague of the heart;
+\v 13  \add Give me \add* any plague but the plague of the heart; 
 \q1 And any wickedness but the wickedness of a woman; 
 \q1
 \v 14 Any calamity, but a calamity from those who hate me; 
@@ -2412,7 +2327,7 @@ humble.\f*
 \v 19 All malice is but little to the malice of a woman: 
 \q1 Let the portion of a sinner fall on her. 
 \q1
-\v 20  \add As \add* the going up a sandy way \add is \add* to the feet of the aged,
+\v 20  \add As \add* the going up a sandy way \add is \add* to the feet of the aged, 
 \q1 So is a wife full of words to a quiet man. 
 \q1
 \v 21 Throw not yourself upon the beauty of a woman; 
@@ -2432,12 +2347,10 @@ humble.\f*
 \v 25 Give not water an outlet; 
 \q1 Neither to a wicked woman freedom of speech. 
 \q1
-\v 26 If she go not \f + \fr 25:26  \ft Gr. \fqa according to your hand.
-\f* as you would have her, 
-\q1 Cut her off from your flesh. \f + \fr 25:26  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\v 26 If she go not \f + \fr 25:26  \ft Gr. \fqa according to your hand. \f* as you would have her, 
+\q1 Cut her off from your flesh. \f + \fr 25:26  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \b
-\c 26  
+\c  26  
 \q1
 \v 1 Happy is the husband of a good wife; 
 \q1 And the number of his days will be doubled. 
@@ -2449,20 +2362,18 @@ humble.\f*
 \q1 She will be given in the portion of such as fear the Lord. 
 \q1
 \v 4 Whether a man be rich or poor, 
-\q1 A good heart \add makes \add* at all times a cheerful countenance.
+\q1 A good heart \add makes \add* at all times a cheerful countenance. 
 \b
 \q1
 \v 5 Of three things my heart was afraid; 
-\q1 And concerning the fourth \f + \fr 26:5  \ft Gr. \fqa countenance.
-\f* kind I made supplication: 
-\q1 The slander of a city, and the assembly of a multitude, and a false accusation:
+\q1 And concerning the fourth \f + \fr 26:5  \ft Gr. \fqa countenance. \f* kind I made supplication: 
+\q1 The slander of a city, and the assembly of a multitude, and a false accusation: 
 \q1 All these are more grievous than death. 
 \q1
-\v 6 A grief of heart and sorrow is a woman that is jealous of \add another
-\add* woman, 
+\v 6 A grief of heart and sorrow is a woman that is jealous of \add another \add* woman, 
 \q1 And the scourge of a tongue communicating to all. 
 \q1
-\v 7 A wicked woman is \add as \add* a yoke of oxen shaken to and fro:
+\v 7 A wicked woman is \add as \add* a yoke of oxen shaken to and fro: 
 \q1 He that takes hold of her is as one that grasps a scorpion. 
 \q1
 \v 8 A drunken woman \add causes \add* great wrath; 
@@ -2487,22 +2398,20 @@ humble.\f*
 \q1 And her knowledge will fatten his bones. 
 \q1
 \v 14 A silent woman is a gift of the Lord; 
-\q1 And there is nothing so much worth as a well-instructed soul.
+\q1 And there is nothing so much worth as a well-instructed soul. 
 \q1
 \v 15 A shamefast woman is grace upon grace; 
-\q1 And there is no \f + \fr 26:15  \ft Gr. \fqa weight. \f* price worthy of a continent soul.
+\q1 And there is no \f + \fr 26:15  \ft Gr. \fqa weight. \f* price worthy of a continent soul. 
 \q1
-\v 16 As the sun when it arises in the highest places of the Lord,
-\q1 So is the beauty of a good wife in the ordering of \f + \fr 26:16 
-\ft Gr. \fqa his. \f* a man’s house. 
+\v 16 As the sun when it arises in the highest places of the Lord, 
+\q1 So is the beauty of a good wife in the ordering of \f + \fr 26:16  \ft Gr. \fqa his. \f* a man’s house. 
 \q1
 \v 17 As the lamp that shines upon the holy candlestick, 
 \q1 So is the beauty of the face in ripe age. 
 \q1
 \v 18 As the golden pillars are upon a base of silver, 
-\q1 So are beautiful feet with the breasts of one that is steadfast.
-\v 19-27  \f + \fr 26:19-27  \ft Verses 19-27 are omitted by the best authorities.
-\f* 
+\q1 So are beautiful feet with the breasts of one that is steadfast. 
+\v 19-27  \f + \fr 26:19-27  \ft Verses 19-27 are omitted by the best authorities. \f* 
 \b
 \q1
 \v 28 For two things my heart is grieved; 
@@ -2518,12 +2427,12 @@ humble.\f*
 \c 27  
 \q1
 \v 1 Many have sinned for a thing indifferent; 
-\q1 And he that seeks to multiply \add gain \add* will turn his eye away.
+\q1 And he that seeks to multiply \add gain \add* will turn his eye away. 
 \q1
 \v 2 A nail will stick fast between the joinings of stones; 
-\q1 And sin will \f + \fr 27:2  \ft Gr. \fqa rub. \f* thrust itself in between buying and selling.
+\q1 And sin will \f + \fr 27:2  \ft Gr. \fqa rub. \f* thrust itself in between buying and selling. 
 \q1
-\v 3 Unless \add a man \add* hold on diligently in the fear of the Lord,
+\v 3 Unless \add a man \add* hold on diligently in the fear of the Lord, 
 \q1 His house will soon be overthrown. 
 \b
 \q1
@@ -2559,11 +2468,11 @@ humble.\f*
 \v 13 The discourse of fools is an offence; 
 \q1 And their laughter is in the wantonness of sin. 
 \q1
-\v 14 The talk of a man of many oaths will make the hair stand upright;
+\v 14 The talk of a man of many oaths will make the hair stand upright; 
 \q1 And their strife makes one stop his ears. 
 \q1
 \v 15 The strife of the proud is a shedding of blood; 
-\q1 And their reviling of each other is a grievous thing to hear.
+\q1 And their reviling of each other is a grievous thing to hear. 
 \b
 \q1
 \v 16 He that reveals secrets destroys credit, 
@@ -2577,12 +2486,12 @@ humble.\f*
 \q1 So have you destroyed the friendship of your neighbor. 
 \q1
 \v 19 And as a bird which you have released out of your hand, 
-\q1 So have you let your neighbor go, and you will not catch him again:
+\q1 So have you let your neighbor go, and you will not catch him again: 
 \q1
 \v 20 Pursue him not, for he is gone far away, 
 \q1 And has escaped as a gazelle out of the snare. 
 \q1
-\v 21 For a wound may be bound up, and after reviling there may be a reconcilement;
+\v 21 For a wound may be bound up, and after reviling there may be a reconcilement; 
 \q1 But he that reveals secrets has lost hope. 
 \b
 \q1
@@ -2610,7 +2519,7 @@ humble.\f*
 \v 28 Mockery and reproach are from the arrogant; 
 \q1 And vengeance, as a lion, will lie in wait for him. 
 \q1
-\v 29 They that rejoice at the fall of the godly will be taken in a snare;
+\v 29 They that rejoice at the fall of the godly will be taken in a snare; 
 \q1 And anguish will consume them before they die. 
 \b
 \q1
@@ -2621,7 +2530,7 @@ humble.\f*
 \v 1 He that takes vengeance will find vengeance from the Lord; 
 \q1 And he will surely make firm his sins. 
 \q1
-\v 2 Forgive your neighbor the hurt that he has done \add you; \add*
+\v 2 Forgive your neighbor the hurt that he has done \add you; \add* 
 \q1 And then your sins will be pardoned when you pray. 
 \q1
 \v 3 Man cherishes anger against man; 
@@ -2634,10 +2543,10 @@ humble.\f*
 \q1 Who will make atonement for his sins? 
 \q1
 \v 6 Remember your last end, and cease from enmity: 
-\q1 \add Remember \add* corruption and death, and remain in the commandments.
+\q1 \add Remember \add* corruption and death, and remain in the commandments. 
 \q1
-\v 7 Remember the commandments, and be not angry with your neighbor;
-\q1 And \add remember \add* the covenant of the Highest, and wink at ignorance.
+\v 7 Remember the commandments, and be not angry with your neighbor; 
+\q1 And \add remember \add* the covenant of the Highest, and wink at ignorance. 
 \b
 \q1
 \v 8 Abstain from strife, and you will diminish your sins: 
@@ -2646,11 +2555,10 @@ humble.\f*
 \v 9 And a man that is a sinner will trouble friends, 
 \q1 And will make debate among those who are at peace. 
 \q1
-\v 10  \f + \fr 28:10  \ft The order of the lines in this verse is uncertain.
-\f* As is the fuel of the fire, so will it burn; 
-\q1 And as the stoutness of the strife is, \add so \add* will it burn:
-\q1 As is the strength of the man, \add so \add* will be his wrath;
-\q1 And as is his wealth, \add so \add* he will exalt his anger.
+\v 10  \f + \fr 28:10  \ft The order of the lines in this verse is uncertain. \f* As is the fuel of the fire, so will it burn; 
+\q1 And as the stoutness of the strife is, \add so \add* will it burn: 
+\q1 As is the strength of the man, \add so \add* will be his wrath; 
+\q1 And as is his wealth, \add so \add* he will exalt his anger. 
 \q1
 \v 11 A contention begun in haste kindles a fire; 
 \q1 And a hasty fighting sheds blood. 
@@ -2678,7 +2586,7 @@ humble.\f*
 \q1 But the stroke of a tongue will break bones. 
 \q1
 \v 18 Many have fallen by the edge of the sword: 
-\q1 Yet not so many as those who have fallen because of the tongue.
+\q1 Yet not so many as those who have fallen because of the tongue. 
 \q1
 \v 19 Happy is he that is sheltered from it, 
 \q1 That has not passed through the wrath thereof; 
@@ -2708,10 +2616,10 @@ humble.\f*
 \v 26 Take heed lest you slip therein; 
 \q1 Lest you fall before one that lies in wait. 
 \b
-\c 29  
+\c  29  
 \q1
 \v 1 He that shows mercy will lend to his neighbor; 
-\q1 And he that strengthens him with his hand keeps the commandments.
+\q1 And he that strengthens him with his hand keeps the commandments. 
 \q1
 \v 2 Lend to your neighbor in time of his need; 
 \q1 And pay you your neighbor again in due season. 
@@ -2725,8 +2633,7 @@ humble.\f*
 \v 5 Till he has received, he will kiss a man’s hands; 
 \q1 And for his neighbor’s money he will speak submissly: 
 \q1 And when payment is due, he will prolong the time, 
-\q1 And return words of heaviness, and complain of \f + \fr 29:5 
-\ft Gr. \fqa the season. \f* the times. 
+\q1 And return words of heaviness, and complain of \f + \fr 29:5  \ft Gr. \fqa the season. \f* the times. 
 \q1
 \v 6 If he prevail, he shall hardly receive the half; 
 \q1 And he will count it as a windfall: 
@@ -2735,8 +2642,7 @@ humble.\f*
 \q1 He will pay him with cursing and railing; 
 \q1 And for honor he will pay him disgrace. 
 \q1
-\v 7  \f + \fr 29:7  \ft Some ancient authorities read \fqa Many therefore.
-\f* Many on account of \add men’s \add* ill-dealing have turned away;
+\v 7  \f + \fr 29:7  \ft Some ancient authorities read \fqa Many therefore. \f* Many on account of \add men’s \add* ill-dealing have turned away; 
 \q1 They have feared to be defrauded for nothing. 
 \q1
 \v 8 However with a man in poor estate be patient; 
@@ -2748,7 +2654,7 @@ humble.\f*
 \v 10 Lose \add your \add* money for a brother and a friend; 
 \q1 And let it not rust under the stone to be lost. 
 \q1
-\v 11 Bestow your treasure according to the commandments of the Most High;
+\v 11 Bestow your treasure according to the commandments of the Most High; 
 \q1 And it shall profit you more than gold. 
 \q1
 \v 12 Shut up alms in your store-chambers; 
@@ -2766,7 +2672,7 @@ humble.\f*
 \q1
 \v 16 A sinner will overthrow the good estate of his surety; 
 \q1
-\v 17 And he that is of an unthankful mind will fail him that delivered him.
+\v 17 And he that is of an unthankful mind will fail him that delivered him. 
 \q1
 \v 18 Suretiship has undone many that were prospering, 
 \q1 And shaken them as a wave of the sea: 
@@ -2774,11 +2680,10 @@ humble.\f*
 \q1 And they wandered among strange nations. 
 \q1
 \v 19 A sinner that falls into suretiship, 
-\q1 And undertakes contracts for work, shall fall into lawsuits.
+\q1 And undertakes contracts for work, shall fall into lawsuits. 
 \q1
 \v 20 Help your neighbor according to your power, 
-\q1 And take heed to yourself that you fall not \add the same way.
-\add* 
+\q1 And take heed to yourself that you fall not \add the same way. \add* 
 \b
 \q1
 \v 21 The chief thing for life is water, and bread, 
@@ -2787,14 +2692,12 @@ humble.\f*
 \v 22 Better is the life of a poor man under a shelter of logs, 
 \q1 Than sumptuous fare in another man’s house. 
 \q1
-\v 23 With little or with much, be well satisfied. \f + \fr 29:23 
-\ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\v 23 With little or with much, be well satisfied. \f + \fr 29:23  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
 \v 24 It is a miserable life to go from house to house: 
-\q1 And where you are a sojourner, you shall not \add dare to \add* open your mouth.
+\q1 And where you are a sojourner, you shall not \add dare to \add* open your mouth. 
 \q1
-\v 25 You shall entertain, and give to drink, and have no thanks:
+\v 25 You shall entertain, and give to drink, and have no thanks: 
 \q1 And in addition to this you shall hear bitter words. 
 \q1
 \v 26 Come here, you sojourner, furnish a table, 
@@ -2804,17 +2707,17 @@ humble.\f*
 \q1 My brother is come to be my guest; I have need of my house. 
 \q1
 \v 28 These things are grievous to a man of understanding; 
-\q1 The upbraiding of house-room, and the reproaching of the money-lender.
+\q1 The upbraiding of house-room, and the reproaching of the money-lender. 
 \b
-\c 30  
+\c  30  
 \q1
-\v 1 He that loves his son will continue to lay stripes upon him,
+\v 1 He that loves his son will continue to lay stripes upon him, 
 \q1 That he may have joy of him in the end. 
 \q1
 \v 2 He that chastises his son shall have profit of him, 
 \q1 And shall glory of him among his acquaintance. 
 \q1
-\v 3 He that teaches his son shall provoke his enemy to jealousy;
+\v 3 He that teaches his son shall provoke his enemy to jealousy; 
 \q1 And before friends he shall rejoice of him. 
 \q1
 \v 4 His father dies, and is as though he had not died; 
@@ -2826,7 +2729,7 @@ humble.\f*
 \v 6 He left behind him an avenger against his enemies, 
 \q1 And one to requite kindness to his friends. 
 \q1
-\v 7 He that makes too much of his son shall bind up his wounds;
+\v 7 He that makes too much of his son shall bind up his wounds; 
 \q1 And his heart will be troubled at every cry. 
 \q1
 \v 8 An unbroken horse becomes stubborn; 
@@ -2839,21 +2742,18 @@ humble.\f*
 \q1 And you shall gnash your teeth in the end. 
 \q1
 \v 11 Give him no liberty in his youth, 
-\q1 \f + \fr 30:11  \ft These three lines are absent from the oldest MSS.
-\f* And wink not at his follies. 
+\q1 \f + \fr 30:11  \ft These three lines are absent from the oldest MSS. \f* And wink not at his follies. 
 \q1
-\v 12  \f + \fr 30:12  \ft These three lines are absent from the oldest MSS.
-\f* Bow down his neck in his youth, 
+\v 12  \f + \fr 30:12  \ft These three lines are absent from the oldest MSS. \f* Bow down his neck in his youth, 
 \q1 And beat him on the sides while he is a child, 
 \q1 Lest he wax stubborn, and be disobedient to you; 
-\q1 \f + \fr 30:12  \ft These three lines are absent from the oldest MSS.
-\f* And there shall be sorrow to your soul. 
+\q1 \f + \fr 30:12  \ft These three lines are absent from the oldest MSS. \f* And there shall be sorrow to your soul. 
 \q1
 \v 13 Chastise your son, and take pains with him, 
 \q1 Lest his shameless behavior be an offence to you. 
 \b
 \q1
-\v 14 Better is a poor man, being sound and strong of constitution,
+\v 14 Better is a poor man, being sound and strong of constitution, 
 \q1 Than a rich man that is plagued in his body. 
 \q1
 \v 15 Health and a good constitution are better than all gold; 
@@ -2863,8 +2763,7 @@ humble.\f*
 \q1 And there is no gladness above the joy of the heart. 
 \q1
 \v 17 Death is better than a bitter life, 
-\q1 \f + \fr 30:17  \ft The oldest MSS. omit \fqa And eternal rest.
-\f* And \f + \fr 30:17  \ft Gr. \fqa age-long rest. \f* eternal rest than a continual sickness.
+\q1 \f + \fr 30:17  \ft The oldest MSS. omit \fqa And eternal rest. \f* And \f + \fr 30:17  \ft Gr. \fqa age-long rest. \f* eternal rest than a continual sickness. 
 \q1
 \v 18 Good things poured out upon a mouth that is closed 
 \q1 Are \add as \add* messes of meat laid upon a grave. 
@@ -2899,8 +2798,7 @@ humble.\f*
 \q1 And the anxiety thereof puts away sleep. 
 \q1
 \v 2 Wakeful anxiety will crave slumber; 
-\q1 And \f + \fr 31:2  \ft This appears to be the meaning; but the Greek text here is probably corrupt.
-\f* in a sore disease sleep will be broken. 
+\q1 And \f + \fr 31:2  \ft This appears to be the meaning; but the Greek text here is probably corrupt. \f* in a sore disease sleep will be broken. 
 \b
 \q1
 \v 3 A rich man toils in gathering money together; 
@@ -2910,12 +2808,10 @@ humble.\f*
 \q1 And when he rests, he becomes needy. 
 \q1
 \v 5 He that loves gold shall not be justified; 
-\q1 And he that follows destruction shall himself have his fill \add of it.
-\add* 
+\q1 And he that follows destruction shall himself have his fill \add of it. \add* 
 \q1
 \v 6 Many have been given over to ruin for the sake of gold; 
-\q1 And their perdition \f + \fr 31:6  \ft Or, \fqa comes to pass in their faces
-\f* meets them face to face. 
+\q1 And their perdition \f + \fr 31:6  \ft Or, \fqa comes to pass in their faces \f* meets them face to face. 
 \q1
 \v 7 It is a stumbling block to those who sacrifice to it; 
 \q1 And every fool shall be taken therewith. 
@@ -2928,14 +2824,13 @@ humble.\f*
 \q1
 \v 10 Who has been tried by it, and found perfect? 
 \q1 Then let him glory. 
-\q1 Who has had the power to transgress, and has not transgressed?
+\q1 Who has had the power to transgress, and has not transgressed? 
 \q1 And to do evil, and has not done it? 
 \q1
 \v 11 His goods shall be made sure, 
 \q1 And the congregation shall declare his alms. 
 \q1
-\v 12 Sittest you at a great table? \f + \fr 31:12  \ft Gr. \fqa open not your throat upon
-it.\f* be not greedy upon it, 
+\v 12 Sittest you at a great table? \f + \fr 31:12  \ft Gr. \fqa open not your throat upon it.\f* be not greedy upon it, 
 \q1 And say not, Many are the things upon it. 
 \q1
 \v 13 Remember that an evil eye is a wicked thing: 
@@ -2948,7 +2843,7 @@ it.\f* be not greedy upon it,
 \v 15 Consider your neighbor’s \add liking \add* by your own; 
 \q1 And be discreet in every point. 
 \q1
-\v 16 Eat, as \add becomes \add* a man, those things which are set before you;
+\v 16 Eat, as \add becomes \add* a man, those things which are set before you; 
 \q1 And eat not greedily, lest you be hated. 
 \q1
 \v 17 Be first to leave off for manners’ sake; 
@@ -2985,8 +2880,8 @@ it.\f* be not greedy upon it,
 \v 25 Show not yourself valiant in wine; 
 \q1 For wine has destroyed many. 
 \q1
-\v 26 The furnace proves the temper \add of steel \add* by dipping;
-\q1 So does wine \add prove \add* hearts in the quarreling of the proud.
+\v 26 The furnace proves the temper \add of steel \add* by dipping; 
+\q1 So does wine \add prove \add* hearts in the quarreling of the proud. 
 \q1
 \v 27 Wine is as good as life to men, 
 \q1 If you drink it in its measure: 
@@ -3019,8 +2914,7 @@ it.\f* be not greedy upon it,
 \q1 And receive a crown for your well ordering. 
 \b
 \q1
-\v 3 Speak, you that are the elder, for it becomes you, \add but
-\add* with sound knowledge; 
+\v 3 Speak, you that are the elder, for it becomes you, \add but \add* with sound knowledge; 
 \q1 And hinder not music. 
 \q1
 \v 4 Pour not out talk where there is a performance of music, 
@@ -3039,7 +2933,7 @@ it.\f* be not greedy upon it,
 \v 8 Sum up your speech, many things in few words; 
 \q1 Be as one that knows and yet holds his tongue. 
 \q1
-\v 9  \add If you be \add* among great men, behave not as their equal;
+\v 9  \add If you be \add* among great men, behave not as their equal; 
 \q1 And when another is speaking, make not much babbling. 
 \q1
 \v 10 Lightning speeds before thunder; 
@@ -3055,7 +2949,7 @@ it.\f* be not greedy upon it,
 \q1 And gives you to drink freely of his good things. 
 \b
 \q1
-\v 14 He that fears the Lord will receive \add his \add* discipline;
+\v 14 He that fears the Lord will receive \add his \add* discipline; 
 \q1 And those who seek \add him \add* early shall find favor. 
 \q1
 \v 15 He that seeks the law shall be filled therewith: 
@@ -3078,8 +2972,7 @@ it.\f* be not greedy upon it,
 \v 20 Go not in a way of conflict; 
 \q1 And stumble not in stony places. 
 \q1
-\v 21 Be not confident in a \f + \fr 32:21  \ft Gr. \fqa without stumbling
-blocks.\f* smooth way. 
+\v 21 Be not confident in a \f + \fr 32:21  \ft Gr. \fqa without stumbling blocks.\f* smooth way. 
 \q1
 \v 22 And beware of your own children. 
 \q1
@@ -3098,7 +2991,7 @@ blocks.\f* smooth way.
 \q1 But he that is a hypocrite therein is as a ship in a storm. 
 \q1
 \v 3 A man of understanding will put his trust in the law; 
-\q1 And the law is faithful to him, as when one asks at the oracle.
+\q1 And the law is faithful to him, as when one asks at the oracle. 
 \b
 \q1
 \v 4 Prepare \add your \add* speech, and so shall you be heard; 
@@ -3123,7 +3016,7 @@ blocks.\f* smooth way.
 \v 10 And all men are from the ground, 
 \q1 And Adam was created of earth. 
 \q1
-\v 11 In the abundance of his knowledge the Lord distinguished them,
+\v 11 In the abundance of his knowledge the Lord distinguished them, 
 \q1 And made their ways various: 
 \q1
 \v 12 Some of them he blessed and exalted, 
@@ -3138,8 +3031,7 @@ blocks.\f* smooth way.
 \q1
 \v 14 Good is the opposite of evil, 
 \q1 And life is the opposite of death: 
-\q1 So is \f + \fr 33:14  \ft A line of this verse is here omitted by the best authorities.
-\f* the sinner is the opposite of the godly. 
+\q1 So is \f + \fr 33:14  \ft A line of this verse is here omitted by the best authorities. \f* the sinner is the opposite of the godly. 
 \q1
 \v 15 And thus look upon all the works of the Most High; 
 \q1 Two and two, one against another. 
@@ -3160,12 +3052,12 @@ blocks.\f* smooth way.
 \v 19 To son and wife, to brother and friend, 
 \q1 Give not power over you while you live; 
 \q1 And give not your goods to another, 
-\q1 Lest you repent and make supplication for them \add again. \add*
+\q1 Lest you repent and make supplication for them \add again. \add* 
 \q1
 \v 20 Whilst you yet live, and breath is in you, 
 \q1 Give not yourself over to anybody. 
 \q1
-\v 21 For better it is that your children should supplicate you,
+\v 21 For better it is that your children should supplicate you, 
 \q1 Than that you should look to the hand of your sons. 
 \q1
 \v 22 In all your works keep the upper hand; 
@@ -3198,20 +3090,19 @@ blocks.\f* smooth way.
 \q1 Because you have bought him with blood. 
 \q1
 \v 31 If you have a servant, treat him as yourself; 
-\q1 \f + \fr 33:31  \ft The Greek text of this line is probably corrupt.
-\f* For as your own soul will you have need of him: 
+\q1 \f + \fr 33:31  \ft The Greek text of this line is probably corrupt. \f* For as your own soul will you have need of him: 
 \q1 If you treat him ill, and he depart and run away, 
 \q1 Which way will you go to seek him? 
 \b
-\c 34  
+\c  34  
 \q1
 \v 1 Vain and false hopes are for a man void of understanding; 
 \q1 And dreams give wings to fools. 
 \q1
-\v 2 As one that catches at a shadow, and follows after the wind,
+\v 2 As one that catches at a shadow, and follows after the wind, 
 \q1 So is he that sets his mind on dreams. 
 \q1
-\v 3 The vision of dreams is \add as \add* this thing against that,
+\v 3 The vision of dreams is \add as \add* this thing against that, 
 \q1 The likeness of a face near a face. 
 \q1
 \v 4 Of an unclean thing what shall be cleansed? 
@@ -3220,7 +3111,7 @@ blocks.\f* smooth way.
 \v 5 Divinations, and soothsayings, and dreams, are vain: 
 \q1 And the heart fancies, as a woman’s in travail. 
 \q1
-\v 6 If they be not sent from the Most High in \add your \add* visitation,
+\v 6 If they be not sent from the Most High in \add your \add* visitation, 
 \q1 Give not your heart to them. 
 \v 7 For dreams have led many astray: 
 \q1 And they have failed by putting their hope in them. 
@@ -3233,7 +3124,7 @@ blocks.\f* smooth way.
 \q1 And he that has much experience will declare understanding. 
 \q1
 \v 10 He that has no experience knows few things: 
-\q1 But he that has wandered shall increase \add his \add* skill.
+\q1 But he that has wandered shall increase \add his \add* skill. 
 \q1
 \v 11 In my wandering I have seen many things; 
 \q1 And more than my words is my understanding. 
@@ -3244,7 +3135,7 @@ blocks.\f* smooth way.
 \v 13 The spirit of those that fear the Lord shall live; 
 \q1 For their hope is upon him that saves them. 
 \q1
-\v 14 Whoso fears the Lord shall not be afraid, and shall not play the coward;
+\v 14 Whoso fears the Lord shall not be afraid, and shall not play the coward; 
 \q1 For he is his hope. 
 \q1
 \v 15 Blessed is the soul of him that fears the Lord: 
@@ -3259,20 +3150,20 @@ blocks.\f* smooth way.
 \q1 He gives healing, life, and blessing. 
 \b
 \q1
-\v 18 He that sacrifices of a thing wrongfully gotten, his offering is made in mockery;
+\v 18 He that sacrifices of a thing wrongfully gotten, his offering is made in mockery; 
 \q1 And the mockeries of wicked men are not well-pleasing. 
 \q1
-\v 19 The Most High has no pleasure in the offerings of the ungodly;
-\q1 Neither is he pacified for sins by the multitude of sacrifices.
+\v 19 The Most High has no pleasure in the offerings of the ungodly; 
+\q1 Neither is he pacified for sins by the multitude of sacrifices. 
 \q1
-\v 20  \add As \add* one that kills the son before his father’s eyes
+\v 20  \add As \add* one that kills the son before his father’s eyes 
 \q1 Is he that brings a sacrifice from the goods of the poor. 
 \q1
 \v 21 The bread of the needy is the life of the poor: 
 \q1 He that deprives him thereof is a man of blood. 
 \q1
-\v 22  \add As \add* one that slays his neighbor is he that takes away his living;
-\q1 And \add as \add* a shedder of blood is he that deprives a hireling of his hire.
+\v 22  \add As \add* one that slays his neighbor is he that takes away his living; 
+\q1 And \add as \add* a shedder of blood is he that deprives a hireling of his hire. 
 \q1
 \v 23 One building, and another pulling down, 
 \q1 What profit have they had but toil? 
@@ -3280,7 +3171,7 @@ blocks.\f* smooth way.
 \v 24 One praying, and another cursing, 
 \q1 Whose voice will the Lord listen to? 
 \q1
-\v 25 He that washes himself after \add touching \add* a dead body, and touches it again,
+\v 25 He that washes himself after \add touching \add* a dead body, and touches it again, 
 \q1 What profit has he in his washing? 
 \q1
 \v 26 Even so a man fasting for his sins, 
@@ -3288,10 +3179,10 @@ blocks.\f* smooth way.
 \q1 Who will listen to his prayer? 
 \q1 And what profit has he in his humiliation? 
 \b
-\c 35  
+\c  35  
 \q1
 \v 1 He that keeps the law multiplies offerings; 
-\q1 He that takes heed to the commandments sacrifices a peace offering.
+\q1 He that takes heed to the commandments sacrifices a peace offering. 
 \q1
 \v 2 He that requites a good turn offers fine flour; 
 \q1 And he that gives alms sacrifices a thank offering. 
@@ -3301,10 +3192,10 @@ blocks.\f* smooth way.
 \q1
 \v 4 See that you appear not in the presence of the Lord empty. 
 \q1
-\v 5 For all these things \add are to be done \add* because of the commandment.
+\v 5 For all these things \add are to be done \add* because of the commandment. 
 \q1
 \v 6 The offering of the righteous makes the altar fat; 
-\q1 And the sweet savor thereof \add is \add* before the Most High.
+\q1 And the sweet savor thereof \add is \add* before the Most High. 
 \q1
 \v 7 The sacrifice of a righteous man is acceptable; 
 \q1 And the memorial thereof shall not be forgotten. 
@@ -3316,13 +3207,13 @@ blocks.\f* smooth way.
 \q1 And dedicate your tithe with gladness. 
 \q1
 \v 10 Give to the Most High according as he has given; 
-\q1 And as your hand has found, \add give \add* with a good eye.
+\q1 And as your hand has found, \add give \add* with a good eye. 
 \q1
 \v 11 For the Lord recompenses, 
 \q1 And he will recompense you sevenfold. 
 \b
 \q1
-\v 12 Think not to corrupt with gifts; for he will not receive them:
+\v 12 Think not to corrupt with gifts; for he will not receive them: 
 \q1 And set not your mind on an unrighteous sacrifice; 
 \q1 For the Lord is judge, 
 \q1 And with him is no respect of persons. 
@@ -3330,42 +3221,39 @@ blocks.\f* smooth way.
 \v 13 He will not accept any person against a poor man; 
 \q1 And he will listen to the prayer of him that is wronged. 
 \q1
-\v 14 He will in no wise despise the supplication of the fatherless;
-\q1 Nor the widow, \f + \fr 35:14  \ft Gr. \fqa if \f* when she pours out her tale.
+\v 14 He will in no wise despise the supplication of the fatherless; 
+\q1 Nor the widow, \f + \fr 35:14  \ft Gr. \fqa if \f* when she pours out her tale. 
 \q1
 \v 15 Do not the tears of the widow run down her cheek? 
-\q1 And is not her cry against him that has caused them to fall?
+\q1 And is not her cry against him that has caused them to fall? 
 \q1
-\v 16 He that serves \add God \add* according to his good pleasure shall be accepted,
+\v 16 He that serves \add God \add* according to his good pleasure shall be accepted, 
 \q1 And his supplication shall reach to the clouds. 
 \q1
 \v 17 The prayer of the humble pierces the clouds; 
 \q1 And till it come near, he will not be comforted; 
 \q1 And he will not depart, till the Most High shall visit; 
-\q1 And he shall judge \f + \fr 35:17  \ft Some ancient authorities read
-\fqa for the righteous. \f* righteously, and execute judgement. 
+\q1 And he shall judge \f + \fr 35:17  \ft Some ancient authorities read \fqa for the righteous. \f* righteously, and execute judgement. 
 \q1
-\v 18 And the Lord will not be slack, neither will he be patient toward them,
+\v 18 And the Lord will not be slack, neither will he be patient toward them, 
 \q1 Till he have crushed the loins of the unmerciful; 
 \q1 And he shall repay vengeance to the heathen; 
 \q1 Till he have taken away the multitude of the arrogant, 
 \q1 And broken in pieces the sceptres of the unrighteous; 
 \q1
-\v 19 Till he have rendered to \add every \add* man according to his doings,
-\q1 And \add to \add* the works of men according to their plans;
+\v 19 Till he have rendered to \add every \add* man according to his doings, 
+\q1 And \add to \add* the works of men according to their plans; 
 \q1 Till he have judged the cause of his people; 
 \q1 And he shall make them to rejoice in his mercy. 
 \q1
-\v 20 Mercy is seasonable in the time of his afflicting \add them,
-\add* 
+\v 20 Mercy is seasonable in the time of his afflicting \add them, \add* 
 \q1 As clouds of rain in the time of drought. 
 \b
-\c 36  
+\c  36  
 \q1
 \v 1 Have mercy upon us, O Lord the God of all, and behold; 
 \q1
-\v 2 And send your fear upon all the nations: \f + \fr 36:2  \ft The remainder of this verse is omitted by the best
-authorities. \f* 
+\v 2 And send your fear upon all the nations: \f + \fr 36:2  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
 \v 3 Lift up your hand against the strange nations; 
 \q1 And let them see your mighty power. 
@@ -3377,8 +3265,7 @@ authorities. \f*
 \q1 That there is no God but only you, O God. 
 \q1
 \v 6 Show new signs, and work various wonders; 
-\q1 Glorify your hand and your right arm. \f + \fr 36:6  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 Glorify your hand and your right arm. \f + \fr 36:6  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
 \v 7 Raise up indignation, and pour out wrath; 
 \q1 Take away the adversary, and destroy the enemy. 
@@ -3393,10 +3280,9 @@ authorities. \f*
 \q1 That say, There is none but we. 
 \q1
 \v 11 Gather all the tribes of Jacob together, 
-\q1 And \f + \fr 36:11  \ft The ancient authorities read \fqa I took them for my inheritance:
-\ft but the Greek text is here very confused. \f* take them for your inheritance, as from the beginning.
+\q1 And \f + \fr 36:11  \ft The ancient authorities read \fqa I took them for my inheritance: \ft but the Greek text is here very confused. \f* take them for your inheritance, as from the beginning. 
 \q1
-\v 12 O Lord, have mercy upon the people that is called by your name,
+\v 12 O Lord, have mercy upon the people that is called by your name, 
 \q1 And upon Israel, whom you did liken to a firstborn. 
 \q1
 \v 13 Have compassion upon the city of your sanctuary, 
@@ -3405,7 +3291,7 @@ authorities. \f*
 \v 14 Fill Sion; exalt your oracles, 
 \q1 And \add fill \add* your people with your glory. 
 \q1
-\v 15 Give testimony to those that were your creatures in the beginning,
+\v 15 Give testimony to those that were your creatures in the beginning, 
 \q1 And raise up the prophecies that have been in your name. 
 \q1
 \v 16 Give reward to those who wait for you: 
@@ -3414,14 +3300,13 @@ authorities. \f*
 \v 17 Listen, O Lord, to the prayer of your suppliants, 
 \q1 According to the blessing of Aaron concerning your people; 
 \q1 And all those who are on the earth shall know 
-\q1 That you are the Lord, the \f + \fr 36:17  \ft Gr. \fqa God of the ages.
-\f* eternal God. 
+\q1 That you are the Lord, the \f + \fr 36:17  \ft Gr. \fqa God of the ages. \f* eternal God. 
 \b
 \q1
 \v 18 The belly will eat any meat; 
 \q1 Yet is one meat better than another. 
 \q1
-\v 19 The \f + \fr 36:19  \ft Gr. \fqa throat. \f* mouth tastes meats taken in hunting:
+\v 19 The \f + \fr 36:19  \ft Gr. \fqa throat. \f* mouth tastes meats taken in hunting: 
 \q1 So does an understanding heart false speeches. 
 \q1
 \v 20 A contrary heart will cause heaviness: 
@@ -3440,12 +3325,12 @@ authorities. \f*
 \q1 A help meet for him, and a pillar of rest. 
 \q1
 \v 25 Where no hedge is, the possession will be laid waste: 
-\q1 And he that has no wife will mourn as he wanders up and down.
+\q1 And he that has no wife will mourn as he wanders up and down. 
 \q1
-\v 26 For who will trust a nimble robber, that skips from city to city?
-\q1 Even so \add who shall trust \add* a man that has no nest, and lodges wherever he finds himself at nightfall?
+\v 26 For who will trust a nimble robber, that skips from city to city? 
+\q1 Even so \add who shall trust \add* a man that has no nest, and lodges wherever he finds himself at nightfall? 
 \b
-\c 37  
+\c  37  
 \q1
 \v 1 Every friend will say, I also am his friend: 
 \q1 But there is a friend, which is only a friend in name. 
@@ -3456,10 +3341,10 @@ authorities. \f*
 \v 3 O wicked imagination, whence came you rolling in 
 \q1 To cover the dry land with deceitfulness? 
 \q1
-\v 4 There is a companion, which rejoices in the gladness of a friend,
+\v 4 There is a companion, which rejoices in the gladness of a friend, 
 \q1 But in time of affliction will be against him. 
 \q1
-\v 5 There is a companion, which for the belly’s sake labors with his friend,
+\v 5 There is a companion, which for the belly’s sake labors with his friend, 
 \q1 In the face of battle will take up the buckler. 
 \q1
 \v 6 Forget not a friend in your soul; 
@@ -3480,20 +3365,19 @@ authorities. \f*
 \v 10 Take not counsel with one that looks askance at you; 
 \q1 And hide your counsel from such as are jealous of you. 
 \q1
-\v 11  \add Take not counsel \add* with a woman about her rival;
+\v 11  \add Take not counsel \add* with a woman about her rival; 
 \q1 Neither with a coward about war; 
 \q1 Nor with a merchant about exchange; 
 \q1 Nor with a buyer about selling; 
 \q1 Nor with an envious man about thankfulness; 
 \q1 Nor with an unmerciful man about kindliness; 
 \q1 Nor with a sluggard about any kind of work; 
-\q1 Nor with a hireling in your house about finishing \add his work;
-\add* 
+\q1 Nor with a hireling in your house about finishing \add his work; \add* 
 \q1 Nor with an idle servant about much business: 
 \q1 Give not heed to these in any matter of counsel. 
 \q1
 \v 12 But rather be continually with a godly man, 
-\q1 Whom you shall have known to be a keeper of the commandments,
+\q1 Whom you shall have known to be a keeper of the commandments, 
 \q1 Who in his soul is as your own soul, 
 \q1 And who will grieve with you, if you shall miscarry. 
 \q1
@@ -3516,17 +3400,17 @@ authorities. \f*
 \q1 Good and evil, life and death; 
 \q1 And that which rules over them continually is the tongue. 
 \q1
-\v 19 There is one that is shrewd \add and \add* the instructor of many,
+\v 19 There is one that is shrewd \add and \add* the instructor of many, 
 \q1 And yet is unprofitable to his own soul. 
 \q1
-\v 20 There is \add one \add* that is subtle in words, and is hated;
+\v 20 There is \add one \add* that is subtle in words, and is hated; 
 \q1 He shall be destitute of all food: 
 \q1
 \v 21 For grace was not given him from the Lord; 
 \q1 Because he is deprived of all wisdom. 
 \q1
 \v 22 There is one that is wise to his own soul; 
-\q1 And the fruits of his understanding are trustworthy in the mouth.
+\q1 And the fruits of his understanding are trustworthy in the mouth. 
 \q1
 \v 23 A wise man will instruct his own people; 
 \q1 And the fruits of his understanding are trustworthy. 
@@ -3556,9 +3440,9 @@ authorities. \f*
 \v 31 Because of surfeiting have many perished; 
 \q1 But he that takes heed shall prolong his life. 
 \b
-\c 38  
+\c  38  
 \q1
-\v 1 Honor a physician according to your need \add of him \add* with the honors due to him:
+\v 1 Honor a physician according to your need \add of him \add* with the honors due to him: 
 \q1 For truly the Lord has created him. 
 \q1
 \v 2 For from the Most High comes healing; 
@@ -3574,7 +3458,7 @@ authorities. \f*
 \q1 That the virtue thereof might be known? 
 \q1
 \v 6 And he gave men skill, 
-\q1 That \f + \fr 38:6  \ft Or, \fqa he \f* they might be glorified in his marvelous works.
+\q1 That \f + \fr 38:6  \ft Or, \fqa he \f* they might be glorified in his marvelous works. 
 \q1
 \v 7 With them does he heal \add a man, \add* 
 \q1 And takes away his pain. 
@@ -3593,13 +3477,13 @@ authorities. \f*
 \v 11 Give a sweet savor, and a memorial of fine flour; 
 \q1 And make fat your offering, as one that is not. 
 \q1
-\v 12 Then give place to the physician, for truly the Lord has created him;
+\v 12 Then give place to the physician, for truly the Lord has created him; 
 \q1 And let him not go from you, for you have need of him. 
 \q1
-\v 13 There is a time when in their very hands is the issue for good.
+\v 13 There is a time when in their very hands is the issue for good. 
 \q1
 \v 14 For they also shall beseech the Lord, 
-\q1 That he may prosper them in \add giving \add* relief and in healing for the maintenance of life.
+\q1 That he may prosper them in \add giving \add* relief and in healing for the maintenance of life. 
 \q1
 \v 15 He that sins before his Maker, 
 \q1 Let him fall into the hands of the physician. 
@@ -3619,8 +3503,7 @@ authorities. \f*
 \q1 And sorrow of heart will bow down the strength. 
 \q1
 \v 19 In calamity sorrow also remains: 
-\q1 And the poor man’s life is \f + \fr 38:19  \ft Gr. \fqa against the heart.
-\f* grievous to the heart. 
+\q1 And the poor man’s life is \f + \fr 38:19  \ft Gr. \fqa against the heart. \f* grievous to the heart. 
 \q1
 \v 20 Don’t give your heart to sorrow. 
 \q1 Put it away, remembering the last end. 
@@ -3628,7 +3511,7 @@ authorities. \f*
 \v 21 Don’t forget it, for there is no returning again: 
 \q1 Him you shall not profit, and you will hurt yourself. 
 \q1
-\v 22 Remember the sentence upon him; for so also shall your be;
+\v 22 Remember the sentence upon him; for so also shall your be; 
 \q1 Yesterday for me, and today for you. 
 \q1
 \v 23 When the dead is at rest, let his remembrance rest; 
@@ -3636,8 +3519,7 @@ authorities. \f*
 \b
 \q1
 \v 24 The wisdom of the scribe comes by opportunity of leisure; 
-\q1 And \f + \fr 38:24  \ft Gr. \fqa he that is lessened in his business.
-\f* he that has little business shall become wise. 
+\q1 And \f + \fr 38:24  \ft Gr. \fqa he that is lessened in his business. \f* he that has little business shall become wise. 
 \q1
 \v 25 How shall he become wise that holds the plow, 
 \q1 That glories in the shaft of the goad, 
@@ -3651,16 +3533,14 @@ authorities. \f*
 \q1 That passes his time by night as by day; 
 \q1 They that cut gravings of signets, 
 \q1 And his diligence is to make great variety; 
-\q1 He will set his heart to preserve likeness in his portraiture,
+\q1 He will set his heart to preserve likeness in his portraiture, 
 \q1 And will be wakeful to finish his work. 
 \q1
 \v 28 So is the smith sitting by the anvil, 
 \q1 And considering the unwrought iron: 
 \q1 The vapor of the fire will waste his flesh; 
-\q1 And in the heat of the furnace he will wrestle \add with his work:
-\add* 
-\q1 The noise of the hammer will \f + \fr 38:28  \ft Gr. \fqa renew.
-\f* be ever in his ear, 
+\q1 And in the heat of the furnace he will wrestle \add with his work: \add* 
+\q1 The noise of the hammer will \f + \fr 38:28  \ft Gr. \fqa renew. \f* be ever in his ear, 
 \q1 And his eyes are upon the pattern of the vessel; 
 \q1 He will set his heart upon perfecting his works, 
 \q1 And And he will be wakeful to adorn them perfectly. 
@@ -3680,24 +3560,21 @@ authorities. \f*
 \q1 And each becomes wise in his own work. 
 \q1
 \v 32 Without these shall not a city be inhabited, 
-\q1 And men shall not sojourn nor walk up and down \add therein.
-\add* 
+\q1 And men shall not sojourn nor walk up and down \add therein. \add* 
 \q1
-\v 33  \f + \fr 38:33  \ft This line is absent from the oldest MSS.
-\f* They shall not be sought for in the council of the people, 
+\v 33  \f + \fr 38:33  \ft This line is absent from the oldest MSS. \f* They shall not be sought for in the council of the people, 
 \q1 And in the assembly they shall not mount on high; 
 \q1 They shall not sit on the seat of the judge, 
 \q1 And they shall not understand the covenant of judgement: 
 \q1 Neither shall they declare instruction and judgement; 
 \q1 And where parables are they shall not be found. 
 \q1
-\v 34 But they will maintain the fabric of the \f + \fr 38:34  \ft Gr.
-\fqa age. \f* world; 
+\v 34 But they will maintain the fabric of the \f + \fr 38:34  \ft Gr. \fqa age. \f* world; 
 \q1 And in the handiwork of their craft is their prayer. 
 \b
-\c 39  
+\c  39  
 \q1
-\v 1  \f + \fr 39:1  \ft Gr. \fqa Except him that. \f* Not so he that has applied his soul,
+\v 1  \f + \fr 39:1  \ft Gr. \fqa Except him that. \f* Not so he that has applied his soul, 
 \q1 And meditates in the law of the Most High; 
 \q1 He will seek out the wisdom of all the ancients, 
 \q1 And will be occupied in prophecies. 
@@ -3713,7 +3590,7 @@ authorities. \f*
 \q1 He will travel through the land of strange nations; 
 \q1 For he has tried good things and evil among men. 
 \q1
-\v 5 He will apply his heart to return early to the Lord that made him,
+\v 5 He will apply his heart to return early to the Lord that made him, 
 \q1 And will make supplication before the Most High, 
 \q1 And will open his mouth in prayer, 
 \q1 And will make supplication for his sins. 
@@ -3727,19 +3604,19 @@ authorities. \f*
 \v 7 He shall direct his counsel and knowledge, 
 \q1 And in his secrets shall he meditate. 
 \q1
-\v 8 He shall show forth the instruction which he has been taught,
+\v 8 He shall show forth the instruction which he has been taught, 
 \q1 And shall glory in the law of the covenant of the Lord. 
 \q1
 \v 9 Many shall commend his understanding; 
-\q1 And so long as the world endures, it shall not be blotted out:
+\q1 And so long as the world endures, it shall not be blotted out: 
 \q1 His memorial shall not depart, 
 \q1 And his name shall live from generation to generation. 
 \q1
 \v 10 Nations shall declare his wisdom, 
 \q1 And the congregation shall tell out his praise. 
 \q1
-\v 11 If he continue, he shall leave a greater name than a thousand:
-\q1 And if he \f + \fr 39:11  \ft Gr. \fqa cease. \f* die, he adds thereto.
+\v 11 If he continue, he shall leave a greater name than a thousand: 
+\q1 And if he \f + \fr 39:11  \ft Gr. \fqa cease. \f* die, he adds thereto. 
 \b
 \q1
 \v 12 Yet more I will utter, which I have thought upon; 
@@ -3756,11 +3633,11 @@ authorities. \f*
 \v 15 Magnify his name, 
 \q1 And give utterance to his praise 
 \q1 With the songs of your lips, and with harps; 
-\q1 And thus shall you° say when you° utter \add his praise: \add*
+\q1 And thus shall you° say when you° utter \add his praise: \add* 
 \b
 \q1
 \v 16 All the works of the Lord are exceedingly good, 
-\q1 And every command shall be \add accomplished \add* in his season.
+\q1 And every command shall be \add accomplished \add* in his season. 
 \q1
 \v 17 None can say, What is this? wherefore is that? 
 \q1 For in his season they shall all be sought out. 
@@ -3814,7 +3691,7 @@ authorities. \f*
 \q1
 \v 31 They shall rejoice in his commandment, 
 \q1 And shall be made ready upon earth, when need is; 
-\q1 And in their seasons they shall not transgress \add his \add* word.
+\q1 And in their seasons they shall not transgress \add his \add* word. 
 \b
 \q1
 \v 32 Therefore from the beginning I was resolved, 
@@ -3829,16 +3706,15 @@ authorities. \f*
 \v 35 And now with all your heart and mouth sing you° praises, 
 \q1 And bless the name of the Lord. 
 \b
-\c 40  
+\c  40  
 \q1
 \v 1 Great travail is created for every man, 
 \q1 And a heavy yoke is upon the sons of Adam, 
-\q1 From the day of their coming forth from their mother’s womb,
+\q1 From the day of their coming forth from their mother’s womb, 
 \q1 Until the day for their burial in the mother of all things. 
 \q1
 \v 2 The expectation of things to come, and the day of death, 
-\q1 \f + \fr 40:2  \ft The Greek text of this line is probably corrupt.
-\f* \add Trouble \add* their thoughts, and \add cause \add* fear of heart;
+\q1 \f + \fr 40:2  \ft The Greek text of this line is probably corrupt. \f* \add Trouble \add* their thoughts, and \add cause \add* fear of heart; 
 \q1
 \v 3 From him that sits on a throne of glory, 
 \q1 Even to him that is humbled in earth and ashes; 
@@ -3846,7 +3722,7 @@ authorities. \f*
 \v 4 From him that wears purple and a crown, 
 \q1 Even to him that is clothed with a hempen frock. 
 \q1
-\v 5  \add There is \add* wrath, and jealousy, and trouble, and disquiet,
+\v 5  \add There is \add* wrath, and jealousy, and trouble, and disquiet, 
 \q1 And fear of death, and anger, and strife; 
 \q1 And in the time of rest upon his bed 
 \q1 His night sleep does change his knowledge. 
@@ -3870,7 +3746,7 @@ authorities. \f*
 \q1 And because of them came the flood. 
 \q1
 \v 11 All things that are of the earth turn to the earth again: 
-\q1 And \add all things that are \add* of the waters return into the sea.
+\q1 And \add all things that are \add* of the waters return into the sea. 
 \b
 \q1
 \v 12 All bribery and injustice shall be blotted out; 
@@ -3882,21 +3758,20 @@ authorities. \f*
 \v 14 In opening his hands \add a man \add* shall be made glad: 
 \q1 So shall transgressors utterly fail. 
 \q1
-\v 15 The children of the ungodly shall not put forth many branches;
+\v 15 The children of the ungodly shall not put forth many branches; 
 \q1 And \add are as \add* unclean roots upon a sheer rock. 
 \q1
-\v 16 The sedge \add that grows \add* upon every water and bank of a river
+\v 16 The sedge \add that grows \add* upon every water and bank of a river 
 \q1 Shall be plucked up before all grass. 
 \q1
-\v 17 Bounty is as a garden \f + \fr 40:17  \ft Gr. \fqa in. \f* of blessings,
+\v 17 Bounty is as a garden \f + \fr 40:17  \ft Gr. \fqa in. \f* of blessings, 
 \q1 And almsgiving endures forever. 
 \b
 \q1
-\v 18 The life of one that labors, and is content, shall be made sweet;
+\v 18 The life of one that labors, and is content, shall be made sweet; 
 \q1 And he that finds a treasure is above both. 
 \q1
-\v 19 Children and the building of a city establish a \add man’s
-\add* name; 
+\v 19 Children and the building of a city establish a \add man’s \add* name; 
 \q1 And a blameless wife is counted above both. 
 \q1
 \v 20 Wine and music rejoice the heart; 
@@ -3923,7 +3798,7 @@ authorities. \f*
 \q1 And there is no need to seek help therein. 
 \q1
 \v 27 The fear of the Lord is as a garden of blessing, 
-\q1 And covers \f + \fr 40:27  \ft Gr. \fqa him. \f* a man above all glory.
+\q1 And covers \f + \fr 40:27  \ft Gr. \fqa him. \f* a man above all glory. 
 \b
 \q1
 \v 28 My son, lead not a beggar’s life; 
@@ -3937,24 +3812,23 @@ authorities. \f*
 \v 30 In the mouth of the shameless begging will be sweet; 
 \q1 And in his belly a fire shall be kindled. 
 \b
-\c 41  
+\c  41  
 \q1
-\v 1 O death, how bitter is the remembrance of you to a man that is at peace in his possessions,
-\q1 To the man that has nothing to distract him, and has prosperity in all things,
+\v 1 O death, how bitter is the remembrance of you to a man that is at peace in his possessions, 
+\q1 To the man that has nothing to distract him, and has prosperity in all things, 
 \q1 And that still has strength to receive meat! 
 \q1
-\v 2 O death, acceptable is your sentence to a man that is needy, and that fails in strength,
-\q1 That is in extreme old age, and is distracted about all things,
+\v 2 O death, acceptable is your sentence to a man that is needy, and that fails in strength, 
+\q1 That is in extreme old age, and is distracted about all things, 
 \q1 And is perverse, and has lost patience! 
 \q1
 \v 3 Don’t be afraid of the sentence of death; 
-\q1 Remember those who have been before you, and that come after:
+\q1 Remember those who have been before you, and that come after: 
 \q1 This is the sentence from the Lord over all flesh. 
 \q1
-\v 4 And why do you refuse, when it is the good pleasure of the Most High?
+\v 4 And why do you refuse, when it is the good pleasure of the Most High? 
 \q1 Whether it be ten, or a hundred, or a thousand years, 
-\q1 There is no inquisition of life in \f + \fr 41:4  \ft Gr. \fqa hades
-\f* the grave. 
+\q1 There is no inquisition of life in \f + \fr 41:4  \ft Gr. \fqa hades \f* the grave. 
 \b
 \q1
 \v 5 The children of sinners are abominable children, 
@@ -3967,21 +3841,19 @@ authorities. \f*
 \q1 Because they shall be reproached for his sake. 
 \q1
 \v 8 Woe to you, ungodly men, 
-\q1 Which have forsaken the law of the Most High God! \f + \fr 41:8 
-\ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 Which have forsaken the law of the Most High God! \f + \fr 41:8  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
 \v 9 If you° be born, you° shall be born to a curse; 
 \q1 If you° die, a curse shall be your portion. 
 \q1
-\v 10 All things that are of the earth shall go back to the earth:
+\v 10 All things that are of the earth shall go back to the earth: 
 \q1 So the ungodly shall go from a curse to perdition. 
 \q1
 \v 11 The mourning of men is about their bodies: 
 \q1 But the name of sinners being evil shall be blotted out. 
 \q1
 \v 12 Have regard to your name; 
-\q1 For it continues with you longer than a thousand great treasures of gold.
+\q1 For it continues with you longer than a thousand great treasures of gold. 
 \q1
 \v 13 A good life has its number of days; 
 \q1 And a good name continues forever. 
@@ -4014,12 +3886,11 @@ authorities. \f*
 \v 20 And of silence before those who salute you; 
 \q1 And of looking upon a woman that is a prostitute; 
 \q1
-\v 21 And of turning away \f + \fr 41:21  \ft Or, \fqa the face of a kinsman
-\f* your face from a kinsman; 
+\v 21 And of turning away \f + \fr 41:21  \ft Or, \fqa the face of a kinsman \f* your face from a kinsman; 
 \q1 Of taking away a portion or a gift; 
 \q1 And of gazing upon a woman that has a husband; 
 \q1
-\v 22 Of being over busy with his maid; and come not near her bed;
+\v 22 Of being over busy with his maid; and come not near her bed; 
 \q1 Of upbraiding speeches before friends; 
 \q1 And after you have given, upbraid not; 
 \q1
@@ -4029,7 +3900,7 @@ authorities. \f*
 \v 24 So shall you be truly shamefast, 
 \q1 And find favor in the sight of every man. 
 \b
-\c 42  
+\c  42  
 \q1
 \v 1 Of these things be not ashamed, 
 \q1 And accept no man’s person to sin \add by it: \add* 
@@ -4047,14 +3918,14 @@ authorities. \f*
 \q1 And of much correction of children; 
 \q1 And of making the side of an evil servant to bleed. 
 \q1
-\v 6  \f + \fr 42:6  \ft Or, \fqa A seal \f* Sure keeping is good, where an evil wife is;
+\v 6  \f + \fr 42:6  \ft Or, \fqa A seal \f* Sure keeping is good, where an evil wife is; 
 \q1 And where many hands are, shut you close. 
 \q1
-\v 7 Whatsoever you handest over, let it be by number and weight;
+\v 7 Whatsoever you handest over, let it be by number and weight; 
 \q1 And in giving and receiving let all be in writing. 
 \q1
-\v 8  \add Be not ashamed \add* to instruct the unwise and foolish,
-\q1 And one of extreme old age that contends with those that are young;
+\v 8  \add Be not ashamed \add* to instruct the unwise and foolish, 
+\q1 And one of extreme old age that contends with those that are young; 
 \q1 And so shall you be well instructed indeed, 
 \q1 And approved in the sight of every man living. 
 \b
@@ -4070,9 +3941,8 @@ authorities. \f*
 \q1 And when she is married, lest she should be barren. 
 \q1
 \v 11 Keep a strict watch over a headstrong daughter, 
-\q1 Lest she make you \f + \fr 42:11  \ft Or, \fqa a rejoicing \f* a laughing stock to your enemies,
-\q1 A byword in the city and \f + \fr 42:11  \ft Gr. \fqa called forth.
-\f* notorious among the people, 
+\q1 Lest she make you \f + \fr 42:11  \ft Or, \fqa a rejoicing \f* a laughing stock to your enemies, 
+\q1 A byword in the city and \f + \fr 42:11  \ft Gr. \fqa called forth. \f* notorious among the people, 
 \q1 And shame you before the multitude. 
 \b
 \q1
@@ -4082,7 +3952,7 @@ authorities. \f*
 \v 13 For from garments comes a moth, 
 \q1 And from a woman a woman’s wickedness. 
 \q1
-\v 14 Better is the wickedness of a man than a pleasant-dealing woman,
+\v 14 Better is the wickedness of a man than a pleasant-dealing woman, 
 \q1 And a woman which puts you to shameful reproach. 
 \b
 \q1
@@ -4093,16 +3963,16 @@ authorities. \f*
 \v 16 The sun that gives light looks upon all things; 
 \q1 And the work of the Lord is full of his glory. 
 \q1
-\v 17 The Lord has not given power to the saints to declare all his marvelous works;
+\v 17 The Lord has not given power to the saints to declare all his marvelous works; 
 \q1 Which the Almighty Lord firmly settled, 
 \q1 That whatever is might be established in his glory. 
 \q1
 \v 18 He searches out the deep, and the heart, 
 \q1 And he has understanding of their cunning plans: 
 \q1 For the Most High knows all knowledge, 
-\q1 And he looks into the \f + \fr 42:18  \ft Gr. \fqa sign. \f* signs of the world,
+\q1 And he looks into the \f + \fr 42:18  \ft Gr. \fqa sign. \f* signs of the world, 
 \q1
-\v 19 Declaring the things that are past, and the things that shall be,
+\v 19 Declaring the things that are past, and the things that shall be, 
 \q1 And revealing the traces of hidden things. 
 \q1
 \v 20 No thought escapes him; 
@@ -4116,7 +3986,7 @@ authorities. \f*
 \v 22 How desirable are all his works! 
 \q1 One may behold \add this \add* even to a spark. 
 \q1
-\v 23 All these things live and remain forever in all manner of uses,
+\v 23 All these things live and remain forever in all manner of uses, 
 \q1 And they are all obedient. 
 \q1
 \v 24 All things are double one against another: 
@@ -4125,20 +3995,19 @@ authorities. \f*
 \v 25 One thing establishes the good things of another: 
 \q1 And who shall be filled with beholding his glory? 
 \b
-\c 43  
+\c  43  
 \q1
-\v 1 The pride of the height is the firmament \f + \fr 43:1  \ft Gr.
-\fqa of clearness. \f* in its clearness, 
+\v 1 The pride of the height is the firmament \f + \fr 43:1  \ft Gr. \fqa of clearness. \f* in its clearness, 
 \q1 The appearance of heaven, in the spectacle of its glory. 
 \q1
-\v 2 The sun when he appears, bringing tidings as he goes forth,
+\v 2 The sun when he appears, bringing tidings as he goes forth, 
 \q1 Is a marvelous instrument, the work of the Most High: 
 \q1
 \v 3 At his noon he dries up the country, 
 \q1 And who shall stand against his burning heat? 
 \q1
 \v 4 A man blowing a furnace is in works of heat, 
-\q1 \add But \add* the sun three times more, burning up the mountains:
+\q1 \add But \add* the sun three times more, burning up the mountains: 
 \q1 Breathing out fiery vapours, 
 \q1 And sending forth bright beams, he dims the eyes. 
 \q1
@@ -4160,14 +4029,13 @@ authorities. \f*
 \v 9 The beauty of heaven, the glory of the stars, 
 \q1 An ornament giving light in the highest places of the Lord. 
 \q1
-\v 10 At the word of the Holy One they will stand in \f + \fr 43:10 
-\ft Gr. \fqa judgement. \f* due order, 
+\v 10 At the word of the Holy One they will stand in \f + \fr 43:10  \ft Gr. \fqa judgement. \f* due order, 
 \q1 And they will not faint in their watches. 
 \q1
 \v 11 Look upon the rainbow, and praise him that made it; 
 \q1 Exceeding beautiful in the brightness thereof. 
 \q1
-\v 12 It encircles the heaven round about with a circle of glory;
+\v 12 It encircles the heaven round about with a circle of glory; 
 \q1 The hands of the Most High have stretched it. 
 \b
 \q1
@@ -4186,13 +4054,13 @@ authorities. \f*
 \v 17 The voice of his thunder makes the earth to travail; 
 \q1 So does the northern storm and the whirlwind: 
 \q1 As birds flying down he sprinkles the snow; 
-\q1 And as the lighting of the locust is the falling down thereof:
+\q1 And as the lighting of the locust is the falling down thereof: 
 \q1
 \v 18 The eye will marvel at the beauty of its whiteness, 
 \q1 And the heart will be astonished at the raining of it. 
 \q1
 \v 19 The hoar frost also he pours on the earth as salt; 
-\q1 And when it is congealed, it is \add as \add* points of thorns.
+\q1 And when it is congealed, it is \add as \add* points of thorns. 
 \b
 \q1
 \v 20 The cold north wind shall blow, 
@@ -4200,22 +4068,20 @@ authorities. \f*
 \q1 It shall lodge upon every gathering together of water, 
 \q1 And the water shall put on as it were a breastplate. 
 \q1
-\v 21 It shall devour the mountains, and burn up the wilderness,
+\v 21 It shall devour the mountains, and burn up the wilderness, 
 \q1 And consume the green herb as fire. 
 \q1
 \v 22 A mist coming speedily is the healing of all things; 
 \q1 A dew coming after heat shall bring cheerfulness. 
 \q1
 \v 23 By his counsel he has stilled the deep, 
-\q1 And \f + \fr 43:23  \ft The most ancient authorities read \fqa Jesus planted it.
-\f* planted islands therein. 
+\q1 And \f + \fr 43:23  \ft The most ancient authorities read \fqa Jesus planted it. \f* planted islands therein. 
 \q1
 \v 24 They that sail on the sea tell of the danger thereof; 
 \q1 And when we hear it with our ears, we marvel. 
 \q1
 \v 25 Therein be also those strange and wondrous works, 
-\q1 Variety of all that has life, the \f + \fr 43:25  \ft Gr. \fqa creation.
-\ft Several ancient authorities read \fqa possession of cattle. \f* race of sea-monsters.
+\q1 Variety of all that has life, the \f + \fr 43:25  \ft Gr. \fqa creation. \ft Several ancient authorities read \fqa possession of cattle. \f* race of sea-monsters. 
 \q1
 \v 26 By reason of him his end has success, 
 \q1 And by his word all things consist. 
@@ -4230,7 +4096,7 @@ authorities. \f*
 \v 29 The Lord is terrible and exceedingly great; 
 \q1 And marvelous is his power. 
 \q1
-\v 30 When you° glorify the Lord, exalt him as much as you° can;
+\v 30 When you° glorify the Lord, exalt him as much as you° can; 
 \q1 For even yet he will exceed: 
 \q1 And when you° exalt him, put forth your full strength: 
 \q1 Be not weary; for you° will never attain. 
@@ -4244,24 +4110,21 @@ authorities. \f*
 \v 33 For the Lord made all things; 
 \q1 And to the godly gave he wisdom. 
 \b
-\c 44  
+\c  44  
 \q1
 \v 1 Let us now praise famous men, 
 \q1 And our fathers that became the father of us. 
 \q1
-\v 2 The Lord \f + \fr 44:2  \ft Gr. \fqa created. \f* manifested
-\add in them \add* great glory, 
+\v 2 The Lord \f + \fr 44:2  \ft Gr. \fqa created. \f* manifested \add in them \add* great glory, 
 \q1 \add Even \add* his mighty power from the beginning. 
 \q1
 \v 3 Such as did bear rule in their kingdoms, 
 \q1 And were men renowned for their power, 
-\q1 \f + \fr 44:3  \ft Most authorities read \fqa They shall take counsel.
-\f* Giving counsel by their understanding, 
+\q1 \f + \fr 44:3  \ft Most authorities read \fqa They shall take counsel. \f* Giving counsel by their understanding, 
 \q1 Such as have brought tidings in prophecies: 
 \q1
 \v 4 Leaders of the people by their counsels, 
-\q1 And by their understanding \f + \fr 44:4  \ft The Greek text is here corrupt.
-\f* \add men of \add* learning for the people; 
+\q1 And by their understanding \f + \fr 44:4  \ft The Greek text is here corrupt. \f* \add men of \add* learning for the people; 
 \q1 Wise \add were \add* their words in their instruction: 
 \q1
 \v 5 Such as sought out musical tunes, 
@@ -4284,9 +4147,8 @@ authorities. \f*
 \v 10 But these were men of mercy, 
 \q1 Whose righteous deeds have not been forgotten. 
 \q1
-\v 11 With their seed shall remain continually a good inheritance;
-\q1 Their children \add are \add* \f + \fr 44:11  \ft Or, \fqa In their testaments
-\f* within the covenants. 
+\v 11 With their seed shall remain continually a good inheritance; 
+\q1 Their children \add are \add* \f + \fr 44:11  \ft Or, \fqa In their testaments \f* within the covenants. 
 \q1
 \v 12 Their seed stands fast, 
 \q1 And their children for their sakes. 
@@ -4302,11 +4164,10 @@ authorities. \f*
 \b
 \q1
 \v 16 Enoch pleased the Lord, and was translated, 
-\q1 \add Being \add* an example of repentance to all generations.
+\q1 \add Being \add* an example of repentance to all generations. 
 \q1
 \v 17 Noah was found perfect \add and \add* righteous; 
-\q1 In the season of wrath he was taken in exchange \add for the world;
-\add* 
+\q1 In the season of wrath he was taken in exchange \add for the world; \add* 
 \q1 Therefore was there left a remnant to the earth, 
 \q1 When the flood came. 
 \q1
@@ -4330,7 +4191,7 @@ authorities. \f*
 \q1 And cause them to inherit from sea to sea, 
 \q1 And from the River to the utmost part of the earth. 
 \q1
-\v 22 In Isaac also did he establish likewise, for Abraham his father’s sake,
+\v 22 In Isaac also did he establish likewise, for Abraham his father’s sake, 
 \q1 The blessing of all men, and the covenant: 
 \q1
 \v 23 And he made it rest upon the head of Jacob; 
@@ -4339,7 +4200,7 @@ authorities. \f*
 \q1 And divided his portions; 
 \q1 Among twelve tribes did he part them. 
 \b
-\c 45  
+\c  45  
 \q1
 \v 1 And he brought out of him a man of mercy, 
 \q1 Which found favor in the sight of all flesh; 
@@ -4370,12 +4231,11 @@ authorities. \f*
 \q1
 \v 7 He established for him an everlasting covenant, 
 \q1 And gave him the priesthood of the people; 
-\q1 He \f + \fr 45:7  \ft Gr. \fqa blessed. \f* beautified him with comely ornaments,
+\q1 He \f + \fr 45:7  \ft Gr. \fqa blessed. \f* beautified him with comely ornaments, 
 \q1 And girded him about with a robe of glory. 
 \q1
 \v 8 He clothed him with the perfection of exultation; 
-\q1 And strengthened him with apparel of \f + \fr 45:8  \ft Gr. \fqa strength.
-\f* honor, 
+\q1 And strengthened him with apparel of \f + \fr 45:8  \ft Gr. \fqa strength. \f* honor, 
 \q1 The linen trousers, the long robe, and the ephod. 
 \q1
 \v 9 And he compassed him with pomegranates of gold, 
@@ -4384,29 +4244,28 @@ authorities. \f*
 \q1 To make a sound that might be heard in the temple, 
 \q1 For a memorial to the children of his people; 
 \q1
-\v 10 With a holy garment, with gold and blue and purple, the work of the embroiderer,
-\q1 With an oracle of judgement, \add even \add* with the Urim and Thummim;
+\v 10 With a holy garment, with gold and blue and purple, the work of the embroiderer, 
+\q1 With an oracle of judgement, \add even \add* with the Urim and Thummim; 
 \q1
 \v 11 With twisted scarlet, the work of the craftsman; 
-\q1 With precious stones graven like a signet, in a setting of gold, the work of the jeweller,
-\q1 For a memorial engraved in writing, after the number of the tribes of Israel;
+\q1 With precious stones graven like a signet, in a setting of gold, the work of the jeweller, 
+\q1 For a memorial engraved in writing, after the number of the tribes of Israel; 
 \q1
-\v 12 With a crown of gold upon the mitre, \f + \fr 45:12  \ft Gr.
-\fqa an engraving of a signet of holiness. \f* having graven on it, as on a signet, HOLINESS,
+\v 12 With a crown of gold upon the mitre, \f + \fr 45:12  \ft Gr. \fqa an engraving of a signet of holiness. \f* having graven on it, as on a signet, HOLINESS, 
 \q1 An ornament of honor, a work of might, 
 \q1 The desires of the eyes, goodly and beautiful. 
 \q1
 \v 13 Before him there never have been any such; 
-\q1 No stranger put them on, but his sons only, and his offspring perpertually.
+\q1 No stranger put them on, but his sons only, and his offspring perpertually. 
 \q1
 \v 14 His sacrifices shall be wholly consumed 
 \q1 Every day twice continually. 
 \q1
-\v 15 Moses \f + \fr 45:15  \ft Gr. \fqa filled his hands. \f* consecrated him,
+\v 15 Moses \f + \fr 45:15  \ft Gr. \fqa filled his hands. \f* consecrated him, 
 \q1 And anointed him with holy oil: 
 \q1 It was to him for an everlasting covenant, 
 \q1 And to his seed, all the days of heaven, 
-\q1 To minister to him, and to execute also the priest’s office,
+\q1 To minister to him, and to execute also the priest’s office, 
 \q1 And bless his people in his name. 
 \q1
 \v 16 He chose him out of all living 
@@ -4437,37 +4296,36 @@ authorities. \f*
 \v 21 For they shall eat the sacrifices of the Lord, 
 \q1 Which he gave to him and to his seed. 
 \q1
-\v 22 However in the land of the people he shall have no inheritance,
+\v 22 However in the land of the people he shall have no inheritance, 
 \q1 And he has no portion among the people: 
 \q1 For he himself is your portion \add and \add* inheritance. 
 \b
 \q1
 \v 23 And Phinehas the son of Eleazar is the third in glory, 
 \q1 In that he was zealous in the fear of the Lord, 
-\q1 And stood fast in the good forwardness of his soul when the people turned away,
+\q1 And stood fast in the good forwardness of his soul when the people turned away, 
 \q1 And he made reconciliation for Israel. 
 \q1
-\v 24 Therefore was there a covenant of peace established for him,
-\q1 \add That he should be \add* leader of the \f + \fr 45:24  \ft Or,
-\fqa sanctuary \f* saints and of his people; 
+\v 24 Therefore was there a covenant of peace established for him, 
+\q1 \add That he should be \add* leader of the \f + \fr 45:24  \ft Or, \fqa sanctuary \f* saints and of his people; 
 \q1 That he and his seed 
 \q1 Should have the dignity of the priesthood forever. 
 \q1
-\v 25 Also \add he made \add* a covenant with David the son of Jesse, of the tribe of Judah;
+\v 25 Also \add he made \add* a covenant with David the son of Jesse, of the tribe of Judah; 
 \q1 The inheritance of the king is his alone from son to son; 
 \q1 So the inheritance of Aaron is also to his seed. 
 \q1
 \v 26  \add God \add* give you wisdom in your heart 
 \q1 To judge his people in righteousness, 
 \q1 That their good things be not abolished, 
-\q1 And \add that \add* their glory \add endure \add* for all their generations.
+\q1 And \add that \add* their glory \add endure \add* for all their generations. 
 \b
-\c 46  
+\c  46  
 \q1
-\v 1 Joshua the son of \f + \fr 46:1  \ft Gr. \fqa Nave. \f* Nun was valiant in war,
+\v 1 Joshua the son of \f + \fr 46:1  \ft Gr. \fqa Nave. \f* Nun was valiant in war, 
 \q1 And was the successor of Moses in prophecies: 
 \q1 Who according to his name was made great 
-\q1 For the saving of \f + \fr 46:1  \ft Gr. \fqa his. \f* God’s elect,
+\q1 For the saving of \f + \fr 46:1  \ft Gr. \fqa his. \f* God’s elect, 
 \q1 To take vengeance of the enemies that rose up against them, 
 \q1 That he might give Israel their inheritance. 
 \q1
@@ -4486,9 +4344,8 @@ authorities. \f*
 \q1
 \v 6 With hailstones of mighty power 
 \q1 He caused war to break violently upon the nation, 
-\q1 And \f + \fr 46:6  \ft See Joshua 10:11 \f* in the going down he destroyed those who resisted;
-\q1 That the nations might know his \f + \fr 46:6  \ft Gr. \fqa panoply.
-\f* armor, 
+\q1 And \f + \fr 46:6  \ft See Joshua 10:11 \f* in the going down he destroyed those who resisted; 
+\q1 That the nations might know his \f + \fr 46:6  \ft Gr. \fqa panoply. \f* armor, 
 \q1 How that he fought in the sight of the Lord; 
 \q1 For he followed after the Mighty One. 
 \q1
@@ -4498,7 +4355,7 @@ authorities. \f*
 \q1 Hindered the people from sin, 
 \q1 And stilled the murmuring of wickedness. 
 \q1
-\v 8 And of six hundred thousand people on foot, they two alone were preserved
+\v 8 And of six hundred thousand people on foot, they two alone were preserved 
 \q1 To bring them into the heritage, 
 \q1 Even into a land flowing with milk and honey. 
 \q1
@@ -4517,11 +4374,11 @@ authorities. \f*
 \q1 May their memorial be blessed. 
 \q1
 \v 12 May their bones flourish again out of their place, 
-\q1 And may the name of those who have been honored be renewed upon their children.
+\q1 And may the name of those who have been honored be renewed upon their children. 
 \b
 \q1
 \v 13 Samuel, the prophet of the Lord, beloved of his Lord, 
-\q1 Established a kingdom, and anointed princes over his people.
+\q1 Established a kingdom, and anointed princes over his people. 
 \q1
 \v 14 By the law of the Lord he judged the congregation, 
 \q1 And the Lord visited Jacob. 
@@ -4539,9 +4396,8 @@ authorities. \f*
 \v 18 And he utterly destroyed the rulers of the Tyrians, 
 \q1 And all the princes of the Philistines. 
 \q1
-\v 19 Also before the time of his \f + \fr 46:19  \ft Gr. \fqa age-long sleep.
-\f* long sleep 
-\q1 He made protestations in the sight of the lord and \add his \add* anointed,
+\v 19 Also before the time of his \f + \fr 46:19  \ft Gr. \fqa age-long sleep. \f* long sleep 
+\q1 He made protestations in the sight of the lord and \add his \add* anointed, 
 \q1 I have not taken any man’s goods, so much as a sandal: 
 \q1 And no man did accuse him. 
 \q1
@@ -4550,13 +4406,13 @@ authorities. \f*
 \q1 And lifted up his voice from the earth in prophecy, 
 \q1 To blot out the wickedness of the people. 
 \b
-\c 47  
+\c  47  
 \q1
 \v 1 And after him rose up Nathan 
 \q1 To prophesy in the days of David. 
 \q1
-\v 2 As is the fat when it is separated from the peace offering,
-\q1 So was David \add separated \add* from the children of Israel.
+\v 2 As is the fat when it is separated from the peace offering, 
+\q1 So was David \add separated \add* from the children of Israel. 
 \q1
 \v 3 He played with lions as with kids, 
 \q1 And with bears as with lambs of the flock. 
@@ -4579,13 +4435,12 @@ authorities. \f*
 \q1 And brought to nothing the Philistines his adversaries, 
 \q1 Brake their horn in pieces to this day. 
 \q1
-\v 8 In every work of his he gave thanks to the Holy One Most High with words of glory;
+\v 8 In every work of his he gave thanks to the Holy One Most High with words of glory; 
 \q1 With his whole heart he sang praise, 
 \q1 And loved him that made him. 
 \q1
 \v 9 Also he set singers before the altar, 
-\q1 And to make sweet melody by their music. \f + \fr 47:9  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 And to make sweet melody by their music. \f + \fr 47:9  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \q1
 \v 10 He gave beauty to the feasts, 
 \q1 And set in order the seasons to perfection, 
@@ -4609,14 +4464,13 @@ authorities. \f*
 \q1 And filled as a river with understanding! 
 \q1
 \v 15 Your soul covered the earth, 
-\q1 And you filled it with \f + \fr 47:15  \ft Gr. \fqa parables of riddles.
-\f* dark parables. 
+\q1 And you filled it with \f + \fr 47:15  \ft Gr. \fqa parables of riddles. \f* dark parables. 
 \q1
 \v 16 Your name reached to the aisles afar off; 
 \q1 And for your peace you were beloved. 
 \q1
 \v 17 For your songs and proverbs and parables, 
-\q1 And for your interpretations, the countries marveled at you.
+\q1 And for your interpretations, the countries marveled at you. 
 \q1
 \v 18 By the name of the Lord God, 
 \q1 Which is called the God of Israel, 
@@ -4644,7 +4498,7 @@ authorities. \f*
 \q1
 \v 23 And \add so \add* rested Solomon with his fathers; 
 \q1 And of his seed he left behind him Rehoboam, 
-\q1 \add Even \add* the foolishness of the people, and one that lacked understanding,
+\q1 \add Even \add* the foolishness of the people, and one that lacked understanding, 
 \q1 Who made the people to revolt by his counsel. 
 \q1 Also Jeroboam the son of Nebat, 
 \q1 Who made Israel to sin, 
@@ -4656,7 +4510,7 @@ authorities. \f*
 \v 25 For they sought out all manner of wickedness, 
 \q1 Till vengeance should come upon them. 
 \b
-\c 48  
+\c  48  
 \q1
 \v 1 Also there arose Elijah the prophet as fire, 
 \q1 And his word burned like a torch: 
@@ -4671,7 +4525,7 @@ authorities. \f*
 \q1 And who shall glory like to you? 
 \q1
 \v 5 Who did raise up a dead man from death, 
-\q1 And from \f + \fr 48:5  \ft Gr. \fqa Hades. \f* the place of the dead, by the word of the Most High:
+\q1 And from \f + \fr 48:5  \ft Gr. \fqa Hades. \f* the place of the dead, by the word of the Most High: 
 \q1
 \v 6 Who brought down kings to destruction, 
 \q1 And honorable men from their bed: 
@@ -4697,11 +4551,10 @@ authorities. \f*
 \q1
 \v 12 Elijah \add it was, \add* who was wrapped in a tempest: 
 \q1 And Elisha was filled with his spirit; 
-\q1 And in \add all \add* his days he was not moved by \add the fear of
-\add* any ruler, 
+\q1 And in \add all \add* his days he was not moved by \add the fear of \add* any ruler, 
 \q1 And no one brought him into subjection. 
 \q1
-\v 13  \f + \fr 48:13  \ft Or, \fqa No man’s word overcame him \f* Nothing was too high for him;
+\v 13  \f + \fr 48:13  \ft Or, \fqa No man’s word overcame him \f* Nothing was too high for him; 
 \q1 And when he was laid on sleep his body prophesied. 
 \q1
 \v 14 As in his life he did wonders, 
@@ -4714,13 +4567,12 @@ authorities. \f*
 \q1 And the people was left very few in number, 
 \q1 And a ruler \add was left \add* in the house of David. 
 \q1
-\v 16 Some of them did that which was pleasing \add to God, \add*
+\v 16 Some of them did that which was pleasing \add to God, \add* 
 \q1 And some multiplied sins. 
 \b
 \q1
 \v 17 Hezekiah fortified his city, 
-\q1 And brought in \f + \fr 48:17  \ft Some ancient authorities, apparently by a confusion, read
-\fqa Gog. \f* water into the midst of them: 
+\q1 And brought in \f + \fr 48:17  \ft Some ancient authorities, apparently by a confusion, read \fqa Gog. \f* water into the midst of them: 
 \q1 He digged the sheer rock with iron, 
 \q1 And built up wells for waters. 
 \q1
@@ -4748,20 +4600,20 @@ authorities. \f*
 \v 23 In his days the sun went backward; 
 \q1 And he added life to the king. 
 \q1
-\v 24 He saw by an excellent spirit what should come to pass at the last;
+\v 24 He saw by an excellent spirit what should come to pass at the last; 
 \q1 And he comforted those who mourned in Sion. 
 \q1
 \v 25 He showed the things that should be to the end of time, 
 \q1 And the hidden things or ever they came. 
 \b
-\c 49  
+\c  49  
 \q1
 \v 1 The memorial of Josiah is like the composition of incense 
 \q1 Prepared by the work of the apothecary: 
 \q1 It shall be sweet as honey in every mouth, 
 \q1 And as music at a banquet of wine. 
 \q1
-\v 2 He behaved himself uprightly in the conversion of the people,
+\v 2 He behaved himself uprightly in the conversion of the people, 
 \q1 And took away the abominations of iniquity. 
 \q1
 \v 3 He set his heart right toward the Lord; 
@@ -4773,11 +4625,11 @@ authorities. \f*
 \q1 For they forsook the law of the Most High; 
 \q1 The kings of Judah failed. 
 \q1
-\v 5 For they gave their \f + \fr 49:5  \ft Gr. \fqa horn. \f* power to others,
+\v 5 For they gave their \f + \fr 49:5  \ft Gr. \fqa horn. \f* power to others, 
 \q1 And their glory to a strange nation. 
 \q1
 \v 6 They set on fire the chosen city of the sanctuary, 
-\q1 And made her streets desolate, \add as it was written \add* by the hand of Jeremiah.
+\q1 And made her streets desolate, \add as it was written \add* by the hand of Jeremiah. 
 \q1
 \v 7 For they entreated him evil; 
 \q1 And yet he was sanctified in the womb to be a prophet, 
@@ -4785,14 +4637,12 @@ authorities. \f*
 \q1 \add And \add* in like manner to build and to plant. 
 \q1
 \v 8  \add It was \add* Ezekiel who saw the vision of glory, 
-\q1 Which \add God \add* showed him upon the chariot of the cherubim.
+\q1 Which \add God \add* showed him upon the chariot of the cherubim. 
 \q1
-\v 9 For truly he remembered the enemies in \f + \fr 49:9  \ft Gr.
-\fqa rain. \f* storm, 
+\v 9 For truly he remembered the enemies in \f + \fr 49:9  \ft Gr. \fqa rain. \f* storm, 
 \q1 And to do good to those who directed their ways aright. 
 \q1
-\v 10 Also of the twelve prophets \f + \fr 49:10  \ft The remainder of this line is omitted by the best authorities.
-\f* 
+\v 10 Also of the twelve prophets \f + \fr 49:10  \ft The remainder of this line is omitted by the best authorities. \f* 
 \q1 May the bones flourish again out of their place. 
 \q1 And he comforted Jacob, 
 \q1 And delivered them by confidence of hope. 
@@ -4803,8 +4653,7 @@ authorities. \f*
 \q1
 \v 12 So was Jesus the son of Josedek: 
 \q1 Who in their days built the house, 
-\q1 And exalted a \f + \fr 49:12  \ft Some ancient authorities read
-\fqa temple. \f* people holy to the Lord, 
+\q1 And exalted a \f + \fr 49:12  \ft Some ancient authorities read \fqa temple. \f* people holy to the Lord, 
 \q1 Prepared for everlasting glory. 
 \q1
 \v 13 Also of Nehemiah the memorial is great; 
@@ -4823,28 +4672,23 @@ authorities. \f*
 \v 16 Shem and Seth were glorified among men; 
 \q1 And above every living thing in the creation is Adam. 
 \b
-\c 50  
+\c  50  
 \q1
-\v 1  \add It was \add* Simon, the son of Onias, the \f + \fr 50:1 
-\ft Or, \fqa high \f* great priest, 
+\v 1  \add It was \add* Simon, the son of Onias, the \f + \fr 50:1  \ft Or, \fqa high \f* great priest, 
 \q1 Who in his life repaired the house, 
 \q1 And in his days strengthened the temple: 
 \q1
-\v 2 And by him was built from the foundation the height of the double
-\add wall, \add* 
+\v 2 And by him was built from the foundation the height of the double \add wall, \add* 
 \q1 The lofty underworks of the inclosure of the temple: 
 \q1
-\v 3 In his days the cistern of waters was \f + \fr 50:3  \ft The text here seems to be corrupt.
-\f* diminished, 
+\v 3 In his days the cistern of waters was \f + \fr 50:3  \ft The text here seems to be corrupt. \f* diminished, 
 \q1 The brazen vessel in compass as the sea. 
 \q1
-\v 4  \add It was \add* he that took thought for his people that they should not fall,
-\q1 And fortified the city \f + \fr 50:4  \ft Gr. \fqa to beseige:
-\ft that is, \fqa as to besieging it. \f* against besieging: 
+\v 4  \add It was \add* he that took thought for his people that they should not fall, 
+\q1 And fortified the city \f + \fr 50:4  \ft Gr. \fqa to beseige: \ft that is, \fqa as to besieging it. \f* against besieging: 
 \q1
 \v 5 How glorious was he when the people gathered round him 
-\q1 At his coming forth out of the \f + \fr 50:5  \ft Gr. \fqa house of the veil.
-\f* sanctuary! 
+\q1 At his coming forth out of the \f + \fr 50:5  \ft Gr. \fqa house of the veil. \f* sanctuary! 
 \q1
 \v 6 As the morning star in the midst of a cloud, 
 \q1 As the moon at the full: 
@@ -4852,9 +4696,9 @@ authorities. \f*
 \v 7 As the sun shining forth upon the temple of the Most High, 
 \q1 And as the rainbow giving light in clouds of glory: 
 \q1
-\v 8 As the flower of roses in the days of new \add fruits, \add*
+\v 8 As the flower of roses in the days of new \add fruits, \add* 
 \q1 As lilies at the water spring, 
-\q1 As the shoot of the frankincense tree in the time of summer:
+\q1 As the shoot of the frankincense tree in the time of summer: 
 \q1
 \v 9 As fire and incense in the censer, 
 \q1 As a vessel all of beaten gold 
@@ -4868,20 +4712,19 @@ authorities. \f*
 \q1 In the ascent of the holy altar, 
 \q1 He made glorious the precinct of the sanctuary. 
 \q1
-\v 12 And when he received the portions out of the priests’ hands,
+\v 12 And when he received the portions out of the priests’ hands, 
 \q1 Himself also standing by the hearth of the altar, 
 \q1 His kindred as a garland round about him, 
 \q1 He was as a young cedar in Libanus; 
 \q1 And as stems of palm trees compassed they him round about, 
 \q1
 \v 13 And all the sons of Aaron in their glory, 
-\q1 And the Lord’s offering in their hands, before all the congregation of Israel.
+\q1 And the Lord’s offering in their hands, before all the congregation of Israel. 
 \q1
 \v 14 And finishing the service at the altars, 
-\q1 That he might adorn the offering of the Most High, the Almighty,
+\q1 That he might adorn the offering of the Most High, the Almighty, 
 \q1
-\v 15 He stretched out his hand to the \f + \fr 50:15  \ft Gr. \fqa cup of libation.
-\f* cup, 
+\v 15 He stretched out his hand to the \f + \fr 50:15  \ft Gr. \fqa cup of libation. \f* cup, 
 \q1 And poured out the cup of the grape; 
 \q1 He poured out at the foot of the altar 
 \q1 A sweet smelling savor to the Most High, the King of all. 
@@ -4900,7 +4743,7 @@ authorities. \f*
 \q1
 \v 19 And the people implored the Lord Most High, 
 \q1 In prayer before him that is merciful. 
-\q1 Till the \f + \fr 50:19  \ft Gr. \fqa adornment. \f* worship of the Lord should be ended;
+\q1 Till the \f + \fr 50:19  \ft Gr. \fqa adornment. \f* worship of the Lord should be ended; 
 \q1 And so they accomplished his service. 
 \q1
 \v 20 Then he went down, and lifted up his hands 
@@ -4918,7 +4761,7 @@ authorities. \f*
 \q1 And deals with us according to his mercy. 
 \q1
 \v 23 May he grant us joyfulness of heart, 
-\q1 And that peace may be in our days in Israel for the days of eternity:
+\q1 And that peace may be in our days in Israel for the days of eternity: 
 \q1
 \v 24 To entrust his mercy with us; 
 \q1 And let him deliver us in his time! 
@@ -4927,12 +4770,11 @@ authorities. \f*
 \v 25 With two nations is my soul vexed, 
 \q1 And the third is no nation: 
 \q1
-\v 26 They that sit upon the mountain of \f + \fr 50:26  \ft According to some ancient versions,
-\fqa Seir. \f* Samaria, \add and \add* the Philistines, 
+\v 26 They that sit upon the mountain of \f + \fr 50:26  \ft According to some ancient versions, \fqa Seir. \f* Samaria, \add and \add* the Philistines, 
 \q1 And that foolish people that dwells in Sichem. 
 \b
 \q1
-\v 27 I have \f + \fr 50:27  \ft Gr. \fqa graven. \f* written in this book the instruction of understanding and knowledge,
+\v 27 I have \f + \fr 50:27  \ft Gr. \fqa graven. \f* written in this book the instruction of understanding and knowledge, 
 \q1 I Jesus, the son of Sirach Eleazar, of Jerusalem, 
 \q1 Who out of his heart poured forth wisdom. 
 \q1
@@ -4940,9 +4782,7 @@ authorities. \f*
 \q1 And he that lays them up in his heart shall become wise. 
 \q1
 \v 29 For if he do them, he shall be strong to all things: 
-\q1 For the light of the Lord is his \f + \fr 50:29  \ft Gr. \fqa footstep.
-\f* guide. \f + \fr 50:29  \ft The remainder of this verse is omitted by the best authorities.
-\f* 
+\q1 For the light of the Lord is his \f + \fr 50:29  \ft Gr. \fqa footstep. \f* guide. \f + \fr 50:29  \ft The remainder of this verse is omitted by the best authorities. \f* 
 \c 51  
 \p A Prayer of Jesus the son of Sirach. 
 \q1
@@ -4956,8 +4796,7 @@ authorities. \f*
 \q1 From lips that forge lies, 
 \q1 And was my helper before those who stood by; 
 \q1
-\v 3 And did deliver me, according to the abundance of your mercy, and
-\add greatness \add* of your name, 
+\v 3 And did deliver me, according to the abundance of your mercy, and \add greatness \add* of your name, 
 \q1 From the gnashings \add of teeth \add* ready to devour, 
 \q1 Out of the hand of such as sought my life, 
 \q1 Out of the manifold afflictions which I had; 
@@ -4965,14 +4804,13 @@ authorities. \f*
 \v 4 From the choking of a fire on every side, 
 \q1 And out of the midst of fire which I kindled not; 
 \q1
-\v 5 Out of the depth of the belly of \f + \fr 51:5  \ft Gr. \fqa Hades.
-\f* the grave, 
+\v 5 Out of the depth of the belly of \f + \fr 51:5  \ft Gr. \fqa Hades. \f* the grave, 
 \q1 And from an unclean tongue, 
 \q1 And from lying words, 
 \q1
 \v 6 The slander of an unrighteous tongue to the king. 
 \q1 My soul drew near even to death, 
-\q1 And my life was near to \f + \fr 51:6  \ft Gr. \fqa Hades \f* the grave beneath.
+\q1 And my life was near to \f + \fr 51:6  \ft Gr. \fqa Hades \f* the grave beneath. 
 \q1
 \v 7 They compassed me on every side, 
 \q1 And there was none to help \add me. \add* 
@@ -5008,7 +4846,7 @@ authorities. \f*
 \v 14 Before the temple I asked for her, 
 \q1 And I will seek her out even to the end. 
 \q1
-\v 15 From \add her \add* flower as from the ripening grape my heart delighted in her:
+\v 15 From \add her \add* flower as from the ripening grape my heart delighted in her: 
 \q1 My foot trod in uprightness, 
 \q1 From my youth I tracked her out. 
 \q1
@@ -5029,7 +4867,7 @@ authorities. \f*
 \q1
 \v 20 I set my soul aright to her, 
 \q1 And in pureness I found her. 
-\q1 I got me a heart \add joined \add* with her from the beginning:
+\q1 I got me a heart \add joined \add* with her from the beginning: 
 \q1 Therefore shall I not be forsaken. 
 \q1
 \v 21 My inward part also was troubled to seek her: 

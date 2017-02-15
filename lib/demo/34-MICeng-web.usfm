@@ -11,22 +11,31 @@ He gave it to us freely, and we who have worked on this translation freely give 
 
 In case this attempt to disclaim copyright and place the software
 in the public domain is deemed null and void, then the software is
-Copyright (©) 2017 Michael Johnson.
-and it is hereby released to the general public under the following terms:
+Copyright (©) 1995-2017 Michael Paul Johnson and released under a
+Creative Commons CC0 license (https://creativecommons.org/publicdomain/zero/1.0/).
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
+CC0 1.0 Universal (CC0 1.0)
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Public Domain Dedication
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+This is a human-readable summary of the Legal Code
+(https://creativecommons.org/publicdomain/zero/1.0/legalcode).
+
+No Copyright
+
+This license is acceptable for Free Cultural Works.
+
+The person who associated a work with this deed has dedicated the work to the public domain by waiving all of his or her rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law.
+
+You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.
+
+Other Information
+
+In no way are the patent or trademark rights of any person affected by CC0, nor are the rights that other persons may have in the work or in how the work is used, such as publicity or privacy rights.
+
+Unless expressly stated otherwise, the person who associated a work with this deed makes no warranties about the work, and disclaims liability for all uses of the work, to the fullest extent permitted by applicable law.
+
+When using or citing the work, you should not imply endorsement by the author or the affirmer.
 
 \id MIC 33-MIC-web.sfm World English Bible (WEB) 
 \ide UTF-8
@@ -38,19 +47,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 \mt1 Micah 
 \c 1  
 \p
-\v 1 Yahweh’s\f + \fr 1:1  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other
-translations.\f* word that came to Micah the Morashtite in the days of Jotham, Ahaz, and Hezekiah, kings of Judah, which he saw
-concerning Samaria and Jerusalem. 
+\v 1 Yahweh’s\f + \fr 1:1  \ft “Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other translations.\f* word that came to Micah the Morashtite in the days of Jotham, Ahaz, and Hezekiah, kings of Judah, which he saw concerning Samaria and Jerusalem. 
 \q1
 \v 2 Hear, you peoples, all of you. 
 \q2 Listen, O earth, and all that is therein: 
-\q1 and let the Lord\f + \fr 1:2  \ft The word translated “Lord” is
-“Adonai.”\f* Yahweh be witness against you, 
+\q1 and let the Lord\f + \fr 1:2  \ft The word translated “Lord” is “Adonai.”\f* Yahweh be witness against you, 
 \q2 the Lord from his holy temple. 
 \q1
-\v 3 For, behold,\f + \fr 1:3  \ft “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often
-used as an interjection.\f* Yahweh comes out of his place, 
-\q2 and will come down and tread on the high places of the earth.
+\v 3 For, behold,\f + \fr 1:3  \ft “Behold”, from “הִנֵּה”, means look at, take notice, observe, see, or gaze at. It is often used as an interjection.\f* Yahweh comes out of his place, 
+\q2 and will come down and tread on the high places of the earth. 
 \q1
 \v 4 The mountains melt under him, 
 \q2 and the valleys split apart, 
@@ -65,7 +70,7 @@ used as an interjection.\f* Yahweh comes out of his place,
 \q1 And what are the high places of Judah? 
 \q2 Aren’t they Jerusalem? 
 \q1
-\v 6 Therefore I will make Samaria like a rubble heap of the field,
+\v 6 Therefore I will make Samaria like a rubble heap of the field, 
 \q2 like places for planting vineyards; 
 \q1 and I will pour down its stones into the valley, 
 \q2 and I will uncover its foundations. 
@@ -89,22 +94,21 @@ used as an interjection.\f* Yahweh comes out of his place,
 \q1
 \v 10 Don’t tell it in Gath. 
 \q2 Don’t weep at all. 
-\q2 At Beth Ophrah\f + \fr 1:10  \ft Beth Ophrah means literally “House of
-Dust.”\f* I have rolled myself in the dust. 
+\q2 At Beth Ophrah\f + \fr 1:10  \ft Beth Ophrah means literally “House of Dust.”\f* I have rolled myself in the dust. 
 \q1
 \v 11 Pass on, inhabitant of Shaphir, in nakedness and shame. 
 \q2 The inhabitant of Zaanan won’t come out. 
 \q2 The wailing of Beth Ezel will take from you his protection. 
 \q1
 \v 12 For the inhabitant of Maroth waits anxiously for good, 
-\q2 because evil has come down from Yahweh to the gate of Jerusalem.
+\q2 because evil has come down from Yahweh to the gate of Jerusalem. 
 \q1
-\v 13 Harness the chariot to the swift steed, inhabitant of Lachish.
+\v 13 Harness the chariot to the swift steed, inhabitant of Lachish. 
 \q2 She was the beginning of sin to the daughter of Zion; 
 \q2 For the transgressions of Israel were found in you. 
 \q1
 \v 14 Therefore you will give a parting gift to Moresheth Gath. 
-\q2 The houses of Achzib will be a deceitful thing to the kings of Israel.
+\q2 The houses of Achzib will be a deceitful thing to the kings of Israel. 
 \q1
 \v 15 I will yet bring to you, inhabitant of Mareshah. 
 \q2 He who is the glory of Israel will come to Adullam. 
@@ -114,7 +118,7 @@ Dust.”\f* I have rolled myself in the dust.
 \q1 Enlarge your baldness like the vulture; 
 \q2 for they have gone into captivity from you! 
 \b
-\c 2  
+\c  2  
 \q1
 \v 1 Woe to those who devise iniquity 
 \q2 and work evil on their beds! 
@@ -136,9 +140,9 @@ Dust.”\f* I have rolled myself in the dust.
 \q2 and lament with a doleful lamentation, saying, 
 \q2 ‘We are utterly ruined! 
 \q2 My people’s possession is divided up. 
-\q2 Indeed he takes it from me and assigns our fields to traitors!’”
+\q2 Indeed he takes it from me and assigns our fields to traitors!’” 
 \q1
-\v 5 Therefore you will have no one who divides the land by lot in Yahweh’s assembly.
+\v 5 Therefore you will have no one who divides the land by lot in Yahweh’s assembly. 
 \q1
 \v 6 “Don’t prophesy!” 
 \q2 They prophesy. 
@@ -151,10 +155,10 @@ Dust.”\f* I have rolled myself in the dust.
 \q2 Don’t my words do good to him who walks blamelessly?” 
 \q1
 \v 8 But lately my people have risen up as an enemy. 
-\q2 You strip the robe and clothing from those who pass by without a care, returning from battle.
+\q2 You strip the robe and clothing from those who pass by without a care, returning from battle. 
 \q1
-\v 9 You drive the women of my people out from their pleasant houses;
-\q2 from their young children you take away my blessing forever.
+\v 9 You drive the women of my people out from their pleasant houses; 
+\q2 from their young children you take away my blessing forever. 
 \q1
 \v 10 Arise, and depart! 
 \q2 For this is not your resting place, 
@@ -198,8 +202,7 @@ Dust.”\f* I have rolled myself in the dust.
 \q1 Yes, he will hide his face from them at that time, 
 \q2 because they made their deeds evil.” 
 \p
-\v 5 Yahweh says concerning the prophets who lead my people astray; for those who feed their teeth, they proclaim, “Peace!” and
-whoever doesn’t provide for their mouths, they prepare war against him:
+\v 5 Yahweh says concerning the prophets who lead my people astray; for those who feed their teeth, they proclaim, “Peace!” and whoever doesn’t provide for their mouths, they prepare war against him: 
 \q1
 \v 6 “Therefore night is over you, with no vision, 
 \q2 and it is dark to you, that you may not divine; 
@@ -209,8 +212,7 @@ whoever doesn’t provide for their mouths, they prepare war against him:
 \v 7 The seers shall be disappointed, 
 \q2 and the diviners confounded. 
 \q1 Yes, they shall all cover their lips; 
-\q2 for there is no answer from God.”\f + \fr 3:7  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים”
-(Elohim).\f* 
+\q2 for there is no answer from God.”\f + \fr 3:7  \ft The Hebrew word rendered “God” is “אֱלֹהִ֑ים” (Elohim).\f* 
 \q1
 \v 8 But as for me, I am full of power by Yahweh’s Spirit, 
 \q2 and of judgment, and of might, 
@@ -234,12 +236,12 @@ whoever doesn’t provide for their mouths, they prepare war against him:
 \q1
 \v 12 Therefore Zion for your sake will be plowed like a field, 
 \q2 and Jerusalem will become heaps of rubble, 
-\q2 and the mountain of the temple like the high places of a forest.
+\q2 and the mountain of the temple like the high places of a forest. 
 \b
-\c 4  
+\c  4  
 \q1
 \v 1 But in the latter days, 
-\q2 it will happen that the mountain of Yahweh’s temple will be established on the top of the mountains,
+\q2 it will happen that the mountain of Yahweh’s temple will be established on the top of the mountains, 
 \q2 and it will be exalted above the hills; 
 \q2 and peoples will stream to it. 
 \q1
@@ -258,11 +260,11 @@ whoever doesn’t provide for their mouths, they prepare war against him:
 \q1 Nation will not lift up sword against nation, 
 \q2 neither will they learn war any more. 
 \q1
-\v 4 But they will sit every man under his vine and under his fig tree;
+\v 4 But they will sit every man under his vine and under his fig tree; 
 \q2 and no one will make them afraid: 
 \q2 For the mouth of Yahweh of Armies has spoken. 
 \v 5 Indeed all the nations may walk in the name of their gods; 
-\q2 but we will walk in the name of Yahweh our God forever and ever.
+\q2 but we will walk in the name of Yahweh our God forever and ever. 
 \q1
 \v 6 “In that day,” says Yahweh, 
 \q2 “I will assemble that which is lame, 
@@ -271,7 +273,7 @@ whoever doesn’t provide for their mouths, they prepare war against him:
 \q2
 \v 7 and I will make that which was lame a remnant, 
 \q2 and that which was cast far off a strong nation: 
-\q2 and Yahweh will reign over them on Mount Zion from then on, even forever.”
+\q2 and Yahweh will reign over them on Mount Zion from then on, even forever.” 
 \q1
 \v 8 You, tower of the flock, the hill of the daughter of Zion, 
 \q2 to you it will come, 
@@ -297,7 +299,7 @@ whoever doesn’t provide for their mouths, they prepare war against him:
 \q1
 \v 12 But they don’t know the thoughts of Yahweh, 
 \q2 neither do they understand his counsel; 
-\q2 for he has gathered them like the sheaves to the threshing floor.
+\q2 for he has gathered them like the sheaves to the threshing floor. 
 \q1
 \v 13 Arise and thresh, daughter of Zion; 
 \q2 for I will make your horn iron, 
@@ -306,24 +308,24 @@ whoever doesn’t provide for their mouths, they prepare war against him:
 \q1 and I will devote their gain to Yahweh, 
 \q2 and their substance to the Lord of the whole earth. 
 \b
-\c 5  
+\c  5  
 \q1
 \v 1 Now you shall gather yourself in troops, 
 \q2 daughter of troops. 
 \q1 He has laid siege against us. 
-\q2 They will strike the judge of Israel with a rod on the cheek.
+\q2 They will strike the judge of Israel with a rod on the cheek. 
 \q1
 \v 2 But you, Bethlehem Ephrathah, 
 \q2 being small among the clans of Judah, 
-\q2 out of you one will come out to me that is to be ruler in Israel;
+\q2 out of you one will come out to me that is to be ruler in Israel; 
 \q2 whose goings out are from of old, from ancient times. 
 \q1
-\v 3 Therefore he will abandon them until the time that she who is in labor gives birth.
-\q2 Then the rest of his brothers will return to the children of Israel.
+\v 3 Therefore he will abandon them until the time that she who is in labor gives birth. 
+\q2 Then the rest of his brothers will return to the children of Israel. 
 \q1
-\v 4 He shall stand, and shall shepherd in the strength of Yahweh,
+\v 4 He shall stand, and shall shepherd in the strength of Yahweh, 
 \q2 in the majesty of the name of Yahweh his God: 
-\q2 and they will live, for then he will be great to the ends of the earth.
+\q2 and they will live, for then he will be great to the ends of the earth. 
 \q1
 \v 5 He will be our peace when Assyria invades our land, 
 \q2 and when he marches through our fortresses, 
@@ -362,7 +364,7 @@ whoever doesn’t provide for their mouths, they prepare war against him:
 \v 12 I will destroy witchcraft from your hand; 
 \q2 and you shall have no soothsayers. 
 \q1
-\v 13 I will cut off your engraved images and your pillars out from among you;
+\v 13 I will cut off your engraved images and your pillars out from among you; 
 \q2 and you shall no more worship the work of your hands. 
 \q1
 \v 14 I will uproot your Asherah poles out from among you; 
@@ -390,7 +392,7 @@ whoever doesn’t provide for their mouths, they prepare war against him:
 \q2 I sent before you Moses, Aaron, and Miriam. 
 \q1
 \v 5 My people, remember now what Balak king of Moab devised, 
-\q2 and what Balaam the son of Beor answered him from Shittim to Gilgal,
+\q2 and what Balaam the son of Beor answered him from Shittim to Gilgal, 
 \q2 that you may know the righteous acts of Yahweh.” 
 \b
 \q1
@@ -414,10 +416,8 @@ whoever doesn’t provide for their mouths, they prepare war against him:
 \q1 “Listen to the rod, 
 \q2 and he who appointed it. 
 \q1
-\v 10 Are there yet treasures of wickedness in the house of the wicked,
-\q2 and a short ephah\f + \fr 6:10  \ft An ephah is a measure of volume (about 22 liters or about 2/3 of a bushel), and a short
-ephah is made smaller than a full ephah for the purpose of cheating
-customers.\f* that is accursed? 
+\v 10 Are there yet treasures of wickedness in the house of the wicked, 
+\q2 and a short ephah\f + \fr 6:10  \ft An ephah is a measure of volume (about 22 liters or about 2/3 of a bushel), and a short ephah is made smaller than a full ephah for the purpose of cheating customers.\f* that is accursed? 
 \q1
 \v 11 Shall I be pure with dishonest scales, 
 \q2 and with a bag of deceitful weights? 
@@ -435,7 +435,7 @@ customers.\f* that is accursed?
 \q2 and that which you save I will give up to the sword. 
 \q1
 \v 15 You will sow, but won’t reap. 
-\q2 You will tread the olives, but won’t anoint yourself with oil;
+\q2 You will tread the olives, but won’t anoint yourself with oil; 
 \q2 and crush grapes, but won’t drink the wine. 
 \q1
 \v 16 For the statutes of Omri are kept, 
@@ -445,10 +445,10 @@ customers.\f* that is accursed?
 \q2 and her inhabitants a hissing; 
 \q2 And you will bear the reproach of my people.” 
 \b
-\c 7  
+\c  7  
 \q1
 \v 1 Misery is mine! 
-\q2 Indeed, I am like one who gathers the summer fruits, as gleanings of the vineyard:
+\q2 Indeed, I am like one who gathers the summer fruits, as gleanings of the vineyard: 
 \q2 There is no cluster of grapes to eat. 
 \q2 My soul desires to eat the early fig. 
 \q1
@@ -501,12 +501,12 @@ customers.\f* that is accursed?
 \v 11 A day to build your walls— 
 \q2 In that day, he will extend your boundary. 
 \q1
-\v 12 In that day they will come to you from Assyria and the cities of Egypt,
+\v 12 In that day they will come to you from Assyria and the cities of Egypt, 
 \q2 and from Egypt even to the River, 
 \q2 and from sea to sea, 
 \q2 and mountain to mountain. 
 \q1
-\v 13 Yet the land will be desolate because of those who dwell therein,
+\v 13 Yet the land will be desolate because of those who dwell therein, 
 \q2 for the fruit of their doings. 
 \q1
 \v 14 Shepherd your people with your staff, 
@@ -523,18 +523,18 @@ customers.\f* that is accursed?
 \q2 Their ears will be deaf. 
 \q1
 \v 17 They will lick the dust like a serpent. 
-\q2 Like crawling things of the earth they shall come trembling out of their dens.
+\q2 Like crawling things of the earth they shall come trembling out of their dens. 
 \q2 They will come with fear to Yahweh our God, 
 \q2 and will be afraid because of you. 
 \q1
 \v 18 Who is a God like you, who pardons iniquity, 
-\q2 and passes over the disobedience of the remnant of his heritage?
+\q2 and passes over the disobedience of the remnant of his heritage? 
 \q1 He doesn’t retain his anger forever, 
 \q2 because he delights in loving kindness. 
 \q1
 \v 19 He will again have compassion on us. 
 \q2 He will tread our iniquities under foot; 
-\q2 and you will cast all their sins into the depths of the sea.
+\q2 and you will cast all their sins into the depths of the sea. 
 \q1
 \v 20 You will give truth to Jacob, 
 \q2 and mercy to Abraham, 
