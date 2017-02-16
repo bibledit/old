@@ -9,6 +9,7 @@
  * 
  * Author: 
  *      Grigory Gorelov (gorelov@grigory.info)
+ Copyright (©) 2017 Grigory Gorelov.
  *      See more information on grigory.info
  */
 
