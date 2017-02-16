@@ -3888,6 +3888,8 @@ dist-hook:
 	rm -rf `find $(distdir) -name .deps`
 	rm -rf `find $(distdir) -name *~`
 	rm -f $(distdir)/config.h
+	rm -f $(distdir)/config.log
+	rm -f $(distdir)/config.status
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

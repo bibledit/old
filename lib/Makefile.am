@@ -540,5 +540,7 @@ dist-hook:
 	rm -rf `find $(distdir) -name .deps`
 	rm -rf `find $(distdir) -name *~`
 	rm -f $(distdir)/config.h
+	rm -f $(distdir)/config.log
+	rm -f $(distdir)/config.status
 
 CLEANFILES = bibledit*.gz *~
