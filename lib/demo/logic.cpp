@@ -248,34 +248,30 @@ void demo_create_sample_bible () // Todo
 
 
 // Prepares a sample Bible.
-// It is not supposed to be run in the source tree, but in a separate copy of it.
-// This is because it produces unwanted data.
 // The output will be in folder "samples".
-// Copy it to the same folder in the source tree.
-// This data is for quickly creating a sample Bible.
+// This data is intended for quickly creating a sample Bible.
 // This way it is fast even on low power devices.
-// At a later stage the function started to be called in a different way.
 void demo_prepare_sample_bible (string * progress) // Todo
 {
   Database_Bibles database_bibles;
   // Remove the sample Bible plus all related data.
   database_bibles.deleteBible (demo_sample_bible_name ());
   search_logic_delete_bible (demo_sample_bible_name ());
-  // Create a new one.
+  // Create a new sample Bible.
   database_bibles.createBible (demo_sample_bible_name ());
   // Location of the source USFM files for the sample Bible.
   string directory = filter_url_create_root_path ("demo");
   vector <string> files = filter_url_scandir (directory);
   for (auto file : files) {
-    // Only process the USFM files.
+    // Process only USFM files, skipping others.
     if (filter_url_get_extension (file) == "usfm") {
       if (progress) * progress = file;
       else cout << file << endl;
-      // Read the USFM.
+      // Read the USFM and clean it up.
       file = filter_url_create_path (directory, file);
       string usfm = filter_url_file_get_contents (file);
       usfm = filter_string_str_replace ("  ", " ", usfm);
-      // Import the USFM into the Bible.
+      // Import the USFM into the sample Bible.
       vector <BookChapterData> book_chapter_data = usfm_import (usfm, styles_logic_standard_sheet ());
       for (auto data : book_chapter_data) {
         if (data.book) {
@@ -308,6 +304,11 @@ void demo_prepare_sample_bible (string * progress) // Todo
       filter_url_file_cp (source_file, destination_file);
     }
   }
+  // The sample Bible is now in the standard location and editable by the users.
+  // Remove it from that location.
+  // Same for the search index.
+  database_bibles.deleteBible (demo_sample_bible_name ());
+  search_logic_delete_bible (demo_sample_bible_name ());
 }
 
 
