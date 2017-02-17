@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[1.0.711],[http://bibledit.org])
+AC_INIT([bibledit],[5.0.000],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -71,6 +71,8 @@ AC_SUBST(OPENSSL_LIBS)
 # linux AC_SUBST(WEBKIT2GTK_LIBS)
 # linux AC_SUBST(WEBKIT2GTK_CFLAGS)
 
+AC_CHECK_LIB([mbedtls], [mbedtls_ssl_init])
+AM_CONDITIONAL([HAVE_LIBMBEDTLS], [test "$ac_cv_lib_mbedtls_ssl_init" = yes])
 
 # Tag1 (leave in place)
 # Tag2 (leave in place)
