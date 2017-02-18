@@ -532,9 +532,9 @@ LIBS += $(WEBKIT2GTK_LIBS)
 # On Debian this gives a lintian error:
 # E: bibledit: embedded-library usr/bin/bibledit: mbedtls
 # Solve this on Debian by omitting that library from the core,
-# and by linking to the external mbedtls library.
+# and by linking to the mbed TLS library provided by the system.
 # For other platforms, the library remains in the core.
-# debian LIBS += -lmbedtls
+# debian LIBS += -lmbedtls -lmbedcrypto -lmbedx509
 
 EXTRA_DIST = a* basic bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w* x*
 
