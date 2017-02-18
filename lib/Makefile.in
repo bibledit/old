@@ -1092,6 +1092,13 @@ AM_CFLAGS = -Wall -Wextra -pedantic -g $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
 	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
 	$(WEBKIT2GTK_CFLAGS)
+
+# The core library compiles and embeds the mbedtls library.
+# On Debian this gives a lintian error:
+# E: bibledit: embedded-library usr/bin/bibledit: mbedtls
+# Solve this by not compiling and embedding the mbedtls/* file
+# and by adding the -lmbedtls to the link flags.
+# debian LIBS += -lmbedtls
 EXTRA_DIST = a* basic bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: config.h
