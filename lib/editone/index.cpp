@@ -24,6 +24,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/css.h>
+#include <filter/url.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
@@ -35,6 +36,8 @@
 #include <ipc/focus.h>
 #include <menu/logic.h>
 #include <bible/logic.h>
+#include <config/globals.h>
+#include <editoneold/index.h>
 
 
 string editone_index_url ()
@@ -54,6 +57,12 @@ bool editone_index_acl (void * webserver_request)
 
 string editone_index (void * webserver_request)
 {
+  if (config_globals_use_deprecated_editors) {
+    // Redirect to deprecated editor.
+    redirect_browser (webserver_request, editoneold_index_url ());
+    return "";
+  }
+
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   bool touch = request->session_logic ()->touchEnabled ();
