@@ -133,3 +133,10 @@ try {
 } catch (UTF8::Exception e) {
   std::cout << "Catched: " << e.GetErrorString();
 }
+
+
+http://grigory.info/UTF8Strings.About.html
+This library is easy to use.
+It causes Bibledit to crash during the unit tests.
+Valgrind says: Mismatched free() / delete / delete [].
+
