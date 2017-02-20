@@ -208,7 +208,7 @@ string styles_view (void * webserver_request)
   if (subtype_text.length () > 2) view.enable_zone ("subtype_text");
   
   
-  // The fontsize. Todo
+  // The fontsize.
   if (styles_logic_fontsize_is_relevant (type, subtype)) view.enable_zone ("fontsize_relevant");
   float fontsize = marker_data.fontsize;
   if (request->query.count ("fontsize")) {

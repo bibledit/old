@@ -280,7 +280,7 @@ void setup_initialize_data ()
   // Preparation of data for the sample Bible.
   config_globals_setup_message = "samples";
 #ifdef SETUP_PREPARE_SAMPLE_BIBLE
-  demo_prepare_sample_bible (&config_globals_setup_message); // Todo test it.
+  demo_prepare_sample_bible (&config_globals_setup_message);
 #endif
   // Schedule creation of sample Bible if there's no Bible yet.
   // In former versions of Bibledit, creation of the sample Bible was not scheduled,
@@ -291,7 +291,7 @@ void setup_initialize_data ()
   // To make installation fast, the creation of the sample Bible is now done in the background.
   vector <string> bibles = request.database_bibles()->getBibles ();
   if (bibles.empty ()) {
-    tasks_logic_queue (CREATESAMPLEBIBLE); // Todo is this still needed?
+    tasks_logic_queue (CREATESAMPLEBIBLE);
   }
   
   // Schedule reindexing Bible search data.

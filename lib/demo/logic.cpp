@@ -221,7 +221,7 @@ string demo_sample_bible_name ()
 // Creates a sample Bible.
 // Creating a Sample Bible used to take a relatively long time, in particular on low power devices.
 // The new and current method does a simple copy operation and that is fast.
-void demo_create_sample_bible () // Todo
+void demo_create_sample_bible ()
 {
   Database_Logs::log ("Creating sample Bible");
   
@@ -251,7 +251,7 @@ void demo_create_sample_bible () // Todo
 // The output will be in folder "samples".
 // This data is intended for quickly creating a sample Bible.
 // This way it is fast even on low power devices.
-void demo_prepare_sample_bible (string * progress) // Todo
+void demo_prepare_sample_bible (string * progress)
 {
   Database_Bibles database_bibles;
   // Remove the sample Bible plus all related data.
