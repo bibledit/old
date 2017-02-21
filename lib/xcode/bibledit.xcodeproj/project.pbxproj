@@ -233,6 +233,7 @@
 		CA2841281A61686C0046C073 /* styles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = styles.h; sourceTree = "<group>"; };
 		CA2841291A616B040046C073 /* edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = edit.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA28412A1A616B040046C073 /* edit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = edit.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CA2A92CB1E5C412F00FAF5E6 /* installubuntu.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installubuntu.html; sourceTree = "<group>"; };
 		CA2ABC281BE4DFA400C7E429 /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = notes.cpp; sourceTree = "<group>"; };
 		CA2ABC291BE4DFA400C7E429 /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
 		CA2ABC2A1BE50CBE00C7E429 /* new.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = new.cpp; sourceTree = "<group>"; };
@@ -2366,6 +2367,7 @@
 				CAA4D1481A45A647003ABA25 /* installios.html */,
 				CAA4D14B1A45A647003ABA25 /* installlinux.html */,
 				CAA4D1491A45A647003ABA25 /* installosx.html */,
+				CA2A92CB1E5C412F00FAF5E6 /* installubuntu.html */,
 				CAA4D14C1A45A647003ABA25 /* installwindows.html */,
 				CAA4D14D1A45A647003ABA25 /* introduction.html */,
 				CAA4D14E1A45A647003ABA25 /* leanmanagement.html */,
