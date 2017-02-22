@@ -307,7 +307,7 @@ style_record styles_table [] =
     /* info */ "Second (alternate) chapter number (for coding dual versification; useful for places where different traditions of chapter breaks need to be supported in the same translation). Bibledit does nothing with this marker yet.",
     /* category */ "cv",
     /* type */ 0,
-    /* subtype */ 2,
+    /* subtype */ 4,
     /* fontsize */ 16,
     /* italic */ 0,
     /* bold */ 1,
