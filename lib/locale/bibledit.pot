@@ -4809,10 +4809,16 @@ msgstr ""
 msgid "Install Bibledit on Linux"
 msgstr ""
 
-msgid "Follow the steps below to install Bibledit"
+msgid "Supported Linux distributions:"
 msgstr ""
 
-msgid "Supported Linux distros:"
+msgid "Install Bibledit on Ubuntu and derivatives."
+msgstr ""
+
+msgid "Other Linux distributions:"
+msgstr ""
+
+msgid "Follow the steps below to install Bibledit"
 msgstr ""
 
 msgid "Download the Bibledit Linux installer"
@@ -4824,18 +4830,7 @@ msgstr ""
 msgid "Run the installer:"
 msgstr ""
 
-msgid "Bibledit works best with the Google Chrome browser."
-msgstr ""
-
-msgid "Install the browser."
-msgstr ""
-
-msgid ""
-"To have Bibledit automatically open in Chrome, set Chrome as the default "
-"browser."
-msgstr ""
-
-msgid "Follow the steps below to start Bibledit."
+msgid "Bibledit can be started from the menu."
 msgstr ""
 
 msgid "Install Bibledit on macOS"
@@ -4860,6 +4855,18 @@ msgid "Give it enough time to download all the data from Bibledit Cloud."
 msgstr ""
 
 msgid "Bibledit is ready for online and offline use."
+msgstr ""
+
+msgid "Install Bibledit on Ubuntu"
+msgstr ""
+
+msgid "Add the Bibledit repository:"
+msgstr ""
+
+msgid "Read the repository:"
+msgstr ""
+
+msgid "Install Bibledit:"
 msgstr ""
 
 msgid "Install Bibledit on Windows"
