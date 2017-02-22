@@ -1,1 +1,0 @@
-Quill editing library from https://quilljs.com/
