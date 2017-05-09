@@ -1,4 +1,4 @@
-The repository contains a lot of old code in its history.
+The repository contains old code in its history.
 
 The desktop software: bibledit-gtk, bibledit-bibletime, bibledit-bibleworks, bibledit-onlinebible, bibledit-paratext, bibledit-xiphos
 
